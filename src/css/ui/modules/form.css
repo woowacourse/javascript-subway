@@ -18,6 +18,7 @@ form .input-field {
   background: #f1f5f9;
 }
 
+<<<<<<< HEAD
 form .input-inline-btn {
   font-size: 1rem;
   font-weight: 400;
@@ -30,6 +31,8 @@ form .input-inline-btn {
   padding: 0.75rem 0;
 }
 
+=======
+>>>>>>> feat: init subway project
 form .input-submit {
   font-size: 1rem;
   line-height: inherit;
