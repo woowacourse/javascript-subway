@@ -1,0 +1,17 @@
+{
+  "name": "javascript-subway",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/GwangYeol-Im/javascript-subway.git",
+  "author": "Kyle <mkitigy@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "cypress": "^6.7.1",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "2.2.1"
+  }
+}
