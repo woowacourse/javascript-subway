@@ -17,7 +17,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "dev": "webpack --mode=development",
+    "build": "webpack --mode=production",
     "test": "yarn cypress open"
   },
   "devDependencies": {
