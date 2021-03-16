@@ -4,5 +4,8 @@
   "main": "src/js/index.js",
   "repository": "https://github.com/jho2301/javascript-subway.git",
   "author": "jho2301 <jho2301@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }
