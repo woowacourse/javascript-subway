@@ -15,5 +15,8 @@
       "url": "https://365kim.tistory.com"
     }
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "2.2.1"
+  }
 }
