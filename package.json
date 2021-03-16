@@ -1,0 +1,20 @@
+{
+  "name": "javascript-subway-map",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/yujo11/javascript-subway.git",
+  "author": "yujo <bedro27@gmail.com>, gonnie <yungo1846@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn run cypress open",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "cypress": "^6.7.1",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}
