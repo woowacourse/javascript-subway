@@ -163,3 +163,7 @@
 .text-gray-900 {
   color: rgb(17, 24, 39);
 }
+
+.text-red {
+  color: red;
+}
