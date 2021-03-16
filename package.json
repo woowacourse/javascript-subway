@@ -1,0 +1,19 @@
+{
+  "name": "1st-subway",
+  "version": "0.0.1",
+  "main": "src/js/index.js",
+  "repository": "https://github.com/woowacourse/javascript-subway.git",
+  "contributors": [
+    {
+      "name": "Donghee Kim",
+      "email": "bigsaigon333@gmail.com",
+      "url": "https://velog.io/@bigsaigon333"
+    },
+    {
+      "name": "Haru Kim",
+      "email": "365listener@gmail.com",
+      "url": "https://365kim.tistory.com"
+    }
+  ],
+  "license": "MIT"
+}
