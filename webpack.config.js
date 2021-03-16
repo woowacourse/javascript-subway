@@ -33,7 +33,7 @@ module.exports = {
   devtool: 'inline-source-map',
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', 'css'],
+    extensions: ['.js', '.css'],
   },
   plugins: [new webpack.HotModuleReplacementPlugin(), new CleanWebpackPlugin()],
   devServer: {

@@ -1,4 +1,4 @@
-import '../css/index.css';
+import '../css/index';
 
 const headerTemplate = `
 <a href="/" class="text-black">
