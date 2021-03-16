@@ -26,7 +26,7 @@
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
 <br><br>
 <img src="./src/assets/images/readme/subway_routing.png">
 

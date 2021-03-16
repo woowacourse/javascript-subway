@@ -1,29 +1,21 @@
 import './assets/scss/index.scss';
+import Navigator from './components/navigator.js';
+import { SELECTOR_ID } from './constants';
+import State from './lib/State.js';
+import Router from './router/Router';
 
-const headerTemplate = `
-  <a href="/" class="text-black">
-    <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-  </a>
-  <nav class="d-flex justify-center flex-wrap">
-    <a href="/pages/stations.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
-    </a>
-    <a href="/pages/lines.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
-    </a>
-    <a href="/pages/sections.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
-    </a>
-    <a href="/pages/map.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
-    </a>
-    <a href="/pages/search.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
-    </a>
-    <a href="/pages/login.html" class="my-1">
-      <button class="btn bg-white shadow mx-1">👤 로그인</button>
-    </a>
-  </nav>
-`;
+// 앱 상태 초기화
+const state = new State();
 
-document.querySelector("header").innerHTML = headerTemplate;
+// 라우터 생성
+const router = new Router();
+
+// 라우팅 등록
+router.initRouteEvent();
+
+// 네이게이션 컴포넌트 초기화
+const navigator = new Navigator(`#${SELECTOR_ID.NAVIGATOR}`);
+
+// 앱 렌더링
+navigator.render();
+navigator.initPushStateEvent(router.navigate);
