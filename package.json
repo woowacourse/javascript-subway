@@ -1,0 +1,20 @@
+{
+  "name": "javascript-subway",
+  "version": "0.0.1",
+  "description": "지하철 노선도 관리",
+  "main": "src/js/index.js",
+  "repository": "https://github.com/seojihwan/javascript-subway",
+  "contributors": [
+    "0imbean0",
+    "ddongule",
+    "seojihwan"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "7.2.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "2.22.1",
+    "prettier": "^2.2.1"
+  }
+}
