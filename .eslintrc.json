@@ -12,9 +12,5 @@
     "import/extensions": ["error", "always"]
   },
   "plugins": ["cypress"],
-  "ignorePatterns": [
-    "cypress/fixtures/*",
-    "cypress/plugins/*",
-    "cypress/support/*"
-  ]
+  "ignorePatterns": ["cypress/fixtures/*", "cypress/plugins/*", "cypress/support/*", "dist"]
 }
