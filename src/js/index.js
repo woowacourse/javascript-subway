@@ -37,4 +37,4 @@ const headerTemplate = `
   </ul>
 </nav>`;
 
-document.querySelector('header').innerHTML = headerTemplate;
+document.querySelector("header").innerHTML = headerTemplate;
