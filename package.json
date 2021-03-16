@@ -16,6 +16,10 @@
     }
   ],
   "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "dev": "webpack --mode=development",
     "build": "webpack --mode=production",
