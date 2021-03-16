@@ -1,0 +1,25 @@
+{
+  "name": "javascript-subway",
+  "version": "1.0.0",
+  "description": "<p align=\"middle\" >\r   <img width=\"200px;\" src=\"./src/images/subway_emoji.png\"/>\r </p>\r <h2 align=\"middle\">level1 - 지하철 노선도 관리 SPA</h2>\r <p align=\"middle\">Browser History API를 이용해 구현하는 지하철 노선도 관리 SPA</p>\r <p align=\"middle\">\r   <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>\r   <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>\r   <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>\r   <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>\r   <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/>\r </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hchayan/javascript-subway.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hchayan/javascript-subway/issues"
+  },
+  "homepage": "https://github.com/hchayan/javascript-subway#readme",
+  "devDependencies": {
+    "webpack": "^5.26.0",
+    "webpack-cli": "^4.5.0"
+  }
+}
