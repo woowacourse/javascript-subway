@@ -13,6 +13,7 @@ const $subwayLineColorSelector = document.querySelector(
 
 export const init = () => {
   const p = Promise.resolve(10);
+  const arr = [];
   const exist = arr.includes(100);
   $subwayLineColorSelector.innerHTML = colorOptions
     .map(subwayLineColorOptionTemplate)
