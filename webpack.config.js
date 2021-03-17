@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/js/index.js',
@@ -11,7 +12,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
@@ -19,14 +20,48 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   devServer: {
     port: 8080,
     hot: true,
+    contentBase: '/dist/',
   },
   plugins: [
     new webpack.ProgressPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({ filename: 'index.html', template: './index.html' }),
+    new HtmlWebpackPlugin({
+      filename: './pages/entry.html',
+      template: './pages/entry.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: './pages/lines.html',
+      template: './pages/lines.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: './pages/login.html',
+      template: './pages/login.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: './pages/sections.html',
+      template: './pages/sections.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: './pages/signup.html',
+      template: './pages/signup.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: './pages/stations.html',
+      template: './pages/stations.html',
+    }),
   ],
 };
