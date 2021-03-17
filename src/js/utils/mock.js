@@ -1,4 +1,4 @@
-export const colorOptions = [
+const colorOptions = [
   "gray-300",
   "gray-400",
   "gray-500",
@@ -70,3 +70,5 @@ export const colorOptions = [
   "pink-800",
   "pink-900",
 ];
+
+export default colorOptions;
