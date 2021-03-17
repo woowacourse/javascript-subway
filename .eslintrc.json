@@ -10,6 +10,7 @@
   },
   "ignorePatterns": ["node_modules/", "dist", "cypress/"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "import/extensions": ["off"]
   }
 }
