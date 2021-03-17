@@ -26,15 +26,15 @@
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
-  - [ ] 첫 페이지의 URL은 `/`이다.
-  - [ ] [역 관리] 메뉴의 URL은 `/stations`이다.
-  - [ ] [노선 관리] 메뉴의 URL은 `/lines`이다.
-  - [ ] [구간 관리] 메뉴의 URL은 `/sections`이다.
-  - [ ] [전체 보기] 메뉴의 URL은 `/map`이다.
-  - [ ] [길 찾기] 메뉴의 URL은 `/search`이다.
-  - [ ] [로그인] 메뉴의 URL은 `/login`이다.
-  - [ ] [회원가입] 메뉴의 URL은 `/signup`이다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+  - [x] 첫 페이지의 URL은 `/`이다.
+  - [x] [역 관리] 메뉴의 URL은 `/stations`이다.
+  - [x] [노선 관리] 메뉴의 URL은 `/lines`이다.
+  - [x] [구간 관리] 메뉴의 URL은 `/sections`이다.
+  - [x] [전체 보기] 메뉴의 URL은 `/map`이다.
+  - [x] [길 찾기] 메뉴의 URL은 `/search`이다.
+  - [x] [로그인] 메뉴의 URL은 `/login`이다.
+  - [x] [회원가입] 메뉴의 URL은 `/signup`이다.
 
 ### 회원 기능
 

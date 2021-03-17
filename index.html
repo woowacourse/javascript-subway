@@ -10,8 +10,32 @@
     <div id="app">
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
-          <header class="my-4"></header>
-          <main class="mt-10 d-flex justify-center">
+          <header id="header" class="my-4">
+            <a id="title" href="/" class="js-link text-black">
+              <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+            </a>
+            <nav class="d-flex justify-center flex-wrap">
+              <a href="/stations" id="stations-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+              </a>
+              <a href="/lines" id="lines-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+              </a>
+              <a href="/sections" id="sections-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
+              </a>
+              <a href="/map" id="map-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+              </a>
+              <a href="/search" id="search-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
+              </a>
+              <a href="/login" id="login-nav-link" class="js-link my-1">
+                <button class="btn bg-white shadow mx-1">👤 로그인</button>
+              </a>
+            </nav>
+          </header>
+          <main id="route-container" class="mt-10 d-flex justify-center">
             <div class="d-flex flex-col">
               <div class="d-flex justify-center">
                 <img src="src/images/subway_emoji.png" width="200" />
