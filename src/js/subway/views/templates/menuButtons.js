@@ -8,10 +8,7 @@ const navButtonInfos = [
   { link: '#search', text: '🔎 길 찾기' },
 ];
 
-export const header = `
-<a href="/" class="text-black">
-  <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-</a>
+export const menuButtons = `
 <nav class="d-flex justify-center flex-wrap">
   ${navButtonInfos.map(linkButton).join('')}
 </nav>
