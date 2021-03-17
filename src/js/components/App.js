@@ -1,14 +1,16 @@
-import { $ } from "../utils/DOM.js";
 import Header from "./Header.js";
 import LoginForm from "./LoginForm.js";
+import Stations from "./Stations.js";
+import staticElements from "../constants/staticElements.js";
 
 export default class App {
   constructor() {
     this.isLoggedIn = false;
 
-    this.header = new Header({ $parent: $("header") });
+    this.header = new Header({ $parent: staticElements.$header });
+    this.stations = new Stations({ $parent: staticElements.$main });
     this.loginForm = new LoginForm({
-      $parent: $("main"),
+      $parent: staticElements.$main,
       setIsLoggedIn: this.setIsLoggedIn.bind(this),
     });
   }
@@ -21,7 +23,8 @@ export default class App {
 
   render() {
     if (this.isLoggedIn) {
-      // TODO: 메인 페이지 렌더링
+      this.header.show();
+      this.stations.render();
     } else {
       this.loginForm.render();
     }
