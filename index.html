@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <title>🚇 지하철 노선도</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- <link rel="stylesheet" href="/src/css/index.css" /> -->
 </head>
 
 <body>
@@ -16,36 +15,28 @@
           <a href="/" class="text-black">
             <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
           </a>
-          <nav class="d-flex justify-center flex-wrap">
-            <a href="./pages/stations.html" class="my-1">
+          <nav id="navigation" class="d-flex justify-center flex-wrap">
+            <a href="/stations" class="my-1">
               <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
             </a>
-            <a href="./pages/lines.html" class="my-1">
+            <a href="/lines" class="my-1">
               <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
             </a>
-            <a href="./pages/sections.html" class="my-1">
+            <a href="/sections" class="my-1">
               <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
             </a>
-            <a href="./pages/map.html" class="my-1">
+            <a href="/map" class="my-1">
               <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
             </a>
-            <a href="./pages/search.html" class="my-1">
+            <a href="/search" class="my-1">
               <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
             </a>
-            <a href="./pages/login.html" class="my-1">
+            <a href="/login" class="my-1">
               <button class="btn bg-white shadow mx-1">👤 로그인</button>
             </a>
           </nav>
         </header>
-        <main class="mt-10 d-flex justify-center">
-          <div class="d-flex flex-col">
-            <div class="d-flex justify-center">
-              <img src="src/images/subway_emoji.png" width="200" />
-            </div>
-            <p id="temp" class="mt-0 text-center">
-              지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
-            </p>
-          </div>
+        <main id="content" class="mt-10 d-flex justify-center">
         </main>
       </div>
     </div>

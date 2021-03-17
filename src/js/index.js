@@ -1,8 +1,16 @@
 import _ from '/src/css/index.css';
+import { render } from '../js/router.js';
+import NavigationBar from '../js/components/NavigationBar.js';
 
 export default class App {
-  constructor() {}
-  execute() {}
+  constructor() {
+    this.navigationBar = new NavigationBar();
+  }
+
+  execute() {
+    this.navigationBar.init();
+    render('/');
+  }
 }
 
 const app = new App();
