@@ -1,5 +1,6 @@
 import { init } from './pages/lines.js';
 import '../css/index.css';
+import '../images/subway_emoji.png';
 
 const headerTemplate = `
 <a href="/" class="text-black">
