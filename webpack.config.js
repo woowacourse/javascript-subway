@@ -1,11 +1,11 @@
-const path = require('path')
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "none",
+  mode: 'development',
   entry: './src/js/index.js',
   output: {
-   filename: 'bundle.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -16,19 +16,30 @@ module.exports = {
       },
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   devServer: {
     port: 9000,
     hot: true,
   },
-  plugins:[new HtmlWebpackPlugin({template: './index.html'})]
+  plugins: [new HtmlWebpackPlugin({ template: './index.html' })],
 };
