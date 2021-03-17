@@ -1,5 +1,5 @@
 import { linkButton } from '../../@shared/views/linkButton';
-
+import { $ } from '../../@shared/utils/dom.js';
 export class UserAuth {
   constructor(props) {
     this.props = props;
@@ -8,7 +8,7 @@ export class UserAuth {
   }
 
   selectDOM() {
-    this.$container = document.querySelector('.sign-button-container');
+    this.$container = $('.sign-button-container');
   }
 
   initRender() {

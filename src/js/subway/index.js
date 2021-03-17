@@ -1,4 +1,5 @@
 import { menuButtons } from './views/templates/menuButtons.js';
+import { $ } from '../@shared/utils/dom.js';
 
 export class Subway {
   constructor(props) {
@@ -8,8 +9,8 @@ export class Subway {
   }
 
   selectDOM() {
-    this.$menuContainer = document.querySelector('.menu-buttons-container');
-    this.$main = document.querySelector('main');
+    this.$menuContainer = $('.menu-buttons-container');
+    this.$main = $('main');
   }
 
   initRender() {

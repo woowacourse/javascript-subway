@@ -1,6 +1,7 @@
 import '../css/index.css';
 import { Subway } from './subway';
 import { UserManage } from './userManage';
+import { $ } from './@shared/utils/dom.js';
 
 class App {
   constructor() {
@@ -20,7 +21,7 @@ class App {
 }
 
 window.addEventListener('load', () => {
-  const app = new App(document.querySelector('#app'));
+  const app = new App($('#app'));
 
   app.run();
 });
