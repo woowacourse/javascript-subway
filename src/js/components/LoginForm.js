@@ -1,4 +1,4 @@
-import { $ } from "../utils/DOM";
+import { $ } from "../utils/DOM.js";
 
 export default class LoginForm {
   constructor({ $parent, setIsLoggedIn }) {
