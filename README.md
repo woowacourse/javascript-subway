@@ -20,7 +20,7 @@
 ## 🚀 Jumo & Mickey Step1
 
 ### 초기 설정
-- [ ] Webpack에서 babel을 설정한다.
+- [x] Webpack에서 babel을 설정한다.
 - [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
 ### 회원가입 페이지
 - [ ] 회원 가입 시 `email`, `name`, `password`를 제출해야한다.

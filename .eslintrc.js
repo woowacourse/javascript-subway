@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: ['eslint:recommended', 'eslint-config-prettier'],
-  plugins: ['prettier'],
+  plugins: ['prettier', '@babel/proposal-class-properties', '@babel/proposal-private-methods'],
   rules: {
     'no-new': 'off',
     'class-methods-use-this': 'off',
@@ -21,5 +21,5 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  ignorePatterns: ['cypress', '.eslintrc.js'],
+  ignorePatterns: ['cypress', '.eslintrc.js', 'webpack.config.js'],
 };
