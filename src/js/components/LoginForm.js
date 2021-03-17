@@ -70,5 +70,7 @@ export default class LoginForm {
         </form>
       </div>
     `;
+
+    this.attachEvent();
   }
 }
