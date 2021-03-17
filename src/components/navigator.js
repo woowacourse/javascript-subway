@@ -1,12 +1,10 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PATH } from '../constants.js';
-import Observer from '../lib/Observer.js';
 import { $ } from '../utils/querySelector.js';
 
-export default class Navigator extends Observer {
+export default class Navigator {
   #selector;
 
   constructor(selector = `#${SELECTOR_ID.NAVIGATOR}`) {
-    super();
     this.#selector = selector;
   }
 
@@ -19,6 +17,7 @@ export default class Navigator extends Observer {
     $(this.#selector).addEventListener('click', e => {
       if (!e.target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) return;
       e.preventDefault();
+
       const path = e.target.getAttribute('href');
       history.pushState({ path }, null, path);
       onPushState(path);

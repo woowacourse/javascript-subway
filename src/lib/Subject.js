@@ -1,25 +1,36 @@
 export default class Subject {
   constructor() {
-    this.observers = [];
+    this.observers = {
+      stationList: [],
+      lineList: [],
+    };
   }
 
-  addObserver(observer) {
-    this.observers.push(observer);
+  subscribe(key, observer) {
+    const newObservers = Object.assign({}, this.observers);
+    newObservers[key] = [...newObservers[key], observer];
+
+    this.observers = newObservers;
   }
 
-  removeObserver(observer) {
-    const removeIndex = this.observers.findIndex(obs => {
-      return observer === obs;
+  unsubscribe(key, observer) {
+    const newObservers = Object.assign({}, this.observers);
+    newObservers[key] = newObservers[key].filter(currentObserver => currentObserver !== observer);
+
+    this.observers = newObservers;
+  }
+
+  notify(key) {
+    if (this.observers[key].length > 0) {
+      this.observers[key].forEach(observer => observer.update());
+    }
+  }
+
+  notifyAll() {
+    Object.keys(this.observers).forEach(key => {
+      if (this.observers[key].length > 0) {
+        this.observers[key].forEach(observer => observer.update());
+      }
     });
-
-    if (removeIndex !== -1) {
-      this.observers = this.observers.slice(removeIndex, 1);
-    }
-  }
-
-  notify(data) {
-    if (this.observers.length > 0) {
-      this.observers.forEach(observer => observer.update(data));
-    }
   }
 }

@@ -3,7 +3,10 @@ import Subject from './Subject.js';
 export default class State extends Subject {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      stationList: ['사당', '방배'],
+      lineList: ['1호선', '2호선'],
+    };
   }
 
   update(data = {}) {
@@ -12,6 +15,6 @@ export default class State extends Subject {
   }
 
   get() {
-    return this.state;
+    return Object.assign({}, this.state);
   }
 }
