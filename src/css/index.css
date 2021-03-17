@@ -46,3 +46,7 @@ ul li button {
 ul li button:hover {
   background-color: rgb(229, 231, 235);
 }
+
+ul li {
+  list-style-type: none;
+}
