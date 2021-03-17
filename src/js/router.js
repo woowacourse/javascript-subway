@@ -8,8 +8,11 @@ export const init = () => {
     e.preventDefault();
     if (e.target.tagName !== 'BUTTON') return;
     const href = e.target.closest('.menu__link').getAttribute('href');
-
     getHistory(href);
+  });
+
+  window.addEventListener('popstate', () => {
+    render();
   });
 };
 
