@@ -9,6 +9,17 @@ const config = {
     filename: 'main.js',
     path: path.resolve(dirname, 'dist'),
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|pages)/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+    ],
+  },
 };
 
 export default config;
