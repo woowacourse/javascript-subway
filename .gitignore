@@ -1,5 +1,6 @@
 # custom
 .env
+cypress/integration/examples/
 
 # Logs
 logs
