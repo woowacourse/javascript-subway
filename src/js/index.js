@@ -1,9 +1,11 @@
 import '../css/index.css';
+// import '../images/subway_emoji.png';
 
 import { $ } from './utils/DOM.js';
-import { stationTemplate } from './templates/lines.js';
+import { stationsTemplate } from './templates/stations.js';
 import { headerTemplate, getNavButtonTemplate } from './templates/header.js';
 import { NAVIGATION } from './constants/header.js';
+import { loginRequiredTemplate } from './templates/loginRequiredTemplate.js';
 
 const renderHeader = () => {
   $('header').innerHTML = headerTemplate;
@@ -13,12 +15,13 @@ const renderHeader = () => {
 };
 
 const renderStation = () => {
-  $('main').innerHTML = stationTemplate();
+  $('main').innerHTML = stationsTemplate();
 };
 
+$('main').innerHTML = loginRequiredTemplate();
 renderHeader();
-renderStation();
+// renderStation();
 
 const templates = {
-  '/station': stationTemplate,
+  '/station': stationsTemplate,
 };
