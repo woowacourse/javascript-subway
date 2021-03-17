@@ -1,6 +1,16 @@
 import { NAV_ITEMS } from "../constants/templateData.js";
 import { hideElement, showElement } from "../utils/DOM.js";
 
+const createNavListItem = (item) => {
+  return `
+    <li>
+      <a href="${item.href}" class="my-1 btn bg-white shadow d-flex items-center text-sm">
+        ${item.title}
+      </a>
+    </li>
+  `;
+};
+
 export default class Header {
   constructor({ $parent }) {
     this.$parent = $parent;
@@ -16,16 +26,6 @@ export default class Header {
     hideElement(this.$parent);
   }
 
-  createNavListItem(item) {
-    return `
-      <li>
-        <a href="${item.href}" class="my-1 btn bg-white shadow d-flex items-center text-sm">
-          ${item.title}
-        </a>
-      </li>
-    `;
-  }
-
   render() {
     const template = `
       <a href="/" class="text-black">
@@ -33,7 +33,7 @@ export default class Header {
       </a>
       <nav>
         <ul class="d-flex justify-center flex-wrap">
-          ${NAV_ITEMS.map((item) => this.createNavListItem(item)).join("")}
+          ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
         </ul>
       </nav>
     `;
