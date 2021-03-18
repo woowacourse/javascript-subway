@@ -1,3 +1,5 @@
+import { $ } from './utils/index.js';
+
 const headerTemplate = `
 <a href="/" class="text-black">
   <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
@@ -17,4 +19,29 @@ const headerTemplate = `
   </a>
 </nav>`;
 
-document.querySelector('header').innerHTML = headerTemplate;
+const $header = $('header');
+$header.innerHTML = headerTemplate;
+
+// TODO: 브라우저 히스토리 관리, 렌더 추가
+// eslint-disable-next-line no-unused-vars
+const route = (pathname) => {
+  // console.log(pathname);
+  // fetch().then((data) => {
+  // push() URL 수동 추가(히스토리 push)
+  // render(data) url에 맞게 render(JS넣어주기)
+  // });
+};
+
+const handleHeaderClick = (event) => {
+  const { target: $target } = event;
+  const $anchor = $target.closest('a');
+
+  if (!$anchor) {
+    return;
+  }
+
+  event.preventDefault();
+  route($anchor.pathname);
+};
+
+$header.addEventListener('click', handleHeaderClick);
