@@ -21,12 +21,12 @@
 
 ### Webpack을 통한 번들링
 
-- [ ] Webpack에서 babel을 설정한다.
-- [ ] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+- [x] Webpack에서 babel을 설정한다.
+- [x] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
 
 ### 회원 기능
 
