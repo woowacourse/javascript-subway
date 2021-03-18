@@ -12,12 +12,6 @@ const headerTemplate = `
   <a href="/pages/sections.html" class="my-1">
     <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
   </a>
-  <a href="/pages/map.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
-  </a>
-  <a href="/pages/search.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
-  </a>
   <a href="/pages/login.html" class="my-1">
     <button class="btn bg-white shadow mx-1">👤 로그인</button>
   </a>
