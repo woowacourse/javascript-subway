@@ -1,5 +1,5 @@
 import { colorOptions } from '/src/js/utils/mock.js';
-import { $ } from '../../@shared/utils/dom.js';
+import { $ } from '../../../@shared/utils/dom.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;

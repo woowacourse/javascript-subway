@@ -9,12 +9,25 @@ export const signUp = `
         <label for="email" class="input-label" hidden>이메일</label>
         <input
           type="email"
-          id="email"
+          id="signup-email"
           name="email"
           class="input-field"
           placeholder="이메일"
           required
         />
+        <div class="js-message-box hidden">유효하지 않은 이메일입니다.</div>
+      </div>
+      <div class="input-control">
+        <label for="name" class="input-label" hidden>이메일</label>
+        <input
+          type="text"
+          id="signup-name"
+          name="name"
+          class="input-field"
+          placeholder="이름"
+          required
+        />
+        <div class="js-message-box hidden">유효하지 않은 이름입니다.</div>
       </div>
       <div class="input-control">
         <label for="password" class="input-label" hidden
@@ -22,11 +35,12 @@ export const signUp = `
         >
         <input
           type="password"
-          id="password"
+          id="signup-password"
           name="password"
           class="input-field"
           placeholder="비밀번호"
         />
+        <div class="js-message-box hidden">유효하지 않은 패스워드입니다.</div>
       </div>
       <div class="input-control">
         <label for="password-confirm" class="input-label" hidden
@@ -34,17 +48,20 @@ export const signUp = `
         >
         <input
           type="password"
-          id="password-confirm"
+          id="signup-password-confirm"
           name="password-confirm"
           class="input-field"
           placeholder="비밀번호 확인"
         />
+        <div class="js-message-box hidden">패스워드가 일치하지 않습니다.</div>
       </div>
       <div class="input-control">
         <button
           type="button"
+          id="signup-button"
           name="submit"
           class="input-submit w-100 bg-cyan-300"
+          disabled
         >
           확인
         </button>

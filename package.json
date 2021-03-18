@@ -27,6 +27,7 @@
   },
   "scripts": {
     "dev": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "cypress open"
   }
 }
