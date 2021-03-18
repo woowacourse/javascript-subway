@@ -44,25 +44,19 @@ const render = {
 const isSameOrigin = (targetOrigin) => window.location.origin === targetOrigin;
 const isChangedPathname = (pathname) => window.location.pathname !== pathname;
 // TODO: API요청으로 데이터 가져온 후 변경된 데이터인지 확인하는 함수로 수정
-const isChangedData = () => false;
+const isChangedData = () => true;
 
 const validatePathname = (pathname) => {
   if (hasPropertyValue(ROUTES, pathname)) {
     return;
   }
 
-  throw new Error('잘못된 path입니다!');
+  throw new Error(`${pathname}은 잘못된 경로입니다.`);
 };
 
-const goTo = (pathname) => {
+const renderByPathname = (pathname) => {
   try {
     validatePathname(pathname);
-
-    if (isChangedPathname(pathname)) {
-      window.history.pushState(null, null, pathname);
-      render[pathname]();
-      return;
-    }
 
     // TODO: API요청으로 데이터 가져온 후 인자로 isChangedData에 전달
     if (isChangedData()) {
@@ -73,6 +67,14 @@ const goTo = (pathname) => {
     // eslint-disable-next-line no-console
     console.error(error);
   }
+};
+
+const goTo = (pathname) => {
+  if (isChangedPathname(pathname)) {
+    window.history.pushState(null, null, pathname);
+  }
+
+  renderByPathname(pathname);
 };
 
 const handleHeaderClick = (event) => {
@@ -94,3 +96,11 @@ const handleHeaderClick = (event) => {
 };
 
 $header.addEventListener('click', handleHeaderClick);
+
+const handleWindowPopstate = ({ target }) => {
+  const { pathname } = target.location;
+
+  renderByPathname(pathname);
+};
+
+window.addEventListener('popstate', handleWindowPopstate);
