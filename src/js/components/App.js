@@ -1,5 +1,5 @@
 import Navigation from "./Navigation.js";
-import PageRouter from "../model/PageRouter.js";
+import PageRouter from "../models/PageRouter.js";
 
 import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";

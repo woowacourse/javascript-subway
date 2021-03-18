@@ -1,4 +1,5 @@
 import PAGE_URLS from "../constants/pages.js";
+import { ERROR_MESSAGE } from "../constants/messages.js";
 import { $ } from "../utils/DOM.js";
 
 export default class LoginForm {
@@ -23,6 +24,7 @@ export default class LoginForm {
     event.preventDefault();
 
     // TODO: 로그인 확인 로직 필요
+
     this.setIsLoggedIn(true);
   }
 
@@ -68,7 +70,7 @@ export default class LoginForm {
             />
           </div>
           <p class="js-login-error text-red text-center d-none">
-            이메일 혹은 비밀번호가 유효하지 않습니다.
+            ${ERROR_MESSAGE.LOGIN_FAILURE}
           </p>
           <div class="input-control w-100">
             <button

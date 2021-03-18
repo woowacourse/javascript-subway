@@ -32,6 +32,11 @@
   display: none;
 }
 
+/* Layout - visibility */
+.visible {
+  visibility: visible;
+}
+
 /* Layout - Top / Right / Bottom / Left */
 .mt-2 {
   margin-top: 8px;

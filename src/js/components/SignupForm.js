@@ -1,3 +1,5 @@
+import { signupAPI } from "../APIs/subwayAPI.js";
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
 import { $ } from "../utils/DOM.js";
 
@@ -12,17 +14,52 @@ export default class SignupForm {
       "submit",
       this.onSubmitSignupForm.bind(this)
     );
+    $(".js-password-confirm", this.$parent).addEventListener(
+      "keyup",
+      this.onTypePasswordConfirm.bind(this)
+    );
     $(".js-login-link", this.$parent).addEventListener(
       "click",
       this.onClickLoginLink.bind(this)
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  onSubmitSignupForm(event) {
-    event.preventDefault();
+  onTypePasswordConfirm({ target }) {
+    const $form = $("form", this.$parent);
+    const $messageArea = $(".js-pw-confirm-message", this.$parent);
 
-    // TODO: 회원가입 로직 필요
+    if (target.value === $form.password.value) {
+      $messageArea.innerText = SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS;
+      $messageArea.classList.remove("text-red");
+      $messageArea.classList.add("text-green");
+    } else {
+      $messageArea.innerText = ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
+      $messageArea.classList.remove("text-green");
+      $messageArea.classList.add("text-red");
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async onSubmitSignupForm(event) {
+    event.preventDefault();
+    const { target } = event;
+
+    const memberData = {
+      email: target.email.value,
+      name: target.name.value,
+      password: target.password.value,
+    };
+
+    const isSucceeded = await signupAPI(memberData);
+
+    if (!isSucceeded) {
+      window.alert(ERROR_MESSAGE.SIGNUP_FAILURE);
+      target.reset();
+
+      return;
+    }
+
+    this.pageRouter.movePage(PAGE_URLS.LOGIN);
   }
 
   onClickLoginLink(event) {
@@ -41,7 +78,7 @@ export default class SignupForm {
         <div class="heading">
           <h2 class="text">📝 회원가입</h2>
         </div>
-        <form name="login" class="form">
+        <form name="signup" class="form">
           <div class="input-control">
             <label for="email" class="input-label" hidden>이메일</label>
             <input
@@ -50,6 +87,18 @@ export default class SignupForm {
               name="email"
               class="input-field"
               placeholder="이메일"
+              required
+            />
+          </div>
+          <div class="input-control">
+            <label for="name" class="input-label" hidden>이름</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="input-field"
+              placeholder="이름"
+              maxlength="20"
               required
             />
           </div>
@@ -63,6 +112,7 @@ export default class SignupForm {
               name="password"
               class="input-field"
               placeholder="비밀번호"
+              minlength="20"
               required
             />
           </div>
@@ -74,12 +124,13 @@ export default class SignupForm {
               type="password"
               id="password-confirm"
               name="password-confirm"
-              class="input-field"
+              class="js-password-confirm input-field"
               placeholder="비밀번호 확인"
               required
             />
           </div>
-          <div class="input-control">
+          <p class="js-pw-confirm-message h-2rem"></p>
+          <div class="input-control mt-3">
             <button
               type="submit"
               name="submit"

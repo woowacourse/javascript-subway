@@ -1,3 +1,4 @@
+// eslint-disable-next-line consistent-return
 export const $ = (selector, $target = document) => {
   try {
     const $selectedElement = $target.querySelector(selector);
@@ -12,6 +13,7 @@ export const $ = (selector, $target = document) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 export const $$ = (selector, $target = document) => {
   try {
     const $selectedElements = $target.querySelectorAll(selector);
