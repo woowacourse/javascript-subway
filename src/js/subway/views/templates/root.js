@@ -1,3 +1,5 @@
+import { MESSAGE } from '../../constants/constants';
+
 export const root = isSigned => `
 <main class="mt-10 d-flex justify-center">
     <div class="d-flex flex-col">
@@ -5,7 +7,7 @@ export const root = isSigned => `
             <img src="src/images/subway_emoji.png" width="200" />
         </div>
         <p class="mt-0 text-center">
-        ${isSigned ? '' : '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.'}
+        ${isSigned ? '' : MESSAGE.SIGNIN.REQUIRED}
         </p>
     </div>
 </main>

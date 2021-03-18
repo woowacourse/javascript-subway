@@ -1,8 +1,10 @@
+import { MENU, MESSAGE } from '../../constants/constants';
+
 export const signIn = `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper p-10 bg-white">
     <div class="heading">
-      <h2>👋 로그인</h2>
+      <h2>${MENU.SIGNIN}</h2>
     </div>
     <form name="login" class="form">
       <div class="input-control">
@@ -38,7 +40,7 @@ export const signIn = `
         </button>
       </div>
       <p class="text-gray-700 pl-2">
-        아직 회원이 아니신가요?
+        ${MESSAGE.SIGNIN.INVITE}
         <a href="#signup">회원가입</a>
       </p>
     </form>

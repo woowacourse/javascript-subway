@@ -1,8 +1,10 @@
+import { MENU, MESSAGE } from '../../constants/constants';
+
 export const signUp = `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper p-10 bg-white">
     <div class="heading">
-      <h2 class="text">📝 회원가입</h2>
+      <h2 class="text">${MENU.SIGNUP}</h2>
     </div>
     <form name="login" class="form">
       <div class="input-control">
@@ -15,7 +17,7 @@ export const signUp = `
           placeholder="이메일"
           required
         />
-        <div class="js-message-box hidden">유효하지 않은 이메일입니다.</div>
+        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
       </div>
       <div class="input-control">
         <label for="name" class="input-label" hidden>이메일</label>
@@ -27,7 +29,7 @@ export const signUp = `
           placeholder="이름"
           required
         />
-        <div class="js-message-box hidden">유효하지 않은 이름입니다.</div>
+        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_NAME}</div>
       </div>
       <div class="input-control">
         <label for="password" class="input-label" hidden
@@ -40,7 +42,7 @@ export const signUp = `
           class="input-field"
           placeholder="비밀번호"
         />
-        <div class="js-message-box hidden">유효하지 않은 패스워드입니다.</div>
+        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
       </div>
       <div class="input-control">
         <label for="password-confirm" class="input-label" hidden
@@ -53,7 +55,7 @@ export const signUp = `
           class="input-field"
           placeholder="비밀번호 확인"
         />
-        <div class="js-message-box hidden">패스워드가 일치하지 않습니다.</div>
+        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
       <div class="input-control">
         <button

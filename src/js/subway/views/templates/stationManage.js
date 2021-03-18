@@ -1,8 +1,10 @@
+import { MENU } from '../../constants/constants';
+
 export const stationManage = () => `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper bg-white p-10">
     <div class="heading">
-      <h2 class="mt-1">🚉 역 관리</h2>
+      <h2 class="mt-1">${MENU.STATIONS}</h2>
     </div>
     <form>
       <div class="d-flex w-100">

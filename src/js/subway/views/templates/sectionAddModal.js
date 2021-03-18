@@ -1,3 +1,5 @@
+import { MENU } from '../../constants/constants';
+
 export const sectionAddModal = () => `
 <div class="modal">
   <div class="modal-inner p-8">
@@ -7,7 +9,7 @@ export const sectionAddModal = () => `
       </svg>
     </button>
     <header>
-      <h2 class="text-center">🔁 구간 추가</h2>
+      <h2 class="text-center">${MENU.SECTIONS_MODAL}</h2>
     </header>
     <form>
       <div class="input-control">

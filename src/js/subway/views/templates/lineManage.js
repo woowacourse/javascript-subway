@@ -1,8 +1,10 @@
+import { MENU } from '../../constants/constants';
+
 export const lineManage = () => `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
-      <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
+      <h2 class="mt-1 w-100">${MENU.LINES}</h2>
       <button
         type="button"
         class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"

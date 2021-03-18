@@ -1,3 +1,5 @@
+import { MENU } from '../../constants/constants';
+
 export const lineAddModal = () => `
 <div class="modal">
   <div class="modal-inner p-8">
@@ -7,7 +9,7 @@ export const lineAddModal = () => `
       </svg>
     </button>
     <header>
-      <h2 class="text-center">🛤️ 노선 추가</h2>
+      <h2 class="text-center">${MENU.LINES_MODAL}</h2>
     </header>
     <form>
       <div class="input-control">

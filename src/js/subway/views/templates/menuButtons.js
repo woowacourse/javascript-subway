@@ -1,11 +1,12 @@
 import { linkButton } from '../../../@shared/views/templates/linkButton';
+import { MENU, ROUTE } from '../../constants/constants';
 
 const navButtonInfos = [
-  { link: '#stations', text: '🚉 역 관리' },
-  { link: '#lines', text: '🛤️ 노선 관리' },
-  { link: '#sections', text: '🔁 구간 관리' },
-  { link: '#map', text: '🗺️ 전체 보기' },
-  { link: '#search', text: '🔎 길 찾기' },
+  { link: ROUTE.STATIONS, text: MENU.STATIONS },
+  { link: ROUTE.LINES, text: MENU.LINES },
+  { link: ROUTE.SECTIONS, text: MENU.SECTIONS },
+  { link: ROUTE.MAP, text: MENU.MAP },
+  { link: ROUTE.SEARCH, text: MENU.SEARCH },
 ];
 
 export const menuButtons = navButtonInfos.map(linkButton).join('');
