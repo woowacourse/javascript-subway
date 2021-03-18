@@ -1,40 +1,69 @@
 import { $, hasPropertyValue } from './utils/index.js';
 import { ROUTES } from './constants/index.js';
-
-const headerTemplate = `
-<a href="/" class="text-black">
-  <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-</a>
-<nav class="d-flex justify-center flex-wrap">
-  <a href="/pages/stations.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
-  </a>
-  <a href="/pages/lines.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
-  </a>
-  <a href="/pages/sections.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
-  </a>
-  <a href="/pages/login.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">👤 로그인</button>
-  </a>
-</nav>`;
+import {
+  HEADER_TEMPLATE,
+  STATIONS_TEMPLATE,
+  LINES_TEMPLATE,
+  SECTIONS_TEMPLATE,
+  LOGIN_TEMPLATE,
+  SIGN_UP_TEMPLATE,
+} from './templates/index.js';
 
 const $header = $('header');
-$header.innerHTML = headerTemplate;
+$header.innerHTML = HEADER_TEMPLATE;
 
-// TODO: 브라우저 히스토리 관리, 렌더 추가
-// eslint-disable-next-line no-unused-vars
-const route = (pathname) => {
-  // console.log(pathname);
-  // fetch().then((data) => {
-  // push() URL 수동 추가(히스토리 push)
-  // render(data) url에 맞게 render(JS넣어주기)
-  // });
+const $main = $('main');
+const renderStations = () => {
+  $main.innerHTML = STATIONS_TEMPLATE;
+};
+
+const renderLines = () => {
+  $main.innerHTML = LINES_TEMPLATE;
+};
+
+const renderSections = () => {
+  $main.innerHTML = SECTIONS_TEMPLATE;
+};
+
+const renderLogin = () => {
+  $main.innerHTML = LOGIN_TEMPLATE;
+};
+
+const renderSignUp = () => {
+  $main.innerHTML = SIGN_UP_TEMPLATE;
+};
+
+const render = {
+  [ROUTES.STATIONS]: renderStations,
+  [ROUTES.LINES]: renderLines,
+  [ROUTES.SECTIONS]: renderSections,
+  [ROUTES.LOGIN]: renderLogin,
+  [ROUTES.SIGN_UP]: renderSignUp,
 };
 
 const isSameOrigin = (targetOrigin) => window.location.origin === targetOrigin;
-const isValidPathname = (pathname) => hasPropertyValue(ROUTES, pathname);
+
+const validatePathname = (pathname) => {
+  if (hasPropertyValue(ROUTES, pathname)) {
+    return;
+  }
+
+  throw new Error('잘못된 path입니다!');
+};
+
+const goTo = (pathname) => {
+  try {
+    validatePathname(pathname);
+
+    window.history.pushState(null, null, pathname);
+
+    render[pathname]();
+  } catch (error) {
+    // TODO: 잘못된 경로일 경우 스낵바 표시
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
+};
 
 const handleHeaderClick = (event) => {
   const { target: $target } = event;
@@ -50,12 +79,8 @@ const handleHeaderClick = (event) => {
     return;
   }
 
-  if (!isValidPathname(pathname)) {
-    return;
-  }
-
   event.preventDefault();
-  route(pathname);
+  goTo(pathname);
 };
 
 $header.addEventListener('click', handleHeaderClick);
