@@ -1,11 +1,11 @@
-import { menuButtons } from './views';
+import { root, menuButtons } from './views';
 import { $ } from '../@shared/utils';
 
 export class Subway {
   constructor(props) {
     this.props = props;
     this.selectDOM();
-    this.initRender();
+    this.render();
   }
 
   selectDOM() {
@@ -15,6 +15,6 @@ export class Subway {
 
   render() {
     this.$menuContainer.innerHTML = this.props.isSigned ? menuButtons : '';
-    // this.$mainContainer.innerHTML = root(this.props.isSigned);
+    this.$mainContainer.innerHTML = root(this.props.isSigned);
   }
 }
