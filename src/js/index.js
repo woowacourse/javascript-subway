@@ -1,7 +1,7 @@
-import '../css/index.css';
+// import '../css/index.css';
 import { $ } from './utils/DOM.js';
 import { NAVIGATION } from './constants/header.js';
-import { ROUTE } from './constants/route';
+import { ROUTE } from './constants/route.js';
 import { headerTemplate } from './components/header.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
