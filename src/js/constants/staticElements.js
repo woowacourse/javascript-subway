@@ -1,7 +1,7 @@
 import { $ } from "../utils/DOM.js";
 
 const staticElements = {
-  $header: $("header"),
+  $nav: $("header > nav"),
   $main: $("main"),
   $modal: $(".js-modal"),
   $modalInner: $(".js-modal-inner"),

@@ -1,3 +1,4 @@
+import PAGE_URLS from "../constants/pages.js";
 import { $ } from "../utils/DOM.js";
 
 export default class LoginForm {
@@ -65,7 +66,7 @@ export default class LoginForm {
           </div>
           <p class="text-gray-700 pl-2">
             아직 회원이 아니신가요?
-            <a href="/pages/signup.html">회원가입</a>
+            <a href="${PAGE_URLS.SIGNUP}">회원가입</a>
           </p>
         </form>
       </div>

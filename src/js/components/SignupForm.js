@@ -1,12 +1,19 @@
+import PAGE_URLS from "../constants/pages.js";
+import { $ } from "../utils/DOM.js";
+
 export default class SignupForm {
   constructor({ $parent }) {
     this.$parent = $parent;
   }
 
   attachEvent() {
-    $("form", this.$parent).addEventListener("submit", this.onSubmitSignupForm.bind(this));
+    $("form", this.$parent).addEventListener(
+      "submit",
+      this.onSubmitSignupForm.bind(this)
+    );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onSubmitSignupForm(event) {
     event.preventDefault();
 
@@ -68,7 +75,7 @@ export default class SignupForm {
           </div>
           <p class="text-gray-700 pl-2">
             이미 회원이신가요?
-            <a href="/pages/login.html">로그인</a>
+            <a href="${PAGE_URLS.LOGIN}">로그인</a>
           </p>
         </form>
       </div>

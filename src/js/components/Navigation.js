@@ -4,16 +4,17 @@ import { hideElement, showElement } from "../utils/DOM.js";
 const createNavListItem = (item) => {
   return `
     <li>
-      <a href="${item.href}" class="my-1 btn bg-white shadow d-flex items-center text-sm">
+      <a href="${item.href}" class="js-page-link my-1 btn bg-white shadow d-flex items-center text-sm">
         ${item.title}
       </a>
     </li>
   `;
 };
 
-export default class Header {
-  constructor({ $parent }) {
+export default class Navigation {
+  constructor({ $parent, pageRouter }) {
     this.$parent = $parent;
+    this.pageRouter = pageRouter;
 
     this.render();
   }
@@ -26,18 +27,29 @@ export default class Header {
     hideElement(this.$parent);
   }
 
+  onClickNav(e) {
+    if (!e.target.classList.contains("js-page-link")) {
+      return;
+    }
+    e.preventDefault();
+
+    const path = e.target.getAttribute("href");
+    this.pageRouter.movePage(path);
+  }
+
+  attachEvents() {
+    this.$parent.addEventListener("click", this.onClickNav.bind(this));
+  }
+
   render() {
     const template = `
-      <a href="/" class="text-black">
-        <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-      </a>
-      <nav>
         <ul class="d-flex justify-center flex-wrap">
           ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
         </ul>
-      </nav>
     `;
 
     this.$parent.innerHTML = template;
+
+    this.attachEvents();
   }
 }

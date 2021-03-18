@@ -1,4 +1,4 @@
-import SectionsModal from "./SectionsModal";
+import SectionsModal from "./SectionsModal.js";
 
 export default class Sections {
   constructor({ $parent }) {
