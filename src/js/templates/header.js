@@ -1,6 +1,6 @@
-export const headerTemplate = (navigation) => {
+export const headerTemplate = navigation => {
   return `
-    <a href="/" class="text-black">
+    <a href="/" class="js-header__link text-black">
       <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
     </a>
     <nav class="d-flex justify-center flex-wrap">
@@ -11,7 +11,7 @@ export const headerTemplate = (navigation) => {
 
 const getNavButtonTemplate = ({ ROUTE, NAME }) => {
   return `
-  <a href="${ROUTE}" class="my-1">
-    <button class="btn bg-white shadow mx-1">${NAME}</button>
-  </a>`;
+    <a href="${ROUTE}" class="js-header__link my-1">
+      <button class="btn bg-white shadow mx-1">${NAME}</button>
+    </a>`;
 };

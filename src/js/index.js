@@ -14,6 +14,8 @@ const renderHeader = () => {
   $('header').innerHTML = headerTemplate(NAVIGATION);
 };
 
+renderHeader();
+
 const templates = {
   '/': loginRequiredTemplate,
   '/station': stationsTemplate,
@@ -25,9 +27,21 @@ const templates = {
   '/signup': signupTemplate,
 };
 
-const renderTemplate = () => {
-  $('main').innerHTML = stationsTemplate();
+const render = path => {
+  const template = templates[path];
+  console.log(template);
+  $('.js-main').innerHTML = template();
 };
 
-renderHeader();
-renderTemplate();
+window.addEventListener('popstate', e => {
+  renderHeader(e.state.path);
+});
+
+$('.js-header').addEventListener('click', e => {
+  if (!e.target.classList.contains('js-header__link')) return;
+  e.preventDefault();
+
+  const path = e.target.getAttribute('href');
+  history.pushState({ path }, null, path);
+  render(path);
+});

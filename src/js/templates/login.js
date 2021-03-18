@@ -39,7 +39,7 @@ export const loginTemplate = () => {
         </div>
         <p class="text-gray-700 pl-2">
           아직 회원이 아니신가요?
-          <a href="/pages/signup.html">회원가입</a>
+          <a href="/signup">회원가입</a>
         </p>
       </form>
     </div>
