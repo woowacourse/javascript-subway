@@ -1,6 +1,6 @@
 export const getSignUpInfo = (data = {}) => {
   return {
-    title: '🚇 노선 관리',
+    title: '📝 회원가입',
     contents: {
       main: signUpTemplate(data),
     },

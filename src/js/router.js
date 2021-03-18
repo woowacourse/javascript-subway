@@ -2,6 +2,7 @@ import { getLinesInfo } from './templates/lines.js';
 import { getLoginInfo } from './templates/login.js';
 import { getStationsInfo } from './templates/stations.js';
 import { getSectionsInfo } from './templates/sections.js';
+import { getSignUpInfo } from './templates/signup.js';
 
 export const init = () => {
   document.querySelector('.menu').addEventListener('click', e => {
@@ -40,5 +41,6 @@ const router = data => {
     sections: getSectionsInfo(data),
     lines: getLinesInfo(data),
     login: getLoginInfo(data),
+    signup: getSignUpInfo(data),
   };
 };
