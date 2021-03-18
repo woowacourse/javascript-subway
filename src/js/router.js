@@ -1,4 +1,4 @@
-import { ID_SELECTOR, CLASS_SELECTOR } from '../css/constants.js';
+import { ID_SELECTOR, CLASS_SELECTOR } from './constants.js';
 import $ from './utils/querySelector.js';
 
 const router = {
@@ -22,10 +22,10 @@ const router = {
       router.render(e.state.path);
     });
 
-    $(`#${ID_SELECTOR.NAVIGATION}`).addEventListener('click', e => {
+    $(`#${ID_SELECTOR.APP}`).addEventListener('click', e => {
       e.preventDefault();
 
-      const anchor = e.target.closest(`.${CLASS_SELECTOR.NAVIGATION_BUTTON}`);
+      const anchor = e.target.closest(`.${CLASS_SELECTOR.ANCHOR}`);
 
       if (!anchor) return;
 
