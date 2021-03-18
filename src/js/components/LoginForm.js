@@ -2,15 +2,20 @@ import PAGE_URLS from "../constants/pages.js";
 import { $ } from "../utils/DOM.js";
 
 export default class LoginForm {
-  constructor({ $parent, setIsLoggedIn }) {
+  constructor({ $parent, setIsLoggedIn, pageRouter }) {
     this.$parent = $parent;
     this.setIsLoggedIn = setIsLoggedIn;
+    this.pageRouter = pageRouter;
   }
 
   attachEvent() {
     $("form", this.$parent).addEventListener(
       "submit",
       this.onSubmitLoginForm.bind(this)
+    );
+    $(".js-signup-link", this.$parent).addEventListener(
+      "click",
+      this.onClickSignupLink.bind(this)
     );
   }
 
@@ -19,6 +24,16 @@ export default class LoginForm {
 
     // TODO: 로그인 확인 로직 필요
     this.setIsLoggedIn(true);
+  }
+
+  onClickSignupLink(event) {
+    if (!event.target.classList.contains("js-signup-link")) {
+      return;
+    }
+    event.preventDefault();
+
+    const path = event.target.getAttribute("href");
+    this.pageRouter.movePage(path);
   }
 
   render() {
@@ -66,7 +81,7 @@ export default class LoginForm {
           </div>
           <p class="text-gray-700 pl-2">
             아직 회원이 아니신가요?
-            <a href="${PAGE_URLS.SIGNUP}">회원가입</a>
+            <a href="${PAGE_URLS.SIGNUP}" class="js-signup-link">회원가입</a>
           </p>
         </form>
       </div>
