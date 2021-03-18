@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -8,7 +10,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: '/dist/',
   },
   module: {
     rules: [
@@ -35,7 +36,17 @@ module.exports = {
     modules: ['node_modules'],
     extensions: ['.js', '.css'],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new CleanWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({ template: './index.html' }),
+    new webpack.HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: 'pages', to: 'pages' },
+        { from: 'src/images', to: 'images' },
+      ],
+    }),
+  ],
   devServer: {
     hot: true,
     inline: true,
