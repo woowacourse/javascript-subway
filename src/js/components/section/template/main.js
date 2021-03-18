@@ -1,4 +1,4 @@
-export const sectionsTemplate = () => {
+export const mainTemplate = () => {
   return `
     <div class="wrapper bg-white p-10">
       <div class="heading d-flex">

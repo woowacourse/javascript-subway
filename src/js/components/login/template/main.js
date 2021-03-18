@@ -1,10 +1,14 @@
-export const signupTemplate = () => {
+const mainTemplate = () => {
   return `
     <div class="wrapper p-10 bg-white">
       <div class="heading">
-        <h2 class="text">📝 회원가입</h2>
+        <h2>👋 로그인</h2>
       </div>
-      <form name="login" class="form">
+      <form
+        id="login-form"
+        name="login"
+        class="form"
+      >
         <div class="input-control">
           <label for="email" class="input-label" hidden>이메일</label>
           <input
@@ -28,28 +32,21 @@ export const signupTemplate = () => {
             placeholder="비밀번호"
           />
         </div>
-        <div class="input-control">
-          <label for="password-confirm" class="input-label" hidden
-            >비밀번호 확인</label
-          >
-          <input
-            type="password"
-            id="password-confirm"
-            name="password-confirm"
-            class="input-field"
-            placeholder="비밀번호 확인"
-          />
-        </div>
-        <div class="input-control">
+        <div class="input-control w-100">
           <button
-            type="button"
             name="submit"
             class="input-submit w-100 bg-cyan-300"
           >
             확인
           </button>
         </div>
+        <p class="text-gray-700 pl-2">
+          아직 회원이 아니신가요?
+          <a href="/signup" id="signup">회원가입</a>
+        </p>
       </form>
     </div>
   `;
 };
+
+export default mainTemplate;

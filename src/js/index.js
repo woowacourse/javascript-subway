@@ -1,50 +1,60 @@
 import '../css/index.css';
-
 import { $ } from './utils/DOM.js';
 import { NAVIGATION } from './constants/header.js';
 import { ROUTE } from './constants/route';
-import { headerTemplate } from './templates/header.js';
-import { loginTemplate } from './templates/login.js';
-import { signupTemplate } from './templates/signup.js';
-import { stationsTemplate } from './templates/stations.js';
-import { linesTemplate, linesModal } from './templates/lines.js';
-import { sectionsTemplate, sectionsModal } from './templates/sections.js';
-import { loginRequiredTemplate } from './templates/loginRequired.js';
+import { headerTemplate } from './components/header.js';
+import Login from './components/login/index.js';
+import Signup from './components/signup/index.js';
+import Section from './components/section/index.js';
+import Line from './components/line/index.js';
+import Station from './components/station/index.js';
+// import { stationsTemplate } from './templates/stations.js';
+// import { linesTemplate, linesModal } from './templates/lines.js';
+// import { sectionsTemplate, sectionsModal } from './templates/sections.js';
+// import { loginRequiredTemplate } from './templates/loginRequired.js';
 
-const renderHeader = () => {
-  $('header').innerHTML = headerTemplate(NAVIGATION);
-};
+class App {
+  constructor() {
+    this.components = {
+      // [ROUTE.HOME]: loginRequiredTemplate,
+      [ROUTE.STATION]: Station,
+      [ROUTE.LINE]: Line,
+      [ROUTE.SECTION]: Section,
+      // [ROUTE.MAP]: loginRequiredTemplate,
+      // [ROUTE.SEARCH]: loginRequiredTemplate,
+      [ROUTE.LOGIN]: Login,
+      [ROUTE.SIGNUP]: Signup,
+    };
 
-const templates = {
-  [ROUTE.HOME]: loginRequiredTemplate,
-  [ROUTE.STATION]: stationsTemplate,
-  [ROUTE.LINE]: linesTemplate,
-  [ROUTE.SECTION]: sectionsTemplate,
-  [ROUTE.MAP]: loginRequiredTemplate,
-  [ROUTE.SEARCH]: loginRequiredTemplate,
-  [ROUTE.LOGIN]: loginTemplate,
-  [ROUTE.SIGNUP]: signupTemplate,
-};
+    this.renderHeader();
+    this.addEventListeners();
+  }
 
-const render = (route) => {
-  const template = templates[route];
-  $('.js-main').innerHTML = template();
-};
+  renderHeader() {
+    $('.js-header').innerHTML = headerTemplate(NAVIGATION);
+  }
 
-window.addEventListener('popstate', (e) => {
-  render(e.state.route);
-});
+  render(route) {
+    new this.components[route]($('.js-main'));
+    // $('.js-main').innerHTML = template;
+  }
 
-$('.js-header').addEventListener('click', (e) => {
-  const anchor = e.target.closest('.js-header__link');
-  if (!anchor) return;
+  addEventListeners() {
+    window.addEventListener('popstate', (e) => {
+      this.render(e.state.route);
+    });
 
-  e.preventDefault();
+    $('.js-header').addEventListener('click', (e) => {
+      const anchor = e.target.closest('.js-header__link');
+      if (!anchor) return;
 
-  const route = anchor.getAttribute('href');
-  history.pushState({ route }, null, route);
-  render(route);
-});
+      e.preventDefault();
 
-renderHeader();
-render(ROUTE.HOME);
+      const route = anchor.getAttribute('href');
+      history.pushState({ route }, null, route);
+      this.render(route);
+    });
+  }
+}
+
+new App();
