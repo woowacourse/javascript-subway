@@ -11,7 +11,6 @@ export class Subway {
     this.selectDOM();
     this.renderMenuButtons();
     this.renderSignButton();
-    this.renderMain();
     this.mountChildComponents();
   }
 

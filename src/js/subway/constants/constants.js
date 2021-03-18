@@ -4,15 +4,15 @@ export const STATE_KEY = {
 };
 
 export const ROUTE = {
-  ROOT: '',
-  SIGNIN: 'signin',
-  SIGNUP: 'signup',
-  SIGNOUT: 'signout',
-  STATIONS: 'stations',
-  LINES: 'lines',
-  SECTIONS: 'sections',
-  MAP: 'map',
-  SEARCH: 'search',
+  ROOT: '/',
+  SIGNIN: '/signin',
+  SIGNUP: '/signup',
+  SIGNOUT: '/signout',
+  STATIONS: '/stations',
+  LINES: '/lines',
+  SECTIONS: '/sections',
+  MAP: '/map',
+  SEARCH: '/search',
 };
 
 export const MENU = {

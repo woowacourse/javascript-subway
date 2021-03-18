@@ -1,4 +1,5 @@
-import { MENU, MESSAGE } from '../../constants/constants';
+import { linkButton } from '../../../@shared/views/templates/linkButton';
+import { MENU, MESSAGE, ROUTE } from '../../constants/constants';
 
 export const signIn = `
 <main class="mt-10 d-flex justify-center">
@@ -41,7 +42,7 @@ export const signIn = `
       </div>
       <p class="text-gray-700 pl-2">
         ${MESSAGE.SIGNIN.INVITE}
-        <a href="#signup">회원가입</a>
+        ${linkButton({ link: ROUTE.SIGNUP, text: MENU.SIGNUP })}
       </p>
     </form>
   </div>
