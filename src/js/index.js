@@ -1,4 +1,5 @@
-import { $ } from './utils/index.js';
+import { $, hasPropertyValue } from './utils/index.js';
+import { ROUTES } from './constants/index.js';
 
 const headerTemplate = `
 <a href="/" class="text-black">
@@ -32,6 +33,8 @@ const route = (pathname) => {
   // });
 };
 
+const isValidPathname = (pathname) => hasPropertyValue(ROUTES, pathname);
+
 const handleHeaderClick = (event) => {
   const { target: $target } = event;
   const $anchor = $target.closest('a');
@@ -40,8 +43,14 @@ const handleHeaderClick = (event) => {
     return;
   }
 
+  const { pathname } = $anchor;
+
+  if (!isValidPathname(pathname)) {
+    return;
+  }
+
   event.preventDefault();
-  route($anchor.pathname);
+  route(pathname);
 };
 
 $header.addEventListener('click', handleHeaderClick);
