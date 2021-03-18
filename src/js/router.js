@@ -2,41 +2,36 @@ import { render } from './renderer.js';
 
 import { getLinesInfo } from './components/lines/linesTemplate.js';
 import { getLoginInfo } from './components/login/loginTemplate.js';
-// import { getStationsInfo } from './templates/stations.js';
-// import { getSectionsInfo } from './templates/sections.js';
-// import { getSignUpInfo } from './templates/signup.js';
+import { getStationsInfo } from './components/stations/stationsTemplate.js';
+import { getSectionsInfo } from './components/sections/sectionsTemplate.js';
+import { getSignUpInfo } from './components/signup/signupTemplate.js';
 
 import { headerTemplate } from './layouts/headerTemplate.js';
 
 class Router {
-  constructor() {}
-
-  init() {
-    this.handlePopState();
-  }
-
-  router(data) {
-    return {
-      // stations: getStationsInfo(data),
-      // sections: getSectionsInfo(data),
-      lines: getLinesInfo(data),
-      login: getLoginInfo(data),
-      // signup: getSignUpInfo(data),
+  constructor() {
+    this.router = {
+      stations: getStationsInfo(),
+      sections: getSectionsInfo(),
+      lines: getLinesInfo(),
+      login: getLoginInfo(),
+      signup: getSignUpInfo(),
     };
   }
 
-  getHistory(href) {
+  init() {
+    this._handlePopState();
+  }
+
+  renderPage(href) {
     const key = href.replace('/', '');
-    // TODO data 불러오기 + getHistory 내부 로직 개선
-    const data = {};
-    const func = this.router(data);
-    const { title = '', contents } = func[key];
+    const { title = '', contents } = this.router[key];
     history.pushState({ contents }, title, href);
 
     render();
   }
 
-  handlePopState() {
+  _handlePopState() {
     window.addEventListener('popstate', () => {
       render();
     });

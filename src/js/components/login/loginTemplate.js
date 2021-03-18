@@ -7,7 +7,7 @@ export const getLoginInfo = (data = {}) => {
   };
 };
 
-const loginTemplate = () => {
+const loginTemplate = data => {
   return `
     <div class="wrapper p-10 bg-white">
         <div class="heading">
@@ -48,7 +48,7 @@ const loginTemplate = () => {
             </div>
             <p class="text-gray-700 pl-2">
             아직 회원이 아니신가요?
-            <a href="/signup">회원가입</a>
+            <a href="/signup" class="signup-link" >회원가입</a>
             </p>
         </form>
     </div>
