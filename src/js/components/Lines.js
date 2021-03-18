@@ -3,7 +3,7 @@ import LinesModal from "./LinesModal.js";
 export default class Lines {
   constructor({ $parent }) {
     this.$parent = $parent;
-    this.lineModal = new LinesModal();
+    this.linesModal = new LinesModal();
   }
 
   render() {
