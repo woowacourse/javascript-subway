@@ -3,7 +3,7 @@ import staticElements from "../constants/staticElements.js";
 export default class Modal {
   constructor() {
     this.$modal = staticElements.$modal;
-    this.$modalInner = staticElements.$modalInner;
+    this.$modalContent = staticElements.$modalContent;
     this.$modalCloseBtn = staticElements.$modalCloseBtn;
   }
 
@@ -25,6 +25,6 @@ export default class Modal {
   }
 
   render() {
-    this.$modalInner.innerHTML = "";
+    this.$modalContent.innerHTML = "";
   }
 }

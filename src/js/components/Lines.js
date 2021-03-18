@@ -1,9 +1,17 @@
 import LinesModal from "./LinesModal.js";
+import { $ } from "../utils/DOM.js";
 
 export default class Lines {
   constructor({ $parent }) {
     this.$parent = $parent;
     this.linesModal = new LinesModal();
+  }
+
+  attachEvent() {
+    $(".js-add-line", this.$parent).addEventListener(
+      "click",
+      this.linesModal.open.bind(this.linesModal)
+    );
   }
 
   render() {
@@ -13,7 +21,7 @@ export default class Lines {
           <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
           <button
             type="button"
-            class="add-btn modal-trigger-btn bg-cyan-300 ml-2"
+            class="js-add-line add-btn modal-trigger-btn bg-cyan-300 ml-2"
           >
             노선 추가
           </button>
@@ -42,5 +50,6 @@ export default class Lines {
     `;
 
     this.linesModal.render();
+    this.attachEvent();
   }
 }

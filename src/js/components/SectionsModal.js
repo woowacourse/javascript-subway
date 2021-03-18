@@ -11,7 +11,7 @@ export default class SectionsModal extends Modal {
   }
 
   render() {
-    this.$modalInner.innerHTML = `
+    this.$modalContent.innerHTML = `
       <header>
         <h2 class="text-center">🔁 구간 추가</h2>
       </header>
@@ -50,5 +50,7 @@ export default class SectionsModal extends Modal {
         </div>
       </form>
     `;
+
+    this.attachEvent();
   }
 }

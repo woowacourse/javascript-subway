@@ -1,9 +1,17 @@
 import SectionsModal from "./SectionsModal.js";
+import { $ } from "../utils/DOM.js";
 
 export default class Sections {
   constructor({ $parent }) {
     this.$parent = $parent;
     this.sectionsModal = new SectionsModal();
+  }
+
+  attachEvent() {
+    $(".js-add-section", this.$parent).addEventListener(
+      "click",
+      this.sectionsModal.open.bind(this.sectionsModal)
+    );
   }
 
   render() {
@@ -13,7 +21,7 @@ export default class Sections {
           <h2 class="mt-1 w-100">🔁 구간 관리</h2>
           <button
             type="button"
-            class="add-btn modal-trigger-btn bg-cyan-300 ml-2"
+            class="js-add-section add-btn modal-trigger-btn bg-cyan-300 ml-2"
           >
             구간 추가
           </button>
@@ -49,5 +57,6 @@ export default class Sections {
     `;
 
     this.sectionsModal.render();
+    this.attachEvent();
   }
 }

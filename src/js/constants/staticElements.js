@@ -5,6 +5,7 @@ const staticElements = {
   $main: $("main"),
   $modal: $(".js-modal"),
   $modalInner: $(".js-modal-inner"),
+  $modalContent: $(".js-modal-content"),
   $modalCloseBtn: $(".js-modal-close-btn"),
 };
 
