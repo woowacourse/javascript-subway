@@ -10,7 +10,7 @@ const hasPropertyValue = (obj, value) => {
     throw TypeError(`첫 번째 인자(${obj})의 타입(${typeof obj})은 'object' 이어야 합니다.`);
   }
 
-  Object.values(obj).includes(value);
+  return Object.values(obj).includes(value);
 };
 
 export { $, $$, hasPropertyValue, mock };
