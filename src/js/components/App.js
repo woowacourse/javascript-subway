@@ -71,9 +71,9 @@ export default class App {
   render() {
     if (this.isLoggedIn) {
       this.navigation.show();
-      this.stations.render();
+      this.pageRouter.movePage(PAGE_URLS.STATIONS);
     } else {
-      this.loginForm.render();
+      this.pageRouter.movePage(PAGE_URLS.LOGIN);
     }
   }
 
