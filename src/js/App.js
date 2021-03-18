@@ -1,33 +1,39 @@
 import Router from './router.js';
+
+import Login from './components/login/Login.js';
+import SignUp from './components/signup/Signup.js';
+
 import Header from './layouts/Header.js';
+import { render } from './renderer.js';
 
 class App {
-  constructor() {
-    this.components = {};
-  }
+  constructor() {}
 
   init() {
     this.router = new Router();
     this.router.init();
+    this.initDOM();
+    this.mountComponent();
+  }
 
-    // layout들 렌더링 요청. (layout들의 init 수행.)
-    this.header = new Header({ switchURL: this.switchURL.bind(this) }); //getHistory 필요
+  initDOM() {
+    this.header = new Header({ switchURL: this.switchURL.bind(this) });
     this.header.init();
   }
 
-  switchURL(href) {
-    this.router.getHistory(href);
-  }
-
   mountComponent() {
-    this.components = {
-      lines: new Lines(),
-    };
-    //this.liens = new Lines()
+    this.login = new Login({ switchURL: this.switchURL.bind(this) });
+    this.signup = new SignUp();
   }
 
-  renderComponent(key) {
-    this.components[key].init();
+  switchURL(href) {
+    this.router.renderPage(href);
+
+    if (href === '/login') {
+      this.login.init();
+    } else if (href === '/signUp') {
+      this.signup.init();
+    }
   }
 }
 

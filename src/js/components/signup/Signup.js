@@ -1,1 +1,5 @@
-class SignUp {}
+class SignUp {
+  constructor() {}
+}
+
+export default SignUp;
