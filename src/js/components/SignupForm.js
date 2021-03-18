@@ -1,12 +1,16 @@
+import { signupRequest } from '../request.js';
 import { $, show, hide } from '../utils/dom.js';
+import { render } from '../../js/router.js';
 
 export default class SignupForm {
   constructor() {
     this.$inputForm = $('#signup-form');
+    this.$emailDuplicatedWarning = $('#email-input-warning');
     this.$password = $('#password');
     this.$passwordConfirm = $('#password-confirm');
     this.$passwordConfirmWarning = $('#password-confirm-error');
     this.$passwordConfirmCorrect = $('#password-confirm-correct');
+
     this.state = {
       email: '',
       name: '',
@@ -34,9 +38,28 @@ export default class SignupForm {
       email: { value: email },
       name: { value: name },
       password: { value: password },
+      'password-confirm': { value: passwordConfirm },
     } = event.target.elements;
 
     this.state = { email, name, password };
+
+    if (this.state.password !== passwordConfirm) return;
+
+    this.submitForm();
+  }
+
+  async submitForm() {
+    const response = await signupRequest(this.state)
+      .then(() => {
+        const path = '/login';
+        history.pushState({ path }, null, path);
+        render(path);
+      })
+      .catch(() => this.warnEmailDuplicated());
+  }
+
+  warnEmailDuplicated() {
+    show(this.$emailDuplicatedWarning);
   }
 
   getPassword(event) {
