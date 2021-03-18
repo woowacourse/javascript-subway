@@ -11,6 +11,14 @@ module.exports = {
   devServer: {
     hot: true,
     port: 9000,
+    proxy: {
+      '/api': {
+        target: 'http://15.164.230.130:8080',
+        pathRewrite: { '^/api': '' },
+      },
+    },
+    //http://localhost:9000/api/members
+    //http://15.164.230.130:8080/members
   },
   module: {
     rules: [

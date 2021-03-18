@@ -1,6 +1,6 @@
 import { pushState } from '../utils/history.js';
 
-const handleRouteNavigation = event => {
+const handleRoute = event => {
   event.preventDefault();
 
   const $target = event.target.closest('.js-link');
@@ -12,4 +12,4 @@ const handleRouteNavigation = event => {
   pushState(path);
 };
 
-export default handleRouteNavigation;
+export default handleRoute;

@@ -2,12 +2,12 @@ const signupTemplate = `
   <div class="d-flex justify-center mt-5 w-100">
     <div class="w-100">
       <header class="my-4"></header>
-      <main class="mt-10 d-flex justify-center">
+      <main id="signup-container" class="mt-10 d-flex justify-center">
         <div class="wrapper p-10 bg-white">
           <div class="heading">
             <h2 class="text">📝 회원가입</h2>
           </div>
-          <form name="login" class="form">
+          <form name="signup" id="signup-form" class="form">
             <div class="input-control">
               <label for="email" class="input-label" hidden>이메일</label>
               <input
@@ -29,6 +29,7 @@ const signupTemplate = `
                 name="password"
                 class="input-field"
                 placeholder="비밀번호"
+                required
               />
             </div>
             <div class="input-control">
@@ -41,11 +42,25 @@ const signupTemplate = `
                 name="password-confirm"
                 class="input-field"
                 placeholder="비밀번호 확인"
+                required
+              />
+            </div>
+            <div class="input-control">
+              <label for="name" class="input-label" hidden
+                >이름</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="input-field"
+                placeholder="이름"
+                required
               />
             </div>
             <div class="input-control">
               <button
-                type="button"
+                id="submit-button"
                 name="submit"
                 class="input-submit w-100 bg-cyan-300"
               >

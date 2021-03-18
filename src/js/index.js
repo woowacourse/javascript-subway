@@ -1,11 +1,19 @@
 import '../css/index.css';
 import initRouter from './routes.js';
 import { $ } from './utils/dom.js';
-import handleRouteNavigation from './eventHandlers/handleRouteNavigation';
+import handleRoute from './eventHandlers/handleRoute';
+import initStore from './store';
+import handleLogout from './eventHandlers/handleLogout';
 
 const initAppEvent = () => {
-  $('#header').addEventListener('click', handleRouteNavigation);
+  $('#header').addEventListener('click', handleRoute);
+  $('#logout-nav-button').addEventListener('click', handleLogout);
 };
 
-initRouter();
-initAppEvent();
+const init = () => {
+  initAppEvent();
+  initRouter();
+  initStore();
+};
+
+init();
