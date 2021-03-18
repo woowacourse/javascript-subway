@@ -33,6 +33,7 @@ const route = (pathname) => {
   // });
 };
 
+const isSameOrigin = (targetOrigin) => window.location.origin === targetOrigin;
 const isValidPathname = (pathname) => hasPropertyValue(ROUTES, pathname);
 
 const handleHeaderClick = (event) => {
@@ -43,7 +44,11 @@ const handleHeaderClick = (event) => {
     return;
   }
 
-  const { pathname } = $anchor;
+  const { origin, pathname } = $anchor;
+
+  if (!isSameOrigin(origin)) {
+    return;
+  }
 
   if (!isValidPathname(pathname)) {
     return;
