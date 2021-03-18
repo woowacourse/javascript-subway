@@ -5,15 +5,15 @@ import { UserManage } from './userManage';
 class App {
   constructor() {
     this.state = {
-      isSigned: false,
+      isSigned: true,
     };
   }
 
   run() {
-    this.moutChildComponents();
+    this.mountChildComponents();
   }
 
-  moutChildComponents() {
+  mountChildComponents() {
     this.userManage = new UserManage({ isSigned: this.state.isSigned });
     this.subway = new Subway({ isSigned: this.state.isSigned });
   }

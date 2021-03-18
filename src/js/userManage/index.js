@@ -3,10 +3,10 @@ import { UserAuth } from './components/UserAuth';
 export class UserManage {
   constructor(props) {
     this.props = props;
-    this.moutChildComponents();
+    this.mountChildComponents();
   }
 
-  moutChildComponents() {
+  mountChildComponents() {
     this.userAuth = new UserAuth(this.props);
   }
 }

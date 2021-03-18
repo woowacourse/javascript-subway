@@ -8,8 +8,4 @@ const navButtonInfos = [
   { link: '#search', text: '🔎 길 찾기' },
 ];
 
-export const menuButtons = `
-<nav class="d-flex justify-center flex-wrap">
-  ${navButtonInfos.map(linkButton).join('')}
-</nav>
-`;
+export const menuButtons = navButtonInfos.map(linkButton).join('');

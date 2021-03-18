@@ -13,7 +13,7 @@ export class UserAuth {
 
   render() {
     this.$container.innerHTML = this.props.isSigned
-      ? linkButton({ link: '#', text: '로그아웃' })
-      : linkButton({ link: '#signin', text: '로그인' });
+      ? linkButton({ link: '#', text: '❎ 로그아웃' })
+      : linkButton({ link: '#signin', text: '✅ 로그인' });
   }
 }
