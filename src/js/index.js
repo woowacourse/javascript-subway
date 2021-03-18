@@ -1,7 +1,6 @@
 import '../css/index.css';
 import { Subway } from './subway';
 import { UserManage } from './userManage';
-import { $ } from './@shared/utils/dom.js';
 
 class App {
   constructor() {
@@ -11,17 +10,17 @@ class App {
   }
 
   run() {
-    this.mount();
+    this.moutChildComponents();
   }
 
-  mount() {
+  moutChildComponents() {
     this.userManage = new UserManage({ isSigned: this.state.isSigned });
     this.subway = new Subway({ isSigned: this.state.isSigned });
   }
 }
 
 window.addEventListener('load', () => {
-  const app = new App($('#app'));
+  const app = new App();
 
   app.run();
 });

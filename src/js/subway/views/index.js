@@ -1,4 +1,5 @@
-export { header } from './templates/header.js';
+export { root } from './templates/root.js';
+export { menuButtons } from './templates/menuButtons.js';
 export { stationManage } from './templates/stationManage.js';
 export { lineManage } from './templates/lineManage.js';
 export { lineAddModal } from './templates/lineAddModal.js';

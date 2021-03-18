@@ -1,4 +1,4 @@
-import { linkButton } from '../../../@shared/views/linkButton';
+import { linkButton } from '../../../@shared/views/templates/linkButton';
 
 const navButtonInfos = [
   { link: '#stations', text: '🚉 역 관리' },
