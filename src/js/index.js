@@ -1,27 +1,33 @@
 import '../css/index.css';
-// import '../images/subway_emoji.png';
 
 import { $ } from './utils/DOM.js';
-import { stationsTemplate } from './templates/stations.js';
-import { headerTemplate, getNavButtonTemplate } from './templates/header.js';
 import { NAVIGATION } from './constants/header.js';
-import { loginRequiredTemplate } from './templates/loginRequiredTemplate.js';
+import { headerTemplate } from './templates/header.js';
+import { loginTemplate } from './templates/login.js';
+import { signupTemplate } from './templates/signup.js';
+import { stationsTemplate } from './templates/stations.js';
+import { linesTemplate, linesModal } from './templates/lines.js';
+import { sectionsTemplate, sectionsModal } from './templates/sections.js';
+import { loginRequiredTemplate } from './templates/loginRequired.js';
 
 const renderHeader = () => {
-  $('header').innerHTML = headerTemplate;
-  $('nav').innerHTML = Object.values(NAVIGATION)
-    .map(getNavButtonTemplate)
-    .join('');
+  $('header').innerHTML = headerTemplate(NAVIGATION);
 };
 
-const renderStation = () => {
+const templates = {
+  '/': loginRequiredTemplate,
+  '/station': stationsTemplate,
+  '/line': linesTemplate,
+  '/section': sectionsTemplate,
+  '/map': loginRequiredTemplate,
+  '/search': loginRequiredTemplate,
+  '/login': loginTemplate,
+  '/signup': signupTemplate,
+};
+
+const renderTemplate = () => {
   $('main').innerHTML = stationsTemplate();
 };
 
-$('main').innerHTML = loginRequiredTemplate();
 renderHeader();
-// renderStation();
-
-const templates = {
-  '/station': stationsTemplate,
-};
+renderTemplate();

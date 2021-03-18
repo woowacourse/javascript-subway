@@ -1,26 +1,26 @@
 export const NAVIGATION = {
   STATION: {
-    ROUTE: '/pages/stations.html',
+    ROUTE: '/station',
     NAME: '🚉 역 관리',
   },
   LINE: {
-    ROUTE: '/pages/lines.html',
+    ROUTE: '/line',
     NAME: '🛤️ 노선 관리',
   },
-  SECTIONS: {
-    ROUTE: '/pages/sections.html',
+  SECTION: {
+    ROUTE: '/section',
     NAME: '🔁 구간 관리',
   },
   MAP: {
-    ROUTE: '/pages/map.html',
+    ROUTE: '/map',
     NAME: '🗺️ 전체 보기',
   },
   SEARCH: {
-    ROUTE: '/pages/search.html',
+    ROUTE: '/search',
     NAME: '🔎 길 찾기',
   },
   LOGIN: {
-    ROUTE: '/pages/login.html',
+    ROUTE: '/login',
     NAME: '👤 로그인',
   },
 };
