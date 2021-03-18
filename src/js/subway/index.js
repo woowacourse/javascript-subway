@@ -12,11 +12,11 @@ export class Subway {
     this.renderSignButton();
     this.renderMain();
     this.mountChildComponents();
-    this.bindEvents();
   }
 
   setup() {
     stateManager['isSigned'].subscribe(this.renderMenuButtons.bind(this));
+    stateManager['isSigned'].subscribe(this.renderSignButton.bind(this));
     stateManager['route'].subscribe(this.renderMain.bind(this));
   }
 
@@ -41,11 +41,4 @@ export class Subway {
   }
 
   mountChildComponents() {}
-
-  bindEvents() {
-    window.addEventListener('hashchange', () => {
-      const id = window.location.hash.replace('#', '');
-      stateManager['route'].set(id);
-    });
-  }
 }
