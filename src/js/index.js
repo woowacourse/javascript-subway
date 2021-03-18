@@ -27,21 +27,22 @@ const templates = {
   '/signup': signupTemplate,
 };
 
-const render = path => {
+const render = (path) => {
   const template = templates[path];
-  console.log(template);
   $('.js-main').innerHTML = template();
 };
 
-window.addEventListener('popstate', e => {
+window.addEventListener('popstate', (e) => {
   renderHeader(e.state.path);
 });
 
-$('.js-header').addEventListener('click', e => {
-  if (!e.target.classList.contains('js-header__link')) return;
+$('.js-header').addEventListener('click', (e) => {
+  const anchor = e.target.closest('.js-header__link');
+  if (!anchor) return;
+
   e.preventDefault();
 
-  const path = e.target.getAttribute('href');
+  const path = anchor.getAttribute('href');
   history.pushState({ path }, null, path);
   render(path);
 });

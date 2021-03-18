@@ -1,4 +1,4 @@
-export const headerTemplate = navigation => {
+export const headerTemplate = (navigation) => {
   return `
     <a href="/" class="js-header__link text-black">
       <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
