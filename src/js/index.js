@@ -1,6 +1,7 @@
 import { $, hasPropertyValue } from './utils/index.js';
 import { ROUTES } from './constants/index.js';
 import {
+  HOME_TEMPLATE,
   HEADER_TEMPLATE,
   STATIONS_TEMPLATE,
   LINES_TEMPLATE,
@@ -13,6 +14,11 @@ const $header = $('header');
 $header.innerHTML = HEADER_TEMPLATE;
 
 const $main = $('main');
+
+const renderHome = () => {
+  $main.innerHTML = HOME_TEMPLATE;
+};
+
 const renderStations = () => {
   $main.innerHTML = STATIONS_TEMPLATE;
 };
@@ -34,6 +40,7 @@ const renderSignUp = () => {
 };
 
 const render = {
+  [ROUTES.HOME]: renderHome,
   [ROUTES.STATIONS]: renderStations,
   [ROUTES.LINES]: renderLines,
   [ROUTES.SECTIONS]: renderSections,
