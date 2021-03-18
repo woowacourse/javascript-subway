@@ -2,6 +2,7 @@ import '../css/index.css';
 
 import { $ } from './utils/DOM.js';
 import { NAVIGATION } from './constants/header.js';
+import { ROUTE } from './constants/route';
 import { headerTemplate } from './templates/header.js';
 import { loginTemplate } from './templates/login.js';
 import { signupTemplate } from './templates/signup.js';
@@ -14,26 +15,24 @@ const renderHeader = () => {
   $('header').innerHTML = headerTemplate(NAVIGATION);
 };
 
-renderHeader();
-
 const templates = {
-  '/': loginRequiredTemplate,
-  '/station': stationsTemplate,
-  '/line': linesTemplate,
-  '/section': sectionsTemplate,
-  '/map': loginRequiredTemplate,
-  '/search': loginRequiredTemplate,
-  '/login': loginTemplate,
-  '/signup': signupTemplate,
+  [ROUTE.HOME]: loginRequiredTemplate,
+  [ROUTE.STATION]: stationsTemplate,
+  [ROUTE.LINE]: linesTemplate,
+  [ROUTE.SECTION]: sectionsTemplate,
+  [ROUTE.MAP]: loginRequiredTemplate,
+  [ROUTE.SEARCH]: loginRequiredTemplate,
+  [ROUTE.LOGIN]: loginTemplate,
+  [ROUTE.SIGNUP]: signupTemplate,
 };
 
-const render = (path) => {
-  const template = templates[path];
+const render = (route) => {
+  const template = templates[route];
   $('.js-main').innerHTML = template();
 };
 
 window.addEventListener('popstate', (e) => {
-  renderHeader(e.state.path);
+  render(e.state.route);
 });
 
 $('.js-header').addEventListener('click', (e) => {
@@ -42,7 +41,10 @@ $('.js-header').addEventListener('click', (e) => {
 
   e.preventDefault();
 
-  const path = anchor.getAttribute('href');
-  history.pushState({ path }, null, path);
-  render(path);
+  const route = anchor.getAttribute('href');
+  history.pushState({ route }, null, route);
+  render(route);
 });
+
+renderHeader();
+render(ROUTE.HOME);

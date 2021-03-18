@@ -30,7 +30,6 @@ export const loginTemplate = () => {
         </div>
         <div class="input-control w-100">
           <button
-            type="button"
             name="submit"
             class="input-submit w-100 bg-cyan-300"
           >
