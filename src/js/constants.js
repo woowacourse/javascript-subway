@@ -1,6 +1,7 @@
 const ID_SELECTOR = {
-  MAIN: 'main',
   APP: 'app',
+  MAIN: 'main',
+  MODAL: 'modal',
 };
 
 const CLASS_SELECTOR = {

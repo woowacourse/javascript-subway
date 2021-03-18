@@ -1,18 +1,20 @@
 import { ID_SELECTOR, CLASS_SELECTOR } from './constants.js';
 import $ from './utils/querySelector.js';
+import HOME_TEMPLATE from './templates/homeTemplate.js';
+import LINES_TEMPLATE from './templates/linesTemplate.js';
 
 const router = {
   routes: {
-    '/': '/data/home.json',
-    '/pages/stations.html': '/data/station.json',
+    '/': HOME_TEMPLATE,
+    '/pages/lines.html': LINES_TEMPLATE,
   },
 
   render: async path => {
-    const url = router.routes[path];
-    const res = await fetch(url);
-    const { contents } = await res.json();
+    const { TITLE, MAIN, MODAL } = router.routes[path];
 
-    $(`#${ID_SELECTOR.MAIN}`).innerHTML = contents;
+    $('title').innerHTML = TITLE;
+    $(`#${ID_SELECTOR.MAIN}`).innerHTML = MAIN;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
   },
 
   init: () => {
