@@ -1,6 +1,7 @@
 import { signupRequest } from '../request.js';
 import { $, show, hide } from '../utils/dom.js';
 import { render } from '../../js/router.js';
+import { MESSAGES } from '../constants/constants.js';
 
 export default class SignupForm {
   constructor() {
@@ -49,9 +50,12 @@ export default class SignupForm {
   }
 
   async submitForm() {
-    const response = await signupRequest(this.state)
+    await signupRequest(this.state)
       .then(() => {
         const path = '/login';
+
+        alert(MESSAGES.SIGNUP_SUCCESS);
+
         history.pushState({ path }, null, path);
         render(path);
       })
