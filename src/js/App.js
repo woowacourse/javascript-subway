@@ -23,7 +23,7 @@ class App {
 
   mountComponent() {
     this.login = new Login({ switchURL: this.switchURL.bind(this) });
-    this.signup = new SignUp();
+    this.signup = new SignUp({ switchURL: this.switchURL.bind(this) });
   }
 
   switchURL(href) {
@@ -31,7 +31,7 @@ class App {
 
     if (href === '/login') {
       this.login.init();
-    } else if (href === '/signUp') {
+    } else if (href === '/signup') {
       this.signup.init();
     }
   }

@@ -13,7 +13,18 @@ const signUpTemplate = () => {
       <div class="heading">
         <h2 class="text">📝 회원가입</h2>
       </div>
-      <form name="login" class="form">
+      <form name="signup" class="form">
+        <div class="input-control">
+          <label for="name" class="input-label" hidden>이름</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="input-field"
+            placeholder="이름"
+            required
+          />
+        </div>
         <div class="input-control">
           <label for="email" class="input-label" hidden>이메일</label>
           <input
@@ -51,7 +62,6 @@ const signUpTemplate = () => {
         </div>
         <div class="input-control">
           <button
-            type="button"
             name="submit"
             class="input-submit w-100 bg-cyan-300"
           >
