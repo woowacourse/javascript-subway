@@ -6,7 +6,7 @@ const ROUTES = Object.freeze({
   MAP: '/map',
   SEARCH: '/search',
   LOGIN: '/login',
-  SIGNUP: '/signup',
+  SIGN_UP: '/signup',
 });
 
 export default ROUTES;
