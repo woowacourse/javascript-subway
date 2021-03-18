@@ -3,14 +3,12 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: path.join(__dirname, 'src', 'js', 'index.js'),
+  entry: ['babel-polyfill', path.join(__dirname, 'src', 'js', 'index.js')],
   output: {
     path: path.join(__dirname, 'bundle'),
     filename: 'bundle.js',
   },
-  plugins: [
-    new CaseSensitivePathsPlugin(),
-  ],
+  plugins: [new CaseSensitivePathsPlugin()],
   module: {
     rules: [
       {
@@ -28,4 +26,4 @@ module.exports = {
       },
     ],
   },
-}
+};
