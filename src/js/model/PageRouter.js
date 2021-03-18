@@ -1,6 +1,14 @@
 export default class PageRouter {
   constructor() {
     this.route = {};
+
+    this.init();
+  }
+
+  init() {
+    window.addEventListener("popstate", (e) => {
+      this.renderPageByPath(e.state.path);
+    });
   }
 
   registerRoute({ path, handler }) {

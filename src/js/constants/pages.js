@@ -1,4 +1,5 @@
 const PAGE_URLS = {
+  HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
   STATIONS: "/stations",

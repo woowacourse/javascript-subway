@@ -37,6 +37,10 @@ export default class App {
 
   registerRoutes() {
     this.pageRouter.registerRoute({
+      path: PAGE_URLS.HOME,
+      handler: this.render.bind(this),
+    });
+    this.pageRouter.registerRoute({
       path: PAGE_URLS.LOGIN,
       handler: this.loginForm.render.bind(this.loginForm),
     });
