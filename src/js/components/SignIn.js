@@ -1,6 +1,9 @@
+import SignUp from './SignUp.js';
+
 class SignIn {
   constructor(props) {
     this.props = props;
+    this.signUp = new SignUp();
   }
 
   init() {
@@ -13,9 +16,10 @@ class SignIn {
   }
 
   bindEvent() {
-    this.$signUpBtn.addEventListener('click', (e) => {
+    this.$signUpBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      this.props.route('/signup');
+      await this.props.route('/signup');
+      this.signUp.init();
     });
   }
 }

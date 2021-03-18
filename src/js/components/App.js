@@ -1,7 +1,6 @@
 import Stations from '../components/Stations.js';
 import Lines from './Lines.js';
 import Sections from './Sections.js';
-import SignUp from './SignUp.js';
 import SignIn from './SignIn.js';
 import { request } from '../utils/request.js';
 import { routes } from '../utils/constants.js';
@@ -17,7 +16,6 @@ class App {
     this.lines = new Lines();
     this.sections = new Sections();
     this.signIn = new SignIn({ route: this.route.bind(this) });
-    this.signUp = new SignUp();
   }
 
   selectDom() {
