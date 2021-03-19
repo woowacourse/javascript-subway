@@ -9,7 +9,8 @@
     "sourceType": "module"
   },
   "rules": {
-    "import/extensions": ["error", "always"]
+    "import/extensions": ["error", "always"],
+    "no-use-before-define": ["error", "nofunc"]
   },
   "plugins": ["cypress"],
   "ignorePatterns": ["cypress/fixtures/*", "cypress/plugins/*", "cypress/support/*", "dist"]
