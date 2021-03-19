@@ -1,8 +1,7 @@
 import { MENU, MESSAGE } from '../../constants/constants';
 
 export const signUp = `
-<main class="mt-10 d-flex justify-center">
-  <div class="wrapper p-10 bg-white">
+  <div id="content" class="wrapper p-10 bg-white">
     <div class="heading">
       <h2 class="text">${MENU.SIGNUP}</h2>
     </div>
@@ -70,5 +69,4 @@ export const signUp = `
       </div>
     </form>
   </div>
-</main>
 `;

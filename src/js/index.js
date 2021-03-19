@@ -20,9 +20,6 @@ class App {
   }
 
   bindEvents() {
-    // issue: 이벤트 위임을 했을 때, a 태그가 아닌 내부의 태그를 타겟팅하고 있어 적절한 얼리 리턴이 어려움.
-    // solve: 하나의 태그를 감싸는 모든 a 태그에 대한 이벤트 위임 목적으로 상대 참조 및 tagName 비교.
-    // 실제 anchor 역할을 갖는 태그를 분리할 경우: 'js-anchor' 부여한 태그에 대한 얼리 리턴으로 이슈 대응.
     this.$app.addEventListener('click', event => {
       if (!event.target.classList.contains('js-link')) return;
       event.preventDefault();
@@ -44,5 +41,6 @@ window.addEventListener('load', () => {
   const app = new App();
   const path = location.pathname;
 
+  stateManager[STATE_KEY.IS_SIGNED].set(true);
   stateManager[STATE_KEY.ROUTE].set(path);
 });

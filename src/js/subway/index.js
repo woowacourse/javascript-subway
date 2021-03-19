@@ -1,20 +1,20 @@
-import { menuButtons, contentTemplate } from './views';
+import { menuButtons, contentElements } from './views';
 import { $ } from '../@shared/utils';
 import { stateManager } from '../@shared/models/StateManager';
 import { linkButton } from '../@shared/views/templates/linkButton';
-import { MENU, ROUTE, STATE_KEY } from './constants/constants';
+import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
+import { UserAuth, UserJoin } from './components';
 
 export class Subway {
-  constructor(props) {
-    this.props = props;
+  constructor() {
     this.setup();
     this.selectDOM();
-    this.renderNavButtons();
     this.mountChildComponents();
   }
 
   setup() {
     stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
+    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderRoot.bind(this));
     stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 
@@ -22,6 +22,10 @@ export class Subway {
     this.$menuContainer = $('#menu-buttons-container');
     this.$signContainer = $('#sign-button-container');
     this.$mainContainer = $('#main-container');
+  }
+
+  renderRoot(isSigned) {
+    $('p', contentElements[ROUTE.ROOT]).innerHTML = isSigned ? '' : MESSAGE.SIGNIN.REQUIRED;
   }
 
   renderNavButtons(isSigned) {
@@ -32,8 +36,12 @@ export class Subway {
   }
 
   renderContent(route) {
-    this.$mainContainer.innerHTML = contentTemplate[route];
+    this.$mainContainer.innerHTML = '';
+    this.$mainContainer.appendChild(contentElements[route]);
   }
 
-  mountChildComponents() {}
+  mountChildComponents() {
+    this.userAuth = new UserAuth();
+    this.userJoin = new UserJoin();
+  }
 }

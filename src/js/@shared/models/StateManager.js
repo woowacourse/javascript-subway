@@ -1,6 +1,6 @@
 import { State } from './State';
 
 export const stateManager = {
-  isSigned: new State(false),
+  isSigned: new State(),
   route: new State(),
 };
