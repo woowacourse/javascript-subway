@@ -2,6 +2,8 @@ import PAGE_URLS from "../constants/pages.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
 import { $ } from "../utils/DOM.js";
 import { loginAPI } from "../APIs/subwayAPI.js";
+import { setSessionStorageItem } from "../utils/sessionStorage.js";
+import { TOKEN } from "../constants/storageKeys.js";
 
 export default class LoginForm {
   constructor({ $parent, setIsLoggedIn, pageRouter }) {
@@ -42,7 +44,7 @@ export default class LoginForm {
     $(".js-login-error", currentTarget).classList.add("d-none");
 
     const { accessToken } = await response.json();
-    sessionStorage.setItem("TOKEN", accessToken); // TODO: 상수 및 파일 분리하기
+    setSessionStorageItem(TOKEN, accessToken);
 
     this.setIsLoggedIn(true);
   }
