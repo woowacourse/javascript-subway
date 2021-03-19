@@ -1,5 +1,5 @@
 describe("사용자 로그인 및 회원가입", () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit("http://127.0.0.1:5500/");
   });
 
@@ -27,7 +27,7 @@ describe("사용자 로그인 및 회원가입", () => {
   });
 
   it("로그아웃 버튼을 누르면 로그인 화면으로 돌아간다.", () => {
-    cy.get("#logout-button").click();
+    cy.get(".js-logout-btn").click();
     cy.url().should("include", "/login");
   });
 });

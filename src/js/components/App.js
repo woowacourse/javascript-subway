@@ -19,6 +19,7 @@ export default class App {
     this.pageRouter = new PageRouter();
     this.navigation = new Navigation({
       $parent: this.$nav,
+      setIsLoggedIn: this.setIsLoggedIn.bind(this),
       pageRouter: this.pageRouter,
     });
     this.loginForm = new LoginForm({
@@ -73,6 +74,7 @@ export default class App {
       this.navigation.show();
       this.pageRouter.movePage(PAGE_URLS.STATIONS);
     } else {
+      this.navigation.hide();
       this.pageRouter.movePage(PAGE_URLS.LOGIN);
     }
   }

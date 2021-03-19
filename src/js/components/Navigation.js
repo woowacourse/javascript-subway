@@ -1,5 +1,5 @@
 import { NAV_ITEMS } from "../constants/templateData.js";
-import { hideElement, showElement } from "../utils/DOM.js";
+import { $, hideElement, showElement } from "../utils/DOM.js";
 
 const createNavListItem = (item) => {
   return `
@@ -12,8 +12,9 @@ const createNavListItem = (item) => {
 };
 
 export default class Navigation {
-  constructor({ $parent, pageRouter }) {
+  constructor({ $parent, setIsLoggedIn, pageRouter }) {
     this.$parent = $parent;
+    this.setIsLoggedIn = setIsLoggedIn;
     this.pageRouter = pageRouter;
 
     this.render();
@@ -37,15 +38,24 @@ export default class Navigation {
     this.pageRouter.movePage(path);
   }
 
+  onLogout() {
+    this.setIsLoggedIn(false);
+  }
+
   attachEvents() {
     this.$parent.addEventListener("click", this.onClickNav.bind(this));
+    $(".js-logout-btn", this.$parent).addEventListener(
+      "click",
+      this.onLogout.bind(this)
+    );
   }
 
   render() {
     const template = `
-        <ul class="d-flex justify-center flex-wrap">
-          ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
-        </ul>
+      <ul class="d-flex justify-center flex-wrap">
+        ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
+      </ul>
+      <button type="button" class="js-logout-btn logout-btn">로그아웃</button>
     `;
 
     this.$parent.innerHTML = template;
