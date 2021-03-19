@@ -8,10 +8,6 @@ import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
-// import { stationsTemplate } from './templates/stations.js';
-// import { linesTemplate, linesModal } from './templates/lines.js';
-// import { sectionsTemplate, sectionsModal } from './templates/sections.js';
-// import { loginRequiredTemplate } from './templates/loginRequired.js';
 
 class App {
   constructor() {
@@ -36,7 +32,6 @@ class App {
 
   render(route) {
     new this.components[route]($('.js-main'));
-    // $('.js-main').innerHTML = template;
   }
 
   addEventListeners() {
@@ -44,8 +39,8 @@ class App {
       this.render(e.state.route);
     });
 
-    $('.js-header').addEventListener('click', (e) => {
-      const anchor = e.target.closest('.js-header__link');
+    $('#app').addEventListener('click', (e) => {
+      const anchor = e.target.closest('.js-link');
       if (!anchor) return;
 
       e.preventDefault();

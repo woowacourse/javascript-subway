@@ -15,13 +15,6 @@ class Login extends Component {
   }
 
   addEventListeners() {
-    $('#signup').addEventListener('click', (e) => {
-      e.preventDefault();
-      const route = e.target.getAttribute('href');
-      history.pushState({ route }, null, route);
-      new Signup(this.parentNode);
-    });
-
     $('#login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
