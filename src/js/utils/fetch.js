@@ -1,9 +1,9 @@
 const request = {
   get: (url, options) => {
-    fetch(url, { ...options });
+    return fetch(url, { ...options });
   },
   post: (url, options) => {
-    fetch(url, { method: 'POST', ...options });
+    return fetch(url, { method: 'POST', ...options });
   },
 };
 

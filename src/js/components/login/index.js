@@ -1,9 +1,10 @@
 import { $ } from '../../utils/DOM.js';
 import Component from '../../core/Component.js';
 import mainTemplate from './template/main.js';
-import Signup from '../signup/index.js';
 import { BASE_URL, PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
+import Station from '../station/index.js';
+import { ROUTE } from '../../constants/route.js';
 
 class Login extends Component {
   constructor(parentNode) {
@@ -31,11 +32,20 @@ class Login extends Component {
             password,
           }),
         });
+
+        const { accessToken } = await response.json();
+
+        localStorage.setItem('accessToken', accessToken);
+
+        history.pushState({ route: ROUTE.STATION }, null, ROUTE.STATION);
+        new Station(this.parentNode);
+
+        // 로그아웃 버튼 만들기
+
+        $('a[herf="/login"]');
       } catch (error) {
         console.error(error);
       }
-      // TODO:
-      // request하기
     });
   }
 }
