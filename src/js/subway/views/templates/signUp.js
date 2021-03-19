@@ -5,8 +5,8 @@ export const signUp = `
     <div class="heading">
       <h2 class="text">${MENU.SIGNUP}</h2>
     </div>
-    <form name="login" class="form">
-      <div class="input-control">
+    <form id="signup-form" name="signup" class="form">
+      <div class="input-control flex-col">
         <label for="email" class="input-label" hidden>이메일</label>
         <input
           type="email"
@@ -16,9 +16,9 @@ export const signUp = `
           placeholder="이메일"
           required
         />
-        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
+        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
       </div>
-      <div class="input-control">
+      <div class="input-control flex-col">
         <label for="name" class="input-label" hidden>이메일</label>
         <input
           type="text"
@@ -28,9 +28,9 @@ export const signUp = `
           placeholder="이름"
           required
         />
-        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_NAME}</div>
+        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
       </div>
-      <div class="input-control">
+      <div class="input-control flex-col">
         <label for="password" class="input-label" hidden
           >비밀번호</label
         >
@@ -41,9 +41,9 @@ export const signUp = `
           class="input-field"
           placeholder="비밀번호"
         />
-        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
+        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
       </div>
-      <div class="input-control">
+      <div class="input-control flex-col">
         <label for="password-confirm" class="input-label" hidden
           >비밀번호 확인</label
         >
@@ -54,15 +54,14 @@ export const signUp = `
           class="input-field"
           placeholder="비밀번호 확인"
         />
-        <div class="js-message-box hidden">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
+        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
       <div class="input-control">
         <button
-          type="button"
+          type="submit"
           id="signup-button"
           name="submit"
           class="input-submit w-100 bg-cyan-300"
-          disabled
         >
           확인
         </button>

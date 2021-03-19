@@ -30,10 +30,12 @@ describe('Subway test', () => {
   });
 
   it('회원가입 시, 각 인풋에 대한 기준이 부합하지 않으면 에러 메시지를 렌더링한다.', () => {
+    cy.get('[data-link="/signin"]').click();
+    cy.get('[data-link="/signup"]').click();
     cy.get('#signup-email').type('@gmail.com');
     cy.get('#signup-name').type('     ');
     cy.get('#signup-password').type('a');
     cy.get('#signup-password-confirm').type('b');
-    cy.get('js-message-box').each(element => element.should('be.visible'));
+    cy.get('.js-message-box').each(element => cy.wrap(element).should('be.visible'));
   });
 });

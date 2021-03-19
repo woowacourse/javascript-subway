@@ -41,6 +41,6 @@ window.addEventListener('load', () => {
   const app = new App();
   const path = location.pathname;
 
-  stateManager[STATE_KEY.IS_SIGNED].set(true);
+  stateManager[STATE_KEY.IS_SIGNED].set(false);
   stateManager[STATE_KEY.ROUTE].set(path);
 });
