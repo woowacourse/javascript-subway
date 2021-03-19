@@ -1,4 +1,7 @@
 import { getInvalidSignUpMessage } from '../validators/message.js';
+import { request } from '../utils/request.js';
+import { errorAlertMatch, SIGN_UP_FAIL_MESSAGE } from '../utils/constants.js';
+import Router from '../router/Router.js';
 
 class SignUp {
   constructor() {}
@@ -25,7 +28,8 @@ class SignUp {
     const password = target['password'].value;
     const passwordConfirm = target['password-confirm'].value;
 
-    const invalidSignUpMessage = getInvalidSignUpMessage({ email, userName, password, passwordConfirm });
+    const userInfo = { email, userName, password, passwordConfirm };
+    const invalidSignUpMessage = getInvalidSignUpMessage(userInfo);
 
     if (invalidSignUpMessage !== '') {
       alert(invalidSignUpMessage);
@@ -33,9 +37,40 @@ class SignUp {
       return;
     }
 
-    // 입력 받고
-    // 검증하고
-    // 검증 끝난 입력값 서버에 전달
+    this.requestSignUp(userInfo);
+  }
+
+  requestSignUp({ email, userName, password }) {
+    request({
+      uri: 'http://15.164.230.130:8080/members',
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+        name: userName,
+      }),
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then(() => {
+        const router = new Router();
+        router.route('/signin');
+      })
+      .catch((error) => {
+        this.getMatchedAlert(error.message);
+      });
+  }
+
+  getMatchedAlert(statusCode) {
+    const errorMessage = errorAlertMatch[statusCode];
+
+    if (!errorMessage) {
+      alert(SIGN_UP_FAIL_MESSAGE);
+      return;
+    }
+
+    alert(errorMessage);
   }
 }
 

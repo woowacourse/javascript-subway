@@ -1,14 +1,11 @@
-export const request = async ({ uri, method, type }) => {
-  try {
-    const response = await fetch(uri, { method });
-    const result = response[type]();
-
+export const request = async ({ uri, method, type, body, headers }) => {
+  const response = await fetch(uri, { method, body, headers }).then((response) => {
     if (!response.ok) {
-      throw new Error(response.statusText);
+      throw new Error(response.status);
     }
 
-    return result;
-  } catch (e) {
-    console.error(e);
-  }
+    return type ? response[type]() : response;
+  });
+
+  return response;
 };
