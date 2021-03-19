@@ -6,9 +6,9 @@ export const request = async (url, option) => {
       return response;
     }
 
-    throw Error(`Request Error! ${response.status}`);
+    throw response.status;
   } catch (error) {
-    throw Error(error.message);
+    throw error;
   }
 };
 
