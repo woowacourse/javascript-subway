@@ -25,11 +25,16 @@ module.exports = {
     filename: "[name].js",
     path: path.resolve("./dist"),
   },
+  devtool: "source-map",
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: "./index.html",
+      templateParameters: {
+        styleHref: "./dist/main.css.map",
+        scriptSrc: "./dist/main.js.map",
+      },
     }),
   ],
 };
