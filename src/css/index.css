@@ -49,3 +49,8 @@ ul li button:hover {
 .d-none {
   display: none;
 }
+
+#signup-link:hover,
+#signup-link:focus {
+  text-decoration: underline;
+}

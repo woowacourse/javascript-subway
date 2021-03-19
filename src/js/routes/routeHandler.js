@@ -18,6 +18,8 @@ export const mountLogin = async () => {
   $routeContainer.innerHTML = loginTemplate;
   hideElement($('#nav'));
 
+  $('#email').focus();
+
   $('#signup-link').addEventListener('click', handleRoute);
   $('#login-form').addEventListener('submit', handleLogin);
 };
@@ -32,6 +34,8 @@ export const mountSignup = async () => {
 
   $routeContainer.innerHTML = signupTemplate;
   hideElement($('#nav'));
+
+  $('#email').focus();
 
   $('#signup-form').addEventListener('submit', handleSignup);
 };
