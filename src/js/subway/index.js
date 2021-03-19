@@ -9,14 +9,12 @@ export class Subway {
     this.props = props;
     this.setup();
     this.selectDOM();
-    this.renderMenuButtons();
-    this.renderSignButton();
+    this.renderNavButtons();
     this.mountChildComponents();
   }
 
   setup() {
-    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderMenuButtons.bind(this));
-    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderSignButton.bind(this));
+    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
     stateManager[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
   }
 
@@ -26,18 +24,15 @@ export class Subway {
     this.$mainContainer = $('#main-container');
   }
 
-  renderMenuButtons() {
-    this.$menuContainer.innerHTML = stateManager[STATE_KEY.IS_SIGNED].get() ? menuButtons : '';
-  }
-
-  renderSignButton() {
-    this.$signContainer.innerHTML = stateManager[STATE_KEY.IS_SIGNED].get()
+  renderNavButtons(isSigned) {
+    this.$menuContainer.innerHTML = isSigned ? menuButtons : '';
+    this.$signContainer.innerHTML = isSigned
       ? linkButton({ link: ROUTE.ROOT, text: MENU.SIGNOUT })
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }
 
-  renderMain() {
-    this.$mainContainer.innerHTML = mainTemplate[stateManager[STATE_KEY.ROUTE].get()];
+  renderMain(route) {
+    this.$mainContainer.innerHTML = mainTemplate[route];
   }
 
   mountChildComponents() {}

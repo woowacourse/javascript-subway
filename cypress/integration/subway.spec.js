@@ -1,4 +1,4 @@
-import { isValidEmail, isValidPassword } from '../../src/js/@shared/utils/validate';
+import { isValidEmail, isValidPassword } from '../../src/js/subway/utils';
 
 describe('Subway test', () => {
   beforeEach(() => {

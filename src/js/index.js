@@ -7,8 +7,8 @@ import { STATE_KEY } from './subway/constants/constants';
 class App {
   constructor() {
     this.selectDOM();
-    this.bindEvents();
     this.mountChildComponents();
+    this.bindEvents();
   }
 
   selectDOM() {
@@ -24,7 +24,7 @@ class App {
     // solve: 하나의 태그를 감싸는 모든 a 태그에 대한 이벤트 위임 목적으로 상대 참조 및 tagName 비교.
     // 실제 anchor 역할을 갖는 태그를 분리할 경우: 'js-anchor' 부여한 태그에 대한 얼리 리턴으로 이슈 대응.
     this.$app.addEventListener('click', event => {
-      if (!event.target.parentNode.tagName === 'a') return;
+      if (!event.target.parentNode.matches('a')) return;
       event.preventDefault();
       const path = event.target.parentNode.getAttribute('href');
 

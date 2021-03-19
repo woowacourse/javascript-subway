@@ -1,4 +1,3 @@
-import { ROUTE } from '../../subway/constants/constants';
 import { State } from './State';
 
 export const stateManager = {
