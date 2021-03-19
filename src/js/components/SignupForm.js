@@ -50,16 +50,18 @@ export default class SignupForm {
   }
 
   async submitForm() {
-    await signupRequest(this.state)
-      .then(() => {
-        const path = '/login';
+    try {
+      await signupRequest(this.state);
+      const path = '/login';
 
-        alert(MESSAGES.SIGNUP_SUCCESS);
+      alert(MESSAGES.SIGNUP_SUCCESS);
 
-        history.pushState({ path }, null, path);
-        render(path);
-      })
-      .catch(() => this.warnEmailDuplicated());
+      history.pushState({ path }, null, path);
+      render(path);
+    } catch (error) {
+      console.error(error);
+      this.warnEmailDuplicated();
+    }
   }
 
   warnEmailDuplicated() {

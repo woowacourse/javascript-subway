@@ -16,7 +16,7 @@ export const signupRequest = async (data) => {
     return res;
   });
 
-  return response;
+  return response.json();
 };
 
 export const loginRequest = async (data) => {
@@ -35,5 +35,5 @@ export const loginRequest = async (data) => {
     return res;
   });
 
-  return response;
+  return response.json();
 };

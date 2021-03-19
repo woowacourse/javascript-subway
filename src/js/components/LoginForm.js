@@ -1,6 +1,9 @@
 import { $, show } from '../utils/dom.js';
 import { render } from '../../js/router.js';
 import { loginRequest } from '../request.js';
+import { setCookie } from '../utils/cookie.js';
+import { SESSION_EXPIRE_DAYS } from '../constants/constants.js';
+
 export default class LoginForm {
   constructor() {
     this.$inputForm = $('#login-form');
@@ -44,14 +47,23 @@ export default class LoginForm {
   }
 
   async submitForm() {
-    await loginRequest(this.state)
-      .then(() => {
-        const path = '/stations';
+    try {
+      const response = await loginRequest(this.state);
+      const userToken = response.accessToken;
+      const path = '/stations';
 
-        history.pushState({ path }, null, path);
-        render(path);
-      })
-      .catch(() => this.warnLoginError());
+      setCookie({
+        key: 'token',
+        value: userToken,
+        expireDays: SESSION_EXPIRE_DAYS,
+      });
+
+      history.pushState({ path }, null, path);
+      render(path);
+    } catch (error) {
+      console.error(error);
+      this.warnLoginError();
+    }
   }
 
   warnLoginError() {
