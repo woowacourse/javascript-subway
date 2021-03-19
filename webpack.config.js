@@ -32,8 +32,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./index.html",
       templateParameters: {
-        styleHref: "./main.css.map",
-        scriptSrc: "./main.js.map",
+        styleHref: "./main.css",
+        scriptSrc: "./main.js",
       },
     }),
   ],
