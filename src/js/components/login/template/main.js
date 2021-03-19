@@ -1,8 +1,18 @@
+// import subway_emoji from '../../../../images/subway_emoji.png';
+
 const mainTemplate = () => {
   return `
     <div class="wrapper p-10 bg-white">
       <div class="heading">
-        <h2>👋 로그인</h2>
+        <h2 class="mb-0">👋 로그인</h2>
+      </div>
+      <div class="d-flex flex-col mb-1">
+        <div class="d-flex justify-center">
+          <img src='../../../../src/images/subway_emoji.png' width="150" />
+        </div>
+        <p class="mt-0 text-center">
+          지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
+        </p>
       </div>
       <form
         id="login-form"

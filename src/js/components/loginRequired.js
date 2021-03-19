@@ -1,5 +1,3 @@
-import subway_emoji from '../../images/subway_emoji.png';
-
 export const loginRequiredTemplate = () => {
   return `
     <div class="d-flex flex-col">

@@ -1,4 +1,4 @@
-export const NAVIGATION = {
+export const LINK = {
   STATION: {
     ROUTE: '/station',
     NAME: '🚉 역 관리',
@@ -22,5 +22,13 @@ export const NAVIGATION = {
   LOGIN: {
     ROUTE: '/login',
     NAME: '👤 로그인',
+  },
+  LOGOUT: {
+    ROUTE: '/logout',
+    NAME: '👤 로그아웃',
+  },
+  SIGNUP: {
+    ROUTE: '/signup',
+    NAME: '👤 회원가입',
   },
 };
