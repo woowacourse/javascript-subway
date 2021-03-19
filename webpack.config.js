@@ -34,6 +34,7 @@ module.exports = {
     port: 8080,
     hot: true,
     contentBase: '/dist/',
+    historyApiFallback: true,
   },
   plugins: [
     new webpack.ProgressPlugin(),

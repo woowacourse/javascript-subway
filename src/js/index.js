@@ -13,5 +13,10 @@ export default class App {
   }
 }
 
-const app = new App();
-app.execute();
+window.addEventListener('load', () => {
+  const path = location.pathname;
+  const app = new App();
+  app.execute();
+
+  render(path);
+});
