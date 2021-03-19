@@ -33,7 +33,5 @@ export const loginAPI = async ({ email, password }) => {
     }),
   });
 
-  // TODO: 400은 로그인 실패, 500은 서버문제 구분하기
-
   return response;
 };
