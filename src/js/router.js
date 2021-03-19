@@ -1,20 +1,19 @@
 import { ID_SELECTOR, CLASS_SELECTOR } from './constants.js';
 import $ from './utils/querySelector.js';
-import HOME_TEMPLATE from './templates/homeTemplate.js';
-import LINES_TEMPLATE from './templates/linesTemplate.js';
+import HomeComponent from './components/HomeComponent.js';
+import LoginComponent from './components/LoginComponent.js';
+import SignupComponent from './components/SignupComponent.js';
 
 const router = {
   routes: {
-    '/': HOME_TEMPLATE,
-    '/pages/lines.html': LINES_TEMPLATE,
+    '/': new HomeComponent({}),
+    '/pages/login.html': new LoginComponent({}),
+    '/pages/signup.html': new SignupComponent({}),
   },
 
   render: async path => {
-    const { TITLE, MAIN, MODAL } = router.routes[path];
-
-    $('title').innerHTML = TITLE;
-    $(`#${ID_SELECTOR.MAIN}`).innerHTML = MAIN;
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
+    router.routes[path].initEvent();
+    router.routes[path].render();
   },
 
   init: () => {
