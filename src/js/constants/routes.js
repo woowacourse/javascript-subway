@@ -3,8 +3,6 @@ const ROUTES = Object.freeze({
   STATIONS: '/stations',
   LINES: '/lines',
   SECTIONS: '/sections',
-  MAP: '/map',
-  SEARCH: '/search',
   LOGIN: '/login',
   SIGN_UP: '/signup',
 });
