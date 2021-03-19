@@ -1,5 +1,5 @@
 import { $, hasPropertyValue } from './utils/index.js';
-import { ROUTES } from './constants/index.js';
+import { ROUTES, TITLES } from './constants/index.js';
 import {
   HOME_TEMPLATE,
   HEADER_TEMPLATE,
@@ -79,6 +79,7 @@ const renderByPathname = (pathname) => {
 const goTo = (pathname) => {
   if (isChangedPathname(pathname)) {
     window.history.pushState(null, null, pathname);
+    document.title = TITLES[pathname];
   }
 
   renderByPathname(pathname);
