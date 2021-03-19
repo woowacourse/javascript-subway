@@ -27,10 +27,10 @@ export const loginAPI = async ({ email, password }) => {
   const response = await fetch(getURL(PATH.LOGIN), {
     method: "POST",
     headers: HEADERS,
-    body: {
+    body: JSON.stringify({
       email,
       password,
-    },
+    }),
   });
 
   // TODO: 400은 로그인 실패, 500은 서버문제 구분하기

@@ -1,6 +1,7 @@
 import PAGE_URLS from "../constants/pages.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
 import { $ } from "../utils/DOM.js";
+import { loginAPI } from "../APIs/subwayAPI.js";
 
 export default class LoginForm {
   constructor({ $parent, setIsLoggedIn, pageRouter }) {
@@ -20,10 +21,28 @@ export default class LoginForm {
     );
   }
 
-  onSubmitLoginForm(event) {
+  async onSubmitLoginForm(event) {
     event.preventDefault();
 
-    // TODO: 로그인 확인 로직 필요
+    const { target, currentTarget } = event;
+    const loginData = {
+      email: target.email.value,
+      password: target.password.value,
+    };
+
+    const response = await loginAPI(loginData);
+
+    if (!response.ok) {
+      $(".js-login-error", currentTarget).classList.remove("d-none");
+      currentTarget.reset();
+
+      return;
+    }
+
+    $(".js-login-error", currentTarget).classList.add("d-none");
+
+    const { accessToken } = await response.json();
+    sessionStorage.setItem("TOKEN", accessToken); // TODO: 상수 및 파일 분리하기
 
     this.setIsLoggedIn(true);
   }
