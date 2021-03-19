@@ -87,6 +87,7 @@ export default class SignupForm {
               name="email"
               class="input-field"
               placeholder="이메일"
+              maxlength="30"
               required
             />
           </div>
@@ -112,7 +113,7 @@ export default class SignupForm {
               name="password"
               class="input-field"
               placeholder="비밀번호"
-              minlength="20"
+              maxlength="20"
               required
             />
           </div>
