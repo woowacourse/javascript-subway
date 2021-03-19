@@ -13,7 +13,7 @@ export { sectionAddModal } from './templates/sectionAddModal.js';
 // export {} from './templates/mapDisplay.js';
 // export {} from './templates/pathFind.js';
 
-export const mainTemplate = {
+export const contentTemplate = {
   [ROUTE.ROOT]: root(stateManager[STATE_KEY.IS_SIGNED].get()),
   [ROUTE.SIGNIN]: signIn,
   [ROUTE.SIGNUP]: signUp,

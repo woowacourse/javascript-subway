@@ -1,4 +1,4 @@
-import { menuButtons, mainTemplate } from './views';
+import { menuButtons, contentTemplate } from './views';
 import { $ } from '../@shared/utils';
 import { stateManager } from '../@shared/models/StateManager';
 import { linkButton } from '../@shared/views/templates/linkButton';
@@ -15,7 +15,7 @@ export class Subway {
 
   setup() {
     stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
-    stateManager[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
+    stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 
   selectDOM() {
@@ -31,8 +31,8 @@ export class Subway {
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }
 
-  renderMain(route) {
-    this.$mainContainer.innerHTML = mainTemplate[route];
+  renderContent(route) {
+    this.$mainContainer.innerHTML = contentTemplate[route];
   }
 
   mountChildComponents() {}
