@@ -10,9 +10,8 @@ import {
   SIGN_UP_TEMPLATE,
 } from './templates/index.js';
 
+const $app = $('#app');
 const $header = $('header');
-$header.innerHTML = HEADER_TEMPLATE;
-
 const $main = $('main');
 
 const renderHome = () => {
@@ -85,7 +84,7 @@ const goTo = (pathname) => {
   renderByPathname(pathname);
 };
 
-const handleHeaderClick = (event) => {
+const handleLinkClick = (event) => {
   const { target: $target } = event;
   const $anchor = $target.closest('a');
 
@@ -103,12 +102,12 @@ const handleHeaderClick = (event) => {
   goTo(pathname);
 };
 
-$header.addEventListener('click', handleHeaderClick);
-
 const handleWindowPopstate = ({ target }) => {
   const { pathname } = target.location;
 
   renderByPathname(pathname);
 };
 
+$header.innerHTML = HEADER_TEMPLATE;
+$app.addEventListener('click', handleLinkClick);
 window.addEventListener('popstate', handleWindowPopstate);
