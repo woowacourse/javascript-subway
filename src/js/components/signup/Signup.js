@@ -1,4 +1,4 @@
-import { $ } from '../../utils/dom.js';
+import { $, getFormData } from '../../utils/dom.js';
 
 class SignUp {
   constructor(props) {
@@ -15,17 +15,9 @@ class SignUp {
     $signUpForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      const name = e.target.elements['name'].value;
-      const email = e.target.elements['email'].value;
-      const password = e.target.elements['password'].value;
-      const passwordConfirm = e.target.elements['password-confirm'].value;
+      const formData = getFormData(e.target.elements);
 
-      const message = checkValid({
-        name,
-        password,
-        passwordConfirm,
-      });
-
+      const message = checkValid(formData);
       if (message) {
         alert(message);
         return;
@@ -37,11 +29,7 @@ class SignUp {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: {
-          name,
-          email,
-          password,
-        },
+        // body: ({ name, email, password } = ,
       })
         .then(res => {
           if (res.ok) {
@@ -60,7 +48,11 @@ class SignUp {
   }
 }
 
-const checkValid = ({ name, password, passwordConfirm }) => {
+const checkValid = ({
+  name,
+  password,
+  ['password-confirm']: passwordConfirm,
+}) => {
   switch (true) {
     case isEmpty(name):
       return '이름은 공백이 될 수 없습니다!';
