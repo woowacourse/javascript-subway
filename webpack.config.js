@@ -9,6 +9,7 @@ const config = {
   output: {
     filename: 'main.js',
     path: path.resolve(dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
@@ -26,6 +27,22 @@ const config = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  devtool: 'eval-cheap-module-source-map',
+  target: 'web',
+  devServer: {
+    contentBase: path.resolve(dirname, 'dist'),
+    compress: true,
+    hot: false,
+    historyApiFallback: true,
+    liveReload: true,
+    open: true,
+    port: 5500,
+    watchContentBase: true,
+    watchOptions: {
+      poll: 1000,
+      ignored: /node_modules/,
+    },
+  },
 };
 
 export default config;
