@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_KEYS } from '../constants';
-import { getLocalStorage } from '../utils/localStorage';
+import { getLocalStorage, setLocalStorage, removeLocalStorage } from '../utils/localStorage';
 
 const accessToken = {
   value: '',
@@ -8,6 +8,11 @@ const accessToken = {
   },
   set(newAccessToken) {
     this.value = newAccessToken;
+    setLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, this.value);
+  },
+  clear() {
+    this.value = '';
+    removeLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
   },
   get() {
     return this.value;

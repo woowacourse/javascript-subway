@@ -1,5 +1,5 @@
 import { $, showElement, hideElement } from './utils/dom';
-import { ALERT_MESSAGE, LOCAL_STORAGE_KEYS } from './constants';
+import { ALERT_MESSAGE } from './constants';
 import { signup, login, checkLogin } from './services/auth';
 import loginTemplate from './templates/login';
 import signupTemplate from './templates/signup';
@@ -10,18 +10,17 @@ import mapPageTemplate from './templates/map';
 import linesPageTemplate from './templates/lines';
 import handleRoute from './eventHandlers/handleRoute';
 import { pushState } from './utils/history';
-import { getLocalStorage, setLocalStorage } from './utils/localStorage';
+import accessToken from './store/accessToken';
 
 // TODO: mount함수들 분리하기
 const $routeContainer = $('#route-container');
 
 const mountLogin = async () => {
   const isLogin = await checkLogin();
-
-  if (isLogin) pushState('/');
+  if (isLogin) return pushState('/');
 
   $routeContainer.innerHTML = loginTemplate;
-  hideElement('#nav');
+  hideElement($('#nav'));
 
   $('#signup-link').addEventListener('click', handleRoute);
 
@@ -30,22 +29,20 @@ const mountLogin = async () => {
 
     const { email, password } = event.target.elements;
 
-    // const response = await login({
-    //   email: email.value,
-    //   password: password.value,
-    // });
+    const response = await login({
+      email: email.value,
+      password: password.value,
+    });
 
-    // if (!response.success) {
-    //   alert('login fail');
-    //   return;
-    // }
+    if (!response.success) {
+      alert(ALERT_MESSAGE.LOGIN_FAILED);
+      return;
+    }
 
-    // const { accessToken } = response;
+    const newAccessToken = response.accessToken;
 
-    const accessToken = 'dummy';
-
-    setLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, accessToken);
-    showElement('#nav');
+    accessToken.set(newAccessToken);
+    showElement($('#nav'));
     pushState('/');
   });
 };
@@ -76,7 +73,7 @@ const mountSignup = () => {
       return;
     }
 
-    alert('회원가입 성공!');
+    alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
     pushState('/');
   });
@@ -102,12 +99,9 @@ const mountLines = () => {
   $routeContainer.innerHTML = linesPageTemplate;
 };
 
-let hi = false;
-
 const checkAuth = async route => {
-  const isLogin = hi; //await checkLogin();
+  const isLogin = await checkLogin();
 
-  hi = true;
   if (isLogin) {
     route();
   } else {
@@ -128,7 +122,6 @@ const routeHandler = {
 
 const initRouter = () => {
   window.addEventListener('popstate', event => {
-    console.log(event);
     routeHandler[event.state.path]();
   });
 
