@@ -11,10 +11,10 @@ const HEADER_TEMPLATE = `
   <a href="${ROUTES.LINES}" class="my-1">
     <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
   </a>
-  <a href=${ROUTES.SECTIONS} class="my-1">
+  <a href="${ROUTES.SECTIONS}" class="my-1">
     <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
   </a>
-  <a href=${ROUTES.LOGIN} class="my-1">
+  <a href="${ROUTES.LOGIN}" class="my-1">
     <button class="btn bg-white shadow mx-1">👤 로그인</button>
   </a>
 </nav>`;
