@@ -50,7 +50,7 @@ const signUpTemplate = () => {
         </div>
         <div class="input-control">
           <label for="password-confirm" class="input-label" hidden
-            >비밀번호 확인</label
+       >비밀번호 확인</label
           >
           <input
             type="password"
