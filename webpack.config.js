@@ -1,6 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -21,12 +22,22 @@ const config = {
         },
       },
       {
+        test: /\.css$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: 'css-loader',
+            options: { import: true },
+          },
+        ],
+      },
+      {
         test: /\.png$/,
         type: 'asset/resource',
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' }), new MiniCssExtractPlugin()],
   devtool: 'eval-cheap-module-source-map',
   target: 'web',
   devServer: {
