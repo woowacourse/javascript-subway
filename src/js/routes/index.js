@@ -1,3 +1,4 @@
+import { routeTo } from '../utils/history';
 import {
   mountLogin,
   mountSignup,
@@ -31,7 +32,9 @@ const initRouter = () => {
     routeHandler[detail.path]();
   });
 
-  routeHandler['/']();
+  const path = window.location.pathname;
+
+  routeTo(path);
 };
 
 export default initRouter;

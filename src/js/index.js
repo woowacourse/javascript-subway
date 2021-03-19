@@ -11,9 +11,9 @@ const initAppEvent = () => {
 };
 
 const init = () => {
+  initStore();
   initAppEvent();
   initRouter();
-  initStore();
 };
 
 init();

@@ -27,6 +27,8 @@ export const login = async ({ email, password }) => {
     const response = await httpClient.post('/login/token', { email, password });
     const data = await response.json();
 
+    if (!response.ok) throw new Error(data.message);
+
     return {
       success: true,
       accessToken: data.accessToken,
@@ -34,7 +36,7 @@ export const login = async ({ email, password }) => {
   } catch (error) {
     return {
       success: false,
-      message: error.message || ALERT_MESSAGE.SIGNUP_FAILED,
+      message: error.message || ALERT_MESSAGE.LOGIN_FAILED,
     };
   }
 };

@@ -6,19 +6,12 @@ module.exports = {
   entry: './src/js/index.js',
   output: {
     filename: '[chunkhash].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '/dist'),
+    // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
   devServer: {
     hot: true,
     port: 9000,
-    proxy: {
-      '/api': {
-        target: 'http://15.164.230.130:8080',
-        pathRewrite: { '^/api': '' },
-      },
-    },
-    //http://localhost:9000/api/members
-    //http://15.164.230.130:8080/members
   },
   module: {
     rules: [
