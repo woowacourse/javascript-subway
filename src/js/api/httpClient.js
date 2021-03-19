@@ -6,7 +6,7 @@ const fetchOption = (method, body, accessToken = '') => ({
   body: body ? JSON.stringify(body) : null,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
-    Authorization: accessToken ? `Bearer ${accessToken}` : '',
+    Authorization: accessToken ? `Bearer ${accessToken}` : null,
   },
 });
 

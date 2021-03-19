@@ -47,7 +47,6 @@ export const checkLogin = async () => {
 
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };

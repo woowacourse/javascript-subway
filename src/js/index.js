@@ -1,5 +1,5 @@
 import '../css/index.css';
-import initRouter from './routes.js';
+import initRouter from './routes/index.js';
 import { $ } from './utils/dom.js';
 import handleRoute from './eventHandlers/handleRoute';
 import initStore from './store';
