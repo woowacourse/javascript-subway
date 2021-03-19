@@ -1,4 +1,4 @@
-import { ROUTES } from '../constants/index.js';
+import { ROUTES } from '../../../constants/index.js';
 
 const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
 <div class="heading">

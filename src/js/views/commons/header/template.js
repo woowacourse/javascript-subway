@@ -1,4 +1,4 @@
-import { ROUTES } from '../constants/index.js';
+import { ROUTES } from '../../../constants/index.js';
 
 const HEADER_TEMPLATE = `
 <a href="${ROUTES.HOME}" class="text-black">
