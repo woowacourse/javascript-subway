@@ -1,4 +1,5 @@
 import '../css/index.css';
-import initRouter from './router.js';
+import Router from './Router';
 
-initRouter();
+const router = new Router();
+router.init();
