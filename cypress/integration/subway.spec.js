@@ -1,4 +1,4 @@
-import { isValidEmail, isValidPassword } from '../../src/js/subway/utils';
+import { isValidEmail, isValidName, isValidPassword } from '../../src/js/subway/utils';
 
 describe('Subway test', () => {
   beforeEach(() => {
