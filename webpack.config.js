@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -18,8 +19,13 @@ const config = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.png$/,
+        type: 'asset/resource',
+      },
     ],
   },
+  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
 };
 
 export default config;
