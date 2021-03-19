@@ -1,7 +1,7 @@
 import { $, getFormData } from '../../utils/dom.js';
 import { BASE_URL, ACTIONS } from '../../constants.js';
 import { request, getPostOption } from '../../utils/api.js';
-
+import { checkSignupValid } from './signupValidator.js';
 class SignUp {
   constructor(props) {
     this.props = props;
@@ -14,60 +14,44 @@ class SignUp {
   bindSubmitEvent() {
     const $signUpForm = $('form[name="signup"]');
 
-    $signUpForm.addEventListener('submit', async e => {
+    $signUpForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      const formData = getFormData(e.target.elements);
-
-      const message = checkValid(formData);
-
-      if (message) {
-        alert(message);
-        return;
-      }
-
-      const body = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      };
-
-      // TODO: 유틸화
-      const registerOption = getPostOption(JSON.stringify(body));
-
-      try {
-        await request(BASE_URL + ACTIONS.REGISTER, registerOption);
-        this.props.switchURL('/login');
-      } catch (error) {
-        alert(error.message);
-      }
+      this.handleSignup(e.target.elements);
     });
   }
-}
 
-const checkValid = ({
-  name,
-  password,
-  ['password-confirm']: passwordConfirm,
-}) => {
-  switch (true) {
-    case isEmpty(name):
-      return '이름은 공백이 될 수 없습니다!';
+  handleSignup(elements) {
+    const formData = getFormData(elements);
 
-    case isDifferent(password, passwordConfirm):
-      return '패스워드가 일치하지 않습니다!';
+    const errorMessage = checkSignupValid(formData);
+    if (errorMessage) {
+      alert(errorMessage);
+      return;
+    }
 
-    default:
-      return '';
+    this.requestSignup(formData);
   }
-};
 
-const isEmpty = value => {
-  return value.trim().length === 0;
-};
+  async requestSignup(data) {
+    try {
+      const requestBody = JSON.stringify({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+      const option = getPostOption(requestBody);
 
-const isDifferent = (value1, value2) => {
-  return value1 !== value2;
-};
+      await request(BASE_URL + ACTIONS.REGISTER, option);
+      this.props.switchURL('/login');
+    } catch (error) {
+      if (error.status === 400) {
+        alert('중복된 이메일로 가입할 수 없습니다!');
+        return;
+      }
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+    }
+  }
+}
 
 export default SignUp;

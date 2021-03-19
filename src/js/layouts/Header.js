@@ -18,7 +18,6 @@ class Header {
   }
 
   initDOM() {
-    console.log('Sdf');
     this.$target = document.querySelector('header');
     this.$target.innerHTML = headerTemplate(this.userToken);
   }
