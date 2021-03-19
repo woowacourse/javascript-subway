@@ -34,7 +34,6 @@ class Login extends Component {
         });
 
         const { accessToken } = await response.json();
-
         localStorage.setItem('accessToken', accessToken);
 
         history.pushState({ route: ROUTE.STATION }, null, ROUTE.STATION);
@@ -43,6 +42,8 @@ class Login extends Component {
         // 로그아웃 버튼 만들기
 
         $('a[herf="/login"]');
+
+        console.log(response.status);
       } catch (error) {
         console.error(error);
       }
