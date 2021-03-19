@@ -1,4 +1,6 @@
 import { $, getFormData } from '../../utils/dom.js';
+import { BASE_URL, ACTIONS } from '../../constants.js';
+import { request, getPostOption } from '../../utils/api.js';
 
 class SignUp {
   constructor(props) {
@@ -12,38 +14,33 @@ class SignUp {
   bindSubmitEvent() {
     const $signUpForm = $('form[name="signup"]');
 
-    $signUpForm.addEventListener('submit', e => {
+    $signUpForm.addEventListener('submit', async e => {
       e.preventDefault();
 
       const formData = getFormData(e.target.elements);
 
       const message = checkValid(formData);
+
       if (message) {
         alert(message);
         return;
       }
 
+      const body = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      };
+
       // TODO: 유틸화
-      fetch('url', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // body: ({ name, email, password } = ,
-      })
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-          console.log(res.status);
-          return Promise.reject(Error(res.status));
-        })
-        .catch(error => {
-          alert('회원가입에 실패했습니다..! ' + error.message);
-        })
-        .then(res => {
-          this.props.switchURL('/login');
-        });
+      const registerOption = getPostOption(JSON.stringify(body));
+
+      try {
+        await request(BASE_URL + ACTIONS.REGISTER, registerOption);
+        this.props.switchURL('/login');
+      } catch (error) {
+        alert(error.message);
+      }
     });
   }
 }
