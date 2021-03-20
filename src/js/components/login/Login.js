@@ -2,6 +2,7 @@ import { $, getFormData } from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
 import { BASE_URL, ACTIONS } from '../../constants.js';
 import { checkLoginValid } from './loginValidator.js';
+import { setItemToSessionStorage } from '../../utils/storage.js';
 
 class Login {
   constructor(props) {
@@ -58,8 +59,8 @@ class Login {
         password: data.password,
       });
       const option = getPostOption(requestBody);
-      await request(BASE_URL + ACTIONS.LOGIN, option);
-      // TODO : userToken 저장하기
+      const { accessToken } = await request(BASE_URL + ACTIONS.LOGIN, option);
+      setItemToSessionStorage('userToken', accessToken);
       this.props.switchURL('/');
     } catch (error) {
       const errorMessage = {
