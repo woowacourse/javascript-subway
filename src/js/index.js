@@ -6,6 +6,7 @@ import { getCookie } from './utils/cookie.js';
 import { userInfoRequest } from '../js/request.js';
 import LoginForm from './components/LoginForm.js';
 import SignupForm from './components/SignupForm.js';
+import StationManager from './components/StationManager.js';
 
 export default class App {
   constructor() {
@@ -14,18 +15,20 @@ export default class App {
     this.navigationBar = new NavigationBar(this.store);
     this.loginForm = new LoginForm(this.store);
     this.signupForm = new SignupForm(this.store);
+    this.stationManager = new StationManager(this.store);
 
     this.components = {
       '/login': this.loginForm,
       '/signup': this.signupForm,
+      '/stations': this.stationManager,
     };
   }
 
   async execute() {
     const path = location.pathname;
 
-    this.initComponentByPath();
     this.navigationBar.init();
+    this.initComponentByPath();
 
     await this.checkIsLoggedIn();
     await render(path, this.store.userSession.isLoggedIn);

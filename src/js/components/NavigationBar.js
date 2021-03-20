@@ -1,20 +1,35 @@
 import { $ } from '../utils/dom.js';
 import { render } from '../../js/router.js';
 import { SELECTOR } from '../constants/constants.js';
+import { removeCookie } from '../utils/cookie.js';
 
-// TODO: isLogged 의 상태에 따라서 로그인/로그아웃 버튼 텍스트 변경
 export default class NavigationBar {
   constructor(store) {
     this.store = store;
   }
 
   init() {
+    this.store.subscribe(this);
+
     this.selectDOM();
+    this.setLogButton();
     this.bindEvents();
   }
 
   selectDOM() {
     this.navigation = $(SELECTOR.NAVIGATION);
+    this.logButton = $(SELECTOR.NAV_LOG_BUTTON);
+  }
+
+  update() {
+    this.setLogButton();
+  }
+
+  setLogButton() {
+    const isLoggedIn = this.store.userSession.isLoggedIn;
+
+    this.logButton.textContent = isLoggedIn ? '🔌 로그아웃' : '👤 로그인';
+    this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
   }
 
   bindEvents() {
@@ -24,7 +39,11 @@ export default class NavigationBar {
       e.preventDefault();
       const path = e.target.closest('a').getAttribute('href');
 
-      // TODO: logout 버튼과 기능 만들기
+      if (e.target.dataset.action === 'logout') {
+        this.store.updateLoggedIn(false);
+        removeCookie('token');
+      }
+
       await render(path, this.store.userSession.isLoggedIn);
     });
   }

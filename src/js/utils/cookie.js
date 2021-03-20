@@ -15,3 +15,9 @@ export const getCookie = (key) => {
 
   return cookieValue;
 };
+
+export const removeCookie = (key) => {
+  if (getCookie(key)) {
+    document.cookie = `${key}=; expires=`;
+  }
+};

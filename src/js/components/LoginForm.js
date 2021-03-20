@@ -60,8 +60,7 @@ export default class LoginForm {
         expireDays: SESSION_EXPIRE_DAYS,
       });
 
-      // TODO: 로그인 -> 로그아웃 으로 텍스트 변경
-      this.store.updateLoggedIn({ isLoggedIn: true });
+      this.store.updateLoggedIn(true);
       await render(path, this.store.userSession.isLoggedIn);
     } catch (error) {
       console.error(error);

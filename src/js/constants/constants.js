@@ -4,6 +4,7 @@ export const SESSION_EXPIRE_DAYS = 1;
 
 export const SELECTOR = {
   NAVIGATION: '#navigation',
+  NAV_LOG_BUTTON: '#login-nav-button',
   CONTENT: '#content',
 };
 
