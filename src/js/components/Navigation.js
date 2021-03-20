@@ -1,5 +1,8 @@
-import { NAV_ITEMS } from "../constants/templateData.js";
 import { $, hideElement, showElement } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
+
+import { NAV_ITEMS } from "../constants/templateData.js";
+import { SUCCESS_MESSAGE } from "../constants/messages.js";
 
 const createNavListItem = (item) => {
   return `
@@ -40,6 +43,7 @@ export default class Navigation {
 
   onLogout() {
     this.setIsLoggedIn(false);
+    snackbar.show(SUCCESS_MESSAGE.LOGOUT_SUCCESS);
   }
 
   attachEvents() {
