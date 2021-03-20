@@ -71,4 +71,21 @@ describe('지하철 노선도 로그인 및 회원가입 테스트', () => {
 
     cy.get('#login-nav-button').should('have.text', '🔌 로그아웃');
   });
+
+  it('로그아웃 버튼을 누를 시 로그인 페이지로 돌아간다.', () => {
+    cy.intercept('POST', `${requestURL}/login/token`).as('login');
+
+    cy.get('#login-nav-button').click();
+
+    cy.get('#email').type('zig10@email.com');
+    cy.get('#password').type('123');
+
+    cy.get('#login-submit').click();
+    cy.wait('@login');
+
+    cy.get('#login-nav-button').click();
+    cy.get('#login-nav-button').should('have.text', '👤 로그인');
+
+    cy.location('pathname').should('eq', '/login');
+  });
 });
