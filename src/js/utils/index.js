@@ -1,4 +1,4 @@
-import { $, $$ } from './DOM.js';
+import { $, $$, generateInputValidator } from './DOM.js';
 import mock from './mock.js';
 
 const hasPropertyValue = (obj, value) => {
@@ -13,4 +13,4 @@ const hasPropertyValue = (obj, value) => {
   return Object.values(obj).includes(value);
 };
 
-export { $, $$, hasPropertyValue, mock };
+export { $, $$, generateInputValidator, hasPropertyValue, mock };
