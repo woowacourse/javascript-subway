@@ -32,21 +32,26 @@ export default class LoginForm {
       password: target.password.value,
     };
 
-    const response = await loginAPI(loginData);
+    try {
+      const response = await loginAPI(loginData);
 
-    if (!response.ok) {
-      $(".js-login-error", currentTarget).classList.remove("d-none");
-      currentTarget.reset();
+      if (!response.ok) {
+        $(".js-login-error", currentTarget).classList.remove("d-none");
+        currentTarget.reset();
 
-      return;
+        return;
+      }
+
+      $(".js-login-error", currentTarget).classList.add("d-none");
+
+      const { accessToken } = await response.json();
+      setSessionStorageItem(TOKEN, accessToken);
+
+      this.setIsLoggedIn(true);
+    } catch (e) {
+      console.error(e);
+      window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
     }
-
-    $(".js-login-error", currentTarget).classList.add("d-none");
-
-    const { accessToken } = await response.json();
-    setSessionStorageItem(TOKEN, accessToken);
-
-    this.setIsLoggedIn(true);
   }
 
   onClickSignupLink(event) {
@@ -90,7 +95,7 @@ export default class LoginForm {
               required
             />
           </div>
-          <p class="js-login-error text-red text-center d-none">
+          <p class="js-login-error text-red d-none">
             ${ERROR_MESSAGE.LOGIN_FAILURE}
           </p>
           <div class="input-control w-100">

@@ -20,7 +20,7 @@ export const signupAPI = async ({ email, password, name }) => {
     }),
   });
 
-  return response.ok;
+  return response;
 };
 
 export const loginAPI = async ({ email, password }) => {

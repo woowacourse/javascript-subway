@@ -50,16 +50,21 @@ export default class SignupForm {
       password: target.password.value,
     };
 
-    const isSucceeded = await signupAPI(memberData);
+    try {
+      const response = await signupAPI(memberData);
 
-    if (!isSucceeded) {
-      window.alert(ERROR_MESSAGE.SIGNUP_FAILURE);
-      target.reset();
+      if (!response.ok) {
+        window.alert(ERROR_MESSAGE.SIGNUP_FAILURE);
+        target.reset();
 
-      return;
+        return;
+      }
+
+      this.pageRouter.movePage(PAGE_URLS.LOGIN);
+    } catch (e) {
+      console.error(e);
+      window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
     }
-
-    this.pageRouter.movePage(PAGE_URLS.LOGIN);
   }
 
   onClickLoginLink(event) {
