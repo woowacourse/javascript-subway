@@ -13,3 +13,7 @@ export const getLocalStorageItem = key => {
     console.error(err);
   }
 };
+
+export const removeLocalStorageItem = key => {
+  localStorage.removeItem(key);
+};
