@@ -18,6 +18,7 @@ export default class NavigationBar {
 
   selectDOM() {
     this.navigation = $(SELECTOR.NAVIGATION);
+    this.navButtons = $(SELECTOR.NAV_BUTTON);
     this.logButton = $(SELECTOR.NAV_LOG_BUTTON);
   }
 
@@ -30,6 +31,7 @@ export default class NavigationBar {
 
     this.logButton.textContent = isLoggedIn ? '🔌 로그아웃' : '👤 로그인';
     this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
+    this.logButton.classList.remove('selected');
   }
 
   bindEvents() {
@@ -45,6 +47,18 @@ export default class NavigationBar {
       }
 
       await render(path, this.store.userSession.isLoggedIn);
+
+      this.selectButton(e.target.id);
+    });
+  }
+
+  selectButton(id) {
+    this.navButtons.forEach((button) => {
+      if (button.id === id) {
+        button.classList.add('selected');
+      } else {
+        button.classList.remove('selected');
+      }
     });
   }
 }
