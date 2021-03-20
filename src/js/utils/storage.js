@@ -1,14 +1,14 @@
-export const setItemToSessionStorage = (key, value) => {
+export const setLocalStorageItem = (key, value) => {
   try {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {
     console.error(err);
   }
 };
 
-export const getItemToSessionStorage = key => {
+export const getLocalStorageItem = key => {
   try {
-    return JSON.parse(sessionStorage.getItem(key));
+    return JSON.parse(localStorage.getItem(key));
   } catch (err) {
     console.error(err);
   }
