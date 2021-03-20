@@ -2,6 +2,7 @@ import { signupAPI } from "../APIs/subwayAPI.js";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
 import { $ } from "../utils/DOM.js";
+import { PASSWORD_MIN_LENGTH } from "../constants/general.js";
 
 export default class SignupForm {
   constructor({ $parent, pageRouter }) {
@@ -109,23 +110,20 @@ export default class SignupForm {
             />
           </div>
           <div class="input-control">
-            <label for="password" class="input-label" hidden
-              >비밀번호</label
-            >
+            <label for="password" class="input-label" hidden>비밀번호</label>
             <input
               type="password"
               id="password"
               name="password"
               class="input-field"
-              placeholder="비밀번호"
+              placeholder="비밀번호(최소 ${PASSWORD_MIN_LENGTH}자리)"
+              minlength="${PASSWORD_MIN_LENGTH}"
               maxlength="20"
               required
             />
           </div>
           <div class="input-control">
-            <label for="password-confirm" class="input-label" hidden
-              >비밀번호 확인</label
-            >
+            <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
             <input
               type="password"
               id="password-confirm"
@@ -135,8 +133,8 @@ export default class SignupForm {
               required
             />
           </div>
-          <p class="js-pw-confirm-message h-2rem"></p>
-          <div class="input-control mt-3">
+          <p class="js-pw-confirm-message h-2rem text-sm"></p>
+          <div class="input-control mt-8">
             <button
               type="submit"
               name="submit"
