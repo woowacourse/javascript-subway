@@ -1,6 +1,6 @@
 import { $ } from '../utils/dom.js';
 import { render } from '../../js/router.js';
-import { SELECTOR } from '../constants/constants.js';
+import { SELECTOR, BUTTON_NAME } from '../constants/constants.js';
 import { removeCookie } from '../utils/cookie.js';
 
 export default class NavigationBar {
@@ -34,7 +34,9 @@ export default class NavigationBar {
   setLogButton() {
     const isLoggedIn = this.store.userSession.isLoggedIn;
 
-    this.logButton.textContent = isLoggedIn ? '🔌 로그아웃' : '👤 로그인';
+    this.logButton.textContent = isLoggedIn
+      ? BUTTON_NAME.LOGOUT
+      : BUTTON_NAME.LOGIN;
     this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
 
     if (isLoggedIn) {

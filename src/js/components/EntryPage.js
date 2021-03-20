@@ -1,4 +1,6 @@
 import { $ } from '../utils/dom.js';
+import { MESSAGES, SELECTOR } from '../constants/constants.js';
+
 export default class EntryPage {
   constructor(store) {
     this.store = store;
@@ -11,17 +13,16 @@ export default class EntryPage {
   }
 
   selectDOM() {
-    this.$description = $('#app-description');
+    this.$description = $(SELECTOR.ENTRY_DESCRIPTION);
   }
 
   bindEvents() {}
 
   renderPage() {
     if (this.store.userSession.isLoggedIn) {
-      this.$description.textContent = '상단 탭을 클릭해주세요. 🦕';
+      this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_IN;
     } else {
-      this.$description.textContent =
-        '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.';
+      this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_OUT;
     }
   }
 }

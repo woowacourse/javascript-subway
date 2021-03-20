@@ -2,7 +2,7 @@ import { $, show } from '../utils/dom.js';
 import { setCookie } from '../utils/cookie.js';
 import { render } from '../../js/router.js';
 import { loginRequest } from '../request.js';
-import { SESSION_EXPIRE_DAYS } from '../constants/constants.js';
+import { SELECTOR, SESSION_EXPIRE_DAYS } from '../constants/constants.js';
 
 export default class LoginForm {
   constructor(store) {
@@ -19,9 +19,9 @@ export default class LoginForm {
   }
 
   selectDOM() {
-    this.$inputForm = $('#login-form');
-    this.$loginErrorWarning = $('#login-error-warning');
-    this.$signupLink = $('#signup');
+    this.$inputForm = $(SELECTOR.LOGIN_INPUT_FORM);
+    this.$loginErrorWarning = $(SELECTOR.LOGIN_ERROR_WARNING);
+    this.$signupLink = $(SELECTOR.SIGNUP_LINK);
   }
 
   bindEvents() {
@@ -52,7 +52,7 @@ export default class LoginForm {
     try {
       const response = await loginRequest(this.state);
       const userToken = response.accessToken;
-      const path = '/stations';
+      const path = '/';
 
       setCookie({
         key: 'token',

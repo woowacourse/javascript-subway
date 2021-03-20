@@ -10,6 +10,7 @@ import LineManager from './components/LineManager.js';
 import SectionManager from './components/SectionManager.js';
 import LoginForm from './components/LoginForm.js';
 import SignupForm from './components/SignupForm.js';
+
 export default class App {
   constructor() {
     this.store = new Store();

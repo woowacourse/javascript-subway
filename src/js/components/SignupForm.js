@@ -28,14 +28,14 @@ export default class SignupForm {
   }
 
   selectDOM() {
-    this.$inputForm = $('#signup-form');
+    this.$inputForm = $(SELECTOR.SIGNUP_FORM);
     this.$emailDuplicateCheckButton = $(SELECTOR.EMAIL_DUPLICATE_CHECK_BUTTON);
-    this.$emailDuplicatedWarning = $('#email-input-error');
-    this.$emailAvailable = $('#email-input-correct');
-    this.$password = $('#password');
-    this.$passwordConfirm = $('#password-confirm');
-    this.$passwordConfirmWarning = $('#password-confirm-error');
-    this.$passwordConfirmCorrect = $('#password-confirm-correct');
+    this.$emailDuplicatedWarning = $(SELECTOR.EMAIL_INPUT_ERROR);
+    this.$emailAvailable = $(SELECTOR.EMAIL_INPUT_CORRECT);
+    this.$password = $(SELECTOR.PASSWORD);
+    this.$passwordConfirm = $(SELECTOR.PASSWORD_CONFIRM);
+    this.$passwordConfirmWarning = $(SELECTOR.PASSWORD_CONFIRM_ERROR);
+    this.$passwordConfirmCorrect = $(SELECTOR.PASSWORD_CONFIRM_CORRECT);
   }
 
   bindEvents() {
@@ -68,7 +68,7 @@ export default class SignupForm {
     this.submitForm();
   }
 
-  async checkEmailAvailable(event) {
+  async checkEmailAvailable() {
     const email = $(SELECTOR.SIGNUP_EMAIL_INPUT).value;
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
