@@ -1,1 +1,1 @@
-export { $, parseToElements } from './dom.js';
+export { $, parseToElements } from './dom';

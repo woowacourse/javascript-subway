@@ -19,5 +19,4 @@ export const findInValidInput = $$input => {
   if ($$input.$password.value !== $$input.$passwordConfirm.value) {
     return $$input.$passwordConfirm;
   }
-  return '';
 };

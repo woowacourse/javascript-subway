@@ -13,8 +13,8 @@ export class Subway {
   }
 
   setup() {
-    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
     stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderRoot.bind(this));
+    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
     stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 

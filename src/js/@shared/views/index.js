@@ -1,1 +1,1 @@
-export { linkButton } from './templates/linkButton.js';
+export { linkButton } from './templates/linkButton';

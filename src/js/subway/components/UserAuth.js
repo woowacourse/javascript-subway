@@ -29,7 +29,6 @@ export class UserAuth {
     try {
       const { accessToken } = await this.signIn();
 
-      console.log(SHA256(this.$$input.$password.value));
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
       history.pushState({ path: ROUTE.ROOT }, null, ROUTE.ROOT);

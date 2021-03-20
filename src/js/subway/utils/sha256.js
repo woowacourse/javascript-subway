@@ -4,7 +4,7 @@
  *  http://www.webtoolkit.info/
  *
  *  Original code by Angel Marin, Paul Johnston.
- *  유저의 패스워드 암호화 해주는 라이브러리.
+ *  유저의 패스워드를 암호화 해주는 라이브러리.
  */
 
 export function SHA256(s) {

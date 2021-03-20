@@ -1,17 +1,16 @@
-import { stateManager } from '../../@shared/models/StateManager.js';
-import { root } from './templates/root.js';
-import { signIn } from './templates/signIn.js';
-import { signUp } from './templates/signUp.js';
-import { stationManage } from './templates/stationManage.js';
-import { lineManage } from './templates/lineManage.js';
-import { sectionManage } from './templates/sectionManage.js';
-import { STATE_KEY, ROUTE } from '../constants/constants.js';
-import { parseToElements } from '../../@shared/utils/dom.js';
+import { root } from './templates/root';
+import { signIn } from './templates/signIn';
+import { signUp } from './templates/signUp';
+import { stationManage } from './templates/stationManage';
+import { lineManage } from './templates/lineManage';
+import { sectionManage } from './templates/sectionManage';
+import { STATE_KEY, ROUTE } from '../constants/constants';
+import { parseToElements } from '../../@shared/utils/dom';
 import { $ } from '../../@shared/utils';
 
-export { menuButtons } from './templates/menuButtons.js';
-export { lineAddModal } from './templates/lineAddModal.js';
-export { sectionAddModal } from './templates/sectionAddModal.js';
+export { menuButtons } from './templates/menuButtons';
+export { lineAddModal } from './templates/lineAddModal';
+export { sectionAddModal } from './templates/sectionAddModal';
 // export {} from './templates/mapDisplay.js';
 // export {} from './templates/pathFind.js';
 

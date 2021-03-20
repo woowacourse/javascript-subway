@@ -14,6 +14,7 @@ export class UserJoin {
 
   selectDOM() {
     this.$signUpForm = $('#signup-form', this.$target);
+    this.$emailOverlapCheckButton = $('#email-overlap-check-button', this.$target);
     this.$$input = {
       $email: $('#signup-email', this.$target),
       $password: $('#signup-password', this.$target),
@@ -26,16 +27,15 @@ export class UserJoin {
       $passwordConfirm: $('#password-confirm-message-box', this.$target),
       $name: $('#name-message-box', this.$target),
     };
-    this.$emailOverlapCheckButton = $('#email-overlap-check-button', this.$target);
   }
 
   bindEvent() {
     this.$signUpForm.addEventListener('submit', this.handleSubmit.bind(this));
+    this.$emailOverlapCheckButton.addEventListener('click', this.checkOverlappedEmail.bind(this));
     this.$$input.$email.addEventListener('input', this.handleEmailInput.bind(this));
     this.$$input.$name.addEventListener('input', this.handleNameInput.bind(this));
     this.$$input.$password.addEventListener('input', this.handlePasswordInput.bind(this));
     this.$$input.$passwordConfirm.addEventListener('input', this.handlePasswordConfirmInput.bind(this));
-    this.$emailOverlapCheckButton.addEventListener('click', this.checkOverlappedEmail.bind(this));
   }
 
   async handleSubmit(event) {
@@ -45,6 +45,7 @@ export class UserJoin {
 
       return;
     }
+
     const $input = findInValidInput(this.$$input);
 
     if ($input) {
@@ -89,12 +90,14 @@ export class UserJoin {
 
   handleEmailInput({ target: { value } }) {
     this.isUniqueEmail = false;
+
     if (!isValidEmail(value)) {
       this.$$message.$email.classList.remove('hidden');
       this.$emailOverlapCheckButton.disabled = true;
 
       return;
     }
+
     this.$$message.$email.classList.add('hidden');
     this.$emailOverlapCheckButton.disabled = false;
   }
@@ -124,11 +127,13 @@ export class UserJoin {
     const url = `${BASE_URL}/members/check-validation?email=${encodeURIComponent(email)}`;
     const response = await fetch(url);
 
-    if (response.ok) {
-      this.isUniqueEmail = true;
-      alert(MESSAGE.SIGNUP.UNIQUE_EMAIL);
-    } else {
+    if (!response.ok) {
       alert(MESSAGE.SIGNUP.OVERLAPPED_EMAIL);
+
+      return;
     }
+
+    this.isUniqueEmail = true;
+    alert(MESSAGE.SIGNUP.UNIQUE_EMAIL);
   }
 }
