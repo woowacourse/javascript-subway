@@ -1,7 +1,7 @@
 import { contentElements } from '../views';
 import { $ } from '../../@shared/utils';
 import { BASE_URL, MESSAGE, ROUTE, STATE_KEY } from '../constants/constants';
-import { isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils/validate';
+import { isValidEmail, isValidName, isValidPassword, findInValidInput, SHA256 } from '../utils';
 import { stateManager } from '../../@shared/models/StateManager';
 
 export class UserJoin {
@@ -71,7 +71,7 @@ export class UserJoin {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: this.$$input.$email.value,
-        password: this.$$input.$password.value,
+        password: SHA256(this.$$input.$password.value),
         name: this.$$input.$name.value,
       }),
     });

@@ -2,6 +2,7 @@ import { STATE_KEY, ROUTE, MESSAGE, BASE_URL } from '../constants/constants';
 import { contentElements } from '../views';
 import { $ } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
+import { SHA256 } from '../utils';
 
 export class UserAuth {
   constructor() {
@@ -28,6 +29,7 @@ export class UserAuth {
     try {
       const { accessToken } = await this.signIn();
 
+      console.log(SHA256(this.$$input.$password.value));
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
       history.pushState({ path: ROUTE.ROOT }, null, ROUTE.ROOT);
@@ -47,7 +49,7 @@ export class UserAuth {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: this.$$input.$email.value,
-        password: this.$$input.$password.value,
+        password: SHA256(this.$$input.$password.value),
       }),
     });
 
