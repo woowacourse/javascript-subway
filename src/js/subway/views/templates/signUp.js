@@ -7,54 +7,70 @@ export const signUp = `
     </div>
     <form id="signup-form" name="signup" class="form">
       <div class="input-control flex-col">
-        <label for="email" class="input-label" hidden>이메일</label>
-        <input
-          type="email"
-          id="signup-email"
-          name="email"
-          class="input-field"
-          placeholder="이메일"
-          required
-        />
-        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
+        <div class="d-flex w-100 items-center">
+          <label for="email" class="input-label" hidden>이메일</label>
+          <input
+            type="email"
+            id="signup-email"
+            name="email"
+            class="input-field"
+            placeholder="이메일"
+            required
+          />
+          <button
+            type="button"
+            id="email-overlap-check-button"
+            class="btn bg-white shadow mx-1 p-0"
+            disabled
+            >
+            중복 확인
+            </button>
+        </div>
+        <div id="email-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
       </div>
       <div class="input-control flex-col">
-        <label for="password" class="input-label" hidden
-          >비밀번호</label
-        >
-        <input
-          type="password"
-          id="signup-password"
-          name="password"
-          class="input-field"
-          placeholder="비밀번호"
-        />
-        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
+        <div class="d-flex w-100">
+          <label for="password" class="input-label" hidden
+            >비밀번호</label
+          >
+          <input
+            type="password"
+            id="signup-password"
+            name="password"
+            class="input-field"
+            placeholder="비밀번호"
+          />
+        </div>
+        <div id="password-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
       </div>
       <div class="input-control flex-col">
-        <label for="password-confirm" class="input-label" hidden
-          >비밀번호 확인</label
-        >
-        <input
-          type="password"
-          id="signup-password-confirm"
-          name="password-confirm"
-          class="input-field"
-          placeholder="비밀번호 확인"
-        />
-        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
+        <div class="d-flex w-100">
+          <label for="password-confirm" class="input-label" hidden
+            >비밀번호 확인</label
+          >
+          <input
+            type="password"
+            id="signup-password-confirm"
+            name="password-confirm"
+            class="input-field"
+            placeholder="비밀번호 확인"
+          />
+        </div>
+        <div id="password-confirm-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
       <div class="input-control flex-col">
-      <label for="name" class="input-label" hidden>이메일</label>
-      <input
-        type="text"
-        id="signup-name"
-        name="name"
-        class="input-field"
-        placeholder="이름"
-        required
-      />
-      <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
+        <div class="d-flex w-100">
+          <label for="name" class="input-label" hidden>이메일</label>
+          <input
+            type="text"
+            id="signup-name"
+            name="name"
+            class="input-field"
+            placeholder="이름"
+            required
+          />
+        </div>
+        <div id="name-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
     </div>
       <div class="input-control">
         <button

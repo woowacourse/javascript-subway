@@ -35,6 +35,9 @@ export const MESSAGE = {
     INVALID_PASSWORD: '유효하지 않은 패스워드입니다.',
     INVALID_PASSWORD_CONFIRM: '패스워드가 일치하지 않습니다.',
     FAIL: '회원가입 실패',
+    OVERLAP_CHECK_REQUIRED: '중복 여부를 확인해 주세요.',
+    UNIQUE_EMAIL: '사용 가능한 이메일입니다.',
+    OVERLAPPED_EMAIL: '중복된 이메일입니다.',
   },
   SIGNIN: {
     REQUIRED: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
