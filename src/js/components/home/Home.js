@@ -9,6 +9,7 @@ class Home {
     this.isLoggedIn = isLoggedIn;
   }
 
+  // TODO : getInfo 변수명 개선..
   getInfo() {
     return {
       title: '🚇 지하철 APP',

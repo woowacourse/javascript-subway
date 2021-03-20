@@ -24,7 +24,7 @@ const userMenu = `
 <a href="/search" class="menu__link my-1">
 <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
 </a>
-<a href="/login" class="menu__link my-1">
+<a href="/logout" class="menu__link my-1">
 <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
 </a>`;
 
