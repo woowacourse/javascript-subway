@@ -8,7 +8,7 @@ export const generateInputValidator = (getValidityMessage) => {
   }
 
   return ({ target: $input }) => {
-    if ($input === null || typeof $input !== 'object' || $input instanceof HTMLInputElement) {
+    if ($input === null || typeof $input !== 'object' || !($input instanceof HTMLInputElement)) {
       throw new TypeError('validate*의 첫번째 인자는 HTMLInputElement이어야 합니다.');
     }
 
