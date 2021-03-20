@@ -3,19 +3,32 @@ import { request, getPostOption } from '../../utils/api.js';
 import { BASE_URL, ACTIONS } from '../../constants.js';
 import { checkLoginValid } from './loginValidator.js';
 import { setLocalStorageItem } from '../../utils/storage.js';
+import { loginTemplate } from './loginTemplate.js';
 
 class Login {
   constructor(props) {
     this.props = props;
   }
 
-  init() {
+  init() {}
+
+  getInfo() {
+    return {
+      title: '🚇 로그인',
+      contents: {
+        main: loginTemplate(),
+      },
+    };
+  }
+
+  initDOM() {
     this.selectDOM();
     this.bindEvent();
   }
 
   selectDOM() {
     this.$loginForm = $('form[name="login"]');
+    console.log(this.$loginForm);
   }
 
   bindEvent() {

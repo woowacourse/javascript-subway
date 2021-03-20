@@ -1,13 +1,4 @@
-export const getSignUpInfo = (data = {}) => {
-  return {
-    title: '📝 회원가입',
-    contents: {
-      main: signUpTemplate(data),
-    },
-  };
-};
-
-const signUpTemplate = () => {
+export const signUpTemplate = () => {
   return `
       <div class="wrapper p-10 bg-white">
       <div class="heading">

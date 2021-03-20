@@ -1,34 +1,13 @@
 import { render } from './renderer.js';
 
-import { getLinesInfo } from './components/lines/linesTemplate.js';
-import { getLoginInfo } from './components/login/loginTemplate.js';
-import { getStationsInfo } from './components/stations/stationsTemplate.js';
-import { getSectionsInfo } from './components/sections/sectionsTemplate.js';
-import { getSignUpInfo } from './components/signup/signupTemplate.js';
-
-import { getHomeInfo } from './components/home/HomeTemplate.js';
-
 class Router {
   constructor() {
-    this.router = {
-      '': getHomeInfo(),
-      stations: getStationsInfo(),
-      sections: getSectionsInfo(),
-      lines: getLinesInfo(),
-      login: getLoginInfo(),
-      signup: getSignUpInfo(),
-    };
-  }
-
-  init() {
     this._handlePopState();
   }
 
-  renderPage(href) {
-    const key = href.replace('/', '');
-    const { title = '', contents } = this.router[key];
+  renderPage(href, info) {
+    const { title = '', contents } = info;
     history.pushState({ contents }, title, href);
-
     render();
   }
 

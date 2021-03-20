@@ -1,20 +1,25 @@
-import { $ } from '../../utils/dom';
+import { homeTemplate } from './homeTemplate.js';
 
 class Home {
   constructor() {
-    this.loggedIn = false;
+    this.isLoggedIn = false;
   }
 
-  init(loggedIn) {
-    this.loggedIn = loggedIn;
-    this.initDOM();
+  init({ isLoggedIn }) {
+    this.isLoggedIn = isLoggedIn;
+  }
+
+  getInfo() {
+    return {
+      title: '🚇 지하철 APP',
+      contents: {
+        main: homeTemplate(this.isLoggedIn),
+      },
+    };
   }
 
   initDOM() {
-    this.$target = $('.container .heading');
-    this.$target.innerHTML = this.loggedIn
-      ? '메뉴를 선택해주세요'
-      : '로그인을 해주세요';
+    // setlectDOM, bindEVENT
   }
 }
 
