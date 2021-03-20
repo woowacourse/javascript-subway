@@ -10,7 +10,10 @@ import searchPageTemplate from '../templates/search';
 import sectionsPageTemplate from '../templates/sections';
 import signupTemplate from '../templates/signup';
 import stationsPageTemplate from '../templates/stations';
-import handleSignup from '../eventHandlers/handleSignup.js';
+import handleSignup from '../eventHandlers/handleSignup';
+import handleCheckEmail from '../eventHandlers/handleCheckEmail';
+import handleValidateSignupForm from '../eventHandlers/handleValidateSignupForm';
+import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
 
 const $routeContainer = $('#route-container');
 
@@ -22,6 +25,7 @@ export const mountLogin = async () => {
 
   $('#signup-link').addEventListener('click', handleRoute);
   $('#login-form').addEventListener('submit', handleLogin);
+  $('#login-form').addEventListener('input', handleValidateLoginForm);
 };
 
 export const mountSignup = async () => {
@@ -37,6 +41,8 @@ export const mountSignup = async () => {
 
   $('#email').focus();
 
+  $('#email').addEventListener('input', handleCheckEmail);
+  $('#signup-form').addEventListener('input', handleValidateSignupForm);
   $('#signup-form').addEventListener('submit', handleSignup);
 };
 

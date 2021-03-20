@@ -44,9 +44,19 @@ export const requestCheckLogin = async () => {
   try {
     const response = await httpClient.get('/members/me');
 
-    if (!response.ok) return false;
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};
 
-    return true;
+export const requestCheckEmail = async email => {
+  if (!email) return false;
+
+  try {
+    const response = await httpClient.get(`/members/check-validation?email=${email}`);
+
+    return response.ok;
   } catch (error) {
     return false;
   }

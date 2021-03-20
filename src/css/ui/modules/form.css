@@ -3,6 +3,7 @@ form .input-control {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
+  position: relative;
 }
 
 form .input-field {

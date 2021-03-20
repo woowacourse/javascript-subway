@@ -36,6 +36,7 @@ const loginTemplate = `
                 name="submit"
                 id="submit-button"
                 class="input-submit w-100 bg-cyan-300"
+                disabled
               >
                 확인
               </button>

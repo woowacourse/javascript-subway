@@ -7,12 +7,7 @@ import { login } from './handleLogin';
 const handleSignup = async event => {
   event.preventDefault();
 
-  const { email, password, 'password-confirm': passwordConfirm, name } = event.target.elements;
-
-  if (password.value !== passwordConfirm.value) {
-    alert(ALERT_MESSAGE.INVALID_PASSWORD_CONFIRM);
-    return;
-  }
+  const { email, password, name } = event.target.elements;
 
   const user = {
     email: email.value,
@@ -29,7 +24,7 @@ const handleSignup = async event => {
 
   alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
-  await login(email.value, password.value);
+  await login(email.value, password.value, { keepLogin: false });
   showElement($('#nav'));
   routeTo('/');
 };
