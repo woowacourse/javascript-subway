@@ -6,7 +6,6 @@ import { getStationsInfo } from './components/stations/stationsTemplate.js';
 import { getSectionsInfo } from './components/sections/sectionsTemplate.js';
 import { getSignUpInfo } from './components/signup/signupTemplate.js';
 
-import { headerTemplate } from './layouts/headerTemplate.js';
 import { getHomeInfo } from './components/home/HomeTemplate.js';
 
 class Router {
