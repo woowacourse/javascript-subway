@@ -5,7 +5,6 @@ import Login from './components/login/Login.js';
 import SignUp from './components/signup/Signup.js';
 import Header from './components/header/Header.js';
 
-import { render } from './renderer.js';
 import { getLocalStorageItem } from './utils/storage.js';
 import { request } from './utils/api.js';
 import { ACTIONS, BASE_URL, REQUEST_HEADER_HOST } from './constants.js';
@@ -18,6 +17,7 @@ class App {
   init() {
     this.initRouter();
     this.mountComponent();
+    this.registerRouterComponent();
     this.switchURL('/');
   }
 
@@ -42,12 +42,6 @@ class App {
 
   initRouter() {
     this.router = new Router();
-    this.router.init();
-    this.route = {
-      '/': () => this.home.init(this.isLoggedIn),
-      '/login': () => this.login.init(),
-      '/signup': () => this.signup.init(),
-    };
   }
 
   mountComponent() {
@@ -59,11 +53,23 @@ class App {
     this.signup = new SignUp({ switchURL: this.switchURL.bind(this) });
   }
 
+  registerRouterComponent() {
+    this.components = {
+      '/': this.home,
+      '/login': this.login,
+      '/signup': this.signup,
+    };
+  }
+
   async switchURL(href) {
-    this.router.renderPage(href);
     this.isLoggedIn = await this.isValidUserAccessToken();
     this.header.init(this.isLoggedIn);
-    this.route[href]();
+
+    const component = this.components[href];
+    const state = { isLoggedIn: this.isLoggedIn };
+    component.init(state);
+    this.router.renderPage(href, component.getInfo());
+    component.initDOM();
   }
 }
 

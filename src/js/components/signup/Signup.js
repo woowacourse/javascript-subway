@@ -2,12 +2,24 @@ import { $, getFormData } from '../../utils/dom.js';
 import { BASE_URL, ACTIONS } from '../../constants.js';
 import { request, getPostOption } from '../../utils/api.js';
 import { checkSignupValid } from './signupValidator.js';
+import { signUpTemplate } from './signupTemplate.js';
 class SignUp {
   constructor(props) {
     this.props = props;
   }
 
-  init() {
+  init() {}
+
+  getInfo() {
+    return {
+      title: '📝 회원가입',
+      contents: {
+        main: signUpTemplate(),
+      },
+    };
+  }
+
+  initDOM() {
     this.bindSubmitEvent();
   }
 

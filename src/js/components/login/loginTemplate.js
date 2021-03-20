@@ -1,13 +1,4 @@
-export const getLoginInfo = (data = {}) => {
-  return {
-    title: '🚇 로그인',
-    contents: {
-      main: loginTemplate(data),
-    },
-  };
-};
-
-const loginTemplate = data => {
+export const loginTemplate = () => {
   return `
     <div class="wrapper p-10 bg-white">
         <div class="heading">
