@@ -55,13 +55,16 @@ export class UserJoin {
     }
 
     try {
-      await this.joinUser();
+      await this.signUp();
+      this.clearInputs();
+      history.pushState({ path: ROUTE.SIGNIN }, null, ROUTE.SIGNIN);
+      stateManager[STATE_KEY.ROUTE].set(ROUTE.SIGNIN);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  async joinUser() {
+  async signUp() {
     const url = `${BASE_URL}/members`;
     const response = await fetch(url, {
       method: 'POST',
@@ -73,13 +76,8 @@ export class UserJoin {
       }),
     });
 
-    if (response.ok) {
-      this.clearInputs();
-      history.pushState({ path: ROUTE.SIGNIN }, null, ROUTE.SIGNIN);
-      stateManager[STATE_KEY.ROUTE].set(ROUTE.SIGNIN);
-    } else {
-      throw new Error(MESSAGE.SIGNUP.FAIL);
-    }
+    if (response.ok) return;
+    throw new Error(MESSAGE.SIGNUP.FAIL);
   }
 
   clearInputs() {

@@ -42,6 +42,7 @@ export const MESSAGE = {
   SIGNIN: {
     REQUIRED: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
     INVITE: '아직 회원이 아니신가요?',
+    FAIL: '아이디 혹은 패스워드가 일치하지 않습니다.',
   },
 };
 

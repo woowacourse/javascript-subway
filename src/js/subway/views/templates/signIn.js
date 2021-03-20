@@ -6,12 +6,12 @@ export const signIn = `
     <div class="heading">
       <h2>${MENU.SIGNIN}</h2>
     </div>
-    <form name="login" class="form">
+    <form id="signin-form" name="signin" class="form flex-col items-center">
       <div class="input-control">
         <label for="email" class="input-label" hidden>이메일</label>
         <input
           type="email"
-          id="email"
+          id="signin-email"
           name="email"
           class="input-field"
           placeholder="이메일"
@@ -24,22 +24,28 @@ export const signIn = `
         >
         <input
           type="password"
-          id="password"
+          id="signin-password"
           name="password"
           class="input-field"
           placeholder="비밀번호"
         />
       </div>
+      <div
+        id="fail-message-box"
+        class="js-message-box hidden mt-1 text-red mb-1 text-center"
+        >
+        ${MESSAGE.SIGNIN.FAIL}
+      </div>
       <div class="input-control w-100">
         <button
-          type="button"
+          type="submit"
           name="submit"
           class="input-submit w-100 bg-cyan-300"
         >
           확인
         </button>
       </div>
-      <p class="text-gray-700 pl-2">
+      <p class="text-gray-700 pl-2 d-flex justify-between items-center">
         ${MESSAGE.SIGNIN.INVITE}
         ${linkButton({ link: ROUTE.SIGNUP, text: MENU.SIGNUP })}
       </p>

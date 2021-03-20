@@ -32,7 +32,7 @@ export class Subway {
   renderNavButtons(isSigned) {
     this.$menuContainer.innerHTML = isSigned ? menuButtons : '';
     this.$signContainer.innerHTML = isSigned
-      ? linkButton({ link: ROUTE.ROOT, text: MENU.SIGNOUT })
+      ? linkButton({ link: ROUTE.SIGNOUT, text: MENU.SIGNOUT })
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }
 
