@@ -7,10 +7,12 @@ import { getSectionsInfo } from './components/sections/sectionsTemplate.js';
 import { getSignUpInfo } from './components/signup/signupTemplate.js';
 
 import { headerTemplate } from './layouts/headerTemplate.js';
+import { getHomeInfo } from './components/home/HomeTemplate.js';
 
 class Router {
   constructor() {
     this.router = {
+      '': getHomeInfo(),
       stations: getStationsInfo(),
       sections: getSectionsInfo(),
       lines: getLinesInfo(),
