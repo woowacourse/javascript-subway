@@ -9,4 +9,6 @@ export const ERROR_MESSAGE = {
 
 export const SUCCESS_MESSAGE = {
   PASSWORD_CONFIRM_SUCCESS: "비밀번호 확인 완료!",
+  SIGNUP_SUCCESS: "회원가입에 성공하였습니다!",
+  LOGIN_SUCCESS: "로그인에 성공하였습니다!",
 };

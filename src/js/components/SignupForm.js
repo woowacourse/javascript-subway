@@ -1,7 +1,10 @@
 import { signupAPI } from "../APIs/subwayAPI.js";
+
+import { $ } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
+
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
-import { $ } from "../utils/DOM.js";
 import { PASSWORD_MIN_LENGTH } from "../constants/general.js";
 
 export default class SignupForm {
@@ -62,6 +65,7 @@ export default class SignupForm {
       }
 
       this.pageRouter.movePage(PAGE_URLS.LOGIN);
+      snackbar.show(SUCCESS_MESSAGE.SIGNUP_SUCCESS);
     } catch (e) {
       console.error(e);
       window.alert(ERROR_MESSAGE.API_CALL_FAILURE);

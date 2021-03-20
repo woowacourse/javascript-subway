@@ -1,8 +1,11 @@
-import PAGE_URLS from "../constants/pages.js";
-import { ERROR_MESSAGE } from "../constants/messages.js";
-import { $, $$ } from "../utils/DOM.js";
 import { loginAPI } from "../APIs/subwayAPI.js";
+
+import { $, $$ } from "../utils/DOM.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";
+import snackbar from "../utils/snackbar.js";
+
+import PAGE_URLS from "../constants/pages.js";
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
@@ -60,6 +63,7 @@ export default class LoginForm {
       setSessionStorageItem(TOKEN_STORAGE_KEY, accessToken);
 
       this.setIsLoggedIn(true);
+      snackbar.show(SUCCESS_MESSAGE.LOGIN_SUCCESS);
     } catch (e) {
       console.error(e);
       window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
