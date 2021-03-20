@@ -1,6 +1,6 @@
 import { getInvalidSignUpMessage } from '../validators/message.js';
 import { request } from '../utils/request.js';
-import { errorAlertMatch, SIGN_UP_FAIL_MESSAGE } from '../utils/constants.js';
+import { signUpErrorAlertMatch, SIGN_UP_FAIL_MESSAGE } from '../utils/constants.js';
 import Router from '../router/Router.js';
 
 class SignUp {
@@ -63,7 +63,7 @@ class SignUp {
   }
 
   getMatchedAlert(statusCode) {
-    const errorMessage = errorAlertMatch[statusCode];
+    const errorMessage = signUpErrorAlertMatch[statusCode];
 
     if (!errorMessage) {
       alert(SIGN_UP_FAIL_MESSAGE);
