@@ -18,7 +18,7 @@ describe('지하철 노선도 로그인 및 회원가입 테스트', () => {
     cy.get('#signup-submit-button').click();
 
     cy.wait('@signup').its('response.statusCode').should('eq', 500);
-    cy.get('#email-input-warning')
+    cy.get('#email-input-error')
       .should('have.text', '중복된 이메일이 존재합니다.')
       .and('be.visible');
   });

@@ -1,8 +1,16 @@
-import { loginRequest, signupRequest } from '../request.js';
+import {
+  loginRequest,
+  signupRequest,
+  checkEmailDuplicatedRequest,
+} from '../request.js';
 import { $, show, hide } from '../utils/dom.js';
 import { setCookie } from '../utils/cookie.js';
 import { render } from '../../js/router.js';
-import { MESSAGES, SESSION_EXPIRE_DAYS } from '../constants/constants.js';
+import {
+  SELECTOR,
+  MESSAGES,
+  SESSION_EXPIRE_DAYS,
+} from '../constants/constants.js';
 
 export default class SignupForm {
   constructor(store) {
@@ -21,7 +29,9 @@ export default class SignupForm {
 
   selectDOM() {
     this.$inputForm = $('#signup-form');
-    this.$emailDuplicatedWarning = $('#email-input-warning');
+    this.$emailDuplicateCheckButton = $(SELECTOR.EMAIL_DUPLICATE_CHECK_BUTTON);
+    this.$emailDuplicatedWarning = $('#email-input-error');
+    this.$emailAvailable = $('#email-input-correct');
     this.$password = $('#password');
     this.$passwordConfirm = $('#password-confirm');
     this.$passwordConfirmWarning = $('#password-confirm-error');
@@ -30,6 +40,10 @@ export default class SignupForm {
 
   bindEvents() {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
+    this.$emailDuplicateCheckButton.addEventListener(
+      'click',
+      this.checkEmailAvailable.bind(this)
+    );
     this.$password.addEventListener('focusout', this.getPassword.bind(this));
     this.$passwordConfirm.addEventListener(
       'input',
@@ -54,6 +68,24 @@ export default class SignupForm {
     this.submitForm();
   }
 
+  async checkEmailAvailable(event) {
+    const email = $(SELECTOR.SIGNUP_EMAIL_INPUT).value;
+    const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (!email.match(emailFormat)) return;
+
+    try {
+      await checkEmailDuplicatedRequest(email);
+
+      hide(this.$emailDuplicatedWarning);
+      show(this.$emailAvailable);
+    } catch (error) {
+      console.error(error);
+      hide(this.$emailAvailable);
+      show(this.$emailDuplicatedWarning);
+    }
+  }
+
   async submitForm() {
     try {
       await signupRequest(this.state);
@@ -62,7 +94,7 @@ export default class SignupForm {
       this.loginAfterSignup();
     } catch (error) {
       console.error(error);
-      this.warnEmailDuplicated();
+      show(this.$emailDuplicatedWarning);
     }
   }
 
@@ -80,10 +112,6 @@ export default class SignupForm {
 
     this.store.updateLoggedIn(true);
     await render(path, this.store.userSession.isLoggedIn);
-  }
-
-  warnEmailDuplicated() {
-    show(this.$emailDuplicatedWarning);
   }
 
   getPassword(event) {

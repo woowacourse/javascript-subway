@@ -6,6 +6,9 @@ export const SELECTOR = {
   NAVIGATION: '#navigation',
   NAV_LOG_BUTTON: '#login-nav-button',
   CONTENT: '#content',
+
+  SIGNUP_EMAIL_INPUT: '#email',
+  EMAIL_DUPLICATE_CHECK_BUTTON: '#duplicate-check-btn',
 };
 
 export const MESSAGES = {

@@ -47,3 +47,7 @@ ul li button {
 ul li button:hover {
   background-color: rgb(229, 231, 235);
 }
+
+.duplicate-check-btn {
+  width: 8rem !important;
+}

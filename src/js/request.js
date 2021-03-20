@@ -56,3 +56,19 @@ export const userInfoRequest = async (token) => {
 
   return response.json();
 };
+
+export const checkEmailDuplicatedRequest = async (email) => {
+  const url = `${HOST}/members/check-validation?`;
+  const searchParams = new URLSearchParams();
+
+  searchParams.set('email', email);
+
+  const requestURL = url + searchParams;
+  const response = await fetch(requestURL);
+
+  if (!response.ok) {
+    throw new Error(res.status);
+  }
+
+  return response;
+};
