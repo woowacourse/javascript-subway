@@ -4,7 +4,7 @@ import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, setToSessionStorage } from '../../@shared/utils';
 import { getUserName } from '../utils';
-import { routeTo } from '../utils/route';
+import { routeTo } from '../utils';
 
 export class UserAuth {
   constructor() {
@@ -30,11 +30,12 @@ export class UserAuth {
     event.preventDefault();
     try {
       const { accessToken } = await this.signIn();
+      const userName = await getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
-      stateManager[STATE_KEY.SIGNED_USER].set(await getUserName(accessToken));
+      stateManager[STATE_KEY.SIGNED_USER].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
       console.error(error.message);

@@ -25,8 +25,7 @@ export class Subway {
   }
 
   renderRoot(signedUser) {
-    // TODO: UI 변경과 선택자 부여
-    $('p', contentElements[ROUTE.ROOT]).innerHTML = signedUser
+    $('#root-message-box', contentElements[ROUTE.ROOT]).innerHTML = signedUser
       ? MESSAGE.ROOT_GREETING(signedUser)
       : MESSAGE.SIGNIN.REQUIRED;
   }
