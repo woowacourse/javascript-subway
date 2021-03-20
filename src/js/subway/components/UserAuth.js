@@ -1,8 +1,8 @@
-import { STATE_KEY, ROUTE, MESSAGE, BASE_URL } from '../constants/constants';
+import { STATE_KEY, ROUTE, MESSAGE, BASE_URL, SESSION_KEY } from '../constants/constants';
 import { contentElements } from '../views';
-import { $ } from '../../@shared/utils';
+import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
-import { SHA256 } from '../utils';
+import { setToSessionStorage } from '../../@shared/utils';
 
 export class UserAuth {
   constructor() {
@@ -29,6 +29,8 @@ export class UserAuth {
     try {
       const { accessToken } = await this.signIn();
 
+      setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
+
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
       history.pushState({ path: ROUTE.ROOT }, null, ROUTE.ROOT);
@@ -48,7 +50,7 @@ export class UserAuth {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: this.$$input.$email.value,
-        password: SHA256(this.$$input.$password.value),
+        password: encrypt(this.$$input.$password.value),
       }),
     });
 
