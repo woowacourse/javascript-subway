@@ -4,23 +4,32 @@ import NavigationBar from '../js/components/NavigationBar.js';
 import Store from '../js/store.js';
 import { getCookie } from './utils/cookie.js';
 import { userInfoRequest } from '../js/request.js';
+import EntryPage from './components/EntryPage.js';
+import StationManager from './components/StationManager.js';
+import LineManager from './components/LineManager.js';
+import SectionManager from './components/SectionManager.js';
 import LoginForm from './components/LoginForm.js';
 import SignupForm from './components/SignupForm.js';
-import StationManager from './components/StationManager.js';
-
 export default class App {
   constructor() {
     this.store = new Store();
 
     this.navigationBar = new NavigationBar(this.store);
+    this.entryPage = new EntryPage();
+    this.stationManager = new StationManager(this.store);
+    this.lineManager = new LineManager(this.store);
+    this.sectionManager = new SectionManager(this.store);
+
     this.loginForm = new LoginForm(this.store);
     this.signupForm = new SignupForm(this.store);
-    this.stationManager = new StationManager(this.store);
 
     this.components = {
+      '/': this.entryPage,
+      '/lines': this.lineManager,
+      '/stations': this.stationManager,
+      '/sections': this.sectionManager,
       '/login': this.loginForm,
       '/signup': this.signupForm,
-      '/stations': this.stationManager,
     };
   }
 
