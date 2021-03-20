@@ -6,15 +6,11 @@ class Header {
     this.userToken = null;
   }
 
-  init() {
-    this.fetchUserToken();
+  init(isLoggedIn) {
+    this.userToken = isLoggedIn;
     this.initDOM();
     this.selectDOM();
     this.handleMenu();
-  }
-
-  fetchUserToken() {
-    this.userToken = this.props.isLoggedIn; // 모델에서 가져오기
   }
 
   initDOM() {

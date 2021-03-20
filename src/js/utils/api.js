@@ -3,7 +3,11 @@ export const request = async (url, option) => {
   try {
     const response = await fetch(url, option);
     if (response.ok) {
-      return await response.json();
+      try {
+        return await response.json();
+      } catch (error) {
+        return response;
+      }
     }
 
     throw response.status;
