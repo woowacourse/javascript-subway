@@ -1,3 +1,3 @@
 export { $, parseToElements } from './dom';
-export { getFromSessionStorage, setToSessionStorage } from './sessionStorage';
+export { getFromSessionStorage, setToSessionStorage, removeFromSessionStorage } from './sessionStorage';
 export { encrypt } from './encryption';

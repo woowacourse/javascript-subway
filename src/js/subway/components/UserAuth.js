@@ -4,6 +4,7 @@ import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, setToSessionStorage } from '../../@shared/utils';
 import { getUserName } from '../utils';
+import { routeTo } from '../utils/route';
 
 export class UserAuth {
   constructor() {
@@ -31,13 +32,12 @@ export class UserAuth {
       const { accessToken } = await this.signIn();
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
-
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
-      history.pushState({ path: ROUTE.ROOT }, null, ROUTE.ROOT);
       stateManager[STATE_KEY.SIGNED_USER].set(await getUserName(accessToken));
-      stateManager[STATE_KEY.ROUTE].set(ROUTE.ROOT);
+      routeTo(ROUTE.ROOT);
     } catch (error) {
+      console.error(error.message);
       this.$failMessage.classList.remove('hidden');
       this.$$input.$password.value = '';
       this.$$input.$password.focus();

@@ -4,6 +4,7 @@ import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';
 import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { getUserName } from './subway/utils';
+import { routeTo } from './subway/utils/route';
 
 class App {
   constructor() {
@@ -26,8 +27,7 @@ class App {
       event.preventDefault();
       const path = event.target.dataset.link;
 
-      history.pushState({ path }, null, path);
-      stateManager[STATE_KEY.ROUTE].set(path);
+      routeTo(path);
     });
   }
 }
@@ -56,7 +56,5 @@ window.addEventListener('load', async () => {
   };
 
   stateManager[STATE_KEY.SIGNED_USER].set(signedUser);
-
-  history.pushState({ path: redirectedPath[pathName] }, null, redirectedPath[pathName]);
-  stateManager[STATE_KEY.ROUTE].set(redirectedPath[pathName]);
+  routeTo(redirectedPath[pathName]);
 });

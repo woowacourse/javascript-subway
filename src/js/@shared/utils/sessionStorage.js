@@ -29,3 +29,7 @@ export const setToSessionStorage = (key, value) => {
 
   sessionStorage.setItem(key, JSONstring);
 };
+
+export const removeFromSessionStorage = key => {
+  sessionStorage.removeItem(key);
+};

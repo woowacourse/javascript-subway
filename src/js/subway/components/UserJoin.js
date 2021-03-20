@@ -1,8 +1,8 @@
 import { contentElements } from '../views';
 import { $, encrypt } from '../../@shared/utils';
-import { BASE_URL, MESSAGE, ROUTE, STATE_KEY } from '../constants/constants';
+import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
 import { isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils';
-import { stateManager } from '../../@shared/models/StateManager';
+import { routeTo } from '../utils/route';
 
 export class UserJoin {
   constructor() {
@@ -58,8 +58,7 @@ export class UserJoin {
     try {
       await this.signUp();
       this.clearInputs();
-      history.pushState({ path: ROUTE.SIGNIN }, null, ROUTE.SIGNIN);
-      stateManager[STATE_KEY.ROUTE].set(ROUTE.SIGNIN);
+      routeTo(ROUTE.SIGNIN);
     } catch (error) {
       console.error(error.message);
     }
