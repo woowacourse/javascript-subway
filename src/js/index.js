@@ -15,7 +15,7 @@ export default class App {
     this.store = new Store();
 
     this.navigationBar = new NavigationBar(this.store);
-    this.entryPage = new EntryPage();
+    this.entryPage = new EntryPage(this.store);
     this.stationManager = new StationManager(this.store);
     this.lineManager = new LineManager(this.store);
     this.sectionManager = new SectionManager(this.store);
@@ -36,14 +36,17 @@ export default class App {
   async execute() {
     const path = location.pathname;
 
+    await this.checkIsLoggedIn();
+
     this.navigationBar.init();
     this.initComponentByPath();
 
-    await this.checkIsLoggedIn();
     await render(path, this.store.userSession.isLoggedIn);
   }
 
-  // TODO: 함수명 바꾸기 - override history.pushState
+  /**
+   * @override history.pushState
+   **/
   initComponentByPath() {
     const ps = history.pushState;
 
