@@ -12,6 +12,7 @@ export default class NavigationBar {
     this.store.subscribe(this);
 
     this.selectDOM();
+    this.selectButton(`${location.pathname.replace('/', '')}-nav-button`);
     this.setLogButton();
     this.bindEvents();
   }
@@ -31,28 +32,43 @@ export default class NavigationBar {
 
     this.logButton.textContent = isLoggedIn ? '🔌 로그아웃' : '👤 로그인';
     this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
-    this.logButton.classList.remove('selected');
+
+    if (isLoggedIn) {
+      this.logButton.classList.remove('selected');
+    }
   }
 
   bindEvents() {
-    this.navigation.addEventListener('click', async (e) => {
-      if (!e.target.matches(`${SELECTOR.NAVIGATION} button`)) return;
+    this.navigation.addEventListener('click', this.handleNavigation.bind(this));
+  }
 
-      e.preventDefault();
-      const path = e.target.closest('a').getAttribute('href');
+  async handleNavigation(event) {
+    event.preventDefault();
 
-      if (e.target.dataset.action === 'logout') {
-        this.store.updateLoggedIn(false);
-        removeCookie('token');
-      }
+    if (!event.target.matches(`${SELECTOR.NAVIGATION} button`)) return;
 
-      await render(path, this.store.userSession.isLoggedIn);
+    const path = event.target.closest('a').getAttribute('href');
 
-      this.selectButton(e.target.id);
-    });
+    if (event.target.dataset.action === 'logout') {
+      this.logout();
+    }
+
+    await render(path, this.store.userSession.isLoggedIn);
+
+    this.selectButton(event.target.id);
+  }
+
+  logout() {
+    this.store.updateLoggedIn(false);
+    removeCookie('token');
   }
 
   selectButton(id) {
+    if (!this.store.userSession.isLoggedIn && location.pathname !== '/login') {
+      this.logButton.classList.remove('selected');
+      return;
+    }
+
     this.navButtons.forEach((button) => {
       if (button.id === id) {
         button.classList.add('selected');
