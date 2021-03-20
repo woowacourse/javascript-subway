@@ -1,3 +1,4 @@
+import { ROUTE } from '../../src/js/subway/constants/constants';
 import { isValidEmail, isValidName, isValidPassword } from '../../src/js/subway/utils';
 
 describe('Subway test', () => {
@@ -37,5 +38,33 @@ describe('Subway test', () => {
     cy.get('#signup-password').type('a');
     cy.get('#signup-password-confirm').type('b');
     cy.get('.js-message-box').each(element => cy.wrap(element).should('be.visible'));
+  });
+
+  it('로그인 실패 시, 에러 메시지를 렌더링한다.', () => {
+    cy.get('[data-link="/signin"]').click();
+    cy.get('#signin-email').type('test@gmail.com');
+    cy.get('#signin-password').type('123');
+
+    cy.get('.input-submit').click();
+
+    cy.get('#fail-message-box').should('be.visible');
+  });
+
+  it('로그인 성공 시, 메뉴 버튼들과 로그아웃 버튼이 화면에 노출되고 메인 페이지로 이동한다.', () => {
+    // email: test@gmail.com
+    // pw: wooteco123!
+    cy.get('[data-link="/signin"]').click();
+    cy.get('#signin-email').type('test@gmail.com');
+    cy.get('#signin-password').type('wooteco123!');
+
+    cy.get('.input-submit').click();
+
+    cy.get('#menu-buttons-container > .js-link').each($button => cy.wrap($button).should('be.visible'));
+
+    cy.get('[data-link="/signout"]').should('be.visible');
+
+    cy.location().should(loc => {
+      expect(loc.pathname).to.eq(ROUTE.ROOT);
+    });
   });
 });
