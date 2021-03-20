@@ -53,3 +53,7 @@ export const REG_EXP = {
 };
 
 export const BASE_URL = 'http://15.164.230.130:8080';
+
+export const SESSION_KEY = {
+  ACCESS_TOKEN: 'ATK',
+};
