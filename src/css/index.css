@@ -60,3 +60,7 @@ nav ul li {
 nav ul li:last-child {
   margin-right: 0;
 }
+
+button:disabled {
+  cursor: default;
+}

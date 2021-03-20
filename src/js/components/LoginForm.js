@@ -1,9 +1,13 @@
 import PAGE_URLS from "../constants/pages.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
-import { $ } from "../utils/DOM.js";
+import { $, $$ } from "../utils/DOM.js";
 import { loginAPI } from "../APIs/subwayAPI.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";
-import { TOKEN } from "../constants/storageKeys.js";
+import {
+  PASSWORD_MIN_LENGTH,
+  EMAIL_REG_EXP,
+  TOKEN_STORAGE_KEY,
+} from "../constants/general.js";
 
 export default class LoginForm {
   constructor({ $parent, setIsLoggedIn, pageRouter }) {
@@ -13,9 +17,11 @@ export default class LoginForm {
   }
 
   attachEvent() {
-    $("form", this.$parent).addEventListener(
-      "submit",
-      this.onSubmitLoginForm.bind(this)
+    const $form = $("form", this.$parent);
+
+    $form.addEventListener("submit", this.onSubmitLoginForm.bind(this));
+    $$("input", $form).forEach(($input) =>
+      $input.addEventListener("keyup", this.onTypeInput.bind(this, $form))
     );
     $(".js-signup-link", this.$parent).addEventListener(
       "click",
@@ -36,21 +42,43 @@ export default class LoginForm {
       const response = await loginAPI(loginData);
 
       if (!response.ok) {
-        $(".js-login-error", currentTarget).classList.remove("d-none");
+        $(".js-login-error", currentTarget).classList.replace(
+          "invisible",
+          "visible"
+        );
         currentTarget.reset();
 
         return;
       }
 
-      $(".js-login-error", currentTarget).classList.add("d-none");
+      $(".js-login-error", currentTarget).classList.replace(
+        "visible",
+        "invisible"
+      );
 
       const { accessToken } = await response.json();
-      setSessionStorageItem(TOKEN, accessToken);
+      setSessionStorageItem(TOKEN_STORAGE_KEY, accessToken);
 
       this.setIsLoggedIn(true);
     } catch (e) {
       console.error(e);
       window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onTypeInput($form) {
+    const { email, password, submit } = $form;
+
+    if (
+      email.value.match(EMAIL_REG_EXP) &&
+      password.value.length >= PASSWORD_MIN_LENGTH
+    ) {
+      submit.disabled = false;
+      submit.classList.replace("bg-cyan-200", "bg-cyan-300");
+    } else {
+      submit.disabled = true;
+      submit.classList.replace("bg-cyan-300", "bg-cyan-200");
     }
   }
 
@@ -90,19 +118,20 @@ export default class LoginForm {
               type="password"
               id="password"
               name="password"
-              class="input-field"
+              class="js-password input-field"
               placeholder="비밀번호"
               required
             />
           </div>
-          <p class="js-login-error text-red d-none">
+          <p class="js-login-error text-red invisible text-sm">
             ${ERROR_MESSAGE.LOGIN_FAILURE}
           </p>
           <div class="input-control w-100">
             <button
               type="submit"
               name="submit"
-              class="input-submit w-100 bg-cyan-300"
+              class="input-submit w-100 mt-8 bg-cyan-200"
+              disabled
             >
               확인
             </button>
