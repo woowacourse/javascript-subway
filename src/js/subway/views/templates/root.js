@@ -5,8 +5,7 @@ export const root = `
         <div class="d-flex justify-center">
             <img src="src/images/subway_emoji.png" width="200" />
         </div>
-        <p class="mt-0 text-center">
-        ${MESSAGE.SIGNIN.REQUIRED}
+        <p id="root-message-box" class="mt-0 text-center">
         </p>
     </div>
 `;

@@ -2,7 +2,7 @@ import { contentElements } from '../views';
 import { $, encrypt } from '../../@shared/utils';
 import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
 import { isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils';
-import { routeTo } from '../utils/route';
+import { routeTo } from '../utils';
 
 export class UserJoin {
   constructor() {
