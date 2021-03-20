@@ -42,7 +42,7 @@ describe('지하철 노선도 로그인 및 회원가입 테스트', () => {
       .and('have.text', '비밀번호가 일치합니다.');
   });
 
-  it.only('로그인에 실패했을 시 안내 문구를 표시한다.', () => {
+  it('로그인에 실패했을 시 안내 문구를 표시한다.', () => {
     cy.intercept('POST', `${requestURL}/login/token`).as('login');
 
     cy.get('#login-nav-button').click();
@@ -56,5 +56,19 @@ describe('지하철 노선도 로그인 및 회원가입 테스트', () => {
     cy.get('#login-error-warning')
       .should('be.visible')
       .and('have.text', '아이디, 패스워드를 확인하세요.');
+  });
+
+  it('로그인에 성공했을 시 로그인 버튼을 로그아웃 버튼으로 변경한다.', () => {
+    cy.intercept('POST', `${requestURL}/login/token`).as('login');
+
+    cy.get('#login-nav-button').click();
+
+    cy.get('#email').type('zig10@email.com');
+    cy.get('#password').type('123');
+
+    cy.get('#login-submit').click();
+    cy.wait('@login');
+
+    cy.get('#login-nav-button').should('have.text', '🔌 로그아웃');
   });
 });
