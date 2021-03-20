@@ -9,12 +9,11 @@ export const signupRequest = async (data) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then((res) => {
-    if (!res.ok) {
-      throw new Error(res.status);
-    }
-    return res;
   });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
 
   return response;
 };
@@ -28,12 +27,11 @@ export const loginRequest = async (data) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then((res) => {
-    if (!res.ok) {
-      throw new Error(res.status);
-    }
-    return res;
   });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
 
   return response.json();
 };
@@ -47,12 +45,11 @@ export const userInfoRequest = async (token) => {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-  }).then((res) => {
-    if (!res.ok) {
-      throw new Error(res.status);
-    }
-    return res;
   });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
 
   return response.json();
 };
