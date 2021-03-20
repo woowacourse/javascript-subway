@@ -19,18 +19,6 @@ export const signUp = `
         <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
       </div>
       <div class="input-control flex-col">
-        <label for="name" class="input-label" hidden>이메일</label>
-        <input
-          type="text"
-          id="signup-name"
-          name="name"
-          class="input-field"
-          placeholder="이름"
-          required
-        />
-        <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
-      </div>
-      <div class="input-control flex-col">
         <label for="password" class="input-label" hidden
           >비밀번호</label
         >
@@ -56,6 +44,18 @@ export const signUp = `
         />
         <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
+      <div class="input-control flex-col">
+      <label for="name" class="input-label" hidden>이메일</label>
+      <input
+        type="text"
+        id="signup-name"
+        name="name"
+        class="input-field"
+        placeholder="이름"
+        required
+      />
+      <div class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
+    </div>
       <div class="input-control">
         <button
           type="submit"

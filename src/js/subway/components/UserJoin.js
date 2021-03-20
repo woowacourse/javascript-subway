@@ -1,6 +1,6 @@
 import { contentElements } from '../views';
 import { $ } from '../../@shared/utils';
-import { ROUTE } from '../constants/constants';
+import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
 import { isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils/validate';
 
 export class UserJoin {
@@ -34,7 +34,7 @@ export class UserJoin {
     this.$$input.$passwordConfirm.addEventListener('input', this.handlePasswordConfirmInput.bind(this));
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const $input = findInValidInput(this.$$input);
 
@@ -44,6 +44,38 @@ export class UserJoin {
 
       return;
     }
+
+    try {
+      await this.joinUser();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async joinUser() {
+    const res = await fetch(`${BASE_URL}/members`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: this.$$input.$email.value,
+        password: this.$$input.$password.value,
+        name: this.$$input.$name.value,
+      }),
+    });
+
+    if (res.ok) {
+      this.clearInputs();
+      // TODO: 로그인 화면으로 이동
+    } else {
+      throw new Error(MESSAGE.SIGNUP.FAIL);
+    }
+  }
+
+  clearInputs() {
+    this.$$input.$email.value = '';
+    this.$$input.$name.value = '';
+    this.$$input.$password.value = '';
+    this.$$input.$passwordConfirm.value = '';
   }
 
   handleEmailInput({ target: { value } }) {
@@ -66,7 +98,7 @@ export class UserJoin {
 
   handlePasswordConfirmInput({ target: { value } }) {
     value === this.$$input.$password.value
-      ? this.$$message.passwordConfirm.classList.add('hidden')
-      : this.$$message.passwordConfirm.classList.remove('hidden');
+      ? this.$$message.$passwordConfirm.classList.add('hidden')
+      : this.$$message.$passwordConfirm.classList.remove('hidden');
   }
 }

@@ -34,6 +34,7 @@ export const MESSAGE = {
     INVALID_NAME: '유효하지 않은 이름입니다.',
     INVALID_PASSWORD: '유효하지 않은 패스워드입니다.',
     INVALID_PASSWORD_CONFIRM: '패스워드가 일치하지 않습니다.',
+    FAIL: '회원가입 실패',
   },
   SIGNIN: {
     REQUIRED: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
@@ -46,3 +47,5 @@ export const REG_EXP = {
   NAME: /^[가-힣|a-z|A-Z|0-9|]+$/,
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$~!@#$%^&*()-+?])[A-Za-z\d$~!@#$%^&*()-+?]{6,20}$/,
 };
+
+export const BASE_URL = 'http://15.164.230.130:8080';

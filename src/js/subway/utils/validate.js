@@ -8,7 +8,7 @@ export const isValidPassword = value => REG_EXP.PASSWORD.test(value);
 
 export const findInValidInput = $$input => {
   if (!isValidEmail($$input.$email.value)) {
-    return $$input.email;
+    return $$input.$email;
   }
   if (!isValidName($$input.$name.value)) {
     return $$input.$name;
@@ -16,7 +16,7 @@ export const findInValidInput = $$input => {
   if (!isValidPassword($$input.$password.value)) {
     return $$input.$password;
   }
-  if ($input.password.value !== $input.$passwordConfirm.value) {
+  if ($$input.$password.value !== $$input.$passwordConfirm.value) {
     return $$input.$passwordConfirm;
   }
   return '';

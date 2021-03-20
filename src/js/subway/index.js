@@ -25,6 +25,7 @@ export class Subway {
   }
 
   renderRoot(isSigned) {
+    // TODO: UI 변경과 선택자 부여
     $('p', contentElements[ROUTE.ROOT]).innerHTML = isSigned ? '' : MESSAGE.SIGNIN.REQUIRED;
   }
 
@@ -41,7 +42,7 @@ export class Subway {
   }
 
   mountChildComponents() {
-    this.userAuth = new UserAuth();
     this.userJoin = new UserJoin();
+    this.userAuth = new UserAuth();
   }
 }
