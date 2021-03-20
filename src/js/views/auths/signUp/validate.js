@@ -37,3 +37,9 @@ const getPasswordValidityMessage = ({ valueMissing }) => {
 export const validateName = generateInputValidator(getNameValidityMessage);
 export const validateEmail = generateInputValidator(getEmailValidityMessage);
 export const validatePassword = generateInputValidator(getPasswordValidityMessage);
+
+export const validateForm = ({ currentTarget }) => {
+  const $button = currentTarget.elements.submit;
+
+  $button.disabled = !currentTarget.checkValidity();
+};

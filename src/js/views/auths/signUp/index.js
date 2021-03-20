@@ -1,6 +1,6 @@
 import TEMPLATE from './template.js';
 import { $ } from '../../../utils/index.js';
-import { validateName, validateEmail, validatePassword } from './validate.js';
+import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
 
 const $main = $('main');
 
@@ -8,6 +8,7 @@ const $main = $('main');
 export const renderSignUp = () => {
   $main.innerHTML = TEMPLATE;
 
+  const $form = $main.querySelector('form');
   const $name = $main.querySelector('#name');
   const $email = $main.querySelector('#email');
   const $password = $main.querySelector('#password');
@@ -20,4 +21,6 @@ export const renderSignUp = () => {
 
   $password.addEventListener('input', validatePassword);
   $password.addEventListener('blur', validatePassword);
+
+  $form.addEventListener('input', validateForm);
 };

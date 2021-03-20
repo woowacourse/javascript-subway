@@ -17,7 +17,7 @@ const SIGN_UP_TEMPLATE = `
       <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호" required />
     </div>
     <div class="input-control">
-      <button type="button" name="submit" class="input-submit w-100 bg-cyan-300">확인</button>
+      <button type="submit" name="submit" class="input-submit w-100 bg-cyan-300" disabled>확인</button>
     </div>
   </form>
 </div>`;
