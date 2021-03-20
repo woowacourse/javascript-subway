@@ -25,7 +25,7 @@ class App {
 
   async isValidUserAccessToken() {
     const userAccessToken = getLocalStorageItem('userAccessToken');
-    console.log(userAccessToken);
+
     if (!userAccessToken) return false;
 
     try {
@@ -36,7 +36,7 @@ class App {
           Host: REQUEST_HEADER_HOST,
         },
       });
-      console.log(user);
+
       return true;
     } catch (error) {
       return false;
@@ -51,10 +51,8 @@ class App {
   initDOM() {
     this.header = new Header({
       switchURL: this.switchURL.bind(this),
-      isLoggedIn: this.isLoggedIn,
     });
     // TODO : isLoggedIN init으로 옮기기
-    this.header.init();
   }
 
   mountComponent() {
@@ -67,10 +65,8 @@ class App {
     this.router.renderPage(href);
 
     if (href === '/') {
-      console.log('href');
-      await this.isValidUserAccessToken();
-      console.log(this.isLoggedIn);
-      this.initDOM();
+      this.isLoggedIn = await this.isValidUserAccessToken();
+      this.header.init(this.isLoggedIn);
       this.home.init(this.isLoggedIn);
     } else if (href === '/login') {
       this.login.init();
