@@ -2,7 +2,7 @@ import { $, getFormData } from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
 import { BASE_URL, ACTIONS } from '../../constants.js';
 import { checkLoginValid } from './loginValidator.js';
-import { setItemToSessionStorage } from '../../utils/storage.js';
+import { setLocalStorageItem } from '../../utils/storage.js';
 
 class Login {
   constructor(props) {
@@ -40,7 +40,6 @@ class Login {
   }
 
   handleLogin(elements) {
-    console.log('handleLogin');
     const formData = getFormData(elements);
 
     const errorMessage = checkLoginValid(formData);
@@ -60,7 +59,7 @@ class Login {
       });
       const option = getPostOption(requestBody);
       const { accessToken } = await request(BASE_URL + ACTIONS.LOGIN, option);
-      setItemToSessionStorage('userToken', accessToken);
+      setLocalStorageItem('userAccessToken', accessToken);
       this.props.switchURL('/');
     } catch (error) {
       const errorMessage = {

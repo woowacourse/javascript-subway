@@ -43,9 +43,10 @@ class SignUp {
       const option = getPostOption(requestBody);
 
       await request(BASE_URL + ACTIONS.REGISTER, option);
+
       this.props.switchURL('/login');
     } catch (error) {
-      if (error.status === 400) {
+      if (error === 400) {
         alert('중복된 이메일로 가입할 수 없습니다!');
         return;
       }

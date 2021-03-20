@@ -14,7 +14,7 @@ class Header {
   }
 
   fetchUserToken() {
-    this.userToken = null; // 모델에서 가져오기
+    this.userToken = this.props.isLoggedIn; // 모델에서 가져오기
   }
 
   initDOM() {

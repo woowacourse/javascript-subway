@@ -4,5 +4,6 @@ export const REQUEST_HEADER_HOST = 'localhost:42069';
 
 export const ACTIONS = {
   REGISTER: '/members',
+  USER: '/members/me',
   LOGIN: '/login/token',
 };
