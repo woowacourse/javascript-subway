@@ -4,6 +4,6 @@ import { $ } from '../../../utils/index.js';
 const $main = $('main');
 
 // eslint-disable-next-line import/prefer-default-export
-export const renderLogIn = () => {
+export const renderLogin = () => {
   $main.innerHTML = TEMPLATE;
 };
