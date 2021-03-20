@@ -4,14 +4,8 @@ import { render } from '../../js/router.js';
 import { MESSAGES } from '../constants/constants.js';
 
 export default class SignupForm {
-  constructor() {
-    this.$inputForm = $('#signup-form');
-    this.$emailDuplicatedWarning = $('#email-input-warning');
-    this.$password = $('#password');
-    this.$passwordConfirm = $('#password-confirm');
-    this.$passwordConfirmWarning = $('#password-confirm-error');
-    this.$passwordConfirmCorrect = $('#password-confirm-correct');
-
+  constructor(store) {
+    this.store = store;
     this.state = {
       email: '',
       name: '',
@@ -20,7 +14,17 @@ export default class SignupForm {
   }
 
   init() {
+    this.selectDOM();
     this.bindEvents();
+  }
+
+  selectDOM() {
+    this.$inputForm = $('#signup-form');
+    this.$emailDuplicatedWarning = $('#email-input-warning');
+    this.$password = $('#password');
+    this.$passwordConfirm = $('#password-confirm');
+    this.$passwordConfirmWarning = $('#password-confirm-error');
+    this.$passwordConfirmCorrect = $('#password-confirm-correct');
   }
 
   bindEvents() {
@@ -52,12 +56,13 @@ export default class SignupForm {
   async submitForm() {
     try {
       await signupRequest(this.state);
+
       const path = '/login';
 
       alert(MESSAGES.SIGNUP_SUCCESS);
 
-      history.pushState({ path }, null, path);
-      render(path);
+      // TODO: 회원가입 성공하면 /login 이 아니라, 로그인 시키고 token 받아서 저장 후, /main 으로 이동
+      await render(path, this.store.userSession.isLoggedIn);
     } catch (error) {
       console.error(error);
       this.warnEmailDuplicated();

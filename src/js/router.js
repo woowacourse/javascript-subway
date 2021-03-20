@@ -1,7 +1,5 @@
 import { $ } from './utils/dom.js';
 import { SELECTOR } from './constants/constants.js';
-import LoginForm from './components/LoginForm.js';
-import SignupForm from './components/SignupForm.js';
 
 const root = $(SELECTOR.CONTENT);
 
@@ -16,20 +14,32 @@ export const routes = {
   '/login': './pages/login.html',
 };
 
-export const components = {
-  '/login': () => new LoginForm(),
-  '/signup': () => new SignupForm(),
+const getAvailablePath = (path, isLoggedIn) => {
+  if (isLoggedIn) {
+    if (path === '/login' || path === '/signup') return '/stations';
+
+    return path;
+  } else {
+    if (path === '/login' || path === '/signup') return path;
+
+    return '/login';
+  }
 };
 
-export const render = async (path) => {
-  const url = routes[path];
+export const render = async (path, isLoggedIn) => {
+  const availablePath = getAvailablePath(path, isLoggedIn);
+  const url = routes[availablePath];
+
   const res = await fetch(url);
-
   root.innerHTML = await res.text();
-  const component = components[path]();
-  component.init();
+
+  history.pushState(
+    { path: availablePath, isLoggedIn: isLoggedIn },
+    null,
+    availablePath
+  );
 };
 
-window.addEventListener('popstate', (e) => {
-  render(e.state.path);
+window.addEventListener('popstate', async (e) => {
+  await render(e.state.path, e.state.isLoggedIn);
 });

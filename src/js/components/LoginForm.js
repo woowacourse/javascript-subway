@@ -5,11 +5,8 @@ import { setCookie } from '../utils/cookie.js';
 import { SESSION_EXPIRE_DAYS } from '../constants/constants.js';
 
 export default class LoginForm {
-  constructor() {
-    this.$inputForm = $('#login-form');
-    this.$loginErrorWarning = $('#login-error-warning');
-    this.$signupLink = $('#signup');
-
+  constructor(store) {
+    this.store = store;
     this.state = {
       email: '',
       password: '',
@@ -17,7 +14,14 @@ export default class LoginForm {
   }
 
   init() {
+    this.selectDOM();
     this.bindEvents();
+  }
+
+  selectDOM() {
+    this.$inputForm = $('#login-form');
+    this.$loginErrorWarning = $('#login-error-warning');
+    this.$signupLink = $('#signup');
   }
 
   bindEvents() {
@@ -25,12 +29,11 @@ export default class LoginForm {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
-  goSignupForm(event) {
+  async goSignupForm(event) {
     event.preventDefault();
     const path = event.target.getAttribute('href');
 
-    history.pushState({ path }, null, path);
-    render(path);
+    await render(path, this.store.userSession.isLoggedIn);
   }
 
   handleSubmit(event) {
@@ -42,7 +45,6 @@ export default class LoginForm {
     } = event.target.elements;
 
     this.state = { email, password };
-
     this.submitForm();
   }
 
@@ -58,8 +60,9 @@ export default class LoginForm {
         expireDays: SESSION_EXPIRE_DAYS,
       });
 
-      history.pushState({ path }, null, path);
-      render(path);
+      // TODO: 로그인 -> 로그아웃 으로 텍스트 변경
+      this.store.updateLoggedIn({ isLoggedIn: true });
+      await render(path, this.store.userSession.isLoggedIn);
     } catch (error) {
       console.error(error);
       this.warnLoginError();

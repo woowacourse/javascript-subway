@@ -16,7 +16,7 @@ export const signupRequest = async (data) => {
     return res;
   });
 
-  return response.json();
+  return response;
 };
 
 export const loginRequest = async (data) => {
@@ -28,6 +28,25 @@ export const loginRequest = async (data) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+  }).then((res) => {
+    if (!res.ok) {
+      throw new Error(res.status);
+    }
+    return res;
+  });
+
+  return response.json();
+};
+
+export const userInfoRequest = async (token) => {
+  const url = `${HOST}/members/me`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
   }).then((res) => {
     if (!res.ok) {
       throw new Error(res.status);
