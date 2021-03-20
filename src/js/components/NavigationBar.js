@@ -13,8 +13,8 @@ export default class NavigationBar {
 
     this.selectDOM();
     this.selectButton(`${location.pathname.replace('/', '')}-nav-button`);
-    this.setLogButton();
     this.bindEvents();
+    this.setLogButton();
   }
 
   selectDOM() {
@@ -25,6 +25,10 @@ export default class NavigationBar {
 
   update() {
     this.setLogButton();
+  }
+
+  bindEvents() {
+    this.navigation.addEventListener('click', this.handleNavigation.bind(this));
   }
 
   setLogButton() {
@@ -38,8 +42,19 @@ export default class NavigationBar {
     }
   }
 
-  bindEvents() {
-    this.navigation.addEventListener('click', this.handleNavigation.bind(this));
+  selectButton(id) {
+    if (!this.store.userSession.isLoggedIn && location.pathname !== '/login') {
+      this.logButton.classList.remove('selected');
+      return;
+    }
+
+    this.navButtons.forEach((button) => {
+      if (button.id === id) {
+        button.classList.add('selected');
+      } else {
+        button.classList.remove('selected');
+      }
+    });
   }
 
   async handleNavigation(event) {
@@ -61,20 +76,5 @@ export default class NavigationBar {
   logout() {
     this.store.updateLoggedIn(false);
     removeCookie('token');
-  }
-
-  selectButton(id) {
-    if (!this.store.userSession.isLoggedIn && location.pathname !== '/login') {
-      this.logButton.classList.remove('selected');
-      return;
-    }
-
-    this.navButtons.forEach((button) => {
-      if (button.id === id) {
-        button.classList.add('selected');
-      } else {
-        button.classList.remove('selected');
-      }
-    });
   }
 }
