@@ -1,7 +1,8 @@
-import { signupRequest } from '../request.js';
+import { loginRequest, signupRequest } from '../request.js';
 import { $, show, hide } from '../utils/dom.js';
+import { setCookie } from '../utils/cookie.js';
 import { render } from '../../js/router.js';
-import { MESSAGES } from '../constants/constants.js';
+import { MESSAGES, SESSION_EXPIRE_DAYS } from '../constants/constants.js';
 
 export default class SignupForm {
   constructor(store) {
@@ -57,16 +58,28 @@ export default class SignupForm {
     try {
       await signupRequest(this.state);
 
-      const path = '/login';
-
       alert(MESSAGES.SIGNUP_SUCCESS);
-
-      // TODO: 회원가입 성공하면 /login 이 아니라, 로그인 시키고 token 받아서 저장 후, /main 으로 이동
-      await render(path, this.store.userSession.isLoggedIn);
+      this.loginAfterSignup();
     } catch (error) {
       console.error(error);
       this.warnEmailDuplicated();
     }
+  }
+
+  async loginAfterSignup() {
+    const { email, password } = this.state;
+    const response = await loginRequest({ email, password });
+    const userToken = response.accessToken;
+    const path = '/stations';
+
+    setCookie({
+      key: 'token',
+      value: userToken,
+      expireDays: SESSION_EXPIRE_DAYS,
+    });
+
+    this.store.updateLoggedIn(true);
+    await render(path, this.store.userSession.isLoggedIn);
   }
 
   warnEmailDuplicated() {

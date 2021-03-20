@@ -1,7 +1,7 @@
 import { $, show } from '../utils/dom.js';
+import { setCookie } from '../utils/cookie.js';
 import { render } from '../../js/router.js';
 import { loginRequest } from '../request.js';
-import { setCookie } from '../utils/cookie.js';
 import { SESSION_EXPIRE_DAYS } from '../constants/constants.js';
 
 export default class LoginForm {
