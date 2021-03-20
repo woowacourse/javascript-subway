@@ -1,6 +1,8 @@
 import { ALERT_MESSAGE } from '../constants';
-import { signup } from '../services/auth';
+import { requestSignup } from '../services/auth';
+import { $, showElement } from '../utils/dom';
 import { routeTo } from '../utils/history';
+import { login } from './handleLogin';
 
 const handleSignup = async event => {
   event.preventDefault();
@@ -18,7 +20,7 @@ const handleSignup = async event => {
     name: name.value,
   };
 
-  const response = await signup(user);
+  const response = await requestSignup(user);
 
   if (!response.success) {
     alert(response.message);
@@ -27,6 +29,8 @@ const handleSignup = async event => {
 
   alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
+  await login(email.value, password.value);
+  showElement($('#nav'));
   routeTo('/');
 };
 

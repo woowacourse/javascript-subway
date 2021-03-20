@@ -2,7 +2,7 @@ import { $, hideElement } from '../utils/dom';
 import { routeTo } from '../utils/history';
 import handleRoute from '../eventHandlers/handleRoute';
 import handleLogin from '../eventHandlers/handleLogin';
-import { checkLogin } from '../services/auth';
+import { requestCheckLogin } from '../services/auth';
 import linesPageTemplate from '../templates/lines';
 import loginTemplate from '../templates/login';
 import mapPageTemplate from '../templates/map';
@@ -25,7 +25,7 @@ export const mountLogin = async () => {
 };
 
 export const mountSignup = async () => {
-  const isLogin = await checkLogin();
+  const isLogin = await requestCheckLogin();
 
   if (isLogin) {
     routeTo('/');
