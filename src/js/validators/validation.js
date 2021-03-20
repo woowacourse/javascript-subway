@@ -1,3 +1,5 @@
+import { STANDARD_NUMBER } from '../utils/constants';
+
 export const isValidEmail = (email) => {
   const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -11,7 +13,7 @@ export const isValidUserName = (userName) => {
 };
 
 export const isValidPassword = (password) => {
-  return password.length >= 8;
+  return password.length >= STANDARD_NUMBER.PASSWORD_MIN_LENGTH;
 };
 
 export const isValidPasswordConfirm = (password, passwordConfirm) => {

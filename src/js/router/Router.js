@@ -1,4 +1,4 @@
-import { routes } from '../utils/constants';
+import { ROUTES, TYPE } from '../utils/constants';
 import { request } from '../utils/request';
 
 export default class Router {
@@ -19,8 +19,8 @@ export default class Router {
   }
 
   async render(path) {
-    const { url, title } = routes[path];
-    const template = await request({ uri: url, type: 'text' });
+    const { url, title } = ROUTES[path];
+    const template = await request({ uri: url, type: TYPE.TEXT });
 
     this.target.innerHTML = template;
     document.title = title;

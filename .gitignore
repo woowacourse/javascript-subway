@@ -1,3 +1,8 @@
+# nextStep
+src/js/pages
+src/js/ui
+src/js/utils/mock.js
+
 .vscode/
 .DS_Store
 cypress/integration/examples

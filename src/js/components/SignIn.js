@@ -1,6 +1,6 @@
 import { request } from '../utils/request';
 import Router from '../router/Router';
-import { signInErrorAlertMatch, SIGN_IN_FAIL_MESSAGE } from '../utils/constants.js';
+import { SIGN_IN, ELEMENT, PATH, API_END_POINT, TYPE, METHOD } from '../utils/constants.js';
 
 class SignIn {
   constructor(props) {
@@ -13,29 +13,29 @@ class SignIn {
   }
 
   selectDom() {
-    this.$signInForm = document.querySelector('.sign-in-form');
+    this.$signInForm = document.querySelector(`.${ELEMENT.SIGN_IN_FORM}`);
   }
 
   bindEvent() {
     this.$signInForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      this.handleSignIn(e);
+      this.handleSignIn(e.target);
     });
   }
 
-  handleSignIn({ target }) {
-    const email = target['email'].value;
-    const password = target['password'].value;
+  handleSignIn(target) {
+    const email = target[ELEMENT.EMAIL].value;
+    const password = target[ELEMENT.PASSWORD].value;
 
     this.requestSignIn({ email, password });
   }
 
   requestSignIn({ email, password }) {
     request({
-      uri: 'http://15.164.230.130:8080/login/token',
-      method: 'POST',
-      type: 'json',
+      uri: `${API_END_POINT}/login/token`,
+      method: METHOD.POST,
+      type: TYPE.JSON,
       body: JSON.stringify({
         email,
         password,
@@ -48,22 +48,26 @@ class SignIn {
         this.manageSignInSuccess(accessToken);
       })
       .catch((error) => {
-        this.getMatchedAlert(error.message);
+        this.manageSignInFail(error);
       });
   }
 
   manageSignInSuccess(accessToken) {
     const router = new Router();
-    router.route('/');
+    router.route(PATH.MAIN);
 
     this.props.changeSignInToSignOutStatus(accessToken);
   }
 
+  manageSignInFail(error) {
+    this.getMatchedAlert(error.message);
+  }
+
   getMatchedAlert(statusCode) {
-    const errorMessage = signInErrorAlertMatch[statusCode];
+    const errorMessage = SIGN_IN.ERROR_ALERT_MATCH[statusCode];
 
     if (!errorMessage) {
-      alert(SIGN_IN_FAIL_MESSAGE);
+      alert(SIGN_IN.FAIL_MESSAGE);
       return;
     }
 

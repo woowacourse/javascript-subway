@@ -1,20 +1,21 @@
 import { isValidEmail, isValidUserName, isValidPassword, isValidPasswordConfirm } from './validation.js';
+import { ERROR_MESSAGE } from '../utils/constants.js';
 
 export const getInvalidSignUpMessage = ({ email, userName, password, passwordConfirm }) => {
   if (!isValidEmail(email)) {
-    return '이메일 형식이 올바르지 않습니다.';
+    return ERROR_MESSAGE.INVALID_TYPE_EMAIL;
   }
 
   if (!isValidUserName(userName)) {
-    return '이름이 올바르지 않습니다.';
+    return ERROR_MESSAGE.INVALID_NAME;
   }
 
   if (!isValidPassword(password)) {
-    return '비밀번호는 8자 이상으로 입력하셔야 합니다.';
+    return ERROR_MESSAGE.NEED_OVER_PASSWORD_MIN_LENGTH;
   }
 
   if (!isValidPasswordConfirm(password, passwordConfirm)) {
-    return '비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.';
+    return ERROR_MESSAGE.NOT_SAME_PASSWORD_AND_PASSWORD_CONFIRM;
   }
 
   return '';

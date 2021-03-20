@@ -1,6 +1,6 @@
 import { getInvalidSignUpMessage } from '../validators/message.js';
 import { request } from '../utils/request.js';
-import { signUpErrorAlertMatch, SIGN_UP_FAIL_MESSAGE } from '../utils/constants.js';
+import { API_END_POINT, METHOD, PATH, ELEMENT, SIGN_UP } from '../utils/constants.js';
 import Router from '../router/Router.js';
 
 class SignUp {
@@ -12,7 +12,7 @@ class SignUp {
   }
 
   selectDom() {
-    this.$signUpForm = document.querySelector('.signup-form');
+    this.$signUpForm = document.querySelector(`.${ELEMENT.SIGN_UP_FORM}`);
   }
 
   bindEvent() {
@@ -23,10 +23,10 @@ class SignUp {
   }
 
   handleSignUp({ target }) {
-    const email = target['email'].value;
-    const userName = target['user-name'].value;
-    const password = target['password'].value;
-    const passwordConfirm = target['password-confirm'].value;
+    const email = target[ELEMENT.EMAIL].value;
+    const userName = target[ELEMENT.USER_NAME].value;
+    const password = target[ELEMENT.PASSWORD].value;
+    const passwordConfirm = target[ELEMENT.PASSWORD_CONFIRM].value;
 
     const userInfo = { email, userName, password, passwordConfirm };
     const invalidSignUpMessage = getInvalidSignUpMessage(userInfo);
@@ -42,31 +42,39 @@ class SignUp {
 
   requestSignUp({ email, userName, password }) {
     request({
-      uri: 'http://15.164.230.130:8080/members',
-      method: 'POST',
+      uri: `${API_END_POINT}/members`,
+      method: METHOD.POST,
       body: JSON.stringify({
         email,
         password,
         name: userName,
       }),
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
     })
       .then(() => {
-        const router = new Router();
-        router.route('/signin');
+        this.manageSignUpSuccess();
       })
       .catch((error) => {
-        this.getMatchedAlert(error.message);
+        this.manageSignUpFail(error);
       });
   }
 
+  manageSignUpSuccess() {
+    const router = new Router();
+    router.route(PATH.SIGNIN);
+  }
+
+  manageSignUpFail(error) {
+    this.getMatchedAlert(error.message);
+  }
+
   getMatchedAlert(statusCode) {
-    const errorMessage = signUpErrorAlertMatch[statusCode];
+    const errorMessage = SIGN_UP.ERROR_ALERT_MATCH[statusCode];
 
     if (!errorMessage) {
-      alert(SIGN_UP_FAIL_MESSAGE);
+      alert(SIGN_UP.FAIL_MESSAGE);
       return;
     }
 
