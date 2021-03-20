@@ -36,7 +36,7 @@ module.exports = {
     extensions: ['.js', '.css'],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './index.html', inject: false }),
+    new HtmlWebpackPlugin({ template: './index.html' }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
