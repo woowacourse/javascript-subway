@@ -1,5 +1,5 @@
-import { isValidEmail, isValidUserName, isValidPassword, isValidPasswordConfirm } from './validation.js';
-import { ERROR_MESSAGE } from '../utils/constants.js';
+import { isValidEmail, isValidUserName, isValidPassword, isValidPasswordConfirm } from './validation';
+import { ERROR_MESSAGE } from '../utils/constants';
 
 export const getInvalidSignUpMessage = ({ email, userName, password, passwordConfirm }) => {
   if (!isValidEmail(email)) {
