@@ -15,6 +15,8 @@ export const routes = {
 };
 
 const getAvailablePath = (path, isLoggedIn) => {
+  if (!routes[path]) return '/';
+
   if (isLoggedIn) {
     if (path === '/login' || path === '/signup') return '/stations';
 
