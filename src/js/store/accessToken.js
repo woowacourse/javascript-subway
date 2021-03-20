@@ -6,9 +6,12 @@ const accessToken = {
   init() {
     this.value = getLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
   },
-  set(newAccessToken) {
+  set(newAccessToken, keepLogin = false) {
     this.value = newAccessToken;
-    setLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, this.value);
+
+    if (keepLogin) {
+      setLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, this.value);
+    }
   },
   clear() {
     this.value = '';

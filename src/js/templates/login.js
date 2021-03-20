@@ -40,6 +40,9 @@ const loginTemplate = `
                 확인
               </button>
             </div>
+            <div class="input-control">
+              <label><input type="checkbox" name="keep-login" />로그인 상태 유지</label>
+            </div>
             <p class="text-gray-700 pl-2">
               아직 회원이 아니신가요?
               <a href="/signup" id="signup-link" class="js-link">회원가입</a>
