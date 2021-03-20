@@ -1,6 +1,6 @@
 export const STATE_KEY = {
   ROUTE: 'route',
-  IS_SIGNED: 'isSigned',
+  SIGNED_USER: 'signedUser',
 };
 
 export const ROUTE = {
@@ -44,6 +44,7 @@ export const MESSAGE = {
     INVITE: '아직 회원이 아니신가요?',
     FAIL: '아이디 혹은 패스워드가 일치하지 않습니다.',
   },
+  ROOT_GREETING: name => `${name}님, 안녕하세요! 이번에 리뷰를 받게된 도비, 카일입니다. 😀`,
 };
 
 export const REG_EXP = {

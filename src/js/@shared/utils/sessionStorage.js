@@ -1,5 +1,10 @@
 export const getFromSessionStorage = key => {
-  return JSON.parse(sessionStorage.getItem(key));
+  try {
+    return JSON.parse(sessionStorage.getItem(key));
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
 };
 
 const getCircularReplacer = () => {

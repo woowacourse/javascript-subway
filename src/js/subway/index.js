@@ -13,8 +13,8 @@ export class Subway {
   }
 
   setup() {
-    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderRoot.bind(this));
-    stateManager[STATE_KEY.IS_SIGNED].subscribe(this.renderNavButtons.bind(this));
+    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderRoot.bind(this));
+    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderNavButtons.bind(this));
     stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 
@@ -24,14 +24,16 @@ export class Subway {
     this.$mainContainer = $('#main-container');
   }
 
-  renderRoot(isSigned) {
+  renderRoot(signedUser) {
     // TODO: UI 변경과 선택자 부여
-    $('p', contentElements[ROUTE.ROOT]).innerHTML = isSigned ? '' : MESSAGE.SIGNIN.REQUIRED;
+    $('p', contentElements[ROUTE.ROOT]).innerHTML = signedUser
+      ? MESSAGE.ROOT_GREETING(signedUser)
+      : MESSAGE.SIGNIN.REQUIRED;
   }
 
-  renderNavButtons(isSigned) {
-    this.$menuContainer.innerHTML = isSigned ? menuButtons : '';
-    this.$signContainer.innerHTML = isSigned
+  renderNavButtons(signedUser) {
+    this.$menuContainer.innerHTML = signedUser ? menuButtons : '';
+    this.$signContainer.innerHTML = signedUser
       ? linkButton({ link: ROUTE.SIGNOUT, text: MENU.SIGNOUT })
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }

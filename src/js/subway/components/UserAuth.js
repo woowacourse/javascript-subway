@@ -2,7 +2,8 @@ import { STATE_KEY, ROUTE, MESSAGE, BASE_URL, SESSION_KEY } from '../constants/c
 import { contentElements } from '../views';
 import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
-import { setToSessionStorage } from '../../@shared/utils';
+import { getFromSessionStorage, setToSessionStorage } from '../../@shared/utils';
+import { getUserName } from '../utils';
 
 export class UserAuth {
   constructor() {
@@ -34,7 +35,7 @@ export class UserAuth {
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
       history.pushState({ path: ROUTE.ROOT }, null, ROUTE.ROOT);
-      stateManager[STATE_KEY.IS_SIGNED].set(true);
+      stateManager[STATE_KEY.SIGNED_USER].set(await getUserName(accessToken));
       stateManager[STATE_KEY.ROUTE].set(ROUTE.ROOT);
     } catch (error) {
       this.$failMessage.classList.remove('hidden');
