@@ -1,10 +1,20 @@
-import Stations from '../components/Stations.js';
-import Lines from './Lines.js';
-import Sections from './Sections.js';
-import SignIn from './SignIn.js';
-import SignUp from './SignUp.js';
-import Router from '../router/Router.js';
-import { ELEMENT, MENU_TITLE, PATH, SESSION_KEY_TOKEN } from '../utils/constants.js';
+import Stations from '../components/Stations';
+import Lines from './Lines';
+import Sections from './Sections';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Router from '../router/Router';
+import {
+  ELEMENT,
+  MENU_TITLE,
+  PATH,
+  SESSION_KEY_TOKEN,
+  SUCCESS_MESSAGE,
+  SNACKBAR_SHOW_TIME,
+  SIGN_OUT_CONFIRM_MESSAGE,
+} from '../utils/constants';
+import { $, $$ } from '../utils/dom';
+import { showSnackbar } from '../utils/snackbar';
 
 class App {
   constructor() {
@@ -22,10 +32,10 @@ class App {
   }
 
   selectDom() {
-    this.$app = document.querySelector(`.${ELEMENT.APP}`);
-    this.$mainScreen = document.querySelector(`.${ELEMENT.MAIN_SCREEN}`);
-    this.$signInButton = document.querySelector(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`);
-    this.$$mainMenuButtons = document.querySelectorAll(`.${ELEMENT.NAV_BAR} .${ELEMENT.MAIN_MENU_ROUTER}`);
+    this.$app = $(`.${ELEMENT.APP}`);
+    this.$mainScreen = $(`.${ELEMENT.MAIN_SCREEN}`);
+    this.$signInButton = $(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`);
+    this.$$mainMenuButtons = $$(`.${ELEMENT.NAV_BAR} .${ELEMENT.MAIN_MENU_ROUTER}`);
   }
 
   bindEvent() {
@@ -61,8 +71,13 @@ class App {
         this.signUp.init();
       },
       [PATH.SIGNOUT]: () => {
+        if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) {
+          return;
+        }
+
         this.changeSignOutToSignInStatus();
         this.router.route(PATH.MAIN);
+        showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });
       },
     };
 

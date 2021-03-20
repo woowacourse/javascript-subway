@@ -1,7 +1,9 @@
-import { getInvalidSignUpMessage } from '../validators/message.js';
-import { request } from '../utils/request.js';
-import { API_END_POINT, METHOD, PATH, ELEMENT, SIGN_UP } from '../utils/constants.js';
-import Router from '../router/Router.js';
+import { getInvalidSignUpMessage } from '../validators/message';
+import { request } from '../utils/request';
+import { showSnackbar } from '../utils/snackbar';
+import { API_END_POINT, METHOD, PATH, ELEMENT, SIGN_UP, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME } from '../utils/constants';
+import Router from '../router/Router';
+import { $ } from '../utils/dom';
 
 class SignUp {
   constructor() {}
@@ -12,7 +14,7 @@ class SignUp {
   }
 
   selectDom() {
-    this.$signUpForm = document.querySelector(`.${ELEMENT.SIGN_UP_FORM}`);
+    this.$signUpForm = $(`.${ELEMENT.SIGN_UP_FORM}`);
   }
 
   bindEvent() {
@@ -64,6 +66,8 @@ class SignUp {
   manageSignUpSuccess() {
     const router = new Router();
     router.route(PATH.SIGNIN);
+
+    showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
   }
 
   manageSignUpFail(error) {

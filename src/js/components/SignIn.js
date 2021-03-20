@@ -1,6 +1,17 @@
 import { request } from '../utils/request';
+import { showSnackbar } from '../utils/snackbar';
 import Router from '../router/Router';
-import { SIGN_IN, ELEMENT, PATH, API_END_POINT, TYPE, METHOD } from '../utils/constants.js';
+import {
+  SIGN_IN,
+  ELEMENT,
+  PATH,
+  API_END_POINT,
+  TYPE,
+  METHOD,
+  SNACKBAR_SHOW_TIME,
+  SUCCESS_MESSAGE,
+} from '../utils/constants';
+import { $ } from '../utils/dom';
 
 class SignIn {
   constructor(props) {
@@ -13,7 +24,7 @@ class SignIn {
   }
 
   selectDom() {
-    this.$signInForm = document.querySelector(`.${ELEMENT.SIGN_IN_FORM}`);
+    this.$signInForm = $(`.${ELEMENT.SIGN_IN_FORM}`);
   }
 
   bindEvent() {
@@ -57,6 +68,8 @@ class SignIn {
     router.route(PATH.MAIN);
 
     this.props.changeSignInToSignOutStatus(accessToken);
+
+    showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
   }
 
   manageSignInFail(error) {
