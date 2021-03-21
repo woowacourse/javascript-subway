@@ -48,7 +48,7 @@ class SignupComponent extends Component {
 
     alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
-    this.state.route('/pages/login.html');
+    this.state.getData('route')('/pages/login.html');
   };
 
   render() {

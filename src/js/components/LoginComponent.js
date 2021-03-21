@@ -12,6 +12,10 @@ import { fetchLogin } from '../utils/fetch.js';
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
+
+    if (!this.props.appState.getData('loginResponse')) {
+      alert('not exist loginResponse');
+    }
   }
 
   initEvent() {
@@ -44,14 +48,16 @@ class LoginComponent extends Component {
           'Content-Length': 72,
         },
       });
+      alert(ALERT_MESSAGE.LOGIN_SUCCESS);
+
+      const loginResponse = await response.json();
+      this.props.appState.setData({ loginResponse });
+
+      this.props.route('/');
     } catch (err) {
       alert(err.message);
       return;
     }
-
-    alert(ALERT_MESSAGE.LOGIN_SUCCESS);
-
-    this.state.route('/');
   };
 
   render() {

@@ -9,6 +9,8 @@ const fetchSignup = async (url, option) => {
   if (!response.ok) {
     throw new Error(response.status);
   }
+
+  return response;
 };
 
 const fetchLogin = async (url, option) => {
@@ -20,6 +22,8 @@ const fetchLogin = async (url, option) => {
   if (!response.ok) {
     throw new Error(response.status);
   }
+
+  return response;
 };
 
 export { fetchSignup, fetchLogin };

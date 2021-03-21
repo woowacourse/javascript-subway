@@ -9,8 +9,8 @@ class Page extends Component {
   route = path => {
     history.pushState({ path }, null, path);
 
-    this.state.url[path].render();
-    this.state.url[path].initEvent();
+    this.url[path].render();
+    this.url[path].initEvent();
   };
 }
 

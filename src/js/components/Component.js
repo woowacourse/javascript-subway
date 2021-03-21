@@ -1,10 +1,12 @@
 import { ID_SELECTOR } from '../constants.js';
 import $ from '../utils/querySelector.js';
+import State from './State.js';
 
 class Component {
-  constructor(state) {
+  //TODO: props와 state 나누기
+  constructor(props) {
     // TODO: 객체 예외처리 생각해보기
-    this.state = state;
+    this.props = props;
   }
 
   initEvent() {}
@@ -22,7 +24,7 @@ class Component {
       return;
     }
     const path = anchor.getAttribute('href');
-    const route = this.state.route || this.route;
+    const route = this.props?.route || this.route;
 
     route(path);
   };
