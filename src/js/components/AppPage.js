@@ -19,13 +19,29 @@ class AppPage extends Page {
 
     // TODO: url을 정의하지 않았을 경우 오류 발생 처리
     this.url = {
-        '/': new HomeComponent({}),
+      '/': new HomeComponent({}),
       '/pages/login.html': new LoginComponent({
         route: this.route,
         appState: this.state,
       }),
-        '/pages/signup.html': new SignupComponent({ route: this.route }),
+      '/pages/signup.html': new SignupComponent({ route: this.route }),
     };
+
+    this.state.setListener('loginResponse', this.onLoginButtonChanged);
+  }
+
+  onLoginButtonChanged(loginResponse) {
+    const isLogin = loginResponse.accessToken;
+
+    if (isLogin) {
+      //TODO: show hide로 추상화하면 가독성이 더 좋을듯
+      $(`#${ID_SELECTOR.NAV_LOGOUT}`).classList.remove('hidden');
+      $(`#${ID_SELECTOR.NAV_LOGIN}`).classList.add('hidden');
+      return;
+    }
+
+    $(`#${ID_SELECTOR.NAV_LOGIN}`).classList.remove('hidden');
+    $(`#${ID_SELECTOR.NAV_LOGOUT}`).classList.add('hidden');
   }
 
   initEvent() {

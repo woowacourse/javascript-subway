@@ -2,6 +2,7 @@ const ID_SELECTOR = {
   MAIN: 'main',
   MODAL: 'modal',
 
+  NAV_LOGIN: 'nav__login',
   NAV_LOGOUT: 'nav__logout',
 
   SIGNUP_FORM: 'signup-form',
@@ -31,6 +32,6 @@ const ALERT_MESSAGE = {
   LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
 };
 
-const REQUEST_URL = 'http://3.35.213.149';
+const REQUEST_URL = 'https://www.boorownie.com';
 
 export { ID_SELECTOR, CLASS_SELECTOR, ALERT_MESSAGE, REQUEST_URL };
