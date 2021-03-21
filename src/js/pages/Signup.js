@@ -1,12 +1,17 @@
 import { $ } from '../utils/DOM.js';
 import { fetchSignup, fetchToCheckDuplicatedEmail } from '../API/auth.js';
-import { HTTP, MESSAGE, REG_EXP } from '../constants.js';
+import { HTTP, MESSAGE } from '../constants.js';
 import signupTemplate from '../templates/signup.js';
+import {
+  checkEmailInputHandler,
+  checkNameInputHandler,
+  checkPasswordConfirmInputHandler,
+  checkPasswordInputHandler,
+} from '../authHandlers.js';
 
 class SignupPage {
   constructor(router) {
     this.$main = $('#main');
-    this.isPossibleSignup = false;
     this.router = router;
   }
 
@@ -17,61 +22,6 @@ class SignupPage {
 
   renderView() {
     this.$main.innerHTML = signupTemplate;
-  }
-
-  showFailMessage(e, messageTarget) {
-    const inputControl = e.target.closest('.js-input-control');
-
-    inputControl.classList.add('fail');
-    inputControl.classList.remove('success');
-    $(messageTarget).classList.remove('d-none');
-
-    this.isPossibleSignup = false;
-  }
-
-  hideFailMessage(e, messageTarget) {
-    const inputControl = e.target.closest('.js-input-control');
-
-    inputControl.classList.remove('fail');
-    inputControl.classList.add('success');
-    $(messageTarget).classList.add('d-none');
-
-    this.isPossibleSignup = true;
-  }
-
-  checkEmailInputHandler(e) {
-    $('#email-fail-message').innerText = MESSAGE.ERROR.WRONG_EMAIL_FORMAT;
-
-    if (!REG_EXP.EMAIL.test(e.target.value)) {
-      this.showFailMessage(e, '#email-fail-message');
-    } else {
-      this.hideFailMessage(e, '#email-fail-message');
-    }
-  }
-
-  checkNameInputHandler(e) {
-    if (e.target.value === '' || REG_EXP.NAME.test(e.target.value)) {
-      this.showFailMessage(e, '#name-fail-message');
-    } else {
-      this.hideFailMessage(e, '#name-fail-message');
-    }
-  }
-
-  checkPasswordInputHandler(e) {
-    console.log(e.target.value);
-    if (!REG_EXP.PASSWORD.test(e.target.value)) {
-      this.showFailMessage(e, '#password-fail-message');
-    } else {
-      this.hideFailMessage(e, '#password-fail-message');
-    }
-  }
-
-  checkPasswordConfirmInputHandler(e) {
-    if ($('#password').value !== e.target.value) {
-      this.showFailMessage(e, '#password-confirm-fail-message');
-    } else {
-      this.hideFailMessage(e, '#password-confirm-fail-message');
-    }
   }
 
   async requestSignup(request) {
@@ -117,8 +67,6 @@ class SignupPage {
         $('#email-input').classList.remove('success');
         $('#email-input').classList.add('fail');
         $('#email-fail-message').innerText = MESSAGE.ERROR.DUPLICATED_EMAIL;
-
-        this.isPossibleSignup = false;
       }
     } catch (error) {
       console.error(error);
@@ -129,28 +77,19 @@ class SignupPage {
     e.preventDefault();
 
     const requestData = this.makeRequestData(e);
-
-    if (this.isPossibleSignup) {
-      await this.requestSignup(requestData);
-    }
+    await this.requestSignup(requestData);
   }
 
   bindCheckInputEvents() {
-    $('#email').addEventListener(
-      'keyup',
-      this.checkEmailInputHandler.bind(this)
-    );
-
-    $('#name').addEventListener('keyup', this.checkNameInputHandler.bind(this));
-
+    $('#email').addEventListener('keyup', checkEmailInputHandler.bind(this));
+    $('#name').addEventListener('keyup', checkNameInputHandler.bind(this));
     $('#password').addEventListener(
       'keyup',
-      this.checkPasswordInputHandler.bind(this)
+      checkPasswordInputHandler.bind(this)
     );
-
     $('#password-confirm').addEventListener(
       'keyup',
-      this.checkPasswordConfirmInputHandler.bind(this)
+      checkPasswordConfirmInputHandler.bind(this)
     );
   }
 
