@@ -1,4 +1,4 @@
-const ORIGIN = 'http://3.35.213.149';
+const ORIGIN = 'https://www.boorownie.com';
 
 const API_ENDPOINT = Object.freeze({
   EMAIL_VALIDATION: `${ORIGIN}/members/check-validation`,
