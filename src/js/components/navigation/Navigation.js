@@ -1,6 +1,5 @@
 import Component from '../../core/Component.js';
-import { $, $$ } from '../../utils/index.js';
-import { navigationTemplate } from './template.js';
+import { $, $$, showElement, hideElement } from '../../utils/index.js';
 import { LOCAL_STORAGE_KEY } from '../../constants/index.js';
 
 export default class Navigation extends Component {
@@ -19,7 +18,7 @@ export default class Navigation extends Component {
     this.$header.addEventListener('click', this.handleNavigation.bind(this));
   }
 
-  handleNavigation(e) {
+  async handleNavigation(e) {
     e.preventDefault();
 
     if (!e.target.classList.contains('btn')) {
@@ -33,13 +32,20 @@ export default class Navigation extends Component {
     }
 
     const url = e.target.closest('.navigation-link').getAttribute('href');
-    this.changeTemplate(url);
+    await this.changeTemplate(url);
     Navigation.changeSelectedButtonColor(e.target);
     history.pushState({ url }, null, url);
   }
 
   render(token = '') {
-    $('#navigation').innerHTML = navigationTemplate(token);
+    if (token) {
+      hideElement($('#navigation-login-button'));
+      showElement($('#navigation-logout-button'));
+      return;
+    }
+
+    showElement($('#navigation-login-button'));
+    hideElement($('#navigation-logout-button'));
   }
 
   static changeSelectedButtonColor(target = '') {

@@ -12,13 +12,8 @@ import { getLocalStorageItem, API } from '../utils/index.js';
 export default class App extends Component {
   constructor() {
     super();
-    this.init();
-  }
-
-  async init() {
     this.bindEvent();
-    this.token = await this.getToken();
-    this.Navigation.render(this.token);
+    this.Navigation.render();
   }
 
   mountComponent() {
@@ -39,17 +34,6 @@ export default class App extends Component {
     window.addEventListener('popstate', this.changeTemplate.bind(this));
   }
 
-  async getToken() {
-    const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
-    const response = await API.getUserInfo(token);
-
-    if (!response.id) {
-      return '';
-    }
-
-    return token;
-  }
-
   async changeTemplate(pathName) {
     const router = {
       '/': (token = '') => this.Main.load(token),
@@ -59,8 +43,14 @@ export default class App extends Component {
       '/login': (token = '') => this.Login.load(token),
       '/signup': (token = '') => this.Signup.load(token),
     };
+    const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
+    const response = await API.getUserInfo(token);
 
-    const token = await this.getToken();
+    if (!response.id) {
+      this.Navigation.render();
+      router[pathName]?.();
+      return;
+    }
 
     this.Navigation.render(token);
     router[pathName]?.(token);
