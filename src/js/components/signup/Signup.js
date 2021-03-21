@@ -8,6 +8,7 @@ export default class Signup extends Component {
   constructor({ changeTemplate }) {
     super();
     this.changeTemplate = changeTemplate;
+    this.isDuplicateChecked;
   }
 
   bindEvent() {
@@ -15,6 +16,25 @@ export default class Signup extends Component {
       'submit',
       this.handleSignupForm.bind(this),
     );
+    $('#check-email-duplicate-button').addEventListener(
+      'click',
+      this.handleEmailDuplicateButton.bind(this),
+    );
+  }
+
+  async handleEmailDuplicateButton() {
+    const email = $('#signup-email').value;
+
+    const response = await API.checkDuplicateEmail(email);
+
+    if (!response.ok) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL);
+      this.isDuplicateChecked = false;
+      return;
+    }
+
+    showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
+    this.isDuplicateChecked = email;
   }
 
   async handleSignupForm(e) {
@@ -30,6 +50,11 @@ export default class Signup extends Component {
       return;
     }
 
+    if (!this.isDuplicateChecked || this.isDuplicateChecked !== email) {
+      showSnackbar(SNACKBAR_MESSAGE.REQUIRE_CHECK_EMAIL);
+      return;
+    }
+
     const response = await API.signup({ email, password, name });
 
     if (!response.ok) {
@@ -41,6 +66,7 @@ export default class Signup extends Component {
     this.changeTemplate('/');
     history.pushState({ pathName: '/' }, null, '/');
     Navigation.changeSelectedButtonColor();
+    this.isDuplicateChecked = false;
   }
 
   render() {

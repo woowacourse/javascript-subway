@@ -17,17 +17,22 @@ export const signupTemplate = () => {
               required
             />
           </div>
-          <div class="input-control">
+          <div class="input-control d-flex justify-between">
             <label for="signup-email" class="input-label" hidden>이메일</label>
             <input
               type="email"
               id="signup-email"
               name="signup-email"
-              class="input-field"
+              class="input-field "
               placeholder="이메일"
               autocomplete="off"
               required
             />
+            <button
+              type="button"
+              id="check-email-duplicate-button"
+              class="btn btn-hover ml-3 w-100px"
+            >중복 확인</button>
           </div>
           <div class="input-control">
             <label for="signup-password" class="input-label" hidden

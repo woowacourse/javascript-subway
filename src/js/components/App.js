@@ -45,8 +45,9 @@ export default class App extends Component {
     };
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
     const response = await API.getUserInfo(token);
+    const responseJSON = await response.json();
 
-    if (!response.id) {
+    if (!responseJSON.id) {
       this.Navigation.render();
       router[pathName]?.();
       return;

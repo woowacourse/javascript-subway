@@ -33,8 +33,9 @@ export default class Login extends Component {
     const password = e.target.elements['login-password'].value;
 
     const response = await API.login({ email, password });
+    const responseJSON = await response.json();
 
-    if (!response.accessToken) {
+    if (!responseJSON.accessToken) {
       showSnackbar(SNACKBAR_MESSAGE.LOGIN_FAILURE);
       return;
     }
@@ -42,7 +43,7 @@ export default class Login extends Component {
     showSnackbar(SNACKBAR_MESSAGE.LOGIN_SUCCESS);
     setLocalStorageItem({
       key: LOCAL_STORAGE_KEY.TOKEN,
-      item: response.accessToken,
+      item: responseJSON.accessToken,
     });
 
     this.changeTemplate('/');
