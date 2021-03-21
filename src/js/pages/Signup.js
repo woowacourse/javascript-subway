@@ -1,7 +1,7 @@
-import signupTemplate from './template.js';
 import { $ } from '../utils/DOM.js';
 import { fetchSignup } from '../API/auth.js';
 import { HTTP } from '../constants.js';
+import signupTemplate from '../templates/signup.js';
 
 class SignupPage {
   constructor(router) {
@@ -59,9 +59,7 @@ class SignupPage {
   }
 
   bindEvents() {
-    $('#signup-form').addEventListener('submit', e => {
-      this.signupHandler(e);
-    });
+    $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
   }
 }
 export default SignupPage;
