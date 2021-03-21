@@ -11,41 +11,41 @@
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
           <header class="my-4">
-            <a href="/" class="text-black">
-              <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+            <a href="/" class="navigation-link text-black">
+              <h1 id="navigation-main" class="btn text-center font-bold">
+                🚇 지하철 노선도
+              </h1>
             </a>
-            <nav class="js-navigation d-flex justify-center flex-wrap">
-              <a href="stations" class="my-1">
+            <nav id="navigation" class="d-flex justify-center flex-wrap">
+              <a href="stations" class="navigation-link my-1">
                 <button
-                  class="js-navigation__stations btn bg-white shadow mx-1"
+                  id="navigation-stations-button"
+                  class="navigation-button btn bg-white shadow mx-1"
                 >
                   🚉 역 관리
                 </button>
               </a>
-              <a href="lines" class="my-1">
-                <button class="js-navigation__lines btn bg-white shadow mx-1">
+              <a href="lines" class="navigation-link my-1">
+                <button
+                  id="navigation-lines-button"
+                  class="navigation-button btn bg-white shadow mx-1"
+                >
                   🛤️ 노선 관리
                 </button>
               </a>
-              <a href="sections" class="my-1">
+              <a href="sections" class="navigation-link my-1">
                 <button
-                  class="js-navigation__sections btn bg-white shadow mx-1"
+                  id="navigation-sections-button"
+                  class="navigation-button btn bg-white shadow mx-1"
                 >
                   🔁 구간 관리
                 </button>
               </a>
-              <a href="map" class="my-1">
-                <button class="js-navigation__map btn bg-white shadow mx-1">
-                  🗺️ 전체 보기
-                </button>
-              </a>
-              <a href="search" class="my-1">
-                <button class="js-navigation__search btn bg-white shadow mx-1">
-                  🔎 길 찾기
-                </button>
-              </a>
-              <a href="login" class="my-1">
-                <button class="js-navigation__login btn bg-white shadow mx-1">
+              <a href="login" class="navigation-link my-1">
+                <button
+                  id="navigation-login-button"
+                  class="navigation-button btn bg-white shadow mx-1"
+                >
                   👤 로그인
                 </button>
               </a>
@@ -65,4 +65,5 @@
       </div>
     </div>
   </body>
+  <script type="module" src="./src/js/index.js"></script>
 </html>
