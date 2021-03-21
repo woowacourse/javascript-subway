@@ -1,7 +1,7 @@
-import TEMPLATE from './template.js';
-import { $ } from '../../../utils/index.js';
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
 import requestSignUp from './request.js';
+import TEMPLATE from './template.js';
+import { $, debounce } from '../../../utils/index.js';
 
 const $main = $('main');
 
@@ -17,7 +17,7 @@ export const renderSignUp = () => {
   $name.addEventListener('input', validateName);
   $name.addEventListener('blur', validateName);
 
-  $email.addEventListener('input', validateEmail);
+  $email.addEventListener('input', debounce(validateEmail, 1500));
   $email.addEventListener('blur', validateEmail);
 
   $password.addEventListener('input', validatePassword);

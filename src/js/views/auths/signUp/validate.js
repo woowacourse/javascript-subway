@@ -1,14 +1,19 @@
 import { generateInputValidator } from '../../../utils/index.js';
-import { AUTH_MESSAGES } from '../../../constants/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES } from '../../../constants/index.js';
 
-const getNameValidityMessage = ({ valueMissing }) => {
+const getNameValidityMessage = ($input) => {
+  const { valueMissing } = $input.validity;
+
   if (valueMissing) {
     return AUTH_MESSAGES.USER_NAME_IS_REQUIRED;
   }
   return '';
 };
 
-const getEmailValidityMessage = ({ valueMissing, typeMismatch }) => {
+const getEmailValidityMessage = async ($input) => {
+  const { valueMissing, typeMismatch } = $input.validity;
+  const email = $input.value;
+
   if (valueMissing) {
     return AUTH_MESSAGES.USER_EMAIL_IS_REQUIRED;
   }
@@ -17,16 +22,30 @@ const getEmailValidityMessage = ({ valueMissing, typeMismatch }) => {
     return AUTH_MESSAGES.USER_EMAIL_TYPE_IS_MISMATCHED;
   }
 
-  // TODO: 이메일 중복되었는지 API 호출 필요
-  const response = { ok: true };
-  if (!response.ok) {
-    return AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED;
+  try {
+    const url = new URL(API_ENDPOINT.EMAIL_VALIDATION);
+    const parameters = new URLSearchParams({ email });
+    url.search = parameters.toString();
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
+
+    if (!response.ok) {
+      return AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED;
+    }
+  } catch (error) {
+    return error.message;
   }
 
   return '';
 };
 
-const getPasswordValidityMessage = ({ valueMissing }) => {
+const getPasswordValidityMessage = ($input) => {
+  const { valueMissing } = $input.validity;
   if (valueMissing) {
     return AUTH_MESSAGES.USER_PASSWORD_IS_REQUIRED;
   }
