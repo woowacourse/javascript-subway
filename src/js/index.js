@@ -11,7 +11,7 @@ import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
-import accessTokenManager from './states/AccessTokenManager.js';
+import accessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 
 const PrivateRouter = (Station) => {

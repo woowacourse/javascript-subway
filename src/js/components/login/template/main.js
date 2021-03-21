@@ -27,6 +27,9 @@ const mainTemplate = () => {
             name="email"
             class="input-field"
             placeholder="이메일"
+            maxlength=40
+            autofocus
+            autocomplete
             required
           />
         </div>
@@ -40,6 +43,10 @@ const mainTemplate = () => {
             name="password"
             class="input-field"
             placeholder="비밀번호"
+            minlength=6
+            maxlength=20
+            autocomplete
+            required
           />
         </div>
         <div class="input-control w-100">

@@ -5,7 +5,7 @@ import { BASE_URL, PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
 import Station from '../station/index.js';
 import { AUTHENTICATED_LINK } from '../../constants/header.js';
-import accessTokenManager from '../../states/AccessTokenManager.js';
+import accessTokenManager from '../../stateManagers/AccessTokenManager.js';
 
 class Login extends Component {
   constructor(parentNode) {
