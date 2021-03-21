@@ -19,7 +19,11 @@ const PrivateRouter = (Component) => {
     return Component;
   }
 
-  history.pushState({ route: '/login' }, null, '/login');
+  history.pushState(
+    { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
+    null,
+    UNAUTHENTICATED_LINK.LOGIN.ROUTE
+  );
   return Login;
 };
 
@@ -64,11 +68,21 @@ class App {
 
       e.preventDefault();
 
-      if (anchor.href === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
-        localStorage.clear();
+      const route = anchor.getAttribute('href');
+      if (route === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
+        localStorage.removeItem('accessToken');
+        accessTokenManager.clearToken();
+
+        history.pushState(
+          { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
+          null,
+          UNAUTHENTICATED_LINK.LOGIN.ROUTE
+        );
+        this.render(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
+
+        return;
       }
 
-      const route = anchor.getAttribute('href');
       history.pushState({ route }, null, route);
       this.render(route);
     });

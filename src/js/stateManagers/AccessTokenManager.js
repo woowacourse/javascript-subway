@@ -13,6 +13,10 @@ class AccessTokenManager {
     return this.accessToken;
   }
 
+  clearToken() {
+    this.setToken('');
+  }
+
   subscribe(listener) {
     this.listeners.push(listener);
   }
