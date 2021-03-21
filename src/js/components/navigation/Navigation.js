@@ -28,13 +28,13 @@ export default class Navigation extends Component {
     if (e.target.id === 'navigation-logout-button') {
       localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
       this.changeTemplate('/');
-      history.pushState({ url: '/' }, null, '/');
+      history.pushState({ pathName: '/' }, null, '/');
     }
 
-    const url = e.target.closest('.navigation-link').getAttribute('href');
-    await this.changeTemplate(url);
+    const pathName = e.target.closest('.navigation-link').getAttribute('href');
+    await this.changeTemplate(pathName);
     Navigation.changeSelectedButtonColor(e.target);
-    history.pushState({ url }, null, url);
+    history.pushState({ pathName }, null, pathName);
   }
 
   render(token = '') {

@@ -46,16 +46,16 @@ export default class Login extends Component {
     });
 
     this.changeTemplate('/');
-    history.pushState({ url: '/' }, null, '/');
+    history.pushState({ pathName: '/' }, null, '/');
     Navigation.changeSelectedButtonColor();
   }
 
   handleSingupButton(e) {
     e.preventDefault();
 
-    const url = e.target.closest('.navigation-link').getAttribute('href');
-    this.changeTemplate(url);
-    history.pushState({ url }, null, url);
+    const pathName = e.target.closest('.navigation-link').getAttribute('href');
+    this.changeTemplate(pathName);
+    history.pushState({ pathName }, null, pathName);
   }
 
   render() {

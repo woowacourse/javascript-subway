@@ -39,7 +39,7 @@ export default class Signup extends Component {
 
     showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
     this.changeTemplate('/');
-    history.pushState({ url: '/' }, null, '/');
+    history.pushState({ pathName: '/' }, null, '/');
     Navigation.changeSelectedButtonColor();
   }
 
