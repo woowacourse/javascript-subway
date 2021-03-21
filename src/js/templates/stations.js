@@ -3,7 +3,7 @@ const stationsTemplate = `
   <div class="heading">
     <h2 class="mt-1">🚉 역 관리</h2>
   </div>
-  <form>
+  <form id="stations-form">
     <div class="d-flex w-100">
       <label for="station-name" class="input-label" hidden>
         역 이름
@@ -19,7 +19,7 @@ const stationsTemplate = `
       <button
         type="button"
         name="submit"
-        class="input-submit bg-cyan-300 ml-2"
+        class="input-submit bg-cyan-300 ml-2 w-20"
       >
         확인
       </button>
@@ -30,13 +30,13 @@ const stationsTemplate = `
       <span class="w-100 pl-2">사당</span>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
+        class="btn bg-gray-50 text-gray-500 text-sm mr-1"
       >
         수정
       </button>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm"
+        class="btn bg-gray-50 text-gray-500 text-sm"
       >
         삭제
       </button>
@@ -46,11 +46,11 @@ const stationsTemplate = `
       <span class="w-100 pl-2">방배</span>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
+        class="btn bg-gray-50 text-gray-500 text-sm mr-1"
       >
         수정
       </button>
-      <button type="button" class="bg-gray-50 text-gray-500">
+      <button type="button" class="btn bg-gray-50 text-gray-500">
         삭제
       </button>
     </li>

@@ -16,7 +16,7 @@ class MainPage {
   }
 
   renderView() {
-    this.$appNavbar.innerHTML = `<button id="logout-button" class="d-flex ml-auto">로그아웃</button>`;
+    this.$appNavbar.innerHTML = `<button id="logout-button" class="btn d-flex ml-auto mr-10 my-auto d-inline-block">로그아웃</button>`;
     this.$navigation.innerHTML = headerTemplate;
   }
 

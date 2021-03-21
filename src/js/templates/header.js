@@ -1,19 +1,19 @@
 const headerTemplate = `
 <nav class="d-flex justify-center flex-wrap">
-  <ul id='nav' class="d-flex">
-    <li class="my-1">
+  <ul class="d-flex">
+    <li class="my-1 mx-2">
       <a href="/stations">
-        <button data-nav-path="/stations">🚉 역 관리</button>
+        <button class="bg-cyan-80" data-nav-path="/stations">🚉 역 관리</button>
       </a>
     </li>
-    <li class="my-1">
+    <li class="my-1 mx-2">
       <a href="/lines">
-        <button data-nav-path="/lines">🛤️ 노선 관리</button>
+        <button class="bg-cyan-80" data-nav-path="/lines">🛤️ 노선 관리</button>
       </a>
     </li>
-    <li class="my-1" data-nav-path="/sections">
+    <li class="my-1 mx-2">
       <a href="/sections">
-        <button data-nav-path="/sections">🔁 구간 관리</button>
+        <button class="bg-cyan-80" data-nav-path="/sections">🔁 구간 관리</button>
       </a>
     </li>
   </ul>
