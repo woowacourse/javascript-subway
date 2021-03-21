@@ -1,16 +1,16 @@
-import { CLASS_SELECTOR } from "../constants";
+import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
 
 const MAIN_COMPONENT = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2>👋 로그인</h2>
   </div>
-  <form name="login" class="form">
+  <form id="${ID_SELECTOR.LOGIN_FORM}" name="login" class="form">
     <div class="input-control">
       <label for="email" class="input-label" hidden>이메일</label>
       <input
         type="email"
-        id="email"
+        id="${ID_SELECTOR.LOGIN_FORM_EMAIL}"
         name="email"
         class="input-field"
         placeholder="이메일"
@@ -23,7 +23,7 @@ const MAIN_COMPONENT = `
       >
       <input
         type="password"
-        id="password"
+        id="${ID_SELECTOR.LOGIN_FORM_PASSWORD}"
         name="password"
         class="input-field"
         placeholder="비밀번호"
@@ -31,6 +31,7 @@ const MAIN_COMPONENT = `
     </div>
     <div class="input-control w-100">
       <button
+        id="${ID_SELECTOR.LOGIN_FORM_SUBMIT}"
         type="button"
         name="submit"
         class="input-submit w-100 bg-cyan-300"
