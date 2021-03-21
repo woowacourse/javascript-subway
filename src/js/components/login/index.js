@@ -45,10 +45,6 @@ class Login extends Component {
           AUTHENTICATED_LINK.STATION.ROUTE
         );
         new Station(this.parentNode);
-
-        // 로그아웃 버튼 만들기
-
-        console.log(response.status);
       } catch (error) {
         console.error(error);
       }

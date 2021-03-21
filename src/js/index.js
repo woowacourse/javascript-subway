@@ -14,25 +14,26 @@ import Station from './components/station/index.js';
 import accessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 
-const PrivateRouter = (Station) => {
-  if (localStorage.getItem('accessToken')) {
-    return Station;
+const PrivateRouter = (Component) => {
+  if (isLogin()) {
+    return Component;
   }
 
+  history.pushState({ route: '/login' }, null, '/login');
   return Login;
 };
 
 class App {
   constructor() {
     this.components = {
-      [HOME_LINK.ROUTE]: PrivateRouter(Station),
-      [AUTHENTICATED_LINK.STATION.ROUTE]: PrivateRouter(Station),
-      [AUTHENTICATED_LINK.LINE.ROUTE]: PrivateRouter(Line),
-      [AUTHENTICATED_LINK.SECTION.ROUTE]: PrivateRouter(Section),
+      [HOME_LINK.ROUTE]: () => PrivateRouter(Station),
+      [AUTHENTICATED_LINK.STATION.ROUTE]: () => PrivateRouter(Station),
+      [AUTHENTICATED_LINK.LINE.ROUTE]: () => PrivateRouter(Line),
+      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => PrivateRouter(Section),
       // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
       // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
-      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: Login,
-      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: Signup,
+      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => Login,
+      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => Signup,
     };
 
     accessTokenManager.subscribe(this.renderHeader);
@@ -48,7 +49,8 @@ class App {
   }
 
   render(route) {
-    new this.components[route]($('.js-main'));
+    const component = this.components[route]();
+    new component($('.js-main'));
   }
 
   addEventListeners() {
