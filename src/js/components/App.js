@@ -5,6 +5,7 @@ import Stations from './stations/Stations.js';
 import Lines from './lines/Lines.js';
 import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
+import Main from './main/Main.js';
 export default class App extends Component {
   constructor() {
     super();
@@ -19,7 +20,10 @@ export default class App extends Component {
     this.Lines = new Lines();
     this.Sections = new Sections();
     this.Login = new Login({ changeTemplate: this.changeTemplate.bind(this) });
-    this.Signup = new Signup();
+    this.Signup = new Signup({
+      changeTemplate: this.changeTemplate.bind(this),
+    });
+    this.Main = new Main();
   }
 
   bindEvent() {
@@ -27,29 +31,15 @@ export default class App extends Component {
   }
 
   changeTemplate(pathName) {
-    if (pathName === '/stations') {
-      this.Stations.load();
-      return;
-    }
+    const router = {
+      '/': () => this.Main.load(),
+      '/stations': () => this.Stations.load(),
+      '/lines': () => this.Lines.load(),
+      '/sections': () => this.Sections.load(),
+      '/login': () => this.Login.load(),
+      '/signup': () => this.Signup.load(),
+    };
 
-    if (pathName === '/sections') {
-      this.Sections.load();
-      return;
-    }
-
-    if (pathName === '/lines') {
-      this.Lines.load();
-      return;
-    }
-
-    if (pathName === '/login') {
-      this.Login.load();
-      return;
-    }
-
-    if (pathName === '/signup') {
-      this.Signup.load();
-      return;
-    }
+    router[pathName]?.();
   }
 }

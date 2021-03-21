@@ -24,14 +24,14 @@ export default class Navigation extends Component {
       return;
     }
 
-    this.changeSelectedButtonColor(e.target);
+    Navigation.changeSelectedButtonColor(e.target);
 
     const url = e.target.closest('.navigation-link').getAttribute('href');
     this.changeTemplate(url);
     history.pushState({ url }, null, url);
   }
 
-  changeSelectedButtonColor(target = '') {
+  static changeSelectedButtonColor(target = '') {
     $$('.navigation-button').forEach((button) =>
       button.classList.remove('bg-cyan-100'),
     );
