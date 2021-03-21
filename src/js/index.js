@@ -1,4 +1,6 @@
-import router from './router.js';
+import AppPage from './components/AppPage.js';
 
-router.init();
-router.render('/');
+const appPage = new AppPage({});
+
+appPage.initEvent();
+appPage.route('/');

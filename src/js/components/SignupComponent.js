@@ -3,11 +3,10 @@ import SIGNUP_TEMPLATE from '../templates/signupTemplate.js';
 import $ from '../utils/querySelector.js';
 import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL } from '../constants.js';
 import { fetchSignup } from '../utils/fetch.js';
-import router from '../router.js';
 
 class SignupComponent extends Component {
-  constructor(state) {
-    super(state);
+  constructor(props) {
+    super(props);
   }
 
   initEvent() {
@@ -17,7 +16,7 @@ class SignupComponent extends Component {
     );
   }
 
-  async #onSignupSubmit(event) {
+  #onSignupSubmit = async event => {
     event.preventDefault();
 
     const email = event.target[ID_SELECTOR.SIGNUP_FORM_EMAIL].value;
@@ -49,8 +48,8 @@ class SignupComponent extends Component {
 
     alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
-    router.render('/pages/login.html');
-  }
+    this.state.route('/pages/login.html');
+  };
 
   render() {
     super.render(SIGNUP_TEMPLATE);

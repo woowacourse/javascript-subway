@@ -7,12 +7,11 @@ import {
   ID_SELECTOR,
   REQUEST_URL,
 } from '../constants.js';
-import router from '../router.js';
 import { fetchLogin } from '../utils/fetch.js';
 
 class LoginComponent extends Component {
-  constructor(state) {
-    super(state);
+  constructor(props) {
+    super(props);
   }
 
   initEvent() {
@@ -27,7 +26,7 @@ class LoginComponent extends Component {
     );
   }
 
-  async #onLoginSubmit(event) {
+  #onLoginSubmit = async event => {
     event.preventDefault();
 
     const email = event.target[ID_SELECTOR.LOGIN_FORM_EMAIL].value;
@@ -52,8 +51,8 @@ class LoginComponent extends Component {
 
     alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
-    router.render('/');
-  }
+    this.state.route('/');
+  };
 
   render() {
     super.render(LOGIN_TEMPLATE);

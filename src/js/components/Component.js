@@ -1,6 +1,5 @@
-import { ID_SELECTOR } from "../constants.js";
-import router from "../router.js";
-import $ from "../utils/querySelector.js";
+import { ID_SELECTOR } from '../constants.js';
+import $ from '../utils/querySelector.js';
 
 class Component {
   constructor(state) {
@@ -8,8 +7,7 @@ class Component {
     this.state = state;
   }
 
-  initEvent() {
-  }
+  initEvent() {}
 
   render({ TITLE, MAIN, MODAL }) {
     $('title').innerHTML = TITLE;
@@ -17,13 +15,17 @@ class Component {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
   }
 
-  _onAnchorClicked(event) {
+  _onAnchorClicked = event => {
     event.preventDefault();
-    const path = event.target.getAttribute('href');
+    const anchor = event.target.closest('a');
+    if (!anchor) {
+      return;
+    }
+    const path = anchor.getAttribute('href');
+    const route = this.state.route || this.route;
 
-    history.pushState({ path }, null, path);
-    router.render(path);
-  }
+    route(path);
+  };
 }
 
 export default Component;
