@@ -48,11 +48,12 @@ class App {
         return;
       }
 
-      if (
-        !this.isValidAccessToken() &&
-        (route !== UNAUTHENTICATED_LINK.LOGIN.ROUTE ||
-          route !== UNAUTHENTICATED_LINK.SIGNUP.ROUTE)
-      ) {
+      const isLoginOrSignupRoute = [
+        UNAUTHENTICATED_LINK.LOGIN.ROUTE,
+        UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
+      ].includes(route);
+
+      if (!isLoginOrSignupRoute && !this.isValidAccessToken()) {
         this.fireAccessToken();
       }
 
