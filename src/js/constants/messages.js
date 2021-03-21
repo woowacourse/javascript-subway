@@ -1,4 +1,6 @@
 const AUTH_MESSAGES = Object.freeze({
+  WELCOME: '지하철 노선도 앱에 오신 것을 환영합니다 💙',
+  LOGIN_IS_REQUIRED: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
   USER_NAME_IS_REQUIRED: '사용자 이름을 입력해주세요.',
   USER_EMAIL_IS_REQUIRED: '이메일을 입력해주세요.',
   USER_EMAIL_TYPE_IS_MISMATCHED: '잘못된 이메일 형식입니다. 다시 입력해주세요.',

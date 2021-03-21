@@ -1,6 +1,7 @@
 import { goTo } from '../../../router/index.js';
 import { notify } from '../../../utils/index.js';
 import { API_ENDPOINT, AUTH_MESSAGES, ROUTES } from '../../../constants/index.js';
+import { login } from '../../../auth.js';
 
 const requestLogin = async (event) => {
   event.preventDefault();
@@ -24,8 +25,8 @@ const requestLogin = async (event) => {
     }
 
     const { accessToken } = await response.json();
-    localStorage.setItem('accessToken', accessToken);
 
+    login(accessToken);
     notify(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
     goTo(ROUTES.STATIONS);
   } catch (error) {
