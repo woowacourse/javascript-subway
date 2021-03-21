@@ -1,9 +1,11 @@
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
+// eslint-disable-next-line import/no-cycle
 import requestSignUp from './request.js';
 import TEMPLATE from './template.js';
 import { $, debounce } from '../../../utils/index.js';
 
 const $main = $('main');
+const waitTime = 1500;
 
 // eslint-disable-next-line import/prefer-default-export
 export const renderSignUp = () => {
@@ -17,7 +19,7 @@ export const renderSignUp = () => {
   $name.addEventListener('input', validateName);
   $name.addEventListener('blur', validateName);
 
-  $email.addEventListener('input', debounce(validateEmail, 1500));
+  $email.addEventListener('input', debounce(validateEmail, waitTime));
   $email.addEventListener('blur', validateEmail);
 
   $password.addEventListener('input', validatePassword);
