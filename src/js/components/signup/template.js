@@ -31,9 +31,10 @@ export const signupTemplate = () => {
             <button
               type="button"
               id="check-email-duplicate-button"
-              class="btn btn-hover ml-3 w-100px"
+              class="btn btn-hover ml-3 w-110px"
             >중복 확인</button>
           </div>
+          <span id="email-valid-check-text" class="signup-form-check-text"></span>
           <div class="input-control">
             <label for="signup-password" class="input-label" hidden
               >비밀번호</label
@@ -60,6 +61,7 @@ export const signupTemplate = () => {
               autocomplete="off"
             />
           </div>
+          <span id="password-match-check-text" class="signup-form-check-text"></span>
           <div class="input-control">
             <button
               name="submit"

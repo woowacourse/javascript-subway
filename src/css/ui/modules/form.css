@@ -51,3 +51,12 @@ form select {
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
 }
+
+.signup-form-check-text {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  margin-top: -1rem;
+  margin-bottom: 1.25rem;
+  margin-left: 1rem;
+}
