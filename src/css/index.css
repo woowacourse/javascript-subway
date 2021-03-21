@@ -11,6 +11,10 @@ body {
   background-color: #f1f5f9;
 }
 
+h1 {
+  color: black;
+}
+
 #app {
   max-width: 960px;
   margin: 0 auto;
@@ -18,6 +22,10 @@ body {
 
 a {
   text-decoration: none;
+}
+
+a:visited {
+  color: rgb(5, 95, 100);
 }
 
 main .wrapper {

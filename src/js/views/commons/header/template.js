@@ -1,7 +1,7 @@
 import { ROUTES } from '../../../constants/index.js';
 
 const HEADER_TEMPLATE = `
-<a href="${ROUTES.HOME}" class="text-black">
+<a href="${ROUTES.HOME}">
   <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
 </a>
 <nav class="d-flex justify-center flex-wrap">
