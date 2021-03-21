@@ -1,4 +1,4 @@
-import { SELECTOR_CLASS, SELECTOR_ID } from '../constants.js';
+import { SELECTOR_ID } from '../constants.js';
 import Observer from '../lib/Observer.js';
 import { $ } from '../utils/utils.js';
 

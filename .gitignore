@@ -1,6 +1,10 @@
 # custom
 .env
 cypress/integration/examples/
+.firebase/
+.vscode/
+firebase.json
+.firebaserc
 
 # Logs
 logs

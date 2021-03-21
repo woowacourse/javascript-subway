@@ -18,7 +18,6 @@ export default class Navigator extends Observer {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
   }
 
-  // TODO : 이거 굳이 동적으로 넣는 이유가 뭔지 알아보기
   #getTemplate() {
     return `
       <a href="${PATH.ROOT}" class="text-black">

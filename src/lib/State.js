@@ -1,4 +1,5 @@
-import { isObject } from '../utils/utils.js';
+import { SESSION_STORAGE_KEY } from '../constants.js';
+import { isObject, sessionStore } from '../utils/utils.js';
 import Subject from './Subject.js';
 
 export default class State extends Subject {
@@ -12,18 +13,20 @@ export default class State extends Subject {
       sectionList: [{ name: '섹션1' }, { name: '섹션2' }],
       isLoggedIn: false,
     };
-  }
 
+    this.#initState();
+  }
+  
   update(key, data = {}) {
     this.#state = { ...this.#state, [key]: data };
     this.notify(key);
   }
-
+  
   updateAll(data = {}) {
     this.#state = { ...this.#state, data };
     this.notifyAll();
   }
-
+  
   get(key) {
     if (!key) return;
     if (Array.isArray(this.#state[key])) {
@@ -34,8 +37,16 @@ export default class State extends Subject {
     }
     return this.#state[key];
   }
-
+  
   getAll() {
     return Object.assign({}, this.#state);
+  }
+
+  #initState() {
+    if (sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN)) {
+      this.#state.isLoggedIn = true;
+      return;
+    }
+    this.#state.isLoggedIn = false;
   }
 }
