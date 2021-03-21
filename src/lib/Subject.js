@@ -3,6 +3,8 @@ export default class Subject {
     this.observers = {
       stationList: [],
       lineList: [],
+      sectionList: [],
+      isLoggedIn: [],
     };
   }
 
@@ -22,14 +24,14 @@ export default class Subject {
 
   notify(key) {
     if (this.observers[key].length > 0) {
-      this.observers[key].forEach(observer => observer.update());
+      this.observers[key].forEach(observer => observer.renderComponent());
     }
   }
 
   notifyAll() {
     Object.keys(this.observers).forEach(key => {
       if (this.observers[key].length > 0) {
-        this.observers[key].forEach(observer => observer.update());
+        this.observers[key].forEach(observer => observer.renderComponent());
       }
     });
   }

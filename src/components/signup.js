@@ -1,6 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
 import { $ } from '../utils/utils.js';
-import { requestSignUp } from '../api/member.js';
 
 export default class SignUp {
   #targetSelector;
@@ -17,21 +16,6 @@ export default class SignUp {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
-    this.#initEvents();
-  }
-
-  #initEvents() {
-    $(this.#targetSelector).addEventListener('submit', e => {
-      e.preventDefault();
-      const { email, name, password } = e.target;
-      requestSignUp(email.value, name.value, password.value).then(isSignupOK => {
-        if (isSignupOK) {
-          history.back();
-          return;
-        }
-        alert('회원가입에 실패하였습니다.');
-      });
-    });
   }
 
   #getWrapperTemplate() {

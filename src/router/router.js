@@ -1,8 +1,5 @@
-import { SELECTOR_ID } from '../constants.js';
-import ROUTES from './routes.js';
-import { $ } from '../utils/utils.js';
+import { PATH } from '../constants';
 
-// TODO : subscription 을 State 로 옮기고 라우터가 State 를 받도록 변경
 export default class Router {
   #registration = {};
 
@@ -10,7 +7,8 @@ export default class Router {
     window.addEventListener('popstate', e => {
       this.#handlePopState.call(this, e);
     });
-    history.replaceState({ path: '/' }, null, '/');
+    history.replaceState({ path: PATH.ROOT }, null, PATH.ROOT);
+    this.navigate(PATH.ROOT);
   }
 
   register(path, component) {
@@ -22,13 +20,9 @@ export default class Router {
   }
 
   async navigate(path) {
-    const targetPath = ROUTES[path] ? ROUTES[path] : '/pages/main.html';
-    const response = await fetch(targetPath);
-    const data = await response.text();
-
-    $(`#${SELECTOR_ID.MAIN_CONTAINER}`).innerHTML = data;
     this.#registration[path].forEach(component => {
-      component.createComponent();
+      component.renderPage();
+      component.renderComponent();
     });
   }
 
