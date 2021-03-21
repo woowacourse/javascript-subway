@@ -1,5 +1,6 @@
 import { hasPropertyValue } from '../utils/index.js';
 import { ROUTES, TITLES } from '../constants/index.js';
+// eslint-disable-next-line import/no-cycle
 import { render } from '../views/index.js';
 
 export function handleWindowPopstate({ target }) {
@@ -22,7 +23,7 @@ export function handleLinkClick(event) {
   goTo(pathname);
 }
 
-function goTo(pathname) {
+export function goTo(pathname) {
   if (isChangedPathname(pathname)) {
     window.history.pushState(null, null, pathname);
     document.title = TITLES[pathname];
