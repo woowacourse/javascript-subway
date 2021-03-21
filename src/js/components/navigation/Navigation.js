@@ -1,5 +1,6 @@
 import Component from '../../core/Component.js';
 import { $, $$ } from '../../utils/index.js';
+import { navigationTemplate } from './template.js';
 
 export default class Navigation extends Component {
   constructor({ changeTemplate }) {
@@ -29,6 +30,10 @@ export default class Navigation extends Component {
     const url = e.target.closest('.navigation-link').getAttribute('href');
     this.changeTemplate(url);
     history.pushState({ url }, null, url);
+  }
+
+  render(token = '') {
+    $('#navigation').innerHTML = navigationTemplate(token);
   }
 
   static changeSelectedButtonColor(target = '') {

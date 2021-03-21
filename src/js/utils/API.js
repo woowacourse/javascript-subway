@@ -4,7 +4,7 @@ const option = {
   get: (token) => ({
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   }),
@@ -38,6 +38,9 @@ const request = async (url, option = {}) => {
   } catch (err) {
     console.error(err);
   } finally {
+    if (response.body) {
+      return response.json();
+    }
     return response;
   }
 };
@@ -49,6 +52,10 @@ export const API = {
 
   login: ({ email, password }) => {
     return request('/login/token', option.post({ email, password }));
+  },
+
+  getUserInfo: (token) => {
+    return request('/members/me', option.get(token));
   },
 
   getStationList: (token) => {

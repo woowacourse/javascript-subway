@@ -1,7 +1,12 @@
 import Component from '../../core/Component.js';
-import { $, API, showSnackbar } from '../../utils/index.js';
+import {
+  $,
+  API,
+  showSnackbar,
+  setLocalStorageItem,
+} from '../../utils/index.js';
 import { loginTemplate } from './template.js';
-import { SNACKBAR_MESSAGE } from '../../constants/index.js';
+import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 
 export default class Login extends Component {
@@ -29,12 +34,17 @@ export default class Login extends Component {
 
     const response = await API.login({ email, password });
 
-    if (!response.ok) {
+    if (!response.accessToken) {
       showSnackbar(SNACKBAR_MESSAGE.LOGIN_FAILURE);
       return;
     }
 
     showSnackbar(SNACKBAR_MESSAGE.LOGIN_SUCCESS);
+    setLocalStorageItem({
+      key: LOCAL_STORAGE_KEY.TOKEN,
+      item: response.accessToken,
+    });
+
     this.changeTemplate('/');
     history.pushState({ url: '/' }, null, '/');
     Navigation.changeSelectedButtonColor();

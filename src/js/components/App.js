@@ -6,10 +6,14 @@ import Lines from './lines/Lines.js';
 import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
+import { LOCAL_STORAGE_KEY } from '../constants/index.js';
+import { getLocalStorageItem, API } from '../utils/index.js';
+
 export default class App extends Component {
   constructor() {
     super();
     this.bindEvent();
+    this.Navigation.render();
   }
 
   mountComponent() {
@@ -30,16 +34,25 @@ export default class App extends Component {
     window.addEventListener('popstate', this.changeTemplate.bind(this));
   }
 
-  changeTemplate(pathName) {
+  async changeTemplate(pathName) {
     const router = {
-      '/': () => this.Main.load(),
-      '/stations': () => this.Stations.load(),
-      '/lines': () => this.Lines.load(),
-      '/sections': () => this.Sections.load(),
-      '/login': () => this.Login.load(),
-      '/signup': () => this.Signup.load(),
+      '/': (token = '') => this.Main.load(token),
+      '/stations': (token = '') => this.Stations.load(token),
+      '/lines': (token = '') => this.Lines.load(token),
+      '/sections': (token = '') => this.Sections.load(token),
+      '/login': (token = '') => this.Login.load(token),
+      '/signup': (token = '') => this.Signup.load(token),
     };
+    const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
+    const response = await API.getUserInfo(token);
 
-    router[pathName]?.();
+    if (!response.id) {
+      this.Navigation.render();
+      router[pathName]?.();
+      return;
+    }
+
+    this.Navigation.render(token);
+    router[pathName]?.(token);
   }
 }
