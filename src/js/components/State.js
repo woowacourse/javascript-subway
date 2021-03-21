@@ -1,10 +1,10 @@
 class State {
   #state;
-  #listener;
+  #listeners;
 
   constructor(state) {
-    this.#state = state;
-    this.#listener = {};
+    this.#state = state ? state : {};
+    this.#listeners = {};
   }
 
   getData(key) {
@@ -18,9 +18,9 @@ class State {
 
       this.#state[key] = value[key];
 
-      if (!this.#listener[key]) return;
+      if (!this.#listeners[key]) return;
 
-      this.#listener[key].forEach(handler => {
+      this.#listeners[key].forEach(handler => {
         handler(this.#state[key]);
       });
     });
@@ -28,11 +28,11 @@ class State {
 
   setListener(key, handler) {
     //TODO: 예외처리 생각해보기
-    if (!this.#listener[key]) {
-      this.#listener[key] = [];
+    if (!this.#listeners[key]) {
+      this.#listeners[key] = [];
     }
 
-    this.#listener[key].push(handler);
+    this.#listeners[key].push(handler);
   }
 }
 

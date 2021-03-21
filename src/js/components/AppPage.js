@@ -8,7 +8,7 @@ import { ID_SELECTOR } from '../constants.js';
 
 class AppPage extends Page {
   constructor(props) {
-    super({});
+    super(props);
 
     // TODO: setState 만들기, state를 protected로 만들기
     this.state = new State({
@@ -19,7 +19,7 @@ class AppPage extends Page {
 
     // TODO: url을 정의하지 않았을 경우 오류 발생 처리
     this.url = {
-      '/': new HomeComponent({}),
+      '/': new HomeComponent(),
       '/pages/login.html': new LoginComponent({
         route: this.route,
         appState: this.state,
@@ -27,6 +27,7 @@ class AppPage extends Page {
       '/pages/signup.html': new SignupComponent({ route: this.route }),
     };
 
+    // TODO: KEY값 상수화
     this.state.setListener('loginResponse', this.onLoginButtonChanged);
   }
 
