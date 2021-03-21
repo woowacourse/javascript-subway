@@ -5,6 +5,7 @@ const PATH = {
     SIGNUP: '/members',
     LOGIN: '/login/token',
     ME: '/members/me',
+    CHECK: '/members/check-validation',
   },
 };
 
