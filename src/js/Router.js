@@ -1,4 +1,4 @@
-import { MESSAGE } from './constants.js';
+import { COOKIE_KEY, MESSAGE } from './constants.js';
 import jwtToken from './jwtToken.js';
 import LoginPage from './pages/Login.js';
 import SignupPage from './pages/Signup.js';
@@ -37,7 +37,7 @@ class Router {
   }
 
   navigate(path) {
-    this.userToken = jwtToken.getToken();
+    this.userToken = jwtToken.getToken(COOKIE_KEY.JWT_TOKEN);
     if (path === '/') {
       this.checkMainRoute();
     }

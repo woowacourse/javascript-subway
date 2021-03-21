@@ -1,5 +1,5 @@
 import { $ } from '../utils/DOM.js';
-import { HTTP } from '../constants.js';
+import { COOKIE_KEY, HTTP } from '../constants.js';
 import { fetchLogin } from '../API/auth.js';
 import jwtToken from '../jwtToken.js';
 import loginTemplate from '../templates/login.js';
@@ -40,7 +40,7 @@ class LoginPage {
       }
 
       const { accessToken } = await response.json();
-      jwtToken.setToken(accessToken);
+      jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
 
       //TODO : 로그인 성공했을 때, snackBar 만들기
     } catch (error) {
