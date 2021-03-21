@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🚇 지하철 노선도</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/src/css/index.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>🚇 지하철 노선도</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/src/css/index.css" />
-</head>
-
-<body>
-  <div id="app">
-    <div class="d-flex justify-center mt-5 w-100">
-      <div class="w-100">
-        <header class="my-4">
-          <a href="/" class="js-anchor text-black">
-            <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-          </a>
-          <nav class="d-flex justify-center flex-wrap">
-            <a href="/pages/stations.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+  <body>
+    <div id="app">
+      <div class="d-flex justify-center mt-5 w-100">
+        <div class="w-100">
+          <header class="my-4">
+            <a href="/" class="js-anchor text-black">
+              <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
             </a>
-            <a href="/pages/lines.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
-            </a>
-            <a href="/pages/sections.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
-            </a>
-            <a href="/pages/map.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
-            </a>
-            <a href="/pages/search.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
-            </a>
-            <a href="/pages/login.html" class="js-anchor my-1">
-              <button class="btn bg-white shadow mx-1">👤 로그인</button>
-            </a>
-          </nav>
-        </header>
-        <main id="main" class="mt-10 d-flex justify-center">
-        </main>
-        <div id="modal" class="modal"></div>
+            <nav class="d-flex justify-center flex-wrap">
+              <a href="/pages/stations.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+              </a>
+              <a href="/pages/lines.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+              </a>
+              <a href="/pages/sections.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
+              </a>
+              <a href="/pages/map.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+              </a>
+              <a href="/pages/search.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
+              </a>
+              <a href="/pages/login.html" class="js-anchor my-1">
+                <button class="btn bg-white shadow mx-1">👤 로그인</button>
+              </a>
+              <button
+                id="nav__logout"
+                class="btn bg-white shadow mx-1 my-1 hidden"
+              >
+                🚪 로그아웃
+              </button>
+            </nav>
+          </header>
+          <main id="main" class="mt-10 d-flex justify-center"></main>
+          <div id="modal" class="modal"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <script type="module" src="./bundle/bundle.js"></script>
-</body>
-
+    <script type="module" src="./bundle/bundle.js"></script>
+  </body>
 </html>

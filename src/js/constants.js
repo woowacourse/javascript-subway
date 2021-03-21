@@ -2,6 +2,8 @@ const ID_SELECTOR = {
   MAIN: 'main',
   MODAL: 'modal',
 
+  NAV_LOGOUT: 'nav__logout',
+
   SIGNUP_FORM: 'signup-form',
   SIGNUP_FORM_EMAIL: 'signup-form__email',
   SIGNUP_FORM_NAME: 'signup-form__name',
