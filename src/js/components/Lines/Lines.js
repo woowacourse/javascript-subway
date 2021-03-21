@@ -1,6 +1,7 @@
 import Component from '../../core/Component.js';
 import { linesTemplate } from './template.js';
 import { $ } from '../../utils/index.js';
+import { LOGIN_REQUIRED_TEMPLATE } from '../../constants/index.js';
 
 export default class Lines extends Component {
   constructor() {
@@ -9,12 +10,12 @@ export default class Lines extends Component {
 
   bindEvent() {}
 
-  render() {
-    $('main').innerHTML = linesTemplate();
+  render(token) {
+    $('main').innerHTML = token ? linesTemplate() : LOGIN_REQUIRED_TEMPLATE;
   }
 
-  load() {
-    this.render();
+  load(token = '') {
+    this.render(token);
     this.bindEvent();
   }
 }
