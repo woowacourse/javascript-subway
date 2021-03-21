@@ -7,7 +7,14 @@ export default class Lines extends Component {
     super();
   }
 
+  bindEvent() {}
+
   render() {
     $('main').innerHTML = linesTemplate();
+  }
+
+  load() {
+    this.render();
+    this.bindEvent();
   }
 }

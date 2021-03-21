@@ -7,7 +7,14 @@ export default class Sections extends Component {
     super();
   }
 
+  bindEvent() {}
+
   render() {
     $('main').innerHTML = sectionsTemplate();
+  }
+
+  load() {
+    this.render();
+    this.bindEvent();
   }
 }

@@ -28,28 +28,27 @@ export default class App extends Component {
 
   changeTemplate(pathName) {
     if (pathName === '/stations') {
-      this.Stations.render();
+      this.Stations.load();
       return;
     }
 
     if (pathName === '/sections') {
-      this.Sections.render();
+      this.Sections.load();
       return;
     }
 
     if (pathName === '/lines') {
-      this.Lines.render();
+      this.Lines.load();
       return;
     }
 
     if (pathName === '/login') {
-      this.Login.render();
-      this.Login.bindEvent();
+      this.Login.load();
       return;
     }
 
     if (pathName === '/signup') {
-      this.Signup.render();
+      this.Signup.load();
       return;
     }
   }

@@ -7,7 +7,14 @@ export default class Stations extends Component {
     super();
   }
 
+  bindEvent() {}
+
   render() {
     $('main').innerHTML = stationsTemplate();
+  }
+
+  load() {
+    this.render();
+    this.bindEvent();
   }
 }

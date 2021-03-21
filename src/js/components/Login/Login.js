@@ -26,4 +26,9 @@ export default class Login extends Component {
   render() {
     $('main').innerHTML = loginTemplate();
   }
+
+  load() {
+    this.render();
+    this.bindEvent();
+  }
 }
