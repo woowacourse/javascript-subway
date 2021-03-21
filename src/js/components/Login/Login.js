@@ -1,6 +1,9 @@
 import Component from '../../core/Component.js';
-import { $ } from '../../utils/querySelector.js';
+import { $, API, showSnackbar } from '../../utils/index.js';
 import { loginTemplate } from './template.js';
+import { SNACKBAR_MESSAGE } from '../../constants/index.js';
+import Navigation from '../navigation/Navigation.js';
+
 export default class Login extends Component {
   constructor({ changeTemplate }) {
     super();
@@ -8,10 +11,33 @@ export default class Login extends Component {
   }
 
   bindEvent() {
+    $('#login-form').addEventListener(
+      'submit',
+      this.handleLoginForm.bind(this),
+    );
     $('#signup-button').addEventListener(
       'click',
       this.handleSingupButton.bind(this),
     );
+  }
+
+  async handleLoginForm(e) {
+    e.preventDefault();
+
+    const email = e.target.elements['login-email'].value;
+    const password = e.target.elements['login-password'].value;
+
+    const response = await API.login({ email, password });
+
+    if (!response.ok) {
+      showSnackbar(SNACKBAR_MESSAGE.LOGIN_FAILURE);
+      return;
+    }
+
+    showSnackbar(SNACKBAR_MESSAGE.LOGIN_SUCCESS);
+    this.changeTemplate('/');
+    history.pushState({ url: '/' }, null, '/');
+    Navigation.changeSelectedButtonColor();
   }
 
   handleSingupButton(e) {
