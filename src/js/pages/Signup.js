@@ -60,6 +60,9 @@ class SignupPage {
 
   bindEvents() {
     $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
+    $('#login').addEventListener('click', () => {
+      this.router.navigate('/');
+    });
   }
 }
 export default SignupPage;

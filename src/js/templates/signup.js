@@ -62,6 +62,10 @@ const signupTemplate = `
           확인
         </button>
       </div>
+      <p class="text-gray-700 pl-2">
+        회원이신가요?
+        <a id="login" href="/">로그인</a>
+      </p>
     </form>
   </div>`;
 
