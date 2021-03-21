@@ -1,6 +1,7 @@
 import TEMPLATE from './template.js';
 import { $ } from '../../../utils/index.js';
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
+import requestSignUp from './request.js';
 
 const $main = $('main');
 
@@ -23,4 +24,5 @@ export const renderSignUp = () => {
   $password.addEventListener('blur', validatePassword);
 
   $form.addEventListener('input', validateForm);
+  $form.addEventListener('submit', requestSignUp);
 };

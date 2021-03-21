@@ -1,4 +1,4 @@
-const ORIGIN = 'http://15.164.230.130:8080';
+const ORIGIN = 'http://3.35.213.149';
 
 const API_ENDPOINT = Object.freeze({
   EMAIL_VALIDATION: `${ORIGIN}/members/check-validation`,
@@ -13,7 +13,8 @@ const STATUS_CODE = {
   },
   SIGN_UP: {
     OK: 201,
-    EMAIL_DUPLICATED: 500,
+    BAD_REQUEST: 400,
+    EMAIL_DUPLICATED: 400,
   },
   LOGIN: {
     OK: 200,

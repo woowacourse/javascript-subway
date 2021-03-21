@@ -1,5 +1,6 @@
 import { $, $$, generateInputValidator } from './DOM.js';
 import mock from './mock.js';
+import notify from './BOM.js';
 
 const hasPropertyValue = (obj, value) => {
   if (obj === null) {
@@ -13,4 +14,4 @@ const hasPropertyValue = (obj, value) => {
   return Object.values(obj).includes(value);
 };
 
-export { $, $$, generateInputValidator, hasPropertyValue, mock };
+export { $, $$, generateInputValidator, hasPropertyValue, mock, notify };
