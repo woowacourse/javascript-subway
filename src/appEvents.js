@@ -33,6 +33,12 @@ export default class AppEvents {
       history.pushState({ path }, null, path);
       this.#router.navigate.call(this.#router, path);
     }
+    if (target.id === SELECTOR_ID.LOG_OUT_BUTTON) {
+      sessionStore.removeItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
+      this.#state.update(STATE_KEY.IS_LOGGED_IN, false);
+      history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
+      this.#router.navigate.call(this.#router, PATH.ROOT);
+    }
   }
 
   #handleSubmitEvents(e) {
