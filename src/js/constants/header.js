@@ -1,4 +1,8 @@
-export const LINK = {
+const HOME_LINK = {
+  ROUTE: '/',
+};
+
+const AUTHENTICATED_LINK = {
   STATION: {
     ROUTE: '/station',
     NAME: '🚉 역 관리',
@@ -19,16 +23,21 @@ export const LINK = {
     ROUTE: '/search',
     NAME: '🔎 길 찾기',
   },
-  LOGIN: {
-    ROUTE: '/login',
-    NAME: '👤 로그인',
-  },
   LOGOUT: {
     ROUTE: '/logout',
     NAME: '👤 로그아웃',
+  },
+};
+
+const UNAUTHENTICATED_LINK = {
+  LOGIN: {
+    ROUTE: '/login',
+    NAME: '👤 로그인',
   },
   SIGNUP: {
     ROUTE: '/signup',
     NAME: '👤 회원가입',
   },
 };
+
+export { HOME_LINK, AUTHENTICATED_LINK, UNAUTHENTICATED_LINK };

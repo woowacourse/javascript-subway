@@ -4,7 +4,8 @@ import mainTemplate from './template/main.js';
 import { BASE_URL, PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
 import Station from '../station/index.js';
-import { LINK } from '../../constants/header.js';
+import { AUTHENTICATED_LINK } from '../../constants/header.js';
+import accessTokenManager from '../../states/AccessTokenManager.js';
 
 class Login extends Component {
   constructor(parentNode) {
@@ -36,10 +37,12 @@ class Login extends Component {
         const { accessToken } = await response.json();
         localStorage.setItem('accessToken', accessToken);
 
+        accessTokenManager.setToken(accessToken);
+
         history.pushState(
-          { route: LINK.STATION.ROUTE },
+          { route: AUTHENTICATED_LINK.STATION.ROUTE },
           null,
-          LINK.STATION.ROUTE
+          AUTHENTICATED_LINK.STATION.ROUTE
         );
         new Station(this.parentNode);
 
