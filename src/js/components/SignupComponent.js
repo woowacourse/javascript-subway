@@ -39,7 +39,7 @@ class SignupComponent extends Component {
         }
       });
     } catch (err) {
-      alert(err);
+      alert(err.message);
       return;
     }
 
