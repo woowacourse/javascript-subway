@@ -1,50 +1,52 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: './src/js/index.js',
   output: {
-    filename: '[chunkhash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-  },
-  devServer: {
-    hot: true,
-    port: 9000,
   },
   module: {
     rules: [
       {
-        test: /\.html$/i,
-        loader: 'html-loader',
-      },
-      {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-      {
-        test: /\.(png|jpg)$/,
-        use: ['file-loader'],
-      },
-      {
-        test: /\.m?js$/,
+        test: /\.js$/i,
+        include: [path.resolve(__dirname, 'src/js')],
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
+      },
+      {
+        test: /\.css$/i,
+        include: [path.resolve(__dirname, 'src/css')],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.(png)$/i,
+        use: ['file-loader'],
       },
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'style.css',
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
-    new MiniCssExtractPlugin({
-      filename: '[chunkhash].css',
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ['dist'],
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'src/images', to: 'src/images' }],
     }),
   ],
 };
