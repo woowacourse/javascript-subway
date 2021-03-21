@@ -1,4 +1,4 @@
-import { ID_SELECTOR, CLASS_SELECTOR } from './constants.js';
+import { CLASS_SELECTOR } from './constants.js';
 import $ from './utils/querySelector.js';
 import HomeComponent from './components/HomeComponent.js';
 import LoginComponent from './components/LoginComponent.js';
@@ -12,8 +12,8 @@ const router = {
   },
 
   render: async path => {
-    router.routes[path].initEvent();
     router.routes[path].render();
+    router.routes[path].initEvent();
   },
 
   init: () => {
@@ -23,10 +23,10 @@ const router = {
       router.render(e.state.path);
     });
 
-    $(`#${ID_SELECTOR.APP}`).addEventListener('click', e => {
-      e.preventDefault();
+    $('header').addEventListener('click', (event) => {
+      event.preventDefault();
 
-      const anchor = e.target.closest(`.${CLASS_SELECTOR.ANCHOR}`);
+      const anchor = event.target.closest(`.${CLASS_SELECTOR.ANCHOR}`);
 
       if (!anchor) return;
 
