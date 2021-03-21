@@ -3,9 +3,9 @@ import Component from '../../core/Component.js';
 import mainTemplate from './template/main.js';
 import { BASE_URL, PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
-import Station from '../station/index.js';
 import { AUTHENTICATED_LINK } from '../../constants/header.js';
 import accessTokenManager from '../../stateManagers/AccessTokenManager.js';
+import routeManager from '../../stateManagers/RouteManager.js';
 
 class Login extends Component {
   constructor(parentNode) {
@@ -37,13 +37,7 @@ class Login extends Component {
         const { accessToken } = await response.json();
 
         accessTokenManager.setToken(accessToken);
-
-        history.pushState(
-          { route: AUTHENTICATED_LINK.STATION.ROUTE },
-          null,
-          AUTHENTICATED_LINK.STATION.ROUTE
-        );
-        new Station(this.parentNode);
+        routeManager.setRoute(AUTHENTICATED_LINK.STATION.ROUTE);
       } catch (error) {
         console.error(error);
       }
