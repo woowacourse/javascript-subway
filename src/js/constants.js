@@ -1,11 +1,25 @@
 const ID_SELECTOR = {
-  APP: 'app',
   MAIN: 'main',
   MODAL: 'modal',
+
+  SIGNUP_FORM: 'signup-form',
+  SIGNUP_FORM_EMAIL: 'signup-form__email',
+  SIGNUP_FORM_NAME: 'signup-form__name',
+  SIGNUP_FORM_PASSWORD: 'signup-form__password',
+  SIGNUP_FORM_PASSWORD_CONFIRM: 'signup-form__password-confirm',
+  SIGNUP_FORM_SUBMIT: 'signup-form__submit',
 };
 
 const CLASS_SELECTOR = {
   ANCHOR: 'js-anchor',
 };
 
-export { ID_SELECTOR, CLASS_SELECTOR };
+const ALERT_MESSAGE = {
+  // SIGNUP
+  SIGNUP_SUCCESS: "회원 가입에 성공했습니다.",
+  DUPLICATED_EMAIL_FAIL: "중복된 이메일이 있습니다.",
+}
+
+const REQUEST_URL = 'http://3.35.213.149';
+
+export { ID_SELECTOR, CLASS_SELECTOR, ALERT_MESSAGE, REQUEST_URL };
