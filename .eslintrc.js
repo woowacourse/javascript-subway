@@ -11,7 +11,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-named-as-default': 'off',
     'no-underscore-dangle': 'off',
-    'no-console': 'off',
+    'no-console': 'on',
     'no-alert': 'off',
     'max-depth': ['error', 2],
     'eol-last': ['error', 'always'],

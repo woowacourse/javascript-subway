@@ -1,6 +1,6 @@
 import { SELECTOR_CLASS } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/querySelector.js';
+import { $ } from '../utils/utils.js';
 
 export default class LineList extends Observer {
   #selector;

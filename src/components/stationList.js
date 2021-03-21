@@ -1,6 +1,6 @@
 import { SELECTOR_ID } from '../constants';
 import Observer from '../lib/Observer';
-import { $ } from '../utils/querySelector';
+import { $ } from '../utils/utils';
 
 export default class StationList extends Observer {
   #selector;

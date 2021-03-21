@@ -1,7 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
-import Observer from '../lib/Observer.js';
-import { $ } from '../utils/querySelector.js';
-import { requestLoginToken } from '../api/member.js';
+import { $ } from '../utils/utils.js';
 
 export default class LoginForm {
   #selector;
@@ -10,11 +8,9 @@ export default class LoginForm {
   }
 
   #initEvents() {
-    console.log(this.#selector);
     $(this.#selector).addEventListener('submit', e => {
       e.preventDefault();
       const { email, password } = e.target;
-      requestLoginToken(email, password);
     });
   }
 

@@ -1,5 +1,5 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PATH } from '../constants.js';
-import { $ } from '../utils/querySelector.js';
+import { $ } from '../utils/utils.js';
 
 export default class Navigator {
   #selector;
