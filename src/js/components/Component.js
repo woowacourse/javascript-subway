@@ -1,4 +1,5 @@
 import { ID_SELECTOR } from "../constants.js";
+import router from "../router.js";
 import $ from "../utils/querySelector.js";
 
 class Component {
@@ -14,6 +15,14 @@ class Component {
     $('title').innerHTML = TITLE;
     $(`#${ID_SELECTOR.MAIN}`).innerHTML = MAIN;
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
+  }
+
+  _onAnchorClicked(event) {
+    event.preventDefault();
+    const path = event.target.getAttribute('href');
+
+    history.pushState({ path }, null, path);
+    router.render(path);
   }
 }
 
