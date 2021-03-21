@@ -3,6 +3,9 @@ import jwtToken from './jwtToken.js';
 import LoginPage from './pages/Login.js';
 import SignupPage from './pages/Signup.js';
 import MainPage from './pages/Main.js';
+import StationsPage from './pages/Stations.js';
+import LinesPage from './pages/Lines.js';
+import SectionsPage from './pages/Sections.js';
 
 // TODO: async, await 적용할 부분이 있는지 찾아보기
 class Router {
@@ -11,10 +14,16 @@ class Router {
     this.signupPage = new SignupPage(this);
     this.loginPage = new LoginPage(this);
     this.mainPage = new MainPage(this);
+    this.stationsPage = new StationsPage(this);
+    this.linesPage = new LinesPage(this);
+    this.sectionsPage = new SectionsPage(this);
 
     this.routes = {
       '/': null,
       '/signup': this.signupPage,
+      '/stations': this.stationsPage,
+      '/lines': this.linesPage,
+      '/sections': this.sectionsPage,
     };
   }
 
