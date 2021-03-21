@@ -1,6 +1,8 @@
 import { MESSAGE } from './constants.js';
-import SignupPage from './signup/Signup.js';
-import LoginPage from './login/Login.js';
+import jwtToken from './jwtToken.js';
+import LoginPage from './pages/Login.js';
+import SignupPage from './pages/Signup.js';
+import MainPage from './pages/Main.js';
 
 // TODO: async, await 적용할 부분이 있는지 찾아보기
 class Router {
@@ -8,11 +10,16 @@ class Router {
     this.userToken = '';
     this.signupPage = new SignupPage(this);
     this.loginPage = new LoginPage(this);
+    this.mainPage = new MainPage(this);
 
     this.routes = {
-      '/': this.userToken ? '../index.html' : this.loginPage,
+      '/': null,
       '/signup': this.signupPage,
     };
+  }
+
+  checkMainRoute() {
+    this.routes['/'] = this.userToken ? this.mainPage : this.loginPage;
   }
 
   init() {
@@ -21,6 +28,11 @@ class Router {
   }
 
   navigate(path) {
+    this.userToken = jwtToken.getToken();
+    if (path === '/') {
+      this.checkMainRoute();
+    }
+
     try {
       const targetPage = this.routes[path];
 

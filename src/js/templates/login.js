@@ -3,7 +3,7 @@ const loginTemplate = `
     <div class="heading">
       <h2>👋 로그인</h2>
     </div>
-    <form name="login" class="form">
+    <form id="login-form" name="login" class="form">
       <div class="input-control">
         <label for="email" class="input-label" hidden>이메일</label>
         <input
@@ -29,7 +29,7 @@ const loginTemplate = `
       </div>
       <div class="input-control w-100">
         <button
-          type="button"
+          type="submit"
           name="submit"
           class="input-submit w-100 bg-cyan-300"
         >
