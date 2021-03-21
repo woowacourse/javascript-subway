@@ -1,12 +1,12 @@
 import { getInvalidSignUpMessage } from '../validators/message';
-import { request } from '../utils/request';
 import { showSnackbar } from '../utils/snackbar';
-import { API_END_POINT, METHOD, PATH, ELEMENT, SIGN_UP, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME } from '../utils/constants';
-import Router from '../router/Router';
+import { PATH, ELEMENT, SIGN_UP, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME } from '../utils/constants';
 import { $ } from '../utils/dom';
-
+import { requestSignUpApprove } from '../requestData/requestUserData';
 class SignUp {
-  constructor() {}
+  constructor(props) {
+    this.props = props;
+  }
 
   init() {
     this.selectDom();
@@ -43,18 +43,7 @@ class SignUp {
   }
 
   requestSignUp({ email, userName, password }) {
-    request({
-      uri: `${API_END_POINT}/members`,
-      method: METHOD.POST,
-      body: JSON.stringify({
-        email,
-        password,
-        name: userName,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    })
+    requestSignUpApprove({ email, userName, password })
       .then(() => {
         this.manageSignUpSuccess();
       })
@@ -64,8 +53,7 @@ class SignUp {
   }
 
   manageSignUpSuccess() {
-    const router = new Router();
-    router.route(PATH.SIGNIN);
+    this.props.initializeRoutedPage(PATH.SIGNIN);
 
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
   }

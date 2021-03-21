@@ -1,6 +1,6 @@
 import { deepFreeze } from './deepFreeze';
 
-export const API_END_POINT = 'http://15.164.230.130:8080';
+export const API_END_POINT = 'http://3.35.213.149:8080';
 export const SESSION_KEY_TOKEN = 'token';
 export const SNACKBAR_SHOW_TIME = 1500;
 
@@ -16,16 +16,15 @@ export const PATH = Object.freeze({
   SIGNOUT: '/signout',
 });
 
-export const ROUTES = deepFreeze({
-  '/': { url: '/pages/main.html', title: '🚇 지하철 노선도' },
-  '/stations': { url: '/pages/stations.html', title: '🚉 역 관리' },
-  '/lines': { url: '/pages/lines.html', title: '🛤 노선 관리' },
-  '/sections': { url: '/pages/sections.html', title: '🔁 구간 관리' },
-  '/map': { url: '/pages/map.html', title: '🗺️ 전체 보기' },
-  '/search': { url: '/pages/search.html', title: '🔎 길 찾기' },
-  '/signin': { url: '/pages/signin.html', title: '🙆🏻 로그인' },
-  '/signout': { url: '/pages/main.html', title: '🚇 지하철 노선도' },
-  '/signup': { url: '/pages/signup.html', title: '📝 회원가입' },
+export const TITLES = Object.freeze({
+  '/': '🚇 지하철 노선도',
+  '/stations': '🚉 역 관리',
+  '/lines': '🛤 노선 관리',
+  '/sections': '🔁 구간 관리',
+  '/map': '🗺️ 전체 보기',
+  '/search': '🔎 길 찾기',
+  '/signin': '🙆🏻 로그인',
+  '/signup': '📝 회원가입',
 });
 
 export const SIGN_IN = deepFreeze({

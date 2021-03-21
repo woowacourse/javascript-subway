@@ -1,5 +1,11 @@
-import { ROUTES, TYPE } from '../utils/constants';
-import { request } from '../utils/request';
+import { TITLES, PATH } from '../utils/constants';
+import { getMainTemplate } from '../templates/main';
+import { getStationsTemplate } from '../templates/stations';
+import { getLinesTemplate } from '../templates/lines';
+import { getSectionsTemplate } from '../templates/sections';
+import { getSignInTemplate } from '../templates/signIn';
+import { getSignUpTemplate } from '../templates/signUp';
+import { requestCheckLogin } from '../requestData/requestUserData';
 
 export default class Router {
   static instance;
@@ -19,10 +25,25 @@ export default class Router {
   }
 
   async render(path) {
-    const { url, title } = ROUTES[path];
-    const template = await request({ uri: url, type: TYPE.TEXT });
+    if (path === PATH.MAIN) {
+      this.target.innerHTML = this.getTemplate(path, await requestCheckLogin());
+    } else {
+      this.target.innerHTML = this.getTemplate(path);
+    }
 
-    this.target.innerHTML = template;
-    document.title = title;
+    document.title = TITLES[path];
+  }
+
+  getTemplate(path, isLogin) {
+    const pathActions = {
+      [PATH.MAIN]: () => getMainTemplate(isLogin),
+      [PATH.STATIONS]: () => getStationsTemplate(),
+      [PATH.LINES]: () => getLinesTemplate(),
+      [PATH.SECTIONS]: () => getSectionsTemplate(),
+      [PATH.SIGNIN]: () => getSignInTemplate(),
+      [PATH.SIGNUP]: () => getSignUpTemplate(),
+    };
+
+    return pathActions[path]?.();
   }
 }

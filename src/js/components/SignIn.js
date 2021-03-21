@@ -1,16 +1,6 @@
-import { request } from '../utils/request';
+import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import Router from '../router/Router';
-import {
-  SIGN_IN,
-  ELEMENT,
-  PATH,
-  API_END_POINT,
-  TYPE,
-  METHOD,
-  SNACKBAR_SHOW_TIME,
-  SUCCESS_MESSAGE,
-} from '../utils/constants';
+import { SIGN_IN, ELEMENT, PATH, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE } from '../utils/constants';
 import { $ } from '../utils/dom';
 
 class SignIn {
@@ -43,18 +33,7 @@ class SignIn {
   }
 
   requestSignIn({ email, password }) {
-    request({
-      uri: `${API_END_POINT}/login/token`,
-      method: METHOD.POST,
-      type: TYPE.JSON,
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    })
+    requestGetToken({ email, password })
       .then(({ accessToken }) => {
         this.manageSignInSuccess(accessToken);
       })
@@ -64,10 +43,8 @@ class SignIn {
   }
 
   manageSignInSuccess(accessToken) {
-    const router = new Router();
-    router.route(PATH.MAIN);
-
     this.props.changeSignInToSignOutStatus(accessToken);
+    this.props.initializeRoutedPage(PATH.MAIN);
 
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
   }

@@ -1,4 +1,4 @@
-import { STANDARD_NUMBER } from '../utils/constants';
+import { ELEMENT, STANDARD_NUMBER } from '../utils/constants';
 
 export const isValidEmail = (email) => {
   const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -18,4 +18,8 @@ export const isValidPassword = (password) => {
 
 export const isValidPasswordConfirm = (password, passwordConfirm) => {
   return password === passwordConfirm;
+};
+
+export const isRouterButton = (target) => {
+  return target.matches(`.${ELEMENT.MAIN_MENU_ROUTER}`);
 };

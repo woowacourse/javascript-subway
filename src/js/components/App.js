@@ -15,6 +15,7 @@ import {
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
+import { isRouterButton } from '../validators/validation';
 
 class App {
   constructor() {
@@ -27,8 +28,11 @@ class App {
     this.stations = new Stations();
     this.lines = new Lines();
     this.sections = new Sections();
-    this.signIn = new SignIn({ changeSignInToSignOutStatus: this.changeSignInToSignOutStatus.bind(this) });
-    this.signUp = new SignUp();
+    this.signIn = new SignIn({
+      initializeRoutedPage: this.initializeRoutedPage.bind(this),
+      changeSignInToSignOutStatus: this.changeSignInToSignOutStatus.bind(this),
+    });
+    this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
   }
 
   selectDom() {
@@ -44,21 +48,27 @@ class App {
     });
 
     this.$app.addEventListener('click', (e) => {
-      if (!this.isRouterButton(e.target)) return;
+      if (!isRouterButton(e.target)) return;
       e.preventDefault();
 
       this.handleSelectMenu(e);
     });
   }
 
-  isRouterButton(target) {
-    return target.matches(`.${ELEMENT.MAIN_MENU_ROUTER}`);
+  handleSelectMenu(e) {
+    const path = e.target.closest('a').getAttribute('href');
+
+    if (path === PATH.SIGNOUT) {
+      this.runSignOutProcess();
+
+      return;
+    }
+
+    this.initializeRoutedPage(path);
   }
 
-  async handleSelectMenu(e) {
-    const path = e.target.closest('a').getAttribute('href');
+  async initializeRoutedPage(path) {
     await this.router.route(path);
-
     this.runPathMatchedAction(path);
   }
 
@@ -70,18 +80,19 @@ class App {
       [PATH.SIGNUP]: () => {
         this.signUp.init();
       },
-      [PATH.SIGNOUT]: () => {
-        if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) {
-          return;
-        }
-
-        this.changeSignOutToSignInStatus();
-        this.router.route(PATH.MAIN);
-        showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });
-      },
     };
 
     pathActions[path]?.();
+  }
+
+  runSignOutProcess() {
+    if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) {
+      return;
+    }
+
+    this.changeSignOutToSignInStatus();
+    this.router.route(PATH.MAIN);
+    showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });
   }
 
   changeSignInToSignOutStatus(accessToken) {
