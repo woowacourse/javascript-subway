@@ -34,9 +34,9 @@ export const navigationTemplate = (token) => {
             👤 로그인
         </button>
     </a>
-    <a href="/login" class="navigation-link my-1">
+    <a href="/logout" class="navigation-link my-1">
         <button
-            id="navigation-login-button"
+            id="navigation-logout-button"
             class="navigation-button btn bg-white shadow mx-1 ${
               token ? '' : 'd-none'
             }"

@@ -1,6 +1,7 @@
 import Component from '../../core/Component.js';
 import { $, $$ } from '../../utils/index.js';
 import { navigationTemplate } from './template.js';
+import { LOCAL_STORAGE_KEY } from '../../constants/index.js';
 
 export default class Navigation extends Component {
   constructor({ changeTemplate }) {
@@ -25,10 +26,15 @@ export default class Navigation extends Component {
       return;
     }
 
-    Navigation.changeSelectedButtonColor(e.target);
+    if (e.target.id === 'navigation-logout-button') {
+      localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
+      this.changeTemplate('/');
+      history.pushState({ url: '/' }, null, '/');
+    }
 
     const url = e.target.closest('.navigation-link').getAttribute('href');
     this.changeTemplate(url);
+    Navigation.changeSelectedButtonColor(e.target);
     history.pushState({ url }, null, url);
   }
 
