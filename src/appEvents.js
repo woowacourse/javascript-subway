@@ -1,5 +1,6 @@
-import { PATH, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY } from './constants.js';
-import { requestSignUp } from './api/member.js';
+import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY } from './constants.js';
+import { requestSignUp, requestLoginToken } from './api/member.js';
+import { sessionStore } from './utils/utils';
 
 export default class AppEvents {
   #router;
@@ -39,12 +40,24 @@ export default class AppEvents {
     const target = e.target;
     if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
       const { email, name, password } = e.target;
-      requestSignUp(email.value, name.value, password.value).then(isSignupOK => {
-        if (isSignupOK) {
-          history.back();
-          return;
-        }
-        alert('회원가입에 실패하였습니다.');
+      requestSignUp(email.value, name.value, password.value).then(() => {
+        history.back();
+        // TODO : alert 메세지 상수로 빼기
+      }).catch(error => {
+        console.log(error);
+        alert('회원가입에 실패하였습니다');
+      });
+    }
+    if (target.id === SELECTOR_ID.LOG_IN_FORM) {
+      const { email, password } = e.target;
+      requestLoginToken(email.value, password.value).then(accessToken => {
+        sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
+        this.#state.update(STATE_KEY.IS_LOGGED_IN, true);
+        history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
+        this.#router.navigate.call(this.#router, PATH.ROOT);
+      }).catch(error => {
+        console.log(error);
+        alert('로그인에 실패하셨습니다')
       });
     }
   }

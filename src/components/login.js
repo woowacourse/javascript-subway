@@ -1,4 +1,4 @@
-import { PATH, SELECTOR_ID } from '../constants.js';
+import { SELECTOR_ID } from '../constants.js';
 import { $ } from '../utils/utils.js';
 
 export default class Login {
@@ -44,7 +44,7 @@ export default class Login {
       </div>
       <p class="text-gray-700 pl-2">
         아직 회원이 아니신가요?
-        <a id="${SELECTOR_ID.SIGN_UP_BUTTON}" href="${PATH.SIGN_UP}">회원가입</a>
+        <a id="${SELECTOR_ID.SIGN_UP_BUTTON}" href="/signup">회원가입</a>
       </p>
     `;
   }
