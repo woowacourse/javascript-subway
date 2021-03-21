@@ -11,6 +11,7 @@
   "rules": {
     "import/extensions": ["error", "always"],
     "import/no-cycle": "off",
+    "no-param-reassign": ["error", { "props": false }],
     "no-use-before-define": ["error", "nofunc"]
   },
   "plugins": ["cypress"],

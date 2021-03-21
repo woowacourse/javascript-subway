@@ -1,19 +1,18 @@
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
 import requestSignUp from './request.js';
 import TEMPLATE from './template.js';
-import { $, debounce } from '../../../utils/index.js';
+import { debounce } from '../../../utils/index.js';
 
-const $main = $('main');
 const waitTime = 1500;
 
 // eslint-disable-next-line import/prefer-default-export
-export const renderSignUp = () => {
-  $main.innerHTML = TEMPLATE;
+export const renderSignUp = ($parent) => {
+  $parent.innerHTML = TEMPLATE;
 
-  const $form = $main.querySelector('form');
-  const $name = $main.querySelector('#name');
-  const $email = $main.querySelector('#email');
-  const $password = $main.querySelector('#password');
+  const $form = $parent.querySelector('form');
+  const $name = $parent.querySelector('#name');
+  const $email = $parent.querySelector('#email');
+  const $password = $parent.querySelector('#password');
 
   $name.addEventListener('input', validateName);
   $name.addEventListener('blur', validateName);

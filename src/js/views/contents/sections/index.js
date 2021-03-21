@@ -1,9 +1,6 @@
 import TEMPLATE from './template.js';
-import { $ } from '../../../utils/index.js';
-
-const $main = $('main');
 
 // eslint-disable-next-line import/prefer-default-export
-export const renderSections = () => {
-  $main.innerHTML = TEMPLATE;
+export const renderSections = ($parent) => {
+  $parent.innerHTML = TEMPLATE;
 };

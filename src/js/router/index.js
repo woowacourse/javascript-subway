@@ -1,7 +1,10 @@
-import { hasPropertyValue } from '../utils/index.js';
+import { $, hasPropertyValue } from '../utils/index.js';
 import { ROUTES, TITLES } from '../constants/index.js';
 import { render, renderHeader } from '../views/index.js';
 import { logout } from '../auth.js';
+
+const $header = $('header');
+const $main = $('main');
 
 export function handleWindowPopstate({ target }) {
   const { pathname } = target.location;
@@ -38,7 +41,7 @@ export function goTo(pathname) {
     document.title = TITLES[pathname];
   }
 
-  renderHeader();
+  renderHeader($header);
   renderByPathname(pathname);
 }
 
@@ -48,7 +51,7 @@ function renderByPathname(pathname) {
 
     // TODO: API요청으로 데이터 가져온 후 인자로 isChangedData에 전달
     if (isChangedData()) {
-      render[pathname]();
+      render[pathname]($main);
     }
   } catch (error) {
     // TODO: 잘못된 경로일 경우 스낵바 표시
