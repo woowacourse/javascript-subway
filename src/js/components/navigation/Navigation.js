@@ -2,8 +2,11 @@ import Component from '../../core/Component.js';
 import { $, $$ } from '../../utils/index.js';
 
 export default class Navigation extends Component {
-  constructor() {
+  constructor({ render }) {
     super();
+    this.render = render;
+    this.selectDOM();
+    this.bindEvent();
   }
 
   selectDOM() {
@@ -24,6 +27,7 @@ export default class Navigation extends Component {
     this.changeSelectedButtonColor(e.target);
 
     const url = e.target.closest('.navigation-link').getAttribute('href');
+    this.render(url);
     history.pushState({ url }, null, url);
   }
 

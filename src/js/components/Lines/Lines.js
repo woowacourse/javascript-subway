@@ -1,13 +1,13 @@
 import Component from '../../core/Component.js';
-import { stationsTemplate } from './template.js';
+import { linesTemplate } from './template.js';
 import { $ } from '../../utils/index.js';
 
-export default class Stations extends Component {
+export default class Lines extends Component {
   constructor() {
     super();
   }
 
   render() {
-    $('main').innerHTML = stationsTemplate();
+    $('main').innerHTML = linesTemplate();
   }
 }
