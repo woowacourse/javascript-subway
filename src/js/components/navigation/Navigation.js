@@ -2,9 +2,9 @@ import Component from '../../core/Component.js';
 import { $, $$ } from '../../utils/index.js';
 
 export default class Navigation extends Component {
-  constructor({ render }) {
+  constructor({ changeTemplate }) {
     super();
-    this.render = render;
+    this.changeTemplate = changeTemplate;
     this.selectDOM();
     this.bindEvent();
   }
@@ -27,7 +27,7 @@ export default class Navigation extends Component {
     this.changeSelectedButtonColor(e.target);
 
     const url = e.target.closest('.navigation-link').getAttribute('href');
-    this.render(url);
+    this.changeTemplate(url);
     history.pushState({ url }, null, url);
   }
 

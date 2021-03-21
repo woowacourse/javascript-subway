@@ -4,7 +4,7 @@ import Sections from './sections/Sections.js';
 import Stations from './stations/Stations.js';
 import Lines from './lines/Lines.js';
 import Login from './login/Login.js';
-
+import Signup from './signup/Signup.js';
 export default class App extends Component {
   constructor() {
     super();
@@ -12,43 +12,45 @@ export default class App extends Component {
   }
 
   mountComponent() {
-    this.Navigation = new Navigation({ render: this.render.bind(this) });
+    this.Navigation = new Navigation({
+      changeTemplate: this.changeTemplate.bind(this),
+    });
     this.Stations = new Stations();
     this.Lines = new Lines();
     this.Sections = new Sections();
-    this.Login = new Login();
+    this.Login = new Login({ changeTemplate: this.changeTemplate.bind(this) });
+    this.Signup = new Signup();
   }
 
   bindEvent() {
-    window.addEventListener('popstate', this.render.bind(this));
+    window.addEventListener('popstate', this.changeTemplate.bind(this));
   }
 
-  render(pathName) {
-    console.log(pathName);
-
-    if (pathName === 'stations') {
+  changeTemplate(pathName) {
+    if (pathName === '/stations') {
       this.Stations.render();
       return;
     }
 
-    if (pathName === 'sections') {
+    if (pathName === '/sections') {
       this.Sections.render();
       return;
     }
 
-    if (pathName === 'lines') {
+    if (pathName === '/lines') {
       this.Lines.render();
       return;
     }
 
-    if (pathName === 'login') {
+    if (pathName === '/login') {
       this.Login.render();
+      this.Login.bindEvent();
+      return;
+    }
+
+    if (pathName === '/signup') {
+      this.Signup.render();
       return;
     }
   }
 }
-
-// if (url = '/stations') {
-//     Stations.render();
-//     Stations.bindEvent();
-// }
