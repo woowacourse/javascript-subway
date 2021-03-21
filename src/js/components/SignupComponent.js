@@ -1,9 +1,9 @@
-import Component from "./Component.js";
-import SIGNUP_TEMPLATE from "../templates/signupTemplate.js";
-import $ from "../utils/querySelector.js";
-import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL } from "../constants.js";
-import { fetchSignup } from "../utils/fetch.js";
-import router from "../router.js";
+import Component from './Component.js';
+import SIGNUP_TEMPLATE from '../templates/signupTemplate.js';
+import $ from '../utils/querySelector.js';
+import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import { fetchSignup } from '../utils/fetch.js';
+import router from '../router.js';
 
 class SignupComponent extends Component {
   constructor(state) {
@@ -11,7 +11,10 @@ class SignupComponent extends Component {
   }
 
   initEvent() {
-    $(`#${ID_SELECTOR.SIGNUP_FORM}`).addEventListener('submit', this.#onSignupSubmit);
+    $(`#${ID_SELECTOR.SIGNUP_FORM}`).addEventListener(
+      'submit',
+      this.#onSignupSubmit
+    );
   }
 
   async #onSignupSubmit(event) {
@@ -20,7 +23,8 @@ class SignupComponent extends Component {
     const email = event.target[ID_SELECTOR.SIGNUP_FORM_EMAIL].value;
     const name = event.target[ID_SELECTOR.SIGNUP_FORM_NAME].value;
     const password = event.target[ID_SELECTOR.SIGNUP_FORM_PASSWORD].value;
-    const passwordConfirm = event.target[ID_SELECTOR.SIGNUP_FORM_PASSWORD_CONFIRM].value;
+    const passwordConfirm =
+      event.target[ID_SELECTOR.SIGNUP_FORM_PASSWORD_CONFIRM].value;
 
     if (password !== passwordConfirm) {
       return;
@@ -35,8 +39,8 @@ class SignupComponent extends Component {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'Content-Length': 96
-        }
+          'Content-Length': 96,
+        },
       });
     } catch (err) {
       alert(err.message);
@@ -51,7 +55,6 @@ class SignupComponent extends Component {
   render() {
     super.render(SIGNUP_TEMPLATE);
   }
-
 }
 
 export default SignupComponent;

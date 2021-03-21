@@ -9,6 +9,7 @@ context('Window', () => {
   const NAME = '한준모';
   const PASSWORD = '1';
 
+  // TODO: cypress 첫 번째 테스트일 경우 alert를 감지하지 못하는 문제
   it('회원 가입 시 `email`, `name`, `password`를 제출해야한다.', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);

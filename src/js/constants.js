@@ -26,6 +26,7 @@ const ALERT_MESSAGE = {
 
   // LOGIN
   LOGIN_SUCCESS: '로그인에 성공했습니다.',
+  LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
 };
 
 const REQUEST_URL = 'http://3.35.213.149';

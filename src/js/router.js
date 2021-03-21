@@ -12,6 +12,8 @@ const router = {
   },
 
   render: async path => {
+    history.pushState({ path }, null, path);
+
     router.routes[path].render();
     router.routes[path].initEvent();
   },
@@ -23,7 +25,7 @@ const router = {
       router.render(e.state.path);
     });
 
-    $('header').addEventListener('click', (event) => {
+    $('header').addEventListener('click', event => {
       event.preventDefault();
 
       const anchor = event.target.closest(`.${CLASS_SELECTOR.ANCHOR}`);
@@ -32,7 +34,6 @@ const router = {
 
       const path = anchor.getAttribute('href');
 
-      history.pushState({ path }, null, path);
       router.render(path);
     });
   },

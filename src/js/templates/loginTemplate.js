@@ -32,7 +32,7 @@ const MAIN_COMPONENT = `
     <div class="input-control w-100">
       <button
         id="${ID_SELECTOR.LOGIN_FORM_SUBMIT}"
-        type="button"
+        type="submit"
         name="submit"
         class="input-submit w-100 bg-cyan-300"
       >
