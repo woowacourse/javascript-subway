@@ -31,4 +31,8 @@ const HTTP = {
   },
 };
 
-export { MESSAGE, BASE_URL, HTTP };
+const COOKIE_KEY = {
+  JWT_TOKEN: 'jwtToken',
+};
+
+export { MESSAGE, BASE_URL, HTTP, COOKIE_KEY };
