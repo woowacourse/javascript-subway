@@ -50,7 +50,6 @@ class RouteManager {
   }
 
   render() {
-    // api요청 보내서 토큰이 유효한지 확인
     const component = this.components[this.route]();
     new component($('.js-main'));
   }

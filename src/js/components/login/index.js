@@ -35,7 +35,6 @@ class Login extends Component {
         });
 
         const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
 
         accessTokenManager.setToken(accessToken);
 

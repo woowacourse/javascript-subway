@@ -8,6 +8,8 @@ import { headerTemplate } from './components/header.js';
 import accessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 import routeManager from './stateManagers/RouteManager.js';
+import request from './utils/fetch.js';
+import { BASE_URL, PATH } from './constants/url.js';
 
 class App {
   constructor() {
@@ -39,12 +41,19 @@ class App {
 
       const route = anchor.getAttribute('href');
       if (route === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
-        localStorage.removeItem('accessToken');
-        this.accessTokenManager.clearToken();
+        this.fireAccessToken();
 
         this.routeManager.setRoute(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
 
         return;
+      }
+
+      if (
+        !this.isValidAccessToken() &&
+        (route !== UNAUTHENTICATED_LINK.LOGIN.ROUTE ||
+          route !== UNAUTHENTICATED_LINK.SIGNUP.ROUTE)
+      ) {
+        this.fireAccessToken();
       }
 
       this.routeManager.setRoute(route);
@@ -55,9 +64,26 @@ class App {
     });
   }
 
-  fireToken() {
-    localStorage.removeItem('accessToken');
+  fireAccessToken() {
     accessTokenManager.clearToken();
+  }
+
+  async isValidAccessToken() {
+    try {
+      const response = await request.get(BASE_URL + PATH.MEMBERS.ME, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessTokenManager.getToken()}`,
+        },
+      });
+
+      if (!response.ok) throw Error('accessToken is not valid');
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+
+    return true;
   }
 }
 

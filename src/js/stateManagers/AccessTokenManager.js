@@ -1,11 +1,12 @@
 class AccessTokenManager {
   constructor() {
-    this.accessToken = '';
+    this.accessToken = localStorage.getItem('accessToken') || '';
     this.listeners = [];
   }
 
   setToken(token) {
     this.accessToken = token;
+    localStorage.setItem('accessToken', this.accessToken);
     this.notify();
   }
 
@@ -15,6 +16,7 @@ class AccessTokenManager {
 
   clearToken() {
     this.setToken('');
+    localStorage.removeItem('accessToken');
   }
 
   subscribe(listener) {
