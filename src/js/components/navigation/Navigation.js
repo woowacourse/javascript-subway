@@ -1,6 +1,12 @@
 import Component from '../../core/Component.js';
-import { $, $$, showElement, hideElement } from '../../utils/index.js';
-import { LOCAL_STORAGE_KEY } from '../../constants/index.js';
+import {
+  $,
+  $$,
+  showElement,
+  hideElement,
+  showSnackbar,
+} from '../../utils/index.js';
+import { LOCAL_STORAGE_KEY, SNACKBAR_MESSAGE } from '../../constants/index.js';
 
 export default class Navigation extends Component {
   constructor({ changeTemplate }) {
@@ -29,6 +35,7 @@ export default class Navigation extends Component {
       localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
       this.changeTemplate('/');
       history.pushState({ pathName: '/' }, null, '/');
+      showSnackbar(SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
     }
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
