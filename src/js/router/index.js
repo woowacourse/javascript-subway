@@ -1,7 +1,7 @@
 import { hasPropertyValue } from '../utils/index.js';
 import { ROUTES, TITLES } from '../constants/index.js';
-// eslint-disable-next-line import/no-cycle
-import { render } from '../views/index.js';
+import { render, renderHeader } from '../views/index.js';
+import { logout } from '../auth.js';
 
 export function handleWindowPopstate({ target }) {
   const { pathname } = target.location;
@@ -13,13 +13,22 @@ export function handleLinkClick(event) {
   const { target: $target } = event;
   const $anchor = $target.closest('a');
 
-  if (!$anchor) return;
+  if (!$anchor) {
+    return;
+  }
 
   const { origin, pathname } = $anchor;
 
-  if (!isSameOrigin(origin)) return;
+  if (!isSameOrigin(origin)) {
+    return;
+  }
 
   event.preventDefault();
+
+  if (pathname === ROUTES.LOGOUT) {
+    logout();
+  }
+
   goTo(pathname);
 }
 
@@ -29,6 +38,7 @@ export function goTo(pathname) {
     document.title = TITLES[pathname];
   }
 
+  renderHeader();
   renderByPathname(pathname);
 }
 

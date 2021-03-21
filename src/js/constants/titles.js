@@ -7,6 +7,7 @@ const TITLES = Object.freeze({
   [ROUTES.SECTIONS]: '구간 관리',
   [ROUTES.LOGIN]: '로그인',
   [ROUTES.SIGN_UP]: '회원가입',
+  [ROUTES.LOGOUT]: '지하철 노선도',
 });
 
 export default TITLES;

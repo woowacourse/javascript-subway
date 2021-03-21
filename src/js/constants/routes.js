@@ -5,6 +5,7 @@ const ROUTES = Object.freeze({
   SECTIONS: '/sections',
   LOGIN: '/login',
   SIGN_UP: '/signup',
+  LOGOUT: '/logout',
 });
 
 export default ROUTES;

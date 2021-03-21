@@ -1,4 +1,5 @@
 import { ROUTES } from '../../../constants/index.js';
+import { isLoggedIn } from '../../../auth.js';
 
 const HEADER_TEMPLATE = `
 <a href="${ROUTES.HOME}" class="text-black">
@@ -14,9 +15,15 @@ const HEADER_TEMPLATE = `
   <a href="${ROUTES.SECTIONS}" class="my-1">
     <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
   </a>
-  <a href="${ROUTES.LOGIN}" class="my-1">
-    <button class="btn bg-white shadow mx-1">👤 로그인</button>
-  </a>
+${
+  isLoggedIn()
+    ? `<a href="${ROUTES.LOGIN}" id="login" class="my-1">
+      <button class="btn bg-white shadow mx-1">👤 로그인</button>
+    </a>`
+    : `<a href="${ROUTES.LOGOUT}" id="logout" class="my-1 d-none">
+      <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
+    </a>`
+}
 </nav>`;
 
 export default HEADER_TEMPLATE;
