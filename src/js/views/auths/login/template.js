@@ -14,7 +14,7 @@ const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
     <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호" required />
   </div>
   <div class="input-control w-100">
-    <button type="submit" name="submit" class="input-submit w-100 bg-cyan-300">확인</button>
+    <button type="submit" name="submit" class="input-submit w-100 bg-cyan-300" disabled>확인</button>
   </div>
   <p class="text-gray-700 pl-2">
     아직 회원이 아니신가요?
