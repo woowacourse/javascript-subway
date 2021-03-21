@@ -33,6 +33,7 @@ const mainTemplate = () => {
             required
           />
         </div>
+        <div class="js-email-check"></div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>비밀번호</label>
           <input
@@ -58,6 +59,7 @@ const mainTemplate = () => {
             placeholder="비밀번호 확인"
           />
         </div>
+        <div class="js-password-check"></div>
         <div class="input-control">
           <button
             name="submit"
