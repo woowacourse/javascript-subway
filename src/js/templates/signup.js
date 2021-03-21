@@ -4,18 +4,22 @@ const signupTemplate = `
       <h2 class="text">📝 회원가입</h2>
     </div>
     <form id="signup-form" name="signup" class="form">
-      <div class="input-control">
+      <div id="email-input" class="input-control js-input-control">
         <label for="email" class="input-label" hidden>이메일</label>
-        <input
+        <div class="d-flex justify-between w-100">
+          <input
           type="email"
           id="email"
           name="email"
           class="input-field"
           placeholder="이메일"
           required
-        />
+          />
+          <button id="check-duplicated-email-button" type="button" class="input-submit bg-cyan-100">중복체크</button>
+        </div>
+        <small id="email-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
       </div>
-      <div class="input-control">
+      <div class="input-control js-input-control">
         <label for="name" class="input-label" hidden>이름</label>
         <input
           type="text"
@@ -25,8 +29,9 @@ const signupTemplate = `
           placeholder="이름"
           required
         />
+        <small id="name-fail-message"  class="d-flex mr-auto px-3 mt-1 d-none">공백을 제거해 주세요.</small>
       </div>
-      <div class="input-control">
+      <div class="input-control js-input-control">
         <label for="password" class="input-label" hidden
           >비밀번호</label
         >
@@ -35,11 +40,12 @@ const signupTemplate = `
           id="password"
           name="password"
           class="input-field"
-          placeholder="비밀번호"
+          placeholder="비밀번호 (영문자, 숫자 조합의 9-15자)"
           required
         />
+        <small id="password-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 비밀번호 형식을 입력해 주세요.</small>
       </div>
-      <div class="input-control">
+      <div class="input-control js-input-control">
         <label for="password-confirm" class="input-label" hidden
           >비밀번호 확인</label
         >
@@ -51,6 +57,7 @@ const signupTemplate = `
           placeholder="비밀번호 확인"
           required
         />
+        <small id="password-confirm-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">동일한 비밀번호를 입력해 주세요.</small>
       </div>
       <div class="input-control">
         <button

@@ -1,11 +1,13 @@
 form .input-control {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
 }
 
 form .input-field {
+  box-sizing: border-box;
   font-size: 1rem;
   font-weight: 400;
   line-height: inherit;
@@ -50,4 +52,17 @@ form select {
     calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
+}
+
+.input-control.success .input-field {
+  border: 1px solid #2ecc71;
+}
+
+.input-control.fail .input-field {
+  border: 1px solid #e74c3c;
+}
+
+.input-control.fail small {
+  color: #e74c3c;
+  display: block;
 }
