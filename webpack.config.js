@@ -36,6 +36,15 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.(png|jpg)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]?[hash]',
+          },
+        },
+      },
+      {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
