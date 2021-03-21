@@ -10,6 +10,7 @@
   },
   "rules": {
     "import/extensions": ["error", "always"],
+    "import/no-cycle": "off",
     "no-use-before-define": ["error", "nofunc"]
   },
   "plugins": ["cypress"],

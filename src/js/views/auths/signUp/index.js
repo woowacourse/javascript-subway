@@ -1,5 +1,4 @@
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
-// eslint-disable-next-line import/no-cycle
 import requestSignUp from './request.js';
 import TEMPLATE from './template.js';
 import { $, debounce } from '../../../utils/index.js';

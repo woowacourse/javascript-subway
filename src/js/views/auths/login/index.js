@@ -1,6 +1,5 @@
 import { validateEmail, validatePassword, validateForm } from './validate.js';
 import TEMPLATE from './template.js';
-// eslint-disable-next-line import/no-cycle
 import requestLogin from './request.js';
 import { $ } from '../../../utils/index.js';
 

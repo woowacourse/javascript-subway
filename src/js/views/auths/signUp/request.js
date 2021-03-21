@@ -1,5 +1,4 @@
 import { API_ENDPOINT, AUTH_MESSAGES, ROUTES } from '../../../constants/index.js';
-// eslint-disable-next-line import/no-cycle
 import { goTo } from '../../../router/index.js';
 import { notify } from '../../../utils/index.js';
 
