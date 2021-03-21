@@ -1,4 +1,4 @@
-import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY } from './constants.js';
+import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY, ALERT_MESSAGE } from './constants.js';
 import { requestSignUp, requestLoginToken } from './api/member.js';
 import { sessionStore } from './utils/utils';
 
@@ -39,13 +39,16 @@ export default class AppEvents {
     e.preventDefault();
     const target = e.target;
     if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
-      const { email, name, password } = e.target;
+      const { email, name, password, confirm } = e.target;
+      if (!this.#isPasswordCheckMatched(password.value, confirm.value)) {
+        alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
+        return;
+      }
       requestSignUp(email.value, name.value, password.value).then(() => {
         history.back();
-        // TODO : alert 메세지 상수로 빼기
       }).catch(error => {
         console.log(error);
-        alert('회원가입에 실패하였습니다');
+        alert(ALERT_MESSAGE.SIGNUP_FAILED);
       });
     }
     if (target.id === SELECTOR_ID.LOG_IN_FORM) {
@@ -57,12 +60,16 @@ export default class AppEvents {
         this.#router.navigate.call(this.#router, PATH.ROOT);
       }).catch(error => {
         console.log(error);
-        alert('로그인에 실패하셨습니다')
+        alert(ALERT_MESSAGE.LOGIN_FAILED);
       });
     }
   }
 
   #isAuthenticationPath(path) {
     return path === PATH.LOG_IN || path === PATH.SIGN_UP;
+  }
+
+  #isPasswordCheckMatched(password, passwordConfirm) {
+    return password === passwordConfirm;
   }
 }

@@ -47,3 +47,9 @@ export const STATE_KEY = Object.freeze({
   STATION_LIST: 'stationList',
   SECTION_LIST: 'sectionList',
 });
+
+export const ALERT_MESSAGE = Object.freeze({
+  PASSWORD_UNMATCHED: '비밀번호 확인이 일치하지 않습니다',
+  LOGIN_FAILED: '로그인에 실패하셨습니다',
+  SIGNUP_FAILED: '회원가입에 실패하였습니다',
+});

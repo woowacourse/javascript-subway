@@ -37,20 +37,21 @@ export default class SignUp {
       </div>
       <div class="input-control">
         <label for="name" class="input-label" hidden>이름</label>
-        <input type="text" id="${SELECTOR_ID.SIGN_UP_NAME_INPUT}" name="name" class="input-field" placeholder="이름" />
+        <input type="text" id="${SELECTOR_ID.SIGN_UP_NAME_INPUT}" name="name" class="input-field" placeholder="이름" required />
       </div>
       <div class="input-control">
         <label for="password" class="input-label" hidden>비밀번호</label>
-        <input type="password" id="${SELECTOR_ID.SIGN_UP_PASSWORD_INPUT}" name="password" class="input-field" placeholder="비밀번호" />
+        <input type="password" id="${SELECTOR_ID.SIGN_UP_PASSWORD_INPUT}" name="password" class="input-field" placeholder="비밀번호" required />
       </div>
       <div class="input-control">
-        <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
+        <label for="confirm" class="input-label" hidden>비밀번호 확인</label>
         <input
           type="password"
           id="${SELECTOR_ID.SIGN_UP_PASSWORD_CHECK_INPUT}"
-          name="password-confirm"
+          name="confirm"
           class="input-field"
           placeholder="비밀번호 확인"
+          required
         />
       </div>
       <div class="input-control">
