@@ -8,15 +8,8 @@ import { getSignUpTemplate } from '../templates/signUp';
 import { requestCheckLogin } from '../requestData/requestUserData';
 
 export default class Router {
-  static instance;
-
   constructor(target) {
-    if (Router.instance) {
-      return Router.instance;
-    }
-
     this.target = target;
-    Router.instance = this;
   }
 
   async route(path) {
