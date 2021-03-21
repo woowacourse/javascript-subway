@@ -1,17 +1,28 @@
+import headerTemplate from '../templates/header.js';
 import { $ } from '../utils/DOM.js';
 
 class MainPage {
   constructor(router) {
-    this.$main = $('#main');
+    this.$navigation = $('#navigation');
     this.router = router;
   }
 
   init() {
     this.renderView();
+    this.bindEvents();
   }
 
   renderView() {
-    this.$main.innerHTML = `<h2> 메인페이지입니다 </h2>`;
+    this.$navigation.innerHTML = headerTemplate;
+  }
+
+  bindEvents() {
+    this.$navigation.addEventListener('click', e => {
+      e.preventDefault();
+
+      const targetPath = e.target.dataset.navPath;
+      this.router.navigate(targetPath);
+    });
   }
 }
 
