@@ -1,5 +1,5 @@
 import TEMPLATE from './template.js';
-import { isLoggedIn } from '../../../auth.js';
+import { isLoggedIn } from '../../../auth/index.js';
 import { ROUTES } from '../../../constants/index.js';
 
 const textLogin = '👤 로그인';

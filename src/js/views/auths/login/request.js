@@ -1,7 +1,7 @@
 import { goTo } from '../../../router/index.js';
 import { notify } from '../../../utils/index.js';
 import { API_ENDPOINT, AUTH_MESSAGES, ROUTES } from '../../../constants/index.js';
-import { login } from '../../../auth.js';
+import { login } from '../../../auth/index.js';
 
 const requestLogin = async (event) => {
   event.preventDefault();

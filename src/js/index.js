@@ -1,6 +1,6 @@
 import { $ } from './utils/index.js';
 import { goTo, handleLinkClick, handleWindowPopstate } from './router/index.js';
-import { isLoggedIn } from './auth.js';
+import { isLoggedIn } from './auth/index.js';
 import ROUTES from './constants/routes.js';
 
 import '../css/index.css';

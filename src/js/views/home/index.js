@@ -1,5 +1,5 @@
 import TEMPLATE from './template.js';
-import { isLoggedIn } from '../../auth.js';
+import { isLoggedIn } from '../../auth/index.js';
 import { AUTH_MESSAGES } from '../../constants/index.js';
 
 // eslint-disable-next-line import/prefer-default-export
