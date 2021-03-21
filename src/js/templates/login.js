@@ -4,7 +4,7 @@ const loginTemplate = `
       <h2>👋 로그인</h2>
     </div>
     <form id="login-form" name="login" class="form">
-      <div class="input-control">
+      <div class="input-control js-input-control">
         <label for="email" class="input-label" hidden>이메일</label>
         <input
           type="email"
@@ -14,8 +14,9 @@ const loginTemplate = `
           placeholder="이메일"
           required
         />
+        <small id="email-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
       </div>
-      <div class="input-control">
+      <div class="input-control js-input-control">
         <label for="password" class="input-label" hidden
           >비밀번호</label
         >
@@ -24,8 +25,10 @@ const loginTemplate = `
           id="password"
           name="password"
           class="input-field"
-          placeholder="비밀번호"
+          placeholder="비밀번호 (영문자, 숫자 조합의 9-15자)"
+          required
         />
+        <small id="password-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 비밀번호 형식을 입력해 주세요.</small>
       </div>
       <div class="input-control w-100">
         <button

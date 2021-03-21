@@ -3,6 +3,10 @@ import { COOKIE_KEY, HTTP } from '../constants.js';
 import { fetchLogin } from '../API/auth.js';
 import jwtToken from '../jwtToken.js';
 import loginTemplate from '../templates/login.js';
+import {
+  checkEmailInputHandler,
+  checkPasswordInputHandler,
+} from '../authHandlers.js';
 
 class LoginPage {
   constructor(router) {
@@ -41,26 +45,32 @@ class LoginPage {
 
       const { accessToken } = await response.json();
       jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
-
-      //TODO : 로그인 성공했을 때, snackBar 만들기
     } catch (error) {
       console.error(error);
       alert(error);
     } finally {
-      console.log('finally');
       this.router.navigate('/');
     }
   }
 
+  bindCheckInputEvents() {
+    $('#email').addEventListener('keyup', checkEmailInputHandler.bind(this));
+    $('#password').addEventListener(
+      'keyup',
+      checkPasswordInputHandler.bind(this)
+    );
+  }
+
   bindEvents() {
+    this.bindCheckInputEvents();
+
+    $('#login-form').addEventListener('submit', this.loginHandler.bind(this));
     $('#signup').addEventListener('click', e => {
       e.preventDefault();
 
       const path = e.target.getAttribute('href');
       this.router.navigate(path);
     });
-
-    $('#login-form').addEventListener('submit', this.loginHandler.bind(this));
   }
 }
 
