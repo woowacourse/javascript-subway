@@ -39,10 +39,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: './index.html' }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
-      patterns: [
-        { from: 'pages', to: 'pages' },
-        { from: 'src/images', to: 'images' },
-      ],
+      patterns: [{ from: 'src/images', to: 'images' }],
     }),
   ],
   devServer: {
