@@ -1,4 +1,5 @@
 import '../css/index.css';
+import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';

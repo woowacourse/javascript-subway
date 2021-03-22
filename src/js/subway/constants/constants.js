@@ -53,7 +53,7 @@ export const REG_EXP = {
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$~!@#$%^&*()-+?])[A-Za-z\d$~!@#$%^&*()-+?]{6,20}$/,
 };
 
-export const BASE_URL = 'http://15.164.230.130:8080';
+export const BASE_URL = 'https://www.boorownie.com';
 
 export const SESSION_KEY = {
   ACCESS_TOKEN: 'ATK',
