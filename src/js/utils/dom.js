@@ -1,8 +1,9 @@
 export const $ = selector => document.querySelector(selector);
+
 export const $$ = selector => document.querySelectorAll(selector);
 
 export const getFormData = formCollections => {
-  const formData = Array.from(formCollections)
+  return Array.from(formCollections)
     .filter(({ name }) => name)
     .reduce(
       (result, { name, value }) => ({
@@ -11,6 +12,4 @@ export const getFormData = formCollections => {
       }),
       {},
     );
-
-  return formData;
 };

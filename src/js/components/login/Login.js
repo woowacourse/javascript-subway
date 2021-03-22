@@ -1,5 +1,8 @@
+import { checkLoginValid } from './loginValidator.js';
+import { loginTemplate } from './loginTemplate.js';
 import { $, getFormData } from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
+import { setLocalStorageItem } from '../../utils/storage.js';
 import {
   BASE_URL,
   ACTIONS,
@@ -12,9 +15,6 @@ import {
   LOGIN_ERROR,
   STORAGE,
 } from '../../constants.js';
-import { checkLoginValid } from './loginValidator.js';
-import { setLocalStorageItem } from '../../utils/storage.js';
-import { loginTemplate } from './loginTemplate.js';
 
 class Login {
   #props;
