@@ -9,35 +9,40 @@
   <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
   <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
   <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
-</p>
+</p>s
 
 # 🔥 Projects!
 
 <p align="middle">
-  <img src="./src/images/readme/subway_app_preview.png">
+  <img src="./images/readme/subway_app_preview.png">
 </p>
 
 ## 🎯 step1
 
 ### Webpack을 통한 번들링
 
-- [ ] Webpack에서 babel을 설정한다.
-- [ ] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+- [x] Webpack에서 babel을 설정한다.
+- [x] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] 라우팅에 따라 컴포넌트가 렌더링되도록 한다.
+
+<br><br>
+<img src="./images/readme/subway_routing.png">
 
 ### 회원 기능
 
-- [ ] 유저는 회원 가입을 할 수 있다,
-  - [ ] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
-- [ ] 유저는 로그인 할 수 있다.
-  - [ ] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
-  - [ ] 로그인한 유저만, 정보의 수정이 가능하다.
-  - [ ] 로그인하지 않은 유저는 정보를 읽는 것만 가능하다.
-- [ ] 유저는 로그아웃할 수 있다.
-  - [ ] 로그아웃하면 `/` 루트 페이지로 돌아온다.
+- [x] 유저는 회원 가입을 할 수 있다.
+  - 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
+- [x] 유저는 로그인 할 수 있다.
+  - 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
+  - 로그인한 유저만, 정보의 수정이 가능하다.
+  - 로그인하지 않은 유저는 정보를 읽는 것만 가능하다.
+  - 비밀번호와 비밀번호 확인이 일치하는지를 확인한다. 
+- [x] 유저는 로그아웃할 수 있다.
+  - 로그아웃하면 `/` 루트 페이지로 돌아온다.
 
 ## 🎯🎯 step2
 
