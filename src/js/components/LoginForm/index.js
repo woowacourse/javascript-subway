@@ -1,12 +1,15 @@
-import { $, show } from '../utils/dom.js';
-import { setCookie } from '../utils/cookie.js';
-import { render } from '../../js/router.js';
-import { loginRequest } from '../request.js';
-import { SELECTOR, SESSION_EXPIRE_DAYS } from '../constants/constants.js';
+import { $, show } from '../../utils/dom.js';
+import { setCookie } from '../../utils/cookie.js';
+import getAvailablePath from '../../utils/path.js';
+import routeTo from '../../router.js';
+import { loginRequest } from '../../request.js';
+import { SELECTOR, SESSION_EXPIRE_DAYS } from '../../constants/constants.js';
+import loginTemplate from './template.js';
 
 export default class LoginForm {
   constructor(store) {
     this.store = store;
+    this.$content = $(SELECTOR.CONTENT);
     this.state = {
       email: '',
       password: '',
@@ -14,8 +17,13 @@ export default class LoginForm {
   }
 
   init() {
+    this.render();
     this.selectDOM();
     this.bindEvents();
+  }
+
+  render() {
+    this.$content.innerHTML = loginTemplate;
   }
 
   selectDOM() {
@@ -33,7 +41,7 @@ export default class LoginForm {
     event.preventDefault();
     const path = event.target.getAttribute('href');
 
-    await render(path, this.store.userSession.isLoggedIn);
+    routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
   }
 
   handleSubmit(event) {
@@ -61,7 +69,7 @@ export default class LoginForm {
       });
 
       this.store.updateLoggedIn(true);
-      await render(path, this.store.userSession.isLoggedIn);
+      routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
     } catch (error) {
       console.error(error);
       this.warnLoginError();

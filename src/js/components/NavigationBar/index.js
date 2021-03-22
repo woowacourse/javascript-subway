@@ -1,7 +1,8 @@
-import { $ } from '../utils/dom.js';
-import { render } from '../../js/router.js';
-import { SELECTOR, BUTTON_NAME } from '../constants/constants.js';
-import { removeCookie } from '../utils/cookie.js';
+import { $ } from '../../utils/dom.js';
+import routeTo from '../../router.js';
+import { SELECTOR, BUTTON_NAME } from '../../constants/constants.js';
+import { removeCookie } from '../../utils/cookie.js';
+import getAvailablePath from '../../utils/path.js';
 
 export default class NavigationBar {
   constructor(store) {
@@ -70,7 +71,7 @@ export default class NavigationBar {
       this.logout();
     }
 
-    await render(path, this.store.userSession.isLoggedIn);
+    routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
 
     this.selectButton(event.target.id);
   }

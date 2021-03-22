@@ -1,15 +1,18 @@
 import _ from '/src/css/index.css';
-import { render } from '../js/router.js';
-import NavigationBar from '../js/components/NavigationBar.js';
-import Store from '../js/store.js';
+import routeTo from './router.js';
+import Store from './store.js';
+import { userInfoRequest } from './request.js';
 import { getCookie } from './utils/cookie.js';
-import { userInfoRequest } from '../js/request.js';
-import EntryPage from './components/EntryPage.js';
-import StationManager from './components/StationManager.js';
-import LineManager from './components/LineManager.js';
-import SectionManager from './components/SectionManager.js';
-import LoginForm from './components/LoginForm.js';
-import SignupForm from './components/SignupForm.js';
+import getAvailablePath from './utils/path.js';
+import {
+  NavigationBar,
+  EntryPage,
+  StationManager,
+  LineManager,
+  SectionManager,
+  LoginForm,
+  SignupForm,
+} from './components';
 
 export default class App {
   constructor() {
@@ -32,31 +35,26 @@ export default class App {
       '/login': this.loginForm,
       '/signup': this.signupForm,
     };
+
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    window.addEventListener('pushState', (e) => {
+      this.components[e.detail].init();
+    });
   }
 
   async execute() {
-    const path = location.pathname;
-
+    this.navigationBar.init();
     await this.checkIsLoggedIn();
 
-    this.navigationBar.init();
-    this.initComponentByPath();
+    const path = getAvailablePath(
+      location.pathname,
+      this.store.userSession.isLoggedIn
+    );
 
-    await render(path, this.store.userSession.isLoggedIn);
-  }
-
-  /**
-   * @override history.pushState
-   **/
-  initComponentByPath() {
-    const ps = history.pushState;
-
-    history.pushState = function () {
-      ps.apply(history, arguments);
-
-      const component = this.components[location.pathname];
-      component.init();
-    }.bind(this);
+    routeTo(path);
   }
 
   async checkIsLoggedIn() {

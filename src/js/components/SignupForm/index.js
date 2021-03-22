@@ -2,19 +2,21 @@ import {
   loginRequest,
   signupRequest,
   checkEmailDuplicatedRequest,
-} from '../request.js';
-import { $, show, hide } from '../utils/dom.js';
-import { setCookie } from '../utils/cookie.js';
-import { render } from '../../js/router.js';
+} from '../../request.js';
+import { $, show, hide } from '../../utils/dom.js';
+import { setCookie } from '../../utils/cookie.js';
+import routeTo from '../../router.js';
 import {
   SELECTOR,
   MESSAGES,
   SESSION_EXPIRE_DAYS,
-} from '../constants/constants.js';
+} from '../../constants/constants.js';
+import signupTemplate from './template.js';
 
 export default class SignupForm {
   constructor(store) {
     this.store = store;
+    this.$content = $(SELECTOR.CONTENT);
     this.state = {
       email: '',
       name: '',
@@ -24,8 +26,13 @@ export default class SignupForm {
   }
 
   init() {
+    this.render();
     this.selectDOM();
     this.bindEvents();
+  }
+
+  render() {
+    this.$content.innerHTML = signupTemplate;
   }
 
   selectDOM() {
@@ -114,7 +121,7 @@ export default class SignupForm {
     });
 
     this.store.updateLoggedIn(true);
-    await render(path, this.store.userSession.isLoggedIn);
+    routeTo(path);
   }
 
   getPassword(event) {
