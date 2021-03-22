@@ -19,6 +19,10 @@ const SIGN_UP_TEMPLATE = `
       <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호" required />
       <span></span>
     </div>
+    <div class="d-flex my-3 mx-5 items-center">
+      <label>비밀번호 표시</label>
+      <input type="checkbox" id="password-checkbox"></input>
+    </div>
     <div class="input-control">
       <button type="submit" name="submit" class="input-submit w-100 bg-cyan-300" disabled>확인</button>
     </div>

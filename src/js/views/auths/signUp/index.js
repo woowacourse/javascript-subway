@@ -13,6 +13,11 @@ export const renderSignUp = ($parent) => {
   const $name = $parent.querySelector('#name');
   const $email = $parent.querySelector('#email');
   const $password = $parent.querySelector('#password');
+  const $passwordCheckbox = $parent.querySelector('#password-checkbox');
+
+  function handlePasswordCheckboxChange() {
+    $password.type = $passwordCheckbox.checked ? 'text' : 'password';
+  }
 
   $name.addEventListener('input', validateName);
   $name.addEventListener('blur', validateName);
@@ -22,6 +27,8 @@ export const renderSignUp = ($parent) => {
 
   $password.addEventListener('input', validatePassword);
   $password.addEventListener('blur', validatePassword);
+
+  $passwordCheckbox.addEventListener('change', handlePasswordCheckboxChange);
 
   $form.addEventListener('input', validateForm);
   $form.addEventListener('submit', requestSignUp);
