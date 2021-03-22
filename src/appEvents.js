@@ -1,103 +1,23 @@
-import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY, ALERT_MESSAGE } from './constants.js';
-import { requestSignUp, requestLoginToken } from './api/member.js';
-import { requestStationRegistration } from './api/station.js';
-import { sessionStore } from './utils/utils';
-import { isDuplicatedStationNameExist, isProperStationNameLength } from './validators/station.js';
+import delegateNavigatorClickEvent from './delegators/navigator.js';
 
-export default class AppEvents {
-  #router;
-  #state;
+import delegateLoginSubmitEvent from './delegators/login.js';
+import delegateSignUpSubmitEvent from './delegators/signup.js';
+import delegateStationSubmitEvent from './delegators/station.js';
 
-  constructor(state, router) {
-    this.#router = router;
-    this.#state = state;
-  }
+const delegateEvents = () => {
+  document.body.addEventListener('click', handleClickEvents);
+  document.body.addEventListener('submit', handleSubmitEvents);
+};
 
-  delegateEvents() {
-    document.body.addEventListener('click', e => {
-      this.#handleClickEvents.call(this, e);
-    });
-    document.body.addEventListener('submit', e => {
-      this.#handleSubmitEvents.call(this, e);
-    });
-  }
-
-  #handleClickEvents(e) {
-    const target = e.target;
-    if (target.id === SELECTOR_ID.SIGN_UP_BUTTON || target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) {
-      e.preventDefault();
-      const path = target.getAttribute('href');
-      if (!this.#isAuthenticationPath(path) && !this.#state.get(STATE_KEY.IS_LOGGED_IN)) {
-        history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
-        this.#router.navigate.call(this.#router, PATH.ROOT);
-        return;
-      }
-      history.pushState({ path }, null, path);
-      this.#router.navigate.call(this.#router, path);
-    }
-    if (target.id === SELECTOR_ID.LOG_OUT_BUTTON) {
-      sessionStore.removeItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-      this.#state.update(STATE_KEY.IS_LOGGED_IN, false);
-      history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
-      this.#router.navigate.call(this.#router, PATH.ROOT);
-    }
-  }
-
-  #handleSubmitEvents(e) {
-    e.preventDefault();
-    const target = e.target;
-    if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
-      const { email, name, password, confirm } = target;
-      if (!this.#isPasswordCheckMatched(password.value, confirm.value)) {
-        alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
-        return;
-      }
-      requestSignUp(email.value, name.value, password.value).then(() => {
-        history.back();
-      }).catch(error => {
-        console.log(error);
-        alert(ALERT_MESSAGE.SIGNUP_FAILED);
-      });
-    }
-
-    if (target.id === SELECTOR_ID.LOG_IN_FORM) {
-      const { email, password } = target;
-      requestLoginToken(email.value, password.value).then(accessToken => {
-        sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
-        this.#state.update(STATE_KEY.IS_LOGGED_IN, true);
-        history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
-        this.#router.navigate.call(this.#router, PATH.ROOT);
-      }).catch(error => {
-        console.log(error);
-        alert(ALERT_MESSAGE.LOGIN_FAILED);
-      });
-    }
-
-    if (target.id === SELECTOR_ID.STATION_FORM) {
-      const { stationName: stationNameInput } = target;
-      const stationList = this.#state.get(STATE_KEY.STATION_LIST);
-      if (!isProperStationNameLength(stationNameInput.value)) {
-        alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
-        return;
-      }
-      if (isDuplicatedStationNameExist(stationNameInput.value, stationList)) {
-        alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
-        return;
-      }
-      requestStationRegistration(stationNameInput.value).then(({ id, name }) => {
-        this.#state.update(STATE_KEY.STATION_LIST, [ ...stationList, { id, name }]);
-      }).catch(error => {
-        console.log(error);
-        alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
-      });
-    }
-  }
-
-  #isAuthenticationPath(path) {
-    return path === PATH.LOG_IN || path === PATH.SIGN_UP;
-  }
-
-  #isPasswordCheckMatched(password, passwordConfirm) {
-    return password === passwordConfirm;
-  }
+function handleClickEvents(event) {
+  delegateNavigatorClickEvent(event);
 }
+
+function handleSubmitEvents(event) {
+  event.preventDefault();
+  delegateLoginSubmitEvent(event);
+  delegateSignUpSubmitEvent(event);
+  delegateStationSubmitEvent(event);
+}
+
+export default delegateEvents;
