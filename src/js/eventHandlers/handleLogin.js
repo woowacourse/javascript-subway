@@ -22,9 +22,10 @@ const handleLogin = async event => {
 
   const { email, password, 'keep-login': keepLogin } = event.target.elements;
 
-  login(email.value, password.value, { keepLogin: keepLogin.checked });
-  showElement($('#nav'));
+  await login(email.value, password.value, { keepLogin: keepLogin.checked });
+
   routeTo('/');
+  showElement($('#nav'));
 };
 
 export default handleLogin;
