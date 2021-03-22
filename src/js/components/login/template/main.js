@@ -49,6 +49,7 @@ const mainTemplate = () => {
             required
           />
         </div>
+        <div class="js-login-check"></div>
         <div class="input-control w-100">
           <button
             name="submit"

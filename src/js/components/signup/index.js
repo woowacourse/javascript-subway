@@ -15,16 +15,11 @@ class Signup extends Component {
   }
 
   addEventListeners() {
-    $('#signup-form')['email'].addEventListener(
-      'change',
-      async ({ target }) => {
-        if (!target['email']) return;
-      }
-    );
-
     $('#signup-form').addEventListener(
       'focusout',
       async ({ target, currentTarget }) => {
+        if (currentTarget['submit'] === target) return;
+
         if (currentTarget['name'] === target) {
           try {
             this.validateName(target.value);
@@ -38,6 +33,7 @@ class Signup extends Component {
 
             console.error(error);
           }
+          return;
         }
 
         if (currentTarget['email'] === target) {
@@ -56,35 +52,40 @@ class Signup extends Component {
           return;
         }
 
-        const password = currentTarget['password'].value;
-        const passwordConfirm = currentTarget['password-confirm'].value;
-        try {
-          this.validatePassword(password, passwordConfirm);
-          $('.js-password-check').innerText = '비밀번호가 일치합니다.';
-          this.formValidationFlag.password = true;
-        } catch (error) {
-          if (error instanceof ValidationError) {
-            $('.js-password-check').innerText = error.message;
-            this.formValidationFlag.password = false;
-          }
+        if (
+          currentTarget['password'] === target ||
+          currentTarget['password-confirm'] === target
+        ) {
+          const password = currentTarget['password'].value;
+          const passwordConfirm = currentTarget['password-confirm'].value;
 
-          console.error(error);
+          try {
+            this.validatePassword(password, passwordConfirm);
+            $('.js-password-check').innerText = '비밀번호가 일치합니다.';
+            this.formValidationFlag.password = true;
+          } catch (error) {
+            if (error instanceof ValidationError) {
+              $('.js-password-check').innerText = error.message;
+              this.formValidationFlag.password = false;
+            }
+
+            console.error(error);
+          }
         }
-        // TODO: Flag 만들어서 사용해야 함
-        console.log(this.formValidationFlag);
-        const isValidEveryFormFlag = Object.values(
-          this.formValidationFlag
-        ).every((flag) => flag);
-        console.log(Object.values(this.formValidationFlag));
-        console.log(isValidEveryFormFlag);
       }
     );
 
     $('#signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = e.target['name'].value;
-      const email = e.target['email'].value;
-      const password = e.target['password'].value;
+
+      const inVaildInputName = Object.keys(this.formValidationFlag).find(
+        (key) => !this.formValidationFlag[key]
+      );
+
+      if (inVaildInputName) {
+        e.target[inVaildInputName].focus();
+        return;
+      }
 
       try {
         await request.post(BASE_URL + PATH.MEMBERS.SIGNUP, {
@@ -92,32 +93,15 @@ class Signup extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name,
-            email,
-            password,
+            name: e.target['name'].value,
+            email: e.target['email'].value,
+            password: e.target['password'].value,
           }),
         });
       } catch (error) {
         console.error(error);
       }
     });
-  }
-
-  async validateEmail(email) {
-    if (!this.isValidEmailFormat(email)) {
-      throw new ValidationError('올바른 이메일 형식이 아닙니다.');
-    }
-
-    const query = { email };
-    const searchParams = `?${new URLSearchParams(query)}`;
-
-    const response = await request.get(
-      BASE_URL + PATH.MEMBERS.CHECK + searchParams
-    );
-
-    if (response.status === 422) {
-      throw new ValidationError('이미 존재하는 이메일입니다.');
-    }
   }
 
   validateName(name) {
@@ -131,8 +115,30 @@ class Signup extends Component {
   }
 
   isValidNameFormat(name) {
-    const re = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z]/;
+    const re = /^([ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z])*$/;
     return re.test(name);
+  }
+
+  async validateEmail(email) {
+    if (!this.isValidEmailFormat(email)) {
+      throw new ValidationError('올바른 이메일 형식이 아닙니다.🥺');
+    }
+
+    const query = { email };
+    const searchParams = `?${new URLSearchParams(query)}`;
+
+    const response = await request.get(
+      BASE_URL + PATH.MEMBERS.CHECK + searchParams
+    );
+
+    if (response.status === 422) {
+      throw new ValidationError('이미 존재하는 이메일입니다.🥺');
+    }
+  }
+
+  isValidEmailFormat(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
   }
 
   validatePassword(password, passwordConfirm) {
@@ -145,11 +151,6 @@ class Signup extends Component {
     if (!isSamePassword) {
       throw new ValidationError('비밀번호가 일치하지 않습니다.🥺');
     }
-  }
-
-  isValidEmailFormat(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
   }
 }
 
