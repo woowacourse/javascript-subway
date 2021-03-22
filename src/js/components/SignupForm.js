@@ -2,15 +2,16 @@ import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
 
 import { $, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
-import debounce from "../utils/debounce.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
 import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
+
 export default class SignupForm {
   constructor({ $parent, pageRouter }) {
     this.$parent = $parent;
     this.pageRouter = pageRouter;
+    this.email = "";
     this.inputValidation = {
       isValidEmail: false,
       isPasswordConfirmed: false,
@@ -23,8 +24,8 @@ export default class SignupForm {
       this.onSubmitSignupForm.bind(this)
     );
     $(".js-email-input", this.$parent).addEventListener(
-      "input",
-      this.onTypeEmail.bind(this)
+      "change",
+      this.onChangeEmail.bind(this)
     );
     $(".js-password", this.$parent).addEventListener(
       "input",
@@ -89,6 +90,10 @@ export default class SignupForm {
       password: target.password.value,
     };
 
+    if (this.email !== memberData.email) {
+      await this.checkEmail(memberData.email);
+    }
+
     const formValidationMessage = this.getFormValidationMessage(target);
     if (formValidationMessage === "") {
       this.signup(memberData);
@@ -107,6 +112,7 @@ export default class SignupForm {
         changeCheckMessageColor($checkEmailMessage, true);
         $checkEmailMessage.textContent = SUCCESS_MESSAGE.VALID_EMAIL;
         this.inputValidation.isValidEmail = true;
+        this.email = email;
 
         return;
       }
@@ -129,19 +135,17 @@ export default class SignupForm {
     }
   }
 
-  onTypeEmail({ target }) {
+  onChangeEmail({ target }) {
     const emailInput = target.value;
     const $checkEmailMessage = $(".js-check-email-message", this.$parent);
 
-    debounce(() => {
-      if (emailInput.match(EMAIL_REG_EXP)) {
-        this.checkEmail(emailInput);
-      } else {
-        changeCheckMessageColor($checkEmailMessage, false);
-        $checkEmailMessage.textContent = ERROR_MESSAGE.INVALID_EMAIL_FORM;
-        this.inputValidation.isValidEmail = false;
-      }
-    }, 300);
+    if (EMAIL_REG_EXP.test(emailInput)) {
+      this.checkEmail(emailInput);
+    } else {
+      changeCheckMessageColor($checkEmailMessage, false);
+      $checkEmailMessage.textContent = ERROR_MESSAGE.INVALID_EMAIL_FORM;
+      this.inputValidation.isValidEmail = false;
+    }
   }
 
   onTypePassword() {
