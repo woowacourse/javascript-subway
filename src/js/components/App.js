@@ -1,4 +1,4 @@
-import Stations from '../components/Stations';
+import Stations from './Stations';
 import Lines from './Lines';
 import Sections from './Sections';
 import SignIn from './SignIn';

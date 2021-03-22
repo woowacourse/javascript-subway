@@ -32,14 +32,13 @@ class SignIn {
     this.requestSignIn({ email, password });
   }
 
-  requestSignIn({ email, password }) {
-    requestGetToken({ email, password })
-      .then(({ accessToken }) => {
-        this.manageSignInSuccess(accessToken);
-      })
-      .catch((error) => {
-        this.manageSignInFail(error);
-      });
+  async requestSignIn({ email, password }) {
+    try {
+      const accessToken = await requestGetToken({ email, password });
+      this.manageSignInSuccess(accessToken);
+    } catch (error) {
+      this.manageSignInFail(error.message);
+    }
   }
 
   manageSignInSuccess(accessToken) {
@@ -49,8 +48,8 @@ class SignIn {
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
   }
 
-  manageSignInFail(error) {
-    this.getMatchedAlert(error.message);
+  manageSignInFail(statusCode) {
+    this.getMatchedAlert(statusCode);
   }
 
   getMatchedAlert(statusCode) {
