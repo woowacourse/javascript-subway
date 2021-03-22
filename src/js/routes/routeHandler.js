@@ -14,6 +14,7 @@ import handleSignup from '../eventHandlers/handleSignup';
 import handleCheckEmail from '../eventHandlers/handleCheckEmail';
 import handleValidateSignupForm from '../eventHandlers/handleValidateSignupForm';
 import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
+import handleAddStation from '../eventHandlers/handleAddStation';
 
 const $routeContainer = $('#route-container');
 
@@ -56,6 +57,8 @@ export const mountSections = () => {
 
 export const mountStations = () => {
   $routeContainer.innerHTML = stationsPageTemplate;
+
+  $('#station-form').addEventListener('submit', handleAddStation);
 };
 
 export const mountMap = () => {
