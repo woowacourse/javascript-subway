@@ -1,14 +1,4 @@
-export const getLinesInfo = (data = {}) => {
-  return {
-    title: '🚇 노선 관리',
-    contents: {
-      main: linesTemplate(data),
-      modal: modalTemplate(data),
-    },
-  };
-};
-
-const linesTemplate = () => {
+export const linesTemplate = () => {
   return `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -45,7 +35,7 @@ const linesTemplate = () => {
   `;
 };
 
-const modalTemplate = () => {
+export const modalTemplate = () => {
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">

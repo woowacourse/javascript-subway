@@ -12,7 +12,7 @@ class Login {
 
   init() {}
 
-  getInfo() {
+  getPageInfo() {
     return {
       title: '🚇 로그인',
       contents: {

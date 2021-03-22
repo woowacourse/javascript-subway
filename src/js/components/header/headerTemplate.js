@@ -19,10 +19,10 @@ const userMenu = `
 <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
 </a>
 <a href="/map" class="menu__link my-1">
-<button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+<button class="btn bg-white shadow mx-1" disabled>🗺️ 전체 보기</button>
 </a>
-<a href="/search" class="menu__link my-1">
-<button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
+<a href="/search" class="menu__link my-1" >
+<button class="btn bg-white shadow mx-1" disabled>🔎 길 찾기</button>
 </a>
 <a href="/logout" class="menu__link my-1">
 <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
