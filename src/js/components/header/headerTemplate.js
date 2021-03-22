@@ -1,10 +1,10 @@
-export const headerTemplate = userToken => {
+export const headerTemplate = isLoggedIn => {
   return `
 <a href="/" class="text-black">
   <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
 </a>
 <nav class="menu d-flex justify-center flex-wrap">
-  ${userToken ? userMenu : guestMenu}
+  ${isLoggedIn ? userMenu : guestMenu}
 </nav>`;
 };
 

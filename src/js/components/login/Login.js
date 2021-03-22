@@ -1,20 +1,33 @@
 import { $, getFormData } from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
-import { BASE_URL, ACTIONS } from '../../constants.js';
+import {
+  BASE_URL,
+  ACTIONS,
+  SNACKBAR_MESSAGE,
+  PATH,
+  SELECTOR,
+  CLASS_NAME,
+  ERROR_MESSAGE,
+  PAGE_TITLE,
+  LOGIN_ERROR,
+  STORAGE,
+} from '../../constants.js';
 import { checkLoginValid } from './loginValidator.js';
 import { setLocalStorageItem } from '../../utils/storage.js';
 import { loginTemplate } from './loginTemplate.js';
 
 class Login {
+  #props;
+
   constructor(props) {
-    this.props = props;
+    this.#props = props;
   }
 
   init() {}
 
   getPageInfo() {
     return {
-      title: '🚇 로그인',
+      title: PAGE_TITLE.LOGIN,
       contents: {
         main: loginTemplate(),
       },
@@ -22,36 +35,36 @@ class Login {
   }
 
   initDOM() {
-    this.selectDOM();
-    this.bindEvent();
+    this._selectDOM();
+    this._bindEvent();
   }
 
-  selectDOM() {
-    this.$loginForm = $('form[name="login"]');
+  _selectDOM() {
+    this.$loginForm = $(SELECTOR.LOGIN_FORM);
   }
 
-  bindEvent() {
-    this.bindSignUpEvent();
-    this.bindLoginEvent();
+  _bindEvent() {
+    this._bindSignUpEvent();
+    this._bindLoginEvent();
   }
 
-  bindSignUpEvent() {
+  _bindSignUpEvent() {
     this.$loginForm.addEventListener('click', e => {
-      if (!e.target.classList.contains('signup-link')) return;
+      if (!e.target.classList.contains(CLASS_NAME.SIGNUP_LINK)) return;
       e.preventDefault();
-      this.props.switchURL(e.target.getAttribute('href'));
+      this.#props.switchURL(PATH.SIGNUP);
     });
   }
 
-  bindLoginEvent() {
+  _bindLoginEvent() {
     this.$loginForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      this.handleLogin(e.target.elements);
+      this._handleLogin(e.target.elements);
     });
   }
 
-  handleLogin(elements) {
+  _handleLogin(elements) {
     const formData = getFormData(elements);
 
     const errorMessage = checkLoginValid(formData);
@@ -60,10 +73,10 @@ class Login {
       return;
     }
 
-    this.requestLogin(formData);
+    this._requestLogin(formData);
   }
 
-  async requestLogin(data) {
+  async _requestLogin(data) {
     try {
       const requestBody = JSON.stringify({
         email: data.email,
@@ -71,15 +84,13 @@ class Login {
       });
       const option = getPostOption(requestBody);
       const { accessToken } = await request(BASE_URL + ACTIONS.LOGIN, option);
-      setLocalStorageItem('userAccessToken', accessToken);
-      this.props.switchURL('/');
-      this.props.showSnackbar('로그인 되었습니다 !');
-    } catch (error) {
-      const errorMessage = {
-        400: '잘못된 이메일 혹은 비밀번호 입니다.',
-      };
 
-      alert(errorMessage[error] || '로그인에 실패했습니다. 다시 시도해주세요.');
+      setLocalStorageItem(STORAGE.USER_ACCESS_TOKEN, accessToken);
+
+      this.#props.switchURL(PATH.HOME);
+      this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGIN);
+    } catch (error) {
+      alert(LOGIN_ERROR[error] || ERROR_MESSAGE.LOGIN_FAILED);
     }
   }
 }

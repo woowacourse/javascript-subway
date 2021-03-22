@@ -1,5 +1,6 @@
 import { linesTemplate, modalTemplate } from './linesTemplate.js';
 import { colorOptions } from '/src/js/utils/mock.js';
+import { PAGE_TITLE } from '../../constants.js';
 import { $ } from '../../utils/dom.js';
 
 class Lines {
@@ -7,7 +8,7 @@ class Lines {
 
   getPageInfo() {
     return {
-      title: '🚇 노선 관리',
+      title: PAGE_TITLE.LINES,
       contents: {
         main: linesTemplate(),
         modal: modalTemplate(),
@@ -19,7 +20,7 @@ class Lines {
     this.selectDOM();
   }
 
-  // TODO : 아래 메서드 모듈화 - 2단계
+  // TODO(2단계) : 아래 메서드ㄷ 모듈화, 리팩토링
   selectDOM() {
     const $subwayLineColorSelector = $('.subway-line-color-selector');
     $subwayLineColorSelector.innerHTML = colorOptions

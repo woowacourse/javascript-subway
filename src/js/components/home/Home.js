@@ -1,27 +1,27 @@
+import { PAGE_TITLE } from '../../constants.js';
 import { homeTemplate } from './homeTemplate.js';
 
 class Home {
+  #isLoggedIn;
+
   constructor() {
-    this.isLoggedIn = false;
+    this.#isLoggedIn = false;
   }
 
   init({ isLoggedIn }) {
-    this.isLoggedIn = isLoggedIn;
+    this.#isLoggedIn = isLoggedIn;
   }
 
-  // TODO : getPageInfo 변수명 개선..
   getPageInfo() {
     return {
-      title: '🚇 지하철 APP',
+      title: PAGE_TITLE.HOME,
       contents: {
-        main: homeTemplate(this.isLoggedIn),
+        main: homeTemplate(this.#isLoggedIn),
       },
     };
   }
 
-  initDOM() {
-    // setlectDOM, bindEVENT
-  }
+  initDOM() {}
 }
 
 export default Home;
