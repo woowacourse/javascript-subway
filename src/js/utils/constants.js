@@ -75,6 +75,7 @@ export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });
 
 export const METHOD = Object.freeze({
   POST: 'POST',
+  GET: 'GET',
 });
 
 export const STANDARD_NUMBER = Object.freeze({

@@ -32,20 +32,18 @@ class SignUp {
     const passwordConfirm = target[ELEMENT.PASSWORD_CONFIRM].value;
 
     const userInfo = { email, userName, password, passwordConfirm };
-    const invalidSignUpMessage = getInvalidSignUpMessage(userInfo);
 
-    if (invalidSignUpMessage !== '') {
-      alert(invalidSignUpMessage);
-
-      return;
+    try {
+      getInvalidSignUpMessage(userInfo);
+      this.requestSignUp(userInfo);
+    } catch (error) {
+      alert(error.message);
     }
-
-    this.requestSignUp(userInfo);
   }
 
   async requestSignUp({ email, userName, password }) {
     try {
-      await requestSignUpApprove({ email, userName, password });
+      await requestSignUpApprove({ email, name: userName, password });
       this.manageSignUpSuccess();
     } catch (error) {
       this.manageSignUpFail(error.message);

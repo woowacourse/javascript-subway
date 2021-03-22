@@ -3,20 +3,18 @@ import { ERROR_MESSAGE } from '../utils/constants';
 
 export const getInvalidSignUpMessage = ({ email, userName, password, passwordConfirm }) => {
   if (!isValidEmail(email)) {
-    return ERROR_MESSAGE.INVALID_TYPE_EMAIL;
+    throw new Error(ERROR_MESSAGE.INVALID_TYPE_EMAIL);
   }
 
   if (!isValidUserName(userName)) {
-    return ERROR_MESSAGE.INVALID_NAME;
+    throw new Error(ERROR_MESSAGE.INVALID_NAME);
   }
 
   if (!isValidPassword(password)) {
-    return ERROR_MESSAGE.NEED_OVER_PASSWORD_MIN_LENGTH;
+    throw new Error(ERROR_MESSAGE.NEED_OVER_PASSWORD_MIN_LENGTH);
   }
 
   if (!isValidPasswordConfirm(password, passwordConfirm)) {
-    return ERROR_MESSAGE.NOT_SAME_PASSWORD_AND_PASSWORD_CONFIRM;
+    throw new Error(ERROR_MESSAGE.NOT_SAME_PASSWORD_AND_PASSWORD_CONFIRM);
   }
-
-  return '';
 };
