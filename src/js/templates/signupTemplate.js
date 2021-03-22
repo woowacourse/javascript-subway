@@ -40,6 +40,9 @@ const MAIN_COMPONENT = `
         name="password"
         class="input-field"
         placeholder="비밀번호"
+        pattern="\S+"
+        required
+        title="비밀번호는 공백을 제외한 문자만 가능합니다."
       />
     </div>
     <div class="input-control">
@@ -52,6 +55,9 @@ const MAIN_COMPONENT = `
         name="password-confirm"
         class="input-field"
         placeholder="비밀번호 확인"
+        pattern="\S+"
+        required
+        title="비밀번호는 공백을 제외한 문자만 가능합니다."
       />
     </div>
     <div class="input-control">
