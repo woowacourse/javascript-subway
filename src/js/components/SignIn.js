@@ -1,6 +1,6 @@
 import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import { SIGN_IN, ELEMENT, PATH, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE } from '../utils/constants';
+import { SIGN_IN, ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE } from '../utils/constants';
 import { $ } from '../utils/dom';
 
 class SignIn {
@@ -42,9 +42,7 @@ class SignIn {
   }
 
   manageSignInSuccess(accessToken) {
-    this.props.changeSignInToSignOutStatus(accessToken);
-    this.props.initializeRoutedPage(PATH.MAIN);
-
+    this.props.changeFromSignOutToSignInStatus(accessToken);
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
   }
 

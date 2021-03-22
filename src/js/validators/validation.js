@@ -1,4 +1,5 @@
 import { ELEMENT, STANDARD_NUMBER } from '../utils/constants';
+import token from '../token/Token';
 
 export const isValidEmail = (email) => {
   const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -22,4 +23,8 @@ export const isValidPasswordConfirm = (password, passwordConfirm) => {
 
 export const isRouterButton = (target) => {
   return target.matches(`.${ELEMENT.MAIN_MENU_ROUTER}`);
+};
+
+export const isSignIn = () => {
+  return !!token.accessToken;
 };
