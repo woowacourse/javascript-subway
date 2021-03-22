@@ -90,7 +90,7 @@ export class StationManage {
     try {
       await request(url, option);
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error.message);
     }
   }
 

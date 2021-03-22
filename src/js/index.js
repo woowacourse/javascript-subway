@@ -40,11 +40,10 @@ window.addEventListener('popstate', event => {
 });
 
 window.addEventListener('load', async () => {
-  const pathName = getRedirectedPath(location.pathname);
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const signedUser = accessToken ? await getUserName(accessToken) : '';
 
   new App();
   stateManager[STATE_KEY.SIGNED_USER].set(signedUser);
-  routeTo(pathName);
+  routeTo(location.pathname);
 });
