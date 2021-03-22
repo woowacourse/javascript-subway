@@ -100,7 +100,8 @@ class SignupPage {
       this.checkDuplicatedEmailHandler.bind(this)
     );
     $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
-    $('#login').addEventListener('click', () => {
+    $('#login').addEventListener('click', e => {
+      e.preventDefault();
       this.router.navigate('/');
     });
   }

@@ -36,7 +36,6 @@ function checkNameInputHandler(e) {
 }
 
 function checkPasswordInputHandler(e) {
-  console.log(e.target.value);
   if (!REG_EXP.PASSWORD.test(e.target.value)) {
     showFailMessage(e, '#password-fail-message');
   } else {
