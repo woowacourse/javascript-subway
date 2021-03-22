@@ -48,7 +48,7 @@ context('Window', () => {
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
   });
 
-  it.only('로그인하지 않은 유저에게는 로그인 외 버튼은 보이지 않는다.', () => {
+  it('로그인하지 않은 유저에게는 로그인 외 버튼은 보이지 않는다.', () => {
     // 처음에 not.be.visible
     cy.get(`#${ID_SELECTOR.NAV_STATION}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('not.be.visible');
@@ -66,6 +66,14 @@ context('Window', () => {
     cy.get(`#${ID_SELECTOR.NAV_SEARCH}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('not.be.visible');
+  });
+
+  it.only('로그아웃하고 나면 로그인 버튼으로 변경되어야 한다.', () => {
+    login();
+
+    cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).click();
+    cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('not.be.visible');
   });
 });
 
