@@ -18,12 +18,6 @@ export class Subway {
     stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 
-  selectDOM() {
-    this.$menuContainer = $('#menu-buttons-container');
-    this.$signContainer = $('#sign-button-container');
-    this.$mainContainer = $('#main-container');
-  }
-
   renderRoot(signedUser) {
     $('#root-message-box', contentElements[ROUTE.ROOT]).innerHTML = signedUser
       ? MESSAGE.ROOT_GREETING(signedUser)
@@ -40,6 +34,12 @@ export class Subway {
   renderContent(route) {
     this.$mainContainer.innerHTML = '';
     this.$mainContainer.appendChild(contentElements[route]);
+  }
+
+  selectDOM() {
+    this.$menuContainer = $('#menu-buttons-container');
+    this.$signContainer = $('#sign-button-container');
+    this.$mainContainer = $('#main-container');
   }
 
   mountChildComponents() {

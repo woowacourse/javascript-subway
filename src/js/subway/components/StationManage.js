@@ -1,13 +1,52 @@
+import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, request, $ } from '../../@shared/utils';
-import { BASE_URL, MESSAGE, ROUTE, SESSION_KEY } from '../constants/constants';
+import { BASE_URL, MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { isValidName } from '../utils';
-import { contentElements, stationInfo } from '../views';
+import { contentElements, stationInfo, stationList } from '../views';
 
 export class StationManage {
   constructor() {
     this.$target = contentElements[ROUTE.STATIONS];
+    this.setup();
     this.selectDOM();
     this.bindEvent();
+  }
+
+  setup() {
+    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderStationList.bind(this));
+  }
+
+  async renderStationList() {
+    try {
+      const stations = await this.getStations();
+
+      this.$stationList.innerHTML = stationList(stations);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async getStations() {
+    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+    if (!accessToken) return [];
+    const url = `${BASE_URL}/stations`;
+    const option = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await request(url, option);
+      const stations = await response.json();
+
+      return stations;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   selectDOM() {
