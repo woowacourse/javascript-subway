@@ -35,10 +35,8 @@ class AppPage extends Page {
   }
 
   initEvent() {
-    history.replaceState({ path: '/' }, null, '/');
-
     window.addEventListener('popstate', e => {
-      this.route(e.state.path);
+      this.route(e.state.path, false);
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
