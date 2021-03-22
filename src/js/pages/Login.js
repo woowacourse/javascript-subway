@@ -1,5 +1,5 @@
 import { $ } from '../utils/DOM.js';
-import { COOKIE_KEY, HTTP } from '../constants.js';
+import { MESSAGE, COOKIE_KEY, HTTP } from '../constants.js';
 import { fetchLogin } from '../API/auth.js';
 import jwtToken from '../jwtToken.js';
 import loginTemplate from '../templates/login.js';
