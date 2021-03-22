@@ -8,20 +8,30 @@ import {
   ELEMENT,
   MENU_TITLE,
   PATH,
-  SESSION_KEY_TOKEN,
   SUCCESS_MESSAGE,
   SNACKBAR_SHOW_TIME,
   SIGN_OUT_CONFIRM_MESSAGE,
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
-import { isRouterButton } from '../validators/validation';
+import { isRouterButton, isSignIn } from '../validators/validation';
+import token from '../token/Token';
 
 class App {
   constructor() {
     this.selectDom();
     this.bindEvent();
     this.router = new Router(this.$mainScreen);
+    this.renderMain();
+  }
+
+  renderMain() {
+    const signInUser = isSignIn();
+
+    this.router.route(PATH.MAIN);
+    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
+    this.$signInButton.closest('a').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
+    signInUser ? this.showMenuButton() : this.hideMenuButton();
   }
 
   init() {
@@ -29,8 +39,7 @@ class App {
     this.lines = new Lines();
     this.sections = new Sections();
     this.signIn = new SignIn({
-      initializeRoutedPage: this.initializeRoutedPage.bind(this),
-      changeSignInToSignOutStatus: this.changeSignInToSignOutStatus.bind(this),
+      changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
   }
@@ -67,8 +76,8 @@ class App {
     this.initializeRoutedPage(path);
   }
 
-  async initializeRoutedPage(path) {
-    await this.router.route(path);
+  initializeRoutedPage(path) {
+    this.router.route(path);
     this.runPathMatchedAction(path);
   }
 
@@ -90,23 +99,18 @@ class App {
       return;
     }
 
-    this.changeSignOutToSignInStatus();
-    this.router.route(PATH.MAIN);
+    this.changeFromSignInToSignOutStatus();
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });
   }
 
-  changeSignInToSignOutStatus(accessToken) {
-    sessionStorage.setItem(SESSION_KEY_TOKEN, accessToken);
-    this.$signInButton.innerText = MENU_TITLE.SIGN_OUT;
-    this.$signInButton.closest('a').href = PATH.SIGNOUT;
-    this.showMenuButton();
+  changeFromSignOutToSignInStatus(accessToken) {
+    token.setToken(accessToken);
+    this.renderMain();
   }
 
-  changeSignOutToSignInStatus() {
-    sessionStorage.removeItem(SESSION_KEY_TOKEN);
-    this.$signInButton.innerText = MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest('a').href = PATH.SIGNIN;
-    this.hideMenuButton();
+  changeFromSignInToSignOutStatus() {
+    token.removeToken();
+    this.renderMain();
   }
 
   showMenuButton() {
