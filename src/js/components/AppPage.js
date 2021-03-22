@@ -32,6 +32,7 @@ class AppPage extends Page {
 
     // TODO: KEY값 상수화
     this.state.setListener('loginResponse', this.handleNavButtonToChange);
+    this.state.setListener('loginResponse', this.handlePageToRedirect);
   }
 
   initEvent() {
@@ -40,14 +41,11 @@ class AppPage extends Page {
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
-    $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener(
-      'click',
-      this.#onUserLogout
-    );
+    $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
   }
 
   //TODO 핸들러 함수들 어순 고민해보기
-  #onUserLogout = () => {
+  #onLogout = () => {
     //TODO: logout 상수화 생각해보기
     this.state.setData({
       loginResponse: {
@@ -65,6 +63,17 @@ class AppPage extends Page {
     }
 
     this.#renderUserNavBar();
+  };
+
+  handlePageToRedirect = loginResponse => {
+    const isLogout = loginResponse.accessToken === 'logout';
+
+    if (isLogout) {
+      this.route('/pages/login.html');
+      return;
+    }
+
+    this.route('/');
   };
 
   #renderUserNavBar() {

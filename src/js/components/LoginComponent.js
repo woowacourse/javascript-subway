@@ -54,8 +54,6 @@ class LoginComponent extends Component {
 
       const loginResponse = await response.json();
       this.props.appState.setData({ loginResponse });
-
-      this.props.route('/');
     } catch (err) {
       alert(err.message);
       return;
