@@ -28,7 +28,6 @@ class Login {
 
   selectDOM() {
     this.$loginForm = $('form[name="login"]');
-    console.log(this.$loginForm);
   }
 
   bindEvent() {
@@ -74,6 +73,7 @@ class Login {
       const { accessToken } = await request(BASE_URL + ACTIONS.LOGIN, option);
       setLocalStorageItem('userAccessToken', accessToken);
       this.props.switchURL('/');
+      this.props.showSnackbar('로그인 되었습니다 !');
     } catch (error) {
       const errorMessage = {
         400: '잘못된 이메일 혹은 비밀번호 입니다.',
