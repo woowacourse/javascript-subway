@@ -54,7 +54,7 @@ export default class SignupForm {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.isEmailAvailable === false) return;
+    if (!this.isEmailAvailable) return;
 
     const {
       email: { value: email },
