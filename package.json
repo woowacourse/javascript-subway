@@ -9,7 +9,8 @@
     "build": "webpack",
     "watch": "webpack -w",
     "serve": "webpack serve",
-    "test": "cypress open"
+    "test": "cypress open",
+    "deploy": "yarn run build & firebase deploy"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0"
