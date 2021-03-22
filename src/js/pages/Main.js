@@ -7,6 +7,7 @@ class MainPage {
   constructor(router) {
     this.$appNavbar = $('#app-navbar');
     this.$navigation = $('#navigation');
+    this.$main = $('#main');
     this.router = router;
   }
 
@@ -18,14 +19,22 @@ class MainPage {
   renderView() {
     this.$appNavbar.innerHTML = `<button id="logout-button" class="btn d-flex ml-auto mr-10 my-auto d-inline-block">로그아웃</button>`;
     this.$navigation.innerHTML = headerTemplate;
+    this.$main.innerHTML = '';
+  }
+
+  resetView() {
+    this.$appNavbar.innerHTML = '';
+    this.$navigation.innerHTML = '';
   }
 
   bindEvents() {
-    $('#logout-button').addEventListener('click', () => {
+    $('#logout-button').addEventListener('click', e => {
+      e.preventDefault();
+
+      this.resetView();
+
       jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
       this.router.navigate('/');
-
-      location.reload();
     });
 
     this.$navigation.addEventListener('click', e => {

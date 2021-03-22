@@ -24,6 +24,8 @@ class LoginPage {
   }
 
   async loginHandler(e) {
+    e.preventDefault();
+
     const request = {
       method: HTTP.METHOD.POST,
       body: JSON.stringify({
