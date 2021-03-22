@@ -1,3 +1,5 @@
+import { STATE_KEY } from '../constants';
+
 class State {
   #state;
   #listeners;
@@ -27,12 +29,25 @@ class State {
   }
 
   setListener(key, handler) {
-    //TODO: 예외처리 생각해보기
+    if (typeof handler !== 'function') {
+      alert('handler가 function이 아닙니다.');
+      return;
+    }
+
+    if (!this.#isKey(key)) {
+      alert('잘못된 key값입니다.');
+      return;
+    }
+
     if (!this.#listeners[key]) {
       this.#listeners[key] = [];
     }
 
     this.#listeners[key].push(handler);
+  }
+
+  #isKey(key) {
+    return Object.values(STATE_KEY).includes(key);
   }
 }
 

@@ -1,9 +1,10 @@
 import Component from './Component';
 
 class Page extends Component {
+  url;
+
   constructor(props) {
     super(props);
-    //TODO: this.state?.url 예외 처리 해주기
   }
 
   initialRoute(path) {
@@ -12,6 +13,10 @@ class Page extends Component {
   }
 
   route = (path, shouldPushState = true) => {
+    if (!this.url) {
+      alert('Page 인스턴스에 url이 정의되어 있지 않습니다.');
+    }
+
     if (shouldPushState) {
       history.pushState({ path }, null, path);
     }

@@ -6,6 +6,7 @@ import {
   CLASS_SELECTOR,
   ID_SELECTOR,
   REQUEST_URL,
+  STATE_KEY,
 } from '../constants.js';
 import { fetchLogin } from '../utils/fetch.js';
 
@@ -13,19 +14,15 @@ class LoginComponent extends Component {
   constructor(props) {
     super(props);
 
-    // TODO: KEY값 상수화
-    if (!this.props?.appState.getData('loginResponse')) {
+    if (!this.props?.appState.getData(STATE_KEY.LOGIN_RESPONSE)) {
       alert('not exist loginResponse');
     }
   }
 
   initEvent() {
-    // TODO: 가독성을 위해서 추상화 하기 (회원 가입)
-    $(`#${ID_SELECTOR.MAIN} .${CLASS_SELECTOR.ANCHOR}`).addEventListener(
-      'click',
-      this._onAnchorClicked
-    );
+    const signupAnchor = $(`#${ID_SELECTOR.MAIN} .${CLASS_SELECTOR.ANCHOR}`);
 
+    signupAnchor.addEventListener('click', this._onAnchorClicked);
     $(`#${ID_SELECTOR.LOGIN_FORM}`).addEventListener(
       'submit',
       this.#onLoginSubmit

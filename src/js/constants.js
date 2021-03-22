@@ -45,6 +45,21 @@ const ALERT_MESSAGE = {
   LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
 };
 
+const STATE_KEY = {
+  LOGIN_RESPONSE: 'loginResponse',
+};
+
+const KEYWORD = {
+  LOGOUT: 'logout',
+};
+
 const REQUEST_URL = 'https://www.boorownie.com';
 
-export { ID_SELECTOR, CLASS_SELECTOR, ALERT_MESSAGE, REQUEST_URL };
+export {
+  ID_SELECTOR,
+  CLASS_SELECTOR,
+  ALERT_MESSAGE,
+  REQUEST_URL,
+  STATE_KEY,
+  KEYWORD,
+};

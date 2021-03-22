@@ -5,21 +5,18 @@ import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
-import { ID_SELECTOR } from '../constants.js';
+import { ID_SELECTOR, KEYWORD, STATE_KEY } from '../constants.js';
 import { show, hide } from '../utils/DOM.js';
-
 class AppPage extends Page {
   constructor(props) {
     super(props);
 
-    // TODO: setState 만들기, state를 protected로 만들기
     this.state = new State({
       loginResponse: {
         accessToken: '',
       },
     });
 
-    // TODO: url을 정의하지 않았을 경우 오류 발생 처리
     this.url = {
       '/': new HomeComponent(),
       '/pages/login.html': new LoginComponent({
@@ -30,9 +27,11 @@ class AppPage extends Page {
       '/pages/myInfo.html': new MyInfoComponent({ appState: this.state }),
     };
 
-    // TODO: KEY값 상수화
-    this.state.setListener('loginResponse', this.handleNavButtonToChange);
-    this.state.setListener('loginResponse', this.handlePageToRedirect);
+    this.state.setListener(
+      STATE_KEY.LOGIN_RESPONSE,
+      this.handleNavButtonToChange
+    );
+    this.state.setListener(STATE_KEY.LOGIN_RESPONSE, this.handlePageToRedirect);
   }
 
   initEvent() {
@@ -44,18 +43,16 @@ class AppPage extends Page {
     $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
   }
 
-  //TODO 핸들러 함수들 어순 고민해보기
   #onLogout = () => {
-    //TODO: logout 상수화 생각해보기
     this.state.setData({
       loginResponse: {
-        accessToken: 'logout',
+        accessToken: KEYWORD.LOGOUT,
       },
     });
   };
 
   handleNavButtonToChange = loginResponse => {
-    const isLogout = loginResponse.accessToken === 'logout';
+    const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
       this.#renderGuestNavBar();
@@ -66,7 +63,7 @@ class AppPage extends Page {
   };
 
   handlePageToRedirect = loginResponse => {
-    const isLogout = loginResponse.accessToken === 'logout';
+    const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
       this.route('/pages/login.html');
