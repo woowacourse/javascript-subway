@@ -9,12 +9,12 @@ export const requestCheckLogin = async () => {
       Authorization: `Bearer ${window.sessionStorage.getItem(SESSION_KEY_TOKEN)}`,
     },
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusCode);
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(res.statusCode);
       }
 
-      return response.ok;
+      return res.ok;
     })
     .catch(() => {
       return false;
@@ -41,18 +41,23 @@ export const requestGetToken = async ({ email, password }) => {
 };
 
 export const requestSignUpApprove = async ({ email, userName, password }) => {
-  const response = await request({
-    uri: `${API_END_POINT}/members`,
-    method: METHOD.POST,
-    body: JSON.stringify({
-      email,
-      password,
-      name: userName,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
+  try {
+    const response = await fetch(`${API_END_POINT}/members`, {
+      method: METHOD.POST,
+      body: JSON.stringify({
+        email,
+        password,
+        name: userName,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
 
-  return response;
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
 };
