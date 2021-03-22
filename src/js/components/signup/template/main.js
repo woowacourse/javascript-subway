@@ -65,7 +65,6 @@ const mainTemplate = () => {
           <button
             name="submit"
             class="input-submit w-100 bg-cyan-300"
-            disabled
           >
             확인
           </button>

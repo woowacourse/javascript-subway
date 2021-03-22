@@ -3,9 +3,11 @@ import { BASE_URL, PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import request from '../../utils/fetch.js';
 import mainTemplate from './template/main.js';
+import ValidationError from '../../error/ValidationError.js';
 class Signup extends Component {
   constructor(parentNode) {
     super(parentNode);
+    this.formValidationFlag = { name: false, email: false, password: false };
   }
 
   render() {
@@ -22,28 +24,59 @@ class Signup extends Component {
 
     $('#signup-form').addEventListener(
       'focusout',
-      ({ target, currentTarget }) => {
+      async ({ target, currentTarget }) => {
         if (currentTarget['name'] === target) {
-          if (!this.validateName(target.value)) {
-            $('.js-name-check').innerText =
-              '특수문자와 숫자는 입력하실 수 없습니다.';
-            return;
-          }
+          try {
+            this.validateName(target.value);
+            $('.js-name-check').innerText = '사용 가능한 이름입니다.';
+            this.formValidationFlag.name = true;
+          } catch (error) {
+            if (error instanceof ValidationError) {
+              $('.js-name-check').innerText = error.message;
+              this.formValidationFlag.name = false;
+            }
 
-          if (target.value.length < 2) {
-            $('.js-name-check').innerText = '이름은 두글자 이상이어야 합니다.';
-            return;
+            console.error(error);
           }
         }
 
         if (currentTarget['email'] === target) {
-          this.validateEmail(target);
+          try {
+            await this.validateEmail(target.value);
+            $('.js-email-check').innerText = '사용 가능한 이메일입니다.';
+            this.formValidationFlag.email = true;
+          } catch (error) {
+            if (error instanceof ValidationError) {
+              $('.js-email-check').innerText = error.message;
+              this.formValidationFlag.email = false;
+            }
+
+            console.error(error);
+          }
           return;
         }
 
-        this.validatePassword(currentTarget);
+        const password = currentTarget['password'].value;
+        const passwordConfirm = currentTarget['password-confirm'].value;
+        try {
+          this.validatePassword(password, passwordConfirm);
+          $('.js-password-check').innerText = '비밀번호가 일치합니다.';
+          this.formValidationFlag.password = true;
+        } catch (error) {
+          if (error instanceof ValidationError) {
+            $('.js-password-check').innerText = error.message;
+            this.formValidationFlag.password = false;
+          }
+
+          console.error(error);
+        }
         // TODO: Flag 만들어서 사용해야 함
-        currentTarget['submit'].disabled = false;
+        console.log(this.formValidationFlag);
+        const isValidEveryFormFlag = Object.values(
+          this.formValidationFlag
+        ).every((flag) => flag);
+        console.log(Object.values(this.formValidationFlag));
+        console.log(isValidEveryFormFlag);
       }
     );
 
@@ -70,52 +103,48 @@ class Signup extends Component {
     });
   }
 
-  async validateEmail(target) {
-    if (!this.isValidEmailFormat(target.value)) {
-      $('.js-email-check').innerText = '올바른 이메일 형식이 아닙니다.';
-      return;
+  async validateEmail(email) {
+    if (!this.isValidEmailFormat(email)) {
+      throw new ValidationError('올바른 이메일 형식이 아닙니다.');
     }
 
-    const query = { email: target.value };
+    const query = { email };
     const searchParams = `?${new URLSearchParams(query)}`;
 
-    try {
-      const response = await request.get(
-        BASE_URL + PATH.MEMBERS.CHECK + searchParams
-      );
+    const response = await request.get(
+      BASE_URL + PATH.MEMBERS.CHECK + searchParams
+    );
 
-      if (response.status === 422) {
-        $('.js-email-check').innerText = '이미 존재하는 이메일입니다.';
-        throw Error('email is already registered');
-      }
-
-      if (response.status === 200) {
-        $('.js-email-check').innerText = '사용 가능한 이메일입니다.';
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.status === 422) {
+      throw new ValidationError('이미 존재하는 이메일입니다.');
     }
   }
 
   validateName(name) {
+    if (!this.isValidNameFormat(name)) {
+      throw new ValidationError('공백, 특수문자, 숫자는 입력하실 수 없습니다.');
+    }
+
+    if (name.length < 2) {
+      throw new ValidationError('이름은 두글자 이상이어야 합니다.');
+    }
+  }
+
+  isValidNameFormat(name) {
     const re = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z]/;
     return re.test(name);
   }
 
-  validatePassword(currentTarget) {
-    const password = currentTarget['password'].value;
-    const passwordConfirm = currentTarget['password-confirm'].value;
-
+  validatePassword(password, passwordConfirm) {
     if (password.length < 6 || password.length > 20) {
-      $('.js-password-check').innerText =
-        '비밀번호는 6 이상 20 이하여야 합니다.🥺';
-      return;
+      throw new ValidationError('비밀번호는 6 이상 20 이하여야 합니다.🥺');
     }
 
     const isSamePassword = password === passwordConfirm;
-    $('.js-password-check').innerText = isSamePassword
-      ? '비밀번호가 일치합니다.'
-      : '비밀번호가 일치하지 않습니다.';
+
+    if (!isSamePassword) {
+      throw new ValidationError('비밀번호가 일치하지 않습니다.🥺');
+    }
   }
 
   isValidEmailFormat(email) {
