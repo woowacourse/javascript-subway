@@ -26,9 +26,13 @@ export default class SignupForm {
       "input",
       this.onTypeEmail.bind(this)
     );
+    $(".js-password", this.$parent).addEventListener(
+      "input",
+      this.onTypePassword.bind(this)
+    );
     $(".js-password-confirm", this.$parent).addEventListener(
       "input",
-      this.onTypePasswordConfirm.bind(this)
+      this.onTypePassword.bind(this)
     );
     $(".js-login-link", this.$parent).addEventListener(
       "click",
@@ -140,11 +144,11 @@ export default class SignupForm {
     }, 300);
   }
 
-  onTypePasswordConfirm({ target }) {
+  onTypePassword() {
     const $form = $("form", this.$parent);
     const $messageArea = $(".js-pw-confirm-message", this.$parent);
 
-    if (target.value === $form.password.value) {
+    if ($form.elements["password-confirm"].value === $form.password.value) {
       $messageArea.innerText = SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS;
       changeCheckMessageColor($messageArea, true);
       this.inputValidation.isPasswordConfirmed = true;
@@ -203,7 +207,7 @@ export default class SignupForm {
               type="password"
               id="password"
               name="password"
-              class="input-field"
+              class="js-password input-field"
               placeholder="비밀번호(최소 ${PASSWORD_MIN_LENGTH}자리)"
               minlength="${PASSWORD_MIN_LENGTH}"
               maxlength="20"
