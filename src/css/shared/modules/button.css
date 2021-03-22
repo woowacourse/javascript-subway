@@ -7,3 +7,15 @@
   border-style: none;
   cursor: pointer;
 }
+
+.add-btn {
+  font-size: 0.9rem;
+  width: 120px;
+  line-height: inherit;
+  cursor: pointer;
+  height: 42px;
+  padding: 0.65rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+}
