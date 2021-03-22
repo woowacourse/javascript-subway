@@ -21,7 +21,7 @@ const mainTemplate = () => {
             required
           />
         </div>
-        <div class="js-name-check"></div>
+        <div class="js-name-check form__input-check"></div>
         <div class="input-control">
           <label for="email" class="input-label" hidden>이메일</label>
           <input
@@ -34,7 +34,7 @@ const mainTemplate = () => {
             required
           />
         </div>
-        <div class="js-email-check"></div>
+        <div class="js-email-check form__input-check"></div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>비밀번호</label>
           <input
@@ -48,6 +48,7 @@ const mainTemplate = () => {
             required
           />
         </div>
+        <div class="form__input-check"></div>
         <div class="input-control">
           <label for="password-confirm" class="input-label" hidden
             >비밀번호 확인</label
@@ -60,7 +61,7 @@ const mainTemplate = () => {
             placeholder="비밀번호 확인"
           />
         </div>
-        <div class="js-password-check"></div>
+        <div class="js-password-check form__input-check"></div>
         <div class="input-control">
           <button
             name="submit"

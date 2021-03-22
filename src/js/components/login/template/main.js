@@ -8,10 +8,10 @@ const mainTemplate = () => {
       </div>
       <div class="d-flex flex-col mb-1">
         <div class="d-flex justify-center">
-          <img src='../../../../src/images/subway_emoji.png' width="150" />
+          <img src='../../../../src/images/tomas.png' width="150" />
         </div>
-        <p class="mt-0 text-center">
-          지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
+        <p class="mt-2 text-center">
+          지하철 노선도 앱을 사용하기 위해서는 <br/> 로그인이 필요합니다.
         </p>
       </div>
       <form
@@ -49,7 +49,7 @@ const mainTemplate = () => {
             required
           />
         </div>
-        <div class="js-login-check"></div>
+        <div class="js-login-check form__input-check"></div>
         <div class="input-control w-100">
           <button
             name="submit"

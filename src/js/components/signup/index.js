@@ -23,10 +23,12 @@ class Signup extends Component {
         if (currentTarget['name'] === target) {
           try {
             this.validateName(target.value);
+            $('.js-name-check').classList.add('correct');
             $('.js-name-check').innerText = '사용 가능한 이름입니다.';
             this.formValidationFlag.name = true;
           } catch (error) {
             if (error instanceof ValidationError) {
+              $('.js-name-check').classList.remove('correct');
               $('.js-name-check').innerText = error.message;
               this.formValidationFlag.name = false;
             }
@@ -39,10 +41,12 @@ class Signup extends Component {
         if (currentTarget['email'] === target) {
           try {
             await this.validateEmail(target.value);
+            $('.js-email-check').classList.add('correct');
             $('.js-email-check').innerText = '사용 가능한 이메일입니다.';
             this.formValidationFlag.email = true;
           } catch (error) {
             if (error instanceof ValidationError) {
+              $('.js-email-check').classList.remove('correct');
               $('.js-email-check').innerText = error.message;
               this.formValidationFlag.email = false;
             }
@@ -61,10 +65,12 @@ class Signup extends Component {
 
           try {
             this.validatePassword(password, passwordConfirm);
+            $('.js-password-check').classList.add('correct');
             $('.js-password-check').innerText = '비밀번호가 일치합니다.';
             this.formValidationFlag.password = true;
           } catch (error) {
             if (error instanceof ValidationError) {
+              $('.js-password-check').classList.remove('correct');
               $('.js-password-check').innerText = error.message;
               this.formValidationFlag.password = false;
             }
