@@ -1,0 +1,30 @@
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: gray;
+  animation: 0.8s ease spinnerAnimation;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spinnerAnimation {
+  0% {
+    transform: translate(-100%, 100%);
+  }
+  33% {
+    transform: translate(100%, 100%);
+  }
+  66% {
+    transform: translate(0%, -100%);
+  }
+  100% {
+    transform: translate(-100%, 100%);
+  }
+}
+
+.spinner-container,
+.error-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
