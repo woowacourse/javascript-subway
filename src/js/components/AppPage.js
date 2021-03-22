@@ -2,6 +2,7 @@ import $ from '../utils/querySelector.js';
 import HomeComponent from './HomeComponent.js';
 import LoginComponent from './LoginComponent.js';
 import SignupComponent from './SignupComponent.js';
+import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
 import { ID_SELECTOR } from '../constants.js';
@@ -26,6 +27,7 @@ class AppPage extends Page {
         appState: this.state,
       }),
       '/pages/signup.html': new SignupComponent({ route: this.route }),
+      '/pages/myInfo.html': new MyInfoComponent(),
     };
 
     // TODO: KEY값 상수화
@@ -73,7 +75,9 @@ class AppPage extends Page {
     show(`#${ID_SELECTOR.NAV_SECTION}`);
     show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
     show(`#${ID_SELECTOR.NAV_SEARCH}`);
+    show(`#${ID_SELECTOR.NAV_MY_INFO}`);
     show(`#${ID_SELECTOR.NAV_LOGOUT}`);
+
     hide(`#${ID_SELECTOR.NAV_LOGIN}`);
   }
 
@@ -83,7 +87,9 @@ class AppPage extends Page {
     hide(`#${ID_SELECTOR.NAV_SECTION}`);
     hide(`#${ID_SELECTOR.NAV_FULL_MAP}`);
     hide(`#${ID_SELECTOR.NAV_SEARCH}`);
+    hide(`#${ID_SELECTOR.NAV_MY_INFO}`);
     hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
+
     show(`#${ID_SELECTOR.NAV_LOGIN}`);
   }
 }
