@@ -4,6 +4,9 @@ import Home from './components/home/Home.js';
 import Login from './components/login/Login.js';
 import SignUp from './components/signup/Signup.js';
 import Header from './components/header/Header.js';
+import Stations from './components/stations/Stations.js';
+import Lines from './components/lines/Lines.js';
+import Sections from './components/sections/Sections.js';
 
 import { snackbar } from './utils/snackbar.js';
 import { getLocalStorageItem } from './utils/storage.js';
@@ -60,6 +63,10 @@ class App {
       switchURL: this.switchURL.bind(this),
       showSnackbar: this.showSnackbar.bind(this),
     });
+
+    this.stations = new Stations();
+    this.sections = new Sections();
+    this.lines = new Lines();
   }
 
   registerRouterComponent() {
@@ -67,6 +74,9 @@ class App {
       '/': this.home,
       '/login': this.login,
       '/signup': this.signup,
+      '/stations': this.stations,
+      '/sections': this.sections,
+      '/lines': this.lines,
     };
   }
 
@@ -78,7 +88,8 @@ class App {
     const state = { isLoggedIn: this.isLoggedIn };
 
     component.init(state);
-    this.router.renderPage(href, component.getInfo());
+
+    this.router.renderPage(href, component.getPageInfo());
     component.initDOM();
   }
 }

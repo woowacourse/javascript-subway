@@ -1,14 +1,4 @@
-export const getSectionsInfo = (data = {}) => {
-  return {
-    title: '🚇 구간 관리',
-    contents: {
-      main: sectionsTemplate(data),
-      modal: modalTemplate(data),
-    },
-  };
-};
-
-const sectionsTemplate = data => {
+export const sectionsTemplate = () => {
   return `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -49,7 +39,7 @@ const sectionsTemplate = data => {
   </div>`;
 };
 
-const modalTemplate = data => {
+export const modalTemplate = () => {
   return `
   <div class="modal-inner p-8">
   <button class="modal-close">

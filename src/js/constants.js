@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://3.35.213.149';
+export const BASE_URL = 'https://www.boorownie.com';
 
 export const REQUEST_HEADER_HOST = 'localhost:42069';
 

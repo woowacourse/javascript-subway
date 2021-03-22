@@ -10,7 +10,7 @@ class SignUp {
 
   init() {}
 
-  getInfo() {
+  getPageInfo() {
     return {
       title: '📝 회원가입',
       contents: {
