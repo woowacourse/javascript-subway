@@ -5,6 +5,7 @@ import SignupComponent from './SignupComponent.js';
 import Page from './Page.js';
 import State from './State.js';
 import { ID_SELECTOR } from '../constants.js';
+import { show, hide } from '../utils/DOM.js';
 
 class AppPage extends Page {
   constructor(props) {
@@ -28,21 +29,26 @@ class AppPage extends Page {
     };
 
     // TODO: KEY값 상수화
-    this.state.setListener('loginResponse', this.onLoginButtonChanged);
+    this.state.setListener('loginResponse', this.onNavButtonChanged);
   }
 
-  onLoginButtonChanged(loginResponse) {
+  onNavButtonChanged(loginResponse) {
     const isLogin = loginResponse.accessToken;
 
     if (isLogin) {
       //TODO: show hide로 추상화하면 가독성이 더 좋을듯
-      $(`#${ID_SELECTOR.NAV_LOGOUT}`).classList.remove('hidden');
-      $(`#${ID_SELECTOR.NAV_LOGIN}`).classList.add('hidden');
+      show(`#${ID_SELECTOR.NAV_LINE}`);
+      show(`#${ID_SELECTOR.NAV_STATION}`);
+      show(`#${ID_SELECTOR.NAV_SECTION}`);
+      show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
+      show(`#${ID_SELECTOR.NAV_SEARCH}`);
+      show(`#${ID_SELECTOR.NAV_LOGOUT}`);
+      hide(`#${ID_SELECTOR.NAV_LOGIN}`);
       return;
     }
 
-    $(`#${ID_SELECTOR.NAV_LOGIN}`).classList.remove('hidden');
-    $(`#${ID_SELECTOR.NAV_LOGOUT}`).classList.add('hidden');
+    show(`#${ID_SELECTOR.NAV_LOGIN}`);
+    hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
   }
 
   initEvent() {

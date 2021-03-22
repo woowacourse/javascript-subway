@@ -1,6 +1,5 @@
 import { ID_SELECTOR } from '../constants.js';
 import $ from '../utils/querySelector.js';
-import State from './State.js';
 
 class Component {
   //TODO: props와 state 나누기
@@ -21,6 +20,7 @@ class Component {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
   }
 
+  // TODO: 행동 기반의 메서드명 고민
   _onAnchorClicked = event => {
     event.preventDefault();
     const anchor = event.target.closest('a');
