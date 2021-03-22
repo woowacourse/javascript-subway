@@ -1,5 +1,5 @@
 describe('지하철 노선도 로그인 및 회원가입 테스트', () => {
-  const requestURL = 'http://15.164.230.130:8080';
+  const requestURL = 'https://www.boorownie.com';
 
   beforeEach(() => {
     cy.visit('http://localhost:8080/');
