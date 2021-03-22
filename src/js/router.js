@@ -33,7 +33,10 @@ export const render = async (path, isLoggedIn) => {
   const url = routes[availablePath];
 
   const res = await fetch(url);
-  root.innerHTML = await res.text();
+  const parser = new DOMParser();
+  const template = parser.parseFromString(await res.text(), 'text/html');
+
+  root.replaceChildren(...template.body.querySelector('main').childNodes);
 
   history.pushState(
     { path: availablePath, isLoggedIn: isLoggedIn },
