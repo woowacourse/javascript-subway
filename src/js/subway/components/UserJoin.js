@@ -3,6 +3,7 @@ import { $, encrypt } from '../../@shared/utils';
 import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
 import { isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils';
 import { routeTo } from '../utils';
+import { request } from '../utils/apj';
 
 export class UserJoin {
   constructor() {
@@ -66,7 +67,7 @@ export class UserJoin {
 
   async signUp() {
     const url = `${BASE_URL}/members`;
-    const response = await fetch(url, {
+    const option = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -74,10 +75,13 @@ export class UserJoin {
         password: encrypt(this.$$input.$password.value),
         name: this.$$input.$name.value,
       }),
-    });
+    };
 
-    if (response.ok) return;
-    throw new Error(MESSAGE.SIGNUP.FAIL);
+    try {
+      await request(url, option);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   clearInputs() {
@@ -124,15 +128,20 @@ export class UserJoin {
 
     if (!isValidEmail(email)) return;
     const url = `${BASE_URL}/members/check-validation?email=${encodeURIComponent(email)}`;
-    const response = await fetch(url);
 
-    if (!response.ok) {
-      alert(MESSAGE.SIGNUP.OVERLAPPED_EMAIL);
+    try {
+      const response = await fetch(url);
 
-      return;
+      if (!response.ok) {
+        alert(MESSAGE.SIGNUP.OVERLAPPED_EMAIL);
+
+        return;
+      }
+
+      this.isUniqueEmail = true;
+      alert(MESSAGE.SIGNUP.UNIQUE_EMAIL);
+    } catch (error) {
+      console.error(error.message);
     }
-
-    this.isUniqueEmail = true;
-    alert(MESSAGE.SIGNUP.UNIQUE_EMAIL);
   }
 }

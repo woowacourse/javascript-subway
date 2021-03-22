@@ -1,4 +1,5 @@
 import '../css/index.css';
+import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';
@@ -18,7 +19,7 @@ class App {
   }
 
   mountChildComponents() {
-    this.subway = new Subway();
+    new Subway();
   }
 
   bindEvents() {
@@ -39,11 +40,11 @@ window.addEventListener('popstate', event => {
 });
 
 window.addEventListener('load', async () => {
-  const app = new App();
   const pathName = getRedirectedPath(location.pathname);
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const signedUser = accessToken ? await getUserName(accessToken) : '';
 
+  new App();
   stateManager[STATE_KEY.SIGNED_USER].set(signedUser);
   routeTo(pathName);
 });
