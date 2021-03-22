@@ -36,6 +36,10 @@ export const render = async (path, isLoggedIn) => {
   const parser = new DOMParser();
   const template = parser.parseFromString(await res.text(), 'text/html');
 
+  console.log();
+  document.head.querySelector(
+    'title'
+  ).textContent = template.head.querySelector('title').textContent;
   root.replaceChildren(...template.body.querySelector('main').childNodes);
 
   history.pushState(
