@@ -105,7 +105,7 @@ export default class SignupForm {
     const { email, password } = this.state;
     const response = await loginRequest({ email, password });
     const userToken = response.accessToken;
-    const path = '/stations';
+    const path = '/';
 
     setCookie({
       key: 'token',
