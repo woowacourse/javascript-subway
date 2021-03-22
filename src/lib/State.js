@@ -9,9 +9,9 @@ export default class State extends Subject {
   constructor() {
     super();
     this.#state = {
-      [STATE_KEY.STATION_LIST]: [{ id: 1, name: '사당'} , { id: 2, name: '방배'}],
-      [STATE_KEY.LINE_LIST]: [{ name: '1호선' }, { name: '2호선' }],
-      [STATE_KEY.SECTION_LIST]: [{ name: '섹션1' }, { name: '섹션2' }],
+      [STATE_KEY.STATION_LIST]: [{ id: 1, name: '역 1'} , { id: 2, name: '역 2'}],
+      [STATE_KEY.LINE_LIST]: [{ name: '노선 1' }, { name: '노선 2' }],
+      [STATE_KEY.SECTION_LIST]: [{ name: '구간 1' }, { name: '구간 2' }],
       [STATE_KEY.IS_LOGGED_IN]: false,
     };
   }
@@ -43,20 +43,17 @@ export default class State extends Subject {
 
   initState() {
     // API 요청을 보내서 역 목록, 노선 목록, 구간 목록을 받아와야 함.
+    if (!sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN)) return;
+    this.#state.isLoggedIn = true;
     this.#fetchStationLists().then(list => {
       this.#state.stationList = list;
     });
-
-    if (sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN)) {
-      this.#state.isLoggedIn = true;
-      return;
-    }
-    this.#state.isLoggedIn = false;
   }
 
   async #fetchStationLists() {
     const list = await requestStationList();
     return list.map(stationItem => ({ id: stationItem.id, name: stationItem.name }));
   }
+  
 }
 

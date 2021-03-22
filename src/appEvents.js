@@ -2,6 +2,7 @@ import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY, ALER
 import { requestSignUp, requestLoginToken } from './api/member.js';
 import { requestStationRegistration } from './api/station.js';
 import { sessionStore } from './utils/utils';
+import { isDuplicatedStationNameExist, isProperStationNameLength } from './validators/station.js';
 
 export default class AppEvents {
   #router;
@@ -73,12 +74,21 @@ export default class AppEvents {
     }
 
     if (target.id === SELECTOR_ID.STATION_FORM) {
-      const { stationName } = target;
-      requestStationRegistration(stationName.value).then(({ id, name }) => {
-        this.#state.update(STATE_KEY.STATION_LIST, [ ...this.#state.get(STATE_KEY.STATION_LIST), { id, name }]);
+      const { stationName: stationNameInput } = target;
+      const stationList = this.#state.get(STATE_KEY.STATION_LIST);
+      if (!isProperStationNameLength(stationNameInput.value)) {
+        alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
+        return;
+      }
+      if (isDuplicatedStationNameExist(stationNameInput.value, stationList)) {
+        alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
+        return;
+      }
+      requestStationRegistration(stationNameInput.value).then(({ id, name }) => {
+        this.#state.update(STATE_KEY.STATION_LIST, [ ...stationList, { id, name }]);
       }).catch(error => {
         console.log(error);
-        alert('역 등록에 실패하였습니다');
+        alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
       });
     }
   }

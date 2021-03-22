@@ -49,8 +49,16 @@ export const STATE_KEY = Object.freeze({
   SECTION_LIST: 'sectionList',
 });
 
+export const VALIDATION = Object.freeze({
+  MIN_STATION_NAME_LENGTH: 2,
+  MAX_STATION_NAME_LENGTH: 20
+})
+
 export const ALERT_MESSAGE = Object.freeze({
   PASSWORD_UNMATCHED: '비밀번호 확인이 일치하지 않습니다',
   LOGIN_FAILED: '로그인에 실패하셨습니다',
   SIGNUP_FAILED: '회원가입에 실패하였습니다',
+  STATION_REGISTRATION_FAILED: '역 등록에 실패하였습니다',
+  NOT_PROPER_STATION_NAME_LENGTH: `역의 이름은 ${VALIDATION.MIN_STATION_NAME_LENGTH}자 이상 ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하여야 합니다`,
+  DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다'
 });
