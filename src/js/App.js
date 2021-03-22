@@ -11,23 +11,32 @@ import Sections from './components/sections/Sections.js';
 import { snackbar } from './utils/snackbar.js';
 import { getLocalStorageItem } from './utils/storage.js';
 import { request } from './utils/api.js';
-import { ACTIONS, BASE_URL, REQUEST_HEADER_HOST } from './constants.js';
+import {
+  ACTIONS,
+  BASE_URL,
+  PATH,
+  REQUEST_HEADER_HOST,
+  STORAGE,
+} from './constants.js';
 
 class App {
+  #isLoggedIn;
+  #showSnackbar;
+
   constructor() {
-    this.isLoggedIn = false;
-    this.showSnackbar = snackbar();
+    this.#isLoggedIn = false;
+    this.#showSnackbar = snackbar();
   }
 
   init() {
-    this.initRouter();
-    this.mountComponent();
-    this.registerRouterComponent();
-    this.switchURL('/');
+    this._initRouter();
+    this._mountComponent();
+    this._registerRouterComponent();
+    this.switchURL(PATH.HOME);
   }
 
-  async isValidUserAccessToken() {
-    const userAccessToken = getLocalStorageItem('userAccessToken');
+  async _isValidUserAccessToken() {
+    const userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
     if (!userAccessToken) return false;
 
     try {
@@ -45,11 +54,11 @@ class App {
     }
   }
 
-  initRouter() {
+  _initRouter() {
     this.router = new Router();
   }
 
-  mountComponent() {
+  _mountComponent() {
     this.header = new Header({
       switchURL: this.switchURL.bind(this),
       showSnackbar: this.showSnackbar.bind(this),
@@ -57,37 +66,36 @@ class App {
     this.home = new Home();
     this.login = new Login({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.showSnackbar.bind(this),
+      showSnackbar: this.#showSnackbar.bind(this),
     });
     this.signup = new SignUp({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.showSnackbar.bind(this),
+      showSnackbar: this.#showSnackbar.bind(this),
     });
-
     this.stations = new Stations();
     this.sections = new Sections();
     this.lines = new Lines();
   }
 
-  registerRouterComponent() {
+  _registerRouterComponent() {
     this.components = {
-      '/': this.home,
-      '/login': this.login,
-      '/signup': this.signup,
-      '/stations': this.stations,
-      '/sections': this.sections,
-      '/lines': this.lines,
+      [PATH.HOME]: this.home,
+      [PATH.LOGIN]: this.login,
+      [PATH.SIGNUP]: this.signup,
+      [PATH.STATIONS]: this.stations,
+      [PATH.SECTIONS]: this.sections,
+      [PATH.LINES]: this.lines,
     };
   }
 
   async switchURL(href) {
-    this.isLoggedIn = await this.isValidUserAccessToken();
-    this.header.init(this.isLoggedIn);
+    this.#isLoggedIn = await this.isValidUserAccessToken();
+    this.header.init(this.#isLoggedIn);
 
     const component = this.components[href];
-    const state = { isLoggedIn: this.isLoggedIn };
-    component.init(state);
+    const state = { isLoggedIn: this.#isLoggedIn };
 
+    component.init(state);
     this.router.renderPage(href, component.getPageInfo());
     component.initDOM();
   }

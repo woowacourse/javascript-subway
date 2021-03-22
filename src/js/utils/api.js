@@ -1,4 +1,5 @@
 import { REQUEST_HEADER_HOST } from '../constants.js';
+
 export const request = async (url, option) => {
   try {
     const response = await fetch(url, option);

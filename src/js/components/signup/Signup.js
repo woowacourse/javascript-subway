@@ -1,18 +1,30 @@
-import { $, getFormData } from '../../utils/dom.js';
-import { BASE_URL, ACTIONS } from '../../constants.js';
-import { request, getPostOption } from '../../utils/api.js';
 import { checkSignupValid } from './signupValidator.js';
 import { signUpTemplate } from './signupTemplate.js';
+import { $, getFormData } from '../../utils/dom.js';
+import { request, getPostOption } from '../../utils/api.js';
+import {
+  BASE_URL,
+  ACTIONS,
+  PAGE_TITLE,
+  SELECTOR,
+  PATH,
+  SNACKBAR_MESSAGE,
+  SIGNUP_ERROR,
+  ERROR_MESSAGE,
+} from '../../constants.js';
+
 class SignUp {
+  #props;
+
   constructor(props) {
-    this.props = props;
+    this.#props = props;
   }
 
   init() {}
 
   getPageInfo() {
     return {
-      title: '📝 회원가입',
+      title: PAGE_TITLE.SIGNUP,
       contents: {
         main: signUpTemplate(),
       },
@@ -20,20 +32,20 @@ class SignUp {
   }
 
   initDOM() {
-    this.bindSubmitEvent();
+    this._bindSubmitEvent();
   }
 
-  bindSubmitEvent() {
-    const $signUpForm = $('form[name="signup"]');
+  _bindSubmitEvent() {
+    const $signUpForm = $(SELECTOR.SIGNUP_FORM);
 
     $signUpForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      this.handleSignup(e.target.elements);
+      this._handleSignup(e.target.elements);
     });
   }
 
-  handleSignup(elements) {
+  _handleSignup(elements) {
     const formData = getFormData(elements);
 
     const errorMessage = checkSignupValid(formData);
@@ -42,10 +54,10 @@ class SignUp {
       return;
     }
 
-    this.requestSignup(formData);
+    this._requestSignup(formData);
   }
 
-  async requestSignup(data) {
+  async _requestSignup(data) {
     try {
       const requestBody = JSON.stringify({
         name: data.name,
@@ -56,14 +68,10 @@ class SignUp {
 
       await request(BASE_URL + ACTIONS.REGISTER, option);
 
-      this.props.switchURL('/login');
-      this.props.showSnackbar('회원 가입이 완료되었습니다 !');
+      this.#props.switchURL(PATH.LOGIN);
+      this.#props.showSnackbar(SNACKBAR_MESSAGE.SIGNUP);
     } catch (error) {
-      if (error === 400) {
-        alert('중복된 이메일로 가입할 수 없습니다!');
-        return;
-      }
-      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+      alert(SIGNUP_ERROR[error] || ERROR_MESSAGE.SIGNUP_FAILED);
     }
   }
 }

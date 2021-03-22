@@ -1,7 +1,8 @@
+import { SELECTOR } from './constants';
+import { $ } from './utils/dom';
+
 export const render = () => {
-  const $container = document.querySelector('.container');
-  const $modal = document.querySelector('.modal');
   const { main = '', modal = '' } = history.state.contents;
-  $container.innerHTML = main;
-  $modal.innerHTML = modal;
+  $(SELECTOR.CONTAINER).innerHTML = main;
+  $(SELECTOR.MODAL).innerHTML = modal;
 };
