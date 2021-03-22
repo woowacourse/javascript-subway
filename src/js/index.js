@@ -10,8 +10,8 @@ const initAppEvent = () => {
   $('#logout-nav-button').addEventListener('click', handleLogout);
 };
 
-const init = () => {
-  initStore();
+const init = async () => {
+  await initStore();
   initAppEvent();
   initRouter();
 };

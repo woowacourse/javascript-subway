@@ -1,17 +1,39 @@
 import { ALERT_MESSAGE, STATION_NAME } from '../constants';
 import { requestAddStation } from '../services/station';
+import station from '../store/station';
 import { stationListItemTemplate } from '../templates/stations';
 import { $, appendChildTemplate } from '../utils/dom';
+import { isInRange } from '../utils/validation';
 
-const isValid = value => value.length >= STATION_NAME.MIN_LENGTH && value.length <= STATION_NAME.MAX_LENGTH;
+const validateInput = value => {
+  if (!isInRange(value.length, { min: STATION_NAME.MIN_LENGTH, max: STATION_NAME.MAX_LENGTH })) {
+    return {
+      success: false,
+      errorMessage: ALERT_MESSAGE.INVALID_STATION_NAME,
+    };
+  }
+
+  if (station.includes(value)) {
+    return {
+      success: false,
+      errorMessage: ALERT_MESSAGE.DUPLICATED_STATION_NAME,
+    };
+  }
+
+  return {
+    success: true,
+  };
+};
 
 const handleAddStation = async event => {
   event.preventDefault();
 
   const inputValue = event.target.stationName.value.trim();
 
-  if (!isValid(inputValue)) {
-    alert(ALERT_MESSAGE.INVALID_STATION_NAME);
+  const validationResult = validateInput(inputValue);
+
+  if (!validationResult.success) {
+    alert(validationResult.errorMessage);
     return;
   }
 
@@ -22,6 +44,7 @@ const handleAddStation = async event => {
     return;
   }
 
+  station.add(result.data);
   appendChildTemplate($('#station-list'), stationListItemTemplate(result.data));
   event.target.reset();
 };

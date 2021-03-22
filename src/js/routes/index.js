@@ -7,6 +7,7 @@ import {
   mountStations,
   mountMap,
   mountLines,
+  mountError,
 } from './routeHandler';
 import { authenticatedRoute, unauthenticatedRoute } from './utils';
 
@@ -21,6 +22,8 @@ const routeHandler = {
   '/stations': () => authenticatedRoute(mountStations),
   '/map': () => authenticatedRoute(mountMap),
   '/lines': () => authenticatedRoute(mountLines),
+
+  '/error': mountError,
 };
 
 const initRouter = () => {
