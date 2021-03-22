@@ -1,4 +1,4 @@
-import { ID_SELECTOR } from "../constants";
+import { ID_SELECTOR } from '../constants';
 
 const MAIN_COMPONENT = `
 <div class="wrapper p-10 bg-white">
@@ -25,6 +25,8 @@ const MAIN_COMPONENT = `
         name="name"
         class="input-field"
         placeholder="이름"
+        pattern="^[a-zA-Zㄱ-힣]+$"
+        title="이름은 알파벳, 한글만 가능합니다"
         required
       />
     </div>
