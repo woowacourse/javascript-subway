@@ -9,6 +9,14 @@ const ID_SELECTOR = {
   NAV_SEARCH: 'nav__search',
   NAV_LOGIN: 'nav__login',
   NAV_LOGOUT: 'nav__logout',
+  NAV_MY_INFO: 'nav__my-info',
+
+  MY_INFO_FORM: 'my-info-form',
+  MY_INFO_FORM_EMAIL: 'my-info-form__email',
+  MY_INFO_FORM_NAME: 'my-info-form__name',
+  MY_INFO_FORM_PASSWORD: 'my-info-form__password',
+  MY_INFO_FORM_PASSWORD_CONFIRM: 'my-info-form__password-confirm',
+  MY_INFO_FORM_SUBMIT: 'my-info-form__submit',
 
   SIGNUP_FORM: 'signup-form',
   SIGNUP_FORM_EMAIL: 'signup-form__email',

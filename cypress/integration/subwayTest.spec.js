@@ -68,12 +68,20 @@ context('Window', () => {
     cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('not.be.visible');
   });
 
-  it.only('로그아웃하고 나면 로그인 버튼으로 변경되어야 한다.', () => {
+  it('로그아웃하고 나면 로그인 버튼으로 변경되어야 한다.', () => {
     login();
 
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).click();
     cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('not.be.visible');
+  });
+
+  it('로그인 하게되면 정보 수정 페이지로 접근이 가능하다.', () => {
+    cy.get(`#${ID_SELECTOR.NAV_MY_INFO}`).should('not.be.visible');
+    login();
+
+    cy.get(`#${ID_SELECTOR.NAV_MY_INFO}`).click();
+    cy.url().should('eq', 'http://127.0.0.1:5500/pages/myInfo.html');
   });
 });
 
