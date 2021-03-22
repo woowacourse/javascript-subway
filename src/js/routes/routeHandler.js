@@ -9,15 +9,14 @@ import mapPageTemplate from '../templates/map';
 import searchPageTemplate from '../templates/search';
 import sectionsPageTemplate from '../templates/sections';
 import signupTemplate from '../templates/signup';
-import stationsPageTemplate from '../templates/stations';
 import handleSignup from '../eventHandlers/handleSignup';
 import handleCheckEmail from '../eventHandlers/handleCheckEmail';
 import handleValidateSignupForm from '../eventHandlers/handleValidateSignupForm';
 import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
 import handleAddStation from '../eventHandlers/handleAddStation';
-import { requestStationList } from '../services/station';
-import spinnerPageTemplate from '../templates/spinner';
 import errorPageTemplate from '../templates/error';
+import stationsPageTemplate from '../templates/stations';
+import station from '../store/station';
 
 const $routeContainer = $('#route-container');
 
@@ -58,18 +57,8 @@ export const mountSections = () => {
   $routeContainer.innerHTML = sectionsPageTemplate;
 };
 
-export const mountStations = async () => {
-  $routeContainer.innerHTML = spinnerPageTemplate;
-
-  const result = await requestStationList();
-
-  if (!result.success) {
-    alert(result.message);
-    $routeContainer.innerHTML = errorPageTemplate;
-    return;
-  }
-
-  $routeContainer.innerHTML = stationsPageTemplate(result.data);
+export const mountStations = () => {
+  $routeContainer.innerHTML = stationsPageTemplate(station.get());
 
   $('#station-form').addEventListener('submit', handleAddStation);
 };
@@ -80,4 +69,8 @@ export const mountMap = () => {
 
 export const mountLines = () => {
   $routeContainer.innerHTML = linesPageTemplate;
+};
+
+export const mountError = () => {
+  $routeContainer.innerHTML = errorPageTemplate;
 };

@@ -1,5 +1,6 @@
 import { ALERT_MESSAGE } from '../constants';
 import { requestLogin } from '../services/auth';
+import { initPrivateStore } from '../store';
 import accessToken from '../store/accessToken';
 import { $, showElement } from '../utils/dom';
 import { routeTo } from '../utils/history';
@@ -23,6 +24,14 @@ const handleLogin = async event => {
   const { email, password, 'keep-login': keepLogin } = event.target.elements;
 
   await login(email.value, password.value, { keepLogin: keepLogin.checked });
+
+  try {
+    await initPrivateStore();
+  } catch (error) {
+    alert(error.message);
+    routeTo('/error');
+    return;
+  }
 
   routeTo('/');
   showElement($('#nav'));
