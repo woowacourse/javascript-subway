@@ -86,7 +86,6 @@ class App {
 
     const component = this.components[href];
     const state = { isLoggedIn: this.isLoggedIn };
-
     component.init(state);
 
     this.router.renderPage(href, component.getPageInfo());

@@ -1,29 +1,34 @@
 import { removeLocalStorageItem } from '../../utils/storage.js';
 import { headerTemplate } from './headerTemplate.js';
+import { $ } from '../../utils/dom.js';
+import { SELECTOR, PATH, STORAGE, SNACKBAR_MESSAGE } from '../../constants.js';
 
 class Header {
+  #props;
+  #isLoggedIn;
+
   constructor(props) {
-    this.props = props;
-    this.userToken = null;
+    this.#props = props;
+    this.#isLoggedIn = null;
   }
 
   init(isLoggedIn) {
-    this.userToken = isLoggedIn;
+    this.#isLoggedIn = isLoggedIn;
     this.initDOM();
-    this.selectDOM();
-    this.bindMenuEvent();
+    this._selectDOM();
+    this._bindMenuEvent();
   }
 
   initDOM() {
-    this.$target = document.querySelector('header');
-    this.$target.innerHTML = headerTemplate(this.userToken);
+    this.$target = $(SELECTOR.HEADER);
+    this.$target.innerHTML = headerTemplate(this.#isLoggedIn);
   }
 
-  selectDOM() {
-    this.$menu = document.querySelector('.menu');
+  _selectDOM() {
+    this.$menu = $(SELECTOR.MENU);
   }
 
-  bindMenuEvent() {
+  _bindMenuEvent() {
     this.$menu.addEventListener('click', e => {
       e.preventDefault();
       if (e.target.tagName !== 'BUTTON') return;
@@ -32,18 +37,18 @@ class Header {
   }
 
   _changeMenu({ target }) {
-    const href = target.closest('.menu__link').getAttribute('href');
-    if (href === '/logout') {
+    const href = target.closest(SELECTOR.MENU_LINK).getAttribute('href');
+    if (href === PATH.LOGOUT) {
       this._handleLogout();
       return;
     }
-    this.props.switchURL(href);
+    this.#props.switchURL(href);
   }
 
   _handleLogout() {
-    removeLocalStorageItem('userAccessToken');
-    this.props.switchURL('/');
-    this.props.showSnackbar('로그아웃 되었습니다 !');
+    removeLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
+    this.#props.switchURL(PATH.HOME);
+    this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGOUT);
   }
 }
 
