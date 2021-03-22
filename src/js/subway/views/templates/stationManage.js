@@ -1,6 +1,6 @@
 import { MENU } from '../../constants/constants';
 
-export const stationManage = () => `
+export const stationManage = `
   <div id="content" class="wrapper bg-white p-10">
     <div class="heading">
       <h2 class="mt-1">${MENU.STATIONS}</h2>

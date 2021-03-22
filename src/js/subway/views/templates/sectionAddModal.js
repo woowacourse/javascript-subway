@@ -1,6 +1,6 @@
 import { MENU } from '../../constants/constants';
 
-export const sectionAddModal = () => `
+export const sectionAddModal = `
 <div class="modal">
   <div class="modal-inner p-8">
     <button class="modal-close">
