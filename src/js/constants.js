@@ -6,7 +6,7 @@ export const ALERT_MESSAGE = Object.freeze({
 });
 
 export const API = Object.freeze({
-  BASE_URL: 'http://15.164.230.130:8080',
+  BASE_URL: 'https://www.boorownie.com',
   HTTP_METHOD: {
     GET: 'GET',
     POST: 'POST',
