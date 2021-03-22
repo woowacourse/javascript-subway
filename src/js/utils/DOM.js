@@ -35,3 +35,13 @@ export const showElement = ($target) => {
 export const hideElement = ($target) => {
   $target.classList.add("d-none");
 };
+
+export const changeCheckMessageColor = ($target, isChecked) => {
+  if (isChecked) {
+    $target.classList.remove("text-red");
+    $target.classList.add("text-green");
+  } else {
+    $target.classList.remove("text-green");
+    $target.classList.add("text-red");
+  }
+};

@@ -1,16 +1,20 @@
-import { signupAPI } from "../APIs/subwayAPI.js";
+import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
 
-import { $ } from "../utils/DOM.js";
+import { $, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
+import debounce from "../utils/debounce.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
-import { PASSWORD_MIN_LENGTH } from "../constants/general.js";
-
+import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
 export default class SignupForm {
   constructor({ $parent, pageRouter }) {
     this.$parent = $parent;
     this.pageRouter = pageRouter;
+    this.inputValidation = {
+      isValidEmail: false,
+      isPasswordConfirmed: false,
+    };
   }
 
   attachEvent() {
@@ -18,8 +22,12 @@ export default class SignupForm {
       "submit",
       this.onSubmitSignupForm.bind(this)
     );
+    $(".js-email-input", this.$parent).addEventListener(
+      "input",
+      this.onTypeEmail.bind(this)
+    );
     $(".js-password-confirm", this.$parent).addEventListener(
-      "keyup",
+      "input",
       this.onTypePasswordConfirm.bind(this)
     );
     $(".js-login-link", this.$parent).addEventListener(
@@ -28,38 +36,32 @@ export default class SignupForm {
     );
   }
 
-  onTypePasswordConfirm({ target }) {
-    const $form = $("form", this.$parent);
-    const $messageArea = $(".js-pw-confirm-message", this.$parent);
-
-    if (target.value === $form.password.value) {
-      $messageArea.innerText = SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS;
-      $messageArea.classList.remove("text-red");
-      $messageArea.classList.add("text-green");
-    } else {
-      $messageArea.innerText = ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
-      $messageArea.classList.remove("text-green");
-      $messageArea.classList.add("text-red");
+  getFormValidationMessage($form) {
+    if (!this.inputValidation.isValidEmail) {
+      return ERROR_MESSAGE.INVALID_EMAIL;
     }
+
+    if (!this.inputValidation.isPasswordConfirmed) {
+      return ERROR_MESSAGE.NOT_CONFIRMED_PASSWORD;
+    }
+
+    if ($form.name === "") {
+      return ERROR_MESSAGE.EMPTY_NAME;
+    }
+
+    if ($form.password.length < PASSWORD_MIN_LENGTH) {
+      return ERROR_MESSAGE.INVALID_PASSWORD;
+    }
+
+    return "";
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async onSubmitSignupForm(event) {
-    event.preventDefault();
-    const { target } = event;
-
-    const memberData = {
-      email: target.email.value,
-      name: target.name.value,
-      password: target.password.value,
-    };
-
+  async signup(memberData) {
     try {
       const response = await signupAPI(memberData);
 
       if (!response.ok) {
         window.alert(ERROR_MESSAGE.SIGNUP_FAILURE);
-        target.reset();
 
         return;
       }
@@ -69,6 +71,87 @@ export default class SignupForm {
     } catch (e) {
       console.error(e);
       window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async onSubmitSignupForm(event) {
+    event.preventDefault();
+
+    const { target } = event;
+    const memberData = {
+      email: target.email.value,
+      name: target.name.value,
+      password: target.password.value,
+    };
+
+    const formValidationMessage = this.getFormValidationMessage(target);
+    if (formValidationMessage === "") {
+      this.signup(memberData);
+    } else {
+      window.alert(formValidationMessage);
+    }
+  }
+
+  async checkEmail(email) {
+    const $checkEmailMessage = $(".js-check-email-message", this.$parent);
+
+    try {
+      const response = await checkDuplicatedEmailAPI(email);
+
+      if (response.status === 200) {
+        changeCheckMessageColor($checkEmailMessage, true);
+        $checkEmailMessage.textContent = SUCCESS_MESSAGE.VALID_EMAIL;
+        this.inputValidation.isValidEmail = true;
+
+        return;
+      }
+
+      if (response.status === 422) {
+        changeCheckMessageColor($checkEmailMessage, false);
+        $checkEmailMessage.textContent = ERROR_MESSAGE.DUPLICATED_EMAIL;
+        this.inputValidation.isValidEmail = false;
+
+        return;
+      }
+
+      throw new Error(response.status);
+    } catch (e) {
+      console.error(e);
+
+      changeCheckMessageColor($checkEmailMessage, false);
+      $checkEmailMessage.textContent = "api error";
+      this.inputValidation.isValidEmail = false;
+    }
+  }
+
+  onTypeEmail({ target }) {
+    const emailInput = target.value;
+    const $checkEmailMessage = $(".js-check-email-message", this.$parent);
+
+    debounce(() => {
+      if (emailInput.match(EMAIL_REG_EXP)) {
+        this.checkEmail(emailInput);
+      } else {
+        changeCheckMessageColor($checkEmailMessage, false);
+        $checkEmailMessage.textContent = ERROR_MESSAGE.INVALID_EMAIL_FORM;
+        this.inputValidation.isValidEmail = false;
+      }
+    }, 300);
+  }
+
+  onTypePasswordConfirm({ target }) {
+    const $form = $("form", this.$parent);
+    const $messageArea = $(".js-pw-confirm-message", this.$parent);
+
+    if (target.value === $form.password.value) {
+      $messageArea.innerText = SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS;
+      changeCheckMessageColor($messageArea, true);
+      this.inputValidation.isPasswordConfirmed = true;
+    } else {
+      $messageArea.innerText = ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
+      changeCheckMessageColor($messageArea, false);
+      this.inputValidation.isPasswordConfirmed = false;
     }
   }
 
@@ -89,17 +172,18 @@ export default class SignupForm {
           <h2 class="text">📝 회원가입</h2>
         </div>
         <form name="signup" class="form">
-          <div class="input-control">
+          <div class="input-control flex-wrap">
             <label for="email" class="input-label" hidden>이메일</label>
             <input
               type="email"
               id="email"
               name="email"
-              class="input-field"
+              class="js-email-input input-field"
               placeholder="이메일"
               maxlength="30"
               required
             />
+            <p class="js-check-email-message text-sm mt-1 mb-0 ml-4"></p>
           </div>
           <div class="input-control">
             <label for="name" class="input-label" hidden>이름</label>
@@ -126,7 +210,7 @@ export default class SignupForm {
               required
             />
           </div>
-          <div class="input-control">
+          <div class="input-control flex-wrap">
             <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
             <input
               type="password"
@@ -136,8 +220,8 @@ export default class SignupForm {
               placeholder="비밀번호 확인"
               required
             />
+            <p class="js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
           </div>
-          <p class="js-pw-confirm-message h-2rem text-sm"></p>
           <div class="input-control mt-8">
             <button
               type="submit"
