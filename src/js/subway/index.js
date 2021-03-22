@@ -43,7 +43,7 @@ export class Subway {
   }
 
   mountChildComponents() {
-    this.userJoin = new UserJoin();
-    this.userAuth = new UserAuth();
+    new UserJoin();
+    new UserAuth();
   }
 }

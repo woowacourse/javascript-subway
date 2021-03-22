@@ -2,9 +2,10 @@ import { STATE_KEY, ROUTE, MESSAGE, BASE_URL, SESSION_KEY } from '../constants/c
 import { contentElements } from '../views';
 import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, setToSessionStorage } from '../../@shared/utils';
+import { setToSessionStorage } from '../../@shared/utils';
 import { getUserName } from '../utils';
 import { routeTo } from '../utils';
+import { request } from '../utils/apj';
 
 export class UserAuth {
   constructor() {
@@ -47,17 +48,22 @@ export class UserAuth {
 
   async signIn() {
     const url = `${BASE_URL}/login/token`;
-    const response = await fetch(url, {
+    const option = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: this.$$input.$email.value,
         password: encrypt(this.$$input.$password.value),
       }),
-    });
+    };
 
-    if (response.ok) return response.json();
-    throw new Error(MESSAGE.SIGNIN.FAIL);
+    try {
+      const response = await request(url, option);
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   clearInputs() {
