@@ -3,6 +3,7 @@ import { showSnackbar } from '../utils/snackbar';
 import { PATH, ELEMENT, SIGN_UP, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME } from '../utils/constants';
 import { $ } from '../utils/dom';
 import { requestSignUpApprove } from '../requestData/requestUserData';
+
 class SignUp {
   constructor(props) {
     this.props = props;
@@ -42,14 +43,13 @@ class SignUp {
     this.requestSignUp(userInfo);
   }
 
-  requestSignUp({ email, userName, password }) {
-    requestSignUpApprove({ email, userName, password })
-      .then(() => {
-        this.manageSignUpSuccess();
-      })
-      .catch((error) => {
-        this.manageSignUpFail(error);
-      });
+  async requestSignUp({ email, userName, password }) {
+    try {
+      await requestSignUpApprove({ email, userName, password });
+      this.manageSignUpSuccess();
+    } catch (error) {
+      this.manageSignUpFail(error.message);
+    }
   }
 
   manageSignUpSuccess() {
@@ -58,8 +58,8 @@ class SignUp {
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
   }
 
-  manageSignUpFail(error) {
-    this.getMatchedAlert(error.message);
+  manageSignUpFail(statusCode) {
+    this.getMatchedAlert(statusCode);
   }
 
   getMatchedAlert(statusCode) {
