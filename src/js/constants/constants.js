@@ -1,4 +1,4 @@
-export const HOST = 'http://15.164.230.130:8080';
+export const HOST = 'https://www.boorownie.com';
 
 export const SESSION_EXPIRE_DAYS = 1;
 
