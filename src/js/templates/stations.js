@@ -1,3 +1,5 @@
+import { STATION_NAME } from '../constants';
+
 export const stationListItemTemplate = ({ id, name }) => `
   <li class="station-list-item d-flex items-center py-2" data-id="${id}" data-name="${name}">
     <span class="w-100 pl-2">${name}</span>
@@ -7,7 +9,7 @@ export const stationListItemTemplate = ({ id, name }) => `
   <hr class="my-0" />
 `;
 
-const stationsPageTemplate = `
+const stationsPageTemplate = (stationList = []) => `
   <div class="d-flex justify-center mt-5 w-100">
     <div class="w-100">
       <header class="my-4"></header>
@@ -25,14 +27,16 @@ const stationsPageTemplate = `
                 name="stationName"
                 class="input-field"
                 placeholder="역 이름"
-                minlength="2"
-                maxlength="20"
+                minlength="${STATION_NAME.MIN_LENGTH}"
+                maxlength="${STATION_NAME.MAX_LENGTH}"
                 required
               />
               <button type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
             </div>
           </form>
-          <ul id="station-list" class="mt-3 pl-0"></ul>
+          <ul id="station-list" class="mt-3 pl-0">
+            ${stationList.map(station => stationListItemTemplate(station)).join('')}
+          </ul>
         </div>
       </main>
     </div>

@@ -5,6 +5,7 @@ export const ALERT_MESSAGE = Object.freeze({
   SIGNUP_SUCCESS: '회원가입 성공! 자동으로 로그인합니다.',
   INVALID_STATION_NAME: '최소 2자, 최대 20자의 역 이름을 입력해주세요',
   ADD_STATION_FAILED: '역 등록에 실패했습니다.',
+  GET_STATION_LIST_FAILED: '역 목록을 가져오지 못했습니다.',
 });
 
 export const API = Object.freeze({

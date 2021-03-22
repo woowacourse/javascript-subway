@@ -15,6 +15,9 @@ import handleCheckEmail from '../eventHandlers/handleCheckEmail';
 import handleValidateSignupForm from '../eventHandlers/handleValidateSignupForm';
 import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
 import handleAddStation from '../eventHandlers/handleAddStation';
+import { requestStationList } from '../services/station';
+import spinnerPageTemplate from '../templates/spinner';
+import errorPageTemplate from '../templates/error';
 
 const $routeContainer = $('#route-container');
 
@@ -55,8 +58,18 @@ export const mountSections = () => {
   $routeContainer.innerHTML = sectionsPageTemplate;
 };
 
-export const mountStations = () => {
-  $routeContainer.innerHTML = stationsPageTemplate;
+export const mountStations = async () => {
+  $routeContainer.innerHTML = spinnerPageTemplate;
+
+  const result = await requestStationList();
+
+  if (!result.success) {
+    alert(result.message);
+    $routeContainer.innerHTML = errorPageTemplate;
+    return;
+  }
+
+  $routeContainer.innerHTML = stationsPageTemplate(result.data);
 
   $('#station-form').addEventListener('submit', handleAddStation);
 };
