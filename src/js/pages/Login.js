@@ -10,7 +10,6 @@ import {
 
 class LoginPage {
   constructor(router) {
-    this.$main = $('#main');
     this.router = router;
   }
 
@@ -20,29 +19,15 @@ class LoginPage {
   }
 
   renderView() {
-    this.$main.innerHTML = loginTemplate;
+    $('#main').innerHTML = loginTemplate;
   }
 
-  async loginHandler(e) {
-    e.preventDefault();
-
-    const request = {
-      method: HTTP.METHOD.POST,
-      body: JSON.stringify({
-        [HTTP.BODY.KEY.EMAIL]: e.target.elements['email'].value,
-        [HTTP.BODY.KEY.PASSWORD]: e.target.elements['password'].value,
-      }),
-      headers: {
-        [HTTP.HEADERS.KEY
-          .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
-      },
-    };
-
+  async requestLogin(request) {
     try {
       const response = await fetchLogin(request);
 
       if (!response.ok) {
-        throw '아이디와 비밀번호를 확인해주세요.';
+        throw MESSAGE.ERROR.CHECK_EMAIL_AND_PASSWORD;
       }
 
       const { accessToken } = await response.json();
@@ -53,6 +38,27 @@ class LoginPage {
     } finally {
       this.router.navigate('/');
     }
+  }
+
+  makeRequestData(e) {
+    return {
+      method: HTTP.METHOD.POST,
+      body: JSON.stringify({
+        [HTTP.BODY.KEY.EMAIL]: e.target.elements['email'].value,
+        [HTTP.BODY.KEY.PASSWORD]: e.target.elements['password'].value,
+      }),
+      headers: {
+        [HTTP.HEADERS.KEY
+          .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
+      },
+    };
+  }
+
+  async loginHandler(e) {
+    e.preventDefault();
+
+    const requestData = this.makeRequestData(e);
+    await this.requestLogin(requestData);
   }
 
   bindCheckInputEvents() {
@@ -70,8 +76,7 @@ class LoginPage {
     $('#signup').addEventListener('click', e => {
       e.preventDefault();
 
-      const path = e.target.getAttribute('href');
-      this.router.navigate(path);
+      this.router.navigate('/signup');
     });
   }
 }

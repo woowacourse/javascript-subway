@@ -7,10 +7,10 @@ import StationsPage from './pages/Stations.js';
 import LinesPage from './pages/Lines.js';
 import SectionsPage from './pages/Sections.js';
 
-// TODO: async, await 적용할 부분이 있는지 찾아보기
 class Router {
   constructor() {
     this.userToken = '';
+
     this.signupPage = new SignupPage(this);
     this.loginPage = new LoginPage(this);
     this.mainPage = new MainPage(this);
@@ -27,13 +27,13 @@ class Router {
     };
   }
 
-  checkMainRoute() {
-    this.routes['/'] = this.userToken ? this.mainPage : this.loginPage;
-  }
-
   init() {
     this.back();
     this.navigate('/');
+  }
+
+  checkMainRoute() {
+    this.routes['/'] = this.userToken ? this.mainPage : this.loginPage;
   }
 
   navigate(path) {

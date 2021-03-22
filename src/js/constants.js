@@ -4,10 +4,11 @@ const MESSAGE = {
     FAIL_TO_SIGNUP: '회원가입에 실패 하셨습니다. 다시 시도 해주세요.',
     DUPLICATED_EMAIL: '중복된 이메일입니다.',
     WRONG_EMAIL_FORMAT: '알맞은 이메일 형식을 입력해 주세요.',
+    CHECK_EMAIL_AND_PASSWORD: '이메일과 비밀번호를 확인해주세요.',
   },
 };
 
-const BASE_URL = 'http://3.35.213.149';
+const BASE_URL = 'https://www.boorownie.com';
 
 const HTTP = {
   METHOD: {

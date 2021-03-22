@@ -11,7 +11,6 @@ import {
 
 class SignupPage {
   constructor(router) {
-    this.$main = $('#main');
     this.router = router;
   }
 
@@ -21,7 +20,7 @@ class SignupPage {
   }
 
   renderView() {
-    this.$main.innerHTML = signupTemplate;
+    $('#main').innerHTML = signupTemplate;
   }
 
   async requestSignup(request) {
@@ -95,13 +94,16 @@ class SignupPage {
 
   bindEvents() {
     this.bindCheckInputEvents();
+
     $('#check-duplicated-email-button').addEventListener(
       'click',
       this.checkDuplicatedEmailHandler.bind(this)
     );
     $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
+
     $('#login').addEventListener('click', e => {
       e.preventDefault();
+
       this.router.navigate('/');
     });
   }

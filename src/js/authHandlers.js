@@ -4,8 +4,8 @@ import { $ } from './utils/DOM.js';
 function showFailMessage(e, messageTarget) {
   const inputControl = e.target.closest('.js-input-control');
 
-  inputControl.classList.add('fail');
   inputControl.classList.remove('success');
+  inputControl.classList.add('fail');
   $(messageTarget).classList.remove('d-none');
 }
 
