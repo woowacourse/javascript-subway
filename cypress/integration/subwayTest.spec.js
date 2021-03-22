@@ -47,6 +47,26 @@ context('Window', () => {
     cy.get('nav').find(`[href="/pages/login.html"]`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
   });
+
+  it.only('로그인하지 않은 유저에게는 로그인 외 버튼은 보이지 않는다.', () => {
+    // 처음에 not.be.visible
+    cy.get(`#${ID_SELECTOR.NAV_STATION}`).should('not.be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('not.be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_SECTION}`).should('not.be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_FULL_MAP}`).should('not.be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_SEARCH}`).should('not.be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('be.visible');
+
+    login();
+
+    cy.get(`#${ID_SELECTOR.NAV_STATION}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_SECTION}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_FULL_MAP}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_SEARCH}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
+    cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('not.be.visible');
+  });
 });
 
 function login() {
