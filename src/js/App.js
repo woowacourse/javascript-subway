@@ -5,6 +5,7 @@ import Login from './components/login/Login.js';
 import SignUp from './components/signup/Signup.js';
 import Header from './components/header/Header.js';
 
+import { snackbar } from './utils/snackbar.js';
 import { getLocalStorageItem } from './utils/storage.js';
 import { request } from './utils/api.js';
 import { ACTIONS, BASE_URL, REQUEST_HEADER_HOST } from './constants.js';
@@ -12,6 +13,7 @@ import { ACTIONS, BASE_URL, REQUEST_HEADER_HOST } from './constants.js';
 class App {
   constructor() {
     this.isLoggedIn = false;
+    this.showSnackbar = snackbar();
   }
 
   init() {
@@ -47,10 +49,17 @@ class App {
   mountComponent() {
     this.header = new Header({
       switchURL: this.switchURL.bind(this),
+      showSnackbar: this.showSnackbar.bind(this),
     });
     this.home = new Home();
-    this.login = new Login({ switchURL: this.switchURL.bind(this) });
-    this.signup = new SignUp({ switchURL: this.switchURL.bind(this) });
+    this.login = new Login({
+      switchURL: this.switchURL.bind(this),
+      showSnackbar: this.showSnackbar.bind(this),
+    });
+    this.signup = new SignUp({
+      switchURL: this.switchURL.bind(this),
+      showSnackbar: this.showSnackbar.bind(this),
+    });
   }
 
   registerRouterComponent() {

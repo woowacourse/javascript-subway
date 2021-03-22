@@ -43,6 +43,7 @@ class Header {
   _handleLogout() {
     removeLocalStorageItem('userAccessToken');
     this.props.switchURL('/');
+    this.props.showSnackbar('로그아웃 되었습니다 !');
   }
 }
 

@@ -57,6 +57,7 @@ class SignUp {
       await request(BASE_URL + ACTIONS.REGISTER, option);
 
       this.props.switchURL('/login');
+      this.props.showSnackbar('회원 가입이 완료되었습니다 !');
     } catch (error) {
       if (error === 400) {
         alert('중복된 이메일로 가입할 수 없습니다!');
