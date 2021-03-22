@@ -15,6 +15,7 @@ import AppEvents from './appEvents.js';
 
 // 앱 상태 초기화
 const state = new State();
+state.initState();
 
 // 앱 컴포넌트 생성
 const main = new Main(state, `#${SELECTOR_ID.GUIDE_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
@@ -52,6 +53,7 @@ appEvents.delegateEvents();
 
 // 옵저버 등록
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);
+state.subscribe(STATE_KEY.STATION_LIST, station);
 
 // 네비게이터 렌더링
 navigator.renderComponent();

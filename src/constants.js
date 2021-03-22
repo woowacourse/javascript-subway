@@ -3,6 +3,7 @@ export const SELECTOR_ID = Object.freeze({
   NAVIGATOR: 'navigator',
   MAIN_CONTAINER: 'main-container',
   STATION_LIST: 'station-list',
+  STATION_FORM: 'station-form',
   LINE_LIST: 'line-list',
   SECTION_LIST: 'section-list',
   SUBWAY_LINE: 'subway-line',

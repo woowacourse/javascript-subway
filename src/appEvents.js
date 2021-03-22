@@ -1,5 +1,6 @@
 import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY, STATE_KEY, ALERT_MESSAGE } from './constants.js';
 import { requestSignUp, requestLoginToken } from './api/member.js';
+import { requestStationRegistration } from './api/station.js';
 import { sessionStore } from './utils/utils';
 
 export default class AppEvents {
@@ -45,7 +46,7 @@ export default class AppEvents {
     e.preventDefault();
     const target = e.target;
     if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
-      const { email, name, password, confirm } = e.target;
+      const { email, name, password, confirm } = target;
       if (!this.#isPasswordCheckMatched(password.value, confirm.value)) {
         alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
         return;
@@ -57,8 +58,9 @@ export default class AppEvents {
         alert(ALERT_MESSAGE.SIGNUP_FAILED);
       });
     }
+
     if (target.id === SELECTOR_ID.LOG_IN_FORM) {
-      const { email, password } = e.target;
+      const { email, password } = target;
       requestLoginToken(email.value, password.value).then(accessToken => {
         sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
         this.#state.update(STATE_KEY.IS_LOGGED_IN, true);
@@ -67,6 +69,16 @@ export default class AppEvents {
       }).catch(error => {
         console.log(error);
         alert(ALERT_MESSAGE.LOGIN_FAILED);
+      });
+    }
+
+    if (target.id === SELECTOR_ID.STATION_FORM) {
+      const { stationName } = target;
+      requestStationRegistration(stationName.value).then(({ id, name }) => {
+        this.#state.update(STATE_KEY.STATION_LIST, [ ...this.#state.get(STATE_KEY.STATION_LIST), { id, name }]);
+      }).catch(error => {
+        console.log(error);
+        alert('역 등록에 실패하였습니다');
       });
     }
   }
