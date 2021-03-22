@@ -1,3 +1,12 @@
+export const stationListItemTemplate = ({ id, name }) => `
+  <li class="station-list-item d-flex items-center py-2" data-id="${id}" data-name="${name}">
+    <span class="w-100 pl-2">${name}</span>
+    <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
+    <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+  </li>
+  <hr class="my-0" />
+`;
+
 const stationsPageTemplate = `
   <div class="d-flex justify-center mt-5 w-100">
     <div class="w-100">
@@ -16,6 +25,8 @@ const stationsPageTemplate = `
                 name="stationName"
                 class="input-field"
                 placeholder="역 이름"
+                minlength="2"
+                maxlength="20"
                 required
               />
               <button type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
