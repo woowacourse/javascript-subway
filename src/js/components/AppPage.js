@@ -29,26 +29,7 @@ class AppPage extends Page {
     };
 
     // TODO: KEY값 상수화
-    this.state.setListener('loginResponse', this.onNavButtonChanged);
-  }
-
-  onNavButtonChanged(loginResponse) {
-    const isLogin = loginResponse.accessToken;
-
-    if (isLogin) {
-      //TODO: show hide로 추상화하면 가독성이 더 좋을듯
-      show(`#${ID_SELECTOR.NAV_LINE}`);
-      show(`#${ID_SELECTOR.NAV_STATION}`);
-      show(`#${ID_SELECTOR.NAV_SECTION}`);
-      show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
-      show(`#${ID_SELECTOR.NAV_SEARCH}`);
-      show(`#${ID_SELECTOR.NAV_LOGOUT}`);
-      hide(`#${ID_SELECTOR.NAV_LOGIN}`);
-      return;
-    }
-
-    show(`#${ID_SELECTOR.NAV_LOGIN}`);
-    hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
+    this.state.setListener('loginResponse', this.handleNavButtonToChange);
   }
 
   initEvent() {
@@ -59,6 +40,51 @@ class AppPage extends Page {
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
+    $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener(
+      'click',
+      this.#onUserLogout
+    );
+  }
+
+  //TODO 핸들러 함수들 어순 고민해보기
+  #onUserLogout = () => {
+    //TODO: logout 상수화 생각해보기
+    this.state.setData({
+      loginResponse: {
+        accessToken: 'logout',
+      },
+    });
+  };
+
+  handleNavButtonToChange = loginResponse => {
+    const isLogout = loginResponse.accessToken === 'logout';
+
+    if (isLogout) {
+      this.#renderGuestNavBar();
+      return;
+    }
+
+    this.#renderUserNavBar();
+  };
+
+  #renderUserNavBar() {
+    show(`#${ID_SELECTOR.NAV_LINE}`);
+    show(`#${ID_SELECTOR.NAV_STATION}`);
+    show(`#${ID_SELECTOR.NAV_SECTION}`);
+    show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
+    show(`#${ID_SELECTOR.NAV_SEARCH}`);
+    show(`#${ID_SELECTOR.NAV_LOGOUT}`);
+    hide(`#${ID_SELECTOR.NAV_LOGIN}`);
+  }
+
+  #renderGuestNavBar() {
+    hide(`#${ID_SELECTOR.NAV_LINE}`);
+    hide(`#${ID_SELECTOR.NAV_STATION}`);
+    hide(`#${ID_SELECTOR.NAV_SECTION}`);
+    hide(`#${ID_SELECTOR.NAV_FULL_MAP}`);
+    hide(`#${ID_SELECTOR.NAV_SEARCH}`);
+    hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
+    show(`#${ID_SELECTOR.NAV_LOGIN}`);
   }
 }
 
