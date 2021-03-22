@@ -13,7 +13,6 @@ export class UserJoin {
 
   selectDOM() {
     this.$signUpForm = $('#signup-form', this.$target);
-    this.$emailOverlapCheckButton = $('#email-overlap-check-button', this.$target);
     this.$$input = {
       $email: $('#signup-email', this.$target),
       $password: $('#signup-password', this.$target),
@@ -30,8 +29,8 @@ export class UserJoin {
 
   bindEvent() {
     this.$signUpForm.addEventListener('submit', this.handleSubmit.bind(this));
-    this.$emailOverlapCheckButton.addEventListener('click', this.checkOverlappedEmail.bind(this));
     this.$$input.$email.addEventListener('input', this.handleEmailInput.bind(this));
+    this.$$input.$email.addEventListener('focusout', this.checkOverlappedEmail.bind(this));
     this.$$input.$name.addEventListener('input', this.handleNameInput.bind(this));
     this.$$input.$password.addEventListener('input', this.handlePasswordInput.bind(this));
     this.$$input.$passwordConfirm.addEventListener('input', this.handlePasswordConfirmInput.bind(this));
@@ -93,14 +92,13 @@ export class UserJoin {
     this.isUniqueEmail = false;
 
     if (!isValidEmail(value)) {
-      this.$$message.$email.classList.remove('hidden');
-      this.$emailOverlapCheckButton.disabled = true;
+      this.$$message.$email.classList.replace('text-green', 'text-red');
+      this.$$message.$email.innerText = MESSAGE.SIGNUP.INVALID_EMAIL;
 
       return;
     }
 
-    this.$$message.$email.classList.add('hidden');
-    this.$emailOverlapCheckButton.disabled = false;
+    this.$$message.$email.innerText = '';
   }
 
   handleNameInput({ target: { value } }) {
@@ -121,25 +119,19 @@ export class UserJoin {
       : this.$$message.$passwordConfirm.classList.remove('hidden');
   }
 
-  async checkOverlappedEmail() {
-    const email = this.$$input.$email.value;
-
+  async checkOverlappedEmail({ target: { value: email } }) {
     if (!isValidEmail(email)) return;
     const url = `${BASE_URL}/members/check-validation?email=${encodeURIComponent(email)}`;
 
     try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        alert(MESSAGE.SIGNUP.OVERLAPPED_EMAIL);
-
-        return;
-      }
-
+      await request(url);
       this.isUniqueEmail = true;
-      alert(MESSAGE.SIGNUP.UNIQUE_EMAIL);
+      this.$$message.$email.innerText = MESSAGE.SIGNUP.UNIQUE_EMAIL;
+      this.$$message.$email.classList.replace('text-red', 'text-green');
     } catch (error) {
       console.error(error.message);
+      this.$$message.$email.innerText = MESSAGE.SIGNUP.OVERLAPPED_EMAIL;
+      this.$$message.$email.classList.replace('text-green', 'text-red');
     }
   }
 }
