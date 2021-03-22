@@ -27,6 +27,7 @@ const MAIN_COMPONENT = `
         name="password"
         class="input-field"
         placeholder="비밀번호"
+        required
       />
     </div>
     <div class="input-control w-100">
