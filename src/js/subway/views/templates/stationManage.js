@@ -1,7 +1,7 @@
 import { MENU } from '../../constants/constants';
 
-export const stationInfo = ({ name }) => `
-  <li class="station-list-item d-flex items-center py-2">
+export const stationInfo = ({ id, name }) => `
+  <li data-station-id=${id} class="station-list-item d-flex items-center py-2">
     <span class="w-100 pl-2">${name}</span>
     <button
       type="button"

@@ -41,7 +41,7 @@ window.addEventListener('popstate', event => {
 
 window.addEventListener('load', async () => {
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const signedUser = accessToken ? await getUserName(accessToken) : '';
+  const signedUser = accessToken ? await getUserName(accessToken) : null;
 
   new App();
   stateManager[STATE_KEY.SIGNED_USER].set(signedUser);

@@ -60,13 +60,15 @@ export class StationManage {
   bindEvent() {
     this.$stationAddForm.addEventListener('submit', this.handleSubmit.bind(this));
     this.$stationNameInput.addEventListener('input', this.handleStationNameInput.bind(this));
+    this.$stationList.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      await this.addStation();
-      this.$stationList.innerHTML += stationInfo({ name: this.$stationNameInput.value });
+      const station = await this.addStation();
+
+      this.$stationList.innerHTML += stationInfo(station);
     } catch (error) {
       console.error(error.message);
       this.$failMessage.innerText = error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
@@ -88,7 +90,9 @@ export class StationManage {
     };
 
     try {
-      await request(url, option);
+      const response = await request(url, option);
+
+      return await response.json();
     } catch (error) {
       throw new Error(error.message);
     }
@@ -102,5 +106,38 @@ export class StationManage {
     }
     this.$failMessage.innerText = '';
     this.$stationAddButton.disabled = false;
+  }
+
+  async handleRemoveButton({ target }) {
+    if (!target.classList.contains('js-remove-button')) return;
+    const $station = target.closest('.station-list-item');
+    const stationId = $station.dataset.stationId;
+
+    try {
+      await this.removeStation(stationId);
+      $station.remove();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async removeStation(stationId) {
+    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+    const url = `${BASE_URL}/stations/${stationId}`;
+    console.log(url);
+    const option = {
+      method: 'DELETE',
+      headers: {
+        // 무야호
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      await request(url, option);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
