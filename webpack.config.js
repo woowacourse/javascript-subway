@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/js/index.js',
   output: {
     filename: '[chunkhash].bundle.js',
-    path: path.resolve(__dirname, '/dist'),
+    path: path.resolve(__dirname, 'dist'),
     // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
   devServer: {
@@ -21,10 +21,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
-          },
         },
       },
       {
