@@ -20,6 +20,7 @@ export default class SignupForm {
       name: '',
       password: '',
     };
+    this.isEmailAvailable = false;
   }
 
   init() {
@@ -53,6 +54,7 @@ export default class SignupForm {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (!this.isEmailAvailable) return;
 
     const {
       email: { value: email },
@@ -79,6 +81,7 @@ export default class SignupForm {
 
       hide(this.$emailDuplicatedWarning);
       show(this.$emailAvailable);
+      this.isEmailAvailable = true;
     } catch (error) {
       console.error(error);
       hide(this.$emailAvailable);
@@ -102,7 +105,7 @@ export default class SignupForm {
     const { email, password } = this.state;
     const response = await loginRequest({ email, password });
     const userToken = response.accessToken;
-    const path = '/stations';
+    const path = '/';
 
     setCookie({
       key: 'token',
