@@ -21,6 +21,7 @@ const mainTemplate = () => {
             required
           />
         </div>
+        <div class="js-name-check"></div>
         <div class="input-control">
           <label for="email" class="input-label" hidden>이메일</label>
           <input
@@ -64,6 +65,7 @@ const mainTemplate = () => {
           <button
             name="submit"
             class="input-submit w-100 bg-cyan-300"
+            disabled
           >
             확인
           </button>
