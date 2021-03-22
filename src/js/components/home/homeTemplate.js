@@ -5,7 +5,7 @@ export const homeTemplate = isLoggedIn => {
         <div class="d-flex flex-col">
             <div class="d-flex justify-center">
             <img
-                src="./build/3677884233af83d1fea37b0e4a40a883.png"
+                src="./3677884233af83d1fea37b0e4a40a883.png"
                 width="200"
             />
             </div>
