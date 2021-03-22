@@ -30,7 +30,7 @@ class App {
 
   addEventListeners() {
     window.addEventListener('popstate', (e) => {
-      this.routeManager.setRoute(e.state.route);
+      this.routeManager.render(e.state.route);
     });
 
     $('#app').addEventListener('click', (e) => {
@@ -43,7 +43,7 @@ class App {
       if (route === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
         this.fireAccessToken();
 
-        this.routeManager.setRoute(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
+        this.routeManager.goPage(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
 
         return;
       }
@@ -57,11 +57,11 @@ class App {
         this.fireAccessToken();
       }
 
-      this.routeManager.setRoute(route);
+      this.routeManager.goPage(route);
     });
 
     window.addEventListener('load', () => {
-      this.routeManager.setRoute(location.pathname);
+      this.routeManager.render(location.pathname);
     });
   }
 

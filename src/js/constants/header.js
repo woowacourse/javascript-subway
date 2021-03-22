@@ -15,14 +15,15 @@ const AUTHENTICATED_LINK = {
     ROUTE: '/section',
     NAME: '🔁 구간 관리',
   },
-  MAP: {
-    ROUTE: '/map',
-    NAME: '🗺️ 전체 보기',
-  },
-  SEARCH: {
-    ROUTE: '/search',
-    NAME: '🔎 길 찾기',
-  },
+  // TODO: 3단계 요구사항
+  // MAP: {
+  //   ROUTE: '/map',
+  //   NAME: '🗺️ 전체 보기',
+  // },
+  // SEARCH: {
+  //   ROUTE: '/search',
+  //   NAME: '🔎 길 찾기',
+  // },
   LOGOUT: {
     ROUTE: '/logout',
     NAME: '👤 로그아웃',

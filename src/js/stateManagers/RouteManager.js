@@ -11,46 +11,54 @@ import Line from '../components/line/index.js';
 import Station from '../components/station/index.js';
 import isLogin from '../hook/isLogin.js';
 
-const PrivateRouter = (Component) => {
-  if (isLogin()) {
-    return Component;
-  }
-
-  history.pushState(
-    { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
-    null,
-    UNAUTHENTICATED_LINK.LOGIN.ROUTE
-  );
-  return Login;
-};
-
 class RouteManager {
   constructor() {
-    this.route = '';
     this.components = {
-      [HOME_LINK.ROUTE]: () => PrivateRouter(Station),
-      [AUTHENTICATED_LINK.STATION.ROUTE]: () => PrivateRouter(Station),
-      [AUTHENTICATED_LINK.LINE.ROUTE]: () => PrivateRouter(Line),
-      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => PrivateRouter(Section),
+      [HOME_LINK.ROUTE]: () => this.privateRouter(Station),
+      [AUTHENTICATED_LINK.STATION.ROUTE]: () => this.privateRouter(Station),
+      [AUTHENTICATED_LINK.LINE.ROUTE]: () => this.privateRouter(Line),
+      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => this.privateRouter(Section),
+      // TODO: 3단계 요구사항
       // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
       // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
-      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => Login,
-      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => Signup,
+      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => this.publicRouter(Login),
+      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => this.publicRouter(Signup),
     };
   }
 
-  setRoute(route) {
-    this.route = route;
-    this.goPage();
+  privateRouter(Component) {
+    if (isLogin()) {
+      return Component;
+    }
+
+    history.pushState(
+      { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
+      null,
+      UNAUTHENTICATED_LINK.LOGIN.ROUTE
+    );
+    return Login;
   }
 
-  goPage() {
-    history.pushState({ route: this.route }, null, this.route);
-    this.render();
+  publicRouter(Component) {
+    if (!isLogin()) {
+      return Component;
+    }
+
+    history.pushState(
+      { route: AUTHENTICATED_LINK.STATION.ROUTE },
+      null,
+      AUTHENTICATED_LINK.STATION.ROUTE
+    );
+    return Station;
   }
 
-  render() {
-    const component = this.components[this.route]();
+  goPage(route) {
+    history.pushState({ route }, null, route);
+    this.render(route);
+  }
+
+  render(route) {
+    const component = this.components[route]();
     new component($('.js-main'));
   }
 }
