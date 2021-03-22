@@ -7,6 +7,7 @@ export const SELECTOR = {
   NAV_BUTTON: '.nav-btn',
   NAV_LOG_BUTTON: '#login-nav-button',
   CONTENT: '#content',
+  MODAL: '.modal',
 
   ENTRY_DESCRIPTION: '#app-description',
 
