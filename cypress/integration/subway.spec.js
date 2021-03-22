@@ -96,10 +96,11 @@ describe('Subway test', () => {
   describe('Station-manage test', () => {
     before(() => {
       cy.visit('http://localhost:8080/');
+      removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type('test@gmail.com');
-      cy.get('#signin-password').type('123');
+      cy.get('#signin-email').type(testMail);
+      cy.get('#signin-password').type(testPassword);
 
       cy.get('.input-submit').click();
 
@@ -108,21 +109,19 @@ describe('Subway test', () => {
 
     it('역 추가 시, 역이름이 2 ~ 20글자가 아니면 에러 메시지를 렌더링한다.', () => {
       cy.get('#station-name').type('a');
-      cy.get('#station-add-button').click();
       cy.get('#fail-message-box').should('be.visible');
 
       cy.get('#station-name').type('a'.repeat(21));
-      cy.get('#station-add-button').click();
       cy.get('#fail-message-box').should('be.visible');
     });
 
     it('지하철 역을 등록할 수 있다.', () => {
-      const randomName = Data.now().toString().slice(-4);
-
+      const randomName = Date.now().toString().slice(-4);
+      cy.get('#station-name').clear();
       cy.get('#station-name').type(randomName);
       cy.get('#station-add-button').click();
 
-      cy.get('#station-list:last-child').should('have.text', randomName);
+      cy.get('.station-list-item:last > span').should('have.text', randomName);
     });
 
     it('지하철 역 이름을 수정할 수 있다.', () => {

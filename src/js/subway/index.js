@@ -3,7 +3,7 @@ import { $ } from '../@shared/utils';
 import { stateManager } from '../@shared/models/StateManager';
 import { linkButton } from '../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
-import { UserAuth, UserJoin } from './components';
+import { StationManage, UserAuth, UserJoin } from './components';
 
 export class Subway {
   constructor() {
@@ -45,5 +45,6 @@ export class Subway {
   mountChildComponents() {
     new UserJoin();
     new UserAuth();
+    new StationManage();
   }
 }

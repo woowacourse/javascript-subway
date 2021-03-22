@@ -44,7 +44,12 @@ export const MESSAGE = {
     INVITE: '아직 회원이 아니신가요?',
     FAIL: '아이디 혹은 패스워드가 일치하지 않습니다.',
   },
+  STATION_MANAGE: {
+    INVALID_NAME: '유효한 역이름이 아닙니다.',
+    OVERLAPPED_NAME: '역이름이 중복되었습니다.',
+  },
   ROOT_GREETING: name => `${name}님, 안녕하세요! 이번에 리뷰를 받게된 도비, 카일입니다. 😀`,
+  RETRY: '일시적인 에러가 발생했습니다. 다시 시도해주세요.',
 };
 
 export const REG_EXP = {

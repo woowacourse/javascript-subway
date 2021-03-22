@@ -1,6 +1,6 @@
 import { MENU } from '../../constants/constants';
 
-const stationInfo = ({ name }) => `
+export const stationInfo = ({ name }) => `
   <li class="station-list-item d-flex items-center py-2">
     <span class="w-100 pl-2">${name}</span>
     <button
@@ -51,9 +51,8 @@ export const stationManage = `
       </div>
       <div
         id="fail-message-box"
-        class="js-message-box message-box hidden mt-1 text-red mb-1 text-center"
+        class="js-message-box message-box mt-1 text-red mb-1 text-center"
         >
-        ${MESSAGE.SIGNIN.FAIL}
       </div>
     </form>
     <ul id="station-list" class="mt-3 pl-0">
