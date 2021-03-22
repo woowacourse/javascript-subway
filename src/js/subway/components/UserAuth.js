@@ -1,11 +1,8 @@
-import { STATE_KEY, ROUTE, MESSAGE, BASE_URL, SESSION_KEY } from '../constants/constants';
+import { STATE_KEY, ROUTE, BASE_URL, SESSION_KEY } from '../constants/constants';
 import { contentElements } from '../views';
-import { $, encrypt } from '../../@shared/utils';
 import { stateManager } from '../../@shared/models/StateManager';
-import { setToSessionStorage } from '../../@shared/utils';
-import { getUserName } from '../utils';
-import { routeTo } from '../utils';
-import { request } from '../utils/apj';
+import { $, encrypt, request, setToSessionStorage } from '../../@shared/utils';
+import { routeTo, getUserName } from '../utils';
 
 export class UserAuth {
   constructor() {

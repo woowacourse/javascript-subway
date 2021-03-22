@@ -1,5 +1,5 @@
 import { BASE_URL } from '../constants/constants';
-import { request } from './apj';
+import { request } from '../../@shared/utils';
 
 export const getUserName = async accessToken => {
   const url = `${BASE_URL}/members/me`;

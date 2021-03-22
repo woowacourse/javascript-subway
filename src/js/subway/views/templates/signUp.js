@@ -17,16 +17,8 @@ export const signUp = `
             placeholder="이메일"
             required
           />
-          <button
-            type="button"
-            id="email-overlap-check-button"
-            class="btn bg-white shadow mx-1 p-0"
-            disabled
-            >
-            중복 확인
-            </button>
         </div>
-        <div id="email-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_EMAIL}</div>
+        <div id="email-message-box" class="js-message-box message-box mt-1 text-red"></div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
@@ -41,7 +33,7 @@ export const signUp = `
             placeholder="비밀번호"
           />
         </div>
-        <div id="password-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
+        <div id="password-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
@@ -56,7 +48,7 @@ export const signUp = `
             placeholder="비밀번호 확인"
           />
         </div>
-        <div id="password-confirm-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
+        <div id="password-confirm-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
@@ -70,7 +62,7 @@ export const signUp = `
             required
           />
         </div>
-        <div id="name-message-box" class="js-message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
+        <div id="name-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
     </div>
       <div class="input-control">
         <button
