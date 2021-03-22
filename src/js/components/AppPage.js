@@ -27,7 +27,7 @@ class AppPage extends Page {
         appState: this.state,
       }),
       '/pages/signup.html': new SignupComponent({ route: this.route }),
-      '/pages/myInfo.html': new MyInfoComponent(),
+      '/pages/myInfo.html': new MyInfoComponent({ appState: this.state }),
     };
 
     // TODO: KEY값 상수화

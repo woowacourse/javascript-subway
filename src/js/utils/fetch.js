@@ -26,4 +26,14 @@ const fetchLogin = async (url, option) => {
   return response;
 };
 
-export { fetchSignup, fetchLogin };
+const fetchMyInfo = async (url, option) => {
+  const response = await fetch(url, option);
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
+export { fetchSignup, fetchLogin, fetchMyInfo };
