@@ -1,6 +1,6 @@
 import { MENU } from '../../constants/constants';
 
-export const lineAddModal = () => `
+export const lineAddModal = `
 <div class="modal">
   <div class="modal-inner p-8">
     <button class="modal-close">
