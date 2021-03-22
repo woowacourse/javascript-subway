@@ -61,7 +61,7 @@ class App {
   _mountComponent() {
     this.header = new Header({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.showSnackbar.bind(this),
+      showSnackbar: this.#showSnackbar.bind(this),
     });
     this.home = new Home();
     this.login = new Login({
@@ -89,7 +89,7 @@ class App {
   }
 
   async switchURL(href) {
-    this.#isLoggedIn = await this.isValidUserAccessToken();
+    this.#isLoggedIn = await this._isValidUserAccessToken();
     this.header.init(this.#isLoggedIn);
 
     const component = this.components[href];
