@@ -53,7 +53,7 @@ export default class LoginForm extends Component {
               required
             />
           </div>
-          <p class="js-login-error text-red invisible text-sm">
+          <p class="js-login-error text-red invisible text-sm ml-4">
             ${ERROR_MESSAGE.LOGIN_FAILURE}
           </p>
           <div class="input-control w-100">
@@ -156,6 +156,11 @@ export default class LoginForm extends Component {
   }
 
   render() {
+    $("form", this.innerElement).reset();
+    $(".js-login-error", this.innerElement).classList.replace(
+      "visible",
+      "invisible"
+    );
     super.render();
   }
 }
