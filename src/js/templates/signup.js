@@ -17,7 +17,7 @@ const signupTemplate = `
           />
           <button id="check-duplicated-email-button" type="button" class="input-submit bg-cyan-100">중복체크</button>
         </div>
-        <small id="email-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
+        <small id="email-form-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
       </div>
       <div class="input-control js-input-control">
         <label for="name" class="input-label" hidden>이름</label>

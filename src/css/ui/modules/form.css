@@ -66,3 +66,7 @@ form select {
   color: #e74c3c;
   display: block;
 }
+
+.input-control.success small {
+  color: #2ecc71;
+}

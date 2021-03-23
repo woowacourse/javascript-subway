@@ -12,6 +12,7 @@ import {
 class SignupPage {
   constructor(router) {
     this.router = router;
+    this.isCheckedEmail = false;
   }
 
   init() {
@@ -65,8 +66,12 @@ class SignupPage {
       if (!response.ok) {
         $('#email-input').classList.remove('success');
         $('#email-input').classList.add('fail');
-        $('#email-fail-message').innerText = MESSAGE.ERROR.DUPLICATED_EMAIL;
+        $('#email-form-message').innerText = MESSAGE.ERROR.DUPLICATED_EMAIL;
       }
+
+      this.isCheckedEmail = true;
+      $('#email-form-message').innerText = MESSAGE.SUCCESS.AVAILABLE_EMAIL;
+      $('#email-form-message').classList.remove('d-none');
     } catch (error) {
       console.error(error);
     }
@@ -74,21 +79,25 @@ class SignupPage {
 
   async signupHandler(e) {
     e.preventDefault();
+    if (!this.isCheckedEmail) {
+      alert(MESSAGE.ERROR.NOT_CHECKED_EMAIL);
+      return;
+    }
 
     const requestData = this.makeRequestData(e);
     await this.requestSignup(requestData);
   }
 
   bindCheckInputEvents() {
-    $('#email').addEventListener('keyup', checkEmailInputHandler.bind(this));
-    $('#name').addEventListener('keyup', checkNameInputHandler.bind(this));
-    $('#password').addEventListener(
-      'keyup',
-      checkPasswordInputHandler.bind(this)
-    );
+    $('#email').addEventListener('keyup', e => {
+      this.isCheckedEmail = false;
+      checkEmailInputHandler(e);
+    });
+    $('#name').addEventListener('keyup', checkNameInputHandler);
+    $('#password').addEventListener('keyup', checkPasswordInputHandler);
     $('#password-confirm').addEventListener(
       'keyup',
-      checkPasswordConfirmInputHandler.bind(this)
+      checkPasswordConfirmInputHandler
     );
   }
 
@@ -97,9 +106,9 @@ class SignupPage {
 
     $('#check-duplicated-email-button').addEventListener(
       'click',
-      this.checkDuplicatedEmailHandler.bind(this)
+      this.checkDuplicatedEmailHandler
     );
-    $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
+    $('#signup-form').addEventListener('submit', this.signupHandler);
 
     $('#login').addEventListener('click', e => {
       e.preventDefault();

@@ -18,12 +18,12 @@ function hideFailMessage(e, messageTarget) {
 }
 
 function checkEmailInputHandler(e) {
-  $('#email-fail-message').innerText = MESSAGE.ERROR.WRONG_EMAIL_FORMAT;
+  $('#email-form-message').innerText = MESSAGE.ERROR.WRONG_EMAIL_FORMAT;
 
   if (!REG_EXP.EMAIL.test(e.target.value)) {
-    showFailMessage(e, '#email-fail-message');
+    showFailMessage(e, '#email-form-message');
   } else {
-    hideFailMessage(e, '#email-fail-message');
+    hideFailMessage(e, '#email-form-message');
   }
 }
 

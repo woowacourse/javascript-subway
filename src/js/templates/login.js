@@ -14,7 +14,7 @@ const loginTemplate = `
           placeholder="이메일"
           required
         />
-        <small id="email-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
+        <small id="email-form-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 이메일 형식을 입력해 주세요.</small>
       </div>
       <div class="input-control js-input-control">
         <label for="password" class="input-label" hidden
