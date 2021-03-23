@@ -1,28 +1,34 @@
 import Component from './Component';
 
 class Page extends Component {
-  url;
+  _routingUrl;
+  #initialUrl;
 
   constructor(props) {
     super(props);
+
+    this.#initialUrl = window.location.href.slice(0, -1);
   }
 
   initialRoute(path) {
-    history.replaceState({ path: '/' }, null, '/');
+    const actualPath = this.#initialUrl + path;
+
+    history.replaceState({ path: actualPath }, null, actualPath);
     this.route(path, false);
   }
 
   route = (path, shouldPushState = true) => {
-    if (!this.url) {
+    if (!this._routingUrl) {
       alert('Page 인스턴스에 url이 정의되어 있지 않습니다.');
     }
 
     if (shouldPushState) {
-      history.pushState({ path }, null, path);
+      const actualPath = this.#initialUrl + path;
+      history.pushState({ path: actualPath }, null, actualPath);
     }
 
-    this.url[path].render();
-    this.url[path].initEvent();
+    this._routingUrl[path].render();
+    this._routingUrl[path].initEvent();
   };
 }
 

@@ -17,7 +17,8 @@ class AppPage extends Page {
       },
     });
 
-    this.url = {
+    this._routingUrl = {
+      //TODO: 주소 상수화
       '/': new HomeComponent(),
       '/pages/login.html': new LoginComponent({
         route: this.route,
