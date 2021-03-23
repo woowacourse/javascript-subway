@@ -2,7 +2,7 @@ import Component from "./common/Component.js";
 
 import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
 
-import { $, changeCheckMessageColor } from "../utils/DOM.js";
+import { $, $$, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
@@ -41,7 +41,7 @@ export default class SignupForm extends Component {
               maxlength="30"
               required
             />
-            <p class="js-check-email-message text-sm mt-1 mb-0 ml-4"></p>
+            <p class="js-message js-check-email-message text-sm mt-1 mb-0 ml-4"></p>
           </div>
           <div class="input-control">
             <label for="name" class="input-label" hidden>이름</label>
@@ -78,7 +78,7 @@ export default class SignupForm extends Component {
               placeholder="비밀번호 확인"
               required
             />
-            <p class="js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
+            <p class="js-message js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
           </div>
           <div class="input-control mt-8">
             <button
@@ -257,6 +257,11 @@ export default class SignupForm extends Component {
   }
 
   render() {
+    $("form", this.innerElement).reset();
+    $$(".js-message", this.innerElement).forEach(($ele) => {
+      // eslint-disable-next-line no-param-reassign
+      $ele.textContent = "";
+    });
     super.render();
   }
 }
