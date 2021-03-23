@@ -9,13 +9,21 @@ const option = {
     },
   }),
 
-  post: (contents) => ({
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(contents),
-  }),
+  post: (contents, token = '') => {
+    const option = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(contents),
+    };
+
+    if (token) {
+      option.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return option;
+  },
 
   delete: () => ({
     method: 'DELETE',
@@ -62,5 +70,9 @@ export const API = {
 
   getStationList: (token) => {
     return request('/stations', option.get(token));
+  },
+
+  createStation: ({ token, name }) => {
+    return request('/stations', option.post({ name }, token));
   },
 };
