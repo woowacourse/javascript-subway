@@ -43,21 +43,6 @@ class SignupPage {
     }
   }
 
-  makeRequestData(e) {
-    return {
-      method: HTTP.METHOD.POST,
-      body: JSON.stringify({
-        [HTTP.BODY.KEY.EMAIL]: e.target.elements['email'].value,
-        [HTTP.BODY.KEY.NAME]: e.target.elements['name'].value,
-        [HTTP.BODY.KEY.PASSWORD]: e.target.elements['password'].value,
-      }),
-      headers: {
-        [HTTP.HEADERS.KEY
-          .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
-      },
-    };
-  }
-
   async checkDuplicatedEmailHandler() {
     if (!$('#email-input').classList.contains('success')) return;
 
@@ -86,8 +71,13 @@ class SignupPage {
       return;
     }
 
-    const requestData = this.makeRequestData(e);
-    await this.requestSignup(requestData);
+    const signupData = {
+      email: e.target.elements['email'].value,
+      name: e.target.elements['name'].value,
+      password: e.target.elements['password'].value,
+    };
+
+    await this.requestSignup(signupData);
   }
 
   bindCheckInputEvents() {

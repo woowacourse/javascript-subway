@@ -1,11 +1,36 @@
-import { BASE_URL } from '../constants';
+import { BASE_URL, HTTP } from '../constants';
 
-async function fetchSignup({ method, body, headers }) {
-  return await fetch(`${BASE_URL}/members`, { method, body, headers });
+async function fetchSignup({ email, name, password }) {
+  const requestData = {
+    method: HTTP.METHOD.POST,
+    body: JSON.stringify({
+      email,
+      name,
+      password,
+    }),
+    headers: {
+      [HTTP.HEADERS.KEY
+        .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
+    },
+  };
+
+  return await fetch(`${BASE_URL}/members`, requestData);
 }
 
-async function fetchLogin({ method, body, headers }) {
-  return await fetch(`${BASE_URL}/login/token`, { method, body, headers });
+async function fetchLogin({ email, password }) {
+  const requestData = {
+    method: HTTP.METHOD.POST,
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+    headers: {
+      [HTTP.HEADERS.KEY
+        .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
+    },
+  };
+
+  return await fetch(`${BASE_URL}/login/token`, requestData);
 }
 
 function getSearchQueryString(targetEmail) {
