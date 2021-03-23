@@ -1,4 +1,4 @@
-describe('Youtube classroom test', () => {
+describe('Subway test', () => {
   before(() => {
     cy.visit('http://127.0.0.1:5500/dist');
   });
