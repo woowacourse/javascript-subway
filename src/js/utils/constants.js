@@ -55,7 +55,8 @@ export const ELEMENT = Object.freeze({
   SIGN_UP_EMAIL_CHECK_TEXT_AREA: 'signup-form__email-check-text-area',
   SIGN_UP_USER_NAME_CHECK_TEXT_AREA: 'signup-form__user-name-check-text-area',
   SIGN_UP_PASSWORD_CHECK_TEXT_AREA: 'signup-form__password-check-text-area',
-  SIGN_UP_PASSWORD_CONFIRM_TEXT_AREA: 'signup-form__password-confirm-check-text-area',
+  SIGN_UP_PASSWORD_CONFIRM_CHECK_TEXT_AREA: 'signup-form__password-confirm-check-text-area',
+  INPUT_SUBMIT: 'input-submit',
   EMAIL: 'email',
   PASSWORD: 'password',
   USER_NAME: 'user-name',
@@ -76,6 +77,8 @@ export const METHOD = Object.freeze({
 
 export const STANDARD_NUMBER = Object.freeze({
   PASSWORD_MIN_LENGTH: 8,
+  SIGN_UP_FORM_INPUT_COUNT: 4,
+  SIGN_IN_FORM_INPUT_COUNT: 2,
 });
 
 export const ERROR_MESSAGE = Object.freeze({
@@ -99,4 +102,9 @@ export const SIGN_OUT_CONFIRM_MESSAGE = '로그아웃 하시겠습니까?';
 export const REG_EXP = {
   USER_NAME: /^[a-z가-힣]+$/i,
   EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+};
+
+export const INPUT_FIELD = {
+  SUCCESS: '.input-field.success',
+  FAIL: '.input-field.success',
 };

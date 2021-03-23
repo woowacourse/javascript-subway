@@ -1,26 +1,31 @@
-import { ELEMENT, STANDARD_NUMBER, REG_EXP } from '../utils/constants';
-import token from '../token/Token';
+import {
+  isInvalidEmailFormat,
+  isInvalidUserNameType,
+  isUnderPasswordMinLength,
+  isDifferentPasswordAndPasswordConfirm,
+} from './boolean';
+import { ERROR_MESSAGE } from '../utils/constants';
 
-export const isInvalidEmailFormat = (email) => {
-  return !REG_EXP.EMAIL.test(email);
+export const validateEmail = (email) => {
+  if (isInvalidEmailFormat(email)) {
+    throw new Error(ERROR_MESSAGE.INVALID_EMAIL_FORMAT);
+  }
 };
 
-export const isInvalidUserNameType = (userName) => {
-  return !REG_EXP.USER_NAME.test(userName);
+export const validateUserName = (userName) => {
+  if (isInvalidUserNameType(userName)) {
+    throw new Error(ERROR_MESSAGE.INVALID_USER_NAME_TYPE);
+  }
 };
 
-export const isUnderPasswordMinLength = (password) => {
-  return password.length < STANDARD_NUMBER.PASSWORD_MIN_LENGTH;
+export const validatePassword = (password) => {
+  if (isUnderPasswordMinLength(password)) {
+    throw new Error(ERROR_MESSAGE.NEED_OVER_PASSWORD_MIN_LENGTH);
+  }
 };
 
-export const isDifferentPasswordAndPasswordConfirm = (password, passwordConfirm) => {
-  return password !== passwordConfirm;
-};
-
-export const isRouterButton = (target) => {
-  return target.matches(`.${ELEMENT.MAIN_MENU_ROUTER}`);
-};
-
-export const isSignIn = () => {
-  return !!token.accessToken;
+export const validatePasswordConfirm = (password, passwordConfirm) => {
+  if (isDifferentPasswordAndPasswordConfirm(password, passwordConfirm)) {
+    throw new Error(ERROR_MESSAGE.DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM);
+  }
 };
