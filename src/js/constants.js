@@ -55,11 +55,19 @@ const KEYWORD = {
 
 const REQUEST_URL = 'https://www.boorownie.com';
 
+const URL = {
+  HOME: '/',
+  LOGIN: '/pages/login.html',
+  SIGNUP: '/pages/signup.html',
+  MY_INFO: '/pages/myInfo.html',
+};
+
 export {
   ID_SELECTOR,
   CLASS_SELECTOR,
   ALERT_MESSAGE,
-  REQUEST_URL,
   STATE_KEY,
   KEYWORD,
+  REQUEST_URL,
+  URL,
 };
