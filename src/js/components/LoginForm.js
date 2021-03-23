@@ -17,6 +17,67 @@ export default class LoginForm {
     this.$parent = $parent;
     this.setIsLoggedIn = setIsLoggedIn;
     this.pageRouter = pageRouter;
+    this.innerElement = null;
+  }
+
+  initContent() {
+    const parser = new DOMParser();
+    const template = `
+      <div class="wrapper p-10 bg-white">
+        <div class="heading">
+          <h2>👋 로그인</h2>
+        </div>
+        <form name="login" class="form">
+          <div class="input-control">
+            <label for="email" class="input-label" hidden>이메일</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="input-field"
+              placeholder="이메일"
+              required
+            />
+          </div>
+          <div class="input-control">
+            <label for="password" class="input-label" hidden>
+              비밀번호
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="js-password input-field"
+              placeholder="비밀번호"
+              required
+            />
+          </div>
+          <p class="js-login-error text-red invisible text-sm">
+            ${ERROR_MESSAGE.LOGIN_FAILURE}
+          </p>
+          <div class="input-control w-100">
+            <button
+              type="submit"
+              name="submit"
+              class="input-submit w-100 mt-8 bg-cyan-200"
+              disabled
+            >
+              확인
+            </button>
+          </div>
+          <p class="text-gray-700 pl-2">
+            아직 회원이 아니신가요?
+            <a href="${PAGE_URLS.SIGNUP}" class="js-signup-link">회원가입</a>
+          </p>
+        </form>
+      </div>
+    `;
+
+    this.innerElement = $(
+      "body > *",
+      parser.parseFromString(template, "text/html")
+    );
+    this.attachEvent();
   }
 
   attachEvent() {
