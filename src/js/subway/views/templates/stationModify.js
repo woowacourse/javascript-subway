@@ -8,21 +8,26 @@ export const stationModify = `
   <header>
     <h2 class="text-center">역 이름 변경</h2>
   </header>
-  <form id="station-modify-form" class="d-flex justify-between">
-    <div>
+  <form id="station-modify-form" class="d-flex flex-col">
+    <div class="d-flex justify-between">
+    <div class="">
       <label for="station-modify-name" class="input-label" hidden>역 이름</label>
       <input
         type="text"
-        id="station-modify-name"
+        id="station-modify-input"
         name="station-modify-name"
         class="input-field"
         placeholder="역 이름"
         required
       />
     </div>
-    <div class="">
-      <button type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
+      <button id="station-modify-button" type="submit" name="submit" class="input-submit bg-cyan-300" disabled>확인</button>
     </div>
+    <dlv
+      id="modify-fail-message-box"
+      class="js-message-box message-box mt-1 text-red mb-1 text-center"
+      >
+    </dlv>
   </form>
 </div>
 `;

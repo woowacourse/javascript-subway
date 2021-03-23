@@ -53,11 +53,3 @@ svg {
 #station-modify-form {
   width: 350px;
 }
-
-@media screen and (max-width: 768px) {
-  .modal-inner {
-    width: 90%;
-    height: 90%;
-    box-sizing: border-box;
-  }
-}

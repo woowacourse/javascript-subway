@@ -33,7 +33,7 @@ export const stationManage = `
         </label>
         <input
           type="text"
-          id="station-name"
+          id="station-add-input"
           name="stationName"
           class="input-field"
           placeholder="역 이름"
@@ -50,7 +50,7 @@ export const stationManage = `
         </button>
       </div>
       <div
-        id="fail-message-box"
+        id="add-fail-message-box"
         class="js-message-box message-box mt-1 text-red mb-1 text-center"
         >
       </div>
