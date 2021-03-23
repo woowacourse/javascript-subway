@@ -15,9 +15,7 @@ const request = {
       .map((key) => `${key}=${params[key]}`)
       .join("&");
 
-    return `${this.endPoint}${path}${
-      queryString === "" ? "" : `?${queryString}`
-    }`;
+    return `${this.endPoint}${path}${queryString && `?${queryString}`}`;
   },
 
   async get(path, params = {}) {
@@ -27,7 +25,7 @@ const request = {
   },
 
   async post(path, body) {
-    const response = await fetch(path, {
+    const response = await fetch(this.createURL(path), {
       method: "POST",
       headers: this.headers,
       body: JSON.stringify(body),
