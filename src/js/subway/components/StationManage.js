@@ -168,8 +168,9 @@ export class StationManage {
   }
 
   async handleRemoveButton({ target }) {
+    // TODO: 노선에 있는 역은 삭제할 수 없다.
     if (!target.classList.contains('js-remove-button')) return;
-    const $station = target.closest('.station-list-item');
+    const $station = target.closest('.js-station-list-item');
     const stationId = $station.dataset.stationId;
 
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
@@ -189,6 +190,7 @@ export class StationManage {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
     };
 

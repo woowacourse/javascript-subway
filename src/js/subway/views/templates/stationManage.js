@@ -1,7 +1,7 @@
 import { MENU } from '../../constants/constants';
 
 export const stationInfo = ({ id, name }) => `
-  <li data-station-id=${id} class="station-list-item d-flex items-center py-2">
+  <li data-station-id=${id} class="js-station-list-item border-bottom d-flex items-center py-2 my-2">
     <span class="w-100 pl-2">${name}</span>
     <button
       type="button"
@@ -14,9 +14,8 @@ export const stationInfo = ({ id, name }) => `
       class="js-remove-button bg-gray-50 text-gray-500 text-sm"
     >
       삭제
-    </button>
+      </button>
   </li>
-  <hr class="my-0" />
   `;
 
 export const stationList = stations => stations.map(station => stationInfo(station)).join('');
