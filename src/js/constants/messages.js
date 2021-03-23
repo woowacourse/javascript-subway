@@ -20,41 +20,4 @@ const SNACKBAR_MESSAGE = {
   },
 };
 
-const BASE_URL = 'https://www.boorownie.com';
-
-const HTTP = {
-  METHOD: {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE',
-  },
-  BODY: {
-    KEY: {
-      EMAIL: 'email',
-      NAME: 'name',
-      PASSWORD: 'password',
-    },
-  },
-  HEADERS: {
-    KEY: {
-      CONTENT_TYPE: 'Content-Type',
-    },
-    VALUE: {
-      APPLICATION_JSON: 'application/json',
-      CHARSET_UTF_8: 'charset=UTF-8',
-    },
-  },
-};
-
-const COOKIE_KEY = {
-  JWT_TOKEN: 'jwtToken',
-};
-
-const REG_EXP = {
-  EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-  NAME: /\s+/,
-  PASSWORD: /^(?=.*[a-zA-z])(?=.*[0-9]).{6,15}$/,
-};
-
-export { MESSAGE, BASE_URL, HTTP, COOKIE_KEY, REG_EXP, SNACKBAR_MESSAGE };
+export { MESSAGE, SNACKBAR_MESSAGE };

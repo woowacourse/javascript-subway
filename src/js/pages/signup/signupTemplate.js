@@ -1,3 +1,5 @@
+import { PATH } from '../../constants/path';
+
 const signupTemplate = `
   <div class="wrapper p-10 bg-white">
     <div class="heading">
@@ -71,7 +73,7 @@ const signupTemplate = `
       </div>
       <p class="text-gray-700 pl-2">
         회원이신가요?
-        <a id="login" href="/">로그인</a>
+        <a id="login" href="${PATH.ROOT}">로그인</a>
       </p>
     </form>
   </div>`;

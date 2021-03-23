@@ -1,4 +1,4 @@
-import { BASE_URL, HTTP } from '../constants';
+import { BASE_URL, HTTP } from '../constants/api.js';
 
 async function fetchSignup({ email, name, password }) {
   const requestData = {

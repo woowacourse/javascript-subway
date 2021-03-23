@@ -1,6 +1,7 @@
 import { $ } from '../../utils/DOM.js';
 import { fetchSignup, fetchToCheckDuplicatedEmail } from '../../API/auth.js';
 import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
 import signupTemplate from './signupTemplate.js';
 import {
   checkEmailInputHandler,
@@ -34,12 +35,12 @@ class SignupPage {
       }
 
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.SIGNUP);
-      this.router.navigate('/');
+      this.router.navigate(PATH.ROOT);
     } catch (error) {
       console.error(error);
       alert(error);
 
-      this.router.navigate('/signup');
+      this.router.navigate(PATH.SIGNUP);
     }
   }
 
@@ -107,7 +108,7 @@ class SignupPage {
     $('#login').addEventListener('click', e => {
       e.preventDefault();
 
-      this.router.navigate('/');
+      this.router.navigate(PATH.ROOT);
     });
   }
 }

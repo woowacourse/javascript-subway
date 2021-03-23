@@ -1,4 +1,4 @@
-import { COOKIE_KEY } from './constants.js';
+import { COOKIE_KEY } from './constants/constants';
 
 const jwtToken = {
   jwtToken: '',

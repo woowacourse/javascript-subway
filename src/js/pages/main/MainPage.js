@@ -1,5 +1,6 @@
 import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import { COOKIE_KEY } from '../../constants/constants.js';
+import { PATH } from '../../constants/path.js';
 import jwtToken from '../../jwtToken.js';
 import { logoutButtonTemplate } from './templates/appNavbar.js';
 import headerTemplate from './templates/header.js';
@@ -36,7 +37,7 @@ class MainPage {
 
     jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
     showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGOUT);
-    this.router.navigate('/');
+    this.router.navigate(PATH.ROOT);
   }
 
   navigateHandler(e) {

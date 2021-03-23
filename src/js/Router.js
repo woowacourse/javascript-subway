@@ -7,6 +7,7 @@ import MainPage from './pages/main/MainPage.js';
 import StationsPage from './pages/stations/StationsPage.js';
 import LinesPage from './pages/lines/LinesPage.js';
 import SectionsPage from './pages/sections/SectionsPage.js';
+import { PATH } from './constants/path.js';
 
 class Router {
   constructor() {
@@ -20,26 +21,26 @@ class Router {
     this.sectionsPage = new SectionsPage(this);
 
     this.routes = {
-      '/': null,
-      '/signup': this.signupPage,
-      '/stations': this.stationsPage,
-      '/lines': this.linesPage,
-      '/sections': this.sectionsPage,
+      [PATH.ROOT]: null,
+      [PATH.SIGNUP]: this.signupPage,
+      [PATH.STATIONS]: this.stationsPage,
+      [PATH.LINES]: this.linesPage,
+      [PATH.SECTIONS]: this.sectionsPage,
     };
   }
 
   init() {
     this.back();
-    this.navigate('/');
+    this.navigate(PATH.ROOT);
   }
 
   checkMainRoute() {
-    this.routes['/'] = this.userToken ? this.mainPage : this.loginPage;
+    this.routes[PATH.ROOT] = this.userToken ? this.mainPage : this.loginPage;
   }
 
   navigate(path) {
     this.userToken = jwtToken.getToken(COOKIE_KEY.JWT_TOKEN);
-    if (path === '/') {
+    if (path === PATH.ROOT) {
       this.checkMainRoute();
     }
 

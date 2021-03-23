@@ -1,6 +1,7 @@
 import { $ } from '../../utils/DOM.js';
 import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import { COOKIE_KEY } from '../../constants/constants.js';
+import { PATH } from '../../constants/path.js';
 import { fetchLogin } from '../../API/auth.js';
 import jwtToken from '../../jwtToken.js';
 import loginTemplate from './loginTemplate.js';
@@ -39,7 +40,7 @@ class LoginPage {
       console.error(error);
       alert(error);
     } finally {
-      this.router.navigate('/');
+      this.router.navigate(PATH.ROOT);
     }
   }
 
@@ -69,7 +70,7 @@ class LoginPage {
     $('#signup').addEventListener('click', e => {
       e.preventDefault();
 
-      this.router.navigate('/signup');
+      this.router.navigate(PATH.SIGNUP);
     });
   }
 }
