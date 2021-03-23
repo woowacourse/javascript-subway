@@ -23,3 +23,9 @@ export const getInvalidSignUpMessage = ({ email, userName, password, passwordCon
     throw new Error(ERROR_MESSAGE.DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM);
   }
 };
+
+export const getEmailValidationMessage = (email) => {
+  if (isInvalidEmailFormat(email)) {
+    throw new Error(ERROR_MESSAGE.INVALID_EMAIL_FORMAT);
+  }
+};

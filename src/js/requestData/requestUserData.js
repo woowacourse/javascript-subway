@@ -1,4 +1,4 @@
-import { SESSION_KEY_TOKEN } from '../utils/constants';
+import { SESSION_KEY_TOKEN, ERROR_MESSAGE } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 
 export const requestCheckLogin = async () => {
@@ -9,6 +9,18 @@ export const requestCheckLogin = async () => {
     }
   } catch (error) {
     throw new Error(error.message);
+  }
+};
+
+export const requestEmailDuplicationCheck = async (email) => {
+  try {
+    const response = await httpClient.get(`/members/check-validation?email=${email}`);
+
+    if (!response.ok) {
+      throw new Error();
+    }
+  } catch (error) {
+    throw new Error(ERROR_MESSAGE.DUPLICATED_EMAIL);
   }
 };
 
