@@ -7,7 +7,7 @@ import {
   setFontColorGreen,
   setFontColorRed,
 } from '../../utils/index.js';
-import { SNACKBAR_MESSAGE } from '../../constants/snackbarMessage.js';
+import { SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 
 export default class Signup extends Component {
@@ -35,20 +35,20 @@ export default class Signup extends Component {
   async handleEmailDuplicateButton() {
     const email = $('#signup-email').value;
     const $emailValidCheckText = $('#email-valid-check-text');
-    const response = await API.checkDuplicateEmail(email);
 
-    if (!response.ok) {
+    try {
+      await API.checkDuplicateEmail(email);
+
+      setFontColorGreen($emailValidCheckText);
+      $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
+      this.isDuplicateChecked = email;
+    } catch {
       setFontColorRed($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL;
       showSnackbar(SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL);
       this.isDuplicateChecked = false;
-      return;
     }
-
-    setFontColorGreen($emailValidCheckText);
-    $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
-    showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
-    this.isDuplicateChecked = email;
   }
 
   async handleSignupForm(e) {
@@ -69,18 +69,17 @@ export default class Signup extends Component {
       return;
     }
 
-    const response = await API.signup({ email, password, name });
+    try {
+      await API.signup({ email, password, name });
 
-    if (!response.ok) {
+      showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
+      this.changeTemplate('/login');
+      history.pushState({ pathName: '/login' }, null, '/login');
+      Navigation.changeSelectedButtonColor();
+      this.isDuplicateChecked = false;
+    } catch {
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP_FAILURE);
-      return;
     }
-
-    showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
-    this.changeTemplate('/login');
-    history.pushState({ pathName: '/login' }, null, '/login');
-    Navigation.changeSelectedButtonColor();
-    this.isDuplicateChecked = false;
   }
 
   handlePasswordConfirm({ target }) {

@@ -1,3 +1,7 @@
+export const MESSAGE = {
+  REQUIRE_LOGIN: '로그인이 필요합니다.',
+};
+
 export const SNACKBAR_MESSAGE = {
   MATCH_CONFIRM_PASSWORD: '비밀번호가 일치합니다.',
   NOT_MATCH_CONFIRM_PASSWORD: '비밀번호가 일치하지 않습니다.',

@@ -1,4 +1,4 @@
-const BASE_URL = 'https://www.boorownie.com/';
+const BASE_URL = 'https://www.boorownie.com';
 
 const option = {
   get: (token) => ({
@@ -32,13 +32,14 @@ const request = async (url, option = {}) => {
   let response;
   try {
     response = await fetch(`${BASE_URL}${url}`, option);
+
     if (!response.ok) {
       throw new Error(response.message);
     }
-  } catch (err) {
-    console.error(err);
-  } finally {
+
     return response;
+  } catch (err) {
+    throw err;
   }
 };
 

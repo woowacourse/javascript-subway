@@ -6,7 +6,7 @@ import Lines from './lines/Lines.js';
 import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
-import { LOCAL_STORAGE_KEY } from '../constants/index.js';
+import { LOCAL_STORAGE_KEY, MESSAGE } from '../constants/index.js';
 import { getLocalStorageItem, API } from '../utils/index.js';
 
 export default class App extends Component {
@@ -44,16 +44,16 @@ export default class App extends Component {
       '/signup': (token = '') => this.Signup.load(token),
     };
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
-    const response = await API.getUserInfo(token);
-    const responseJSON = await response.json();
 
-    if (!responseJSON.id) {
+    try {
+      await API.getUserInfo(token);
+
+      this.Navigation.render(token);
+      router[pathName]?.(token);
+    } catch {
+      console.error(MESSAGE.REQUIRE_LOGIN);
       this.Navigation.render();
       router[pathName]?.();
-      return;
     }
-
-    this.Navigation.render(token);
-    router[pathName]?.(token);
   }
 }

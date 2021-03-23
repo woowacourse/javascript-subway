@@ -8,7 +8,8 @@ export const getLocalStorageItem = ({ key, defaultValue = '' }) => {
   try {
     return JSON.parse(storedData);
   } catch {
-    throw new Error('Stored data is not JSON format.');
+    console.error('Stored data is not JSON format.');
+    return '';
   }
 };
 
@@ -29,7 +30,8 @@ export const setLocalStorageItem = ({ key, item }) => {
   const data = JSON.stringify(item, getCircularReplacer());
 
   if (data === undefined) {
-    throw new Error("Item type doesn't match with JSON");
+    console.error("Item type doesn't match with JSON");
+    return;
   }
 
   localStorage.setItem(key, data);
