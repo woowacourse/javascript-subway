@@ -7,7 +7,7 @@ import {
   setFontColorGreen,
   setFontColorRed,
 } from '../../utils/index.js';
-import { SNACKBAR_MESSAGE } from '../../constants/index.js';
+import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 
 export default class Signup extends Component {
@@ -56,9 +56,13 @@ export default class Signup extends Component {
     const email = $('#signup-email').value;
     const $emailValidCheckText = $('#email-valid-check-text');
 
+    if (!REG_EXP.EMAIL.test(email)) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_EMAIL);
+      return;
+    }
+
     try {
-      const response = await API.checkDuplicateEmail(email);
-      console.log(response);
+      await API.checkDuplicateEmail(email);
 
       setFontColorGreen($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
