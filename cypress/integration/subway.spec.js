@@ -29,8 +29,17 @@ describe('지하철 노선도 STEP2', () => {
     cy.get('#station-list .station-list-item').should('contain', '낙성대');
   });
 
-  it('지하철역을 삭제할 수 있다.', () => {
-    cy.get('[data-name="낙성대"] .js-station-delete-button').click();
+  it('지하철역을 수정할 수 있다.', () => {
+    cy.get('[data-name="낙성대"] .js-station-edit-button').click();
+    cy.get('[data-name="낙성대"] .js-name-edit').clear();
+    cy.get('[data-name="낙성대"] .js-name-edit').type('서울대');
+    cy.get('[data-name="낙성대"] .js-station-save-button').click();
+    cy.get('#station-list .station-list-item').should('contain', '서울대');
     cy.get('#station-list .station-list-item').should('not.contain', '낙성대');
+  });
+
+  it('지하철역을 삭제할 수 있다.', () => {
+    cy.get('[data-name="서울대"] .js-station-delete-button').click();
+    cy.get('#station-list .station-list-item').should('not.contain', '서울대');
   });
 });
