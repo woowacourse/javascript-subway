@@ -1,4 +1,4 @@
-const stationListTemplate = (station) => {
+export const stationListTemplate = (station) => {
   return `<li class="station-list-item d-flex items-center py-2">
             <span class="w-100 pl-2">${station.name}</span>
             <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1" data-id=${station.id}>
@@ -24,14 +24,14 @@ export const stationsTemplate = (stationList) => {
             </label>
             <input
               type="text"
-              id="station-name"
+              id="station-name-input"
               name="station-name"
               class="input-field"
               placeholder="역 이름"
               required
             />
             <button
-              type="button"
+              type="submit"
               name="submit"
               class="input-submit bg-cyan-300 ml-2"
             >
@@ -39,7 +39,7 @@ export const stationsTemplate = (stationList) => {
             </button>
           </div>
         </form>
-        <ul class="mt-3 pl-0">
+        <ul id="station-list-container" class="mt-3 pl-0">
           ${stationList.map((station) => stationListTemplate(station)).join('')}
         </ul>
       </div>
