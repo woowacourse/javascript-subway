@@ -1,21 +1,18 @@
 import LinesModal from "./LinesModal.js";
-import { $ } from "../utils/DOM.js";
+import { $, removeAllChildren } from "../utils/DOM.js";
 
 export default class Lines {
   constructor({ $parent }) {
     this.$parent = $parent;
+    this.innerElement = null;
     this.linesModal = new LinesModal();
+
+    this.initContent();
   }
 
-  attachEvent() {
-    $(".js-add-line", this.$parent).addEventListener(
-      "click",
-      this.linesModal.open.bind(this.linesModal)
-    );
-  }
-
-  render() {
-    this.$parent.innerHTML = `
+  initContent() {
+    const parser = new DOMParser();
+    const template = `
       <div class="wrapper bg-white p-10">
         <div class="heading d-flex">
           <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
@@ -49,7 +46,23 @@ export default class Lines {
       </div>
     `;
 
-    this.linesModal.render();
+    this.innerElement = $(
+      "body > *",
+      parser.parseFromString(template, "text/html")
+    );
     this.attachEvent();
+  }
+
+  attachEvent() {
+    $(".js-add-line", this.innerElement).addEventListener(
+      "click",
+      this.linesModal.open.bind(this.linesModal)
+    );
+  }
+
+  render() {
+    removeAllChildren(this.$parent);
+    this.$parent.append(this.innerElement);
+    this.linesModal.render();
   }
 }
