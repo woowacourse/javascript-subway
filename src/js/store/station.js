@@ -15,6 +15,10 @@ const station = {
     this.value.add(station);
   },
 
+  delete(targetId) {
+    this.value = new Set([...this.value].filter(({ id }) => id !== targetId));
+  },
+
   get() {
     return [...this.value];
   },

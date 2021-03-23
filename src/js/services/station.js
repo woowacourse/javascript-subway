@@ -38,3 +38,21 @@ export const requestAddStation = async name => {
     };
   }
 };
+
+export const requestDeleteStation = async id => {
+  try {
+    const response = await httpClient.delete(`/stations/${id}`);
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: ALERT_MESSAGE.DELETE_STATION_FAILED,
+    };
+  }
+};
