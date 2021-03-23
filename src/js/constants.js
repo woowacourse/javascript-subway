@@ -10,6 +10,7 @@ export const ALERT_MESSAGE = Object.freeze({
   DELETE_STATION_FAILED: '역 삭제에 실패했습니다.',
   DELETE_STATION_SUCCESS: '역을 삭제했습니다.',
   DELETE_STATION_CONFIRM: '역을 삭제하시겠습니까?',
+  EDIT_STATION_FAILED: '역 이름 수정에 실패했습니다',
 });
 
 export const API = Object.freeze({
