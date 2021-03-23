@@ -29,7 +29,7 @@ const handleLogin = async event => {
     await initPrivateStore();
   } catch (error) {
     alert(error.message);
-    routeTo('/error');
+    routeTo('/login');
     return;
   }
 
