@@ -13,6 +13,7 @@ const fetchOption = (method, body, accessToken = '') => ({
 const httpClient = {
   get: path => fetch(API.BASE_URL + path, fetchOption(API.HTTP_METHOD.GET, null, accessToken.get())),
   post: (path, body) => fetch(API.BASE_URL + path, fetchOption(API.HTTP_METHOD.POST, body, accessToken.get())),
+  delete: path => fetch(API.BASE_URL + path, fetchOption(API.HTTP_METHOD.DELETE, null, accessToken.get())),
 };
 
 export default httpClient;

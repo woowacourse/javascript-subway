@@ -17,6 +17,7 @@ import handleAddStation from '../eventHandlers/handleAddStation';
 import errorPageTemplate from '../templates/error';
 import stationsPageTemplate from '../templates/stations';
 import station from '../store/station';
+import handleStationStatus from '../eventHandlers/handleStationStatus';
 
 const $routeContainer = $('#route-container');
 
@@ -61,6 +62,7 @@ export const mountStations = () => {
   $routeContainer.innerHTML = stationsPageTemplate(station.get());
 
   $('#station-form').addEventListener('submit', handleAddStation);
+  $('#station-list').addEventListener('click', handleStationStatus);
 };
 
 export const mountMap = () => {
