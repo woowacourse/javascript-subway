@@ -15,6 +15,7 @@ export default class Signup extends Component {
     super();
     this.changeTemplate = changeTemplate;
     this.isDuplicateChecked;
+    this.verifiedEmail = '';
   }
 
   bindEvent() {
@@ -30,6 +31,25 @@ export default class Signup extends Component {
       'keyup',
       this.handlePasswordConfirm.bind(this),
     );
+    $('#signup-email').addEventListener(
+      'keyup',
+      this.handleEmailChange.bind(this),
+    );
+  }
+
+  handleEmailChange({ target }) {
+    const $emailValidCheckText = $('#email-valid-check-text');
+
+    if (target.value !== this.verifiedEmail) {
+      setFontColorRed($emailValidCheckText);
+      $emailValidCheckText.innerText = SNACKBAR_MESSAGE.REQUIRE_CHECK_EMAIL;
+      this.isDuplicateChecked = false;
+      return;
+    }
+
+    setFontColorGreen($emailValidCheckText);
+    $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
+    this.isDuplicateChecked = true;
   }
 
   async handleEmailDuplicateButton() {
@@ -37,17 +57,20 @@ export default class Signup extends Component {
     const $emailValidCheckText = $('#email-valid-check-text');
 
     try {
-      await API.checkDuplicateEmail(email);
+      const response = await API.checkDuplicateEmail(email);
+      console.log(response);
 
       setFontColorGreen($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
       showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
-      this.isDuplicateChecked = email;
+      this.isDuplicateChecked = true;
+      this.verifiedEmail = email;
     } catch {
       setFontColorRed($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL;
       showSnackbar(SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL);
       this.isDuplicateChecked = false;
+      this.verifiedEmail = '';
     }
   }
 
@@ -64,7 +87,7 @@ export default class Signup extends Component {
       return;
     }
 
-    if (!this.isDuplicateChecked || this.isDuplicateChecked !== email) {
+    if (!this.isDuplicateChecked || this.verifiedEmail !== email) {
       showSnackbar(SNACKBAR_MESSAGE.REQUIRE_CHECK_EMAIL);
       return;
     }
