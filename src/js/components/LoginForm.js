@@ -6,7 +6,7 @@ import { setSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
 import PAGE_URLS from "../constants/pages.js";
-import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
+import { SUCCESS_MESSAGE } from "../constants/messages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
@@ -53,9 +53,7 @@ export default class LoginForm extends Component {
               required
             />
           </div>
-          <p class="js-login-error text-red invisible text-sm ml-4">
-            ${ERROR_MESSAGE.LOGIN_FAILURE}
-          </p>
+          <p class="js-login-error text-red text-sm ml-4"></p>
           <div class="input-control w-100">
             <button
               type="submit"
@@ -100,33 +98,21 @@ export default class LoginForm extends Component {
       password: target.password.value,
     };
 
-    try {
-      const response = await loginAPI(loginData);
+    const loginResult = await loginAPI(loginData);
 
-      if (!response.ok) {
-        $(".js-login-error", currentTarget).classList.replace(
-          "invisible",
-          "visible"
-        );
-        currentTarget.reset();
+    if (!loginResult.accessToken) {
+      $(".js-login-error", currentTarget).textContent = loginResult.error;
+      currentTarget.reset();
 
-        return;
-      }
-
-      $(".js-login-error", currentTarget).classList.replace(
-        "visible",
-        "invisible"
-      );
-
-      const { accessToken } = await response.json();
-      setSessionStorageItem(TOKEN_STORAGE_KEY, accessToken);
-
-      this.setIsLoggedIn(true);
-      snackbar.show(SUCCESS_MESSAGE.LOGIN_SUCCESS);
-    } catch (e) {
-      console.error(e);
-      window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
+      return;
     }
+
+    $(".js-login-error", currentTarget).textContent = "";
+
+    setSessionStorageItem(TOKEN_STORAGE_KEY, loginResult.accessToken);
+
+    this.setIsLoggedIn(true);
+    snackbar.show(SUCCESS_MESSAGE.LOGIN_SUCCESS);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -157,10 +143,8 @@ export default class LoginForm extends Component {
 
   render() {
     $("form", this.innerElement).reset();
-    $(".js-login-error", this.innerElement).classList.replace(
-      "visible",
-      "invisible"
-    );
+    $(".js-login-error", this.innerElement).textContent = "";
+
     super.render();
   }
 }

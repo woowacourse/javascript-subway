@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE } from "../constants/messages.js";
+
 const PATH = {
   MEMBERS: "/members",
   LOGIN: "/login/token",
@@ -48,7 +50,20 @@ export const signupAPI = async (memberInfo) => {
 };
 
 export const loginAPI = async (loginInfo) => {
-  const response = await request.post(PATH.LOGIN, loginInfo);
+  try {
+    const response = await request.post(PATH.LOGIN, loginInfo);
 
-  return response;
+    if (response.ok) {
+      return await response.json();
+    }
+
+    return {
+      error: ERROR_MESSAGE.LOGIN_FAILURE,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      error: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
 };
