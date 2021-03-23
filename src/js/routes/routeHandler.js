@@ -63,6 +63,7 @@ export const mountStations = () => {
 
   $('#station-form').addEventListener('submit', handleAddStation);
   $('#station-list').addEventListener('click', handleStationStatus);
+  $('#station-list').addEventListener('keyup', handleStationStatus);
 };
 
 export const mountMap = () => {

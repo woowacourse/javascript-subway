@@ -56,3 +56,21 @@ export const requestDeleteStation = async id => {
     };
   }
 };
+
+export const requestEditStation = async ({ id, name }) => {
+  try {
+    const response = await httpClient.put(`/stations/${id}`, { name });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: ALERT_MESSAGE.EDIT_STATION_FAILED,
+    };
+  }
+};

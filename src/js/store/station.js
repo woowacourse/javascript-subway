@@ -19,6 +19,14 @@ const station = {
     this.value = new Set([...this.value].filter(({ id }) => id !== targetId));
   },
 
+  editName(name, targetId) {
+    const newValue = [...this.value];
+    const targetStation = newValue.find(({ id }) => id === targetId);
+    targetStation.name = name;
+
+    this.value = new Set(newValue);
+  },
+
   get() {
     return [...this.value];
   },
