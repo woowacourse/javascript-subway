@@ -1,5 +1,5 @@
-import stationsTemplate from '../templates/stations.js';
-import { $ } from '../utils/DOM.js';
+import stationsTemplate from './stationsTemplate.js';
+import { $ } from '../../utils/DOM.js';
 
 class StationsPage {
   constructor(router) {

@@ -1,11 +1,12 @@
-import { COOKIE_KEY, MESSAGE } from './constants.js';
+import { MESSAGE } from './constants/messages.js';
+import { COOKIE_KEY } from './constants/constants.js';
 import jwtToken from './jwtToken.js';
-import LoginPage from './pages/Login.js';
-import SignupPage from './pages/Signup.js';
-import MainPage from './pages/Main.js';
-import StationsPage from './pages/Stations.js';
-import LinesPage from './pages/Lines.js';
-import SectionsPage from './pages/Sections.js';
+import LoginPage from './pages/login/LoginPage.js';
+import SignupPage from './pages/signup/SignupPage.js';
+import MainPage from './pages/main/MainPage.js';
+import StationsPage from './pages/stations/StationsPage.js';
+import LinesPage from './pages/lines/LinesPage.js';
+import SectionsPage from './pages/sections/SectionsPage.js';
 
 class Router {
   constructor() {

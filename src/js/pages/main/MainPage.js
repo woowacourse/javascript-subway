@@ -1,9 +1,10 @@
-import { COOKIE_KEY, SNACKBAR_MESSAGE } from '../constants.js';
-import jwtToken from '../jwtToken.js';
-import { logoutButtonTemplate } from '../templates/appNavbar.js';
-import headerTemplate from '../templates/header.js';
-import { $ } from '../utils/DOM.js';
-import showSnackBar from '../utils/snackbar.js';
+import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
+import jwtToken from '../../jwtToken.js';
+import { logoutButtonTemplate } from './templates/appNavbar.js';
+import headerTemplate from './templates/header.js';
+import { $ } from '../../utils/DOM.js';
+import showSnackBar from '../../utils/snackbar.js';
 
 class MainPage {
   constructor(router) {

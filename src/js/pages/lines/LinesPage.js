@@ -1,5 +1,5 @@
-import linesTemplate from '../templates/lines.js';
-import { $ } from '../utils/DOM.js';
+import linesTemplate from './linesTemplate.js';
+import { $ } from '../../utils/DOM.js';
 
 class LinesPage {
   constructor(router) {

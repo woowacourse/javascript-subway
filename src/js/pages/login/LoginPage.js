@@ -1,13 +1,14 @@
-import { $ } from '../utils/DOM.js';
-import { MESSAGE, COOKIE_KEY, HTTP, SNACKBAR_MESSAGE } from '../constants.js';
-import { fetchLogin } from '../API/auth.js';
-import jwtToken from '../jwtToken.js';
-import loginTemplate from '../templates/login.js';
+import { $ } from '../../utils/DOM.js';
+import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
+import { fetchLogin } from '../../API/auth.js';
+import jwtToken from '../../jwtToken.js';
+import loginTemplate from './loginTemplate.js';
 import {
   checkEmailInputHandler,
   checkPasswordInputHandler,
-} from '../authHandlers.js';
-import showSnackBar from '../utils/snackbar.js';
+} from '../../authHandlers.js';
+import showSnackBar from '../../utils/snackbar.js';
 
 class LoginPage {
   constructor(router) {

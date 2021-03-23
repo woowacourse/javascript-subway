@@ -1,5 +1,5 @@
-import sectionsTemplate from '../templates/sections.js';
-import { $ } from '../utils/DOM.js';
+import sectionsTemplate from './sectionsTemplate.js';
+import { $ } from '../../utils/DOM.js';
 
 class SectionsPage {
   constructor(router) {

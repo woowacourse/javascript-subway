@@ -1,14 +1,14 @@
-import { $ } from '../utils/DOM.js';
-import { fetchSignup, fetchToCheckDuplicatedEmail } from '../API/auth.js';
-import { HTTP, MESSAGE, SNACKBAR_MESSAGE } from '../constants.js';
-import signupTemplate from '../templates/signup.js';
+import { $ } from '../../utils/DOM.js';
+import { fetchSignup, fetchToCheckDuplicatedEmail } from '../../API/auth.js';
+import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import signupTemplate from './signupTemplate.js';
 import {
   checkEmailInputHandler,
   checkNameInputHandler,
   checkPasswordConfirmInputHandler,
   checkPasswordInputHandler,
-} from '../authHandlers.js';
-import showSnackBar from '../utils/snackbar.js';
+} from '../../authHandlers.js';
+import showSnackBar from '../../utils/snackbar.js';
 
 class SignupPage {
   constructor(router) {
