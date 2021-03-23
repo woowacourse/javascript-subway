@@ -13,6 +13,8 @@ import delegateEvents from './appEvents.js';
 import router from './router/router.js';
 import { state } from './store.js';
 
+// TODO: CSS 늦게 로드되는 거 고치기
+// TODO: 항목 생성 시 애니메이션 추가
 // 앱 상태 초기화
 state.initState();
 
@@ -49,6 +51,7 @@ delegateEvents();
 // 옵저버 등록
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);
 state.subscribe(STATE_KEY.STATION_LIST, station);
+state.subscribe(STATE_KEY.LINE_LIST, line);
 
 // 네비게이터 렌더링
 navigator.renderComponent();

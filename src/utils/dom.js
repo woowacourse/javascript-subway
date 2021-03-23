@@ -1,4 +1,4 @@
-import { STYLE_CLASS } from '../constants';
+import { SELECTOR_CLASS, STYLE_CLASS } from '../constants';
 
 const isElement = target => {
   return target.nodeType && [1, 9].includes(target.nodeType);
@@ -44,4 +44,13 @@ export const cancelTurnRedAnimation = $element => {
 
 export const setFadeOutAnimation = $element => {
   $element.classList.add('fade-out');
+};
+
+// TODO: modal 메소드 위치 고민
+export const openModal = () => {
+  $(`.${SELECTOR_CLASS.MODAL}`).classList.add('open');
+};
+
+export const closeModal = () => {
+  $(`.${SELECTOR_CLASS.MODAL}`).classList.remove('open');
 };

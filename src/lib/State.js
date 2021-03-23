@@ -1,6 +1,7 @@
 import { isObject, sessionStore } from '../utils/utils.js';
 import { SESSION_STORAGE_KEY, STATE_KEY } from '../constants.js';
 import { requestStationList } from '../api/station.js';
+import { requestLineList } from '../api/line.js';
 import Subject from './Subject.js';
 
 export default class State extends Subject {
@@ -9,12 +10,9 @@ export default class State extends Subject {
   constructor() {
     super();
     this.#state = {
-      [STATE_KEY.STATION_LIST]: [
-        { id: 1, name: '역 1' },
-        { id: 2, name: '역 2' },
-      ],
-      [STATE_KEY.LINE_LIST]: [{ name: '노선 1' }, { name: '노선 2' }],
-      [STATE_KEY.SECTION_LIST]: [{ name: '구간 1' }, { name: '구간 2' }],
+      [STATE_KEY.STATION_LIST]: [],
+      [STATE_KEY.LINE_LIST]: [],
+      [STATE_KEY.SECTION_LIST]: [],
       [STATE_KEY.IS_LOGGED_IN]: false,
     };
   }
@@ -48,13 +46,29 @@ export default class State extends Subject {
     // API 요청을 보내서 역 목록, 노선 목록, 구간 목록을 받아와야 함.
     if (!sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN)) return;
     this.#state.isLoggedIn = true;
-    this.#fetchStationLists().then(list => {
-      this.#state.stationList = list;
+    this.#fetchStationList().then(stationList => {
+      this.#state.stationList = stationList;
+    });
+    this.#fetchLineList().then(lineList => {
+      this.#state.lineList = lineList;
     });
   }
 
-  async #fetchStationLists() {
-    const list = await requestStationList();
-    return list.map(stationItem => ({ id: stationItem.id, name: stationItem.name }));
+  async #fetchStationList() {
+    const stationList = await requestStationList();
+    return stationList.map(stationItem => ({ id: stationItem.id, name: stationItem.name }));
+  }
+
+  async #fetchLineList() {
+    const lineList = await requestLineList();
+    return lineList.map(lineItem => ({
+      id: lineItem.id,
+      name: lineItem.name,
+      color: lineItem.color,
+      upStationName: lineItem.name,
+      upStationId: lineItem.id,
+      downStationName: lineItem.name,
+      downStationId: lineItem.id,
+    }));
   }
 }

@@ -1,5 +1,4 @@
 import delegateNavigatorClickEvent from './delegators/navigator.js';
-
 import delegateLoginSubmitEvent from './delegators/login.js';
 import delegateSignUpSubmitEvent from './delegators/signup.js';
 import {
@@ -7,6 +6,8 @@ import {
   delegateStationFocusOutEvent,
   delegateStationClickEvent,
 } from './delegators/station.js';
+import { delegateModalClickEvent } from './delegators/modal.js';
+import { delegateLineClickEvent, delegateLineSubmitEvent } from './delegators/line.js';
 
 const delegateEvents = () => {
   document.body.addEventListener('click', handleClickEvents);
@@ -17,6 +18,8 @@ const delegateEvents = () => {
 function handleClickEvents(event) {
   delegateNavigatorClickEvent(event);
   delegateStationClickEvent(event);
+  delegateModalClickEvent(event);
+  delegateLineClickEvent(event);
 }
 
 function handleSubmitEvents(event) {
@@ -24,6 +27,7 @@ function handleSubmitEvents(event) {
   delegateLoginSubmitEvent(event);
   delegateSignUpSubmitEvent(event);
   delegateStationSubmitEvent(event);
+  delegateLineSubmitEvent(event);
 }
 
 function handleFocusOutEvent(event) {

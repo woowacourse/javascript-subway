@@ -33,7 +33,6 @@ export default class Station extends Observer {
 
   #getWrapperTemplate() {
     return `
-      <link rel="stylesheet" href="" />
       <div data-test-id="stations" class="wrapper bg-white p-10 fade-in">
         <div class="heading"><h2 class="mt-1">🚉 역 관리</h2></div>
         <form id="${SELECTOR_ID.STATION_FORM}">
