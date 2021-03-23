@@ -40,7 +40,7 @@ const signupTemplate = `
           id="password"
           name="password"
           class="input-field"
-          placeholder="비밀번호 (영문자, 숫자 조합의 9-15자)"
+          placeholder="비밀번호 (영문자, 숫자 조합의 6-15자)"
           required
         />
         <small id="password-fail-message" class="d-flex mr-auto px-3 mt-1 d-none">알맞은 비밀번호 형식을 입력해 주세요.</small>
