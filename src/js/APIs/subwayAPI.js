@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../constants/messages.js";
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 
 const PATH = {
   MEMBERS: "/members",
@@ -38,15 +38,59 @@ const request = {
 };
 
 export const checkDuplicatedEmailAPI = async (email) => {
-  const response = await request.get(PATH.CHECK_DUPLICATED_EMAIL, { email });
+  try {
+    const response = await request.get(PATH.CHECK_DUPLICATED_EMAIL, { email });
 
-  return response;
+    // 사용 가능한 이메일
+    if (response.status === 200) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.VALID_EMAIL,
+      };
+    }
+
+    // 중복된 이메일
+    if (response.status === 422) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.DUPLICATED_EMAIL,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
 };
 
 export const signupAPI = async (memberInfo) => {
-  const response = await request.post(PATH.MEMBERS, memberInfo);
+  try {
+    const response = await request.post(PATH.MEMBERS, memberInfo);
 
-  return response;
+    if (response.ok) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.SIGNUP_SUCCESS,
+      };
+    }
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.SIGNUP_FAILURE,
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
 };
 
 export const loginAPI = async (loginInfo) => {
@@ -54,16 +98,25 @@ export const loginAPI = async (loginInfo) => {
     const response = await request.post(PATH.LOGIN, loginInfo);
 
     if (response.ok) {
-      return await response.json();
+      const result = await response.json();
+
+      return {
+        isSucceeded: false,
+        message: SUCCESS_MESSAGE.LOGIN_SUCCESS,
+        accessToken: result.accessToken,
+      };
     }
 
     return {
-      error: ERROR_MESSAGE.LOGIN_FAILURE,
+      isSucceeded: false,
+      message: ERROR_MESSAGE.LOGIN_FAILURE,
     };
   } catch (e) {
     console.error(e);
+
     return {
-      error: ERROR_MESSAGE.API_CALL_FAILURE,
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
     };
   }
 };

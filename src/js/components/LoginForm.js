@@ -6,7 +6,6 @@ import { setSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
 import PAGE_URLS from "../constants/pages.js";
-import { SUCCESS_MESSAGE } from "../constants/messages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
@@ -53,12 +52,12 @@ export default class LoginForm extends Component {
               required
             />
           </div>
-          <p class="js-login-error text-red text-sm ml-4"></p>
-          <div class="input-control w-100">
+          <p class="js-login-error text-red text-center text-base my-0 ml-4"></p>
+          <div class="input-control w-100 mt-2">
             <button
               type="submit"
               name="submit"
-              class="input-submit w-100 mt-8 bg-cyan-200"
+              class="input-submit w-100 bg-cyan-200"
               disabled
             >
               확인
@@ -100,8 +99,8 @@ export default class LoginForm extends Component {
 
     const loginResult = await loginAPI(loginData);
 
-    if (!loginResult.accessToken) {
-      $(".js-login-error", currentTarget).textContent = loginResult.error;
+    if (!loginResult.isSucceeded) {
+      $(".js-login-error", currentTarget).textContent = loginResult.message;
       currentTarget.reset();
 
       return;
@@ -112,7 +111,7 @@ export default class LoginForm extends Component {
     setSessionStorageItem(TOKEN_STORAGE_KEY, loginResult.accessToken);
 
     this.setIsLoggedIn(true);
-    snackbar.show(SUCCESS_MESSAGE.LOGIN_SUCCESS);
+    snackbar.show(loginResult.message);
   }
 
   // eslint-disable-next-line class-methods-use-this

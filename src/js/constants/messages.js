@@ -12,6 +12,7 @@ export const ERROR_MESSAGE = {
     "유효하지 않은 비밀번호 입니다. 6자리 이상의 비밀번호를 입력해주세요.",
   INVALID_EMAIL_FORM: "올바르지 않은 이메일 형식입니다.",
   DUPLICATED_EMAIL: "이미 존재하는 이메일입니다.",
+  UNKNOWN_API_STATUS: "Unknown API status",
 };
 
 export const SUCCESS_MESSAGE = {

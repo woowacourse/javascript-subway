@@ -80,7 +80,8 @@ export default class SignupForm extends Component {
             />
             <p class="js-message js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
           </div>
-          <div class="input-control mt-8">
+          <p class="js-message js-signup-error text-base text-red text-center my-0 ml-4"></p>
+          <div class="input-control mt-2">
             <button
               type="submit"
               name="submit"
@@ -145,21 +146,17 @@ export default class SignupForm extends Component {
   }
 
   async signup(memberData) {
-    try {
-      const response = await signupAPI(memberData);
+    const signupResult = await signupAPI(memberData);
 
-      if (!response.ok) {
-        window.alert(ERROR_MESSAGE.SIGNUP_FAILURE);
+    if (!signupResult.isSucceeded) {
+      $(".js-signup-error", this.innerElement).textContent =
+        signupResult.message;
 
-        return;
-      }
-
-      this.pageRouter.movePage(PAGE_URLS.LOGIN);
-      snackbar.show(SUCCESS_MESSAGE.SIGNUP_SUCCESS);
-    } catch (e) {
-      console.error(e);
-      window.alert(ERROR_MESSAGE.API_CALL_FAILURE);
+      return;
     }
+
+    this.pageRouter.movePage(PAGE_URLS.LOGIN);
+    snackbar.show(signupResult.message);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -181,40 +178,24 @@ export default class SignupForm extends Component {
     if (formValidationMessage === "") {
       this.signup(memberData);
     } else {
-      window.alert(formValidationMessage);
+      $(
+        ".js-signup-error",
+        this.innerElement
+      ).textContent = formValidationMessage;
     }
   }
 
   async checkEmail(email) {
     const $checkEmailMessage = $(".js-check-email-message", this.$parent);
 
-    try {
-      const response = await checkDuplicatedEmailAPI(email);
+    const checkEmailResult = await checkDuplicatedEmailAPI(email);
 
-      if (response.status === 200) {
-        changeCheckMessageColor($checkEmailMessage, true);
-        $checkEmailMessage.textContent = SUCCESS_MESSAGE.VALID_EMAIL;
-        this.inputValidation.isValidEmail = true;
-        this.email = email;
+    changeCheckMessageColor($checkEmailMessage, checkEmailResult.isSucceeded);
+    $checkEmailMessage.textContent = checkEmailResult.message;
+    this.inputValidation.isValidEmail = checkEmailResult.isSucceeded;
 
-        return;
-      }
-
-      if (response.status === 422) {
-        changeCheckMessageColor($checkEmailMessage, false);
-        $checkEmailMessage.textContent = ERROR_MESSAGE.DUPLICATED_EMAIL;
-        this.inputValidation.isValidEmail = false;
-
-        return;
-      }
-
-      throw new Error(response.status);
-    } catch (e) {
-      console.error(e);
-
-      changeCheckMessageColor($checkEmailMessage, false);
-      $checkEmailMessage.textContent = "api error";
-      this.inputValidation.isValidEmail = false;
+    if (checkEmailResult.isSucceeded) {
+      this.email = email;
     }
   }
 
