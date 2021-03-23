@@ -13,27 +13,25 @@ import PAGE_URLS from "../constants/pages.js";
 export default class App {
   constructor() {
     this.isLoggedIn = false;
-    this.$nav = staticElements.$nav;
-    this.$main = staticElements.$main;
-
     this.pageRouter = new PageRouter();
+
     this.navigation = new Navigation({
-      $parent: this.$nav,
+      $parent: staticElements.$nav,
       setIsLoggedIn: this.setIsLoggedIn.bind(this),
       pageRouter: this.pageRouter,
     });
     this.loginForm = new LoginForm({
-      $parent: this.$main,
+      $parent: staticElements.$main,
       setIsLoggedIn: this.setIsLoggedIn.bind(this),
       pageRouter: this.pageRouter,
     });
     this.signupForm = new SignupForm({
-      $parent: this.$main,
+      $parent: staticElements.$main,
       pageRouter: this.pageRouter,
     });
-    this.stations = new Stations({ $parent: this.$main });
-    this.lines = new Lines({ $parent: this.$main });
-    this.sections = new Sections({ $parent: this.$main });
+    this.stations = new Stations({ $parent: staticElements.$main });
+    this.lines = new Lines({ $parent: staticElements.$main });
+    this.sections = new Sections({ $parent: staticElements.$main });
   }
 
   registerRoutes() {
