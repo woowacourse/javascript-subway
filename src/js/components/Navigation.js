@@ -1,3 +1,4 @@
+import Component from "./common/Component.js";
 import { $, hideElement, showElement } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
@@ -14,13 +15,28 @@ const createNavListItem = (item) => {
   `;
 };
 
-export default class Navigation {
+export default class Navigation extends Component {
   constructor({ $parent, setIsLoggedIn, pageRouter }) {
-    this.$parent = $parent;
+    super($parent);
     this.setIsLoggedIn = setIsLoggedIn;
     this.pageRouter = pageRouter;
 
+    this.initContent();
     this.render();
+  }
+
+  initContent() {
+    const template = `
+      <div>
+        <ul class="d-flex justify-center flex-wrap">
+          ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
+        </ul>
+        <button type="button" class="js-logout-btn logout-btn">로그아웃</button>
+      </div>
+    `;
+
+    super.initContent(template);
+    this.attachEvents();
   }
 
   show() {
@@ -48,22 +64,13 @@ export default class Navigation {
 
   attachEvents() {
     this.$parent.addEventListener("click", this.onClickNav.bind(this));
-    $(".js-logout-btn", this.$parent).addEventListener(
+    $(".js-logout-btn", this.innerElement).addEventListener(
       "click",
       this.onLogout.bind(this)
     );
   }
 
   render() {
-    const template = `
-      <ul class="d-flex justify-center flex-wrap">
-        ${NAV_ITEMS.map((item) => createNavListItem(item)).join("")}
-      </ul>
-      <button type="button" class="js-logout-btn logout-btn">로그아웃</button>
-    `;
-
-    this.$parent.innerHTML = template;
-
-    this.attachEvents();
+    super.render();
   }
 }

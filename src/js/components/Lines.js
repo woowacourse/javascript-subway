@@ -1,17 +1,16 @@
 import LinesModal from "./LinesModal.js";
-import { $, removeAllChildren } from "../utils/DOM.js";
+import { $ } from "../utils/DOM.js";
+import Component from "./common/Component.js";
 
-export default class Lines {
+export default class Lines extends Component {
   constructor({ $parent }) {
-    this.$parent = $parent;
-    this.innerElement = null;
+    super($parent);
     this.linesModal = new LinesModal();
 
     this.initContent();
   }
 
   initContent() {
-    const parser = new DOMParser();
     const template = `
       <div class="wrapper bg-white p-10">
         <div class="heading d-flex">
@@ -46,10 +45,7 @@ export default class Lines {
       </div>
     `;
 
-    this.innerElement = $(
-      "body > *",
-      parser.parseFromString(template, "text/html")
-    );
+    super.initContent(template);
     this.attachEvent();
   }
 
@@ -61,8 +57,7 @@ export default class Lines {
   }
 
   render() {
-    removeAllChildren(this.$parent);
-    this.$parent.append(this.innerElement);
+    super.render();
     this.linesModal.render();
   }
 }

@@ -1,6 +1,5 @@
-import { $, removeAllChildren } from "../utils/DOM.js";
 import colorOptions from "../utils/mock.js";
-import Modal from "./Modal.js";
+import Modal from "./common/Modal.js";
 
 const subwayLineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
@@ -12,13 +11,10 @@ const subwayLineColorOptionTemplate = (color, index) => {
 export default class LinesModal extends Modal {
   constructor() {
     super();
-
-    this.innerElement = null;
     this.initContent();
   }
 
   initContent() {
-    const parser = new DOMParser();
     const template = `
       <div>
         <header>
@@ -105,10 +101,7 @@ export default class LinesModal extends Modal {
       </div>
     `;
 
-    this.innerElement = $(
-      "body > *",
-      parser.parseFromString(template, "text/html")
-    );
+    super.initContent(template);
     this.attachEvent();
   }
 
@@ -117,7 +110,6 @@ export default class LinesModal extends Modal {
   }
 
   render() {
-    removeAllChildren(this.$parent);
-    this.$parent.append(this.innerElement);
+    super.render();
   }
 }

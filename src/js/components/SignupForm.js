@@ -1,3 +1,5 @@
+import Component from "./common/Component.js";
+
 import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
 
 import { $, changeCheckMessageColor } from "../utils/DOM.js";
@@ -7,35 +9,116 @@ import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 import PAGE_URLS from "../constants/pages.js";
 import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
 
-export default class SignupForm {
+export default class SignupForm extends Component {
   constructor({ $parent, pageRouter }) {
-    this.$parent = $parent;
+    super($parent);
+
     this.pageRouter = pageRouter;
     this.email = "";
     this.inputValidation = {
       isValidEmail: false,
       isPasswordConfirmed: false,
     };
+
+    this.initContent();
+  }
+
+  initContent() {
+    const template = `
+      <div class="wrapper p-10 bg-white">
+        <div class="heading">
+          <h2 class="text">📝 회원가입</h2>
+        </div>
+        <form name="signup" class="form">
+          <div class="input-control flex-wrap">
+            <label for="email" class="input-label" hidden>이메일</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="js-email-input input-field"
+              placeholder="이메일"
+              maxlength="30"
+              required
+            />
+            <p class="js-check-email-message text-sm mt-1 mb-0 ml-4"></p>
+          </div>
+          <div class="input-control">
+            <label for="name" class="input-label" hidden>이름</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="input-field"
+              placeholder="이름"
+              maxlength="20"
+              required
+            />
+          </div>
+          <div class="input-control">
+            <label for="password" class="input-label" hidden>비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="js-password input-field"
+              placeholder="비밀번호(최소 ${PASSWORD_MIN_LENGTH}자리)"
+              minlength="${PASSWORD_MIN_LENGTH}"
+              maxlength="20"
+              required
+            />
+          </div>
+          <div class="input-control flex-wrap">
+            <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
+            <input
+              type="password"
+              id="password-confirm"
+              name="password-confirm"
+              class="js-password-confirm input-field"
+              placeholder="비밀번호 확인"
+              required
+            />
+            <p class="js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
+          </div>
+          <div class="input-control mt-8">
+            <button
+              type="submit"
+              name="submit"
+              class="input-submit w-100 bg-cyan-300"
+            >
+              확인
+            </button>
+          </div>
+          <p class="text-gray-700 pl-2">
+            이미 회원이신가요?
+            <a href="${PAGE_URLS.LOGIN}" class="js-login-link">로그인</a>
+          </p>
+        </form>
+      </div>
+    `;
+
+    super.initContent(template);
+    this.attachEvent();
   }
 
   attachEvent() {
-    $("form", this.$parent).addEventListener(
+    $("form", this.innerElement).addEventListener(
       "submit",
       this.onSubmitSignupForm.bind(this)
     );
-    $(".js-email-input", this.$parent).addEventListener(
+    $(".js-email-input", this.innerElement).addEventListener(
       "change",
       this.onChangeEmail.bind(this)
     );
-    $(".js-password", this.$parent).addEventListener(
+    $(".js-password", this.innerElement).addEventListener(
       "input",
       this.onTypePassword.bind(this)
     );
-    $(".js-password-confirm", this.$parent).addEventListener(
+    $(".js-password-confirm", this.innerElement).addEventListener(
       "input",
       this.onTypePassword.bind(this)
     );
-    $(".js-login-link", this.$parent).addEventListener(
+    $(".js-login-link", this.innerElement).addEventListener(
       "click",
       this.onClickLoginLink.bind(this)
     );
@@ -174,79 +257,6 @@ export default class SignupForm {
   }
 
   render() {
-    this.$parent.innerHTML = `
-      <div class="wrapper p-10 bg-white">
-        <div class="heading">
-          <h2 class="text">📝 회원가입</h2>
-        </div>
-        <form name="signup" class="form">
-          <div class="input-control flex-wrap">
-            <label for="email" class="input-label" hidden>이메일</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="js-email-input input-field"
-              placeholder="이메일"
-              maxlength="30"
-              required
-            />
-            <p class="js-check-email-message text-sm mt-1 mb-0 ml-4"></p>
-          </div>
-          <div class="input-control">
-            <label for="name" class="input-label" hidden>이름</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="input-field"
-              placeholder="이름"
-              maxlength="20"
-              required
-            />
-          </div>
-          <div class="input-control">
-            <label for="password" class="input-label" hidden>비밀번호</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="js-password input-field"
-              placeholder="비밀번호(최소 ${PASSWORD_MIN_LENGTH}자리)"
-              minlength="${PASSWORD_MIN_LENGTH}"
-              maxlength="20"
-              required
-            />
-          </div>
-          <div class="input-control flex-wrap">
-            <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
-            <input
-              type="password"
-              id="password-confirm"
-              name="password-confirm"
-              class="js-password-confirm input-field"
-              placeholder="비밀번호 확인"
-              required
-            />
-            <p class="js-pw-confirm-message h-2rem text-sm mt-1 mb-0 ml-4"></p>
-          </div>
-          <div class="input-control mt-8">
-            <button
-              type="submit"
-              name="submit"
-              class="input-submit w-100 bg-cyan-300"
-            >
-              확인
-            </button>
-          </div>
-          <p class="text-gray-700 pl-2">
-            이미 회원이신가요?
-            <a href="${PAGE_URLS.LOGIN}" class="js-login-link">로그인</a>
-          </p>
-        </form>
-      </div>
-    `;
-
-    this.attachEvent();
+    super.render();
   }
 }
