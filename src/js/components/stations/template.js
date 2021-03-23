@@ -29,25 +29,46 @@ export const stationsTemplate = () => {
         <ul class="mt-3 pl-0">
           <li class="station-list-item d-flex items-center py-2">
             <span class="w-100 pl-2">사당</span>
-            <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">
+            <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1">
               수정
             </button>
-            <button type="button" class="bg-gray-50 text-gray-500 text-sm">
-              삭제
-            </button>
-          </li>
-          <hr class="my-0" />
-          <li class="station-list-item d-flex items-center py-2">
-            <span class="w-100 pl-2">방배</span>
-            <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">
-              수정
-            </button>
-            <button type="button" class="bg-gray-50 text-gray-500">
+            <button type="button" class="station-delete-button bg-gray-50 text-gray-500 text-sm">
               삭제
             </button>
           </li>
           <hr class="my-0" />
         </ul>
       </div>
-    `;
+      <div id="station-edit-modal" class="modal">
+        <div class="modal-inner p-8">
+          <button class="modal-close">
+            <svg viewbox="0 0 40 40">
+              <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+            </svg>
+          </button>
+          <header>
+            <h2 class="text-center">📝 역 이름 변경</h2>
+          </header>
+          <form>
+            <div class="input-control">
+              <label for="station-edit-name" class="input-label" hidden
+                >노선 이름</label
+              >
+              <input
+                type="text"
+                id="station-edit-name"
+                name="station-edit-name"
+                class="input-field"
+                placeholder=""
+                required
+              />
+            </div>
+            <div class="d-flex justify-end mt-3">
+              <button type="submit" name="submit" class="input-submit bg-cyan-300">
+                확인
+              </button>
+            </div>
+          </form>
+        </div>
+       </div>`;
 };
