@@ -1,24 +1,20 @@
-import { ELEMENT, STANDARD_NUMBER } from '../utils/constants';
+import { ELEMENT, STANDARD_NUMBER, REG_EXP } from '../utils/constants';
 import token from '../token/Token';
 
-export const isValidEmail = (email) => {
-  const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  return regExp.test(email);
+export const isInvalidEmailFormat = (email) => {
+  return !REG_EXP.EMAIL.test(email);
 };
 
-export const isValidUserName = (userName) => {
-  const regExp = /[^a-z가-힣]/i;
-
-  return !regExp.test(userName);
+export const isInvalidUserNameType = (userName) => {
+  return !REG_EXP.USER_NAME.test(userName);
 };
 
-export const isValidPassword = (password) => {
-  return password.length >= STANDARD_NUMBER.PASSWORD_MIN_LENGTH;
+export const isUnderPasswordMinLength = (password) => {
+  return password.length < STANDARD_NUMBER.PASSWORD_MIN_LENGTH;
 };
 
-export const isValidPasswordConfirm = (password, passwordConfirm) => {
-  return password === passwordConfirm;
+export const isDifferentPasswordAndPasswordConfirm = (password, passwordConfirm) => {
+  return password !== passwordConfirm;
 };
 
 export const isRouterButton = (target) => {
