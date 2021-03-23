@@ -19,44 +19,44 @@ export const getSignUpTemplate = () => `
         </div>
       </div>
       <div class="input-control">
-      <div class= "input-inner"> 
-        <label for="user-name" class="input-label" hidden>이름</label>
-        <input
-          id="user-name"
-          name="user-name"
-          class="signup-form__user-name-input input-field"
-          placeholder="이름"
-          required
-        />
-        <div class="signup-form__user-name-check-text-area input-check-text"></div>
+        <div class= "input-inner"> 
+          <label for="user-name" class="input-label" hidden>이름</label>
+          <input
+            id="user-name"
+            name="user-name"
+            class="signup-form__user-name-input input-field"
+            placeholder="이름"
+            required
+          />
+          <div class="signup-form__user-name-check-text-area input-check-text"></div>
         </div>
       </div>
       <div class="input-control">
-      <div class= "input-inner"> 
-        <label for="password" class="input-label" hidden>비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="signup-form__password-input input-field"
-          placeholder="비밀번호"
-          required
-        />
-        <div class="signup-form__password-check-text-area input-check-text"></div>
+        <div class= "input-inner"> 
+          <label for="password" class="input-label" hidden>비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="signup-form__password-input input-field"
+            placeholder="비밀번호"
+            required
+          />
+          <div class="signup-form__password-check-text-area input-check-text"></div>
         </div>
       </div>
       <div class="input-control">
-      <div class= "input-inner"> 
-        <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
-        <input
-          type="password"
-          id="password-confirm"
-          name="password-confirm"
-          class="signup-form__password-confirm-input input-field"
-          placeholder="비밀번호 확인"
-          required
-        />
-        <div class="signup-form__password-confirm-check-text-area input-check-text"></div>
+        <div class= "input-inner"> 
+          <label for="password-confirm" class="input-label" hidden>비밀번호 확인</label>
+          <input
+            type="password"
+            id="password-confirm"
+            name="password-confirm"
+            class="signup-form__password-confirm-input input-field"
+            placeholder="비밀번호 확인"
+            required
+          />
+          <div class="signup-form__password-confirm-check-text-area input-check-text"></div>
         </div>
       </div>
       <div class="input-control">

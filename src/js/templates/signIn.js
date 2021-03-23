@@ -5,25 +5,31 @@ export const getSignInTemplate = () => `
     </div>
     <form name="signin" class="sign-in-form form">
       <div class="input-control">
-        <label for="email" class="input-label" hidden>이메일</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="signin-form__email-input input-field"
-          placeholder="이메일"
-          required
-        />
+      <div class= "input-inner"> 
+          <label for="email" class="input-label" hidden>이메일</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="signin-form__email-input input-field"
+            placeholder="이메일"
+            required
+          />
+          <div class="signin-form__email-check-text-area input-check-text"></div>
+        </div>
       </div>
       <div class="input-control">
-        <label for="password" class="input-label" hidden>비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="signin-form__password-input input-field"
-          placeholder="비밀번호"
-        />
+        <div class= "input-inner"> 
+          <label for="password" class="input-label" hidden>비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="signin-form__password-input input-field"
+              placeholder="비밀번호"
+            />
+          <div class="signin-form__password-check-text-area input-check-text"></div>
+        </div>
       </div>
       <div class="input-control w-100">
         <button type="submit" name="submit" class="signin-form__submit-button input-submit w-100 bg-cyan-300">

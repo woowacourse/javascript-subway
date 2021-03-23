@@ -1,4 +1,4 @@
-import { ELEMENT, STANDARD_NUMBER, REG_EXP, INPUT_FIELD } from '../utils/constants';
+import { ELEMENT, STANDARD_NUMBER, REG_EXP } from '../utils/constants';
 import token from '../token/Token';
 import { $$ } from '../utils/dom';
 
@@ -27,9 +27,9 @@ export const isSignIn = () => {
 };
 
 export const isAllSignUpInputSuccess = () => {
-  return $$(INPUT_FIELD.SUCCESS).length === STANDARD_NUMBER.SIGN_UP_FORM_INPUT_COUNT;
+  return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_UP_FORM_INPUT_COUNT;
 };
 
 export const isAllSignInInputSuccess = () => {
-  return $$(INPUT_FIELD.FAIL).length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
+  return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
 };

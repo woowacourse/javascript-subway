@@ -47,6 +47,8 @@ export const ELEMENT = Object.freeze({
   SIGN_IN_EMAIL_INPUT: 'signin-form__email-input',
   SIGN_IN_PASSWORD_INPUT: 'signin-form__password-input',
   SIGN_IN_SUBMIT_BUTTON: 'signin-form__submit-button',
+  SIGN_IN_EMAIL_CHECK_TEXT_AREA: 'signin-form__email-check-text-area',
+  SIGN_IN_PASSWORD_CHECK_TEXT_AREA: 'signin-form__password-check-text-area',
   SIGN_UP_EMAIL_INPUT: 'signup-form__email-input',
   SIGN_UP_USER_NAME_INPUT: 'signup-form__user-name-input',
   SIGN_UP_PASSWORD_INPUT: 'signup-form__password-input',
@@ -102,9 +104,4 @@ export const SIGN_OUT_CONFIRM_MESSAGE = '로그아웃 하시겠습니까?';
 export const REG_EXP = {
   USER_NAME: /^[a-z가-힣]+$/i,
   EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-};
-
-export const INPUT_FIELD = {
-  SUCCESS: '.input-field.success',
-  FAIL: '.input-field.success',
 };
