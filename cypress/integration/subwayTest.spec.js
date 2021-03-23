@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE, ID_SELECTOR } from '../../src/js/constants';
+import { ALERT_MESSAGE, ID_SELECTOR, URL } from '../../src/js/constants';
 
 const EMAIL = 'wnsah052@naver.com';
 const NAME = '한준모';
@@ -16,8 +16,8 @@ context('Window', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
-    cy.get('nav').find(`[href="/pages/login.html"]`).click();
-    cy.get('main').find(`[href="/pages/signup.html"]`).click();
+    cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
+    cy.get('main').find(`[href=${URL.SIGNUP}]`).click();
 
     cy.get(`#${ID_SELECTOR.SIGNUP_FORM_EMAIL}`).type(EMAIL);
     cy.get(`#${ID_SELECTOR.SIGNUP_FORM_NAME}`).type(NAME);
@@ -37,7 +37,7 @@ context('Window', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
-    cy.get('nav').find(`[href="/pages/login.html"]`).click();
+    cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
 
     login().then(() => {
       expect(stub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.LOGIN_SUCCESS);
@@ -46,7 +46,7 @@ context('Window', () => {
 
   it('로그인 하게되면 로그인 버튼은 로그아웃 버튼으로 변경된다.', () => {
     login();
-    cy.get('nav').find(`[href="/pages/login.html"]`).should('not.be.visible');
+    cy.get('nav').find(`[href=${URL.LOGIN}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
   });
 
@@ -83,12 +83,12 @@ context('Window', () => {
     login();
 
     cy.get(`#${ID_SELECTOR.NAV_MY_INFO}`).click();
-    cy.url().should('eq', 'http://127.0.0.1:5500/pages/myInfo.html');
+    cy.url().should('eq', `http://127.0.0.1:5500${URL.MY_INFO}`);
   });
 });
 
 function login() {
-  cy.get('nav').find(`[href="/pages/login.html"]`).click();
+  cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
 
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_EMAIL}`).type(EMAIL);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_PASSWORD}`).type(PASSWORD);

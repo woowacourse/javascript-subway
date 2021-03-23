@@ -5,7 +5,7 @@ import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
-import { ID_SELECTOR, KEYWORD, STATE_KEY } from '../constants.js';
+import { ID_SELECTOR, KEYWORD, STATE_KEY, URL } from '../constants.js';
 import { show, hide } from '../utils/DOM.js';
 class AppPage extends Page {
   constructor(props) {
@@ -17,15 +17,14 @@ class AppPage extends Page {
       },
     });
 
-    this._routingUrl = {
-      //TODO: 주소 상수화
-      '/': new HomeComponent(),
-      '/pages/login.html': new LoginComponent({
+    this._router = {
+      [URL.HOME]: new HomeComponent(),
+      [URL.LOGIN]: new LoginComponent({
         route: this.route,
         appState: this.state,
       }),
-      '/pages/signup.html': new SignupComponent({ route: this.route }),
-      '/pages/myInfo.html': new MyInfoComponent({ appState: this.state }),
+      [URL.SIGNUP]: new SignupComponent({ route: this.route }),
+      [URL.MY_INFO]: new MyInfoComponent({ appState: this.state }),
     };
 
     this.state.setListener(
@@ -61,11 +60,11 @@ class AppPage extends Page {
     const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
-      this.route('/pages/login.html');
+      this.route(URL.LOGIN);
       return;
     }
 
-    this.route('/');
+    this.route(URL.HOME);
   };
 
   #onLogout = () => {
