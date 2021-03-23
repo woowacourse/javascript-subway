@@ -1,8 +1,9 @@
-import { COOKIE_KEY } from '../constants.js';
+import { COOKIE_KEY, SNACKBAR_MESSAGE } from '../constants.js';
 import jwtToken from '../jwtToken.js';
 import { logoutButtonTemplate } from '../templates/appNavbar.js';
 import headerTemplate from '../templates/header.js';
 import { $ } from '../utils/DOM.js';
+import showSnackBar from '../utils/snackbar.js';
 
 class MainPage {
   constructor(router) {
@@ -33,6 +34,7 @@ class MainPage {
     this.resetView();
 
     jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
+    showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGOUT);
     this.router.navigate('/');
   }
 

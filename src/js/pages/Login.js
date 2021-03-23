@@ -1,5 +1,5 @@
 import { $ } from '../utils/DOM.js';
-import { MESSAGE, COOKIE_KEY, HTTP } from '../constants.js';
+import { MESSAGE, COOKIE_KEY, HTTP, SNACKBAR_MESSAGE } from '../constants.js';
 import { fetchLogin } from '../API/auth.js';
 import jwtToken from '../jwtToken.js';
 import loginTemplate from '../templates/login.js';
@@ -7,6 +7,7 @@ import {
   checkEmailInputHandler,
   checkPasswordInputHandler,
 } from '../authHandlers.js';
+import showSnackBar from '../utils/snackbar.js';
 
 class LoginPage {
   constructor(router) {
@@ -32,6 +33,7 @@ class LoginPage {
 
       const { accessToken } = await response.json();
       jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
+      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
     } catch (error) {
       console.error(error);
       alert(error);

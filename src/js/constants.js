@@ -12,6 +12,14 @@ const MESSAGE = {
   },
 };
 
+const SNACKBAR_MESSAGE = {
+  SUCCESS: {
+    SIGNUP: '회원가입에 성공했습니다.',
+    LOGIN: '로그인에 성공했습니다.',
+    LOGOUT: '로그아웃에 성공했습니다.',
+  },
+};
+
 const BASE_URL = 'https://www.boorownie.com';
 
 const HTTP = {
@@ -48,4 +56,5 @@ const REG_EXP = {
   NAME: /\s+/,
   PASSWORD: /^(?=.*[a-zA-z])(?=.*[0-9]).{6,15}$/,
 };
-export { MESSAGE, BASE_URL, HTTP, COOKIE_KEY, REG_EXP };
+
+export { MESSAGE, BASE_URL, HTTP, COOKIE_KEY, REG_EXP, SNACKBAR_MESSAGE };

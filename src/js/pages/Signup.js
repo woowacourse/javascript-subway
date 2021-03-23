@@ -1,6 +1,6 @@
 import { $ } from '../utils/DOM.js';
 import { fetchSignup, fetchToCheckDuplicatedEmail } from '../API/auth.js';
-import { HTTP, MESSAGE } from '../constants.js';
+import { HTTP, MESSAGE, SNACKBAR_MESSAGE } from '../constants.js';
 import signupTemplate from '../templates/signup.js';
 import {
   checkEmailInputHandler,
@@ -8,6 +8,7 @@ import {
   checkPasswordConfirmInputHandler,
   checkPasswordInputHandler,
 } from '../authHandlers.js';
+import showSnackBar from '../utils/snackbar.js';
 
 class SignupPage {
   constructor(router) {
@@ -32,6 +33,7 @@ class SignupPage {
         throw MESSAGE.ERROR.FAIL_TO_SIGNUP;
       }
 
+      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.SIGNUP);
       this.router.navigate('/');
     } catch (error) {
       console.error(error);
@@ -106,9 +108,9 @@ class SignupPage {
 
     $('#check-duplicated-email-button').addEventListener(
       'click',
-      this.checkDuplicatedEmailHandler
+      this.checkDuplicatedEmailHandler.bind(this)
     );
-    $('#signup-form').addEventListener('submit', this.signupHandler);
+    $('#signup-form').addEventListener('submit', this.signupHandler.bind(this));
 
     $('#login').addEventListener('click', e => {
       e.preventDefault();
