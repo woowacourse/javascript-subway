@@ -80,8 +80,10 @@ export class StationManage {
     if (!isValidName(stationName)) {
       this.$$stationAdd.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       this.$$stationAdd.$button.disabled = true;
+
       return;
     }
+
     this.$$stationAdd.$failMessage.innerText = '';
     this.$$stationAdd.$button.disabled = false;
   }
@@ -148,7 +150,7 @@ export class StationManage {
       this.clearInput(this.$$stationModify.$input);
     } catch (error) {
       console.error(error.message);
-      this.$$stationAdd.$failMessage.innerText =
+      this.$$stationModify.$failMessage.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
   }
@@ -161,8 +163,10 @@ export class StationManage {
     if (!isValidName(stationName)) {
       this.$$stationModify.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       this.$$stationModify.$button.disabled = true;
+
       return;
     }
+
     this.$$stationModify.$failMessage.innerText = '';
     this.$$stationModify.$button.disabled = false;
   }
