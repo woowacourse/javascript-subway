@@ -1,6 +1,6 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate } from './template.js';
-import { $ } from '../../utils/index.js';
+import { $, API } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE } from '../../constants/index.js';
 export default class Stations extends Component {
   constructor() {
@@ -9,12 +9,31 @@ export default class Stations extends Component {
 
   bindEvent() {}
 
-  render(token) {
-    $('main').innerHTML = token ? stationsTemplate() : LOGIN_REQUIRED_TEMPLATE;
+  async getStationList(token) {
+    try {
+      const response = await API.getStationList(token);
+      const responseJSON = await response.json();
+
+      return responseJSON;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
-  load(token = '') {
-    this.render(token);
-    this.bindEvent();
+  render(token, stationList) {
+    $('main').innerHTML = token
+      ? stationsTemplate(stationList)
+      : LOGIN_REQUIRED_TEMPLATE;
+  }
+
+  async load(token) {
+    try {
+      const stationList = await this.getStationList(token);
+
+      this.render(token, stationList);
+      this.bindEvent();
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

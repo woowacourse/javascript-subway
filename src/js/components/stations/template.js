@@ -1,10 +1,23 @@
-export const stationsTemplate = () => {
+const stationListTemplate = (station) => {
+  return `<li class="station-list-item d-flex items-center py-2">
+            <span class="w-100 pl-2">${station.name}</span>
+            <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1" data-id=${station.id}>
+              수정
+            </button>
+            <button type="button" class="station-delete-button bg-gray-50 text-gray-500 text-sm" data-id=${station.id}>
+              삭제
+            </button>
+          </li>
+          <hr class="my-0" />`;
+};
+
+export const stationsTemplate = (stationList) => {
   return `
     <div class="stations-container container wrapper bg-white p-10">
         <div class="heading">
           <h2 class="mt-1">🚉 역 관리</h2>
         </div>
-        <form>
+        <form id="station-input-form">
           <div class="d-flex w-100">
             <label for="station-name" class="input-label" hidden>
               역 이름
@@ -12,7 +25,7 @@ export const stationsTemplate = () => {
             <input
               type="text"
               id="station-name"
-              name="stationName"
+              name="station-name"
               class="input-field"
               placeholder="역 이름"
               required
@@ -27,16 +40,7 @@ export const stationsTemplate = () => {
           </div>
         </form>
         <ul class="mt-3 pl-0">
-          <li class="station-list-item d-flex items-center py-2">
-            <span class="w-100 pl-2">사당</span>
-            <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1">
-              수정
-            </button>
-            <button type="button" class="station-delete-button bg-gray-50 text-gray-500 text-sm">
-              삭제
-            </button>
-          </li>
-          <hr class="my-0" />
+          ${stationList.map((station) => stationListTemplate(station)).join('')}
         </ul>
       </div>
       <div id="station-edit-modal" class="modal">
