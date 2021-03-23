@@ -1,4 +1,4 @@
-// import '../css/index.css';
+import '../css/index.css';
 import { $ } from './utils/DOM.js';
 import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from './constants/link.js';
 import { headerTemplate } from './components/header.js';

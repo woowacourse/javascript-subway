@@ -1,4 +1,4 @@
-// import subway_emoji from '../../../../images/subway_emoji.png';
+import tomas from '../../../../images/tomas.png';
 
 const mainTemplate = () => {
   return `
@@ -8,7 +8,7 @@ const mainTemplate = () => {
       </div>
       <div class="d-flex flex-col mb-1">
         <div class="d-flex justify-center">
-          <img src='../../../../src/images/tomas.png' width="150" />
+          <img src=${tomas} width="150" />
         </div>
         <p class="mt-2 text-center">
           지하철 노선도 앱을 사용하기 위해서는 <br/> 로그인이 필요합니다.
