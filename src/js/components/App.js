@@ -49,7 +49,7 @@ export default class App extends Component {
       await API.getUserInfo(token);
 
       this.Navigation.render(token);
-      router[pathName]?.(token);
+      await router[pathName]?.(token);
     } catch {
       console.error(MESSAGE.REQUIRE_LOGIN);
       this.Navigation.render();
