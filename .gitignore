@@ -109,3 +109,5 @@ cypress/fixtures
 cypress/plugins
 cypress/support
 subway/
+
+cypress.json
