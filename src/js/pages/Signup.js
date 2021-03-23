@@ -54,6 +54,8 @@ class SignupPage {
         $('#email-input').classList.remove('success');
         $('#email-input').classList.add('fail');
         $('#email-form-message').innerText = MESSAGE.ERROR.DUPLICATED_EMAIL;
+
+        return;
       }
 
       this.isCheckedEmail = true;
