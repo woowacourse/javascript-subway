@@ -1,4 +1,5 @@
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
@@ -8,7 +9,12 @@ module.exports = {
     path: path.join(__dirname, 'bundle'),
     filename: 'bundle.js',
   },
-  plugins: [new CaseSensitivePathsPlugin()],
+  plugins: [
+    new CaseSensitivePathsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css',
+    }),
+  ],
   module: {
     rules: [
       {
@@ -23,6 +29,16 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: 'css-loader',
+            options: { import: true },
+          },
+        ],
       },
     ],
   },
