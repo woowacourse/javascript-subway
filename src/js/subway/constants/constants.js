@@ -48,6 +48,9 @@ export const MESSAGE = {
     INVALID_NAME: '유효한 역이름이 아닙니다.',
     OVERLAPPED_NAME: '역이름이 중복되었습니다.',
   },
+  CONFIRM: {
+    STATION_REMOVE: '해당 역을 삭제하시겠습니까?',
+  },
   ROOT_GREETING: name => `${name}님, 안녕하세요! 이번에 리뷰를 받게된 도비, 카일입니다. 😀`,
   RETRY: '일시적인 에러가 발생했습니다. 다시 시도해주세요.',
 };

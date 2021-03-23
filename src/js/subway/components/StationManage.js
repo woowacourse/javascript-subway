@@ -69,10 +69,15 @@ export class StationManage {
       const station = await this.addStation();
 
       this.$stationList.innerHTML += stationInfo(station);
+      this.clearInput();
     } catch (error) {
       console.error(error.message);
       this.$failMessage.innerText = error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
+  }
+
+  clearInput() {
+    this.$stationNameInput.value = '';
   }
 
   async addStation() {
@@ -113,6 +118,8 @@ export class StationManage {
     const $station = target.closest('.station-list-item');
     const stationId = $station.dataset.stationId;
 
+    if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
+
     try {
       await this.removeStation(stationId);
       $station.remove();
@@ -124,13 +131,10 @@ export class StationManage {
   async removeStation(stationId) {
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     const url = `${BASE_URL}/stations/${stationId}`;
-    console.log(url);
     const option = {
       method: 'DELETE',
       headers: {
-        // 무야호
         Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
       },
     };
 
