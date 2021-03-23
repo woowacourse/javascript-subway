@@ -35,14 +35,6 @@ export const SIGN_IN = deepFreeze({
   FAIL_MESSAGE: '로그인에 실패하였습니다.',
 });
 
-export const SIGN_UP = deepFreeze({
-  ERROR_ALERT_MATCH: {
-    400: '중복된 이메일을 입력하셨습니다.',
-    500: '오류가 발생하였습니다. 문제가 지속될 경우, 관리자에게 문의하시기 바랍니다.',
-  },
-  FAIL_MESSAGE: '회원가입에 실패하였습니다.',
-});
-
 export const ELEMENT = Object.freeze({
   APP: 'app',
   MAIN_SCREEN: 'main-screen',
@@ -60,6 +52,10 @@ export const ELEMENT = Object.freeze({
   SIGN_UP_PASSWORD_INPUT: 'signup-form__password-input',
   SIGN_UP_PASSWORD_CONFIRM_INPUT: 'signup-form__password-confirm-input',
   SIGN_UP_SUBMIT_BUTTON: 'signup-form__submit-button',
+  SIGN_UP_EMAIL_CHECK_TEXT_AREA: 'signup-form__email-check-text-area',
+  SIGN_UP_USER_NAME_CHECK_TEXT_AREA: 'signup-form__user-name-check-text-area',
+  SIGN_UP_PASSWORD_CHECK_TEXT_AREA: 'signup-form__password-check-text-area',
+  SIGN_UP_PASSWORD_CONFIRM_TEXT_AREA: 'signup-form__password-confirm-check-text-area',
   EMAIL: 'email',
   PASSWORD: 'password',
   USER_NAME: 'user-name',
@@ -87,6 +83,9 @@ export const ERROR_MESSAGE = Object.freeze({
   INVALID_USER_NAME_TYPE: '이름이 올바르지 않습니다.',
   NEED_OVER_PASSWORD_MIN_LENGTH: `비밀번호는 ${STANDARD_NUMBER.PASSWORD_MIN_LENGTH}자 이상으로 입력하셔야 합니다.`,
   DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM: '비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.',
+  DUPLICATED_EMAIL: '중복된 이메일을 입력하셨습니다.',
+  UNCAUGHT_ERROR: '오류가 발생하였습니다. 문제가 지속될 경우, 관리자에게 문의하시기 바랍니다.',
+  SIGN_UP_FAIL: '회원가입에 실패하였습니다.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({
