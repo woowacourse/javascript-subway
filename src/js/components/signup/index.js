@@ -8,6 +8,10 @@ import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import { LENGTH } from '../../constants/standard.js';
 import HEADERS from '../../constants/headers.js';
+import routeManager from '../../stateManagers/RouteManager.js';
+import { AUTHENTICATED_LINK } from '../../constants/link.js';
+import accessTokenManager from '../../stateManagers/AccessTokenManager.js';
+
 class Signup extends Component {
   constructor(parentNode) {
     super(parentNode);
@@ -103,16 +107,12 @@ class Signup extends Component {
       }
 
       try {
-        await request.post(BASE_URL + PATH.MEMBERS.SIGNUP, {
-          headers: {
-            ...HEADERS.CONTENT_TYPE.JSON,
-          },
-          body: JSON.stringify({
-            name: e.target['name'].value,
-            email: e.target['email'].value,
-            password: e.target['password'].value,
-          }),
-        });
+        const name = e.target['name'].value;
+        const email = e.target['email'].value;
+        const password = e.target['password'].value;
+
+        await this.signup(name, email, password);
+        await this.loginAfterSignup(email, password);
       } catch (error) {
         console.error(error);
       }
@@ -167,6 +167,39 @@ class Signup extends Component {
     if (!isSamePassword) {
       throw new ValidationError(ERROR_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
+  }
+
+  async signup(name, email, password) {
+    const response = await request.post(BASE_URL + PATH.MEMBERS.SIGNUP, {
+      headers: {
+        ...HEADERS.CONTENT_TYPE.JSON,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
+    });
+
+    if (!response.ok) throw Error(response.message);
+  }
+
+  async loginAfterSignup(email, password) {
+    const response = await request.post(BASE_URL + PATH.MEMBERS.LOGIN, {
+      headers: {
+        ...HEADERS.CONTENT_TYPE.JSON,
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    if (!response.ok) throw Error(response.message);
+
+    const { accessToken } = await response.json();
+
+    accessTokenManager.setToken(accessToken);
+    routeManager.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 

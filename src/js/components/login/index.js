@@ -23,31 +23,11 @@ class Login extends Component {
     $('#login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      const email = e.target['email'].value;
+      const password = e.target['password'].value;
+
       try {
-        const response = await request.post(BASE_URL + PATH.MEMBERS.LOGIN, {
-          headers: {
-            ...HEADERS.CONTENT_TYPE.JSON,
-          },
-          body: JSON.stringify({
-            email: e.target['email'].value,
-            password: e.target['password'].value,
-          }),
-        });
-
-        if (response.status === 500) {
-          throw new ValidationError(ERROR_MESSAGE.LOGIN.EMAIL);
-        }
-
-        if (response.status === 400) {
-          throw new ValidationError(ERROR_MESSAGE.LOGIN.PASSWORD);
-        }
-
-        if (!response.ok) throw Error(response.message);
-
-        const { accessToken } = await response.json();
-
-        accessTokenManager.setToken(accessToken);
-        routeManager.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+        await this.login(email, password);
       } catch (error) {
         if (error instanceof ValidationError) {
           $('.js-login-check').innerText = error.message;
@@ -55,6 +35,33 @@ class Login extends Component {
         console.error(error);
       }
     });
+  }
+
+  async login(email, password) {
+    const response = await request.post(BASE_URL + PATH.MEMBERS.LOGIN, {
+      headers: {
+        ...HEADERS.CONTENT_TYPE.JSON,
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (response.status === 500) {
+      throw new ValidationError(ERROR_MESSAGE.LOGIN.EMAIL);
+    }
+
+    if (response.status === 400) {
+      throw new ValidationError(ERROR_MESSAGE.LOGIN.PASSWORD);
+    }
+
+    if (!response.ok) throw Error(response.message);
+
+    const { accessToken } = await response.json();
+
+    accessTokenManager.setToken(accessToken);
+    routeManager.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 
