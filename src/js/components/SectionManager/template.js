@@ -1,4 +1,5 @@
-export const contentTemplate = `<div class="wrapper bg-white p-10">
+export const contentTemplate = `
+  <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">🔁 구간 관리</h2>
       <button
@@ -9,7 +10,8 @@ export const contentTemplate = `<div class="wrapper bg-white p-10">
       </button>
     </div>
     <form class="d-flex items-center pl-1">
-      <select class="bg-blue-400">
+      <label for="subway-line" class="input-label" hidden>노선</label>
+      <select id="subway-line" class="bg-blue-400">
         <option>1호선</option>
         <option>2호선</option>
         <option>3호선</option>
@@ -49,7 +51,10 @@ export const modalTemplate = `
     </header>
     <form>
       <div class="input-control">
-        <select>
+        <label for="subway-line-for-section" class="input-label" hidden
+          >노선</label
+        >
+        <select id="subway-line-for-section">
           <option>1호선</option>
           <option>2호선</option>
           <option>3호선</option>
@@ -57,15 +62,18 @@ export const modalTemplate = `
         </select>
       </div>
       <div class="d-flex items-center input-control">
-        <select>
-          <option value="" selected disabled hidden>이전역</option>
+        <label for="up-station" class="input-label" hidden>상행역</label>
+        <select id="up-station">
+          <option value="" selected disabled hidden>상행역</option>
           <option>사당</option>
           <option>방배</option>
           <option>서초</option>
         </select>
         <div class="d-inline-block mx-3 text-2xl">➡️</div>
-        <select>
-          <option value="" selected disabled hidden>다음역</option>
+        <label for="down-station" class="input-label" hidden
+          >하행역</label>
+        <select id="down-station">
+          <option value="" selected disabled hidden>하행역</option>
           <option>사당</option>
           <option>방배</option>
           <option>서초</option>
