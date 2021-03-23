@@ -1,5 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Login {
   #targetSelector;
@@ -15,7 +15,7 @@ export default class Login {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    $(this.#targetSelector).innerHTML = this.#getLoginTemplate();
   }
 
   #getWrapperTemplate() {
@@ -29,7 +29,7 @@ export default class Login {
     `;
   }
 
-  #getTemplate() {
+  #getLoginTemplate() {
     return `
       <div class="input-control">
         <label for="email" class="input-label" hidden>이메일</label>

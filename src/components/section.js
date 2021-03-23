@@ -1,5 +1,5 @@
 import { SELECTOR_ID, STATE_KEY } from '../constants.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Section {
   #lineListSelector;

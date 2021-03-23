@@ -1,5 +1,5 @@
-@import "./shared/index.scss";
-@import "./ui/index.scss";
+@import './shared/index.scss';
+@import './ui/index.scss';
 
 html,
 body {
@@ -22,8 +22,7 @@ a {
 
 main .wrapper {
   width: 540px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
@@ -45,4 +44,13 @@ ul li button {
 
 ul li button:hover {
   background-color: rgb(229, 231, 235);
+}
+
+#backdrop {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
 }

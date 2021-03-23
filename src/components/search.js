@@ -1,5 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Search {
   #targetSelector;

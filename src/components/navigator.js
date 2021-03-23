@@ -1,6 +1,6 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Navigator extends Observer {
   #targetSelector;

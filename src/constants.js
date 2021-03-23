@@ -19,11 +19,26 @@ export const SELECTOR_ID = Object.freeze({
   SIGN_UP_PASSWORD_CHECK_INPUT: 'signup-password-check-input',
   SIGN_UP_NAME_INPUT: 'signup-name-input',
   GUIDE_WRAPPER: 'guide-wrapper',
+  MODAL: 'modal',
+  BACKDROP: 'backdrop',
 });
 
+// TODO : BEM 일괄 적용
 export const SELECTOR_CLASS = Object.freeze({
   NAVIGATOR_BUTTON: 'js-navigator__button',
   CREATE_LINE_BUTTON: 'create-line-btn',
+  STATION_LIST_ITEM: 'station-list__item',
+  STATION_LIST_ITEM_NAME: 'station-list__item-name',
+  STATION_LIST_ITEM_INPUT: 'station-list__item-input',
+  STATION_LIST_ITEM_EDIT: 'station-list__item-edit',
+  STATION_LIST_ITEM_EDIT_COMPLETE: 'station-list__item-edit-complete',
+  STATION_LIST_ITEM_DELETE: 'station-list__item-delete',
+  LINE_LIST_ITEM: 'line-list__item',
+  SECTION_LIST_ITEM: 'section-list__item',
+});
+
+export const STYLE_CLASS = Object.freeze({
+  REMOVED: 'd-none',
 });
 
 export const PATH = Object.freeze({
@@ -51,8 +66,8 @@ export const STATE_KEY = Object.freeze({
 
 export const VALIDATION = Object.freeze({
   MIN_STATION_NAME_LENGTH: 2,
-  MAX_STATION_NAME_LENGTH: 20
-})
+  MAX_STATION_NAME_LENGTH: 20,
+});
 
 export const ALERT_MESSAGE = Object.freeze({
   PASSWORD_UNMATCHED: '비밀번호 확인이 일치하지 않습니다',
@@ -60,5 +75,21 @@ export const ALERT_MESSAGE = Object.freeze({
   SIGNUP_FAILED: '회원가입에 실패하였습니다',
   STATION_REGISTRATION_FAILED: '역 등록에 실패하였습니다',
   NOT_PROPER_STATION_NAME_LENGTH: `역의 이름은 ${VALIDATION.MIN_STATION_NAME_LENGTH}자 이상 ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하여야 합니다`,
-  DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다'
+  DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다',
+});
+
+export const FILE_PATH = Object.freeze({
+  STATIONS_CSS: '/stations.css',
+  LINES_CSS: '/lines.css',
+  SECTIONS_CSS: '/sections.css',
+});
+
+export const PAGE_TITLE = Object.freeze({
+  STATIONS: '🚇 역 관리',
+  LINES: '🚇 구간 관리',
+  SECTIONS: '🚇 구관 관리',
+  LOG_IN: '🚇 로그인',
+  SIGN_UP: '🚇 회원가입',
+  SEARCH: '🚇 길찾기',
+  SUBWAY: '🚇 전체 보기',
 });

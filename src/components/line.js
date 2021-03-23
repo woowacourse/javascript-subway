@@ -1,6 +1,6 @@
 import { SELECTOR_CLASS, SELECTOR_ID } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Line extends Observer {
   #targetSelector;
@@ -19,7 +19,7 @@ export default class Line extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    $(this.#targetSelector).innerHTML = this.#getListListTemplate();
   }
 
   #getWrapperTemplate() {
@@ -34,7 +34,7 @@ export default class Line extends Observer {
     `;
   }
 
-  #getTemplate() {
+  #getListListTemplate() {
     return this.#state
       .get('lineList')
       .map(line => this.#getLineTemplate(line.name))

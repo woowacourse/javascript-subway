@@ -1,6 +1,6 @@
-import { SELECTOR_ID, STATE_KEY } from '../constants';
+import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
 import Observer from '../lib/Observer';
-import { $ } from '../utils/utils';
+import { $, setHeadTagAttribute } from '../utils/dom.js';
 
 export default class Station extends Observer {
   #targetSelector;
@@ -19,15 +19,21 @@ export default class Station extends Observer {
   }
 
   renderPage() {
+    setHeadTagAttribute(PAGE_TITLE.STATIONS, FILE_PATH.STATIONS_CSS);
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    $(this.#targetSelector).innerHTML = this.#getStationListTemplate();
+  }
+
+  openStationModal() {
+    $(`#${SELECTOR_ID.MODAL}`).innerHTML = this.#getModalTemplate();
   }
 
   #getWrapperTemplate() {
     return `
+      <link rel="stylesheet" href="" />
       <div data-test-id="stations" class="wrapper bg-white p-10 fade-in">
         <div class="heading"><h2 class="mt-1">🚉 역 관리</h2></div>
         <form id="${SELECTOR_ID.STATION_FORM}">
@@ -48,7 +54,7 @@ export default class Station extends Observer {
     `;
   }
 
-  #getTemplate() {
+  #getStationListTemplate() {
     return this.#state
       .get(STATE_KEY.STATION_LIST)
       .map(station => this.#getStationTemplate(station))
@@ -57,12 +63,29 @@ export default class Station extends Observer {
 
   #getStationTemplate(station) {
     return `
-      <li class="station-list-item d-flex items-center py-2" data-station-id="${station.id}">
-        <span class="w-100 pl-2">${station.name}</span>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+      <li class="${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2">
+        <span class="${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2">${station.name}</span>
+        <button 
+          type="button" 
+          class="${SELECTOR_CLASS.STATION_LIST_ITEM_EDIT} bg-gray-50 text-gray-500 text-sm mr-1"
+          data-station-id="${station.id}"
+          data-station-name="${station.name}"
+        >
+          수정
+        </button>
+        <button 
+          type="button" 
+          class="${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} 
+          bg-gray-50 text-gray-500 text-sm"
+          data-station-id="${station.id}"
+        >
+          삭제
+        </button>
+        <input data-station-id="${station.id}" class="${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}" type="text" />
       </li>
       <hr class="my-0" />
     `;
   }
+
+  #getModalTemplate() {}
 }
