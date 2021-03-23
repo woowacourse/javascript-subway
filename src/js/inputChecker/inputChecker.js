@@ -1,16 +1,16 @@
 import { $, activateTarget, deactivateTarget } from '../utils/dom';
 import { isAllSignInInputSuccess, isAllSignUpInputSuccess } from '../validators/boolean';
-import { INPUT_FIELD, ELEMENT } from '../utils/constants';
+import { ELEMENT } from '../utils/constants';
 
 const toggleSubmitActivation = (isAllInputSuccess) => {
-  const $submitButton = $(ELEMENT.INPUT_SUBMIT);
+  const $submitButton = $(`.${ELEMENT.INPUT_SUBMIT}`);
   isAllInputSuccess ? activateTarget($submitButton) : deactivateTarget($submitButton);
 };
 
 export const renderCheckingArea = ({ $textArea, $input, errorMessage }) => {
   $textArea.innerText = errorMessage ?? '';
-  $input.classList.remove(INPUT_FIELD.SUCCESS, INPUT_FIELD.FAIL);
-  $input.classList.add(`${errorMessage ? INPUT_FIELD.FAIL : INPUT_FIELD.SUCCESS}`);
+  $input.classList.remove('success', 'fail');
+  $input.classList.add(`${errorMessage ? 'fail' : 'success'}`);
 };
 
 const checkInputInRealTime = ({ callback, $textArea, $input }, isAllInputSuccess) => {
