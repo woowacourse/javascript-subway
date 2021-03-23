@@ -9,6 +9,7 @@ export const ALERT_MESSAGE = Object.freeze({
   DUPLICATED_STATION_NAME: '이미 존재하는 역 이름입니다.',
   DELETE_STATION_FAILED: '역 삭제에 실패했습니다.',
   DELETE_STATION_SUCCESS: '역을 삭제했습니다.',
+  DELETE_STATION_CONFIRM: '역을 삭제하시겠습니까?',
 });
 
 export const API = Object.freeze({
