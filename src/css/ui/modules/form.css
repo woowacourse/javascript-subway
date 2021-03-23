@@ -23,11 +23,11 @@ form .input-field {
   background: #f1f5f9;
 }
 
-form .input-field.border-red {
+form .input-field.fail {
   border: 1.75px solid rgb(221, 61, 61);
 }
 
-form .input-field.border-green {
+form .input-field.success {
   border: 1.75px solid rgb(68, 194, 68);
 }
 

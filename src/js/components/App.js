@@ -14,7 +14,7 @@ import {
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
-import { isRouterButton, isSignIn } from '../validators/validation';
+import { isRouterButton, isSignIn } from '../validators/boolean';
 import token from '../token/Token';
 
 class App {
