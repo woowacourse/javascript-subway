@@ -76,7 +76,7 @@ class SignIn {
   }
 
   getMatchedAlert(statusCode) {
-    const errorMessage = SIGN_IN.ERROR_ALERT_MATCH[statusCode];
+    const errorMessage = SIGN_IN.STATUS_CODE_MATCHED_ERROR_MESSAGE[statusCode];
 
     if (!errorMessage) {
       alert(SIGN_IN.FAIL_MESSAGE);

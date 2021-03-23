@@ -4,37 +4,6 @@ export const API_END_POINT = 'http://3.35.213.149:8080';
 export const SESSION_KEY_TOKEN = 'token';
 export const SNACKBAR_SHOW_TIME = 1500;
 
-export const PATH = Object.freeze({
-  MAIN: '/',
-  STATIONS: '/stations',
-  LINES: '/lines',
-  SECTIONS: '/sections',
-  MAP: '/map',
-  SEARCH: '/search',
-  SIGNIN: '/signin',
-  SIGNUP: '/signup',
-  SIGNOUT: '/signout',
-});
-
-export const TITLES = Object.freeze({
-  '/': '🚇 지하철 노선도',
-  '/stations': '🚉 역 관리',
-  '/lines': '🛤 노선 관리',
-  '/sections': '🔁 구간 관리',
-  '/map': '🗺️ 전체 보기',
-  '/search': '🔎 길 찾기',
-  '/signin': '🙆🏻 로그인',
-  '/signup': '📝 회원가입',
-});
-
-export const SIGN_IN = deepFreeze({
-  ERROR_ALERT_MATCH: {
-    400: '비밀번호가 일치하지 않습니다.',
-    500: '존재하지 않는 이메일입니다.',
-  },
-  FAIL_MESSAGE: '로그인에 실패하였습니다.',
-});
-
 export const ELEMENT = Object.freeze({
   APP: 'app',
   MAIN_SCREEN: 'main-screen',
@@ -65,22 +34,58 @@ export const ELEMENT = Object.freeze({
   PASSWORD_CONFIRM: 'password-confirm',
 });
 
+export const PATH = Object.freeze({
+  MAIN: '/',
+  STATIONS: '/stations',
+  LINES: '/lines',
+  SECTIONS: '/sections',
+  MAP: '/map',
+  SEARCH: '/search',
+  SIGNIN: '/signin',
+  SIGNUP: '/signup',
+  SIGNOUT: '/signout',
+});
+
+export const TITLES = Object.freeze({
+  '/': '🚇 지하철 노선도',
+  '/stations': '🚉 역 관리',
+  '/lines': '🛤 노선 관리',
+  '/sections': '🔁 구간 관리',
+  '/map': '🗺️ 전체 보기',
+  '/search': '🔎 길 찾기',
+  '/signin': '🙆🏻 로그인',
+  '/signup': '📝 회원가입',
+});
+
 export const MENU_TITLE = Object.freeze({
   SIGN_OUT: '🙅🏻 로그아웃',
   SIGN_IN: '🙆🏻 로그인',
 });
-
-export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });
 
 export const METHOD = Object.freeze({
   POST: 'POST',
   GET: 'GET',
 });
 
+export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });
+
+export const REG_EXP = {
+  USER_NAME: /^[a-z가-힣]+$/i,
+  EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+};
+
 export const STANDARD_NUMBER = Object.freeze({
   PASSWORD_MIN_LENGTH: 8,
   SIGN_UP_FORM_INPUT_COUNT: 4,
   SIGN_IN_FORM_INPUT_COUNT: 2,
+});
+
+export const SIGN_IN = deepFreeze({
+  STATUS_CODE_MATCHED_ERROR_MESSAGE: {
+    400: '비밀번호가 일치하지 않습니다.',
+    500: '존재하지 않는 이메일입니다.',
+  },
+  FAIL_MESSAGE: '로그인에 실패하였습니다.',
 });
 
 export const ERROR_MESSAGE = Object.freeze({
@@ -100,8 +105,3 @@ export const SUCCESS_MESSAGE = Object.freeze({
 });
 
 export const SIGN_OUT_CONFIRM_MESSAGE = '로그아웃 하시겠습니까?';
-
-export const REG_EXP = {
-  USER_NAME: /^[a-z가-힣]+$/i,
-  EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-};
