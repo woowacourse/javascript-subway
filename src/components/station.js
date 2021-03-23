@@ -63,7 +63,7 @@ export default class Station extends Observer {
 
   #getStationTemplate(station) {
     return `
-      <li class="${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2">
+      <li data-station-id="${station.id}" class="${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2">
         <span class="${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2">${station.name}</span>
         <button 
           type="button" 
@@ -78,6 +78,7 @@ export default class Station extends Observer {
           class="${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} 
           bg-gray-50 text-gray-500 text-sm"
           data-station-id="${station.id}"
+          data-station-name="${station.name}"
         >
           삭제
         </button>

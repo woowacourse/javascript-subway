@@ -78,6 +78,10 @@ export const ALERT_MESSAGE = Object.freeze({
   DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다',
 });
 
+export const CONFIRM_MESSAGE = Object.freeze({
+  DELETE: '정말 삭제하시겠습니까?',
+});
+
 export const FILE_PATH = Object.freeze({
   STATIONS_CSS: '/stations.css',
   LINES_CSS: '/lines.css',

@@ -1,8 +1,9 @@
-import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
+import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE } from '../constants';
 import { state } from '../store.js';
 import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
-import { requestStationRegistration } from '../api/station.js';
-import { $, showElement } from '../utils/dom.js';
+import { requestStationDelete, requestStationRegistration } from '../api/station.js';
+import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation } from '../utils/dom.js';
+import { wait } from '../utils/utils';
 
 export function delegateStationSubmitEvent(event) {
   const { target } = event;
@@ -11,10 +12,15 @@ export function delegateStationSubmitEvent(event) {
   }
 }
 
+// TODO : 노선 포함 여부에 따라 역 삭제 처리
+
 export function delegateStationClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_EDIT)) {
     onStationItemInputOpen(target);
+  }
+  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE) && confirm(CONFIRM_MESSAGE.DELETE)) {
+    onStationItemDelete(target);
   }
 }
 
@@ -62,4 +68,22 @@ function onStationItemEdit(target) {
   const targetStationItem = stationList.find(station => station.id === Number(stationId));
   targetStationItem.name = newStationName;
   state.update(STATE_KEY.STATION_LIST, stationList);
+}
+
+function onStationItemDelete(target) {
+  const { stationId } = target.dataset;
+  const newStationList = state.get(STATE_KEY.STATION_LIST).filter(station => station.id !== Number(stationId));
+  const stationItem = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM}[data-station-id="${stationId}"]`);
+  setTurnRedAnimation(stationItem);
+  requestStationDelete(stationId)
+    .then(() => {
+      setFadeOutAnimation(stationItem);
+      wait(500).then(() => {
+        state.update(STATE_KEY.STATION_LIST, newStationList);
+      });
+    })
+    .catch(error => {
+      cancelTurnRedAnimation(stationItem);
+      console.log(error);
+    });
 }
