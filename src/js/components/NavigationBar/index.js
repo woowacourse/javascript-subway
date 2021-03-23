@@ -13,7 +13,7 @@ export default class NavigationBar {
     this.store.subscribe(this);
 
     this.selectDOM();
-    this.selectButton(`${location.pathname.replace('/', '')}-nav-button`);
+    this.selectButton();
     this.bindEvents();
     this.setLogButton();
   }
@@ -45,14 +45,11 @@ export default class NavigationBar {
     }
   }
 
-  selectButton(id) {
-    if (!this.store.userSession.isLoggedIn && location.pathname !== '/login') {
-      this.logButton.classList.remove('selected');
-      return;
-    }
-
+  selectButton() {
     this.navButtons.forEach((button) => {
-      if (button.id === id) {
+      const href = button.closest('a').getAttribute('href');
+
+      if (href === location.pathname) {
         button.classList.add('selected');
       } else {
         button.classList.remove('selected');
@@ -73,7 +70,7 @@ export default class NavigationBar {
 
     routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
 
-    this.selectButton(event.target.id);
+    this.selectButton();
   }
 
   logout() {
