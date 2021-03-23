@@ -20,7 +20,7 @@ describe('Youtube classroom test', () => {
   it('회원 가입 시, 이메일 중복 체크를 할 수 있다.', () => {
     cy.get('#email').type('tyche123@woowa.com');
     cy.get('#check-duplicated-email-button').click();
-    cy.get('#email-fail-message').should('have.text', '중복된 이메일입니다.');
+    cy.get('#email-form-message').should('have.text', '중복된 이메일입니다.');
   });
 
   it('회원 가입 시, 이름에는 공백이 포함될 수 없다.', () => {
