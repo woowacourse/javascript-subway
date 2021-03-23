@@ -50,6 +50,10 @@ svg {
   stroke-width: 5;
 }
 
+#station-modify-form {
+  width: 350px;
+}
+
 @media screen and (max-width: 768px) {
   .modal-inner {
     width: 90%;

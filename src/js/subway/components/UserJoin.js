@@ -1,11 +1,11 @@
-import { contentElements } from '../views';
+import { mainElements } from '../views';
 import { $, encrypt, request } from '../../@shared/utils';
 import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils';
 
 export class UserJoin {
   constructor() {
-    this.$target = contentElements[ROUTE.SIGNUP];
+    this.$target = mainElements[ROUTE.SIGNUP];
     this.isUniqueEmail = false;
     this.selectDOM();
     this.bindEvent();

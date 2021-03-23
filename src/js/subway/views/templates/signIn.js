@@ -2,7 +2,7 @@ import { linkButton } from '../../../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE } from '../../constants/constants';
 
 export const signIn = `
-  <div id="content" class="wrapper p-10 bg-white">
+  <div id="main-content" class="wrapper p-10 bg-white">
     <div class="heading">
       <h2>${MENU.SIGNIN}</h2>
     </div>

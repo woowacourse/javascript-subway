@@ -1,12 +1,12 @@
 import { STATE_KEY, ROUTE, BASE_URL, SESSION_KEY } from '../constants/constants';
-import { contentElements } from '../views';
+import { mainElements } from '../views';
 import { stateManager } from '../../@shared/models/StateManager';
 import { $, encrypt, request, setToSessionStorage } from '../../@shared/utils';
 import { routeTo, getUserName } from '../utils';
 
 export class UserAuth {
   constructor() {
-    this.$target = contentElements[ROUTE.SIGNIN];
+    this.$target = mainElements[ROUTE.SIGNIN];
     this.selectDOM();
     this.bindEvent();
   }

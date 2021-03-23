@@ -5,7 +5,7 @@ export const stationInfo = ({ id, name }) => `
     <span class="w-100 pl-2">${name}</span>
     <button
       type="button"
-      class="jse-update-button bg-gray-50 text-gray-500 text-sm mr-1"
+      class="js-modify-button bg-gray-50 text-gray-500 text-sm mr-1"
       >
       수정
     </button>
@@ -22,7 +22,7 @@ export const stationInfo = ({ id, name }) => `
 export const stationList = stations => stations.map(station => stationInfo(station)).join('');
 
 export const stationManage = `
-  <div id="content" class="wrapper bg-white p-10">
+  <div id="main-content" class="wrapper bg-white p-10">
     <div class="heading">
       <h2 class="mt-1">${MENU.STATIONS}</h2>
     </div>

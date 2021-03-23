@@ -1,12 +1,13 @@
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, request, $ } from '../../@shared/utils';
 import { BASE_URL, MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
-import { isValidName } from '../utils';
-import { contentElements, stationInfo, stationList } from '../views';
+import { isValidName, showModal } from '../utils';
+import { mainElements, stationInfo, stationList } from '../views';
 
 export class StationManage {
-  constructor() {
-    this.$target = contentElements[ROUTE.STATIONS];
+  constructor(props) {
+    this.$target = mainElements[ROUTE.STATIONS];
+    this.props = props;
     this.setup();
     this.selectDOM();
     this.bindEvent();
@@ -61,6 +62,7 @@ export class StationManage {
     this.$stationAddForm.addEventListener('submit', this.handleSubmit.bind(this));
     this.$stationNameInput.addEventListener('input', this.handleStationNameInput.bind(this));
     this.$stationList.addEventListener('click', this.handleRemoveButton.bind(this));
+    this.$stationList.addEventListener('click', this.handleModifyButton.bind(this));
   }
 
   async handleSubmit(event) {
@@ -111,6 +113,11 @@ export class StationManage {
     }
     this.$failMessage.innerText = '';
     this.$stationAddButton.disabled = false;
+  }
+
+  async handleModifyButton({ target }) {
+    if (!target.classList.contains('js-modify-button')) return;
+    showModal(this.props.$modal);
   }
 
   async handleRemoveButton({ target }) {

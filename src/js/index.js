@@ -3,15 +3,15 @@ import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';
-import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
-import { getRedirectedPath, getUserName } from './subway/utils';
+import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
+import { getUserName } from './subway/utils';
 import { routeTo } from './subway/utils';
 
 class App {
   constructor() {
     this.selectDOM();
     this.mountChildComponents();
-    this.bindEvents();
+    this.bindEvent();
   }
 
   selectDOM() {
@@ -22,7 +22,7 @@ class App {
     new Subway();
   }
 
-  bindEvents() {
+  bindEvent() {
     this.$app.addEventListener('click', event => {
       if (!event.target.classList.contains('js-link')) return;
       event.preventDefault();
