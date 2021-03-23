@@ -41,7 +41,7 @@ export default class LoginForm {
     event.preventDefault();
     const path = event.target.getAttribute('href');
 
-    routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
+    routeTo(getAvailablePath(path, this.store.isLoggedIn));
   }
 
   handleSubmit(event) {
@@ -69,7 +69,7 @@ export default class LoginForm {
       });
 
       this.store.updateLoggedIn(true);
-      routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
+      routeTo(getAvailablePath(path, this.store.isLoggedIn));
     } catch (error) {
       console.error(error);
       this.warnLoginError();

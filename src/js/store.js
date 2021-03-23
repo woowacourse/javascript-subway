@@ -1,14 +1,20 @@
 import UserAuth from './models/UserAuth';
-import UserSession from './models/UserSession';
 
 export default class Store {
   constructor() {
     this._subscribers = [];
-
-    this._userSession = new UserSession();
+    this._isLoggedIn = false;
     this._state = {
       user: new UserAuth(),
     };
+  }
+
+  get isLoggedIn() {
+    return this._isLoggedIn;
+  }
+
+  set isLoggedIn(state) {
+    this._isLoggedIn = state;
   }
 
   get userSession() {
@@ -16,7 +22,7 @@ export default class Store {
   }
 
   updateLoggedIn(state) {
-    this._userSession.isLoggedIn = state;
+    this._isLoggedIn = state;
     this.notify();
   }
 

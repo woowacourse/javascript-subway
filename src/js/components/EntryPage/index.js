@@ -26,7 +26,7 @@ export default class EntryPage {
   bindEvents() {}
 
   renderPage() {
-    if (this.store.userSession.isLoggedIn) {
+    if (this.store.isLoggedIn) {
       this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_IN;
     } else {
       this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_OUT;

@@ -49,10 +49,7 @@ export default class App {
     this.navigationBar.init();
     await this.checkIsLoggedIn();
 
-    const path = getAvailablePath(
-      location.pathname,
-      this.store.userSession.isLoggedIn
-    );
+    const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
 
     routeTo(path);
   }

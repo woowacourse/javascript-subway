@@ -33,7 +33,7 @@ export default class NavigationBar {
   }
 
   setLogButton() {
-    const isLoggedIn = this.store.userSession.isLoggedIn;
+    const isLoggedIn = this.store.isLoggedIn;
 
     this.logButton.textContent = isLoggedIn
       ? BUTTON_NAME.LOGOUT
@@ -68,7 +68,7 @@ export default class NavigationBar {
       this.logout();
     }
 
-    routeTo(getAvailablePath(path, this.store.userSession.isLoggedIn));
+    routeTo(getAvailablePath(path, this.store.isLoggedIn));
 
     this.selectButton();
   }
