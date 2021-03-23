@@ -18,7 +18,7 @@ describe('지하철 노선도 STEP1', () => {
 });
 
 describe('지하철 노선도 STEP2', () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit('http://localhost:9000/');
     login('test123@test123.com', 'test123');
   });
@@ -27,5 +27,10 @@ describe('지하철 노선도 STEP2', () => {
     cy.get('#station-name').type('낙성대');
     cy.get('#station-form').submit();
     cy.get('#station-list .station-list-item').should('contain', '낙성대');
+  });
+
+  it('지하철역을 삭제할 수 있다.', () => {
+    cy.get('[data-name="낙성대"] .js-station-delete-button').click();
+    cy.get('#station-list .station-list-item').should('not.contain', '낙성대');
   });
 });
