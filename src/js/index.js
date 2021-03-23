@@ -1,15 +1,14 @@
 // import '../css/index.css';
 import { $ } from './utils/DOM.js';
-import {
-  AUTHENTICATED_LINK,
-  UNAUTHENTICATED_LINK,
-} from './constants/header.js';
+import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from './constants/link.js';
 import { headerTemplate } from './components/header.js';
 import accessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 import routeManager from './stateManagers/RouteManager.js';
 import request from './utils/fetch.js';
 import { BASE_URL, PATH } from './constants/url.js';
+import { ERROR_MESSAGE } from './constants/message.js';
+import HEADERS from './constants/headers.js';
 
 class App {
   constructor() {
@@ -71,14 +70,15 @@ class App {
 
   async isValidAccessToken() {
     try {
+      const accessToken = this.accessTokenManager.getToken();
       const response = await request.get(BASE_URL + PATH.MEMBERS.ME, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.accessTokenManager.getToken()}`,
+          ...HEADERS.CONTENT_TYPE.JSON,
+          ...HEADERS.AUTHORIZATION.BEARER(accessToken),
         },
       });
 
-      if (!response.ok) throw Error('accessToken is not valid');
+      if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
     } catch (error) {
       console.error(error);
       return false;

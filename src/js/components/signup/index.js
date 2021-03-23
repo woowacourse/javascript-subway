@@ -4,6 +4,10 @@ import Component from '../../core/Component.js';
 import request from '../../utils/fetch.js';
 import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
+import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';
+import REGEX from '../../constants/regex.js';
+import { LENGTH } from '../../constants/standard.js';
+import HEADERS from '../../constants/headers.js';
 class Signup extends Component {
   constructor(parentNode) {
     super(parentNode);
@@ -21,15 +25,17 @@ class Signup extends Component {
         if (currentTarget['submit'] === target) return;
 
         if (currentTarget['name'] === target) {
+          const $nameCheck = $('.js-name-check');
+
           try {
             this.validateName(target.value);
-            $('.js-name-check').classList.add('correct');
-            $('.js-name-check').innerText = '사용 가능한 이름입니다.';
+            $nameCheck.classList.add('correct');
+            $nameCheck.innerText = CONFIRM_MESSAGE.NAME;
             this.formValidationFlag.name = true;
           } catch (error) {
             if (error instanceof ValidationError) {
-              $('.js-name-check').classList.remove('correct');
-              $('.js-name-check').innerText = error.message;
+              $nameCheck.classList.remove('correct');
+              $nameCheck.innerText = error.message;
               this.formValidationFlag.name = false;
             }
 
@@ -39,15 +45,17 @@ class Signup extends Component {
         }
 
         if (currentTarget['email'] === target) {
+          const $emailCheck = $('.js-email-check');
+
           try {
             await this.validateEmail(target.value);
-            $('.js-email-check').classList.add('correct');
-            $('.js-email-check').innerText = '사용 가능한 이메일입니다.';
+            $emailCheck.classList.add('correct');
+            $emailCheck.innerText = CONFIRM_MESSAGE.EMAIL;
             this.formValidationFlag.email = true;
           } catch (error) {
             if (error instanceof ValidationError) {
-              $('.js-email-check').classList.remove('correct');
-              $('.js-email-check').innerText = error.message;
+              $emailCheck.classList.remove('correct');
+              $emailCheck.innerText = error.message;
               this.formValidationFlag.email = false;
             }
 
@@ -60,18 +68,19 @@ class Signup extends Component {
           currentTarget['password'] === target ||
           currentTarget['password-confirm'] === target
         ) {
+          const $passwordCheck = $('.js-password-check');
           const password = currentTarget['password'].value;
           const passwordConfirm = currentTarget['password-confirm'].value;
 
           try {
             this.validatePassword(password, passwordConfirm);
-            $('.js-password-check').classList.add('correct');
-            $('.js-password-check').innerText = '비밀번호가 일치합니다.';
+            $passwordCheck.classList.add('correct');
+            $passwordCheck.innerText = CONFIRM_MESSAGE.PASSWORD;
             this.formValidationFlag.password = true;
           } catch (error) {
             if (error instanceof ValidationError) {
-              $('.js-password-check').classList.remove('correct');
-              $('.js-password-check').innerText = error.message;
+              $passwordCheck.classList.remove('correct');
+              $passwordCheck.innerText = error.message;
               this.formValidationFlag.password = false;
             }
 
@@ -96,7 +105,7 @@ class Signup extends Component {
       try {
         await request.post(BASE_URL + PATH.MEMBERS.SIGNUP, {
           headers: {
-            'Content-Type': 'application/json',
+            ...HEADERS.CONTENT_TYPE.JSON,
           },
           body: JSON.stringify({
             name: e.target['name'].value,
@@ -112,22 +121,21 @@ class Signup extends Component {
 
   validateName(name) {
     if (!this.isValidNameFormat(name)) {
-      throw new ValidationError('공백, 특수문자, 숫자는 입력하실 수 없습니다.');
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.NAME.FORMAT);
     }
 
-    if (name.length < 2) {
-      throw new ValidationError('이름은 두글자 이상이어야 합니다.');
+    if (name.length < LENGTH.NAME.MIN || name.length > LENGTH.NAME.MAX) {
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.NAME.LENGTH);
     }
   }
 
   isValidNameFormat(name) {
-    const re = /^([ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z])*$/;
-    return re.test(name);
+    return REGEX.NAME_FORMAT.test(name);
   }
 
   async validateEmail(email) {
     if (!this.isValidEmailFormat(email)) {
-      throw new ValidationError('올바른 이메일 형식이 아닙니다.🥺');
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
     const query = { email };
@@ -138,24 +146,26 @@ class Signup extends Component {
     );
 
     if (response.status === 422) {
-      throw new ValidationError('이미 존재하는 이메일입니다.🥺');
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
     }
   }
 
   isValidEmailFormat(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
+    return REGEX.EMAIL_FORMAT.test(email.toLowerCase());
   }
 
   validatePassword(password, passwordConfirm) {
-    if (password.length < 6 || password.length > 20) {
-      throw new ValidationError('비밀번호는 6 이상 20 이하여야 합니다.🥺');
+    if (
+      password.length < LENGTH.PASSWORD.MIN ||
+      password.length > LENGTH.PASSWORD.MAX
+    ) {
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.PASSWORD.LENGTH);
     }
 
     const isSamePassword = password === passwordConfirm;
 
     if (!isSamePassword) {
-      throw new ValidationError('비밀번호가 일치하지 않습니다.🥺');
+      throw new ValidationError(ERROR_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
   }
 }

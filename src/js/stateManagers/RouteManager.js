@@ -3,7 +3,7 @@ import {
   HOME_LINK,
   AUTHENTICATED_LINK,
   UNAUTHENTICATED_LINK,
-} from '../constants/header.js';
+} from '../constants/link.js';
 import Login from '../components/login/index.js';
 import Signup from '../components/signup/index.js';
 import Section from '../components/section/index.js';

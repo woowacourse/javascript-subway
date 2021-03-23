@@ -16,6 +16,7 @@ const mainTemplate = () => {
             name="name"
             class="input-field"
             placeholder="이름"
+            minlength=2
             maxlength=20
             autofocus
             required
