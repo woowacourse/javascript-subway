@@ -1,10 +1,15 @@
-import staticElements from "../constants/staticElements.js";
+import staticElements from "../../constants/staticElements.js";
+import Component from "./Component.js";
 
-export default class Modal {
+export default class Modal extends Component {
   constructor() {
+    super(staticElements.$modalContent);
     this.$modal = staticElements.$modal;
-    this.$modalContent = staticElements.$modalContent;
     this.$modalCloseBtn = staticElements.$modalCloseBtn;
+  }
+
+  initContent(template) {
+    super.initContent(template);
   }
 
   attachEvent() {
@@ -25,6 +30,6 @@ export default class Modal {
   }
 
   render() {
-    this.$modalContent.innerHTML = "";
+    super.render();
   }
 }

@@ -1,10 +1,14 @@
-export default class Stations {
+import Component from "./common/Component.js";
+
+export default class Stations extends Component {
   constructor({ $parent }) {
-    this.$parent = $parent;
+    super($parent);
+
+    this.initContent();
   }
 
-  render() {
-    this.$parent.innerHTML = `
+  initContent() {
+    const template = `
       <div class="wrapper bg-white p-10">
         <div class="heading">
           <h2 class="mt-1">🚉 역 관리</h2>
@@ -62,5 +66,11 @@ export default class Stations {
         </ul>
       </div>
     `;
+
+    super.initContent(template);
+  }
+
+  render() {
+    super.render();
   }
 }

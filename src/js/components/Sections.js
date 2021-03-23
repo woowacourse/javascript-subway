@@ -1,21 +1,17 @@
+import Component from "./common/Component.js";
 import SectionsModal from "./SectionsModal.js";
 import { $ } from "../utils/DOM.js";
 
-export default class Sections {
+export default class Sections extends Component {
   constructor({ $parent }) {
-    this.$parent = $parent;
+    super($parent);
     this.sectionsModal = new SectionsModal();
+
+    this.initContent();
   }
 
-  attachEvent() {
-    $(".js-add-section", this.$parent).addEventListener(
-      "click",
-      this.sectionsModal.open.bind(this.sectionsModal)
-    );
-  }
-
-  render() {
-    this.$parent.innerHTML = `
+  initContent() {
+    const template = `
       <div class="wrapper bg-white p-10">
         <div class="heading d-flex">
           <h2 class="mt-1 w-100">🔁 구간 관리</h2>
@@ -56,7 +52,19 @@ export default class Sections {
       </div>
     `;
 
-    this.sectionsModal.render();
+    super.initContent(template);
     this.attachEvent();
+  }
+
+  attachEvent() {
+    $(".js-add-section", this.innerElement).addEventListener(
+      "click",
+      this.sectionsModal.open.bind(this.sectionsModal)
+    );
+  }
+
+  render() {
+    super.render();
+    this.sectionsModal.render();
   }
 }
