@@ -1,8 +1,27 @@
 form .input-control {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
+  justify-content: flex-start;
+  height: 80px;
+}
+
+form .input-control input:focus {
+  border: 1px solid #3e73ce;
+}
+
+form .input-control .message {
+  font-weight: bold;
+  font-size: 0.75rem;
+  align-self: flex-start;
+  width: 100%;
+  height: 19px;
+  padding-top: 2px;
+  color: #e74c3c;
+}
+
+form .input-control .valid {
+  color: #27ae60;
 }
 
 form .input-field {

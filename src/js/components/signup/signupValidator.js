@@ -1,29 +1,52 @@
-import { ERROR_MESSAGE } from '../../constants';
-import { isEmpty, isDifferent } from '../../utils/validation';
+import {
+  ACTIONS,
+  BASE_URL,
+  ERROR_MESSAGE,
+  SUCCESS_MESSAGE,
+} from '../../constants';
+import { request } from '../../utils/api';
+import {
+  isEmpty,
+  isDifferent,
+  isWrongEmailFormat,
+} from '../../utils/validation';
 
-export const checkSignupValid = ({
-  name,
-  email,
-  password,
-  ['password-confirm']: passwordConfirm,
-}) => {
-  switch (true) {
-    case isEmpty(name):
-      return ERROR_MESSAGE.EMPTY_NAME;
-
-    case isEmpty(email):
-      return ERROR_MESSAGE.EMPTY_EMAIL;
-
-    case isEmpty(password):
-      return ERROR_MESSAGE.EMPTY_PASSWORD;
-
-    case isEmpty(passwordConfirm):
-      return ERROR_MESSAGE.EMPTY_PASSWORD_CONFIRM;
-
-    case isDifferent(password, passwordConfirm):
-      return ERROR_MESSAGE.DIFFERENT_PASSWORD;
-
-    default:
-      return '';
+export const checkNameValid = name => {
+  if (isEmpty(name)) {
+    return { isValid: false, message: ERROR_MESSAGE.EMPTY_NAME };
   }
+
+  return { isValid: true, message: SUCCESS_MESSAGE.NAME };
+};
+
+export const checkEmailValid = async email => {
+  try {
+    if (isWrongEmailFormat(email)) {
+      return { isValid: false, message: ERROR_MESSAGE.WRONG_EMAIL_FORMAT };
+    }
+    await request(`${BASE_URL}${ACTIONS.DUPLICATED_EMAIL}${email}`);
+    return { isValid: true, message: SUCCESS_MESSAGE.EMAIL };
+  } catch (error) {
+    console.error(error);
+    return { isValid: false, message: ERROR_MESSAGE.DUPLICATED_EMAIL };
+  }
+};
+
+export const checkPasswordValid = password => {
+  if (isEmpty(password)) {
+    return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD };
+  }
+
+  return { isValid: true, message: '' };
+};
+
+export const checkPasswordConfirmValid = (password, passwordConfirm) => {
+  if (isEmpty(passwordConfirm)) {
+    return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD_CONFIRM };
+  }
+  if (isDifferent(password, passwordConfirm)) {
+    return { isValid: false, message: ERROR_MESSAGE.DIFFERENT_PASSWORD };
+  }
+
+  return { isValid: true, message: SUCCESS_MESSAGE.PASSWORD_CONFIRM };
 };
