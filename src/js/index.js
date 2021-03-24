@@ -19,7 +19,7 @@ import {
   LoginForm,
   SignupForm,
 } from './components';
-import { Station } from './models/Station.js';
+import Station from './models/Station.js';
 
 export default class App {
   constructor() {
@@ -44,6 +44,7 @@ export default class App {
     };
 
     this.bindEvents();
+    this.store.subscribe(this);
   }
 
   bindEvents() {
@@ -56,13 +57,17 @@ export default class App {
     this.navigationBar.init();
 
     await this.checkIsLoggedIn();
+    await this.update();
 
     const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
 
+    routeTo(path);
+  }
+
+  async update() {
     if (this.store.isLoggedIn) {
       await this.getPersonalSubwayData();
     }
-    routeTo(path);
   }
 
   async checkIsLoggedIn() {
@@ -77,9 +82,9 @@ export default class App {
       const response = await userInfoRequest(accessToken);
       const { name } = response;
 
-      this.store.updateLoggedIn(true);
       this.store.userName = name;
       this.store.userAuth.accessToken = accessToken;
+      this.store.updateLoggedIn(true);
     } catch (error) {
       console.error(error);
       this.store.updateLoggedIn(false);
@@ -91,9 +96,11 @@ export default class App {
 
     try {
       const stationListResponse = await stationListRequest(accessToken);
-      const stations = stationListResponse.map(
-        (station) => new Station(station)
+      const sortedStations = stationListResponse.sort(
+        (a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate)
       );
+
+      const stations = sortedStations.map((station) => new Station(station));
 
       this.store.stations = stations;
 
@@ -102,7 +109,7 @@ export default class App {
 
       this.store.lines = lines;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       popSnackbar(MESSAGES.ERROR_FETCH_STATION_DATA);
     }
   }

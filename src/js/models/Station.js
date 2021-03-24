@@ -1,4 +1,4 @@
-export class Station {
+export default class Station {
   constructor({ id, name, createdDate, modifiedDate }) {
     this._id = id;
     this._name = name;

@@ -74,3 +74,10 @@ export const lineListRequest = async (token) => {
 
   return response.json();
 };
+
+export const addStationRequest = async (data, token) => {
+  const url = `${HOST}/stations`;
+  const response = await postRequest(url, data, token);
+
+  return response.json();
+};
