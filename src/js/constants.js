@@ -38,6 +38,9 @@ const ID_SELECTOR = {
 
 const CLASS_SELECTOR = {
   ANCHOR: 'js-anchor',
+  STATION_LIST_ITEM: 'js-station-list__item',
+  STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
+  STATION_LIST_ITEM_DELETION: 'js-station-list__item-deletion',
 };
 
 const ALERT_MESSAGE = {
@@ -66,10 +69,10 @@ const REQUEST_URL = 'https://www.boorownie.com';
 
 const URL = {
   HOME: '/',
-  STATION: '/pages/station.html',
-  LOGIN: '/pages/login.html',
-  SIGNUP: '/pages/signup.html',
-  MY_INFO: '/pages/myInfo.html',
+  STATION: '/station',
+  LOGIN: '/login',
+  SIGNUP: '/signup',
+  MY_INFO: '/myInfo',
 };
 
 const THRESHOLD = {
