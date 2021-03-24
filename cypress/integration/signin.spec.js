@@ -1,4 +1,4 @@
-const { SIGN_IN, ELEMENT } = require('../../src/js/utils/constants');
+const { SIGN_IN, ELEMENT, ERROR_MESSAGE } = require('../../src/js/utils/constants');
 
 describe('로그인을 할 수 있다.', () => {
   before(() => {
@@ -18,7 +18,6 @@ describe('로그인을 할 수 있다.', () => {
 
   it('로그인 페이지에서 로그인 성공 시, 메인 화면으로 이동된다.', () => {
     cy.get(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`).click();
-    cy.wait(100);
     cy.get(`.${ELEMENT.SIGN_IN_EMAIL_INPUT}`).type('abcd@naver.com');
     cy.get(`.${ELEMENT.SIGN_IN_PASSWORD_INPUT}`).type('12341234');
     cy.get(`.${ELEMENT.SIGN_IN_SUBMIT_BUTTON}`).click();
@@ -46,19 +45,17 @@ describe('로그인 페이지에서 잘못된 입력으로 로그인 시도 시 
 
   it('존재하지 않는 이메일을 입력 후 로그인 시도 시, alert 메시지를 출력한다.', () => {
     cy.get(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`).click();
-    cy.wait(100);
     cy.get(`.${ELEMENT.SIGN_IN_EMAIL_INPUT}`).type('asdlkzxjcpqwkej@naver.com');
     cy.get(`.${ELEMENT.SIGN_IN_PASSWORD_INPUT}`).type('12341234');
     cy.get(`.${ELEMENT.SIGN_IN_SUBMIT_BUTTON}`).click();
-    cy.get('@alertStub').should('be.calledWith', SIGN_IN.ERROR_ALERT_MATCH[500]);
+    cy.get('@alertStub').should('be.calledWith', ERROR_MESSAGE.SIGN_IN_FAIL);
   });
 
   it('일치하지 않는 비밀번호를 입력 후 로그인 시도 시, alert 메시지를 출력한다.', () => {
     cy.get(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`).click();
-    cy.wait(100);
     cy.get(`.${ELEMENT.SIGN_IN_EMAIL_INPUT}`).type('abcd@naver.com');
     cy.get(`.${ELEMENT.SIGN_IN_PASSWORD_INPUT}`).type('123123123');
     cy.get(`.${ELEMENT.SIGN_IN_SUBMIT_BUTTON}`).click();
-    cy.get('@alertStub').should('be.calledWith', SIGN_IN.ERROR_ALERT_MATCH[400]);
+    cy.get('@alertStub').should('be.calledWith', ERROR_MESSAGE.SIGN_IN_FAIL);
   });
 });

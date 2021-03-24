@@ -79,15 +79,7 @@ export const STANDARD_NUMBER = Object.freeze({
   PASSWORD_MIN_LENGTH: 8,
   SIGN_UP_FORM_INPUT_COUNT: 4,
   SIGN_IN_FORM_INPUT_COUNT: 2,
-  KEY_UP_CHECK_TIME: 200,
-});
-
-export const SIGN_IN = deepFreeze({
-  STATUS_CODE_MATCHED_ERROR_MESSAGE: {
-    400: '비밀번호가 일치하지 않습니다.',
-    500: '존재하지 않는 이메일입니다.',
-  },
-  FAIL_MESSAGE: '로그인에 실패하였습니다.',
+  KEY_UP_CHECK_TIME: 100,
 });
 
 export const ERROR_MESSAGE = Object.freeze({
@@ -98,6 +90,7 @@ export const ERROR_MESSAGE = Object.freeze({
   DUPLICATED_EMAIL: '중복된 이메일을 입력하셨습니다.',
   UNCAUGHT_ERROR: '오류가 발생하였습니다. 문제가 지속될 경우, 관리자에게 문의하시기 바랍니다.',
   SIGN_UP_FAIL: '회원가입에 실패하였습니다.',
+  SIGN_IN_FAIL: '이메일과 비밀번호를 확인해주세요.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({

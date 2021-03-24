@@ -10,7 +10,6 @@ describe('Browser History Api를 이용하여 SPA처럼 라우팅을 적용한�
     const urlList = [PATH.STATIONS, PATH.LINES, PATH.SECTIONS];
 
     cy.get(`.${ELEMENT.NAV_BAR_SIGN_IN_BUTTON}`).click();
-    cy.wait(100);
     cy.get(`.${ELEMENT.SIGN_IN_EMAIL_INPUT}`).type('abcd@naver.com');
     cy.get(`.${ELEMENT.SIGN_IN_PASSWORD_INPUT}`).type('12341234');
     cy.get(`.${ELEMENT.SIGN_IN_SUBMIT_BUTTON}`).click();
@@ -20,9 +19,7 @@ describe('Browser History Api를 이용하여 SPA처럼 라우팅을 적용한�
       .each(($el, i) => {
         // 현재는 전체보기, 길찾기가 구현되어 있지 않아서 if문으로 미리 종료시켰음
         if (i >= titles.length) return;
-
         cy.wrap($el).click();
-        cy.wait(100);
         cy.get('main h2').contains(titles[i]);
         cy.url().should('include', urlList[i]);
       });
