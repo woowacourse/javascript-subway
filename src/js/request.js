@@ -60,3 +60,17 @@ export const checkEmailDuplicatedRequest = async (email) => {
 
   return response;
 };
+
+export const stationListRequest = async (token) => {
+  const url = `${HOST}/stations`;
+  const response = await getRequest(url, token);
+
+  return response.json();
+};
+
+export const lineListRequest = async (token) => {
+  const url = `${HOST}/lines`;
+  const response = await getRequest(url, token);
+
+  return response.json();
+};

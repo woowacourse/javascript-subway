@@ -6,6 +6,7 @@ export default class Store {
     this._isLoggedIn = false;
     this._state = {
       user: new UserAuth(),
+      stations: [],
     };
   }
 
@@ -17,17 +18,29 @@ export default class Store {
     this._isLoggedIn = state;
   }
 
-  get userSession() {
-    return this._userSession;
+  get userAuth() {
+    return this._state.user;
+  }
+
+  set userAuth(accessToken) {
+    return (this._state.user.accessToken = accessToken);
+  }
+
+  get stations() {
+    return this._state.stations;
+  }
+
+  set stations(stations) {
+    this._state.stations = stations;
+  }
+
+  set userName(name) {
+    this._state.user.name = name;
   }
 
   updateLoggedIn(state) {
     this._isLoggedIn = state;
     this.notify();
-  }
-
-  updateUserName(name) {
-    this._state.user.name = name;
   }
 
   subscribe(subscriber) {
