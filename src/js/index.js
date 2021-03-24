@@ -4,5 +4,5 @@ import '../css/index.css';
 
 const appPage = new AppPage();
 
-appPage.initEvent();
+appPage.initialize();
 appPage.initialRoute(URL.HOME);

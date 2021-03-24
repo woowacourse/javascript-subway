@@ -8,7 +8,13 @@ import State from './State.js';
 class StationComponent extends Component {
   constructor(props) {
     super(props);
+  }
 
+  initLoad() {
+    this.#loadStationList();
+  }
+
+  initState() {
     this.state = new State({
       [STATE_KEY.STATION]: {
         names: [],
@@ -16,11 +22,6 @@ class StationComponent extends Component {
     });
 
     this.state.setListener(STATE_KEY.STATION, this.handleStationListToUpdate);
-  }
-
-  initialize() {
-    this.initEvent();
-    this.#loadStationList();
   }
 
   // TODO: 메서드 선언 순서 고민해보기
@@ -43,9 +44,7 @@ class StationComponent extends Component {
     const name = $input.value;
     const url = REQUEST_URL + '/stations';
     const data = { name };
-    const { accessToken } = this.props.appState.getData(
-      STATE_KEY.LOGIN_RESPONSE
-    );
+    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchStationList(url, {
@@ -54,7 +53,6 @@ class StationComponent extends Component {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json; charset=UTF-8',
-          'Content-Length': 29,
         },
       });
       //TODO:스낵바로 확인
@@ -76,9 +74,7 @@ class StationComponent extends Component {
 
   async #loadStationList() {
     const url = REQUEST_URL + '/stations';
-    const { accessToken } = this.props.appState.getData(
-      STATE_KEY.LOGIN_RESPONSE
-    );
+    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchStationList(url, {
@@ -89,9 +85,7 @@ class StationComponent extends Component {
       });
 
       const stationResponse = await response.json();
-      console.log(stationResponse);
       const names = stationResponse.map(station => station.name);
-      console.log(names);
 
       this.state.setData({ [STATE_KEY.STATION]: { names } });
     } catch (err) {

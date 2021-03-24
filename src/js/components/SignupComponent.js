@@ -9,10 +9,6 @@ class SignupComponent extends Component {
     super(props);
   }
 
-  initialize() {
-    this.initEvent();
-  }
-
   initEvent() {
     $(`#${ID_SELECTOR.SIGNUP_FORM}`).addEventListener(
       'submit',
@@ -41,7 +37,13 @@ class SignupComponent extends Component {
     const data = { email, name, password };
 
     try {
-      await fetchSignup(url, data);
+      const response = await fetchSignup(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      });
     } catch (err) {
       alert(err.message);
       return;
