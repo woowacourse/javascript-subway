@@ -13,20 +13,15 @@ export function handleWindowPopstate({ target }) {
 }
 
 export function handleLinkClick(event) {
-  const { target: $target } = event;
-  const $anchor = $target.closest('a');
+  const $anchor = event.target.closest('a');
 
-  if (!$anchor) {
-    return;
-  }
-
-  const { origin, pathname } = $anchor;
-
-  if (!isSameOrigin(origin)) {
+  if ($anchor === null || isDifferentOrigin($anchor.origin)) {
     return;
   }
 
   event.preventDefault();
+
+  const { pathname } = $anchor;
 
   if (pathname === ROUTES.LOGOUT) {
     logout();
@@ -84,8 +79,8 @@ function validatePathname(pathname) {
   throw new Error(`${pathname}은 잘못된 경로입니다.`);
 }
 
-function isSameOrigin(targetOrigin) {
-  return window.location.origin === targetOrigin;
+function isDifferentOrigin(targetOrigin) {
+  return window.location.origin !== targetOrigin;
 }
 
 function isChangedPathname(pathname) {
