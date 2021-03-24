@@ -1,10 +1,10 @@
-import { renderHeader } from './commons/header/index.js';
-import { renderHome } from './home/index.js';
-import { renderStations } from './contents/stations/index.js';
-import { renderLines } from './contents/lines/index.js';
-import { renderSections } from './contents/sections/index.js';
-import { renderLogin } from './auths/login/index.js';
-import { renderSignUp } from './auths/signUp/index.js';
+import { renderHeader } from './commons/header/view.js';
+import { renderHome } from './home/view.js';
+import { renderStations } from './contents/stations/view.js';
+import { renderLines } from './contents/lines/view.js';
+import { renderSections } from './contents/sections/view.js';
+import { renderLogin } from './auths/login/view.js';
+import { renderSignUp } from './auths/signUp/view.js';
 import { $ } from '../utils/index.js';
 import { PATHNAMES, TITLES } from '../constants/index.js';
 

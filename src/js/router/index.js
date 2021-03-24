@@ -1,5 +1,5 @@
 import getValidPathname from './validate.js';
-import { render, renderContent } from '../views/index.js';
+import { render, renderContent } from '../components/index.js';
 import { logout } from '../auth/index.js';
 import { PATHNAMES } from '../constants/index.js';
 
