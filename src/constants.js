@@ -35,6 +35,7 @@ export const SELECTOR_CLASS = Object.freeze({
   STATION_LIST_ITEM_EDIT_COMPLETE: 'station-list__item-edit-complete',
   STATION_LIST_ITEM_DELETE: 'station-list__item-delete',
   LINE_LIST_ITEM: 'line-list__item',
+  LINE_DELETE_BUTTON: 'line-delete-button',
   SECTION_LIST_ITEM: 'section-list__item',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
   MODAL_OPEN_BUTTON: 'modal-open-button',

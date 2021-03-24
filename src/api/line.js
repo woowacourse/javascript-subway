@@ -23,13 +23,13 @@ export const requestLineRegistration = async line => {
   const newLine = await response.json();
   const [upStation, downStation] = newLine.stations;
   const processedNewLine = {
-    id: newLine.id,
+    id: Number(newLine.id),
     name: newLine.name,
     color: newLine.color,
     upStationName: upStation.name,
-    upStationId: upStation.id,
+    upStationId: Number(upStation.id),
     downStationName: downStation.name,
-    downStationId: downStation.id,
+    downStationId: Number(downStation.id),
   };
 
   if (!response.ok) {
@@ -59,13 +59,28 @@ export const requestLineList = async () => {
   return newLineList.map(line => {
     const [upStation, downStation] = line.stations;
     return {
-      id: line.id,
+      id: Number(line.id),
       name: line.name,
       color: line.color,
       upStationName: upStation.name,
-      upStationId: upStation.id,
+      upStationId: Number(upStation.id),
       downStationName: downStation.name,
-      downStationId: downStation.id,
+      downStationId: Number(downStation.id),
     };
   });
+};
+
+export const requestLineDelete = async lineId => {
+  const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
+  if (!accessToken) return;
+  const response = await fetch(`${API_END_POINT}/lines/${lineId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('역 등록 실패');
+  }
 };

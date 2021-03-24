@@ -78,7 +78,7 @@ function onStationItemDelete(target) {
   requestStationDelete(stationId)
     .then(() => {
       setFadeOutAnimation(stationItem);
-      wait(500).then(() => {
+      wait(100).then(() => {
         state.update(STATE_KEY.STATION_LIST, newStationList);
       });
     })
