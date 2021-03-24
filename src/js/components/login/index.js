@@ -46,12 +46,8 @@ class Login extends Component {
       }),
     });
 
-    if (response.status === 500) {
-      throw new ValidationError(ERROR_MESSAGE.LOGIN.EMAIL);
-    }
-
     if (response.status === 400) {
-      throw new ValidationError(ERROR_MESSAGE.LOGIN.PASSWORD);
+      throw new ValidationError(ERROR_MESSAGE.LOGIN.FAILED);
     }
 
     if (!response.ok) throw Error(response.message);

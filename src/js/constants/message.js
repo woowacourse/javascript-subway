@@ -17,8 +17,7 @@ const ERROR_MESSAGE = {
   },
 
   LOGIN: {
-    EMAIL: '등록되지 않은 아이디 입니다.',
-    PASSWORD: '비밀번호가 틀렸습니다.',
+    FAILED: '아이디 또는 비밀번호가 일치하지 않습니다.',
   },
 
   INVALID_TOKEN: '토큰이 유효하지 않습니다.',
