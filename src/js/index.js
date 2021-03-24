@@ -1,9 +1,15 @@
 import _ from '/src/css/index.css';
 import routeTo from './router.js';
 import Store from './store.js';
-import { userInfoRequest } from './request.js';
+import {
+  userInfoRequest,
+  stationListRequest,
+  lineListRequest,
+} from './request.js';
 import { getCookie } from './utils/cookie.js';
 import getAvailablePath from './utils/path.js';
+import popSnackbar from './utils/snackbar.js';
+import { MESSAGES } from './constants/constants.js';
 import {
   NavigationBar,
   EntryPage,
@@ -13,6 +19,7 @@ import {
   LoginForm,
   SignupForm,
 } from './components';
+import { Station } from './models/Station.js';
 
 export default class App {
   constructor() {
@@ -47,10 +54,14 @@ export default class App {
 
   async execute() {
     this.navigationBar.init();
+
     await this.checkIsLoggedIn();
 
     const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
 
+    if (this.store.isLoggedIn) {
+      await this.getPersonalSubwayData();
+    }
     routeTo(path);
   }
 
@@ -67,10 +78,31 @@ export default class App {
       const { name } = response;
 
       this.store.updateLoggedIn(true);
-      this.store.updateUserName(name);
+      this.store.userName = name;
+      this.store.userAuth.accessToken = accessToken;
     } catch (error) {
       console.error(error);
       this.store.updateLoggedIn(false);
+    }
+  }
+
+  async getPersonalSubwayData() {
+    const accessToken = this.store.userAuth.accessToken;
+
+    try {
+      const stationListResponse = await stationListRequest(accessToken);
+      const stations = stationListResponse.map(
+        (station) => new Station(station)
+      );
+
+      this.store.stations = stations;
+
+      const lineListResponse = await lineListRequest(accessToken);
+      const lines = lineListResponse.map((line) => new Line(line));
+
+      this.store.lines = lines;
+    } catch (error) {
+      console.log(error);
     }
   }
 }
