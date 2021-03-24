@@ -71,17 +71,13 @@ class SignIn {
       const accessToken = await requestGetToken({ email, password });
       this.manageSignInSuccess(accessToken);
     } catch (error) {
-      this.manageSignInFail();
+      alert(error.message);
     }
   }
 
   manageSignInSuccess(accessToken) {
     this.props.changeFromSignOutToSignInStatus(accessToken);
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
-  }
-
-  manageSignInFail() {
-    alert(ERROR_MESSAGE.SIGN_IN_FAIL);
   }
 }
 

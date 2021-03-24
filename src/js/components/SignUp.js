@@ -121,7 +121,7 @@ class SignUp {
       await requestSignUpApprove({ email, name: userName, password });
       this.manageSignUpSuccess();
     } catch (error) {
-      this.manageSignUpFail(error.message);
+      alert(error.message);
     }
   }
 
@@ -129,10 +129,6 @@ class SignUp {
     this.props.initializeRoutedPage(PATH.SIGNIN);
 
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
-  }
-
-  manageSignUpFail() {
-    alert(ERROR_MESSAGE.SIGN_UP_FAIL);
   }
 }
 
