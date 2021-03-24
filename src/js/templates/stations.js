@@ -3,7 +3,7 @@ import { STATION_NAME } from '../constants';
 export const stationListItemTemplate = ({ id, name }) => `
   <li class="station-list-item d-flex justify-between items-center" data-id="${id}" data-name="${name}">
     <input type="text" class="js-name-edit name-edit w-100 pl-2 py-2" value="${name}" minlength="${STATION_NAME.MIN_LENGTH}" maxlength="${STATION_NAME.MAX_LENGTH}" />
-    <span class="station-name pl-2">${name}</span>
+    <span class="js-station-name station-name pl-2">${name}</span>
     <div class="button-wrapper non-editing-buttons">
       <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 edit-button js-station-edit-button">수정</button>
       <button type="button" class="bg-gray-50 text-gray-500 text-sm delete-button js-station-delete-button">삭제</button>
@@ -13,7 +13,6 @@ export const stationListItemTemplate = ({ id, name }) => `
       <button type="button" class="bg-gray-50 text-gray-500 text-sm cancel-button js-station-cancel-button">취소</button>
     </div>
   </li>
-  <hr class="my-0" />
 `;
 
 const stationsPageTemplate = (stationList = []) => `

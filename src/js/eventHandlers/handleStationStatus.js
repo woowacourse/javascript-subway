@@ -41,12 +41,13 @@ const endEditStation = async target => {
 
   const result = await requestEditStation({ id, name });
 
+  console.log(result);
   if (!result.success) {
     alert(result.message);
     return;
   }
 
-  station.editName(name, id);
+  station.editName(name, Number(id));
   $targetStation.querySelector('.js-station-name').textContent = name;
   $targetStation.classList.remove('editing');
 };

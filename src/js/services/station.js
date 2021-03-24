@@ -42,9 +42,8 @@ export const requestAddStation = async name => {
 export const requestDeleteStation = async id => {
   try {
     const response = await httpClient.delete(`/stations/${id}`);
-    const data = await response.json();
 
-    if (!response.ok) throw new Error(data.message);
+    if (!response.ok) throw new Error();
 
     return {
       success: true,
@@ -60,9 +59,7 @@ export const requestDeleteStation = async id => {
 export const requestEditStation = async ({ id, name }) => {
   try {
     const response = await httpClient.put(`/stations/${id}`, { name });
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message);
+    if (!response.ok) throw new Error();
 
     return {
       success: true,
