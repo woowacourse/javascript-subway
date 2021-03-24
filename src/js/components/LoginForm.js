@@ -5,7 +5,7 @@ import { $, $$ } from "../utils/DOM.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
-import PAGE_URLS from "../constants/pages.js";
+import { PAGE_URLS } from "../constants/pages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
@@ -121,7 +121,7 @@ export default class LoginForm extends Component {
       email.value.match(EMAIL_REG_EXP) &&
       password.value.length >= PASSWORD_MIN_LENGTH;
 
-    submit.disabled = isValidLogin;
+    submit.disabled = !isValidLogin;
     submit.classList.replace(
       isValidLogin ? "bg-cyan-200" : "bg-cyan-300",
       isValidLogin ? "bg-cyan-300" : "bg-cyan-200"

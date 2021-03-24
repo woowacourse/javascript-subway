@@ -101,7 +101,7 @@ export const loginAPI = async (loginInfo) => {
       const result = await response.json();
 
       return {
-        isSucceeded: false,
+        isSucceeded: true,
         message: SUCCESS_MESSAGE.LOGIN_SUCCESS,
         accessToken: result.accessToken,
       };

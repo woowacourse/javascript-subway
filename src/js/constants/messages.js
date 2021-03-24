@@ -6,7 +6,6 @@ export const ERROR_MESSAGE = {
     "시스템 오류 또는 네트워크 장애로 인해 요청하신 동작을 수행할 수 없습니다.\n 문의: sunccol@woowahan.com",
   TYPE_REQUIRED_STRING: "String is required",
   INVALID_EMAIL: "사용할 수 없는 이메일입니다. 이메일을 다시 입력해주세요.",
-  NOT_CONFIRMED_PASSWORD: "입력하신 비밀번호가 서로 다릅니다.",
   EMPTY_NAME: "이름을 입력해주세요.",
   INVALID_PASSWORD:
     "유효하지 않은 비밀번호 입니다. 6자리 이상의 비밀번호를 입력해주세요.",
