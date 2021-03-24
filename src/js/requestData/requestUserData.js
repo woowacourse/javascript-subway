@@ -1,16 +1,5 @@
-import { SESSION_KEY_TOKEN, ERROR_MESSAGE } from '../utils/constants';
+import { ERROR_MESSAGE } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
-
-export const requestCheckLogin = async () => {
-  try {
-    const response = await httpClient.get('/members/me', window.sessionStorage.getItem(SESSION_KEY_TOKEN));
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
 
 export const requestEmailDuplicationCheck = async (email) => {
   try {

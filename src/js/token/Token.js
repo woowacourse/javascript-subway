@@ -1,4 +1,5 @@
-import { SESSION_KEY_TOKEN } from '../utils/constants';
+import { TOKEN_KEY, COOKIE_EXPIRE_TIME } from '../utils/constants';
+import { getCookie, setCookie, removeCookie } from '../utils/cookie';
 
 class Token {
   constructor() {
@@ -11,16 +12,16 @@ class Token {
 
   setToken(accessToken) {
     this.accessToken = accessToken;
-    sessionStorage.setItem(SESSION_KEY_TOKEN, accessToken);
+    setCookie({ key: TOKEN_KEY, value: accessToken, minutes: COOKIE_EXPIRE_TIME });
   }
 
   removeToken() {
     this.accessToken = '';
-    sessionStorage.removeItem(SESSION_KEY_TOKEN);
+    removeCookie(TOKEN_KEY);
   }
 
   getToken() {
-    return sessionStorage.getItem(SESSION_KEY_TOKEN);
+    return getCookie(TOKEN_KEY);
   }
 }
 
