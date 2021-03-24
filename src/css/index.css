@@ -71,3 +71,11 @@ button:disabled {
 .station-list-item {
   border-bottom: 1px solid #dddddd;
 }
+
+#subway-line-name {
+  padding-left: 40px;
+}
+
+#line-add-form .subway-line-color-dot {
+  left: 15px;
+}

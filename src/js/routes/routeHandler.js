@@ -22,6 +22,9 @@ import handleStationStatus from '../eventHandlers/handleStationStatus';
 import { modalCloseEventInit } from '../utils/modal';
 import handleEditStation from '../eventHandlers/handleEditStation';
 import handleAddLine from '../eventHandlers/handleAddLine';
+import handleSelectColor from '../eventHandlers/handleSelectColor';
+import { colorOptions } from '../utils/mock';
+import { setLineColorDot } from '../viewController/lineAddModal';
 
 const $routeContainer = $('#route-container');
 
@@ -79,8 +82,15 @@ export const mountMap = () => {
 export const mountLines = () => {
   $routeContainer.innerHTML = linesPageTemplate;
 
-  $('#create-line-button').addEventListener('click', () => openModal($('#line-add-modal')));
+  $('#create-line-button').addEventListener('click', () => {
+    openModal($('#line-add-modal'));
+
+    const randomNumber = Math.floor(Math.random() * colorOptions.length);
+    setLineColorDot(`bg-${colorOptions[randomNumber]}`);
+  });
+
   $('#line-add-form').addEventListener('submit', handleAddLine);
+  $('.subway-line-color-selector').addEventListener('click', handleSelectColor);
 
   modalCloseEventInit('#line-add-modal');
 };
