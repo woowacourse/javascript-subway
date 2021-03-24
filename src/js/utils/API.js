@@ -32,9 +32,12 @@ const option = {
     },
   }),
 
-  put: (contents) => ({
+  put: (contents, token) => ({
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(contents),
   }),
 };
@@ -81,5 +84,9 @@ export const API = {
 
   deleteStation: ({ token, id }) => {
     return request(`/stations/${id}`, option.delete(token));
+  },
+
+  editStation: ({ token, name, id }) => {
+    return request(`/stations/${id}`, option.put({ name }, token));
   },
 };

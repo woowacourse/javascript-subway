@@ -17,8 +17,10 @@ export const SNACKBAR_MESSAGE = {
   LOGIN_SUCCESS: '로그인에 성공하였습니다.',
   LOGIN_FAILURE: '로그인에 실패하였습니다.',
   LOGOUT_SUCCESS: '로그아웃 되었습니다.',
-  CREATE_SUCESS: '성공적으로 생성하였습니다.',
+  CREATE_SUCCESS: '성공적으로 생성하였습니다.',
   CREATE_FAILURE: '생성에 실패하였습니다.',
   DELETE_SUCCESS: '성공적으로 삭제하였습니다.',
   DELETE_FAILURE: '삭제에 실패하였습니다.',
+  EDIT_SUCCESS: '수정에 성공하였습니다.',
+  EDIT_FAILURE: '수정에 실패하였습니다.',
 };

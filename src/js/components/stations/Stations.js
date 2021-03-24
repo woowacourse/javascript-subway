@@ -1,6 +1,6 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
-import { $, API, showSnackbar, customConfirm } from '../../utils/index.js';
+import { $, API, showSnackbar, customConfirm, $$ } from '../../utils/index.js';
 import {
   LOGIN_REQUIRED_TEMPLATE,
   MESSAGE,
@@ -14,22 +14,92 @@ export default class Stations extends Component {
     this.#token;
   }
 
+  selectDOM() {
+    this.$stationInputForm = $('#station-input-form');
+    this.$stationListContainer = $('#station-list-container');
+
+    this.$stationEditModal = $('#station-edit-modal');
+    this.$stationEditNameInput = $('#station-edit-name-input');
+    this.$stationEditModalClose = $('.modal-close');
+  }
+
   bindEvent() {
-    $('#station-input-form').addEventListener(
+    this.$stationInputForm.addEventListener(
       'submit',
       this.handleStationInputForm.bind(this),
     );
-    $('#station-list-container').addEventListener('click', ({ target }) => {
+
+    this.$stationListContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('station-edit-button')) {
+        this.handleStationEditModalOpen(target);
       }
 
       if (target.classList.contains('station-delete-button')) {
         this.handleStationDelete(target);
       }
     });
+
+    this.$stationEditModalClose.addEventListener(
+      'click',
+      this.handleStationEditModalClose.bind(this),
+    );
+
+    this.$stationEditModal.addEventListener(
+      'submit',
+      this.handleStationEdit.bind(this),
+    );
   }
 
-  handleStationEdit() {}
+  handleStationEditModalClose({ target }) {
+    if (target.classList.contains('modal-close')) {
+      this.$stationEditModal.classList.remove('open');
+    }
+  }
+
+  async handleStationEdit(e) {
+    e.preventDefault();
+
+    const $stationEditNameInput = e.target.elements['station-edit-name-input'];
+    const stationId = $stationEditNameInput.dataset.id;
+
+    if (!this.isValidStationNameLength($stationEditNameInput.value)) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_STATION_NAME_LENGTH);
+      return;
+    }
+
+    if ($stationEditNameInput.value === $stationEditNameInput.placeholder) {
+      this.$stationEditModal.classList.remove('open');
+      return;
+    }
+
+    try {
+      await API.editStation({
+        token: this.#token,
+        name: $stationEditNameInput.value,
+        id: stationId,
+      });
+
+      this.$stationEditModal.classList.remove('open');
+      $(`.station-name[data-id="${stationId}"]`).innerText =
+        $stationEditNameInput.value;
+      $stationEditNameInput.value = '';
+      showSnackbar(SNACKBAR_MESSAGE.EDIT_SUCCESS);
+    } catch (err) {
+      console.error(err);
+      showSnackbar(SNACKBAR_MESSAGE.EDIT_FAILURE);
+    }
+  }
+
+  handleStationEditModalOpen(target) {
+    const $stationListItem = target.closest('.station-list-item');
+    const stationName = $stationListItem.querySelector('.station-name')
+      .innerText;
+
+    this.$stationEditModal.classList.add('open');
+    this.$stationEditNameInput.focus();
+    this.$stationEditNameInput.placeholder = stationName;
+    this.$stationEditNameInput.dataset.id = target.dataset.id;
+  }
 
   async handleStationDelete(target) {
     const $stationListItem = target.closest('.station-list-item');
@@ -82,7 +152,7 @@ export default class Stations extends Component {
       );
       $stationNameInput.value = '';
 
-      showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCESS);
+      showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
     } catch (err) {
       console.error(err);
       showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
@@ -113,6 +183,7 @@ export default class Stations extends Component {
 
       this.#token = token;
       this.render(token, stationList);
+      this.selectDOM();
       this.bindEvent(token);
     } catch (err) {
       console.error(err);
