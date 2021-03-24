@@ -1,8 +1,9 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
-import { $, API, showSnackbar } from '../../utils/index.js';
+import { $, API, showSnackbar, customConfirm } from '../../utils/index.js';
 import {
   LOGIN_REQUIRED_TEMPLATE,
+  MESSAGE,
   SNACKBAR_MESSAGE,
   STATIONS,
 } from '../../constants/index.js';
@@ -18,6 +19,38 @@ export default class Stations extends Component {
       'submit',
       this.handleStationInputForm.bind(this),
     );
+    $('#station-list-container').addEventListener('click', ({ target }) => {
+      if (target.classList.contains('station-edit-button')) {
+      }
+
+      if (target.classList.contains('station-delete-button')) {
+        this.handleStationDelete(target);
+      }
+    });
+  }
+
+  handleStationEdit() {}
+
+  async handleStationDelete(target) {
+    const $stationListItem = target.closest('.station-list-item');
+    const stationName = $stationListItem.querySelector('.station-name')
+      .innerText;
+    const stationId = target.dataset.id;
+
+    try {
+      await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
+      await API.deleteStation({
+        token: this.#token,
+        id: stationId,
+      });
+
+      $stationListItem.remove();
+
+      showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
+    } catch (err) {
+      console.error(err);
+      showSnackbar(SNACKBAR_MESSAGE.DELETE_FAILURE);
+    }
   }
 
   isValidStationNameLength(name) {
@@ -48,8 +81,11 @@ export default class Stations extends Component {
         stationListTemplate(responseJSON),
       );
       $stationNameInput.value = '';
+
+      showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCESS);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
     }
   }
 

@@ -25,8 +25,11 @@ const option = {
     return option;
   },
 
-  delete: () => ({
+  delete: (token) => ({
     method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }),
 
   put: (contents) => ({
@@ -74,5 +77,9 @@ export const API = {
 
   createStation: ({ token, name }) => {
     return request('/stations', option.post({ name }, token));
+  },
+
+  deleteStation: ({ token, id }) => {
+    return request(`/stations/${id}`, option.delete(token));
   },
 };
