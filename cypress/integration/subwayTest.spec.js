@@ -1,10 +1,10 @@
-import { ALERT_MESSAGE, ID_SELECTOR, URL } from '../../src/js/constants';
+import { ALERT_MESSAGE, ID_SELECTOR, URL } from '../../src/js/constants.js';
 
 const EMAIL = 'wnsah052@naver.com';
 const NAME = '한준모';
 const PASSWORD = '1';
 
-context('Window', () => {
+context('로그인 및 정보 수정', () => {
   beforeEach(() => {
     cy.visit('http://127.0.0.1:5500/');
   });
@@ -16,8 +16,8 @@ context('Window', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
-    cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
-    cy.get('main').find(`[href=${URL.SIGNUP}]`).click();
+    getByHref(URL.LOGIN).click();
+    getByHref(URL.SIGNUP).click();
 
     cy.get(`#${ID_SELECTOR.SIGNUP_FORM_EMAIL}`).type(EMAIL);
     cy.get(`#${ID_SELECTOR.SIGNUP_FORM_NAME}`).type(NAME);
@@ -37,7 +37,7 @@ context('Window', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
-    cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
+    getByHref(URL.LOGIN).click();
 
     login().then(() => {
       expect(stub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.LOGIN_SUCCESS);
@@ -46,7 +46,8 @@ context('Window', () => {
 
   it('로그인 하게되면 로그인 버튼은 로그아웃 버튼으로 변경된다.', () => {
     login();
-    cy.get('nav').find(`[href=${URL.LOGIN}`).should('not.be.visible');
+
+    getByHref(URL.LOGIN).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
   });
 
@@ -87,10 +88,39 @@ context('Window', () => {
   });
 });
 
+context('지하철 역 관리 페이지', () => {
+  beforeEach(() => {
+    cy.visit('http://127.0.0.1:5500/');
+  });
+
+  it('지하철역을 등록할 수 있다.', () => {
+    const station = '사당';
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.STATION).click();
+    cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(station);
+    cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`)
+      .click()
+      .then(() => {
+        expect(stub.getCall(1)).to.be.calledWith(
+          ALERT_MESSAGE.DUPLICATED_STATION_FAIL
+        );
+      });
+  });
+});
+
 function login() {
-  cy.get('nav').find(`[href=${URL.LOGIN}]`).click();
+  getByHref(URL.LOGIN).click();
 
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_EMAIL}`).type(EMAIL);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_PASSWORD}`).type(PASSWORD);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
+}
+
+function getByHref(href, selector = '#app') {
+  return cy.get(selector).find(`[href="${href}"]`);
 }
