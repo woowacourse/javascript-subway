@@ -37,7 +37,7 @@ export default class SignupForm {
 
   selectDOM() {
     this.$inputForm = $(SELECTOR.SIGNUP_FORM);
-    this.$emailDuplicateCheckButton = $(SELECTOR.EMAIL_DUPLICATE_CHECK_BUTTON);
+    this.$emailInput = $(SELECTOR.SIGNUP_EMAIL_INPUT);
     this.$emailDuplicatedWarning = $(SELECTOR.EMAIL_INPUT_ERROR);
     this.$emailAvailable = $(SELECTOR.EMAIL_INPUT_CORRECT);
     this.$password = $(SELECTOR.PASSWORD);
@@ -48,8 +48,8 @@ export default class SignupForm {
 
   bindEvents() {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
-    this.$emailDuplicateCheckButton.addEventListener(
-      'click',
+    this.$emailInput.addEventListener(
+      'focusout',
       this.checkEmailAvailable.bind(this)
     );
     this.$password.addEventListener('focusout', this.getPassword.bind(this));
@@ -77,11 +77,14 @@ export default class SignupForm {
     this.submitForm();
   }
 
-  async checkEmailAvailable() {
-    const email = $(SELECTOR.SIGNUP_EMAIL_INPUT).value;
+  async checkEmailAvailable(event) {
+    const email = event.target.value;
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    if (!email.match(emailFormat)) return;
+    if (!email.match(emailFormat)) {
+      event.target.reportValidity();
+      return;
+    }
 
     try {
       await checkEmailDuplicatedRequest(email);
@@ -93,6 +96,7 @@ export default class SignupForm {
       console.error(error);
       hide(this.$emailAvailable);
       show(this.$emailDuplicatedWarning);
+      this.$emailInput.focus();
     }
   }
 
