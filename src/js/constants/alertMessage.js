@@ -1,3 +1,5 @@
+import { STATION_AMOUNT } from './service';
+
 export const AUTH = Object.freeze({
   INVALID_PASSWORD_CONFIRM: '비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.',
   SIGNUP_FAILED: '회원가입에 실패했습니다.',
@@ -19,6 +21,7 @@ export const STATION = Object.freeze({
 export const LINE = Object.freeze({
   GET_LINE_LIST_FAILED: '노선 목록을 가져오지 못했습니다.',
   ADD_LINE_FAILED: '노선 등록에 실패했습니다.',
+  TOO_FEW_STATION: `노선을 만들기 위해서는 ${STATION_AMOUNT.MIN}개 이상의 역이 필요합니다.`,
 });
 
 export const SECTION = Object.freeze({});
