@@ -28,11 +28,11 @@ const routeHandler = {
 
 const initRouter = () => {
   window.addEventListener('popstate', ({ state }) => {
-    routeHandler[state.path]();
+    (routeHandler[state.path] ?? routeHandler['/error'])();
   });
 
   window.addEventListener('pushstate', ({ detail }) => {
-    routeHandler[detail.path]();
+    (routeHandler[detail.path] ?? routeHandler['/error'])();
   });
 
   const path = window.location.pathname;

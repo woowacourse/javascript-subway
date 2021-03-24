@@ -3,9 +3,11 @@ import { requestEditStation } from '../services/station';
 import station from '../store/station';
 import { $ } from '../utils/dom';
 import { closeModal } from '../utils/modal';
+import { updateStationListItem } from '../viewController/stationList';
 
 const handleEditStation = async event => {
   event.preventDefault();
+
   const { stationId, oldStationName } = event.target.dataset;
   const newStationName = event.target['station-edit-name'].value;
 
@@ -28,8 +30,7 @@ const handleEditStation = async event => {
 
   station.editName(newStationName, Number(stationId));
   closeModal($('.modal'));
-  $(`[data-id="${stationId}"] .js-station-name`).textContent = newStationName;
-  $(`[data-id="${stationId}"]`).dataset.name = newStationName;
+  updateStationListItem({ id: stationId, name: newStationName });
 };
 
 export default handleEditStation;

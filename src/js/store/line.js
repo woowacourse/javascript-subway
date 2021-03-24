@@ -1,18 +1,18 @@
-import { requestStationList } from '../services/station';
+import { requestLineList } from '../services/line';
 
-const station = {
+const line = {
   value: new Set(),
 
   async init() {
-    const result = await requestStationList();
+    const result = await requestLineList();
 
     if (!result.success) throw new Error(result.message);
 
     this.value = new Set(result.data);
   },
 
-  add(station) {
-    this.value.add(station);
+  add(line) {
+    this.value.add(line);
   },
 
   delete(targetId) {
@@ -21,9 +21,9 @@ const station = {
 
   editName(name, targetId) {
     const newValue = [...this.value];
-    const targetStation = newValue.find(({ id }) => id === targetId);
+    const targetLine = newValue.find(({ id }) => id === targetId);
 
-    targetStation.name = name;
+    targetLine.name = name;
 
     this.value = new Set(newValue);
   },
@@ -41,4 +41,4 @@ const station = {
   },
 };
 
-export default station;
+export default line;

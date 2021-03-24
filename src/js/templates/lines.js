@@ -7,6 +7,16 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
+export const stationOptionTemplate = ({ id, name }) => `
+  <option value="${id}">${name}</option>
+`;
+
+export const stationOptionListTemplate = (stations, defaultValue) => {
+  const defaultValueTemplate = `<option value="" disabled selected hidden>${defaultValue}</option>`;
+
+  return defaultValueTemplate + stations.map(station => stationOptionTemplate(station)).join('');
+};
+
 const linesPageModalTemplate = `
   <div id="line-add-modal" class="modal">
     <div class="modal-inner p-8">
@@ -34,37 +44,43 @@ const linesPageModalTemplate = `
           />
         </div>
         <div class="input-control">
-          <label for="departure-time" class="input-label" hidden
-            >첫차 시간</label
-          >
-          <input
-            type="text"
-            id="departure-time"
-            name="departure-time"
+          <label for="departure-station" hidden></label>
+          <select
+            id="departure-station"
+            name="departure-station"
             class="input-field"
-            placeholder="첫차시간 HH:MM"
+            required
+          >
+            <option value="" disabled selected hidden>출발역</option>
+          </select>
+          <label for="arrival-station" hidden></label>
+          <select
+            id="arrival-station"
+            name="arrival-station"
+            class="input-field"
+            required
+            disabled
+          >
+            <option value="" disabled selected hidden>종착역</option>
+          </select>
+        </div>
+        <div class="input-control">
+          <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
+          <input
+            type="number"
+            id="duration"
+            name="arrival"
+            class="input-field"
+            placeholder="상행 하행역 시간"
             required
           />
-          <label for="departure-time" class="input-label" hidden
-            >막차 시간</label
-          >
+          <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
           <input
-            type="text"
-            id="arrival-time"
-            name="arrival-time"
-            class="input-field mx-2"
-            placeholder="막차 시간 HH:MM"
-            required
-          />
-          <label for="interval-time" class="input-label" hidden
-            >간격 시간</label
-          >
-          <input
-            type="text"
-            id="interval-time"
-            name="interval-time"
+            type="number"
+            id="distance"
+            name="distance"
             class="input-field"
-            placeholder="간격"
+            placeholder="상행 하행역 거리"
             required
           />
         </div>
@@ -101,7 +117,28 @@ const linesPageModalTemplate = `
   </div>
 `;
 
-const linesPageTemplate = `
+export const lineListItemTemplate = ({ id, name, color }) => `
+  <li class="js-line-list-item line-list-item d-flex items-center py-2 relative" data-id="${id}" data-name="${name}">
+    <span class="subway-line-color-dot ${color}"></span>
+    <span class="w-100 pl-6 subway-line-list-item-name"
+      >${name}</span
+    >
+    <button
+      type="button"
+      class="bg-gray-50 text-gray-500 text-sm mr-1 js-line-edit-button"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      class="bg-gray-50 text-gray-500 text-sm js-line-delete-button"
+    >
+      삭제
+    </button>
+  </li>
+`;
+
+const linesPageTemplate = (lineList = []) => `
   <div class="d-flex justify-center mt-5 w-100">
     <div class="w-100">
       <header class="my-4"></header>
@@ -117,26 +154,8 @@ const linesPageTemplate = `
               노선 추가
             </button>
           </div>
-          <ul class="mt-3 pl-0">
-            <li class="d-flex items-center py-2 relative">
-              <span class="subway-line-color-dot bg-blue-400"></span>
-              <span class="w-100 pl-6 subway-line-list-item-name"
-                >1호선</span
-              >
-              <button
-                type="button"
-                class="bg-gray-50 text-gray-500 text-sm mr-1"
-              >
-                수정
-              </button>
-              <button
-                type="button"
-                class="bg-gray-50 text-gray-500 text-sm"
-              >
-                삭제
-              </button>
-            </li>
-            <hr class="my-0" />
+          <ul class="js-line-list mt-3 pl-0">
+            ${lineList.map(line => lineListItemTemplate(line)).join('')}
           </ul>
         </div>
       </main>

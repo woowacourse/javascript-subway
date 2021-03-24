@@ -6,3 +6,8 @@ export const STATION_NAME = Object.freeze({
 export const STATION_AMOUNT = Object.freeze({
   MIN: 2,
 });
+
+export const LINE_FORM_LABEL = Object.freeze({
+  DEPARTURE_STATION: '출발역',
+  ARRIVAL_STATION: '종착역',
+});

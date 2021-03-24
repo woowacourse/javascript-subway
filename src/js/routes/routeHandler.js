@@ -1,5 +1,4 @@
 import { $, hideElement } from '../utils/dom';
-import { openModal } from '../utils/modal';
 import { routeTo } from '../utils/history';
 import handleRoute from '../eventHandlers/handleRoute';
 import handleLogin from '../eventHandlers/handleLogin';
@@ -17,14 +16,16 @@ import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
 import handleAddStation from '../eventHandlers/handleAddStation';
 import errorPageTemplate from '../templates/error';
 import stationsPageTemplate from '../templates/stations';
+import line from '../store/line';
 import station from '../store/station';
 import handleStationStatus from '../eventHandlers/handleStationStatus';
 import { modalCloseEventInit } from '../utils/modal';
 import handleEditStation from '../eventHandlers/handleEditStation';
 import handleAddLine from '../eventHandlers/handleAddLine';
 import handleSelectColor from '../eventHandlers/handleSelectColor';
-import { colorOptions } from '../utils/mock';
-import { setLineColorDot } from '../viewController/lineAddModal';
+import handleOpenLineAddModal from '../eventHandlers/handleOpenLineAddModal';
+import handleSelectDepartureStation from '../eventHandlers/handleSelectDepartureStation';
+import handleLineStatus from '../eventHandlers/handleLineStatus';
 
 const $routeContainer = $('#route-container');
 
@@ -80,17 +81,13 @@ export const mountMap = () => {
 };
 
 export const mountLines = () => {
-  $routeContainer.innerHTML = linesPageTemplate;
+  $routeContainer.innerHTML = linesPageTemplate(line.get());
 
-  $('#create-line-button').addEventListener('click', () => {
-    openModal($('#line-add-modal'));
-
-    const randomNumber = Math.floor(Math.random() * colorOptions.length);
-    setLineColorDot(`bg-${colorOptions[randomNumber]}`);
-  });
-
+  $('#create-line-button').addEventListener('mousedown', handleOpenLineAddModal);
   $('#line-add-form').addEventListener('submit', handleAddLine);
   $('.subway-line-color-selector').addEventListener('click', handleSelectColor);
+  $('#departure-station').addEventListener('change', handleSelectDepartureStation);
+  $('.js-line-list').addEventListener('click', handleLineStatus);
 
   modalCloseEventInit('#line-add-modal');
 };
