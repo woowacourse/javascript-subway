@@ -1,9 +1,9 @@
 import httpClient from '../api/httpClient';
-import { STATION } from '../constants/alertMessage';
+import { ALERT_MESSAGE } from '../constants/service';
 
-export const requestStationList = async () => {
+export const requestLineList = async () => {
   try {
-    const response = await httpClient.get('/stations');
+    const response = await httpClient.get('/lines');
     const data = await response.json();
 
     if (!response.ok) throw new Error(data.message);
@@ -15,14 +15,14 @@ export const requestStationList = async () => {
   } catch (error) {
     return {
       success: false,
-      message: STATION.GET_STATION_LIST_FAILED,
+      message: ALERT_MESSAGE.GET_LINE_LIST_FAILED,
     };
   }
 };
 
-export const requestAddStation = async name => {
+export const requestAddLine = async name => {
   try {
-    const response = await httpClient.post('/stations', { name });
+    const response = await httpClient.post('/lines', { name });
     const data = await response.json();
 
     if (!response.ok) throw new Error(data.message);
@@ -34,12 +34,12 @@ export const requestAddStation = async name => {
   } catch (error) {
     return {
       success: false,
-      message: STATION.ADD_STATION_FAILED,
+      message: ALERT_MESSAGE.ADD_LINE_FAILED,
     };
   }
 };
 
-export const requestDeleteStation = async id => {
+export const requestDeleteLine = async id => {
   try {
     const response = await httpClient.delete(`/stations/${id}`);
 
@@ -51,12 +51,12 @@ export const requestDeleteStation = async id => {
   } catch (error) {
     return {
       success: false,
-      message: STATION.DELETE_STATION_FAILED,
+      message: ALERT_MESSAGE.DELETE_STATION_FAILED,
     };
   }
 };
 
-export const requestEditStation = async ({ id, name }) => {
+export const requestEditLine = async ({ id, name }) => {
   try {
     const response = await httpClient.put(`/stations/${id}`, { name });
     if (!response.ok) throw new Error();
@@ -67,7 +67,7 @@ export const requestEditStation = async ({ id, name }) => {
   } catch (error) {
     return {
       success: false,
-      message: STATION.EDIT_STATION_FAILED,
+      message: ALERT_MESSAGE.EDIT_STATION_FAILED,
     };
   }
 };

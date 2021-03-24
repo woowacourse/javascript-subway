@@ -1,4 +1,5 @@
-import { ALERT_MESSAGE, STATION_NAME } from '../constants';
+import { STATION_NAME } from '../constants/service';
+import { STATION } from '../constants/alertMessage';
 import { requestAddStation } from '../services/station';
 import station from '../store/station';
 import { stationListItemTemplate } from '../templates/stations';
@@ -9,14 +10,14 @@ const validateInput = value => {
   if (!isInRange(value.length, { min: STATION_NAME.MIN_LENGTH, max: STATION_NAME.MAX_LENGTH })) {
     return {
       success: false,
-      errorMessage: ALERT_MESSAGE.INVALID_STATION_NAME,
+      errorMessage: STATION.INVALID_STATION_NAME,
     };
   }
 
   if (station.includes(value)) {
     return {
       success: false,
-      errorMessage: ALERT_MESSAGE.DUPLICATED_STATION_NAME,
+      errorMessage: STATION.DUPLICATED_STATION_NAME,
     };
   }
 

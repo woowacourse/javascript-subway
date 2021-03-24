@@ -1,5 +1,5 @@
 import httpClient from '../api/httpClient';
-import { ALERT_MESSAGE } from '../constants';
+import { AUTH } from '../constants/alertMessage';
 
 export const requestSignup = async ({ email, password, name }) => {
   try {
@@ -16,7 +16,7 @@ export const requestSignup = async ({ email, password, name }) => {
   } catch (error) {
     return {
       success: false,
-      message: ALERT_MESSAGE.SIGNUP_FAILED,
+      message: AUTH.SIGNUP_FAILED,
     };
   }
 };
@@ -35,7 +35,7 @@ export const requestLogin = async ({ email, password }) => {
   } catch (error) {
     return {
       success: false,
-      message: ALERT_MESSAGE.LOGIN_FAILED,
+      message: AUTH.LOGIN_FAILED,
     };
   }
 };

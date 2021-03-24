@@ -1,8 +1,11 @@
-export const ALERT_MESSAGE = Object.freeze({
+export const AUTH = Object.freeze({
   INVALID_PASSWORD_CONFIRM: '비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.',
   SIGNUP_FAILED: '회원가입에 실패했습니다.',
   LOGIN_FAILED: '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.',
   SIGNUP_SUCCESS: '회원가입 성공! 자동으로 로그인합니다.',
+});
+
+export const STATION = Object.freeze({
   INVALID_STATION_NAME: '최소 2자, 최대 20자의 역 이름을 입력해주세요',
   ADD_STATION_FAILED: '역 등록에 실패했습니다.',
   GET_STATION_LIST_FAILED: '역 목록을 가져오지 못했습니다.',
@@ -13,21 +16,9 @@ export const ALERT_MESSAGE = Object.freeze({
   EDIT_STATION_FAILED: '역 이름 수정에 실패했습니다',
 });
 
-export const API = Object.freeze({
-  BASE_URL: 'https://www.boorownie.com',
-  HTTP_METHOD: {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE',
-  },
+export const LINE = Object.freeze({
+  GET_LINE_LIST_FAILED: '노선 목록을 가져오지 못했습니다.',
+  ADD_LINE_FAILED: '노선 등록에 실패했습니다.',
 });
 
-export const LOCAL_STORAGE_KEYS = Object.freeze({
-  ACCESS_TOKEN: 'accessToken',
-});
-
-export const STATION_NAME = Object.freeze({
-  MIN_LENGTH: 2,
-  MAX_LENGTH: 20,
-});
+export const SECTION = Object.freeze({});

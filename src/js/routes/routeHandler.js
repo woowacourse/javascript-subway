@@ -1,4 +1,5 @@
 import { $, hideElement } from '../utils/dom';
+import { openModal } from '../utils/modal';
 import { routeTo } from '../utils/history';
 import handleRoute from '../eventHandlers/handleRoute';
 import handleLogin from '../eventHandlers/handleLogin';
@@ -20,6 +21,7 @@ import station from '../store/station';
 import handleStationStatus from '../eventHandlers/handleStationStatus';
 import { modalCloseEventInit } from '../utils/modal';
 import handleEditStation from '../eventHandlers/handleEditStation';
+import handleAddLine from '../eventHandlers/handleAddLine';
 
 const $routeContainer = $('#route-container');
 
@@ -67,7 +69,7 @@ export const mountStations = () => {
   $('#station-list').addEventListener('click', handleStationStatus);
   $('#station-name-edit-form').addEventListener('submit', handleEditStation);
 
-  modalCloseEventInit();
+  modalCloseEventInit('#station-name-edit-modal');
 };
 
 export const mountMap = () => {
@@ -76,6 +78,11 @@ export const mountMap = () => {
 
 export const mountLines = () => {
   $routeContainer.innerHTML = linesPageTemplate;
+
+  $('#create-line-button').addEventListener('click', () => openModal($('#line-add-modal')));
+  $('#line-add-form').addEventListener('submit', handleAddLine);
+
+  modalCloseEventInit('#line-add-modal');
 };
 
 export const mountError = () => {

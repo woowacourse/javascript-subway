@@ -8,10 +8,10 @@ export const closeModal = $target => {
   $target.classList.remove('open');
 };
 
-export const modalCloseEventInit = () => {
-  $('.modal').addEventListener('click', ({ target, currentTarget }) => {
+export const modalCloseEventInit = selector => {
+  $(`${selector}`).addEventListener('click', ({ target, currentTarget }) => {
     if (currentTarget === target) closeModal(target);
   });
 
-  $('.modal-close').addEventListener('click', () => closeModal($('.modal')));
+  $(`${selector} .modal-close`).addEventListener('click', () => closeModal($('.modal')));
 };
