@@ -3,14 +3,14 @@ export const getStationsTemplate = () => `
     <div class="heading">
       <h2 class="mt-1">🚉 역 관리</h2>
     </div>
-    <form>
+    <form class="station-form">
       <div class="d-flex w-100">
         <label for="station-name" class="input-label" hidden> 역 이름 </label>
         <input type="text" id="station-name" name="stationName" class="input-field" placeholder="역 이름" required />
-        <button type="button" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
+        <button type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
       </div>
     </form>
-    <ul class="mt-3 pl-0">
+    <ul class="station-list-wrapper mt-3 pl-0">
       <li class="station-list-item d-flex items-center py-2">
         <span class="w-100 pl-2">사당</span>
         <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>

@@ -1,9 +1,10 @@
 import { ERROR_MESSAGE } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
+import token from '../token/Token';
 
 export const requestEmailDuplicationCheck = async (email) => {
   try {
-    const response = await httpClient.get(`/members/check-validation?email=${email}`);
+    const response = await httpClient.get({ path: `/members/check-validation?email=${email}` });
 
     if (!response.ok) {
       throw new Error();
@@ -15,7 +16,7 @@ export const requestEmailDuplicationCheck = async (email) => {
 
 export const requestGetToken = async ({ email, password }) => {
   try {
-    const response = await httpClient.post('/login/token', { email, password });
+    const response = await httpClient.post({ path: '/login/token', body: { email, password } });
     if (!response.ok) {
       throw new Error(response.status);
     }
@@ -30,7 +31,19 @@ export const requestGetToken = async ({ email, password }) => {
 
 export const requestSignUpApprove = async ({ email, name, password }) => {
   try {
-    const response = await httpClient.post('/members', { email, password, name });
+    const response = await httpClient.post({ path: '/members', body: { email, password, name } });
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const requestAddStation = async ({ name }) => {
+  try {
+    const response = await httpClient.post({ path: '/stations', body: { name }, accessToken: token.accessToken });
 
     if (!response.ok) {
       throw new Error(response.status);

@@ -89,6 +89,9 @@ class App {
       [PATH.SIGNUP]: () => {
         this.signUp.init();
       },
+      [PATH.STATIONS]: () => {
+        this.stations.init();
+      },
     };
 
     pathActions[path]?.();
