@@ -16,11 +16,11 @@ export const requestEmailDuplicationCheck = async (email) => {
 export const requestGetToken = async ({ email, password }) => {
   try {
     const response = await httpClient.post('/login/token', { email, password });
-    const data = await response.json();
-
     if (!response.ok) {
       throw new Error(response.status);
     }
+
+    const data = await response.json();
 
     return data.accessToken;
   } catch (error) {

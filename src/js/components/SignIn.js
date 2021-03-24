@@ -1,6 +1,6 @@
 import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import { SIGN_IN, ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER } from '../utils/constants';
+import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { inputChecker } from '../inputChecker/inputChecker';
@@ -67,7 +67,7 @@ class SignIn {
       const accessToken = await requestGetToken({ email, password });
       this.manageSignInSuccess(accessToken);
     } catch (error) {
-      this.manageSignInFail(error.message);
+      this.manageSignInFail();
     }
   }
 
@@ -76,19 +76,8 @@ class SignIn {
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_IN, showtime: SNACKBAR_SHOW_TIME });
   }
 
-  manageSignInFail(statusCode) {
-    this.getMatchedAlert(statusCode);
-  }
-
-  getMatchedAlert(statusCode) {
-    const errorMessage = SIGN_IN.STATUS_CODE_MATCHED_ERROR_MESSAGE[statusCode];
-
-    if (!errorMessage) {
-      alert(SIGN_IN.FAIL_MESSAGE);
-      return;
-    }
-
-    alert(errorMessage);
+  manageSignInFail() {
+    alert(ERROR_MESSAGE.SIGN_IN_FAIL);
   }
 }
 

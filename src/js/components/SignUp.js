@@ -93,7 +93,6 @@ class SignUp {
   }
 
   handlePasswordConfirmCheck({ target }) {
-    console.log(target);
     inputChecker.signUp({
       callback: validatePasswordConfirm.bind(this, this.$signUpPasswordInput.value, target.value),
       $textArea: this.$signUpPasswordConfirmCheckTextArea,
