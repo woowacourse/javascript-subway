@@ -6,7 +6,7 @@ import { $, $$, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
-import PAGE_URLS from "../constants/pages.js";
+import { PAGE_URLS } from "../constants/pages.js";
 import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
 
 export default class SignupForm extends Component {
@@ -131,7 +131,7 @@ export default class SignupForm extends Component {
     }
 
     if (!this.inputValidation.isPasswordConfirmed) {
-      return ERROR_MESSAGE.NOT_CONFIRMED_PASSWORD;
+      return ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
     }
 
     if ($form.name === "") {

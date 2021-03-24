@@ -41,7 +41,7 @@ export default class App {
     Object.keys(this.pages).forEach((key) => {
       this.pageRouter.registerRoute({
         path: PAGE_URLS[key],
-        handler: this.pages[key].render.bind(this),
+        handler: this.pages[key].render.bind(this.pages[key]),
       });
     });
   }

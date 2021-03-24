@@ -1,4 +1,4 @@
-import PAGE_URLS from "./pages.js";
+import { PAGE_URLS } from "./pages.js";
 
 // eslint-disable-next-line import/prefer-default-export
 export const NAV_ITEMS = [
