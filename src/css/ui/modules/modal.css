@@ -57,3 +57,10 @@ svg {
     box-sizing: border-box;
   }
 }
+
+.station-modal-inner {
+  width: 90%;
+  max-width: 700px;
+  height: 30%;
+  box-sizing: border-box;
+}

@@ -1,7 +1,12 @@
 import Component from './Component.js';
 import STATION_TEMPLATE from '../templates/stationTemplate.js';
 import $ from '../utils/querySelector.js';
-import { ID_SELECTOR, REQUEST_URL, STATE_KEY } from '../constants.js';
+import {
+  CLASS_SELECTOR,
+  ID_SELECTOR,
+  REQUEST_URL,
+  STATE_KEY,
+} from '../constants.js';
 import { fetchStationList } from '../utils/fetch.js';
 import State from './State.js';
 
@@ -94,19 +99,20 @@ class StationComponent extends Component {
     }
   }
 
+  // TODO: 위치 생각해보기
   #makeStationTemplate(name) {
     return `
-    <li class="station-list-item d-flex items-center py-2">
+    <li class="${CLASS_SELECTOR.STATION_LIST_ITEM} d-flex items-center py-2">
       <span class="w-100 pl-2">${name}</span>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
+        class="${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
       >
         수정
       </button>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm"
+        class="${CLASS_SELECTOR.STATION_LIST_ITEM_DELETION} bg-gray-50 text-gray-500 text-sm"
       >
         삭제
       </button>
