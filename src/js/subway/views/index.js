@@ -11,7 +11,7 @@ import { stationModify } from './templates/stationModify';
 
 export { stationInfo, stationList } from './templates/stationManage';
 export { menuButtons } from './templates/menuButtons';
-export { lineAddModal } from './templates/lineAddModal';
+export { lineAdd } from './templates/lineAdd';
 export { sectionAddModal } from './templates/sectionAddModal';
 
 export const mainElements = {

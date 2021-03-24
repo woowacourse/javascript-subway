@@ -18,7 +18,7 @@ export const stationInfo = ({ id, name }) => `
   </li>
   `;
 
-export const stationList = stations => stations.map(station => stationInfo(station)).join('');
+export const stationList = stations => stations.map(stationInfo).join('');
 
 export const stationManage = `
   <div id="main-content" class="wrapper bg-white p-10">

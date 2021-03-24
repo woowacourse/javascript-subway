@@ -18,7 +18,6 @@ export const ROUTE = {
 export const MENU = {
   STATIONS: '🚉 역 관리',
   LINES: '🛤️ 노선 관리',
-  LINES_MODAL: '🛤️ 노선 추가',
   SECTIONS: '🔁 구간 관리',
   SECTIONS_MODAL: '🔁 구간 추가',
   MAP: '🗺️ 전체 보기',
