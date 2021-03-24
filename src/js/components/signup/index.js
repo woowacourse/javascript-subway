@@ -27,42 +27,16 @@ class Signup extends Component {
         if (currentTarget['submit'] === target) return;
 
         if (currentTarget['name'] === target) {
-          const $nameCheck = $('.js-name-check');
+          const name = target.value;
+          this.validateNameAndNotify(name);
 
-          try {
-            this.validateName(target.value);
-            $nameCheck.classList.add('correct');
-            $nameCheck.innerText = CONFIRM_MESSAGE.NAME;
-            this.formValidationFlag.name = true;
-          } catch (error) {
-            if (error instanceof ValidationError) {
-              $nameCheck.classList.remove('correct');
-              $nameCheck.innerText = error.message;
-              this.formValidationFlag.name = false;
-            }
-
-            console.error(error);
-          }
           return;
         }
 
         if (currentTarget['email'] === target) {
-          const $emailCheck = $('.js-email-check');
+          const email = target.value;
+          await this.validateEmailAndNotify(email);
 
-          try {
-            await this.validateEmail(target.value);
-            $emailCheck.classList.add('correct');
-            $emailCheck.innerText = CONFIRM_MESSAGE.EMAIL;
-            this.formValidationFlag.email = true;
-          } catch (error) {
-            if (error instanceof ValidationError) {
-              $emailCheck.classList.remove('correct');
-              $emailCheck.innerText = error.message;
-              this.formValidationFlag.email = false;
-            }
-
-            console.error(error);
-          }
           return;
         }
 
@@ -70,24 +44,9 @@ class Signup extends Component {
           currentTarget['password'] === target ||
           currentTarget['password-confirm'] === target
         ) {
-          const $passwordCheck = $('.js-password-check');
           const password = currentTarget['password'].value;
           const passwordConfirm = currentTarget['password-confirm'].value;
-
-          try {
-            this.validatePassword(password, passwordConfirm);
-            $passwordCheck.classList.add('correct');
-            $passwordCheck.innerText = CONFIRM_MESSAGE.PASSWORD;
-            this.formValidationFlag.password = true;
-          } catch (error) {
-            if (error instanceof ValidationError) {
-              $passwordCheck.classList.remove('correct');
-              $passwordCheck.innerText = error.message;
-              this.formValidationFlag.password = false;
-            }
-
-            console.error(error);
-          }
+          this.validatePasswordAndNotify(password, passwordConfirm);
         }
       }
     );
@@ -117,6 +76,25 @@ class Signup extends Component {
     });
   }
 
+  validateNameAndNotify(name) {
+    const $nameCheck = $('.js-name-check');
+
+    try {
+      this.validateName(name);
+      $nameCheck.classList.add('correct');
+      $nameCheck.innerText = CONFIRM_MESSAGE.NAME;
+      this.formValidationFlag.name = true;
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        $nameCheck.classList.remove('correct');
+        $nameCheck.innerText = error.message;
+        this.formValidationFlag.name = false;
+      }
+
+      console.error(error);
+    }
+  }
+
   validateName(name) {
     if (!this.isValidNameFormat(name)) {
       throw new ValidationError(ERROR_MESSAGE.SIGNUP.NAME.FORMAT);
@@ -129,6 +107,25 @@ class Signup extends Component {
 
   isValidNameFormat(name) {
     return REGEX.NAME_FORMAT.test(name);
+  }
+
+  async validateEmailAndNotify(email) {
+    const $emailCheck = $('.js-email-check');
+
+    try {
+      await this.validateEmail(email);
+      $emailCheck.classList.add('correct');
+      $emailCheck.innerText = CONFIRM_MESSAGE.EMAIL;
+      this.formValidationFlag.email = true;
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        $emailCheck.classList.remove('correct');
+        $emailCheck.innerText = error.message;
+        this.formValidationFlag.email = false;
+      }
+
+      console.error(error);
+    }
   }
 
   async validateEmail(email) {
@@ -145,6 +142,25 @@ class Signup extends Component {
 
     if (response.status === 422) {
       throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
+    }
+  }
+
+  validatePasswordAndNotify(password, passwordConfirm) {
+    const $passwordCheck = $('.js-password-check');
+
+    try {
+      this.validatePassword(password, passwordConfirm);
+      $passwordCheck.classList.add('correct');
+      $passwordCheck.innerText = CONFIRM_MESSAGE.PASSWORD;
+      this.formValidationFlag.password = true;
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        $passwordCheck.classList.remove('correct');
+        $passwordCheck.innerText = error.message;
+        this.formValidationFlag.password = false;
+      }
+
+      console.error(error);
     }
   }
 
