@@ -103,6 +103,7 @@ export default class App {
       this.store.lines = lines;
     } catch (error) {
       console.log(error);
+      popSnackbar(MESSAGES.ERROR_FETCH_STATION_DATA);
     }
   }
 }
