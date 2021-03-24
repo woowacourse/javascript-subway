@@ -7,3 +7,9 @@
   border-style: none;
   cursor: pointer;
 }
+
+.btn-hover:hover {
+  background-color: rgb(179, 234, 242);
+  transition: all 0.3s;
+  transform: scale(1.1);
+}
