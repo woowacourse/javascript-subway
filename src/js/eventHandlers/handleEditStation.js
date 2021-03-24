@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../constants';
+import { STATION } from '../constants/alertMessage';
 import { requestEditStation } from '../services/station';
 import station from '../store/station';
 import { $ } from '../utils/dom';
@@ -15,7 +15,7 @@ const handleEditStation = async event => {
   }
 
   if (station.includes(newStationName)) {
-    alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME);
+    alert(STATION.DUPLICATED_STATION_NAME);
     return;
   }
 

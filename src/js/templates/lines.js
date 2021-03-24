@@ -1,5 +1,12 @@
+import { colorOptions } from '/src/js/utils/mock.js';
+
+const subwayLineColorOptionTemplate = (color, index) => {
+  const hasNewLine = (index + 1) % 7 === 0;
+  return `<button type="button" class="color-option bg-${color}"></button> ${hasNewLine ? '<br/>' : ''}`;
+};
+
 const linesPageModalTemplate = `
-  <div class="modal">
+  <div id="line-add-modal" class="modal">
     <div class="modal-inner p-8">
       <button class="modal-close">
         <svg viewbox="0 0 40 40">
@@ -9,7 +16,7 @@ const linesPageModalTemplate = `
       <header>
         <h2 class="text-center">🛤️ 노선 추가</h2>
       </header>
-      <form>
+      <form id="line-add-form">
         <div class="input-control">
           <label for="subway-line-name" class="input-label" hidden
             >노선 이름</label
@@ -74,7 +81,9 @@ const linesPageModalTemplate = `
             />
           </div>
         </div>
-        <div class="subway-line-color-selector px-2"></div>
+        <div class="subway-line-color-selector px-2">
+          ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+        </div>
         <div class="d-flex justify-end mt-3">
           <button
             type="submit"
@@ -99,7 +108,8 @@ const linesPageTemplate = `
             <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
             <button
               type="button"
-              class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
+              id="create-line-button"
+              class="modal-trigger-btn bg-cyan-300 ml-2"
             >
               노선 추가
             </button>

@@ -1,11 +1,11 @@
 import { requestDeleteStation } from '../services/station';
-import { ALERT_MESSAGE } from '../constants';
+import { AUTH } from '../constants/alertMessage';
 import station from '../store/station';
 import { $ } from '../utils/dom';
 import { openModal } from '../utils/modal';
 
 const deleteStation = async target => {
-  if (!window.confirm(ALERT_MESSAGE.DELETE_STATION_CONFIRM)) return;
+  if (!window.confirm(AUTH.DELETE_STATION_CONFIRM)) return;
 
   const $targetStation = target.closest('.station-list-item');
   const stationID = $targetStation.dataset.id;
@@ -18,7 +18,7 @@ const deleteStation = async target => {
   station.delete(stationID);
   $targetStation.remove();
 
-  alert(ALERT_MESSAGE.DELETE_STATION_SUCCESS);
+  alert(AUTH.DELETE_STATION_SUCCESS);
 };
 
 const handleStationStatus = async ({ target }) => {

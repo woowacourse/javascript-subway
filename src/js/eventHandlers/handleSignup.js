@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../constants';
+import { AUTH } from '../constants/alertMessage';
 import { requestSignup } from '../services/auth';
 import { $, showElement } from '../utils/dom';
 import { routeTo } from '../utils/history';
@@ -22,7 +22,7 @@ const handleSignup = async event => {
     return;
   }
 
-  alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
+  alert(AUTH.SIGNUP_SUCCESS);
 
   await login(email.value, password.value, { keepLogin: false });
   showElement($('#nav'));

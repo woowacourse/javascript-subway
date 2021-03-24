@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../constants';
+import { AUTH } from '../constants/alertMessage';
 import { requestLogin } from '../services/auth';
 import { initPrivateStore } from '../store';
 import accessToken from '../store/accessToken';
@@ -10,7 +10,7 @@ export const login = async (email, password, option) => {
   const { keepLogin } = option;
 
   if (!response.success) {
-    alert(ALERT_MESSAGE.LOGIN_FAILED);
+    alert(AUTH.LOGIN_FAILED);
     return;
   }
 

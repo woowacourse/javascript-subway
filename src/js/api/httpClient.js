@@ -1,4 +1,4 @@
-import { API } from '../constants';
+import { API } from '../constants/api';
 import accessToken from '../store/accessToken';
 
 const fetchOption = (method, body, accessToken = '') => ({
