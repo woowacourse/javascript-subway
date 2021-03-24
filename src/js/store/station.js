@@ -22,6 +22,7 @@ const station = {
   editName(name, targetId) {
     const newValue = [...this.value];
     const targetStation = newValue.find(({ id }) => id === targetId);
+
     targetStation.name = name;
 
     this.value = new Set(newValue);

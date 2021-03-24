@@ -69,6 +69,7 @@ button:disabled {
 
 .station-list-item {
   height: 42px;
+  border-bottom: 1px solid #dddddd;
 }
 
 .button-wrapper {
