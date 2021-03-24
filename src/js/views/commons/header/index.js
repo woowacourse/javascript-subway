@@ -1,6 +1,6 @@
 import TEMPLATE from './template.js';
 import { isLoggedIn } from '../../../auth/index.js';
-import { ROUTES } from '../../../constants/index.js';
+import { PATHNAMES } from '../../../constants/index.js';
 
 const textLogin = '👤 로그인';
 const textLogout = '👤 로그아웃';
@@ -12,6 +12,6 @@ export const renderHeader = ($parent) => {
   const $login = $parent.querySelector('#login');
   const $button = $login.querySelector('button');
 
-  $login.href = isLoggedIn() ? ROUTES.LOGOUT : ROUTES.LOGIN;
+  $login.href = isLoggedIn() ? PATHNAMES.LOGOUT : PATHNAMES.LOGIN;
   $button.innerText = isLoggedIn() ? textLogout : textLogin;
 };

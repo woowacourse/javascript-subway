@@ -1,5 +1,5 @@
 import { API_ENDPOINT, STATUS_CODE } from '../../src/js/constants/api.js';
-import ROUTES from '../../src/js/constants/rawRoutes.js';
+import PATHNAMES from '../../src/js/constants/rawPathnames.js';
 
 describe('회원가입 및 로그인 테스트', () => {
   const oldUser = {
@@ -72,12 +72,12 @@ describe('회원가입 및 로그인 테스트', () => {
   });
 
   const goToLoginPage = () => {
-    cy.get(`a[href*="${ROUTES.LOGIN}"]`).click();
+    cy.get(`a[href*="${PATHNAMES.LOGIN}"]`).click();
   };
 
   const goToSignUpPage = () => {
-    cy.get(`a[href*="${ROUTES.LOGIN}"]`).click();
-    cy.get(`a[href*="${ROUTES.SIGN_UP}"]`).click();
+    cy.get(`a[href*="${PATHNAMES.LOGIN}"]`).click();
+    cy.get(`a[href*="${PATHNAMES.SIGN_UP}"]`).click();
   };
 
   it('회원가입시 중복된 이메일을 입력했을 때 유효하지 않은 입력으로 표시된다.', () => {

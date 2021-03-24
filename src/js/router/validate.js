@@ -1,5 +1,5 @@
 import { hasPropertyValue } from '../utils/index.js';
-import { ROUTES } from '../constants/index.js';
+import { PATHNAMES } from '../constants/index.js';
 import { isLoggedIn } from '../auth/index.js';
 
 export default function getValidPathname(pathname) {
@@ -13,14 +13,14 @@ export default function getValidPathname(pathname) {
     // eslint-disable-next-line no-console
     console.error(error);
 
-    return ROUTES.HOME;
+    return PATHNAMES.HOME;
   }
 }
 
-const allowedRoutes = [ROUTES.HOME, ROUTES.LOGIN, ROUTES.LOGOUT, ROUTES.SIGN_UP];
+const allowedPATHNAMES = [PATHNAMES.HOME, PATHNAMES.LOGIN, PATHNAMES.LOGOUT, PATHNAMES.SIGN_UP];
 
 function validateAuthentication(pathname) {
-  if (allowedRoutes.includes(pathname)) {
+  if (allowedPATHNAMES.includes(pathname)) {
     return;
   }
 
@@ -31,7 +31,7 @@ function validateAuthentication(pathname) {
 
 function validatePathname(pathname) {
   try {
-    if (hasPropertyValue(ROUTES, pathname)) {
+    if (hasPropertyValue(PATHNAMES, pathname)) {
       return;
     }
   } catch (error) {

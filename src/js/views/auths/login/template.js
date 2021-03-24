@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../constants/index.js';
+import { PATHNAMES } from '../../../constants/index.js';
 
 const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
 <div class="heading">
@@ -20,7 +20,7 @@ const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
   </div>
   <p class="text-gray-700 pl-2">
     아직 회원이 아니신가요?
-    <a href="${ROUTES.SIGN_UP}">회원가입</a>
+    <a href="${PATHNAMES.SIGN_UP}">회원가입</a>
   </p>
 </form>
 </div>`;

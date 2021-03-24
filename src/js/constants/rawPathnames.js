@@ -1,4 +1,4 @@
-const RAW_ROUTES = {
+const RAW_PATHNAMES = {
   HOME: '/',
   STATIONS: '/stations',
   LINES: '/lines',
@@ -8,4 +8,4 @@ const RAW_ROUTES = {
   LOGOUT: '/logout',
 };
 
-export default RAW_ROUTES;
+export default RAW_PATHNAMES;

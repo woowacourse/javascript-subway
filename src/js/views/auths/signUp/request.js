@@ -1,6 +1,6 @@
-import { API_ENDPOINT, AUTH_MESSAGES, ROUTES } from '../../../constants/index.js';
 import { goTo } from '../../../router/index.js';
 import { notify } from '../../../utils/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
 const requestSignUp = async (event) => {
   event.preventDefault();
@@ -25,7 +25,7 @@ const requestSignUp = async (event) => {
     }
 
     notify(AUTH_MESSAGES.SIGN_UP_HAS_BEEN_COMPLETED);
-    goTo(ROUTES.LOGIN);
+    goTo(PATHNAMES.LOGIN);
   } catch (error) {
     notify(error.message);
   }

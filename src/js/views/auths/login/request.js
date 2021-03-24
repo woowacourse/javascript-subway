@@ -1,7 +1,7 @@
 import { goTo } from '../../../router/index.js';
 import { notify } from '../../../utils/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES, ROUTES } from '../../../constants/index.js';
 import { login } from '../../../auth/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
 const requestLogin = async (event) => {
   event.preventDefault();
@@ -28,7 +28,7 @@ const requestLogin = async (event) => {
 
     login(accessToken);
     notify(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
-    goTo(ROUTES.STATIONS);
+    goTo(PATHNAMES.STATIONS);
   } catch (error) {
     notify(error.message);
   }

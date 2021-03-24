@@ -6,19 +6,19 @@ import { renderSections } from './contents/sections/index.js';
 import { renderLogin } from './auths/login/index.js';
 import { renderSignUp } from './auths/signUp/index.js';
 import { $ } from '../utils/index.js';
-import { ROUTES, TITLES } from '../constants/index.js';
+import { PATHNAMES, TITLES } from '../constants/index.js';
 
 const $header = $('header');
 const $main = $('main');
 
 const renderContents = {
-  [ROUTES.HOME]: renderHome,
-  [ROUTES.STATIONS]: renderStations,
-  [ROUTES.LINES]: renderLines,
-  [ROUTES.SECTIONS]: renderSections,
-  [ROUTES.LOGIN]: renderLogin,
-  [ROUTES.SIGN_UP]: renderSignUp,
-  [ROUTES.LOGOUT]: renderHome,
+  [PATHNAMES.HOME]: renderHome,
+  [PATHNAMES.STATIONS]: renderStations,
+  [PATHNAMES.LINES]: renderLines,
+  [PATHNAMES.SECTIONS]: renderSections,
+  [PATHNAMES.LOGIN]: renderLogin,
+  [PATHNAMES.SIGN_UP]: renderSignUp,
+  [PATHNAMES.LOGOUT]: renderHome,
 };
 
 const renderTitle = (pathname) => {

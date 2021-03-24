@@ -1,7 +1,7 @@
-import { ROUTES } from '../constants/index.js';
+import getValidPathname from './validate.js';
 import { render, renderContent } from '../views/index.js';
 import { logout } from '../auth/index.js';
-import getValidPathname from './validate.js';
+import { PATHNAMES } from '../constants/index.js';
 
 export function handleWindowPopstate({ target }) {
   const { pathname } = target.location;
@@ -23,7 +23,7 @@ export function handleLinkClick(event) {
 
   const { pathname } = $anchor;
 
-  if (pathname === ROUTES.LOGOUT) {
+  if (pathname === PATHNAMES.LOGOUT) {
     logout();
   }
 
