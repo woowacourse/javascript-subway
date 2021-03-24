@@ -1,4 +1,4 @@
-import { Station } from './Station';
+import Station from './Station';
 
 export default class Line {
   constructor({ id, name, color, stations, createdDate, modifiedDate }) {

@@ -29,6 +29,7 @@ export const SELECTOR = {
   STATION_LIST: '#station-list',
   STATION_NAME_FORM: '#station-name-form',
   STATION_NAME_INPUT: '#station-name',
+  STATION_DUPLICATED_WARNING: '#station-duplicated-warning',
 };
 
 export const MESSAGES = {
