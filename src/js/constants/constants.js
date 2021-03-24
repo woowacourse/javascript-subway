@@ -25,6 +25,10 @@ export const SELECTOR = {
   PASSWORD_CONFIRM: '#password-confirm',
   PASSWORD_CONFIRM_ERROR: '#password-confirm-error',
   PASSWORD_CONFIRM_CORRECT: '#password-confirm-correct',
+
+  STATION_LIST: '#station-list',
+  STATION_NAME_FORM: '#station-name-form',
+  STATION_NAME_INPUT: '#station-name',
 };
 
 export const MESSAGES = {
@@ -34,6 +38,9 @@ export const MESSAGES = {
   ENTRY_DESCRIPTION_LOGGED_IN: '상단 탭을 클릭해주세요. 🦕',
   ENTRY_DESCRIPTION_LOGGED_OUT:
     '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
+
+  ERROR_FETCH_STATION_DATA:
+    '지하철 데이터를 가져오는 과정에서 문제가 발생했습니다.',
 };
 
 export const BUTTON_NAME = {

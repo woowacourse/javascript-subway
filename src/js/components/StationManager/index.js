@@ -16,11 +16,15 @@ export default class StationManager {
 
   render() {
     this.$content.innerHTML = stationTemplate;
+    console.log(this.store.stations);
+    $(SELECTOR.STATION_LIST).innerHTML = this.store.stations
+      .map((station) => station.toListItemTemplate())
+      .join('');
   }
 
   selectDOM() {
-    this.stationNameForm = $('#station-name-form');
-    this.stationNameInput = $('#station-name');
+    this.stationNameForm = $(SELECTOR.STATION_NAME_FORM);
+    this.stationNameInput = $(SELECTOR.STATION_NAME_INPUT);
   }
 
   bindEvents() {
