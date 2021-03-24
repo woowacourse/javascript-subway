@@ -54,7 +54,7 @@ const ALERT_MESSAGE = {
 };
 
 const STATE_KEY = {
-  LOGIN_RESPONSE: 'loginResponse',
+  ACCESS_TOKEN: 'accessToken',
   STATION: 'station',
 };
 

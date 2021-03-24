@@ -87,7 +87,6 @@
   - '\_': protected
   - 'handle': state의 값이 변경되었을 때 호출되는 콜백
   - 'on': element의 이벤트에 의해 호출되는 콜백
-- State의 데이터는 객체 형태를 띈다.
 
 ---
 
