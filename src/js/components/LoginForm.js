@@ -117,17 +117,15 @@ export default class LoginForm extends Component {
   // eslint-disable-next-line class-methods-use-this
   onTypeInput($form) {
     const { email, password, submit } = $form;
-
-    if (
+    const isValidLogin =
       email.value.match(EMAIL_REG_EXP) &&
-      password.value.length >= PASSWORD_MIN_LENGTH
-    ) {
-      submit.disabled = false;
-      submit.classList.replace("bg-cyan-200", "bg-cyan-300");
-    } else {
-      submit.disabled = true;
-      submit.classList.replace("bg-cyan-300", "bg-cyan-200");
-    }
+      password.value.length >= PASSWORD_MIN_LENGTH;
+
+    submit.disabled = isValidLogin;
+    submit.classList.replace(
+      isValidLogin ? "bg-cyan-200" : "bg-cyan-300",
+      isValidLogin ? "bg-cyan-300" : "bg-cyan-200"
+    );
   }
 
   onClickSignupLink(event) {
