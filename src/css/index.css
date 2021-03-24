@@ -1,6 +1,6 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
-@import "./pages/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
+@import './pages/index.css';
 
 html,
 body {
@@ -60,4 +60,9 @@ ul li button:hover {
 #navigation button.selected {
   background-color: #2ac1bc;
   color: #ffffff;
+}
+
+#station-list {
+  height: 40vh;
+  overflow-y: auto;
 }

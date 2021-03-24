@@ -1,6 +1,9 @@
-import { $ } from '../../utils/dom.js';
+import { $, hide, show } from '../../utils/dom.js';
 import { SELECTOR } from '../../constants/constants.js';
+import { addStationRequest } from '../../request.js';
+import Station from '../../models/Station.js';
 import stationTemplate from './template.js';
+import popSnackbar from '../../utils/snackbar.js';
 
 export default class StationManager {
   constructor(store) {
@@ -16,7 +19,6 @@ export default class StationManager {
 
   render() {
     this.$content.innerHTML = stationTemplate;
-    console.log(this.store.stations);
     $(SELECTOR.STATION_LIST).innerHTML = this.store.stations
       .map((station) => station.toListItemTemplate())
       .join('');
@@ -30,11 +32,13 @@ export default class StationManager {
   bindEvents() {
     this.stationNameInput.addEventListener('input', () => {
       this.setInputValidity();
+      hide($(SELECTOR.STATION_DUPLICATED_WARNING));
     });
 
-    this.stationNameForm.addEventListener('submit', (e) => {
+    this.stationNameForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       this.stationNameInput.reportValidity();
+      await this.addStation(e);
     });
   }
 
@@ -51,6 +55,35 @@ export default class StationManager {
       );
     } else {
       this.stationNameInput.setCustomValidity('');
+    }
+  }
+
+  async addStation(event) {
+    try {
+      const accessToken = this.store.userAuth.accessToken;
+      const name = event.target.elements.stationName.value;
+      const stations = this.store.stations;
+
+      if (stations.find((station) => station.name === name)) {
+        show($(SELECTOR.STATION_DUPLICATED_WARNING));
+        return;
+      }
+
+      const response = await addStationRequest({ name }, accessToken);
+      const station = new Station(response);
+
+      stations.unshift(station);
+      this.store.stations = stations;
+
+      $(SELECTOR.STATION_LIST).insertAdjacentHTML(
+        'afterbegin',
+        station.toListItemTemplate()
+      );
+
+      this.stationNameInput.value = '';
+    } catch (error) {
+      console.error(error);
+      popSnackbar('해당 역을 등록할 수 없습니다.');
     }
   }
 }
