@@ -72,6 +72,11 @@ const URL = {
   MY_INFO: '/pages/myInfo.html',
 };
 
+const THRESHOLD = {
+  STATION_MIN_LENGTH: 2,
+  STATION_MAX_LENGTH: 20,
+};
+
 export {
   ID_SELECTOR,
   CLASS_SELECTOR,
@@ -80,4 +85,5 @@ export {
   KEYWORD,
   REQUEST_URL,
   URL,
+  THRESHOLD,
 };
