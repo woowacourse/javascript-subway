@@ -2,7 +2,9 @@ import { colorOptions } from '/src/js/utils/mock.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
-  return `<button type="button" class="color-option bg-${color}"></button> ${hasNewLine ? '<br/>' : ''}`;
+  return `<button type="button" class="js-color-option color-option bg-${color}" data-color="bg-${color}"></button> ${
+    hasNewLine ? '<br/>' : ''
+  }`;
 };
 
 const linesPageModalTemplate = `
@@ -18,6 +20,7 @@ const linesPageModalTemplate = `
       </header>
       <form id="line-add-form">
         <div class="input-control">
+          <span class="js-subway-line-color-dot subway-line-color-dot"></span>
           <label for="subway-line-name" class="input-label" hidden
             >노선 이름</label
           >
@@ -59,7 +62,7 @@ const linesPageModalTemplate = `
           <input
             type="text"
             id="interval-time"
-            name="arrival-time"
+            name="interval-time"
             class="input-field"
             placeholder="간격"
             required
@@ -71,7 +74,7 @@ const linesPageModalTemplate = `
               >간격 시간</label
             >
             <input
-              type="text"
+              type="hidden"
               id="subway-line-color"
               name="subway-line-color"
               class="input-field"
