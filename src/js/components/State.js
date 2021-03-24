@@ -10,13 +10,15 @@ class State {
   }
 
   getData(key) {
-    return this.#state[key];
+    return this.#deepCopy(this.#state[key]);
   }
 
   setData(value) {
     Object.keys(value).forEach(key => {
       if (!value[key]) return;
-      if (this.#state[key] === value[key]) return;
+
+      if (JSON.stringify(this.#state[key]) === JSON.stringify(value[key]))
+        return;
 
       this.#state[key] = value[key];
 
@@ -48,6 +50,10 @@ class State {
 
   #hasKey(key) {
     return Object.values(STATE_KEY).includes(key);
+  }
+
+  #deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj));
   }
 }
 

@@ -19,6 +19,10 @@ class LoginComponent extends Component {
     }
   }
 
+  initialize() {
+    this.initEvent();
+  }
+
   initEvent() {
     const signupAnchor = $(`#${ID_SELECTOR.MAIN} .${CLASS_SELECTOR.ANCHOR}`);
 
