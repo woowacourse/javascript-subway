@@ -1,5 +1,6 @@
 import { requestCheckLogin } from '../services/auth';
 import accessToken from './accessToken';
+import line from './line';
 import station from './station';
 
 const initStore = async () => {
@@ -18,6 +19,7 @@ const initStore = async () => {
 
 export const initPrivateStore = async () => {
   await station.init();
+  await line.init();
 };
 
 export default initStore;

@@ -19,9 +19,14 @@ export const STATION = Object.freeze({
 });
 
 export const LINE = Object.freeze({
+  INVALID_LINE_NAME: '최소 2자, 최대 20자의 역 이름을 입력해주세요',
   GET_LINE_LIST_FAILED: '노선 목록을 가져오지 못했습니다.',
   ADD_LINE_FAILED: '노선 등록에 실패했습니다.',
   TOO_FEW_STATION: `노선을 만들기 위해서는 ${STATION_AMOUNT.MIN}개 이상의 역이 필요합니다.`,
+  DELETE_LINE_FAILED: '노선 삭제에 실패했습니다.',
+  DELETE_LINE_SUCCESS: '노선을 삭제했습니다.',
+  DELETE_LINE_CONFIRM: '노선을 삭제하시겠습니까?',
+  EDIT_LINE_FAILED: '노선 수정에 실패했습니다',
 });
 
 export const SECTION = Object.freeze({});

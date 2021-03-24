@@ -42,4 +42,13 @@ describe('지하철 노선도 STEP2', () => {
     cy.get('[data-name="서울대"] .js-station-delete-button').click();
     cy.get('#station-list .station-list-item').should('not.contain', '서울대');
   });
+
+  it('지하철 노선을 등록할 수 있다.' () => {
+    cy.get('#lines-nav-link').click();
+    cy.get('#create-line-button').click();
+    cy.get('#subway-line-name').type('8호선');
+    cy.get('#departure-time').type('05:00');
+    cy.get('#arrival-time').type('24:00');
+    cy.get('#interval-time').type('10');
+  })
 });

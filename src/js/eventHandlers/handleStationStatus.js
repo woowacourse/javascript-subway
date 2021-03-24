@@ -1,11 +1,12 @@
 import { requestDeleteStation } from '../services/station';
-import { AUTH } from '../constants/alertMessage';
+import { STATION } from '../constants/alertMessage';
 import station from '../store/station';
 import { $ } from '../utils/dom';
 import { openModal } from '../utils/modal';
+import { updateStationNameEditModal } from '../viewController/stationNameEditModal';
 
 const deleteStation = async target => {
-  if (!window.confirm(AUTH.DELETE_STATION_CONFIRM)) return;
+  if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
 
   const $targetStation = target.closest('.station-list-item');
   const stationID = $targetStation.dataset.id;
@@ -18,7 +19,7 @@ const deleteStation = async target => {
   station.delete(stationID);
   $targetStation.remove();
 
-  alert(AUTH.DELETE_STATION_SUCCESS);
+  alert(STATION.DELETE_STATION_SUCCESS);
 };
 
 const handleStationStatus = async ({ target }) => {
@@ -28,12 +29,9 @@ const handleStationStatus = async ({ target }) => {
   }
 
   if (target.classList.contains('js-station-edit-button')) {
-    const { id, name } = target.closest('.station-list-item').dataset;
+    const { dataset } = target.closest('.station-list-item');
 
-    $('#station-name-edit-form').dataset.stationId = id;
-    $('#station-name-edit-form').dataset.oldStationName = name;
-    $('#station-edit-name').value = name;
-
+    updateStationNameEditModal(dataset);
     openModal($('#station-name-edit-modal'));
     $('#station-edit-name').focus();
 

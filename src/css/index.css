@@ -68,7 +68,8 @@ button:disabled {
   pointer-events: none;
 }
 
-.station-list-item {
+.station-list-item,
+.line-list-item {
   border-bottom: 1px solid #dddddd;
 }
 

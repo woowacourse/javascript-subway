@@ -20,9 +20,9 @@ export const requestLineList = async () => {
   }
 };
 
-export const requestAddLine = async name => {
+export const requestAddLine = async line => {
   try {
-    const response = await httpClient.post('/lines', { name });
+    const response = await httpClient.post('/lines', line);
     const data = await response.json();
 
     if (!response.ok) throw new Error(data.message);
@@ -35,6 +35,23 @@ export const requestAddLine = async name => {
     return {
       success: false,
       message: LINE.ADD_LINE_FAILED,
+    };
+  }
+};
+
+export const requestDeleteLine = async id => {
+  try {
+    const response = await httpClient.delete(`/lines/${id}`);
+
+    if (!response.ok) throw new Error();
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: LINE.DELETE_LINE_FAILED,
     };
   }
 };
