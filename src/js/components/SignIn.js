@@ -40,19 +40,23 @@ class SignIn {
   }
 
   handleEmailCheck({ target }) {
-    inputChecker.signIn({
-      callback: validateEmail.bind(this, target.value),
-      $textArea: this.$signInEmailCheckTextArea,
-      $input: this.$signInEmailInput,
-    });
+    try {
+      inputChecker.signIn({
+        callback: validateEmail.bind(this, target.value),
+        $textArea: this.$signInEmailCheckTextArea,
+        $input: this.$signInEmailInput,
+      });
+    } catch (error) {}
   }
 
   handlePasswordCheck({ target }) {
-    inputChecker.signIn({
-      callback: validatePassword.bind(this, target.value),
-      $textArea: this.$signInPasswordCheckTextArea,
-      $input: this.$signInPasswordInput,
-    });
+    try {
+      inputChecker.signIn({
+        callback: validatePassword.bind(this, target.value),
+        $textArea: this.$signInPasswordCheckTextArea,
+        $input: this.$signInPasswordInput,
+      });
+    } catch (error) {}
   }
 
   handleSignIn(target) {

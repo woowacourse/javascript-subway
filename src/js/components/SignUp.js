@@ -52,11 +52,13 @@ class SignUp {
   async handleEmailCheck({ target }) {
     const email = target.value;
 
-    inputChecker.signUp({
-      callback: validateEmail.bind(this, email),
-      $textArea: this.$signUpEmailCheckTextArea,
-      $input: this.$signUpEmailInput,
-    });
+    try {
+      inputChecker.signUp({
+        callback: validateEmail.bind(this, email),
+        $textArea: this.$signUpEmailCheckTextArea,
+        $input: this.$signUpEmailInput,
+      });
+    } catch (error) {}
 
     try {
       await requestEmailDuplicationCheck(email);
@@ -71,33 +73,39 @@ class SignUp {
   }
 
   handleUserNameCheck({ target }) {
-    inputChecker.signUp({
-      callback: validateUserName.bind(this, target.value),
-      $textArea: this.$signUpUserNameCheckTextArea,
-      $input: this.$signUpUserNameInput,
-    });
+    try {
+      inputChecker.signUp({
+        callback: validateUserName.bind(this, target.value),
+        $textArea: this.$signUpUserNameCheckTextArea,
+        $input: this.$signUpUserNameInput,
+      });
+    } catch (error) {}
   }
 
   handlePasswordCheck({ target }) {
-    inputChecker.signUp({
-      callback: validatePassword.bind(this, target.value),
-      $textArea: this.$signUpPasswordCheckTextArea,
-      $input: this.$signUpPasswordInput,
-    });
+    try {
+      inputChecker.signUp({
+        callback: validatePassword.bind(this, target.value),
+        $textArea: this.$signUpPasswordCheckTextArea,
+        $input: this.$signUpPasswordInput,
+      });
 
-    inputChecker.signUp({
-      callback: validatePasswordConfirm.bind(this, target.value, this.$signUpPasswordConfirmInput.value),
-      $textArea: this.$signUpPasswordConfirmCheckTextArea,
-      $input: this.$signUpPasswordConfirmInput,
-    });
+      inputChecker.signUp({
+        callback: validatePasswordConfirm.bind(this, target.value, this.$signUpPasswordConfirmInput.value),
+        $textArea: this.$signUpPasswordConfirmCheckTextArea,
+        $input: this.$signUpPasswordConfirmInput,
+      });
+    } catch (error) {}
   }
 
   handlePasswordConfirmCheck({ target }) {
-    inputChecker.signUp({
-      callback: validatePasswordConfirm.bind(this, this.$signUpPasswordInput.value, target.value),
-      $textArea: this.$signUpPasswordConfirmCheckTextArea,
-      $input: this.$signUpPasswordConfirmInput,
-    });
+    try {
+      inputChecker.signUp({
+        callback: validatePasswordConfirm.bind(this, this.$signUpPasswordInput.value, target.value),
+        $textArea: this.$signUpPasswordConfirmCheckTextArea,
+        $input: this.$signUpPasswordConfirmInput,
+      });
+    } catch (error) {}
   }
 
   handleSignUp({ target }) {
