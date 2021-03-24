@@ -108,36 +108,37 @@ describe('Subway test', () => {
     });
 
     it('역 추가 시, 역이름이 2 ~ 20글자가 아니면 에러 메시지를 렌더링한다.', () => {
-      cy.get('#station-name').type('a');
-      cy.get('#fail-message-box').should('be.visible');
+      cy.get('#station-add-input').type('a');
+      cy.get('#add-fail-message-box').should('be.visible');
 
-      cy.get('#station-name').type('a'.repeat(21));
-      cy.get('#fail-message-box').should('be.visible');
+      cy.get('#station-add-input').type('a'.repeat(21));
+      cy.get('#add-fail-message-box').should('be.visible');
     });
 
     it('지하철 역을 등록할 수 있다.', () => {
       const randomName = Date.now().toString().slice(-4);
-      cy.get('#station-name').clear();
-      cy.get('#station-name').type(randomName);
+      cy.get('#station-add-input').clear();
+      cy.get('#station-add-input').type(randomName);
       cy.get('#station-add-button').click();
 
-      cy.get('.station-list-item:last > span').should('have.text', randomName);
+      cy.get('.js-station-list-item:last > .js-station-name').should('have.text', randomName);
     });
 
     it('지하철 역 이름을 수정할 수 있다.', () => {
-      cy.get('#station-list:last-child > .js-update-button').click();
-      cy.get('#station-update-modal').should('be.visible');
+      const randomName = Date.now().toString().slice(-4);
+      cy.get('.js-station-list-item:last > .js-modify-button').click();
+      cy.get('#station-modify-form').should('be.visible');
+      cy.get('#station-modify-input').clear();
+      cy.get('#station-modify-input').type(randomName);
+      cy.get('#station-modify-button').click();
 
-      // cy.get('#station-update-modal > #name-input').type('수정한 이름');
-      // cy.get('#station-update-modal > #확인버튼').click();
-      // cy.get('#station-update-modal > #X버튼').click();
-      // cy.get('#station-list:last-child').should('have.text', '수정한 이름');
+      cy.get('.js-station-list-item:last > .js-station-name').should('have.text', randomName);
     });
 
     it('지하철 역 이름을 삭제할 수 있다.', () => {
-      cy.get('#station-list:last-child > .js-remove-button').click();
+      cy.get('.js-station-list-item:last > .js-remove-button').click();
 
-      // cy.get('#station-list:last-child').should('have.not.text', '수정한 이름');
+      cy.get('.js-station-list-item:last').should('not.exist');
     });
   });
 });
