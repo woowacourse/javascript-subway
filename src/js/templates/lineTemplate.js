@@ -122,10 +122,10 @@ const MODAL_COMPONENT = `
     </form>
   </div>`;
 
-const LINES_TEMPLATE = {
+const LINE_TEMPLATE = {
   TITLE: `🚇 노선 관리`,
   MAIN: MAIN_COMPONENT,
   MODAL: MODAL_COMPONENT,
 };
 
-export default LINES_TEMPLATE;
+export default LINE_TEMPLATE;

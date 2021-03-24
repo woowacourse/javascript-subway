@@ -9,6 +9,10 @@ class SignupComponent extends Component {
     super(props);
   }
 
+  initialize() {
+    this.initEvent();
+  }
+
   initEvent() {
     $(`#${ID_SELECTOR.SIGNUP_FORM}`).addEventListener(
       'submit',

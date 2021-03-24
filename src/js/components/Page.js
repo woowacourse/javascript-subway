@@ -28,7 +28,7 @@ class Page extends Component {
     }
 
     this._router[path].render();
-    this._router[path].initEvent();
+    this._router[path].initialize();
   };
 }
 

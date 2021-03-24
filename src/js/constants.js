@@ -11,6 +11,11 @@ const ID_SELECTOR = {
   NAV_LOGOUT: 'nav__logout',
   NAV_MY_INFO: 'nav__my-info',
 
+  STATION_FORM: 'station-form',
+  STATION_FORM_NAME: 'station-form__name',
+  STATION_FORM_SUBMIT: 'station-form__submit',
+  STATION_LIST: 'station-list',
+
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
   MY_INFO_FORM_NAME: 'my-info-form__name',
@@ -43,10 +48,14 @@ const ALERT_MESSAGE = {
   // LOGIN
   LOGIN_SUCCESS: '로그인에 성공했습니다.',
   LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
+
+  // STATION
+  DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
 };
 
 const STATE_KEY = {
   LOGIN_RESPONSE: 'loginResponse',
+  STATION: 'station',
 };
 
 const KEYWORD = {
@@ -57,6 +66,7 @@ const REQUEST_URL = 'https://www.boorownie.com';
 
 const URL = {
   HOME: '/',
+  STATION: '/pages/station.html',
   LOGIN: '/pages/login.html',
   SIGNUP: '/pages/signup.html',
   MY_INFO: '/pages/myInfo.html',

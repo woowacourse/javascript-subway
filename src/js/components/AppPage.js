@@ -1,5 +1,6 @@
 import $ from '../utils/querySelector.js';
 import HomeComponent from './HomeComponent.js';
+import StationComponent from './StationComponent.js';
 import LoginComponent from './LoginComponent.js';
 import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
@@ -12,13 +13,20 @@ class AppPage extends Page {
     super(props);
 
     this.state = new State({
-      loginResponse: {
+      [STATE_KEY.LOGIN_RESPONSE]: {
         accessToken: '',
       },
     });
 
+    this.state.setListener(
+      STATE_KEY.LOGIN_RESPONSE,
+      this.handleNavButtonToChange
+    );
+    this.state.setListener(STATE_KEY.LOGIN_RESPONSE, this.handlePageToRedirect);
+
     this._router = {
       [URL.HOME]: new HomeComponent(),
+      [URL.STATION]: new StationComponent({ appState: this.state }),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
         appState: this.state,
@@ -26,12 +34,6 @@ class AppPage extends Page {
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
       [URL.MY_INFO]: new MyInfoComponent({ appState: this.state }),
     };
-
-    this.state.setListener(
-      STATE_KEY.LOGIN_RESPONSE,
-      this.handleNavButtonToChange
-    );
-    this.state.setListener(STATE_KEY.LOGIN_RESPONSE, this.handlePageToRedirect);
   }
 
   initEvent() {
