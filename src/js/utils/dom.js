@@ -13,3 +13,8 @@ export const getFormData = formCollections => {
       {},
     );
 };
+
+export const showValidMessage = ($message, { isValid, message }) => {
+  $message.classList.toggle('valid', isValid);
+  $message.innerHTML = message;
+};

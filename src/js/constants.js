@@ -1,5 +1,4 @@
 export const BASE_URL = 'https://www.boorownie.com';
-//export const BASE_URL = 'http://3.35.213.149';
 
 export const REQUEST_HEADER_HOST = 'localhost:42069';
 
@@ -7,6 +6,7 @@ export const ACTIONS = {
   REGISTER: '/members',
   USER: '/members/me',
   LOGIN: '/login/token',
+  DUPLICATED_EMAIL: '/members/check-validation?email=',
 };
 
 export const PATH = {
@@ -28,11 +28,26 @@ export const SELECTOR = {
   SNACK_BAR: '.snackbar',
   LOGIN_FORM: 'form[name="login"]',
   SIGNUP_FORM: 'form[name="signup"]',
+  NAME_MESSAGE: '.name-message',
+  EMAIL_MESSAGE: '.email-message',
+  PASSWORD_MESSAGE: '.password-message',
+  PASSWORD_CONFIRM_MESSAGE: '.password-confirm-message',
+  PASSWORD: '#password',
+  PASSWORD_CONFIRM: '#password-confirm',
 };
 
 export const CLASS_NAME = {
   SHOW: 'show',
   SIGNUP_LINK: 'signup-link',
+};
+
+export const FORM = {
+  SIGNUP: {
+    NAME: 'name',
+    EMAIL: 'email',
+    PASSWORD: 'password',
+    PASSWORD_CONFIRM: 'password-confirm',
+  },
 };
 
 export const SNACK_BAR = {
@@ -49,13 +64,20 @@ export const SNACKBAR_MESSAGE = {
   SIGNUP: '회원가입이 완료되었습니다 !',
 };
 
+export const SUCCESS_MESSAGE = {
+  NAME: '좋은 이름이네요! 😁',
+  EMAIL: '올바른 이메일 입니다.',
+  PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
+};
+
 export const ERROR_MESSAGE = {
   WRONG_EMAIL_OR_PASSWORD: '잘못된 이메일 혹은 비밀번호 입니다.',
   LOGIN_FAILED: '로그인에 실패했습니다. 다시 시도해주세요.',
-  DUPLICATED_EMAIL: '중복된 이메일로 가입할 수 없습니다!',
+  DUPLICATED_EMAIL: '이미 가입된 이메일입니다.',
   SIGNUP_FAILED: '회원가입에 실패했습니다. 다시 시도해주세요.',
   EMPTY_NAME: '이름은 공백이 될 수 없습니다!',
   EMPTY_EMAIL: '이메일은 공백이 될 수 없습니다!',
+  WRONG_EMAIL_FORMAT: '이메일 형식이 올바르지 않습니다.',
   EMPTY_PASSWORD: '비밀번호는 공백이 될 수 없습니다!',
   EMPTY_PASSWORD_CONFIRM: '비밀번호 확인은 공백이 될 수 없습니다!',
   DIFFERENT_PASSWORD: '비밀번호가 일치하지 않습니다!',
@@ -86,4 +108,8 @@ export const LOGIN_ERROR = {
 
 export const SIGNUP_ERROR = {
   [STATUS.SIGNUP.DUPLICATED_EMAIL]: ERROR_MESSAGE.DUPLICATED_EMAIL,
+};
+
+export const REGEXP = {
+  EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
 };

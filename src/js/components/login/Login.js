@@ -83,7 +83,12 @@ class Login {
         password: data.password,
       });
       const option = getPostOption(requestBody);
-      const { accessToken } = await request(BASE_URL + ACTIONS.LOGIN, option);
+      const { accessToken } = await request(
+        BASE_URL + ACTIONS.LOGIN,
+        option,
+      ).then(res => {
+        return res.json();
+      });
 
       setLocalStorageItem(STORAGE.USER_ACCESS_TOKEN, accessToken);
 

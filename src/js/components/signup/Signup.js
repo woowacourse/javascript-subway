@@ -1,6 +1,11 @@
-import { checkSignupValid } from './signupValidator.js';
+import {
+  checkNameValid,
+  checkEmailValid,
+  checkPasswordValid,
+  checkPasswordConfirmValid,
+} from './signupValidator.js';
 import { signUpTemplate } from './signupTemplate.js';
-import { $, getFormData } from '../../utils/dom.js';
+import { $, $$, getFormData, showValidMessage } from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
 import {
   BASE_URL,
@@ -11,6 +16,7 @@ import {
   SNACKBAR_MESSAGE,
   SIGNUP_ERROR,
   ERROR_MESSAGE,
+  FORM,
 } from '../../constants.js';
 
 class SignUp {
@@ -32,27 +38,76 @@ class SignUp {
   }
 
   initDOM() {
+    this.$signUpForm = $(SELECTOR.SIGNUP_FORM);
+    this._bindEvent();
+  }
+
+  _bindEvent() {
+    this._bindInputEvent();
     this._bindSubmitEvent();
   }
 
-  _bindSubmitEvent() {
-    const $signUpForm = $(SELECTOR.SIGNUP_FORM);
+  _bindInputEvent() {
+    let debounce = null;
 
-    $signUpForm.addEventListener('submit', e => {
+    this.$signUpForm.addEventListener('input', ({ target }) => {
+      if (target.tagName !== 'INPUT') return;
+      if (debounce) {
+        clearTimeout(debounce);
+      }
+
+      debounce = setTimeout(() => {
+        this._handleValidMessage(target);
+      }, 500);
+    });
+  }
+
+  _bindSubmitEvent() {
+    this.$signUpForm.addEventListener('submit', e => {
       e.preventDefault();
 
       this._handleSignup(e.target.elements);
     });
   }
 
+  async _handleValidMessage({ id, value }) {
+    switch (id) {
+      case FORM.SIGNUP.NAME:
+        this.$message = $(SELECTOR.NAME_MESSAGE);
+        this.checkedResult = checkNameValid(value);
+        break;
+      case FORM.SIGNUP.EMAIL:
+        this.$message = $(SELECTOR.EMAIL_MESSAGE);
+        this.checkedResult = await checkEmailValid(value);
+        break;
+      case FORM.SIGNUP.PASSWORD:
+        this.$message = $(SELECTOR.PASSWORD_MESSAGE);
+        this.checkedResult = checkPasswordValid(value);
+      case FORM.SIGNUP.PASSWORD:
+      case FORM.SIGNUP.PASSWORD_CONFIRM:
+        const password = $(SELECTOR.PASSWORD).value;
+        const passwordConfirm = $(SELECTOR.PASSWORD_CONFIRM).value;
+        this.$message = $(SELECTOR.PASSWORD_CONFIRM_MESSAGE);
+        this.checkedResult = checkPasswordConfirmValid(
+          password,
+          passwordConfirm,
+        );
+        break;
+
+      default:
+    }
+
+    showValidMessage(this.$message, this.checkedResult);
+    // TODO : 아래 상수화, util화
+    const submitButton = $("form[name='signup'] .input-submit");
+
+    submitButton.disabled = ![...$$('.message')].every(element =>
+      element.classList.contains('valid'),
+    );
+  }
+
   _handleSignup(elements) {
     const formData = getFormData(elements);
-
-    const errorMessage = checkSignupValid(formData);
-    if (errorMessage) {
-      alert(errorMessage);
-      return;
-    }
 
     this._requestSignup(formData);
   }
