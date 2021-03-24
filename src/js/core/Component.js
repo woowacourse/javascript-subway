@@ -1,6 +1,7 @@
 class Component {
-  constructor(parentNode) {
+  constructor(parentNode, stateManagers) {
     this.parentNode = parentNode;
+    this.stateManagers = stateManagers;
 
     this.render();
     this.addEventListeners();

@@ -1,7 +1,9 @@
-class AccessTokenManager {
+import StateManager from '../core/StateManager.js';
+
+class AccessTokenManager extends StateManager {
   constructor() {
+    super();
     this.accessToken = localStorage.getItem('accessToken') || '';
-    this.listeners = [];
   }
 
   setToken(token) {
@@ -18,16 +20,6 @@ class AccessTokenManager {
     this.setToken('');
     localStorage.removeItem('accessToken');
   }
-
-  subscribe(listener) {
-    this.listeners.push(listener);
-  }
-
-  notify() {
-    this.listeners.forEach((listener) => listener());
-  }
 }
 
-const accessTokenManager = new AccessTokenManager();
-
-export default accessTokenManager;
+export default AccessTokenManager;

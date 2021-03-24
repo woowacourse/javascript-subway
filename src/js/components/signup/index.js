@@ -8,13 +8,11 @@ import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import { LENGTH } from '../../constants/standard.js';
 import HEADERS from '../../constants/headers.js';
-import routeManager from '../../stateManagers/RouteManager.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
-import accessTokenManager from '../../stateManagers/AccessTokenManager.js';
 
 class Signup extends Component {
-  constructor(parentNode) {
-    super(parentNode);
+  constructor(parentNode, stateManagers) {
+    super(parentNode, stateManagers);
     this.formValidationFlag = { name: false, email: false, password: false };
   }
 
@@ -198,8 +196,8 @@ class Signup extends Component {
 
     const { accessToken } = await response.json();
 
-    accessTokenManager.setToken(accessToken);
-    routeManager.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+    this.stateManagers.accessToken.setToken(accessToken);
+    this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 

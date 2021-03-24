@@ -1,24 +1,75 @@
 import '../css/index.css';
 import { $ } from './utils/DOM.js';
-import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from './constants/link.js';
+import {
+  AUTHENTICATED_LINK,
+  UNAUTHENTICATED_LINK,
+  HOME_LINK,
+} from './constants/link.js';
 import { headerTemplate } from './components/header.js';
-import accessTokenManager from './stateManagers/AccessTokenManager.js';
+import AccessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
-import routeManager from './stateManagers/RouteManager.js';
+import RouteManager from './stateManagers/RouteManager.js';
 import request from './utils/fetch.js';
 import { BASE_URL, PATH } from './constants/url.js';
 import { ERROR_MESSAGE } from './constants/message.js';
 import HEADERS from './constants/headers.js';
+import Login from './components/login/index.js';
+import Signup from './components/signup/index.js';
+import Section from './components/section/index.js';
+import Line from './components/line/index.js';
+import Station from './components/station/index.js';
 
 class App {
-  constructor() {
-    this.accessTokenManager = accessTokenManager;
-    this.routeManager = routeManager;
+  constructor(stateManagers) {
+    this.stateManagers = stateManagers;
+    this.components = {
+      [HOME_LINK.ROUTE]: () => this.privateRouter(Station),
+      [AUTHENTICATED_LINK.STATION.ROUTE]: () => this.privateRouter(Station),
+      [AUTHENTICATED_LINK.LINE.ROUTE]: () => this.privateRouter(Line),
+      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => this.privateRouter(Section),
+      // TODO: 3단계 요구사항
+      // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
+      // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
+      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => this.publicRouter(Login),
+      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => this.publicRouter(Signup),
+    };
 
-    this.accessTokenManager.subscribe(this.renderHeader);
+    this.stateManagers.accessToken.subscribe(this.renderHeader);
+    this.stateManagers.route.subscribe(this.renderComponent.bind(this));
 
     this.renderHeader();
     this.addEventListeners();
+  }
+
+  privateRouter(Component) {
+    if (isLogin()) {
+      return Component;
+    }
+
+    history.pushState(
+      { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
+      null,
+      UNAUTHENTICATED_LINK.LOGIN.ROUTE
+    );
+    return Login;
+  }
+
+  publicRouter(Component) {
+    if (!isLogin()) {
+      return Component;
+    }
+
+    history.pushState(
+      { route: AUTHENTICATED_LINK.STATION.ROUTE },
+      null,
+      AUTHENTICATED_LINK.STATION.ROUTE
+    );
+    return Station;
+  }
+
+  renderComponent() {
+    const component = this.components[location.pathname]();
+    new component($('.js-main'), this.stateManagers);
   }
 
   renderHeader() {
@@ -29,7 +80,7 @@ class App {
 
   addEventListeners() {
     window.addEventListener('popstate', (e) => {
-      this.routeManager.render(e.state.route);
+      this.stateManagers.route.render(e.state.route);
     });
 
     $('#app').addEventListener('click', (e) => {
@@ -42,7 +93,7 @@ class App {
       if (route === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
         this.fireAccessToken();
 
-        this.routeManager.goPage(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
+        this.stateManagers.route.goPage(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
 
         return;
       }
@@ -56,21 +107,21 @@ class App {
         this.fireAccessToken();
       }
 
-      this.routeManager.goPage(route);
+      this.stateManagers.route.goPage(route);
     });
 
     window.addEventListener('load', () => {
-      this.routeManager.render(location.pathname);
+      this.renderComponent(location.pathname);
     });
   }
 
   fireAccessToken() {
-    accessTokenManager.clearToken();
+    this.stateManagers.accessToken.clearToken();
   }
 
   async isValidAccessToken() {
     try {
-      const accessToken = this.accessTokenManager.getToken();
+      const accessToken = this.stateManagers.accessToken.getToken();
       const response = await request.get(BASE_URL + PATH.MEMBERS.ME, {
         headers: {
           ...HEADERS.CONTENT_TYPE.JSON,
@@ -88,4 +139,7 @@ class App {
   }
 }
 
-new App();
+new App({
+  accessToken: new AccessTokenManager(),
+  route: new RouteManager(),
+});

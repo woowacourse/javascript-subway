@@ -4,15 +4,13 @@ import mainTemplate from './template/main.js';
 import { BASE_URL, PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
-import accessTokenManager from '../../stateManagers/AccessTokenManager.js';
-import routeManager from '../../stateManagers/RouteManager.js';
 import ValidationError from '../../error/ValidationError.js';
 import { ERROR_MESSAGE } from '../../constants/message.js';
 import HEADERS from '../../constants/headers.js';
 
 class Login extends Component {
-  constructor(parentNode) {
-    super(parentNode);
+  constructor(parentNode, stateManagers) {
+    super(parentNode, stateManagers);
   }
 
   render() {
@@ -60,8 +58,8 @@ class Login extends Component {
 
     const { accessToken } = await response.json();
 
-    accessTokenManager.setToken(accessToken);
-    routeManager.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+    this.stateManagers.accessToken.setToken(accessToken);
+    this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 

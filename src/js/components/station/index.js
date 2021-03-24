@@ -2,8 +2,8 @@ import Component from '../../core/Component.js';
 import { mainTemplate } from './template/main.js';
 
 class Station extends Component {
-  constructor(parentNode) {
-    super(parentNode);
+  constructor(parentNode, stateManagers) {
+    super(parentNode, stateManagers);
   }
 
   render() {
