@@ -2,7 +2,8 @@ import { REG_EXP } from '../constants/constants';
 
 export const isValidEmail = value => REG_EXP.EMAIL.test(value);
 
-export const isValidName = value => REG_EXP.NAME.test(value);
+// min, max default value 기준: VARCHAR()에서 저장 가능한 최대 문자열 길이.
+export const isValidName = (value, minLength = 0, maxLength = 65535) => REG_EXP.NAME(minLength, maxLength).test(value);
 
 export const isValidPassword = value => REG_EXP.PASSWORD.test(value);
 

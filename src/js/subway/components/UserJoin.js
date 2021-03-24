@@ -1,6 +1,6 @@
 import { mainElements } from '../views';
 import { $ } from '../../@shared/utils';
-import { MESSAGE, ROUTE } from '../constants/constants';
+import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
 export class UserJoin {
@@ -83,7 +83,7 @@ export class UserJoin {
   }
 
   handleNameInput({ target: { value } }) {
-    isValidName(value) //
+    isValidName(value, NAME_LENGTH.USER_MIN, NAME_LENGTH.USER_MAX) //
       ? this.$$message.$name.classList.add('hidden')
       : this.$$message.$name.classList.remove('hidden');
   }

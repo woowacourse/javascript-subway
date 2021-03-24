@@ -1,5 +1,5 @@
 import { removeFromSessionStorage } from '../../src/js/@shared/utils';
-import { ROUTE, SESSION_KEY } from '../../src/js/subway/constants/constants';
+import { NAME_LENGTH, ROUTE, SESSION_KEY } from '../../src/js/subway/constants/constants';
 import { isValidEmail, isValidName, isValidPassword } from '../../src/js/subway/utils';
 
 const testMail = 'testUser@gmail.com';
@@ -23,8 +23,10 @@ describe('Subway test', () => {
       const invalidNames = ['     ', '로이드😀', '荒唐無稽', '!@#$%'];
       const validName = '로이드';
 
-      invalidNames.forEach(name => expect(isValidName(name)).to.equal(false));
-      expect(isValidName(validName)).to.equal(true);
+      invalidNames.forEach(name =>
+        expect(isValidName(name, NAME_LENGTH.USER_MIN, NAME_LENGTH.USER_MAX)).to.equal(false)
+      );
+      expect(isValidName(validName, NAME_LENGTH.USER_MIN, NAME_LENGTH.USER_MAX)).to.equal(true);
     });
 
     it('password는 최소 6자이상, 영숫자 및 특수문자의 조합으로 이루어져야 한다.', () => {

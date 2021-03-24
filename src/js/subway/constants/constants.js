@@ -15,6 +15,15 @@ export const ROUTE = {
   SEARCH: '/search',
 };
 
+export const NAME_LENGTH = {
+  USER_MIN: 2,
+  USER_MAX: 20,
+  STATION_MIN: 2,
+  STATION_MAX: 20,
+  LINE_MIN: 2,
+  LINE_MAX: 10,
+};
+
 export const MENU = {
   STATIONS: '🚉 역 관리',
   LINES: '🛤️ 노선 관리',
@@ -56,7 +65,7 @@ export const MESSAGE = {
 
 export const REG_EXP = {
   EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  NAME: /^[가-힣|a-z|A-Z|0-9|]{2,20}$/,
+  NAME: (minLength, maxLength) => new RegExp(`^[가-힣|a-z|A-Z|0-9|]{${minLength},${maxLength}}$`),
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$~!@#$%^&*()-+?])[A-Za-z\d$~!@#$%^&*()-+?]{6,20}$/,
 };
 

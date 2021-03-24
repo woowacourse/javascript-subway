@@ -1,6 +1,6 @@
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
 
@@ -55,7 +55,7 @@ export class StationManage {
   }
 
   handleAddInput({ target: { value: stationName } }) {
-    if (!isValidName(stationName)) {
+    if (!isValidName(stationName, NAME_LENGTH.STATION_MIN, NAME_LENGTH.STATION_MAX)) {
       this.$$stationAdd.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       this.$$stationAdd.$button.disabled = true;
 
@@ -120,7 +120,7 @@ export class StationManage {
   }
 
   handleModifyInput({ target: { value: stationName } }) {
-    if (!isValidName(stationName)) {
+    if (!isValidName(stationName, NAME_LENGTH.STATION_MIN, NAME_LENGTH.STATION_MAX)) {
       this.$$stationModify.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       this.$$stationModify.$button.disabled = true;
 
