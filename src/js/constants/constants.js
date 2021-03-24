@@ -18,7 +18,6 @@ export const SELECTOR = {
   SIGNUP_FORM: '#signup-form',
   SIGNUP_EMAIL_INPUT: '#email',
 
-  EMAIL_DUPLICATE_CHECK_BUTTON: '#duplicate-check-btn',
   EMAIL_INPUT_ERROR: '#email-input-error',
   EMAIL_INPUT_CORRECT: '#email-input-correct',
 
