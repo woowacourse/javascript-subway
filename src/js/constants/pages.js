@@ -1,12 +1,21 @@
-const PAGE_URLS = {
-  HOME: "/",
-  LOGIN: "/login",
-  SIGNUP: "/signup",
-  STATIONS: "/stations",
-  LINES: "/lines",
-  SECTIONS: "/sections",
-  MAP: "/sections",
-  SEARCH: "/search",
+export const PAGE_KEYS = {
+  HOME: "HOME",
+  LOGIN: "LOGIN",
+  SIGNUP: "SIGNUP",
+  STATIONS: "STATIONS",
+  LINES: "LINES",
+  SECTIONS: "SECTIONS",
+  MAP: "MAP",
+  SEARCH: "SEARCH",
 };
 
-export default PAGE_URLS;
+export const PAGE_URLS = {
+  [PAGE_KEYS.HOME]: "/",
+  [PAGE_KEYS.LOGIN]: "/login",
+  [PAGE_KEYS.SIGNUP]: "/signup",
+  [PAGE_KEYS.STATIONS]: "/stations",
+  [PAGE_KEYS.LINES]: "/lines",
+  [PAGE_KEYS.SECTIONS]: "/sections",
+  [PAGE_KEYS.MAP]: "/sections",
+  [PAGE_KEYS.SEARCH]: "/search",
+};
