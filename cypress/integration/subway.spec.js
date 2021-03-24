@@ -143,4 +143,69 @@ describe('Subway test', () => {
       cy.get('.js-station-list-item:last').should('not.exist');
     });
   });
+
+  describe('Line-manange test', () => {
+    before(() => {
+      cy.visit('http://localhost:8080/');
+      removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+      cy.get('[data-link="/signin"]').click();
+      cy.get('#signin-email').type(testMail);
+      cy.get('#signin-password').type(testPassword);
+
+      cy.get('.input-submit').click();
+
+      cy.get('[data-link="/stations"]').click();
+
+      const randomName = Date.now().toString().slice(-4);
+      cy.get('#station-add-input').clear();
+      cy.get('#station-add-input').type(randomName);
+      cy.get('#station-add-button').click();
+      cy.get('#station-add-input').clear();
+      cy.get('#station-add-input').type(randomName + '2');
+      cy.get('#station-add-button').click();
+
+      cy.get('[data-link="/lines"]').click();
+    });
+
+    it('노선 추가 시, 노선 이름이 2 ~ 10글자가 아니면 에러 메시지를 렌더링한다.', () => {
+      cy.get('#line-add-modal-button').click();
+      cy.get('#line-add-input').type('a');
+      cy.get('#add-fail-message-box').should('be.visible');
+
+      cy.get('#line-add-input').clear();
+      cy.get('#station-add-input').type('a'.repeat(11));
+      cy.get('#add-fail-message-box').should('be.visible');
+    });
+
+    it('노선을 등록할 수 있다.', () => {
+      const randomName = Date.now().toString().slice(-5);
+      cy.get('#line-add-input').clear();
+      cy.get('#line-add-input').type(`${randomName}`);
+      cy.get('#up-station > options:first').click();
+      cy.get('#down-station > options:first').click();
+      cy.get('#distance').type(2);
+      cy.get('#duration').type(10);
+      cy.get('#line-color > .color-option:first').click();
+      cy.get('.line-add-button').click();
+
+      cy.get('.js-line-list-item:last > .js-line-name').should('have.text', randomName);
+    });
+
+    it('노선을 수정할 수 있다.', () => {
+      cy.get('.js-modify-button:first').click();
+
+      const randomName = Date.now().toString().slice(-5);
+      cy.get('#line-modify-input').clear();
+      cy.get('#line-modify-input').type(`${randomName}`);
+
+      cy.get('.line-modify-button').click();
+      cy.get('.js-line-list-item:first > .js-line-name').should('have.text', randomName);
+    });
+
+    it('노선을 삭제할 수 있다.', () => {
+      cy.get('.js-remove-button:first').click();
+      cy.get('.js-line-list-item:last > .js-line-name').should('not.exist');
+    });
+  });
 });
