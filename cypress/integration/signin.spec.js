@@ -1,4 +1,4 @@
-const { SIGN_IN, ELEMENT, ERROR_MESSAGE } = require('../../src/js/utils/constants');
+const { ELEMENT, ERROR_MESSAGE } = require('../../src/js/utils/constants');
 
 describe('로그인을 할 수 있다.', () => {
   before(() => {
