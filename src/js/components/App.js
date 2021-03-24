@@ -8,7 +8,7 @@ import Lines from "./Lines.js";
 import Sections from "./Sections.js";
 
 import staticElements from "../constants/staticElements.js";
-import PAGE_URLS from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 
 export default class App {
   constructor() {
@@ -20,44 +20,29 @@ export default class App {
       setIsLoggedIn: this.setIsLoggedIn.bind(this),
       pageRouter: this.pageRouter,
     });
-    this.loginForm = new LoginForm({
-      $parent: staticElements.$main,
-      setIsLoggedIn: this.setIsLoggedIn.bind(this),
-      pageRouter: this.pageRouter,
-    });
-    this.signupForm = new SignupForm({
-      $parent: staticElements.$main,
-      pageRouter: this.pageRouter,
-    });
-    this.stations = new Stations({ $parent: staticElements.$main });
-    this.lines = new Lines({ $parent: staticElements.$main });
-    this.sections = new Sections({ $parent: staticElements.$main });
+
+    this.pages = {
+      [PAGE_KEYS.LOGIN]: new LoginForm({
+        $parent: staticElements.$main,
+        setIsLoggedIn: this.setIsLoggedIn.bind(this),
+        pageRouter: this.pageRouter,
+      }),
+      [PAGE_KEYS.SIGNUP]: new SignupForm({
+        $parent: staticElements.$main,
+        pageRouter: this.pageRouter,
+      }),
+      [PAGE_KEYS.STATIONS]: new Stations({ $parent: staticElements.$main }),
+      [PAGE_KEYS.LINES]: new Lines({ $parent: staticElements.$main }),
+      [PAGE_KEYS.SECTIONS]: new Sections({ $parent: staticElements.$main }),
+    };
   }
 
   registerRoutes() {
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.HOME,
-      handler: this.render.bind(this),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.LOGIN,
-      handler: this.loginForm.render.bind(this.loginForm),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.SIGNUP,
-      handler: this.signupForm.render.bind(this.signupForm),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.STATIONS,
-      handler: this.stations.render.bind(this.stations),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.LINES,
-      handler: this.lines.render.bind(this.lines),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.SECTIONS,
-      handler: this.sections.render.bind(this.sections),
+    Object.keys(this.pages).forEach((key) => {
+      this.pageRouter.registerRoute({
+        path: PAGE_URLS[key],
+        handler: this.pages[key].render.bind(this),
+      });
     });
   }
 
@@ -70,10 +55,10 @@ export default class App {
   render() {
     if (this.isLoggedIn) {
       this.navigation.show();
-      this.pageRouter.movePage(PAGE_URLS.STATIONS);
+      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.STATIONS]);
     } else {
       this.navigation.hide();
-      this.pageRouter.movePage(PAGE_URLS.LOGIN);
+      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
     }
   }
 
