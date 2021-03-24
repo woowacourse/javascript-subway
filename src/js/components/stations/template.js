@@ -1,6 +1,6 @@
 export const stationListTemplate = (station) => {
   return `<li class="station-list-item d-flex items-center py-2">
-            <span class="w-100 pl-2">${station.name}</span>
+            <span class="station-name w-100 pl-2">${station.name}</span>
             <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1" data-id=${station.id}>
               수정
             </button>

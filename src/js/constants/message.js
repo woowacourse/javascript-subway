@@ -1,5 +1,6 @@
 export const MESSAGE = {
   REQUIRE_LOGIN: '로그인이 필요합니다.',
+  DELETE_CONFIRM: (name) => `${name}을(를) 삭제하시겠습니까?`,
 };
 
 export const SNACKBAR_MESSAGE = {
@@ -16,4 +17,8 @@ export const SNACKBAR_MESSAGE = {
   LOGIN_SUCCESS: '로그인에 성공하였습니다.',
   LOGIN_FAILURE: '로그인에 실패하였습니다.',
   LOGOUT_SUCCESS: '로그아웃 되었습니다.',
+  CREATE_SUCESS: '성공적으로 생성하였습니다.',
+  CREATE_FAILURE: '생성에 실패하였습니다.',
+  DELETE_SUCCESS: '성공적으로 삭제하였습니다.',
+  DELETE_FAILURE: '삭제에 실패하였습니다.',
 };

@@ -8,3 +8,4 @@ export {
   setFontColorGreen,
   setFontColorRed,
 } from './setAttribute.js';
+export { customConfirm } from './customConfirm.js';
