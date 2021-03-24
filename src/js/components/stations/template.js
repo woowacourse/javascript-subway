@@ -1,6 +1,6 @@
 export const stationListTemplate = (station) => {
   return `<li class="station-list-item d-flex items-center py-2">
-            <span class="station-name w-100 pl-2">${station.name}</span>
+            <span class="station-name w-100 pl-2" data-id=${station.id}>${station.name}</span>
             <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1" data-id=${station.id}>
               수정
             </button>
@@ -46,7 +46,7 @@ export const stationsTemplate = (stationList) => {
       <div id="station-edit-modal" class="modal">
         <div class="modal-inner p-8">
           <button class="modal-close">
-            <svg viewbox="0 0 40 40">
+            <svg class="modal-close" viewbox="0 0 40 40">
               <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
             </svg>
           </button>
@@ -60,7 +60,7 @@ export const stationsTemplate = (stationList) => {
               >
               <input
                 type="text"
-                id="station-edit-name"
+                id="station-edit-name-input"
                 name="station-edit-name"
                 class="input-field"
                 placeholder=""
