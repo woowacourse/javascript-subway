@@ -79,6 +79,7 @@ export const STANDARD_NUMBER = Object.freeze({
   PASSWORD_MIN_LENGTH: 8,
   SIGN_UP_FORM_INPUT_COUNT: 4,
   SIGN_IN_FORM_INPUT_COUNT: 2,
+  KEY_UP_CHECK_TIME: 200,
 });
 
 export const SIGN_IN = deepFreeze({

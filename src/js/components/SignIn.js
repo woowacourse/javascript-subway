@@ -1,7 +1,8 @@
 import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import { SIGN_IN, ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE } from '../utils/constants';
+import { SIGN_IN, ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
+import { debounce } from '../utils/debounce';
 import { inputChecker } from '../inputChecker/inputChecker';
 import { validateEmail, validatePassword } from '../validators/validation';
 
@@ -26,8 +27,12 @@ class SignIn {
   }
 
   bindEvent() {
-    this.$signInEmailInput.addEventListener('keyup', this.handleEmailCheck.bind(this));
-    this.$signInPasswordInput.addEventListener('keyup', this.handlePasswordCheck.bind(this));
+    this.$signInEmailInput.addEventListener('keyup', (e) =>
+      debounce(this.handleEmailCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
+    this.$signInPasswordInput.addEventListener('keyup', (e) =>
+      debounce(this.handlePasswordCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
     this.$signInForm.addEventListener('submit', (e) => {
       e.preventDefault();
       this.handleSignIn(e.target);
