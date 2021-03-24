@@ -4,8 +4,7 @@ import { $, getFromSessionStorage } from './@shared/utils/index';
 import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';
 import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
-import { getUserName } from './subway/utils';
-import { routeTo } from './subway/utils';
+import { routeTo, userAuthAPI } from './subway/utils';
 
 class App {
   constructor() {
@@ -41,7 +40,7 @@ window.addEventListener('popstate', event => {
 
 window.addEventListener('load', async () => {
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const signedUser = accessToken ? await getUserName(accessToken) : null;
+  const signedUser = accessToken ? await userAuthAPI.getUserName(accessToken) : null;
 
   new App();
   stateManager[STATE_KEY.SIGNED_USER].set(signedUser);

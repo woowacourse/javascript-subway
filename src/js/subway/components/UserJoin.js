@@ -1,7 +1,7 @@
 import { mainElements } from '../views';
-import { $, encrypt, request } from '../../@shared/utils';
-import { BASE_URL, MESSAGE, ROUTE } from '../constants/constants';
-import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput } from '../utils';
+import { $ } from '../../@shared/utils';
+import { MESSAGE, ROUTE } from '../constants/constants';
+import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
 export class UserJoin {
   constructor() {
@@ -30,7 +30,7 @@ export class UserJoin {
   bindEvent() {
     this.$signUpForm.addEventListener('submit', this.handleSubmit.bind(this));
     this.$$input.$email.addEventListener('input', this.handleEmailInput.bind(this));
-    this.$$input.$email.addEventListener('focusout', this.checkOverlappedEmail.bind(this));
+    this.$$input.$email.addEventListener('focusout', this.handleEmailFocusOut.bind(this));
     this.$$input.$name.addEventListener('input', this.handleNameInput.bind(this));
     this.$$input.$password.addEventListener('input', this.handlePasswordInput.bind(this));
     this.$$input.$passwordConfirm.addEventListener('input', this.handlePasswordConfirmInput.bind(this));
@@ -54,30 +54,11 @@ export class UserJoin {
     }
 
     try {
-      await this.signUp();
+      await userJoinAPI.signUp(this.$$input);
       this.clearInputs();
       routeTo(ROUTE.SIGNIN);
     } catch (error) {
       console.error(error.message);
-    }
-  }
-
-  async signUp() {
-    const url = `${BASE_URL}/members`;
-    const option = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: this.$$input.$email.value,
-        password: encrypt(this.$$input.$password.value),
-        name: this.$$input.$name.value,
-      }),
-    };
-
-    try {
-      await request(url, option);
-    } catch (error) {
-      throw new Error(error.message);
     }
   }
 
@@ -119,12 +100,11 @@ export class UserJoin {
       : this.$$message.$passwordConfirm.classList.remove('hidden');
   }
 
-  async checkOverlappedEmail({ target: { value: email } }) {
+  async handleEmailFocusOut({ target: { value: email } }) {
     if (!isValidEmail(email)) return;
-    const url = `${BASE_URL}/members/check-validation?email=${encodeURIComponent(email)}`;
 
     try {
-      await request(url);
+      await userJoinAPI.checkOverlappedEmail(email);
       this.isUniqueEmail = true;
       this.$$message.$email.innerText = MESSAGE.SIGNUP.UNIQUE_EMAIL;
       this.$$message.$email.classList.replace('text-red', 'text-green');

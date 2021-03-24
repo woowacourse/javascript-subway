@@ -1,8 +1,8 @@
-import { STATE_KEY, ROUTE, BASE_URL, SESSION_KEY } from '../constants/constants';
+import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { mainElements } from '../views';
 import { stateManager } from '../../@shared/models/StateManager';
-import { $, encrypt, request, setToSessionStorage } from '../../@shared/utils';
-import { routeTo, getUserName } from '../utils';
+import { $, setToSessionStorage } from '../../@shared/utils';
+import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {
   constructor() {
@@ -27,8 +27,8 @@ export class UserAuth {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const { accessToken } = await this.signIn();
-      const userName = await getUserName(accessToken);
+      const { accessToken } = await userAuthAPI.signIn(this.$$input);
+      const userName = await userAuthAPI.getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
       this.clearInputs();
@@ -40,26 +40,6 @@ export class UserAuth {
       this.$failMessage.classList.remove('hidden');
       this.$$input.$password.value = '';
       this.$$input.$password.focus();
-    }
-  }
-
-  async signIn() {
-    const url = `${BASE_URL}/login/token`;
-    const option = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: this.$$input.$email.value,
-        password: encrypt(this.$$input.$password.value),
-      }),
-    };
-
-    try {
-      const response = await request(url, option);
-
-      return await response.json();
-    } catch (error) {
-      throw new Error(error.message);
     }
   }
 

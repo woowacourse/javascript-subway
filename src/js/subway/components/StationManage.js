@@ -1,7 +1,7 @@
 import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, request, $ } from '../../@shared/utils';
-import { BASE_URL, MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
-import { hideModal, isValidName, showModal } from '../utils';
+import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
 
 export class StationManage {
@@ -20,34 +20,12 @@ export class StationManage {
 
   async renderStationList() {
     try {
-      const stations = await this.getStations();
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+      const stations = await stationManageAPI.getStations(accessToken);
 
       this.$stationList.innerHTML = stationList(stations);
     } catch (error) {
       console.error(error.message);
-    }
-  }
-
-  async getStations() {
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-    if (!accessToken) return [];
-    const url = `${BASE_URL}/stations`;
-    const option = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      const response = await request(url, option);
-      const stations = await response.json();
-
-      return stations;
-    } catch (error) {
-      throw new Error(error);
     }
   }
 
@@ -91,7 +69,8 @@ export class StationManage {
   async handleAddSubmit(event) {
     event.preventDefault();
     try {
-      const station = await this.addStation();
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+      const station = await stationManageAPI.addStation(accessToken, this.$$stationAdd.$input);
 
       this.$stationList.innerHTML += stationInfo(station);
       this.clearInput(this.$$stationAdd.$input);
@@ -99,29 +78,6 @@ export class StationManage {
       console.error(error.message);
       this.$$stationAdd.$failMessage.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
-    }
-  }
-
-  async addStation() {
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    const url = `${BASE_URL}/stations`;
-    const option = {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.$$stationAdd.$input.value,
-      }),
-    };
-
-    try {
-      const response = await request(url, option);
-
-      return await response.json();
-    } catch (error) {
-      throw new Error(error.message);
     }
   }
 
@@ -155,10 +111,6 @@ export class StationManage {
     }
   }
 
-  // async modifyStation() {
-  //   const { stationId } = this.$$stationModify.$input.dataset;
-  // }
-
   handleModifyInput({ target: { value: stationName } }) {
     if (!isValidName(stationName)) {
       this.$$stationModify.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
@@ -180,28 +132,11 @@ export class StationManage {
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
 
     try {
-      await this.removeStation(stationId);
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+      await stationManageAPI.removeStation(accessToken, stationId);
       $station.remove();
     } catch (error) {
       console.error(error.message);
-    }
-  }
-
-  async removeStation(stationId) {
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    const url = `${BASE_URL}/stations/${stationId}`;
-    const option = {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      await request(url, option);
-    } catch (error) {
-      throw new Error(error);
     }
   }
 }
