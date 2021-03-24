@@ -18,6 +18,8 @@ import errorPageTemplate from '../templates/error';
 import stationsPageTemplate from '../templates/stations';
 import station from '../store/station';
 import handleStationStatus from '../eventHandlers/handleStationStatus';
+import { modalCloseEventInit } from '../utils/modal';
+import handleEditStation from '../eventHandlers/handleEditStation';
 
 const $routeContainer = $('#route-container');
 
@@ -63,7 +65,9 @@ export const mountStations = () => {
 
   $('#station-form').addEventListener('submit', handleAddStation);
   $('#station-list').addEventListener('click', handleStationStatus);
-  $('#station-list').addEventListener('keyup', handleStationStatus);
+  $('#station-name-edit-form').addEventListener('submit', handleEditStation);
+
+  modalCloseEventInit();
 };
 
 export const mountMap = () => {

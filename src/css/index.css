@@ -68,39 +68,5 @@ button:disabled {
 }
 
 .station-list-item {
-  height: 42px;
   border-bottom: 1px solid #dddddd;
-}
-
-.button-wrapper {
-  display: flex;
-  align-items: center;
-  width: 130px;
-}
-
-.editing {
-  padding: 0;
-}
-
-.name-edit {
-  font-size: 1rem;
-  display: none;
-  box-sizing: border-box;
-  height: 42px;
-}
-
-.name-edit,
-.station-name {
-  width: 60%;
-}
-
-.editing .non-editing-buttons,
-.editing .station-name,
-.editing-buttons {
-  display: none;
-}
-
-.editing .editing-buttons,
-.editing .name-edit {
-  display: initial;
 }
