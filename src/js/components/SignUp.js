@@ -1,7 +1,8 @@
 import { validateEmail, validateUserName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
-import { PATH, ELEMENT, SUCCESS_MESSAGE, ERROR_MESSAGE, SNACKBAR_SHOW_TIME } from '../utils/constants';
+import { PATH, ELEMENT, SUCCESS_MESSAGE, ERROR_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
+import { debounce } from '../utils/debounce';
 import { requestEmailDuplicationCheck, requestSignUpApprove } from '../requestData/requestUserData';
 import { renderCheckingArea, inputChecker } from '../inputChecker/inputChecker';
 
@@ -30,10 +31,18 @@ class SignUp {
   }
 
   bindEvent() {
-    this.$signUpEmailInput.addEventListener('keyup', this.handleEmailCheck.bind(this));
-    this.$signUpUserNameInput.addEventListener('keyup', this.handleUserNameCheck.bind(this));
-    this.$signUpPasswordInput.addEventListener('keyup', this.handlePasswordCheck.bind(this));
-    this.$signUpPasswordConfirmInput.addEventListener('keyup', this.handlePasswordConfirmCheck.bind(this));
+    this.$signUpEmailInput.addEventListener('keyup', (e) =>
+      debounce(this.handleEmailCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
+    this.$signUpUserNameInput.addEventListener('keyup', (e) =>
+      debounce(this.handleUserNameCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
+    this.$signUpPasswordInput.addEventListener('keyup', (e) =>
+      debounce(this.handlePasswordCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
+    this.$signUpPasswordConfirmInput.addEventListener('keyup', (e) =>
+      debounce(this.handlePasswordConfirmCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
+    );
     this.$signUpForm.addEventListener('submit', (e) => {
       e.preventDefault();
       this.handleSignUp(e);
@@ -84,6 +93,7 @@ class SignUp {
   }
 
   handlePasswordConfirmCheck({ target }) {
+    console.log(target);
     inputChecker.signUp({
       callback: validatePasswordConfirm.bind(this, this.$signUpPasswordInput.value, target.value),
       $textArea: this.$signUpPasswordConfirmCheckTextArea,
