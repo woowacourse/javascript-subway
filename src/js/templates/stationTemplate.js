@@ -1,4 +1,4 @@
-import { ID_SELECTOR } from '../constants.js';
+import { ID_SELECTOR, THRESHOLD } from '../constants.js';
 
 const MAIN_COMPONENT = `
 <div class="wrapper bg-white p-10">
@@ -16,6 +16,8 @@ const MAIN_COMPONENT = `
         name="stationName"
         class="input-field"
         placeholder="역 이름"
+        minlength=${THRESHOLD.STATION_MIN_LENGTH}
+        maxlength=${THRESHOLD.STATION_MAX_LENGTH}
         required
       />
       <button
