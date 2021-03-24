@@ -88,22 +88,30 @@ export class StationManage {
   handleModifyButton({ target }) {
     if (!target.classList.contains('js-modify-button')) return;
 
-    const $station = target.closest('.station-list-item');
+    const $station = target.closest('.js-station-list-item');
     const stationId = $station.dataset.stationId;
-    const name = $('span', $station).innerText;
+    const stationName = $('.js-station-name', $station).innerText;
 
-    this.$$stationModify.$input.value = name;
+    this.$$stationModify.$input.value = stationName;
     this.$$stationModify.$input.dataset.stationId = stationId;
     showModal(this.props.$modal);
   }
 
   async handleModifySubmit(event) {
     event.preventDefault();
-    try {
-      // const station = await this.modifyStation();
+    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+    const stationInfo = {
+      id: this.$$stationModify.$input.dataset.stationId,
+      name: this.$$stationModify.$input.value,
+    };
+    const $stationName = $(`[data-station-id="${stationInfo.id}"] > .js-station-name`, this.$stationList);
 
-      hideModal(this.props.$modal);
+    try {
+      await stationManageAPI.modifyStation(accessToken, stationInfo);
+
       this.clearInput(this.$$stationModify.$input);
+      $stationName.innerText = stationInfo.name;
+      hideModal(this.props.$modal);
     } catch (error) {
       console.error(error.message);
       this.$$stationModify.$failMessage.innerText =
@@ -127,13 +135,15 @@ export class StationManage {
     // TODO: 노선에 있는 역은 삭제할 수 없다.
     if (!target.classList.contains('js-remove-button')) return;
     const $station = target.closest('.js-station-list-item');
-    const stationId = $station.dataset.stationId;
+    const stationInfo = {
+      id: $station.dataset.stationId,
+    };
 
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      await stationManageAPI.removeStation(accessToken, stationId);
+      await stationManageAPI.removeStation(accessToken, stationInfo);
       $station.remove();
     } catch (error) {
       console.error(error.message);

@@ -44,10 +44,27 @@ const addStation = async (accessToken, $input) => {
   }
 };
 
-const modifyStation = async () => {};
+const modifyStation = async (accessToken, { id, name }) => {
+  const url = `${BASE_URL}/stations/${id}`;
+  const option = {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  };
+  try {
+    await request(url, option);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-const removeStation = async (accessToken, stationId) => {
-  const url = `${BASE_URL}/stations/${stationId}`;
+const removeStation = async (accessToken, { id }) => {
+  const url = `${BASE_URL}/stations/${id}`;
   const option = {
     method: 'DELETE',
     headers: {
