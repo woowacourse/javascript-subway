@@ -5,7 +5,7 @@ import { $, $$ } from "../utils/DOM.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
-import { PAGE_URLS } from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
@@ -65,7 +65,9 @@ export default class LoginForm extends Component {
           </div>
           <p class="text-gray-700 pl-2">
             아직 회원이 아니신가요?
-            <a href="${PAGE_URLS.SIGNUP}" class="js-signup-link">회원가입</a>
+            <a href="${
+              PAGE_URLS[PAGE_KEYS.SIGNUP]
+            }" class="js-signup-link">회원가입</a>
           </p>
         </form>
       </div>

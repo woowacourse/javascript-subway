@@ -1,10 +1,46 @@
 import Component from "./common/Component.js";
 
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
+import {
+  TOKEN_STORAGE_KEY,
+  STATION_NAME_MIN_LENGTH,
+  STATION_NAME_MAX_LENGTH,
+} from "../constants/general.js";
+
+import { $ } from "../utils/DOM.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import { getStationsAPI } from "../APIs/subwayAPI.js";
+
+const createStationListItem = (station) => {
+  return `
+    <li
+      data-station-id="${station.id}"
+      class="station-list-item d-flex items-center py-3 border-b-gray"
+      >
+      <span class="w-100 pl-2">${station.name}</span>
+      <button
+        type="button"
+        class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
+      >
+        수정
+      </button>
+      <button
+        type="button"
+        class="js-delete-btn bg-gray-50 text-gray-500 text-sm"
+      >
+        삭제
+      </button>
+    </li>
+  `;
+};
 export default class Stations extends Component {
-  constructor({ $parent }) {
+  constructor({ $parent, pageRouter }) {
     super($parent);
+    this.pageRouter = pageRouter;
 
     this.initContent();
+
+    this.$stationList = $(".js-station-list", this.innerElement);
   }
 
   initContent() {
@@ -24,6 +60,8 @@ export default class Stations extends Component {
               name="stationName"
               class="js-station-name input-field"
               placeholder="역 이름"
+              minlength="${STATION_NAME_MIN_LENGTH}"
+              maxlength="${STATION_NAME_MAX_LENGTH}"
               required
             />
             <button
@@ -35,27 +73,31 @@ export default class Stations extends Component {
             </button>
           </div>
         </form>
-        <ul class="js-station-list mt-3 pl-0">
-          <li class="station-list-item d-flex items-center py-3 border-b-gray">
-            <span class="w-100 pl-2">사당</span>
-            <button
-              type="button"
-              class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
-            >
-              수정
-            </button>
-            <button
-              type="button"
-              class="js-delete-btn bg-gray-50 text-gray-500 text-sm"
-            >
-              삭제
-            </button>
-          </li>
-        </ul>
+        <ul class="js-station-list mt-3 pl-0"></ul>
       </div>
     `;
 
     super.initContent(template);
+  }
+
+  async loadPage() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    if (accessToken === "") {
+      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
+    }
+
+    const loadResult = await getStationsAPI(accessToken);
+    if (!loadResult.isSucceeded) {
+      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
+    }
+
+    this.$stationList.innerHTML = loadResult.stations.reduce(
+      (stationListHTML, station) =>
+        `${stationListHTML}\n${createStationListItem(station)}`,
+      ""
+    );
+
+    this.render();
   }
 
   render() {
