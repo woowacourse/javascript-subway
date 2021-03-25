@@ -43,7 +43,7 @@ const CLASS_SELECTOR = {
   ANCHOR: 'js-anchor',
   STATION_LIST_ITEM: 'js-station-list__item',
   STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
-  STATION_LIST_ITEM_DELETION: 'js-station-list__item-deletion',
+  STATION_LIST_ITEM_REMOVAL: 'js-station-list__item-removal',
 
   MODAL_CLOSE: 'js-modal-close',
 };
@@ -60,6 +60,11 @@ const ALERT_MESSAGE = {
   // STATION
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
   STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
+  STATION_REMOVAL_SUCCESS: '해당 역을 삭제했습니다.',
+};
+
+const CONFIRM_MESSAGE = {
+  STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
 };
 
 const STATE_KEY = {
@@ -90,6 +95,7 @@ export {
   ID_SELECTOR,
   CLASS_SELECTOR,
   ALERT_MESSAGE,
+  CONFIRM_MESSAGE,
   STATE_KEY,
   KEYWORD,
   REQUEST_URL,
