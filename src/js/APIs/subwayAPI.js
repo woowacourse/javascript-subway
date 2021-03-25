@@ -1,7 +1,8 @@
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
 
 const PATH = {
-  MEMBERS: "/members",
+  SIGNUP: "/members",
+  MEMBER_INFO: "/members/me",
   LOGIN: "/login/token",
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
   STATIONS: "/stations",
@@ -83,20 +84,20 @@ export const checkDuplicatedEmailAPI = async (email) => {
 export const signupAPI = async (memberInfo) => {
   try {
     const response = await request.post({
-      path: PATH.MEMBERS,
+      path: PATH.SIGNUP,
       body: memberInfo,
     });
 
-    if (response.ok) {
+    if (!response.ok) {
       return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.SIGNUP_SUCCESS,
+        isSucceeded: false,
+        message: ERROR_MESSAGE.SIGNUP_FAILURE,
       };
     }
 
     return {
-      isSucceeded: false,
-      message: ERROR_MESSAGE.SIGNUP_FAILURE,
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.SIGNUP_SUCCESS,
     };
   } catch (e) {
     console.error(e);
@@ -115,19 +116,51 @@ export const loginAPI = async (loginInfo) => {
       body: loginInfo,
     });
 
-    if (response.ok) {
-      const result = await response.json();
-
+    if (!response.ok) {
       return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.LOGIN_SUCCESS,
-        accessToken: result.accessToken,
+        isSucceeded: false,
+        message: ERROR_MESSAGE.LOGIN_FAILURE,
       };
     }
 
+    const result = await response.json();
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.LOGIN_SUCCESS,
+      accessToken: result.accessToken,
+    };
+  } catch (e) {
+    console.error(e);
+
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.LOGIN_FAILURE,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const getMemberInfo = async (accessToken) => {
+  try {
+    const response = await request.get({
+      path: PATH.MEMBER_INFO,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return {
+        isSucceeded: false,
+      };
+    }
+
+    const memberInfo = await response.json();
+
+    return {
+      isSucceeded: true,
+      memberInfo,
     };
   } catch (e) {
     console.error(e);
