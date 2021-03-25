@@ -1,4 +1,5 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY } from '../constants.js';
+import delegateNavigatorClickEvent from '../delegators/navigator.js';
 import Observer from '../lib/Observer.js';
 import { $ } from '../utils/dom.js';
 
@@ -16,6 +17,11 @@ export default class Navigator extends Observer {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
+    this.#initEvents();
+  }
+
+  #initEvents() {
+    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent)
   }
 
   // TODO : 이거 굳이 동적으로 넣는 이유가 뭔지 알아보기

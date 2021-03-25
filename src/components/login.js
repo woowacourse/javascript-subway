@@ -1,11 +1,12 @@
 import { SELECTOR_ID } from '../constants.js';
+import delegateLoginSubmitEvent from '../delegators/login.js';
 import { $ } from '../utils/dom.js';
 
 export default class Login {
   #targetSelector;
   #parentSelector;
 
-  constructor(targetSelector = `#${SELECTOR_ID.SIGN_UP_FORM}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
+  constructor(targetSelector = `#${SELECTOR_ID.LOG_IN_FORM}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
   }
@@ -16,6 +17,11 @@ export default class Login {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getLoginTemplate();
+    this.#initEvents();
+  }
+
+  #initEvents() {
+    $(this.#targetSelector).addEventListener('submit', delegateLoginSubmitEvent)
   }
 
   #getWrapperTemplate() {

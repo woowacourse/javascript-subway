@@ -1,4 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
+import delegateSignUpSubmitEvent from '../delegators/signup.js';
 import { $ } from '../utils/dom.js';
 
 export default class SignUp {
@@ -16,6 +17,10 @@ export default class SignUp {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
+  }
+
+  #initEvents() {
+    $(`#${SELECTOR_ID.SIGN_UP_FORM}`).addEventListener('submit', delegateSignUpSubmitEvent)
   }
 
   #getWrapperTemplate() {

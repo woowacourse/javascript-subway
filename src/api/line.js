@@ -30,6 +30,8 @@ export const requestLineRegistration = async line => {
     upStationId: Number(upStation.id),
     downStationName: downStation.name,
     downStationId: Number(downStation.id),
+    distance: Number(newLine.distance),
+    duration: Number(newLine.duration),
   };
 
   if (!response.ok) {
@@ -66,6 +68,8 @@ export const requestLineList = async () => {
       upStationId: Number(upStation.id),
       downStationName: downStation.name,
       downStationId: Number(downStation.id),
+      distance: Number(line.distance),
+      duration: Number(line.duration),
     };
   });
 };
@@ -82,5 +86,29 @@ export const requestLineDelete = async lineId => {
 
   if (!response.ok) {
     throw new Error('역 등록 실패');
+  }
+}
+
+// TODO: 노선 API가 duration, distance를 포함하지 않음 => API가 수정되면 요놈을 이용해서 노선 수정 제출 버튼 눌렀을
+export const requestLineEdit = async line => {
+  const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
+  if (!accessToken) return;
+  const response = await fetch(`${API_END_POINT}/lines/${line.id}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      name: line.name,
+      color: line.color,
+      upStationId: line.upStationId,
+      downStationId: line.downStationId,
+      distance: line.distance,
+      duration: line.duration,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('역 수정 실패');
   }
 };

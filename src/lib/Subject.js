@@ -5,6 +5,8 @@ export default class Subject {
       lineList: [],
       sectionList: [],
       isLoggedIn: [],
+      targetLineId: [],
+      targetSectionId: [],
     };
   }
 

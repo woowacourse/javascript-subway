@@ -6,6 +6,7 @@ import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRed
 import { wait } from '../utils/utils';
 
 export function delegateStationSubmitEvent(event) {
+  event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.STATION_FORM) {
     onStationFormSubmit(target);

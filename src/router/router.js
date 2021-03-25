@@ -16,7 +16,7 @@ const router = {
       registration[path] = [component];
       return;
     }
-    router.registration[path].push(component);
+    registration[path].push(component);
   },
 
   navigate(path) {

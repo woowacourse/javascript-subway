@@ -1,6 +1,7 @@
 import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
 import Observer from '../lib/Observer';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
+import { delegateStationClickEvent, delegateStationFocusOutEvent, delegateStationSubmitEvent } from '../delegators/station.js';
 
 export default class Station extends Observer {
   #targetSelector;
@@ -25,10 +26,13 @@ export default class Station extends Observer {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getStationListTemplate();
+    this.#initEvents();
   }
 
-  openStationModal() {
-    $(`#${SELECTOR_ID.MODAL}`).innerHTML = this.#getModalTemplate();
+  #initEvents() {
+    $(this.#parentSelector).addEventListener('submit', delegateStationSubmitEvent);
+    $(this.#parentSelector).addEventListener('focusout', delegateStationFocusOutEvent);
+    $(this.#parentSelector).addEventListener('click', delegateStationClickEvent);
   }
 
   #getWrapperTemplate() {
@@ -86,6 +90,4 @@ export default class Station extends Observer {
       <hr class="my-0" />
     `;
   }
-
-  #getModalTemplate() {}
 }

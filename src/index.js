@@ -8,10 +8,10 @@ import Section from './components/section';
 import Search from './components/search';
 import Subway from './components/subway';
 import Main from './components/main.js';
-import { SELECTOR_ID, PATH, STATE_KEY } from './constants.js';
-import delegateEvents from './appEvents.js';
+import { SELECTOR_ID, PATH, STATE_KEY, SELECTOR_CLASS } from './constants.js';
 import router from './router/router.js';
 import { state } from './store.js';
+import LineModal from './components/lineModal';
 
 // TODO: CSS 늦게 로드되는 거 고치기
 // TODO: 항목 생성 시 애니메이션 추가
@@ -22,6 +22,7 @@ state.initState();
 const main = new Main(state, `#${SELECTOR_ID.GUIDE_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const station = new Station(state, `#${SELECTOR_ID.STATION_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const line = new Line(state, `#${SELECTOR_ID.LINE_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const lineModal = new LineModal(state, `#${SELECTOR_ID.SUBWAY_LINE_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
 const section = new Section(
   state,
   `#${SELECTOR_ID.SUBWAY_LINE}`,
@@ -37,7 +38,9 @@ const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR
 // 라우팅 등록
 router.register(PATH.STATIONS, station);
 router.register(PATH.LINES, line);
+router.register(PATH.LINES, lineModal);
 router.register(PATH.SECTIONS, section);
+// router.register(PATH.SECTIONS, sectionModal);
 router.register(PATH.SEARCH, search);
 router.register(PATH.SUBWAY, subway);
 router.register(PATH.LOG_IN, login);
@@ -45,13 +48,11 @@ router.register(PATH.SIGN_UP, signUp);
 router.register(PATH.ROOT, main);
 router.initRouteEvent();
 
-// 이벤트 위임
-delegateEvents();
-
 // 옵저버 등록
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);
 state.subscribe(STATE_KEY.STATION_LIST, station);
 state.subscribe(STATE_KEY.LINE_LIST, line);
+state.subscribe(STATE_KEY.TARGET_LINE_ID, lineModal);
 
 // 네비게이터 렌더링
 navigator.renderComponent();

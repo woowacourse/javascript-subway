@@ -5,6 +5,7 @@ import router from '../router/router.js';
 import { sessionStore } from '../utils/utils';
 
 function delegateLoginSubmitEvent(event) {
+  event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.LOG_IN_FORM) {
     onLogInFormSubmit(target);

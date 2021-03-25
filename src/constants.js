@@ -6,6 +6,7 @@ export const SELECTOR_ID = Object.freeze({
   STATION_FORM: 'station-form',
   LINE_LIST: 'line-list',
   SECTION_LIST: 'section-list',
+  LINES: 'lines',
   SUBWAY_LINE: 'subway-line',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
   SUBWAY_LINE_SUBMIT: 'subway-line-submit',
@@ -35,12 +36,13 @@ export const SELECTOR_CLASS = Object.freeze({
   STATION_LIST_ITEM_EDIT_COMPLETE: 'station-list__item-edit-complete',
   STATION_LIST_ITEM_DELETE: 'station-list__item-delete',
   LINE_LIST_ITEM: 'line-list__item',
-  LINE_DELETE_BUTTON: 'line-delete-button',
+  LINE_LIST_ITEM_EDIT: 'line-list__item-edit',
+  LINE_DELETE_BUTTON: 'line-list__delete-button',
+  LINE_LIST_MODAL_OPEN: 'line-list__modal-open',
+  LINE_LIST_MODAL_CLOSE: 'line-list__modal-close',
   SECTION_LIST_ITEM: 'section-list__item',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
-  MODAL_OPEN_BUTTON: 'modal-open-button',
   MODAL_INNER: 'modal-inner',
-  MODAL_CLOSE: 'modal-close',
   MODAL: 'modal',
   COLOR_OPTION: 'color-option',
 });
@@ -79,6 +81,8 @@ export const STATE_KEY = Object.freeze({
   LINE_LIST: 'lineList',
   STATION_LIST: 'stationList',
   SECTION_LIST: 'sectionList',
+  TARGET_LINE_ID: 'targetLineId',
+  TARGET_SECTION_ID: 'targetSectionId',
 });
 
 export const VALIDATION = Object.freeze({

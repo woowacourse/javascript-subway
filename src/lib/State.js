@@ -14,6 +14,8 @@ export default class State extends Subject {
       [STATE_KEY.LINE_LIST]: [],
       [STATE_KEY.SECTION_LIST]: [],
       [STATE_KEY.IS_LOGGED_IN]: false,
+      [STATE_KEY.TARGET_LINE_ID]: -1,
+      [STATE_KEY.TARGET_SECTION_ID]: -1,
     };
   }
 
@@ -65,10 +67,10 @@ export default class State extends Subject {
       id: lineItem.id,
       name: lineItem.name,
       color: lineItem.color,
-      upStationName: lineItem.name,
-      upStationId: lineItem.id,
-      downStationName: lineItem.name,
-      downStationId: lineItem.id,
+      upStationName: lineItem.upStationName,
+      upStationId: lineItem.upStationId,
+      downStationName: lineItem.downStationName,
+      downStationId: lineItem.downStationId,
     }));
   }
 }
