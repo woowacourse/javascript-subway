@@ -69,4 +69,25 @@ const fetchStationList = async (url, option) => {
   return response;
 };
 
-export { fetchSignup, fetchLogin, fetchMyInfo, fetchStationList };
+//TODO: fetchStationList랑 기능이 완전히 똑같음
+const fetchStationNameRevision = async (url, option) => {
+  const response = await fetch(url, option);
+
+  if (response.status === 400) {
+    throw new Error(ALERT_MESSAGE.DUPLICATED_STATION_FAIL);
+  }
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
+export {
+  fetchSignup,
+  fetchLogin,
+  fetchMyInfo,
+  fetchStationList,
+  fetchStationNameRevision,
+};

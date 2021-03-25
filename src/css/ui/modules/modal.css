@@ -59,12 +59,12 @@ svg {
 }
 
 .modal-inner.station-modal-inner {
-  height: 25%;
+  height: 30%;
   width: 90%;
   max-width: 700px;
   box-sizing: border-box;
 }
 
 .modal-inner.station-modal-inner .input-control {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
