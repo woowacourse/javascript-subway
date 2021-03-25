@@ -89,7 +89,7 @@ export const requestLineDelete = async lineId => {
   }
 }
 
-// TODO: 노선 API가 duration, distance를 포함하지 않음 => API가 수정되면 요놈을 이용해서 노선 수정 제출 버튼 눌렀을
+// TODO: 노선 API가 duration, distance를 포함하지 않음 => API가 수정되면 요놈을 이용해서 노선 수정 제출 버튼 눌렀을 때 API 요청 보내는 거 구현하기
 export const requestLineEdit = async line => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;

@@ -58,6 +58,7 @@ export const SELECTOR_NAME = Object.freeze({
 
 export const STYLE_CLASS = Object.freeze({
   REMOVED: 'd-none',
+  HOVER: 'hover'
 });
 
 export const PATH = Object.freeze({
@@ -83,6 +84,7 @@ export const STATE_KEY = Object.freeze({
   SECTION_LIST: 'sectionList',
   TARGET_LINE_ID: 'targetLineId',
   TARGET_SECTION_ID: 'targetSectionId',
+  IS_ITEM_VIEW_MODE: 'isItemViewMode'
 });
 
 export const VALIDATION = Object.freeze({

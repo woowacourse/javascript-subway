@@ -1,9 +1,7 @@
-import { SELECTOR_CLASS, SELECTOR_ID, PAGE_TITLE, FILE_PATH, STATE_KEY, SELECTOR_NAME, CONFIRM_MESSAGE } from '../constants.js';
+import { SELECTOR_CLASS, SELECTOR_ID, PAGE_TITLE, FILE_PATH, STATE_KEY, SELECTOR_NAME, CONFIRM_MESSAGE, STYLE_CLASS } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $, closeModal, openModal, setHeadTagAttribute } from '../utils/dom.js';
-import { colorOptions } from '../utils/mock.js';
-import { state } from '../store.js';
-import { delegateLineClickEvent, onColorPickerClick, onLineItemDelete } from '../delegators/line.js';
+import { $, setHeadTagAttribute } from '../utils/dom.js';
+import { delegateLineClickEvent } from '../delegators/line.js';
 
 export default class Line extends Observer {
   #targetSelector;
@@ -52,7 +50,7 @@ export default class Line extends Observer {
   // TODO: line의 추가 정보 출력 여부 결정
   #getLineTemplate(line) {
     return `
-      <li data-line-id="${line.id}" class="${SELECTOR_CLASS.LINE_LIST_ITEM} d-flex items-center py-2 relative">
+      <li data-line-id="${line.id}" class="${SELECTOR_CLASS.LINE_LIST_ITEM} ${STYLE_CLASS.HOVER} d-flex items-center py-2 relative">
         <span class="subway-line-color-dot ${line.color}"></span>
         <span class="w-100 pl-6 subway-line-list-item-name">${line.name}</span>
         <button type="button" data-line-id="${line.id}" class="${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN} ${SELECTOR_CLASS.LINE_LIST_ITEM_EDIT} bg-gray-50 text-gray-500 text-sm mr-1">수정</button>

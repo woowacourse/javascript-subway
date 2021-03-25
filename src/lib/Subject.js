@@ -7,6 +7,7 @@ export default class Subject {
       isLoggedIn: [],
       targetLineId: [],
       targetSectionId: [],
+      isItemViewMode: [],
     };
   }
 

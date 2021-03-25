@@ -17,7 +17,7 @@ export function delegateLineModalClickEvent(event) {
   if (target.classList.contains(SELECTOR_CLASS.COLOR_OPTION)) {
     onColorPickerClick(target);
   }
-
+  
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE}`)) {
     closeModal();
   }

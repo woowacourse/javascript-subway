@@ -21,10 +21,14 @@ export default class LineModal extends Observer {
   renderComponent() {
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
-    $(this.#parentSelector).innerHTML = this.#getModalTemplate(targetLine);
-    $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions
-      .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
-      .join('');
+    const isViewMode = this.#state.get(STATE_KEY.IS_ITEM_VIEW_MODE);
+    console.log(isViewMode);
+    $(this.#parentSelector).innerHTML = this.#getModalTemplate(targetLine, isViewMode);
+    if (!isViewMode) {
+      $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions
+        .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
+        .join('');
+    }
     this.#initEvents();
   }
 
@@ -33,7 +37,7 @@ export default class LineModal extends Observer {
     $(this.#targetSelector).addEventListener('submit', delegateLineModalSubmitEvent);
   }
 
-  #getModalTemplate(lineItem) {
+  #getModalTemplate(lineItem, isViewMode) {
     return `
       <div class="${SELECTOR_CLASS.MODAL_INNER} p-8">
         <button class="${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE} modal-close">
@@ -42,7 +46,11 @@ export default class LineModal extends Observer {
           </svg>
         </button>
         <header>
-          <h2 class="text-center">${lineItem ? '🛤️ 노선 수정' : '🛤️ 노선 추가'}</h2>
+          <h2 class="text-center">
+            ${isViewMode && lineItem ? '🛤️ 노선 조회' : ''}
+            ${!isViewMode && lineItem ? '🛤️ 노선 수정' : ''}
+            ${!isViewMode && !lineItem ? '🛤️ 노선 추가' : ''}
+          </h2>
         </header>
         <form id="${SELECTOR_ID.SUBWAY_LINE_FORM}">
           <div class="input-control">
@@ -56,12 +64,13 @@ export default class LineModal extends Observer {
               class="input-field"
               placeholder="노선 이름"
               value="${lineItem ? lineItem.name : ''}"
+              ${isViewMode && lineItem ? 'disabled' : ''}
               required
             />
           </div>
           <div class="d-flex items-center input-control">
             <label for="up-station" class="input-label" hidden>상행역</label>
-            <select id="up-station" name="${SELECTOR_NAME.SUBWAY_UP_STATION}" class="mr-2">
+            <select id="up-station" name="${SELECTOR_NAME.SUBWAY_UP_STATION}" class="mr-2" ${isViewMode && lineItem ? 'disabled' : ''}>
               <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
               ${this.#state
                 .get(STATE_KEY.STATION_LIST)
@@ -70,7 +79,7 @@ export default class LineModal extends Observer {
                 .join('')}
             </select>
             <label for="down-station" class="input-label" hidden>하행역</label>
-            <select id="down-station"" name="${SELECTOR_NAME.SUBWAY_DOWN_STATION}">
+            <select id="down-station"" name="${SELECTOR_NAME.SUBWAY_DOWN_STATION}" ${isViewMode && lineItem ? 'disabled' : ''}>
               <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
               <${this.#state
                 .get(STATE_KEY.STATION_LIST)
@@ -91,6 +100,7 @@ export default class LineModal extends Observer {
               placeholder="상행 하행역 거리(km)"
               min="0"
               value="${lineItem ? lineItem.distance : ''}"
+              ${isViewMode && lineItem ? 'disabled' : ''}
               required
             />
             <label for="duration" class="input-label" hidden
@@ -104,37 +114,42 @@ export default class LineModal extends Observer {
               placeholder="상행 하행역 시간(분)"
               min="0"
               value="${lineItem ? lineItem.duration : ''}"
+              ${isViewMode && lineItem ? 'disabled' : ''}
               required
             />
           </div>
-          <div class="input-control">
-            <div>
-              <label for="subway-line-color" class="input-label" hidden
-                >색상</label
-              >
-              <input
-                type="text"
-                id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}"
-                name="subway-line-color"
-                class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
-                placeholder="색상을 아래에서 선택해주세요."
-                ${lineItem ? `data-color="${lineItem.color}"` : '' }
-                disabled
-                required
-              />
+          ${isViewMode ? '' :
+            `<div class="input-control">
+              <div>
+                <label for="subway-line-color" class="input-label" hidden
+                  >색상</label
+                >
+                <input
+                  type="text"
+                  id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}"
+                  name="subway-line-color"
+                  class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
+                  placeholder="색상을 아래에서 선택해주세요."
+                  ${lineItem ? `data-color="${lineItem.color}"` : '' }
+                  disabled
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <div class="${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER} px-2"></div>
-          <div class="d-flex justify-end mt-3">
-            <button
-              type="submit"
-              name="submit"
-              id="${SELECTOR_ID.SUBWAY_LINE_SUBMIT}"
-              class="input-submit bg-cyan-300"
-            >
-              확인
-            </button>
-          </div>
+            <div class="${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER} px-2"></div>`
+          }
+          ${isViewMode && lineItem ? '' : `
+            <div class="d-flex justify-end mt-3">
+              <button
+                type="submit"
+                name="submit"
+                id="${SELECTOR_ID.SUBWAY_LINE_SUBMIT}"
+                class="input-submit bg-cyan-300"
+              >
+                확인
+              </button>
+            </div>
+          `}
         </form>
       </div>
     `;
