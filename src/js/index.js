@@ -10,14 +10,14 @@ import AccessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
 import request from './utils/fetch.js';
-import { BASE_URL, PATH } from './constants/url.js';
+import { PATH } from './constants/url.js';
 import { ERROR_MESSAGE } from './constants/message.js';
-import HEADERS from './constants/headers.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
+import getFetchParams from './api/getFetchParams.js';
 
 class App {
   constructor(stateManagers) {
@@ -122,12 +122,8 @@ class App {
   async isValidAccessToken() {
     try {
       const accessToken = this.stateManagers.accessToken.getToken();
-      const response = await request.get(BASE_URL + PATH.MEMBERS.ME, {
-        headers: {
-          ...HEADERS.CONTENT_TYPE.JSON,
-          ...HEADERS.AUTHORIZATION.BEARER(accessToken),
-        },
-      });
+      const params = getFetchParams({ path: PATH.MEMBERS.ME, accessToken });
+      const response = await request.get(params);
 
       if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
     } catch (error) {

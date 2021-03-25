@@ -1,5 +1,5 @@
 import { $ } from '../../utils/DOM.js';
-import { BASE_URL, PATH } from '../../constants/url.js';
+import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import request from '../../utils/fetch.js';
 import mainTemplate from './template/main.js';
@@ -7,8 +7,8 @@ import ValidationError from '../../error/ValidationError.js';
 import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import { LENGTH } from '../../constants/standard.js';
-import HEADERS from '../../constants/headers.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
+import getFetchParams from '../../api/getFetchParams.js';
 
 class Signup extends Component {
   constructor(parentNode, stateManagers) {
@@ -136,9 +136,10 @@ class Signup extends Component {
     const query = { email };
     const searchParams = `?${new URLSearchParams(query)}`;
 
-    const response = await request.get(
-      BASE_URL + PATH.MEMBERS.CHECK + searchParams
-    );
+    const params = getFetchParams({
+      path: PATH.MEMBERS.CHECK + searchParams,
+    });
+    const response = await request.get(params);
 
     if (response.status === 422) {
       throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
@@ -184,30 +185,22 @@ class Signup extends Component {
   }
 
   async signup(name, email, password) {
-    const response = await request.post(BASE_URL + PATH.MEMBERS.SIGNUP, {
-      headers: {
-        ...HEADERS.CONTENT_TYPE.JSON,
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
+    const params = getFetchParams({
+      path: PATH.MEMBERS.SIGNUP,
+      body: { name, email, password },
     });
+    const response = await request.post(params);
 
     if (!response.ok) throw Error(response.message);
   }
 
   async loginAfterSignup(email, password) {
-    const response = await request.post(BASE_URL + PATH.MEMBERS.LOGIN, {
-      headers: {
-        ...HEADERS.CONTENT_TYPE.JSON,
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const params = getFetchParams({
+      path: PATH.MEMBERS.LOGIN,
+      body: { email, password },
     });
+    const response = await request.post(params);
+
     if (!response.ok) throw Error(response.message);
 
     const { accessToken } = await response.json();

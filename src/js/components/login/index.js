@@ -1,12 +1,12 @@
 import { $ } from '../../utils/DOM.js';
 import Component from '../../core/Component.js';
 import mainTemplate from './template/main.js';
-import { BASE_URL, PATH } from '../../constants/url.js';
+import { PATH } from '../../constants/url.js';
 import request from '../../utils/fetch.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import ValidationError from '../../error/ValidationError.js';
 import { ERROR_MESSAGE } from '../../constants/message.js';
-import HEADERS from '../../constants/headers.js';
+import getFetchParams from '../../api/getFetchParams.js';
 
 class Login extends Component {
   constructor(parentNode, stateManagers) {
@@ -36,15 +36,11 @@ class Login extends Component {
   }
 
   async login(email, password) {
-    const response = await request.post(BASE_URL + PATH.MEMBERS.LOGIN, {
-      headers: {
-        ...HEADERS.CONTENT_TYPE.JSON,
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const params = getFetchParams({
+      path: PATH.MEMBERS.LOGIN,
+      body: { email, password },
     });
+    const response = await request.post(params);
 
     if (response.status === 400) {
       throw new ValidationError(ERROR_MESSAGE.LOGIN.FAILED);
