@@ -1,4 +1,4 @@
-export const lineAdd = `
+export const lineModal = `
   <div id="modal-content" class="modal-inner p-8">
   <button class="modal-close">
     <svg viewbox="0 0 40 40">
@@ -8,17 +8,22 @@ export const lineAdd = `
   <header>
     <h2 class="text-center">🛤️ 노선 추가</h2>
   </header>
-  <form id="line-add-form">
+  <form id="line-form">
     <div class="input-control">
       <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
       <input
         type="text"
-        id="line-add-input"
+        id="line-name-input"
         name="subway-line-name"
         class="input-field"
         placeholder="노선 이름"
         required
       />
+    </div>
+    <div
+      id="fail-message-box"
+      class="js-message-box message-box mt-1 text-red mb-1 text-center"
+      >
     </div>
     <div class="d-flex items-center input-control">
       <label for="up-station" class="input-label" hidden>상행역</label>
@@ -72,7 +77,7 @@ export const lineAdd = `
     </div>
     <div class="line-color-selector px-2"></div>
     <div class="d-flex justify-end mt-3">
-      <button id="line-add-button" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
+      <button id="line-submit-button" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
     </div>
   </form>
   </div>

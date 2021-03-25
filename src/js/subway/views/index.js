@@ -5,13 +5,14 @@ import { stationManage } from './templates/stationManage';
 import { lineManage } from './templates/lineManage';
 import { sectionManage } from './templates/sectionManage';
 
-import { MODAL_TYPE, ROUTE } from '../constants/constants';
+import { ROUTE } from '../constants/constants';
 import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
+import { lineModal } from './templates/lineModal';
 
 export { stationInfo, stationList } from './templates/stationManage';
+export { lineInfo, lineList } from './templates/lineManage';
 export { menuButtons } from './templates/menuButtons';
-export { lineAdd } from './templates/lineAdd';
 export { sectionAddModal } from './templates/sectionAddModal';
 
 export const mainElements = {
@@ -24,5 +25,6 @@ export const mainElements = {
 };
 
 export const modalElements = {
-  [MODAL_TYPE.STATION_MODIFY]: $('#modal-content', parseToElements(stationModify)),
+  [ROUTE.STATIONS]: $('#modal-content', parseToElements(stationModify)),
+  [ROUTE.LINES]: $('#modal-content', parseToElements(lineModal)),
 };

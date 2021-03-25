@@ -7,7 +7,7 @@ import { mainElements, modalElements, stationInfo, stationList } from '../views'
 export class StationManage {
   constructor(props) {
     this.$mainContent = mainElements[ROUTE.STATIONS];
-    this.$modalContent = modalElements[MODAL_TYPE.STATION_MODIFY];
+    this.$modalContent = modalElements[ROUTE.STATIONS];
     this.props = props;
     this.setup();
     this.selectDOM();
@@ -90,13 +90,13 @@ export class StationManage {
 
     this.$$stationModify.$input.value = stationName;
     this.$$stationModify.$input.dataset.stationId = stationId;
-    this.props.renderModal(modalElements[MODAL_TYPE.STATION_MODIFY]);
     showModal(this.props.$modal);
   }
 
   async handleModifySubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+    // TODO: requestLineInfo 이름 변경.
     const stationInfo = {
       id: this.$$stationModify.$input.dataset.stationId,
       name: this.$$stationModify.$input.value,
