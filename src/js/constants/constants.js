@@ -43,6 +43,12 @@ export const MESSAGES = {
   ERROR_FETCH_USER_INFO: '사용자 정보를 가져오는 과정에서 문제가 발생했습니다.',
   ERROR_FETCH_STATION_DATA:
     '지하철 데이터를 가져오는 과정에서 문제가 발생했습니다.',
+
+  STATION_DELETE: {
+    CONFIRM: (station) => `${station}역을 삭제하시겠습니까?`,
+    SUCCESS: (station) => `${station}역이 삭제되었습니다.`,
+    FAIL: '역 삭제에 실패했습니다.',
+  },
 };
 
 export const BUTTON_NAME = {
