@@ -59,8 +59,12 @@ export const MESSAGE = {
     FAIL: '아이디 혹은 패스워드가 일치하지 않습니다.',
   },
   STATION_MANAGE: {
-    INVALID_NAME: '유효한 역이름이 아닙니다.',
-    OVERLAPPED_NAME: '역이름이 중복되었습니다.',
+    INVALID_NAME: '유효한 역 이름이 아닙니다.',
+    OVERLAPPED_NAME: '역 이름이 중복되었습니다.',
+  },
+  LINE_MANAGE: {
+    INVALID_NAME: '유효한 노선 이름이 아닙니다.',
+    OVERLAPPED_NAME: '노선 이름이 중복되었습니다.',
   },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',

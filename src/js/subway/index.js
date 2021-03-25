@@ -5,6 +5,7 @@ import { linkButton } from '../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
 import { StationManage, UserAuth, UserJoin } from './components';
 import { hideModal } from './utils';
+import { LineManage } from './components/LineManage';
 
 export class Subway {
   constructor() {
@@ -17,7 +18,8 @@ export class Subway {
   setup() {
     stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderRoot.bind(this));
     stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderNavButtons.bind(this));
-    stateManager[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
+    stateManager[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
+    stateManager[STATE_KEY.ROUTE].subscribe(this.renderModal.bind(this));
   }
 
   renderRoot(signedUser) {
@@ -33,14 +35,15 @@ export class Subway {
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }
 
-  renderContent(route) {
+  renderMain(route) {
     this.$mainContainer.innerHTML = '';
     this.$mainContainer.appendChild(mainElements[route]);
   }
 
-  renderModal(modalContent) {
+  renderModal(route) {
+    if (!modalElements[route]) return;
     this.$modalContainer.innerHTML = '';
-    this.$modalContainer.appendChild(modalContent);
+    this.$modalContainer.appendChild(modalElements[route]);
   }
 
   selectDOM() {
@@ -53,7 +56,8 @@ export class Subway {
   mountChildComponents() {
     new UserJoin();
     new UserAuth();
-    new StationManage({ $modal: this.$modalContainer, renderModal: this.renderModal.bind(this) });
+    new StationManage({ $modal: this.$modalContainer });
+    new LineManage({ $modal: this.$modalContainer });
   }
 
   bindEvent() {
