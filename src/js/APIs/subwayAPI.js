@@ -13,6 +13,10 @@ const STATUS = {
     VALID: 200,
     DUPLICATED: 422,
   },
+  STATIONS: {
+    VALID: 201,
+    DUPLICATED: 400,
+  },
 };
 
 const request = {
@@ -43,10 +47,13 @@ const request = {
     return response;
   },
 
-  async post({ path, body }) {
+  async post({ path, headers = {}, body }) {
     const response = await fetch(this.createURL(path), {
       method: "POST",
-      headers: this.headers,
+      headers: {
+        ...this.headers,
+        ...headers,
+      },
       body: JSON.stringify(body),
     });
 
@@ -201,6 +208,45 @@ export const getStationsAPI = async (accessToken) => {
       isSucceeded: true,
       stations,
     };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const addStationAPI = async (stationName, accessToken) => {
+  try {
+    const response = await request.post({
+      path: PATH.STATIONS,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: {
+        name: stationName,
+      },
+    });
+
+    if (response.status === STATUS.STATIONS.VALID) {
+      const station = await response.json();
+
+      return {
+        isSucceeded: true,
+        station,
+      };
+    }
+
+    if (response.status === STATUS.STATIONS.DUPLICATED) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.DUPLICATED_STATION,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 

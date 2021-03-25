@@ -1,8 +1,7 @@
 @import "modules/modal.css";
 @import "modules/chip.css";
 @import "modules/form.css";
-<<<<<<< HEAD
 @import "modules/button.css";
 @import "modules/snackbar.css";
-=======
->>>>>>> feat: init subway project
+@import "modules/station.css";
+@import "modules/blink.css";
