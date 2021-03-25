@@ -5,7 +5,13 @@ import {
   checkPasswordConfirmValid,
 } from './signupValidator.js';
 import { signUpTemplate } from './signupTemplate.js';
-import { $, $$, getFormData, showValidMessage } from '../../utils/dom.js';
+import {
+  $,
+  $$,
+  getFormData,
+  isAllElementsHaveClass,
+  showValidMessage,
+} from '../../utils/dom.js';
 import { request, getPostOption } from '../../utils/api.js';
 import {
   BASE_URL,
@@ -17,6 +23,7 @@ import {
   SIGNUP_ERROR,
   ERROR_MESSAGE,
   FORM,
+  CLASS_NAME,
 } from '../../constants.js';
 
 class SignUp {
@@ -39,6 +46,7 @@ class SignUp {
 
   initDOM() {
     this.$signUpForm = $(SELECTOR.SIGNUP_FORM);
+    this.$submitButton = $(SELECTOR.SIGNUP_FORM_SUBMIT);
     this._bindEvent();
   }
 
@@ -71,38 +79,39 @@ class SignUp {
   }
 
   async _handleValidMessage({ id, value }) {
-    switch (id) {
-      case FORM.SIGNUP.NAME:
-        this.$message = $(SELECTOR.NAME_MESSAGE);
-        this.checkedResult = checkNameValid(value);
+    switch (true) {
+      case id === FORM.SIGNUP.NAME:
+        showValidMessage($(SELECTOR.NAME_MESSAGE), checkNameValid(value));
         break;
-      case FORM.SIGNUP.EMAIL:
-        this.$message = $(SELECTOR.EMAIL_MESSAGE);
-        this.checkedResult = await checkEmailValid(value);
+
+      case id === FORM.SIGNUP.EMAIL:
+        showValidMessage(
+          $(SELECTOR.EMAIL_MESSAGE),
+          await checkEmailValid(value),
+        );
         break;
-      case FORM.SIGNUP.PASSWORD:
-        this.$message = $(SELECTOR.PASSWORD_MESSAGE);
-        this.checkedResult = checkPasswordValid(value);
-      case FORM.SIGNUP.PASSWORD:
-      case FORM.SIGNUP.PASSWORD_CONFIRM:
+
+      case id === FORM.SIGNUP.PASSWORD || id === FORM.SIGNUP.PASSWORD_CONFIRM:
         const password = $(SELECTOR.PASSWORD).value;
         const passwordConfirm = $(SELECTOR.PASSWORD_CONFIRM).value;
-        this.$message = $(SELECTOR.PASSWORD_CONFIRM_MESSAGE);
-        this.checkedResult = checkPasswordConfirmValid(
-          password,
-          passwordConfirm,
+
+        showValidMessage(
+          $(SELECTOR.PASSWORD_MESSAGE),
+          checkPasswordValid(value),
+        );
+
+        showValidMessage(
+          $(SELECTOR.PASSWORD_CONFIRM_MESSAGE),
+          checkPasswordConfirmValid(password, passwordConfirm),
         );
         break;
 
       default:
     }
 
-    showValidMessage(this.$message, this.checkedResult);
-    // TODO : 아래 상수화, util화
-    const submitButton = $("form[name='signup'] .input-submit");
-
-    submitButton.disabled = ![...$$('.message')].every(element =>
-      element.classList.contains('valid'),
+    this.$submitButton.disabled = !isAllElementsHaveClass(
+      $$(SELECTOR.MESSAGE),
+      CLASS_NAME.VALID,
     );
   }
 

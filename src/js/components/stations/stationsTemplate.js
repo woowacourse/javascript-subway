@@ -57,6 +57,5 @@ export const stationTemplate = () => {
       </li>
       <hr class="my-0" />
     </ul>
-  </div>
-      `;
+  </div>`;
 };

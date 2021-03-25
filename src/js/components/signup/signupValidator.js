@@ -37,7 +37,7 @@ export const checkPasswordValid = password => {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD };
   }
 
-  return { isValid: true, message: '' };
+  return { isValid: true, message: '올바른 비밀번호 입니다.' };
 };
 
 export const checkPasswordConfirmValid = (password, passwordConfirm) => {

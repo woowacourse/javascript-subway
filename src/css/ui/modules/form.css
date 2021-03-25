@@ -20,7 +20,7 @@ form .input-control .message {
   color: #e74c3c;
 }
 
-form .input-control .valid {
+form .input-control .message.valid {
   color: #27ae60;
 }
 

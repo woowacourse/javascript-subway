@@ -18,3 +18,7 @@ export const showValidMessage = ($message, { isValid, message }) => {
   $message.classList.toggle('valid', isValid);
   $message.innerHTML = message;
 };
+
+export const isAllElementsHaveClass = ($elements, className) => {
+  return [...$elements].every(element => element.classList.contains(className));
+};
