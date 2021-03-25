@@ -117,18 +117,20 @@ context('지하철 역 관리 페이지', () => {
       });
   });
 
-  it('지하철역의 이름을 수정할 수 있다.', () => {
+  it.only('지하철역의 이름을 수정할 수 있다.', () => {
     const ORIGIN_NAME = '주모바보';
     const REVISION_NAME = '주모천재';
 
     login();
     getByHref(URL.STATION).click();
 
-    const station = cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`).eq(0);
-
-    station.find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION}`).click();
     reviseStationName(REVISION_NAME);
-    station.find('span').invoke('text').should('eq', REVISION_NAME);
+    cy.wait(1000);
+    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
+      .eq(0)
+      .find('span')
+      .invoke('text')
+      .should('eq', REVISION_NAME);
     reviseStationName(ORIGIN_NAME);
   });
 });
@@ -142,10 +144,13 @@ function login() {
 }
 
 function reviseStationName(name) {
-  cy.get(`#${ID_SELECTOR.STATION_MODAL_INPUT}`).clear();
-  cy.get(`#${ID_SELECTOR.STATION_MODAL_INPUT}`).type(name);
-  cy.get(`#${ID_SELECTOR.STATION_MODAL_SUBMIT}`).click();
-  cy.get(`.${CLASS_SELECTOR.MODAL_CLOSE}`).click();
+  cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
+    .eq(0)
+    .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION}`)
+    .click();
+  cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).clear();
+  cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).type(name);
+  cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_SUBMIT}`).click();
 }
 
 function getByHref(href, selector = '#app') {
