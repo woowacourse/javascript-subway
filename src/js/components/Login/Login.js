@@ -9,7 +9,6 @@ import {
 import { loginTemplate } from './template.js';
 import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
-
 export default class Login extends Component {
   constructor({ changeTemplate }) {
     super();

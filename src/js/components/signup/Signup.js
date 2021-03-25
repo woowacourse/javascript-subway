@@ -97,7 +97,7 @@ export default class Signup extends Component {
     }
 
     try {
-      await API.signup({ email, password, name });
+      await up({ email, password, name });
 
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
       this.changeTemplate('/login');
