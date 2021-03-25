@@ -84,10 +84,21 @@ const fetchStationNameRevision = async (url, option) => {
   return response;
 };
 
+const fetchStationRemoval = async (url, option) => {
+  const response = await fetch(url, option);
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 export {
   fetchSignup,
   fetchLogin,
   fetchMyInfo,
   fetchStationList,
   fetchStationNameRevision,
+  fetchStationRemoval,
 };

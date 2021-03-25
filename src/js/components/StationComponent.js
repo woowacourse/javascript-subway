@@ -4,11 +4,16 @@ import $ from '../utils/querySelector.js';
 import {
   ALERT_MESSAGE,
   CLASS_SELECTOR,
+  CONFIRM_MESSAGE,
   ID_SELECTOR,
   REQUEST_URL,
   STATE_KEY,
 } from '../constants.js';
-import { fetchStationList, fetchStationNameRevision } from '../utils/fetch.js';
+import {
+  fetchStationList,
+  fetchStationNameRevision,
+  fetchStationRemoval,
+} from '../utils/fetch.js';
 import State from './State.js';
 import { closeModal, openModal } from '../utils/DOM.js';
 
@@ -51,10 +56,40 @@ class StationComponent extends Component {
           target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
         ) {
           this.#renderStationModal(target);
+          return;
+        }
+
+        if (
+          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL)
+        ) {
+          if (!confirm(CONFIRM_MESSAGE.STATION_REMOVAL)) {
+            return;
+          }
+
+          this.#removeStation(target.dataset.id);
+          return;
         }
       }
     );
   }
+  #removeStation = async id => {
+    const url = REQUEST_URL + `/stations/${id}`;
+    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
+
+    try {
+      await fetchStationRemoval(url, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
+      this.#loadStationList();
+    } catch (err) {
+      alert(err.message);
+      return;
+    }
+  };
 
   #renderStationModal(target) {
     const stationId = target.dataset.id;
@@ -176,7 +211,8 @@ class StationComponent extends Component {
       </button>
       <button
         type="button"
-        class="${CLASS_SELECTOR.STATION_LIST_ITEM_DELETION} bg-gray-50 text-gray-500 text-sm"
+        data-id="${id}"
+        class="${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
       >
         삭제
       </button>
