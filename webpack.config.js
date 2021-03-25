@@ -1,0 +1,38 @@
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  mode: 'development',
+  entry: './src/js/index.js',
+  output: {
+    filename: '[chunkhash].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
+  },
+  devServer: {
+    hot: true,
+    port: 9000,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/i,
+        include: [path.resolve(__dirname, 'src/js')],
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/i,
+        include: [path.resolve(__dirname, 'src/css')],
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
+  ],
+};
