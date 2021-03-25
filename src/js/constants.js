@@ -15,8 +15,9 @@ const ID_SELECTOR = {
   STATION_FORM_NAME: 'station-form__name',
   STATION_FORM_SUBMIT: 'station-form__submit',
   STATION_LIST: 'station-list',
-  STATION_MODAL_INPUT: 'station-modal__input',
-  STATION_MODAL_SUBMIT: 'station-modal__submit',
+  STATION_MODAL_FORM: 'station-modal-form',
+  STATION_MODAL_FORM_INPUT: 'station-modal-form__input',
+  STATION_MODAL_FORM_SUBMIT: 'station-modal-form__submit',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
@@ -58,6 +59,7 @@ const ALERT_MESSAGE = {
 
   // STATION
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
+  STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
 };
 
 const STATE_KEY = {
