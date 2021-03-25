@@ -9,10 +9,14 @@ import Sections from "./Sections.js";
 
 import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import { TOKEN_STORAGE_KEY } from "../constants/general.js";
+import { getMemberInfo } from "../APIs/subwayAPI.js";
 
 export default class App {
   constructor() {
     this.isLoggedIn = false;
+    this.userName = "";
     this.pageRouter = new PageRouter();
 
     this.navigation = new Navigation({
@@ -33,6 +37,7 @@ export default class App {
       }),
       [PAGE_KEYS.STATIONS]: new Stations({
         $parent: staticElements.$main,
+        setIsLoggedIn: this.setIsLoggedIn.bind(this),
         pageRouter: this.pageRouter,
       }),
       [PAGE_KEYS.LINES]: new Lines({ $parent: staticElements.$main }),
@@ -57,8 +62,11 @@ export default class App {
   }
 
   setIsLoggedIn(isLoggedIn) {
-    this.isLoggedIn = isLoggedIn;
+    if (this.isLoggedIn === isLoggedIn) {
+      return;
+    }
 
+    this.isLoggedIn = isLoggedIn;
     this.render();
   }
 
@@ -72,7 +80,21 @@ export default class App {
     }
   }
 
-  init() {
+  async initUserState() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+
+    if (accessToken === "") {
+      this.isLoggedIn = false;
+    }
+
+    const { isSucceeded, memberInfo } = await getMemberInfo(accessToken);
+
+    this.isLoggedIn = isSucceeded;
+    this.userName = memberInfo?.name ?? "";
+  }
+
+  async init() {
+    await this.initUserState();
     this.registerRoutes();
     this.render();
   }

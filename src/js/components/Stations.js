@@ -1,6 +1,5 @@
 import Component from "./common/Component.js";
 
-import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import {
   TOKEN_STORAGE_KEY,
   STATION_NAME_MIN_LENGTH,
@@ -34,9 +33,10 @@ const createStationListItem = (station) => {
   `;
 };
 export default class Stations extends Component {
-  constructor({ $parent, pageRouter }) {
+  constructor({ $parent, pageRouter, setIsLoggedIn }) {
     super($parent);
     this.pageRouter = pageRouter;
+    this.setIsLoggedIn = setIsLoggedIn;
 
     this.initContent();
 
@@ -82,15 +82,9 @@ export default class Stations extends Component {
 
   async loadPage() {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    if (accessToken === "") {
-      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
-    }
-
     const loadResult = await getStationsAPI(accessToken);
-    if (!loadResult.isSucceeded) {
-      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
-    }
 
+    this.setIsLoggedIn(loadResult.isSucceeded);
     this.$stationList.innerHTML = loadResult.stations.reduce(
       (stationListHTML, station) =>
         `${stationListHTML}\n${createStationListItem(station)}`,
