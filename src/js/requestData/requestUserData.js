@@ -44,11 +44,23 @@ export const requestSignUpApprove = async ({ email, name, password }) => {
 export const requestAddStation = async ({ name }) => {
   try {
     const response = await httpClient.post({ path: '/stations', body: { name }, accessToken: token.accessToken });
+    if (!response.ok) {
+      throw new Error();
+    }
 
+    return await response.json();
+  } catch (error) {
+    throw new Error('이미 존재하는 역입니다.');
+  }
+};
+
+export const requestEditStationName = async ({ id, name }) => {
+  try {
+    const response = await httpClient.put({ path: `/stations/${id}`, body: { name }, accessToken: token.accessToken });
     if (!response.ok) {
       throw new Error();
     }
   } catch (error) {
-    throw new Error('이미 존재하는 역입니다.');
+    throw new Error('역 이름 수정에 실패했습니다.');
   }
 };

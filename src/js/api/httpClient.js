@@ -15,4 +15,6 @@ export const httpClient = {
   get: ({ path, accessToken }) => fetch(`${API_END_POINT}${path}`, fetchOptions({ accessToken })),
   post: ({ path, body, accessToken }) =>
     fetch(`${API_END_POINT}${path}`, fetchOptions({ method: METHOD.POST, body, accessToken })),
+  put: ({ path, body, accessToken }) =>
+    fetch(`${API_END_POINT}${path}`, fetchOptions({ method: METHOD.PUT, body, accessToken })),
 };

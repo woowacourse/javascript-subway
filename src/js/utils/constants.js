@@ -64,6 +64,7 @@ export const MENU_TITLE = Object.freeze({
 export const METHOD = Object.freeze({
   POST: 'POST',
   GET: 'GET',
+  PUT: 'PUT',
 });
 
 export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });

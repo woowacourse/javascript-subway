@@ -57,10 +57,18 @@ class App {
     });
 
     this.$app.addEventListener('click', (e) => {
-      if (!isRouterButton(e.target)) return;
-      e.preventDefault();
+      if (
+        (e.target.classList.contains('modal') && e.target.classList.contains('open')) ||
+        e.target.closest('.modal-close')
+      ) {
+        document.querySelector('.modal').classList.remove('open');
+      }
 
-      this.handleSelectMenu(e);
+      if (isRouterButton(e.target)) {
+        e.preventDefault();
+
+        this.handleSelectMenu(e);
+      }
     });
   }
 
