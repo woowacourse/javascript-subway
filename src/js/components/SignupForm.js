@@ -215,16 +215,14 @@ export default class SignupForm extends Component {
   onTypePassword() {
     const $form = $("form", this.$parent);
     const $messageArea = $(".js-pw-confirm-message", this.$parent);
+    const isSamePassword =
+      $form.elements["password-confirm"].value === $form.password.value;
 
-    if ($form.elements["password-confirm"].value === $form.password.value) {
-      $messageArea.innerText = SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS;
-      changeCheckMessageColor($messageArea, true);
-      this.inputValidation.isPasswordConfirmed = true;
-    } else {
-      $messageArea.innerText = ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
-      changeCheckMessageColor($messageArea, false);
-      this.inputValidation.isPasswordConfirmed = false;
-    }
+    $messageArea.innerText = isSamePassword
+      ? SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS
+      : ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
+    changeCheckMessageColor($messageArea, isSamePassword);
+    this.inputValidation.isPasswordConfirmed = isSamePassword;
   }
 
   onClickLoginLink(event) {
