@@ -1,7 +1,16 @@
-import { generateInputValidator } from '../../../utils/index.js';
+import { getInputValidator } from '../../../utils/index.js';
 import { AUTH_MESSAGES } from '../../../constants/index.js';
 
-const getEmailValidityMessage = async ($input) => {
+export const validateForm = ({ currentTarget }) => {
+  const $button = currentTarget.submit;
+
+  $button.disabled = !currentTarget.checkValidity();
+};
+
+export const validateEmail = getInputValidator(getEmailValidityMessage);
+export const validatePassword = getInputValidator(getPasswordValidityMessage);
+
+function getEmailValidityMessage($input) {
   const { valueMissing, typeMismatch } = $input.validity;
 
   if (valueMissing) {
@@ -13,22 +22,13 @@ const getEmailValidityMessage = async ($input) => {
   }
 
   return '';
-};
+}
 
-const getPasswordValidityMessage = ($input) => {
+function getPasswordValidityMessage($input) {
   const { valueMissing } = $input.validity;
   if (valueMissing) {
     return AUTH_MESSAGES.USER_PASSWORD_IS_REQUIRED;
   }
 
   return '';
-};
-
-export const validateEmail = generateInputValidator(getEmailValidityMessage);
-export const validatePassword = generateInputValidator(getPasswordValidityMessage);
-
-export const validateForm = ({ currentTarget }) => {
-  const $button = currentTarget.elements.submit;
-
-  $button.disabled = !currentTarget.checkValidity();
-};
+}

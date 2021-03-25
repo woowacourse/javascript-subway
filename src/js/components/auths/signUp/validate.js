@@ -1,16 +1,26 @@
-import { generateInputValidator } from '../../../utils/index.js';
+import { getInputValidator } from '../../../utils/index.js';
 import { API_ENDPOINT, AUTH_MESSAGES } from '../../../constants/index.js';
 
-const getNameValidityMessage = ($input) => {
+export const validateForm = ({ currentTarget }) => {
+  const $button = currentTarget.submit;
+
+  $button.disabled = !currentTarget.checkValidity();
+};
+
+export const validateName = getInputValidator(getNameValidityMessage);
+export const validateEmail = getInputValidator(getEmailValidityMessage);
+export const validatePassword = getInputValidator(getPasswordValidityMessage);
+
+function getNameValidityMessage($input) {
   const { valueMissing } = $input.validity;
 
   if (valueMissing) {
     return AUTH_MESSAGES.USER_NAME_IS_REQUIRED;
   }
   return '';
-};
+}
 
-const getEmailValidityMessage = async ($input) => {
+async function getEmailValidityMessage($input) {
   const { valueMissing, typeMismatch } = $input.validity;
   const email = $input.value;
 
@@ -42,23 +52,13 @@ const getEmailValidityMessage = async ($input) => {
   }
 
   return '';
-};
+}
 
-const getPasswordValidityMessage = ($input) => {
+function getPasswordValidityMessage($input) {
   const { valueMissing } = $input.validity;
   if (valueMissing) {
     return AUTH_MESSAGES.USER_PASSWORD_IS_REQUIRED;
   }
 
   return '';
-};
-
-export const validateName = generateInputValidator(getNameValidityMessage);
-export const validateEmail = generateInputValidator(getEmailValidityMessage);
-export const validatePassword = generateInputValidator(getPasswordValidityMessage);
-
-export const validateForm = ({ currentTarget }) => {
-  const $button = currentTarget.elements.submit;
-
-  $button.disabled = !currentTarget.checkValidity();
-};
+}

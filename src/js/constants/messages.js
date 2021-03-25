@@ -10,6 +10,7 @@ const AUTH_MESSAGES = Object.freeze({
   SIGN_UP_HAS_BEEN_FAILED: '회원가입에 실패하였습니다.\n이 현상이 반복되면 관리자에게 문의해주시기 바랍니다.',
   LOGIN_HAS_BEEN_FAILED: '로그인에 실패하였습니다. 아이디 또는 비밀번호를 확인해주세요.',
   LOGIN_HAS_BEEN_COMPLETED: '로그인에 성공하였습니다.',
+  INPUT_VALIDATION_HAS_BEEN_FAILED: '입력하신 내용을 검사할 수 없습니다.\n문제가 지속되면 관리자에게 문의해주세요.',
 });
 
 export default AUTH_MESSAGES;

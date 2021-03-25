@@ -3,7 +3,7 @@ import requestSignUp from './request.js';
 import TEMPLATE from './template.js';
 import { debounce } from '../../../utils/index.js';
 
-const waitTime = 1500;
+const WAIT_TIME = 1500;
 
 // eslint-disable-next-line import/prefer-default-export
 export const renderSignUp = ($parent) => {
@@ -15,14 +15,14 @@ export const renderSignUp = ($parent) => {
   const $password = $parent.querySelector('#password');
   const $passwordCheckbox = $parent.querySelector('#password-checkbox');
 
-  function handlePasswordCheckboxChange() {
-    $password.type = $passwordCheckbox.checked ? 'text' : 'password';
-  }
+  const handlePasswordCheckboxChange = ({ target }) => {
+    $password.type = target.checked ? 'text' : 'password';
+  };
 
   $name.addEventListener('input', validateName);
   $name.addEventListener('blur', validateName);
 
-  $email.addEventListener('input', debounce(validateEmail, waitTime));
+  $email.addEventListener('input', debounce(validateEmail, WAIT_TIME));
   $email.addEventListener('blur', validateEmail);
 
   $password.addEventListener('input', validatePassword);
