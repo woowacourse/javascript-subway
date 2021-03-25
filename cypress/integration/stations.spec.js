@@ -7,6 +7,7 @@ describe('지하철 역 관리 테스트', () => {
     cy.visit('http://localhost:8080/');
 
     cy.intercept('POST', `${requestURL}/login/token`).as('login');
+    cy.intercept('GET', `${requestURL}/members/me`).as('userInfo');
 
     cy.get('#login-nav-button').click();
 
@@ -15,6 +16,7 @@ describe('지하철 역 관리 테스트', () => {
 
     cy.get('#login-submit').click();
     cy.wait('@login');
+    cy.wait('@userInfo');
 
     cy.get('#stations-nav-button').click();
   });
@@ -25,7 +27,7 @@ describe('지하철 역 관리 테스트', () => {
    **/
 
   it('새로운 지하철 역을 등록할 수 있다.', () => {
-    const newStationName = '흑석';
+    const newStationName = '두강';
 
     cy.intercept('POST', `${requestURL}/stations`).as('createStation');
 
@@ -52,7 +54,9 @@ describe('지하철 역 관리 테스트', () => {
 
   it('지하철역을 삭제할 수 있다.', () => {
     const confirmStub = cy.stub();
-    const targetStationName = '흑석';
+    const targetStationName = '두강';
+
+    cy.intercept('DELETE', `${requestURL}/stations`).as('deleteStation');
 
     cy.on('window:confirm', confirmStub);
 
@@ -67,13 +71,20 @@ describe('지하철 역 관리 테스트', () => {
           .click()
           .then(() => {
             expect(confirmStub.getCall(0)).to.be.calledWith(
-              '정말 삭제하시겠습니까?'
+              `${targetStationName}역을 삭제하시겠습니까?`
             );
           });
       });
 
+    cy.wait('@deleteStation');
+
     cy.get('.station-item-name')
       .contains(targetStationName)
       .should('not.exist');
+
+    cy.get('.snackbar').should(
+      'have.text',
+      `${targetStationName}역이 삭제되었습니다.`
+    );
   });
 });
