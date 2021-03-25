@@ -4,13 +4,14 @@ export const ERROR_MESSAGE = {
   PASSWORD_CONFIRM_FAILURE: "비밀번호가 일치하지 않습니다.",
   API_CALL_FAILURE:
     "시스템 오류 또는 네트워크 장애로 인해 요청하신 동작을 수행할 수 없습니다.\n 문의: sunccol@woowahan.com",
-  TYPE_REQUIRED_STRING: "String is required",
   INVALID_EMAIL: "사용할 수 없는 이메일입니다. 이메일을 다시 입력해주세요.",
   EMPTY_NAME: "이름을 입력해주세요.",
   INVALID_PASSWORD:
     "유효하지 않은 비밀번호 입니다. 6자리 이상의 비밀번호를 입력해주세요.",
   INVALID_EMAIL_FORM: "올바르지 않은 이메일 형식입니다.",
   DUPLICATED_EMAIL: "이미 존재하는 이메일입니다.",
+  DUPLICATED_STATION: "이미 존재하는 지하철역입니다.",
+  TYPE_REQUIRED_STRING: "String is required",
   UNKNOWN_API_STATUS: "Unknown API status",
 };
 
