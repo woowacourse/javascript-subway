@@ -48,6 +48,6 @@ export default class Store {
   }
 
   async notify() {
-    await this._subscribers.forEach((subscriber) => subscriber.update());
+    this._subscribers.forEach(async (subscriber) => await subscriber.update());
   }
 }
