@@ -1,5 +1,5 @@
 export const stationListTemplate = (station) => {
-  return `<li class="station-list-item d-flex items-center py-2">
+  return `<li class="station-list-item d-flex items-center py-2 bottom-line">
             <span class="station-name w-100 pl-2" data-id=${station.id}>${station.name}</span>
             <button type="button" class="station-edit-button bg-gray-50 text-gray-500 text-sm mr-1" data-id=${station.id}>
               수정
@@ -7,8 +7,7 @@ export const stationListTemplate = (station) => {
             <button type="button" class="station-delete-button bg-gray-50 text-gray-500 text-sm" data-id=${station.id}>
               삭제
             </button>
-          </li>
-          <hr class="my-0" />`;
+          </li>`;
 };
 
 export const stationsTemplate = (stationList) => {

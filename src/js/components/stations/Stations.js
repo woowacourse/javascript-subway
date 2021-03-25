@@ -1,12 +1,17 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
-import { $, API, showSnackbar, customConfirm, $$ } from '../../utils/index.js';
+import { $, API, showSnackbar, customConfirm } from '../../utils/index.js';
 import {
   LOGIN_REQUIRED_TEMPLATE,
   MESSAGE,
   SNACKBAR_MESSAGE,
   STATIONS,
 } from '../../constants/index.js';
+import {
+  getCreatedStationData,
+  getStationList,
+  isEditStationSuccess,
+} from '../../service/index.js';
 export default class Stations extends Component {
   #token;
   constructor() {
@@ -72,22 +77,21 @@ export default class Stations extends Component {
       return;
     }
 
-    try {
-      await API.editStation({
-        token: this.#token,
-        name: $stationEditNameInput.value,
-        id: stationId,
-      });
+    const isEditSuccess = await isEditStationSuccess({
+      token: this.#token,
+      name: $stationEditNameInput.value,
+      id: stationId,
+    });
 
-      this.$stationEditModal.classList.remove('open');
-      $(`.station-name[data-id="${stationId}"]`).innerText =
-        $stationEditNameInput.value;
-      $stationEditNameInput.value = '';
-      showSnackbar(SNACKBAR_MESSAGE.EDIT_SUCCESS);
-    } catch (err) {
-      console.error(err);
+    if (!isEditSuccess) {
       showSnackbar(SNACKBAR_MESSAGE.EDIT_FAILURE);
     }
+
+    this.$stationEditModal.classList.remove('open');
+    $(`.station-name[data-id="${stationId}"]`).innerText =
+      $stationEditNameInput.value;
+    $stationEditNameInput.value = '';
+    showSnackbar(SNACKBAR_MESSAGE.EDIT_SUCCESS);
   }
 
   handleStationEditModalOpen(target) {
@@ -109,18 +113,20 @@ export default class Stations extends Component {
 
     try {
       await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
-      await API.deleteStation({
-        token: this.#token,
-        id: stationId,
-      });
+    } catch {}
 
-      $stationListItem.remove();
+    const isDeleted = await API.deleteStation({
+      token: this.#token,
+      id: stationId,
+    });
 
-      showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
-    } catch (err) {
-      console.error(err);
+    if (!isDeleted) {
       showSnackbar(SNACKBAR_MESSAGE.DELETE_FAILURE);
+      return;
     }
+
+    $stationListItem.remove();
+    showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
   }
 
   isValidStationNameLength(name) {
@@ -140,37 +146,26 @@ export default class Stations extends Component {
       return;
     }
 
-    try {
-      const response = await API.createStation({
-        token: this.#token,
-        name: $stationNameInput.value,
-      });
-      const responseJSON = await response.json();
-      $('#station-list-container').insertAdjacentHTML(
-        'beforeend',
-        stationListTemplate(responseJSON),
-      );
-      $stationNameInput.value = '';
+    const createdStationData = await getCreatedStationData({
+      token: this.#token,
+      name: $stationNameInput.value,
+    });
 
-      showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
-    } catch (err) {
-      console.error(err);
+    if (!createdStationData) {
       showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
+      return;
     }
+
+    $('#station-list-container').insertAdjacentHTML(
+      'beforeend',
+      stationListTemplate(createdStationData),
+    );
+    $stationNameInput.value = '';
+
+    showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
   }
 
-  async getStationList(token) {
-    try {
-      const response = await API.getStationList(token);
-      const responseJSON = await response.json();
-
-      return responseJSON;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  render(token, stationList) {
+  render(token, stationList = []) {
     $('main').innerHTML = token
       ? stationsTemplate(stationList)
       : LOGIN_REQUIRED_TEMPLATE;
@@ -178,15 +173,11 @@ export default class Stations extends Component {
   }
 
   async load(token) {
-    try {
-      const stationList = await this.getStationList(token);
+    const stationList = await getStationList(token);
 
-      this.#token = token;
-      this.render(token, stationList);
-      this.selectDOM();
-      this.bindEvent(token);
-    } catch (err) {
-      console.error(err);
-    }
+    this.#token = token;
+    this.render(token, stationList);
+    this.selectDOM();
+    this.bindEvent(token);
   }
 }
