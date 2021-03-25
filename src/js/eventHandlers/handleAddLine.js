@@ -36,9 +36,11 @@ const handleAddLine = async event => {
     alert(result.message);
     return;
   }
+
   store.line.add(result.data);
   addLineListItem(result.data);
   closeModal($('#line-add-modal'));
+  event.target.reset();
 };
 
 export default handleAddLine;
