@@ -1,5 +1,5 @@
 import { mainElements } from '../views';
-import { $ } from '../../@shared/utils';
+import { $, clearInput } from '../../@shared/utils';
 import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
@@ -55,18 +55,11 @@ export class UserJoin {
 
     try {
       await userJoinAPI.signUp(this.$$input);
-      this.clearInputs();
+      clearInput(...Object.values(this.$$input));
       routeTo(ROUTE.SIGNIN);
     } catch (error) {
       console.error(error.message);
     }
-  }
-
-  clearInputs() {
-    this.$$input.$email.value = '';
-    this.$$input.$name.value = '';
-    this.$$input.$password.value = '';
-    this.$$input.$passwordConfirm.value = '';
   }
 
   handleEmailInput({ target: { value } }) {

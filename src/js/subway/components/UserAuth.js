@@ -1,7 +1,7 @@
 import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { mainElements } from '../views';
 import { stateManager } from '../../@shared/models/StateManager';
-import { $, setToSessionStorage } from '../../@shared/utils';
+import { $, setToSessionStorage, clearInput } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {
@@ -31,7 +31,7 @@ export class UserAuth {
       const userName = await userAuthAPI.getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
-      this.clearInputs();
+      clearInput(this.$$input.$email, this.$$input.$password);
       this.$failMessage.classList.add('hidden');
       stateManager[STATE_KEY.SIGNED_USER].set(userName);
       routeTo(ROUTE.ROOT);
@@ -41,10 +41,5 @@ export class UserAuth {
       this.$$input.$password.value = '';
       this.$$input.$password.focus();
     }
-  }
-
-  clearInputs() {
-    this.$$input.$email.value = '';
-    this.$$input.$password.value = '';
   }
 }

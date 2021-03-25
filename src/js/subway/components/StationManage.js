@@ -1,5 +1,5 @@
 import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { getFromSessionStorage, $, clearInput } from '../../@shared/utils';
 import { MESSAGE, MODAL_TYPE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
@@ -49,8 +49,8 @@ export class StationManage {
     this.$$stationAdd.$input.addEventListener('input', this.handleAddInput.bind(this));
     this.$$stationAdd.$form.addEventListener('submit', this.handleAddSubmit.bind(this));
     this.$stationList.addEventListener('click', this.handleModifyButton.bind(this));
-    this.$$stationModify.$form.addEventListener('submit', this.handleModifySubmit.bind(this));
     this.$$stationModify.$input.addEventListener('input', this.handleModifyInput.bind(this));
+    this.$$stationModify.$form.addEventListener('submit', this.handleModifySubmit.bind(this));
     this.$stationList.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
@@ -73,16 +73,12 @@ export class StationManage {
       const station = await stationManageAPI.addStation(accessToken, this.$$stationAdd.$input);
 
       this.$stationList.innerHTML += stationInfo(station);
-      this.clearInput(this.$$stationAdd.$input);
+      clearInput(this.$$stationAdd.$input);
     } catch (error) {
       console.error(error.message);
       this.$$stationAdd.$failMessage.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
-  }
-
-  clearInput($input) {
-    $input.value = '';
   }
 
   handleModifyButton({ target }) {
@@ -110,7 +106,7 @@ export class StationManage {
     try {
       await stationManageAPI.modifyStation(accessToken, stationInfo);
 
-      this.clearInput(this.$$stationModify.$input);
+      clearInput(this.$$stationModify.$input);
       $stationName.innerText = stationInfo.name;
       hideModal(this.props.$modal);
     } catch (error) {
