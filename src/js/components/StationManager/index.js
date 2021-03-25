@@ -1,6 +1,6 @@
 import { $, hide, show } from '../../utils/dom.js';
-import { SELECTOR } from '../../constants/constants.js';
-import { addStationRequest } from '../../request.js';
+import { SELECTOR, MESSAGES } from '../../constants/constants.js';
+import { addStationRequest, deleteStationRequest } from '../../request.js';
 import Station from '../../models/Station.js';
 import stationTemplate from './template.js';
 import popSnackbar from '../../utils/snackbar.js';
@@ -19,42 +19,84 @@ export default class StationManager {
 
   render() {
     this.$content.innerHTML = stationTemplate;
-    $(SELECTOR.STATION_LIST).innerHTML = this.store.stations
+    this.$stationList = $(SELECTOR.STATION_LIST);
+    this.$stationList.innerHTML = this.store.stations
       .map((station) => station.toListItemTemplate())
       .join('');
   }
 
   selectDOM() {
-    this.stationNameForm = $(SELECTOR.STATION_NAME_FORM);
-    this.stationNameInput = $(SELECTOR.STATION_NAME_INPUT);
+    this.$stationNameForm = $(SELECTOR.STATION_NAME_FORM);
+    this.$stationNameInput = $(SELECTOR.STATION_NAME_INPUT);
   }
 
-  bindEvents() {
-    this.stationNameInput.addEventListener('input', () => {
+  async bindEvents() {
+    this.$stationNameInput.addEventListener('input', () => {
       this.setInputValidity();
       hide($(SELECTOR.STATION_DUPLICATED_WARNING));
     });
 
-    this.stationNameForm.addEventListener('submit', async (e) => {
+    this.$stationNameForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      this.stationNameInput.reportValidity();
+      this.$stationNameInput.reportValidity();
       await this.addStation(e);
+    });
+
+    this.$stationList.addEventListener('click', async (e) => {
+      if (e.target.type !== 'button') return;
+
+      if (e.target.dataset.action === 'delete') {
+        await this.deleteStationItem(e);
+      }
     });
   }
 
+  async deleteStationItem(event) {
+    const stationItem = event.target.closest('li');
+    const itemDivider = stationItem.nextElementSibling;
+    const stationName = stationItem.dataset.stationName;
+    const stationID = Number(stationItem.dataset.stationId);
+    const accessToken = this.store.userAuth.accessToken;
+
+    if (!window.confirm(MESSAGES.STATION_DELETE.CONFIRM(stationName))) return;
+
+    try {
+      await deleteStationRequest(stationID, accessToken);
+
+      stationItem.remove();
+      if (!itemDivider.matches('hr')) return;
+      itemDivider.remove();
+
+      this.deleteStationData(stationID);
+      popSnackbar(MESSAGES.STATION_DELETE.SUCCESS(stationName));
+    } catch (error) {
+      console.error(error);
+      popSnackbar(MESSAGES.STATION_DELETE.FAIL);
+    }
+  }
+
+  deleteStationData(stationID) {
+    const stations = this.store.stations;
+    const updatedStations = stations.filter(
+      (station) => station.id !== stationID
+    );
+
+    this.store.stations = updatedStations;
+  }
+
   setInputValidity() {
-    const validityState = this.stationNameInput.validity;
+    const validityState = this.$stationNameInput.validity;
 
     if (validityState.valueMissing) {
-      this.stationNameInput.setCustomValidity('역 이름을 입력해 주세요.🙀');
+      this.$stationNameInput.setCustomValidity('역 이름을 입력해 주세요.🙀');
     } else if (validityState.tooShort) {
-      this.stationNameInput.setCustomValidity('2글자 이상 입력해 주세요.👾');
+      this.$stationNameInput.setCustomValidity('2글자 이상 입력해 주세요.👾');
     } else if (validityState.patternMismatch) {
-      this.stationNameInput.setCustomValidity(
+      this.$stationNameInput.setCustomValidity(
         '공백, 특수문자를 제외한 한글을 입력해 주세요.🤓'
       );
     } else {
-      this.stationNameInput.setCustomValidity('');
+      this.$stationNameInput.setCustomValidity('');
     }
   }
 
@@ -80,7 +122,7 @@ export default class StationManager {
         station.toListItemTemplate()
       );
 
-      this.stationNameInput.value = '';
+      this.$stationNameInput.value = '';
     } catch (error) {
       console.error(error);
       popSnackbar('해당 역을 등록할 수 없습니다.');
