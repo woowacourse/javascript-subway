@@ -42,6 +42,7 @@ class MainPage {
 
   navigateHandler(e) {
     e.preventDefault();
+    if (!e.target.dataset.navPath) return;
 
     const targetPath = e.target.dataset.navPath;
     this.router.navigate(targetPath);
