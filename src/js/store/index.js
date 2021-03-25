@@ -3,7 +3,13 @@ import accessToken from './accessToken';
 import line from './line';
 import station from './station';
 
-const initStore = async () => {
+const store = {
+  line,
+  accessToken,
+  station,
+};
+
+export const initStore = async () => {
   accessToken.init();
 
   if (!accessToken.get()) return;
@@ -22,4 +28,4 @@ export const initPrivateStore = async () => {
   await line.init();
 };
 
-export default initStore;
+export default store;
