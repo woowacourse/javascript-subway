@@ -1,4 +1,8 @@
-import { fetchAddStation, fetchAllStations } from '../API/stations.js';
+import {
+  fetchAddStation,
+  fetchAllStations,
+  fetchDeleteStation,
+} from '../API/stations.js';
 
 class StationManager {
   constructor() {
@@ -17,8 +21,13 @@ class StationManager {
     return newStation;
   }
 
-  deleteStation(stationId) {
-    delete this.stations[stationId];
+  async deleteStation(stationId) {
+    const resFlag = await fetchDeleteStation(stationId);
+    if (resFlag) {
+      delete this.stations[stationId];
+    }
+
+    return resFlag;
   }
 
   modifyStation(id, name) {

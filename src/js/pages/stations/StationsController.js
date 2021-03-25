@@ -31,7 +31,7 @@ class StationsController {
     }
   }
 
-  updateStationHandler(e) {
+  async updateStationHandler(e) {
     // TODO : early return 이 필요한 부분인가?
     if (!e.target.classList.contains('btn')) return;
 
@@ -53,7 +53,12 @@ class StationsController {
     // 삭제
     if (e.target.classList.contains('js-delete-button')) {
       const targetStationId = e.target.closest('li').dataset.stationId;
-      this.stationManager.deleteStation(targetStationId);
+      const resFlag = await this.stationManager.deleteStation(targetStationId);
+      if (!resFlag) {
+        alert('역 삭제에 실패했습니다.');
+        return;
+      }
+
       this.stationsView.deleteResult(e);
     }
   }

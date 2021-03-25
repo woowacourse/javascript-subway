@@ -48,4 +48,24 @@ async function fetchAllStations() {
   }
 }
 
-export { fetchAddStation, fetchAllStations };
+async function fetchDeleteStation(id) {
+  const requestData = {
+    method: HTTP.METHOD.DELETE,
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/stations/${id}`, requestData);
+    if (!response.ok) {
+      throw new Error('역 삭제에 실패했습니다.');
+    }
+
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { fetchAddStation, fetchAllStations, fetchDeleteStation };
