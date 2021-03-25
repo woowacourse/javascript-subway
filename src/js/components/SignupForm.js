@@ -6,7 +6,7 @@ import { $, $$, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
-import { PAGE_URLS } from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
 
 export default class SignupForm extends Component {
@@ -92,7 +92,9 @@ export default class SignupForm extends Component {
           </div>
           <p class="text-gray-700 pl-2">
             이미 회원이신가요?
-            <a href="${PAGE_URLS.LOGIN}" class="js-login-link">로그인</a>
+            <a href="${
+              PAGE_URLS[PAGE_KEYS.LOGIN]
+            }" class="js-login-link">로그인</a>
           </p>
         </form>
       </div>

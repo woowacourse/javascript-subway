@@ -31,7 +31,10 @@ export default class App {
         $parent: staticElements.$main,
         pageRouter: this.pageRouter,
       }),
-      [PAGE_KEYS.STATIONS]: new Stations({ $parent: staticElements.$main }),
+      [PAGE_KEYS.STATIONS]: new Stations({
+        $parent: staticElements.$main,
+        pageRouter: this.pageRouter,
+      }),
       [PAGE_KEYS.LINES]: new Lines({ $parent: staticElements.$main }),
       [PAGE_KEYS.SECTIONS]: new Sections({ $parent: staticElements.$main }),
     };
@@ -39,10 +42,17 @@ export default class App {
 
   registerRoutes() {
     Object.keys(this.pages).forEach((key) => {
-      this.pageRouter.registerRoute({
-        path: PAGE_URLS[key],
-        handler: this.pages[key].render.bind(this.pages[key]),
-      });
+      if (key === PAGE_KEYS.STATIONS) {
+        this.pageRouter.registerRoute({
+          path: PAGE_URLS[key],
+          handler: this.pages[key].loadPage.bind(this.pages[key]),
+        });
+      } else {
+        this.pageRouter.registerRoute({
+          path: PAGE_URLS[key],
+          handler: this.pages[key].render.bind(this.pages[key]),
+        });
+      }
     });
   }
 

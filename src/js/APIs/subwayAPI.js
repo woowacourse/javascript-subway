@@ -4,6 +4,7 @@ const PATH = {
   MEMBERS: "/members",
   LOGIN: "/login/token",
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
+  STATIONS: "/stations",
 };
 
 const request = {
@@ -20,13 +21,21 @@ const request = {
     return `${this.endPoint}${path}${queryString && `?${queryString}`}`;
   },
 
-  async get(path, params = {}) {
-    const response = await fetch(this.createURL(path, params));
+  async get({ path, params = {}, headers = {} }) {
+    const response =
+      Object.keys(headers).length === 0
+        ? await fetch(this.createURL(path, params))
+        : await fetch(this.createURL(path, params), {
+            headers: {
+              ...this.headers,
+              ...headers,
+            },
+          });
 
     return response;
   },
 
-  async post(path, body) {
+  async post({ path, body }) {
     const response = await fetch(this.createURL(path), {
       method: "POST",
       headers: this.headers,
@@ -39,7 +48,10 @@ const request = {
 
 export const checkDuplicatedEmailAPI = async (email) => {
   try {
-    const response = await request.get(PATH.CHECK_DUPLICATED_EMAIL, { email });
+    const response = await request.get({
+      path: PATH.CHECK_DUPLICATED_EMAIL,
+      params: { email },
+    });
 
     // 사용 가능한 이메일
     if (response.status === 200) {
@@ -70,7 +82,10 @@ export const checkDuplicatedEmailAPI = async (email) => {
 
 export const signupAPI = async (memberInfo) => {
   try {
-    const response = await request.post(PATH.MEMBERS, memberInfo);
+    const response = await request.post({
+      path: PATH.MEMBERS,
+      body: memberInfo,
+    });
 
     if (response.ok) {
       return {
@@ -95,7 +110,10 @@ export const signupAPI = async (memberInfo) => {
 
 export const loginAPI = async (loginInfo) => {
   try {
-    const response = await request.post(PATH.LOGIN, loginInfo);
+    const response = await request.post({
+      path: PATH.LOGIN,
+      body: loginInfo,
+    });
 
     if (response.ok) {
       const result = await response.json();
@@ -110,6 +128,38 @@ export const loginAPI = async (loginInfo) => {
     return {
       isSucceeded: false,
       message: ERROR_MESSAGE.LOGIN_FAILURE,
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const getStationsAPI = async (accessToken) => {
+  try {
+    const response = await request.get({
+      path: PATH.STATIONS,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      return {
+        isSucceeded: false,
+        message: "",
+      };
+    }
+
+    const stations = await response.json();
+
+    return {
+      isSucceeded: true,
+      stations,
     };
   } catch (e) {
     console.error(e);
