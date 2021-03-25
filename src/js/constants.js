@@ -15,6 +15,8 @@ const ID_SELECTOR = {
   STATION_FORM_NAME: 'station-form__name',
   STATION_FORM_SUBMIT: 'station-form__submit',
   STATION_LIST: 'station-list',
+  STATION_MODAL_INPUT: 'station-modal__input',
+  STATION_MODAL_SUBMIT: 'station-modal__submit',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
@@ -41,6 +43,8 @@ const CLASS_SELECTOR = {
   STATION_LIST_ITEM: 'js-station-list__item',
   STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
   STATION_LIST_ITEM_DELETION: 'js-station-list__item-deletion',
+
+  MODAL_CLOSE: 'js-modal-close',
 };
 
 const ALERT_MESSAGE = {
