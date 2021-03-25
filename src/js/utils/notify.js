@@ -11,4 +11,8 @@ const showSnackbar = (message = '') => {
   $snackbarContainer.append($snackbar);
 };
 
-export default showSnackbar;
+const showNotification = (message) => {
+  showSnackbar(message);
+};
+
+export { showSnackbar, showNotification };

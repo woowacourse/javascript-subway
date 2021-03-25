@@ -1,4 +1,4 @@
-import showSnackbar from './snackbar.js';
+import { showSnackbar } from './notify.js';
 
 const logError = (message) => {
   // eslint-disable-next-line no-console

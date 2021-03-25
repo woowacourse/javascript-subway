@@ -11,4 +11,9 @@ const PATHNAMES = Object.freeze(
   )
 );
 
-export default PATHNAMES;
+const { HOME, STATIONS, LINES, SECTIONS, LOGIN, LOGOUT, SIGN_UP } = PATHNAMES;
+
+const ACCESSIBLE_PATHNAMES = (isLoggedIn) =>
+  isLoggedIn ? [HOME, STATIONS, LINES, SECTIONS, LOGOUT] : [HOME, LOGIN, SIGN_UP];
+
+export { PATHNAMES, ACCESSIBLE_PATHNAMES };

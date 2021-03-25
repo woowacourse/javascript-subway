@@ -1,4 +1,4 @@
-import PATHNAMES from './pathnames.js';
+import { PATHNAMES } from './pathnames.js';
 
 const TITLES = Object.freeze({
   [PATHNAMES.HOME]: '지하철 노선도',
