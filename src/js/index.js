@@ -46,7 +46,7 @@ class App {
       return Component;
     }
 
-    history.pushState(
+    history.replaceState(
       { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
       null,
       UNAUTHENTICATED_LINK.LOGIN.ROUTE
@@ -59,7 +59,7 @@ class App {
       return Component;
     }
 
-    history.pushState(
+    history.replaceState(
       { route: AUTHENTICATED_LINK.STATION.ROUTE },
       null,
       AUTHENTICATED_LINK.STATION.ROUTE
@@ -67,8 +67,8 @@ class App {
     return Station;
   }
 
-  renderComponent() {
-    const component = this.components[location.pathname]();
+  renderComponent(path = location.pathname) {
+    const component = this.components[path]();
     new component($('.js-main'), this.stateManagers);
   }
 
@@ -80,7 +80,7 @@ class App {
 
   addEventListeners() {
     window.addEventListener('popstate', (e) => {
-      this.stateManagers.route.render(e.state.route);
+      this.renderComponent(e.state.route);
     });
 
     $('#app').addEventListener('click', (e) => {
@@ -111,6 +111,12 @@ class App {
     });
 
     window.addEventListener('load', () => {
+      history.replaceState(
+        { route: location.pathname },
+        null,
+        location.pathname
+      );
+
       this.renderComponent(location.pathname);
     });
   }
