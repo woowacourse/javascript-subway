@@ -15,6 +15,7 @@ class Stations {
   selectDom() {
     this.$stationForm = $('.station-form');
     this.$stationListWrapper = $('.station-list-wrapper');
+    this.$modal = $('.modal');
   }
 
   bindEvent() {
@@ -22,6 +23,20 @@ class Stations {
       e.preventDefault();
       this.handleStationSubmit(e);
     });
+    this.$stationListWrapper.addEventListener('click', (e) => {
+      if (e.target.classList.contains('station-list-item__edit-button')) {
+        this.handleStationNameEdit();
+        return;
+      }
+
+      if (e.target.classList.contains('station-list-item__remove-button')) {
+        this.handleStationNameRemove(e);
+      }
+    });
+  }
+
+  handleStationNameEdit() {
+    this.$modal.classList.add('open');
   }
 
   setStation(stationName) {
@@ -49,7 +64,7 @@ class Stations {
     return `
       <li class="station-list-item d-flex items-center py-2">
         <span class="w-100 pl-2">${stationName}</span>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
+        <button type="button" class="station-list-item__edit-button bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
         <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
       </li>
       <hr class="my-0" />
