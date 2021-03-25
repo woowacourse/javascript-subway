@@ -1,0 +1,27 @@
+[[redirects]]
+  from = "/login"
+  to = "/"
+
+[[redirects]]
+  from = "/signup"
+  to = "/"
+
+[[redirects]]
+  from = "/stations"
+  to = "/"
+  
+[[redirects]]
+  from = "/lines"
+  to = "/"
+
+[[redirects]]
+  from = "/sections"
+  to = "/"
+  
+[[redirects]]
+  from = "/map"
+  to = "/"
+  
+[[redirects]]
+  from = "/search"
+  to = "/"

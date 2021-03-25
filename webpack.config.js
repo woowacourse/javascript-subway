@@ -25,6 +25,9 @@ module.exports = {
     filename: "[name].js",
     path: path.resolve("./dist"),
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   devtool: "source-map",
   plugins: [
     new CleanWebpackPlugin(),
