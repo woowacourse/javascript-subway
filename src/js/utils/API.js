@@ -1,15 +1,36 @@
 const BASE_URL = 'https://www.boorownie.com';
 
-const option = {
-  get: (token) => ({
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }),
+const _request = async (url, option = {}) => {
+  try {
+    const response = await fetch(`${BASE_URL}${url}`, option);
+    if (!response.ok) {
+      throw new Error(response.message);
+    }
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
 
-  post: (contents, token = '') => {
+const request = {
+  get: async (info) => {
+    const { url, token } = info;
+    const option = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    if (token) {
+      option.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return _request(url, option);
+  },
+
+  post: async (info) => {
+    const { url, contents, token } = info;
     const option = {
       method: 'POST',
       headers: {
@@ -22,71 +43,79 @@ const option = {
       option.headers.Authorization = `Bearer ${token}`;
     }
 
-    return option;
+    return _request(url, option);
   },
 
-  delete: (token) => ({
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }),
+  delete: async (info) => {
+    const { url, token } = info;
+    const option = {
+      method: 'DELETE',
+      headers: {},
+    };
 
-  put: (contents, token) => ({
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(contents),
-  }),
-};
-
-const request = async (url, option = {}) => {
-  let response;
-  try {
-    response = await fetch(`${BASE_URL}${url}`, option);
-
-    if (!response.ok) {
-      throw new Error(response.message);
+    if (token) {
+      option.headers.Authorization = `Bearer ${token}`;
     }
 
-    return response;
-  } catch (err) {
-    throw err;
-  }
+    return _request(url, option);
+  },
+
+  put: async (info) => {
+    const { url, contents, token } = info;
+    const option = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(contents),
+    };
+
+    if (token) {
+      option.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return _request(url, option);
+  },
 };
 
 export const API = {
   signup: ({ email, password, name }) => {
-    return request('/members', option.post({ email, password, name }));
+    return request.post({
+      url: '/members',
+      contents: { email, password, name },
+    });
   },
 
   login: ({ email, password }) => {
-    return request('/login/token', option.post({ email, password }));
-  },
-
-  checkDuplicateEmail: (email) => {
-    return request(`/members/check-validation?email=${email}`);
+    return request.post({
+      url: '/login/token',
+      contents: { email, password },
+    });
   },
 
   getUserInfo: (token) => {
-    return request('/members/me', option.get(token));
+    return request.get({ url: '/members/me', token });
+  },
+
+  checkDuplicateEmail: (email) => {
+    return request.get({
+      url: `/members/check-validation?email=${email}`,
+    });
   },
 
   getStationList: (token) => {
-    return request('/stations', option.get(token));
+    return request.get({ url: '/stations', token });
   },
 
   createStation: ({ token, name }) => {
-    return request('/stations', option.post({ name }, token));
+    return request.post({ url: '/stations', contents: { name }, token });
   },
 
   deleteStation: ({ token, id }) => {
-    return request(`/stations/${id}`, option.delete(token));
+    return request.delete({ url: `/stations/${id}`, token });
   },
 
   editStation: ({ token, name, id }) => {
-    return request(`/stations/${id}`, option.put({ name }, token));
+    return request.put({ url: `/stations/${id}`, contents: { name }, token });
   },
 };
