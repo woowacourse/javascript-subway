@@ -1,5 +1,5 @@
-import jwtToken from '../jwtToken';
-import StationManager from './StationManager';
+import jwtToken from '../jwtToken.js';
+import StationManager from './StationManager.js';
 
 const user = {
   authorization: jwtToken.getToken(),

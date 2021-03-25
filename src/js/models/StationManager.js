@@ -1,37 +1,20 @@
+import { fetchAddStation, fetchAllStations } from '../API/stations.js';
+
 class StationManager {
   constructor() {
-    this.stations = {
-      1: {
-        id: 1,
-        name: '잠실',
-      },
-      21: {
-        id: 21,
-        name: '사당',
-      },
-      3: {
-        id: 3,
-        name: '가락시장',
-      },
-      4: {
-        id: 4,
-        name: '혜화',
-      },
-    };
+    this.stations = {};
   }
-  init() {
-    this.getAllStations();
+  // TODO: 네이밍 생각해보기
+  createStationData({ id, name }) {
+    return { id, name };
   }
 
-  addStation(stationName) {
-    // 1. fetch
-    const newStation = {
-      id: 1234,
-      name: stationName,
-    };
+  async addStation(stationName) {
+    // TODO : ?? null일때 왜 console.log가 안찍힐까
+    const newStation = (await fetchAddStation(stationName)) ?? null;
+    this.stations[newStation.id] = this.createStationData(newStation);
 
-    // 2. 본인 stations에 push
-    this.stations[newStation.id] = newStation;
+    return newStation;
   }
 
   deleteStation(stationId) {
@@ -43,8 +26,13 @@ class StationManager {
     this.stations[id] = { id, name };
   }
 
-  getAllStations() {
-    // this.stations = fetch()
+  async getAllStations() {
+    const allStations = (await fetchAllStations()) ?? [];
+
+    allStations.forEach(
+      station => (this.stations[station.id] = this.createStationData(station))
+    );
+
     return this.stations;
   }
 }
