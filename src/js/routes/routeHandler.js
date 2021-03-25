@@ -16,8 +16,6 @@ import handleValidateLoginForm from '../eventHandlers/handleValidateLoginForm';
 import handleAddStation from '../eventHandlers/handleAddStation';
 import errorPageTemplate from '../templates/error';
 import stationsPageTemplate from '../templates/stations';
-import line from '../store/line';
-import station from '../store/station';
 import handleStationStatus from '../eventHandlers/handleStationStatus';
 import { modalCloseEventInit } from '../utils/modal';
 import handleEditStation from '../eventHandlers/handleEditStation';
@@ -26,6 +24,7 @@ import handleSelectColor from '../eventHandlers/handleSelectColor';
 import handleOpenLineAddModal from '../eventHandlers/handleOpenLineAddModal';
 import handleSelectDepartureStation from '../eventHandlers/handleSelectDepartureStation';
 import handleLineStatus from '../eventHandlers/handleLineStatus';
+import store from '../store';
 
 const $routeContainer = $('#route-container');
 
@@ -67,7 +66,7 @@ export const mountSections = () => {
 };
 
 export const mountStations = () => {
-  $routeContainer.innerHTML = stationsPageTemplate(station.get());
+  $routeContainer.innerHTML = stationsPageTemplate(store.station.get());
 
   $('#station-form').addEventListener('submit', handleAddStation);
   $('#station-list').addEventListener('click', handleStationStatus);
@@ -81,7 +80,7 @@ export const mountMap = () => {
 };
 
 export const mountLines = () => {
-  $routeContainer.innerHTML = linesPageTemplate(line.get());
+  $routeContainer.innerHTML = linesPageTemplate(store.line.get());
 
   $('#create-line-button').addEventListener('mousedown', handleOpenLineAddModal);
   $('#line-add-form').addEventListener('submit', handleAddLine);

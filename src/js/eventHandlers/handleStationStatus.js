@@ -1,9 +1,9 @@
 import { requestDeleteStation } from '../services/station';
 import { STATION } from '../constants/alertMessage';
-import station from '../store/station';
 import { $ } from '../utils/dom';
 import { openModal } from '../utils/modal';
 import { updateStationNameEditModal } from '../viewController/stationNameEditModal';
+import store from '../store';
 
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
@@ -16,7 +16,7 @@ const deleteStation = async target => {
     alert(result.message);
     return;
   }
-  station.delete(stationID);
+  store.station.delete(stationID);
   $targetStation.remove();
 
   alert(STATION.DELETE_STATION_SUCCESS);

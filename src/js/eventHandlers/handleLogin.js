@@ -1,7 +1,6 @@
 import { AUTH } from '../constants/alertMessage';
 import { requestLogin } from '../services/auth';
-import { initPrivateStore } from '../store';
-import accessToken from '../store/accessToken';
+import store, { initPrivateStore } from '../store';
 import { $, showElement } from '../utils/dom';
 import { routeTo } from '../utils/history';
 
@@ -15,7 +14,7 @@ export const login = async (email, password, option) => {
   }
 
   const newAccessToken = response.accessToken;
-  accessToken.set(newAccessToken, keepLogin);
+  store.accessToken.set(newAccessToken, keepLogin);
 };
 
 const handleLogin = async event => {

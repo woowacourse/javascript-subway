@@ -1,6 +1,6 @@
 import { requestDeleteLine } from '../services/line';
 import { LINE } from '../constants/alertMessage';
-import line from '../store/line';
+import store from '../store';
 
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;
@@ -13,7 +13,7 @@ const deleteLine = async target => {
     alert(result.message);
     return;
   }
-  line.delete(lineID);
+  store.line.delete(lineID);
   $targetLine.remove();
 
   alert(LINE.DELETE_LINE_SUCCESS);

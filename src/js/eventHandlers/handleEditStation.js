@@ -1,6 +1,6 @@
 import { STATION } from '../constants/alertMessage';
 import { requestEditStation } from '../services/station';
-import station from '../store/station';
+import store from '../store';
 import { $ } from '../utils/dom';
 import { closeModal } from '../utils/modal';
 import { updateStationListItem } from '../viewController/stationList';
@@ -16,7 +16,7 @@ const handleEditStation = async event => {
     return;
   }
 
-  if (station.includes(newStationName)) {
+  if (store.station.includes(newStationName)) {
     alert(STATION.DUPLICATED_STATION_NAME);
     return;
   }
@@ -28,7 +28,7 @@ const handleEditStation = async event => {
     return;
   }
 
-  station.editName(newStationName, Number(stationId));
+  store.station.editName(newStationName, Number(stationId));
   closeModal($('.modal'));
   updateStationListItem({ id: stationId, name: newStationName });
 };

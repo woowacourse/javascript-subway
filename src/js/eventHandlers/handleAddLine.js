@@ -1,15 +1,15 @@
 import { requestAddLine } from '../services/line';
 import { LINE } from '../constants/alertMessage';
 import { STATION_AMOUNT } from '../constants/service';
-import station from '../store/station';
+import store from '../store';
 import { closeModal } from '../utils/modal';
 import { $ } from '../utils/dom';
-import { addLine } from '../viewController/lineList';
+import { addLineListItem } from '../viewController/lineList';
 
 const handleAddLine = async event => {
   event.preventDefault();
 
-  if (station.length < STATION_AMOUNT.MIN) {
+  if (store.station.length < STATION_AMOUNT.MIN) {
     alert(LINE.TOO_FEW_STATION);
     return;
   }
@@ -33,11 +33,11 @@ const handleAddLine = async event => {
   });
 
   if (!result.success) {
-    // 에러메시지
+    alert(result.message);
     return;
   }
-
-  addLine(result.data);
+  store.line.add(result.data);
+  addLineListItem(result.data);
   closeModal($('#line-add-modal'));
 };
 

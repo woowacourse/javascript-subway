@@ -1,8 +1,8 @@
-import accessToken from '../store/accessToken';
+import store from '../store';
 import { routeTo } from '../utils/history';
 
 const handleLogout = () => {
-  accessToken.clear();
+  store.accessToken.clear();
   routeTo('/login');
 };
 
