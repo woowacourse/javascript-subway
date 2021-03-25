@@ -1,4 +1,4 @@
-import { ID_SELECTOR, THRESHOLD } from '../constants.js';
+import { CLASS_SELECTOR, ID_SELECTOR, THRESHOLD } from '../constants.js';
 
 const MAIN_COMPONENT = `
 <div class="wrapper bg-white p-10">
@@ -37,7 +37,7 @@ const MAIN_COMPONENT = `
 
 const MODAL_COMPONENT = `
 <div class="modal-inner station-modal-inner p-8">
-  <button class="modal-close">
+  <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close">
     <svg viewbox="0 0 40 40">
       <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
     </svg>
@@ -48,19 +48,20 @@ const MODAL_COMPONENT = `
   <form class="d-flex items-center">
     <div class="input-control w-100 mr-3">
       <label for="subway-line-name" class="input-label" hidden
-        >노선 이름</label
+        >역 이름</label
       >
       <input
         type="text"
-        id="subway-line-name"
+        id="${ID_SELECTOR.STATION_MODAL_INPUT}"
         name="subway-line-name"
         class="input-field"
-        placeholder="노선 이름"
+        placeholder="역 이름"
         required
       />
     </div>
     <div>
       <button
+        id="${ID_SELECTOR.STATION_MODAL_SUBMIT}"
         type="submit"
         name="submit"
         class="input-submit bg-cyan-300"
