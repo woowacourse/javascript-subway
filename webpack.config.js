@@ -11,7 +11,9 @@ const config = (_, argv) => ({
   output: {
     filename: 'main.js',
     path: path.resolve(dirname, 'dist'),
-    clean: true,
+    clean: {
+      keep: /\.git/,
+    },
   },
   mode: argv.mode,
   module: {
