@@ -10,11 +10,13 @@ export const login = async (email, password, option) => {
 
   if (!response.success) {
     alert(AUTH.LOGIN_FAILED);
-    return;
+    return false;
   }
 
   const newAccessToken = response.accessToken;
   store.accessToken.set(newAccessToken, keepLogin);
+
+  return true;
 };
 
 const handleLogin = async event => {
@@ -22,10 +24,10 @@ const handleLogin = async event => {
 
   const { email, password, 'keep-login': keepLogin } = event.target.elements;
 
-  await login(email.value, password.value, { keepLogin: keepLogin.checked });
+  const isSuccess = await login(email.value, password.value, { keepLogin: keepLogin.checked });
 
   try {
-    await initPrivateStore();
+    if (isSuccess) await initPrivateStore();
   } catch (error) {
     alert(error.message);
     routeTo('/login');
