@@ -57,6 +57,7 @@ export const signUpTemplate = () => {
         </div>
         <div class="input-control">
           <button
+            id="signup-form-submit"
             name="submit"
             class="input-submit w-100 bg-cyan-300"
             disabled

@@ -28,6 +28,8 @@ export const SELECTOR = {
   SNACK_BAR: '.snackbar',
   LOGIN_FORM: 'form[name="login"]',
   SIGNUP_FORM: 'form[name="signup"]',
+  SIGNUP_FORM_SUBMIT: '#signup-form-submit',
+  MESSAGE: '.message',
   NAME_MESSAGE: '.name-message',
   EMAIL_MESSAGE: '.email-message',
   PASSWORD_MESSAGE: '.password-message',
@@ -39,6 +41,7 @@ export const SELECTOR = {
 export const CLASS_NAME = {
   SHOW: 'show',
   SIGNUP_LINK: 'signup-link',
+  VALID: 'valid',
 };
 
 export const FORM = {
