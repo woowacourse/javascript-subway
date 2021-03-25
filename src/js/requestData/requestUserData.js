@@ -46,9 +46,9 @@ export const requestAddStation = async ({ name }) => {
     const response = await httpClient.post({ path: '/stations', body: { name }, accessToken: token.accessToken });
 
     if (!response.ok) {
-      throw new Error(response.status);
+      throw new Error();
     }
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('이미 존재하는 역입니다.');
   }
 };

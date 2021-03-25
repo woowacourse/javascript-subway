@@ -1,6 +1,6 @@
 import {
   isInvalidEmailFormat,
-  isInvalidUserNameType,
+  isInvalidNameType,
   isUnderPasswordMinLength,
   isDifferentPasswordAndPasswordConfirm,
 } from './boolean';
@@ -12,9 +12,9 @@ export const validateEmail = (email) => {
   }
 };
 
-export const validateUserName = (userName) => {
-  if (isInvalidUserNameType(userName)) {
-    throw new Error(ERROR_MESSAGE.INVALID_USER_NAME_TYPE);
+export const validateName = (name) => {
+  if (isInvalidNameType(name)) {
+    throw new Error(ERROR_MESSAGE.INVALID_NAME_TYPE);
   }
 };
 

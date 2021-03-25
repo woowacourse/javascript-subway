@@ -6,8 +6,8 @@ export const isInvalidEmailFormat = (email) => {
   return !REG_EXP.EMAIL.test(email);
 };
 
-export const isInvalidUserNameType = (userName) => {
-  return !REG_EXP.USER_NAME.test(userName);
+export const isInvalidNameType = (userName) => {
+  return !REG_EXP.NAME.test(userName);
 };
 
 export const isUnderPasswordMinLength = (password) => {
@@ -32,4 +32,12 @@ export const isAllSignUpInputSuccess = () => {
 
 export const isAllSignInInputSuccess = () => {
   return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
+};
+
+export const isStationNameUnderMinLength = (stationName) => {
+  return stationName.length < 2;
+};
+
+export const isStationNameOverMaxLength = (stationName) => {
+  return stationName.length > 20;
 };

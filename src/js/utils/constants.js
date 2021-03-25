@@ -69,7 +69,7 @@ export const METHOD = Object.freeze({
 export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });
 
 export const REG_EXP = {
-  USER_NAME: /^[a-z가-힣]+$/i,
+  NAME: /^[a-z가-힣]+$/i,
   EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
 
@@ -82,7 +82,7 @@ export const STANDARD_NUMBER = Object.freeze({
 
 export const ERROR_MESSAGE = Object.freeze({
   INVALID_EMAIL_FORMAT: '이메일 형식이 올바르지 않습니다.',
-  INVALID_USER_NAME_TYPE: '이름이 올바르지 않습니다.',
+  INVALID_NAME_TYPE: '이름 형식이 올바르지 않습니다.',
   NEED_OVER_PASSWORD_MIN_LENGTH: `비밀번호는 ${STANDARD_NUMBER.PASSWORD_MIN_LENGTH}자 이상으로 입력하셔야 합니다.`,
   DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM: '비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.',
   DUPLICATED_EMAIL: '중복된 이메일을 입력하셨습니다.',

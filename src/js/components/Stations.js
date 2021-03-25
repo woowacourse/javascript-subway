@@ -1,5 +1,6 @@
 import { $ } from '../utils/dom';
 import { requestAddStation } from '../requestData/requestUserData';
+import { validateName } from '../validators/validation';
 
 class Stations {
   constructor() {
@@ -32,10 +33,11 @@ class Stations {
     const stationName = target['station-name'].value;
 
     try {
+      validateName(stationName);
       await requestAddStation({ name: stationName });
       this.setStation(stationName);
     } catch (error) {
-      alert('역 생성에 실패했습니다.');
+      alert(error.message);
     }
   }
 
