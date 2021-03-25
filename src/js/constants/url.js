@@ -6,6 +6,7 @@ const PATH = {
     ME: '/members/me',
     CHECK: '/members/check-validation',
   },
+  STATIONS: '/stations',
 };
 
 export { BASE_URL, PATH };
