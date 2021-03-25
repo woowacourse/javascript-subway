@@ -9,3 +9,9 @@ export const updateStationListItem = ({ id, name }) => {
 export const addStationListItem = ({ id, name }) => {
   appendChildTemplate($('#station-list'), stationListItemTemplate({ id, name }));
 };
+
+export const updateStationNameEditModal = ({ id, name }) => {
+  $('#station-name-edit-form').dataset.stationId = id;
+  $('#station-name-edit-form').dataset.oldStationName = name;
+  $('#station-edit-name').value = name;
+};

@@ -2,7 +2,7 @@ import { requestDeleteStation } from '../services/station';
 import { STATION } from '../constants/alertMessage';
 import { $ } from '../utils/dom';
 import { openModal } from '../utils/modal';
-import { updateStationNameEditModal } from '../viewController/stationNameEditModal';
+import { updateStationNameEditModal } from '../viewController/stations';
 import store from '../store';
 
 const deleteStation = async target => {

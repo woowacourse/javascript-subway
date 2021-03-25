@@ -4,7 +4,7 @@ import { STATION_AMOUNT } from '../constants/service';
 import store from '../store';
 import { closeModal } from '../utils/modal';
 import { $ } from '../utils/dom';
-import { addLineListItem } from '../viewController/lineList';
+import { addLineListItem } from '../viewController/lines';
 
 const handleAddLine = async event => {
   event.preventDefault();

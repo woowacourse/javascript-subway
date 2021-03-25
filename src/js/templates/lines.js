@@ -1,3 +1,4 @@
+import { MODAL_TYPE } from '../constants/service';
 import { colorOptions } from '/src/js/utils/mock.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {
@@ -17,8 +18,18 @@ export const stationOptionListTemplate = (stations, defaultValue) => {
   return defaultValueTemplate + stations.map(station => stationOptionTemplate(station)).join('');
 };
 
-const linesPageModalTemplate = `
-  <div id="line-add-modal" class="modal">
+const modalTypeId = {
+  [MODAL_TYPE.ADD]: 'line-add',
+  [MODAL_TYPE.EDIT]: 'line-edit',
+};
+
+const modalTypeTitle = {
+  [MODAL_TYPE.ADD]: '🛤️ 노선 추가',
+  [MODAL_TYPE.EDIT]: '🚧 노선 수정',
+};
+
+const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
+  <div id="${modalTypeId[type]}-modal" class="modal">
     <div class="modal-inner p-8">
       <button class="modal-close">
         <svg viewbox="0 0 40 40">
@@ -26,14 +37,12 @@ const linesPageModalTemplate = `
         </svg>
       </button>
       <header>
-        <h2 class="text-center">🛤️ 노선 추가</h2>
+        <h2 class="text-center">${modalTypeTitle[type]}</h2>
       </header>
-      <form id="line-add-form">
+      <form id="${modalTypeId[type]}-form">
         <div class="input-control">
           <span class="js-subway-line-color-dot subway-line-color-dot"></span>
-          <label for="subway-line-name" class="input-label" hidden
-            >노선 이름</label
-          >
+          <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
           <input
             type="text"
             id="subway-line-name"
@@ -118,7 +127,12 @@ const linesPageModalTemplate = `
 `;
 
 export const lineListItemTemplate = ({ id, name, color }) => `
-  <li class="js-line-list-item line-list-item d-flex items-center py-2 relative" data-id="${id}" data-name="${name}">
+  <li
+    class="js-line-list-item line-list-item d-flex items-center py-2 relative"
+    data-id="${id}"
+    data-name="${name}"
+    data-color="${color}"
+  >
     <span class="subway-line-color-dot ${color}"></span>
     <span class="w-100 pl-6 subway-line-list-item-name"
       >${name}</span
@@ -161,7 +175,8 @@ const linesPageTemplate = (lineList = []) => `
       </main>
     </div>
   </div>
-  ${linesPageModalTemplate}
+  ${linesPageModalTemplate(MODAL_TYPE.ADD)}
+  ${linesPageModalTemplate(MODAL_TYPE.EDIT)}
 `;
 
 export default linesPageTemplate;

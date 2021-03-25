@@ -3,7 +3,7 @@ import { requestEditStation } from '../services/station';
 import store from '../store';
 import { $ } from '../utils/dom';
 import { closeModal } from '../utils/modal';
-import { updateStationListItem } from '../viewController/stationList';
+import { updateStationListItem } from '../viewController/stations';
 
 const handleEditStation = async event => {
   event.preventDefault();
