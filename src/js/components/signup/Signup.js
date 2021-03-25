@@ -3,12 +3,12 @@ import { signupTemplate } from './template.js';
 import {
   $,
   showSnackbar,
-  API,
   setFontColorGreen,
   setFontColorRed,
 } from '../../utils/index.js';
 import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
+import { isDuplicatedEmail, isSignupSuccess } from '../../service/index.js';
 
 export default class Signup extends Component {
   constructor({ changeTemplate }) {
@@ -61,21 +61,21 @@ export default class Signup extends Component {
       return;
     }
 
-    try {
-      await API.checkDuplicateEmail(email);
+    const isDuplicated = await isDuplicatedEmail(email);
 
-      setFontColorGreen($emailValidCheckText);
-      $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
-      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
-      this.isDuplicateChecked = true;
-      this.verifiedEmail = email;
-    } catch {
+    if (isDuplicated) {
       setFontColorRed($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL;
       showSnackbar(SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL);
       this.isDuplicateChecked = false;
       this.verifiedEmail = '';
     }
+
+    setFontColorGreen($emailValidCheckText);
+    $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
+    showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
+    this.isDuplicateChecked = true;
+    this.verifiedEmail = email;
   }
 
   async handleSignupForm(e) {
@@ -96,17 +96,18 @@ export default class Signup extends Component {
       return;
     }
 
-    try {
-      await up({ email, password, name });
+    const isSuccess = await isSignupSuccess({ email, password, name });
 
-      showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
-      this.changeTemplate('/login');
-      history.pushState({ pathName: '/login' }, null, '/login');
-      Navigation.changeSelectedButtonColor();
-      this.isDuplicateChecked = false;
-    } catch {
+    if (!isSuccess) {
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP_FAILURE);
+      return;
     }
+
+    showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
+    this.changeTemplate('/login');
+    history.pushState({ pathName: '/login' }, null, '/login');
+    Navigation.changeSelectedButtonColor();
+    this.isDuplicateChecked = false;
   }
 
   handlePasswordConfirm({ target }) {
