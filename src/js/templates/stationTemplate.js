@@ -45,14 +45,14 @@ const MODAL_COMPONENT = `
   <header>
     <h2 class="text-center">🚉 역 이름 수정</h2>
   </header>
-  <form class="d-flex items-center">
+  <form id="${ID_SELECTOR.STATION_MODAL_FORM}" class="d-flex items-center">
     <div class="input-control w-100 mr-3">
       <label for="subway-line-name" class="input-label" hidden
         >역 이름</label
       >
       <input
         type="text"
-        id="${ID_SELECTOR.STATION_MODAL_INPUT}"
+        id="${ID_SELECTOR.STATION_MODAL_FORM_INPUT}"
         name="subway-line-name"
         class="input-field"
         placeholder="역 이름"
@@ -61,12 +61,12 @@ const MODAL_COMPONENT = `
     </div>
     <div>
       <button
-        id="${ID_SELECTOR.STATION_MODAL_SUBMIT}"
+        id="${ID_SELECTOR.STATION_MODAL_FORM_SUBMIT}"
         type="submit"
         name="submit"
         class="input-submit bg-cyan-300"
       >
-        확인
+        수정
       </button>
     </div>
   </form>
