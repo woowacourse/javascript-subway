@@ -2,16 +2,17 @@ import {
   ERROR_MESSAGE,
   SUCCESS_MESSAGE,
 } from "../../src/js/constants/messages.js";
+import {
+  TEST_EMAIL,
+  TEST_PW,
+  FAIL_TOKEN,
+  END_POINT,
+} from "../constants/general.js";
 
 describe("사용자 로그인 및 회원가입", () => {
   before(() => {
     cy.visit("http://127.0.0.1:8080/");
   });
-
-  const FAIL_TOKEN = "s";
-  const TEST_EMAIL = "sunccol@test.com";
-  const TEST_PW = "1q2w3e4r";
-  const END_POINT = "https://www.boorownie.com";
 
   it("로그인에 실패하면 입력창을 초기화하고 하단에 에러 메시지를 보여준다.", () => {
     cy.intercept("POST", `${END_POINT}/login/token`).as("login");

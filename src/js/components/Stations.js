@@ -22,7 +22,7 @@ export default class Stations extends Component {
               type="text"
               id="station-name"
               name="stationName"
-              class="input-field"
+              class="js-station-name input-field"
               placeholder="역 이름"
               required
             />
@@ -35,31 +35,19 @@ export default class Stations extends Component {
             </button>
           </div>
         </form>
-        <ul class="mt-3 pl-0">
+        <ul class="js-station-list mt-3 pl-0">
           <li class="station-list-item d-flex items-center py-3 border-b-gray">
             <span class="w-100 pl-2">사당</span>
             <button
               type="button"
-              class="bg-gray-50 text-gray-500 text-sm mr-1"
+              class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
             >
               수정
             </button>
             <button
               type="button"
-              class="bg-gray-50 text-gray-500 text-sm"
+              class="js-delete-btn bg-gray-50 text-gray-500 text-sm"
             >
-              삭제
-            </button>
-          </li>
-          <li class="station-list-item d-flex items-center py-2 border-b-gray">
-            <span class="w-100 pl-2">방배</span>
-            <button
-              type="button"
-              class="bg-gray-50 text-gray-500 text-sm mr-1"
-            >
-              수정
-            </button>
-            <button type="button" class="bg-gray-50 text-gray-500">
               삭제
             </button>
           </li>
