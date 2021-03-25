@@ -1,13 +1,13 @@
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, MODAL_TYPE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
 
 export class StationManage {
   constructor(props) {
     this.$mainContent = mainElements[ROUTE.STATIONS];
-    this.$modalContent = modalElements[ROUTE.STATIONS];
+    this.$modalContent = modalElements[MODAL_TYPE.STATION_MODIFY];
     this.props = props;
     this.setup();
     this.selectDOM();
@@ -94,6 +94,7 @@ export class StationManage {
 
     this.$$stationModify.$input.value = stationName;
     this.$$stationModify.$input.dataset.stationId = stationId;
+    this.props.renderModal(modalElements[MODAL_TYPE.STATION_MODIFY]);
     showModal(this.props.$modal);
   }
 

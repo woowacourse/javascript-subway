@@ -5,7 +5,7 @@ import { stationManage } from './templates/stationManage';
 import { lineManage } from './templates/lineManage';
 import { sectionManage } from './templates/sectionManage';
 
-import { ROUTE } from '../constants/constants';
+import { MODAL_TYPE, ROUTE } from '../constants/constants';
 import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
 
@@ -24,5 +24,5 @@ export const mainElements = {
 };
 
 export const modalElements = {
-  [ROUTE.STATIONS]: $('#modal-content', parseToElements(stationModify)),
+  [MODAL_TYPE.STATION_MODIFY]: $('#modal-content', parseToElements(stationModify)),
 };

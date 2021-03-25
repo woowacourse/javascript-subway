@@ -36,9 +36,11 @@ export class Subway {
   renderContent(route) {
     this.$mainContainer.innerHTML = '';
     this.$mainContainer.appendChild(mainElements[route]);
-    if (!modalElements[route]) return;
+  }
+
+  renderModal(modalContent) {
     this.$modalContainer.innerHTML = '';
-    this.$modalContainer.appendChild(modalElements[route]);
+    this.$modalContainer.appendChild(modalContent);
   }
 
   selectDOM() {
@@ -51,7 +53,7 @@ export class Subway {
   mountChildComponents() {
     new UserJoin();
     new UserAuth();
-    new StationManage({ $modal: this.$modalContainer });
+    new StationManage({ $modal: this.$modalContainer, renderModal: this.renderModal.bind(this) });
   }
 
   bindEvent() {

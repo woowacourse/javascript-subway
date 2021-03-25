@@ -15,6 +15,12 @@ export const ROUTE = {
   SEARCH: '/search',
 };
 
+export const MODAL_TYPE = {
+  STATION_MODIFY: 'station-modify',
+  LINE_ADD: 'line-add',
+  LINE_MODIFY: 'line-modify',
+};
+
 export const NAME_LENGTH = {
   USER_MIN: 2,
   USER_MAX: 20,
