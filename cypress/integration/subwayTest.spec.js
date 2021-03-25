@@ -8,6 +8,7 @@ import {
 const EMAIL = 'wnsah052@naver.com';
 const NAME = '한준모';
 const PASSWORD = '1';
+const ORIGIN_STATION_NAME = '주모바보';
 
 context('로그인 및 정보 수정', () => {
   beforeEach(() => {
@@ -107,18 +108,14 @@ context('지하철 역 관리 페이지', () => {
     login();
 
     getByHref(URL.STATION).click();
-    cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(station);
-    cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`)
-      .click()
-      .then(() => {
-        expect(stub.getCall(1)).to.be.calledWith(
-          ALERT_MESSAGE.DUPLICATED_STATION_FAIL
-        );
-      });
+    register(station).then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.DUPLICATED_STATION_FAIL
+      );
+    });
   });
 
-  it.only('지하철역의 이름을 수정할 수 있다.', () => {
-    const ORIGIN_NAME = '주모바보';
+  it('지하철역의 이름을 수정할 수 있다.', () => {
     const REVISION_NAME = '주모천재';
 
     login();
@@ -131,7 +128,20 @@ context('지하철 역 관리 페이지', () => {
       .find('span')
       .invoke('text')
       .should('eq', REVISION_NAME);
-    reviseStationName(ORIGIN_NAME);
+    reviseStationName(ORIGIN_STATION_NAME);
+  });
+
+  it('지하철역 삭제할 수 있다.', () => {
+    login();
+    getByHref(URL.STATION).click();
+
+    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`).click();
+    cy.on('window:confirm', () => true);
+    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
+      .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`)
+      .should('not.exist');
+
+    register(ORIGIN_STATION_NAME);
   });
 });
 
@@ -141,6 +151,11 @@ function login() {
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_EMAIL}`).type(EMAIL);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_PASSWORD}`).type(PASSWORD);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
+}
+
+function register(station) {
+  cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(station);
+  return cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`).click();
 }
 
 function reviseStationName(name) {
