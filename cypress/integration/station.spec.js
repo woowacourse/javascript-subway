@@ -24,11 +24,12 @@ describe('지하철 역 관리 테스트', () => {
     cy.get('#station-name').type('글루밍에브리웰');
     cy.get('#create-station-form [name="submit"]').click();
 
-    cy.wait('@getStations').then(
+    cy.wait('@createStation').then(
       cy.get('.js-station span').first().should('have.text', '글루밍에브리웰')
     );
   });
 
+  // TODO: station ID 받아오기
   it('지하철 역을 수정한다.', () => {
     cy.intercept({ url: BASE_URL + PATH.STATIONS }).as('editStation');
 

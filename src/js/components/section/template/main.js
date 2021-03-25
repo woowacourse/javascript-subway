@@ -12,10 +12,10 @@ export const mainTemplate = () => {
       </div>
       <form class="d-flex items-center pl-1">
         <select class="bg-blue-400">
-          <option>1호선</option>
-          <option>2호선</option>
-          <option>3호선</option>
-          <option>4호선</option>
+          <option value="1">1호선</option>
+          <option value="2">2호선</option>
+          <option value="3">3호선</option>
+          <option value="4">4호선</option>
         </select>
       </form>
       <ul class="mt-3 pl-0">
@@ -55,11 +55,10 @@ export const sectionsModal = () => {
         <form>
           <div class="input-control">
             <select>
-              <option>1호선</option>
-              <option>2호선</option
-              >ㅅ
-              <option>3호선</option>
-              <option>4호선</option>
+              <option value="1">1호선</option>
+              <option value="2">2호선</option>
+              <option value="3">3호선</option>
+              <option value="4">4호선</option>
             </select>
           </div>
           <div class="d-flex items-center input-control">
