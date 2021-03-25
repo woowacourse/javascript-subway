@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["airbnb-base", "prettier", "plugin:cypress/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "import/extensions": ["error", "always"],
+    "import/no-cycle": "off",
+    "no-param-reassign": ["error", { "props": false }],
+    "no-use-before-define": ["error", "nofunc"]
+  },
+  "plugins": ["cypress"],
+  "ignorePatterns": ["cypress/fixtures/*", "cypress/plugins/*", "cypress/support/*", "dist"]
+}
