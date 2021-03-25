@@ -1,0 +1,16 @@
+.subway-line-color-dot {
+  display: inline-block;
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}

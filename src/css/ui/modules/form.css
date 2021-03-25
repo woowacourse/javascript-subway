@@ -18,6 +18,18 @@ form .input-field {
   background: #f1f5f9;
 }
 
+form .input-inline-btn {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  width: 150px;
+  height: auto;
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+  padding: 0.75rem 0;
+}
+
 form .input-submit {
   font-size: 1rem;
   line-height: inherit;

@@ -4,26 +4,34 @@
     <meta charset="UTF-8" />
     <title>🚇 지하철 노선도</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/src/css/index.css" />
+    <link rel="stylesheet" href="<%= styleHref %>" />
   </head>
   <body>
     <div id="app">
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
-          <header class="my-4"></header>
-          <main class="mt-10 d-flex justify-center">
-            <div class="d-flex flex-col">
-              <div class="d-flex justify-center">
-                <img src="src/images/subway_emoji.png" width="200" />
-              </div>
-              <p class="mt-0 text-center">
-                지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
-              </p>
-            </div>
-          </main>
+          <header class="relative my-4">
+            <a href="/" class="text-black">
+              <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+            </a>
+            <nav class="d-none"></nav>
+          </header>
+          <main class="mt-10 d-flex justify-center"></main>
         </div>
       </div>
+
+      <div class="js-modal modal" role="dialog">
+        <div class="js-modal-inner modal-inner p-8">
+          <button type="button" class="js-modal-close-btn modal-close">
+            <svg viewbox="0 0 40 40">
+              <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+            </svg>
+          </button>
+          <div class="js-modal-content"></div>
+        </div>
+      </div>
+      <div class="js-snackbar snackbar"></div>
     </div>
-    <script type="module" src="./src/js/index.js"></script>
+    <script type="module" src="<%= scriptSrc %>"></script>
   </body>
 </html>
