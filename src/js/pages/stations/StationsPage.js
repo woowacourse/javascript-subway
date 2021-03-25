@@ -3,6 +3,7 @@ import { $ } from '../../utils/DOM.js';
 import {
   stationItemTemplate,
   stationListTemplate,
+  modifyStationTemplate,
 } from './templates/stationListTemplate.js';
 import user from '../../models/User.js';
 
@@ -51,6 +52,29 @@ class StationsPage {
     if (!e.target.classList.contains('btn')) return;
 
     // 수정
+    if (e.target.classList.contains('js-modify-button')) {
+      const value = e.target.closest('li').dataset.stationName;
+      const inputTemplate = modifyStationTemplate(value);
+      e.target.closest('li').innerHTML = inputTemplate;
+    }
+
+    //수정결과 저장
+    if (e.target.classList.contains('js-save-modify-button')) {
+      const $targetStation = e.target.closest('li');
+      const stationId = $targetStation.dataset.stationId;
+      const newStationName = e.target.closest('form').elements[
+        'new-station-name'
+      ].value;
+      const $newTargetStation = stationItemTemplate({
+        id: stationId,
+        name: newStationName,
+      });
+
+      this.stationManager.modifyStation(Number(stationId), newStationName);
+
+      $targetStation.insertAdjacentHTML('beforebegin', $newTargetStation);
+      $targetStation.remove();
+    }
 
     // 삭제
     if (e.target.classList.contains('js-delete-button')) {

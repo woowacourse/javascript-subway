@@ -1,6 +1,6 @@
 function stationItemTemplate({ id, name }) {
   return `
-    <li class="station-list-item d-flex items-center py-2" data-station-id=${id}>
+    <li class="station-list-item d-flex items-center py-2" data-station-id=${id} data-station-name=${name}>
       <span class="w-100 pl-2">${name}</span>
       <button
         type="button"
@@ -23,4 +23,19 @@ function stationListTemplate(stations) {
     .join('');
 }
 
-export { stationItemTemplate, stationListTemplate };
+function modifyStationTemplate(staionName) {
+  return `
+  <form class="w-100">
+    <div class="d-flex flex-between">
+      <input name="new-station-name" class="w-100 pl-2" value=${staionName} required/>
+      <button
+        type="submit"
+        class="js-save-modify-button js-save btn bg-gray-50 text-gray-500 text-sm"
+      >
+        저장
+      </button>
+    </div>  
+  </form>`;
+}
+
+export { stationItemTemplate, stationListTemplate, modifyStationTemplate };
