@@ -1,0 +1,73 @@
+import { $ } from '../../utils/DOM.js';
+import user from '../../models/user.js';
+import StationsView from './StationsView.js';
+
+class StationsController {
+  constructor(router) {
+    this.stationManager = user.stationManager;
+    this.stationsView = new StationsView();
+    this.router = router;
+  }
+
+  async init() {
+    await this.stationsView.init();
+    this.bindEvents();
+
+    this.stationsView.resetInput($('#stations-form'));
+  }
+
+  async addStationHandler(e) {
+    e.preventDefault();
+
+    try {
+      const stationName = e.target.elements['station-name'].value;
+      const newStation = await this.stationManager.addStation(stationName);
+
+      this.stationsView.appendNewStation(newStation);
+      this.stationsView.resetInput(e.target);
+    } catch (error) {
+      alert('지하철 역 추가에 실패하였습니다.');
+      console.error('fail fetch');
+    }
+  }
+
+  updateStationHandler(e) {
+    // TODO : early return 이 필요한 부분인가?
+    if (!e.target.classList.contains('btn')) return;
+
+    if (e.target.classList.contains('js-modify-button')) {
+      this.stationsView.renderModifyForm(e);
+    }
+
+    //수정 완료
+    if (e.target.classList.contains('js-save-modify-button')) {
+      const { stationId } = e.target.closest('li').dataset;
+      const newStationName = e.target.closest('form').elements[
+        'new-station-name'
+      ].value;
+
+      this.stationManager.modifyStation(Number(stationId), newStationName);
+      this.stationsView.renderModifyResult(e, stationId, newStationName);
+    }
+
+    // 삭제
+    if (e.target.classList.contains('js-delete-button')) {
+      const targetStationId = e.target.closest('li').dataset.stationId;
+      this.stationManager.deleteStation(targetStationId);
+      this.stationsView.deleteResult(e);
+    }
+  }
+
+  bindEvents() {
+    $('#stations-form').addEventListener(
+      'submit',
+      this.addStationHandler.bind(this)
+    );
+    $('#station-list').addEventListener(
+      'click',
+      this.updateStationHandler.bind(this)
+    );
+  }
+}
+
+export default StationsController;
