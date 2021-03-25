@@ -45,8 +45,8 @@ const MODAL_COMPONENT = `
   <header>
     <h2 class="text-center">🚉 역 이름 수정</h2>
   </header>
-  <form>
-    <div class="input-control">
+  <form class="d-flex items-center">
+    <div class="input-control w-100 mr-3">
       <label for="subway-line-name" class="input-label" hidden
         >노선 이름</label
       >
@@ -59,7 +59,7 @@ const MODAL_COMPONENT = `
         required
       />
     </div>
-    <div class="d-flex justify-end mt-3">
+    <div>
       <button
         type="submit"
         name="submit"
