@@ -8,6 +8,13 @@ const PATH = {
   STATIONS: "/stations",
 };
 
+const STATUS = {
+  EMAIL: {
+    VALID: 200,
+    DUPLICATED: 422,
+  },
+};
+
 const request = {
   endPoint: "https://www.boorownie.com",
   headers: {
@@ -55,7 +62,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
     });
 
     // 사용 가능한 이메일
-    if (response.status === 200) {
+    if (response.status === STATUS.EMAIL.VALID) {
       return {
         isSucceeded: true,
         message: SUCCESS_MESSAGE.VALID_EMAIL,
@@ -63,7 +70,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
     }
 
     // 중복된 이메일
-    if (response.status === 422) {
+    if (response.status === STATUS.EMAIL.DUPLICATED) {
       return {
         isSucceeded: false,
         message: ERROR_MESSAGE.DUPLICATED_EMAIL,
