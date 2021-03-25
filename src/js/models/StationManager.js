@@ -2,6 +2,7 @@ import {
   fetchAddStation,
   fetchAllStations,
   fetchDeleteStation,
+  fetchModifyStation,
 } from '../API/stations.js';
 
 class StationManager {
@@ -30,9 +31,13 @@ class StationManager {
     return resFlag;
   }
 
-  modifyStation(id, name) {
-    // TODO: fetch
-    this.stations[id] = { id, name };
+  async modifyStation(id, name) {
+    const resFlag = await fetchModifyStation(id, name);
+    if (resFlag) {
+      this.stations[id] = { id, name };
+    }
+
+    return resFlag;
   }
 
   async getAllStations() {

@@ -68,4 +68,32 @@ async function fetchDeleteStation(id) {
   }
 }
 
-export { fetchAddStation, fetchAllStations, fetchDeleteStation };
+async function fetchModifyStation(id, name) {
+  const requestData = {
+    method: HTTP.METHOD.PUT,
+    body: JSON.stringify({ name }),
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/stations/${id}`, requestData);
+    if (!response.ok) {
+      throw new Error('역 수정에 실패했습니다.');
+    }
+
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export {
+  fetchAddStation,
+  fetchAllStations,
+  fetchDeleteStation,
+  fetchModifyStation,
+};

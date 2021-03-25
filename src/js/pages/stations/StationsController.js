@@ -39,18 +39,27 @@ class StationsController {
       this.stationsView.renderModifyForm(e);
     }
 
-    //수정 완료
     if (e.target.classList.contains('js-save-modify-button')) {
+      e.preventDefault();
+
       const { stationId } = e.target.closest('li').dataset;
       const newStationName = e.target.closest('form').elements[
         'new-station-name'
       ].value;
 
-      this.stationManager.modifyStation(Number(stationId), newStationName);
+      const resFlag = await this.stationManager.modifyStation(
+        Number(stationId),
+        newStationName
+      );
+
+      if (!resFlag) {
+        alert('역 수정에 실패했습니다.');
+        return;
+      }
+
       this.stationsView.renderModifyResult(e, stationId, newStationName);
     }
 
-    // 삭제
     if (e.target.classList.contains('js-delete-button')) {
       const targetStationId = e.target.closest('li').dataset.stationId;
       const resFlag = await this.stationManager.deleteStation(targetStationId);
