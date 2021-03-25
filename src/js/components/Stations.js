@@ -6,17 +6,19 @@ import {
   STATION_NAME_MAX_LENGTH,
 } from "../constants/general.js";
 
-import { $ } from "../utils/DOM.js";
+import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import { getStationsAPI } from "../APIs/subwayAPI.js";
+import { addStationAPI, getStationsAPI } from "../APIs/subwayAPI.js";
+import snackbar from "../utils/snackbar.js";
+import { ERROR_MESSAGE } from "../constants/messages.js";
 
 const createStationListItem = (station) => {
   return `
     <li
       data-station-id="${station.id}"
-      class="station-list-item d-flex items-center py-3 border-b-gray"
+      class="station-list-item d-flex items-center"
       >
-      <span class="w-100 pl-2">${station.name}</span>
+      <span class="js-station-name w-100 pl-2">${station.name}</span>
       <button
         type="button"
         class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
@@ -57,7 +59,7 @@ export default class Stations extends Component {
             <input
               type="text"
               id="station-name"
-              name="stationName"
+              name="station-name"
               class="js-station-name input-field"
               placeholder="역 이름"
               minlength="${STATION_NAME_MIN_LENGTH}"
@@ -78,6 +80,52 @@ export default class Stations extends Component {
     `;
 
     super.initContent(template);
+    this.attachEvents();
+  }
+
+  attachEvents() {
+    $("form", this.innerElement).addEventListener(
+      "submit",
+      this.onAddStation.bind(this)
+    );
+  }
+
+  async onAddStation(event) {
+    event.preventDefault();
+
+    const { target } = event;
+    const $stationList = $(".js-station-list", this.innerElement);
+    const stationName = target.elements["station-name"].value;
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const { isSucceeded, station, message } = await addStationAPI(
+      stationName,
+      accessToken
+    );
+
+    if (isSucceeded) {
+      $stationList.insertAdjacentHTML(
+        "beforeend",
+        createStationListItem(station)
+      );
+      target.reset();
+      this.render();
+      target.elements["station-name"].focus();
+
+      return;
+    }
+
+    snackbar.show(message);
+    if (message === ERROR_MESSAGE.DUPLICATED_STATION) {
+      const $duplicatedStation = Array.from($$("li", $stationList)).find(
+        ($li) => $(".js-station-name", $li).textContent === stationName
+      );
+
+      $duplicatedStation.classList.add("blink-red");
+
+      setTimeout(() => {
+        $duplicatedStation.classList.remove("blink-red");
+      }, 2000);
+    }
   }
 
   async loadPage() {
