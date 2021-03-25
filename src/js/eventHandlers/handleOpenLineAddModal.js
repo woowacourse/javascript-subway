@@ -2,14 +2,16 @@ import store from '../store';
 import { $ } from '../utils/dom';
 import { colorOptions } from '../utils/mock';
 import { openModal } from '../utils/modal';
-import { initDepartureStationSelect, updateLineColorDot } from '../viewController/lineAddModal';
+import { initDepartureStationSelect, updateLineColorDot } from '../viewController/lines';
 
 const handleOpenLineAddModal = () => {
-  openModal($('#line-add-modal'));
-  $('#subway-line-name').focus();
+  const $lineAddModal = $('#line-add-modal');
+
+  openModal($lineAddModal);
+  $lineAddModal.querySelector('#subway-line-name').focus();
 
   const randomNumber = Math.floor(Math.random() * colorOptions.length);
-  updateLineColorDot(`bg-${colorOptions[randomNumber]}`);
+  updateLineColorDot($lineAddModal, `bg-${colorOptions[randomNumber]}`);
 
   initDepartureStationSelect(store.station.get());
 };

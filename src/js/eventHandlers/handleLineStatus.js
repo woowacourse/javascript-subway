@@ -1,6 +1,9 @@
 import { requestDeleteLine } from '../services/line';
 import { LINE } from '../constants/alertMessage';
 import store from '../store';
+import { openModal } from '../utils/modal';
+import { $ } from '../utils/dom';
+import { updateLineEditModal } from '../viewController/lines';
 
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;
@@ -25,15 +28,16 @@ export const handleLineStatus = async ({ target }) => {
     return;
   }
 
-  // if (target.classList.contains('js-station-edit-button')) {
-  //   const { dataset } = target.closest('.station-list-item');
+  if (target.classList.contains('js-line-edit-button')) {
+    const { dataset } = target.closest('.line-list-item');
 
-  //   updateStationNameEditModal(dataset);
-  //   openModal($('#station-name-edit-modal'));
-  //   $('#station-edit-name').focus();
+    updateLineEditModal(dataset);
+    console.log(dataset);
+    openModal($('#line-edit-modal'));
+    // $('#line-edit-modal #ㄴ-edit-name').focus();
 
-  //   return;
-  // }
+    return;
+  }
 };
 
 export default handleLineStatus;

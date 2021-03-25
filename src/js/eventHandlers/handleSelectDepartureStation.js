@@ -1,6 +1,6 @@
 import store from '../store';
 import { $ } from '../utils/dom';
-import { initArrivalStationSelect } from '../viewController/lineAddModal';
+import { initArrivalStationSelect } from '../viewController/lines';
 
 const handleSelectDepartureStation = event => {
   const departureStationId = event.target.value;

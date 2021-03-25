@@ -3,7 +3,7 @@ import { STATION } from '../constants/alertMessage';
 import { requestAddStation } from '../services/station';
 import store from '../store';
 import { isInRange } from '../utils/validation';
-import { addStationListItem } from '../viewController/stationList';
+import { addStationListItem } from '../viewController/stations';
 
 const validateInput = value => {
   if (!isInRange(value.length, { min: STATION_NAME.MIN_LENGTH, max: STATION_NAME.MAX_LENGTH })) {
