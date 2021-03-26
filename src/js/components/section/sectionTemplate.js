@@ -62,10 +62,7 @@ export const modalTemplate = () => {
     </div>
     <div class="d-flex items-center input-control">
       <select>
-        <option value="" selected disabled hidden>이전역</option>
-        <option>사당</option>
-        <option>방배</option>
-        <option>서초</option>
+        <option value="" selected disabled hidden>추가할 구간을 선택해 주세요</option>
       </select>
       <div class="d-inline-block mx-3 text-2xl">➡️</div>
       <select>
