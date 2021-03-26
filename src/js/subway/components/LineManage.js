@@ -1,5 +1,6 @@
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { selectorOption } from '../../@shared/views';
 import { MESSAGE, MODAL_TYPE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { hideModal, isValidName, lineManageAPI, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements } from '../views';
@@ -27,10 +28,10 @@ export class LineManage {
       const stations = await stationManageAPI.getStations(accessToken);
 
       this.$$lineModal.$upStationSelector.innerHTML = stations
-        .map(station => `<option data-id="${station.id}">${station.name}</option>>`)
+        .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
       this.$$lineModal.$downStationSelector.innerHTML = stations
-        .map(station => `<option data-id="${station.id}">${station.name}</option>>`)
+        .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
     } catch (error) {
       console.error(error.message);

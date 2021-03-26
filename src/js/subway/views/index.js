@@ -8,7 +8,7 @@ import { sectionManage } from './templates/sectionManage';
 import { ROUTE } from '../constants/constants';
 import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
-import { lineModal } from './templates/lineModal';
+import { lineModal } from './templates/lineAddModify';
 
 export { stationInfo, stationList } from './templates/stationManage';
 export { lineInfo, lineList } from './templates/lineManage';
