@@ -1,6 +1,6 @@
 import { PAGE_TITLE } from '../../constants.js';
-import { sectionsTemplate, modalTemplate } from './sectionsTemplate.js';
-class Sections {
+import { sectionsTemplate, modalTemplate } from './sectionTemplate.js';
+class Section {
   constructor() {}
 
   init() {}
@@ -18,4 +18,4 @@ class Sections {
   initDOM() {}
 }
 
-export default Sections;
+export default Section;

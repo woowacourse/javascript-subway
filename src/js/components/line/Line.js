@@ -1,9 +1,9 @@
-import { linesTemplate, modalTemplate } from './linesTemplate.js';
+import { linesTemplate, modalTemplate } from './lineTemplate.js';
 import { colorOptions } from '/src/js/utils/mock.js';
 import { PAGE_TITLE } from '../../constants.js';
 import { $ } from '../../utils/dom.js';
 
-class Lines {
+class Line {
   init() {}
 
   getPageInfo() {
@@ -36,4 +36,4 @@ class Lines {
   }
 }
 
-export default Lines;
+export default Line;
