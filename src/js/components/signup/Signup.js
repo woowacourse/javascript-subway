@@ -72,9 +72,7 @@ class SignUp {
 
   _bindSubmitEvent() {
     this.$signUpForm.addEventListener('submit', e => {
-      e.preventDefault();
-
-      this._handleSignup(e.target.elements);
+      this._handleSignup(e);
     });
   }
 
@@ -115,9 +113,10 @@ class SignUp {
     );
   }
 
-  _handleSignup(elements) {
-    const formData = getFormData(elements);
+  _handleSignup(e) {
+    e.preventDefault();
 
+    const formData = getFormData(e.target.elements);
     this._requestSignup(formData);
   }
 
