@@ -1,11 +1,7 @@
 import _ from '/src/css/index.css';
 import routeTo from './router.js';
 import Store from './store.js';
-import {
-  userInfoRequest,
-  stationListRequest,
-  lineListRequest,
-} from './request.js';
+import { userInfoRequest, stationListRequest, lineListRequest } from './request.js';
 import { getCookie } from './utils/cookie.js';
 import getAvailablePath from './utils/path.js';
 import popSnackbar from './utils/snackbar.js';
@@ -96,11 +92,8 @@ export default class App {
 
     try {
       const stationListResponse = await stationListRequest(accessToken);
-      const sortedStations = stationListResponse.sort(
-        (a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate)
-      );
 
-      const stations = sortedStations.map((station) => new Station(station));
+      const stations = stationListResponse.map((station) => new Station(station));
 
       this.store.stations = stations;
 

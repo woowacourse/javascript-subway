@@ -123,3 +123,8 @@
 .content-evenly {
   align-content: space-around;
 }
+
+/* Align Self */
+.self-start {
+  align-self: flex-start;
+}

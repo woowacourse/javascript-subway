@@ -1,6 +1,6 @@
 import { HOST } from './constants/constants.js';
 
-export const postRequest = async (url, data, token = '') => {
+const postRequest = async (url, data, token = '') => {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -17,13 +17,44 @@ export const postRequest = async (url, data, token = '') => {
   return response;
 };
 
-export const getRequest = async (url, token = '') => {
+const getRequest = async (url, token = '') => {
   const response = await fetch(url, {
     method: 'GET',
+    headers: {
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
+const deleteRequest = async (url, token = '') => {
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
+const putRequest = async (url, data, token = '') => {
+  const response = await fetch(url, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: token ? `Bearer ${token}` : '',
     },
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {
@@ -80,4 +111,18 @@ export const addStationRequest = async (data, token) => {
   const response = await postRequest(url, data, token);
 
   return response.json();
+};
+
+export const deleteStationRequest = async (id, token) => {
+  const url = `${HOST}/stations/${id}`;
+  const response = await deleteRequest(url, token);
+
+  return response;
+};
+
+export const editStationRequest = async (id, name, token) => {
+  const url = `${HOST}/stations/${id}`;
+  const response = await putRequest(url, { name }, token);
+
+  return response;
 };

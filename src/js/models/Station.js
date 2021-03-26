@@ -14,9 +14,21 @@ export default class Station {
     return this._name;
   }
 
+  set name(name) {
+    this._name = name;
+  }
+
+  get modifiedDate() {
+    return this._modifiedDate;
+  }
+
+  set modifiedDate(date) {
+    this._modifiedDate = date;
+  }
+
   toListItemTemplate() {
     return `
-      <li data-station="${this._id}" class="station-list-item d-flex items-center py-2">
+      <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-2">
         <span class="station-item-name w-100 pl-2">${this._name}</span>
         <button
           type="button"
@@ -34,6 +46,6 @@ export default class Station {
         </button>
       </li>
       <hr class="my-0" />
-  `;
+    `;
   }
 }
