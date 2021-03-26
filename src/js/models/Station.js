@@ -14,6 +14,18 @@ export default class Station {
     return this._name;
   }
 
+  set name(name) {
+    this._name = name;
+  }
+
+  get modifiedDate() {
+    return this._modifiedDate;
+  }
+
+  set modifiedDate(date) {
+    this._modifiedDate = date;
+  }
+
   toListItemTemplate() {
     return `
       <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-2">
