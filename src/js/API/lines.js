@@ -28,4 +28,22 @@ async function fetchAddLine(newLineInfo) {
   }
 }
 
-export { fetchAddLine };
+async function fetchAllLines() {
+  const requestData = {
+    method: HTTP.METHOD.GET,
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/lines`, requestData);
+    const lines = await response.json();
+
+    return lines;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { fetchAddLine, fetchAllLines };

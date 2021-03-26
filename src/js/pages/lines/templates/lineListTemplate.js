@@ -20,7 +20,9 @@ function lineItemTemplate({ id, name, color }) {
 
 function lineListTemplate(lines) {
   return Object.values(lines)
-    .map(line => lineItemTemplate({ id: line.id, name: line.name }))
+    .map(line =>
+      lineItemTemplate({ id: line.id, name: line.name, color: line.color })
+    )
     .join('');
 }
 
