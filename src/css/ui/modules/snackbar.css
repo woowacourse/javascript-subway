@@ -14,7 +14,7 @@
 }
 
 .snackbar.show {
-  visibility: visible !important; /* Show the snackbar */
+  visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 1.7s;
   animation: fadein 0.5s, fadeout 0.5s 1.7s;
 }
