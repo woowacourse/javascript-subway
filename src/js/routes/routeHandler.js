@@ -22,9 +22,10 @@ import handleEditStation from '../eventHandlers/handleEditStation';
 import handleAddLine from '../eventHandlers/handleAddLine';
 import handleSelectColor from '../eventHandlers/handleSelectColor';
 import handleOpenLineAddModal from '../eventHandlers/handleOpenLineAddModal';
-import handleSelectDepartureStation from '../eventHandlers/handleSelectDepartureStation';
+import handleSelectUpStationLineAddModal from '../eventHandlers/handleSelectUpStationLineAddModal';
 import handleLineStatus from '../eventHandlers/handleLineStatus';
 import store from '../store';
+import handleEditLine from '../eventHandlers/handleEditLine';
 
 const $routeContainer = $('#route-container');
 
@@ -84,11 +85,14 @@ export const mountLines = () => {
 
   $('#create-line-button').addEventListener('mousedown', handleOpenLineAddModal);
   $('#line-add-form').addEventListener('submit', handleAddLine);
-  $('.subway-line-color-selector').addEventListener('click', handleSelectColor);
-  $('#departure-station').addEventListener('change', handleSelectDepartureStation);
+  $('#line-edit-form').addEventListener('submit', handleEditLine);
+  $('#line-add-form .subway-line-color-selector').addEventListener('click', handleSelectColor);
+  $('#line-edit-form .subway-line-color-selector').addEventListener('click', handleSelectColor);
+  $('#line-add-form #up-station').addEventListener('change', handleSelectUpStationLineAddModal);
   $('.js-line-list').addEventListener('click', handleLineStatus);
 
   modalCloseEventInit('#line-add-modal');
+  modalCloseEventInit('#line-edit-modal');
 };
 
 export const mountError = () => {

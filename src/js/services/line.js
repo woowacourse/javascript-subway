@@ -55,3 +55,20 @@ export const requestDeleteLine = async id => {
     };
   }
 };
+
+export const requestEditLine = async (id, body) => {
+  try {
+    const response = await httpClient.put(`/lines/${id}`, body);
+
+    if (!response.ok) throw new Error();
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: LINE.EDIT_LINE_FAILED,
+    };
+  }
+};

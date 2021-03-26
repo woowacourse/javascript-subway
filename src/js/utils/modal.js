@@ -13,5 +13,5 @@ export const modalCloseEventInit = selector => {
     if (currentTarget === target) closeModal(target);
   });
 
-  $(`${selector} .modal-close`).addEventListener('click', () => closeModal($('.modal')));
+  $(`${selector} .modal-close`).addEventListener('click', () => closeModal($('.modal.open')));
 };

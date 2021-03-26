@@ -8,11 +8,6 @@ export const STATION_AMOUNT = Object.freeze({
 });
 
 export const LINE_FORM_LABEL = Object.freeze({
-  DEPARTURE_STATION: '출발역',
-  ARRIVAL_STATION: '종착역',
-});
-
-export const MODAL_TYPE = Object.freeze({
-  ADD: 'MODAL_TYPE/ADD',
-  EDIT: 'MODAL_TYPE/EDIT',
+  UP_STATION: '상행역',
+  DOWN_STATION: '하행역',
 });

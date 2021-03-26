@@ -77,6 +77,7 @@ button:disabled {
   padding-left: 40px;
 }
 
-#line-add-form .subway-line-color-dot {
+#line-add-form .subway-line-color-dot,
+#line-edit-form .subway-line-color-dot {
   left: 15px;
 }

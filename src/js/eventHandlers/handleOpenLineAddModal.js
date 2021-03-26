@@ -2,7 +2,7 @@ import store from '../store';
 import { $ } from '../utils/dom';
 import { colorOptions } from '../utils/mock';
 import { openModal } from '../utils/modal';
-import { initDepartureStationSelect, updateLineColorDot } from '../viewController/lines';
+import { initUpStationSelect, updateLineColorDot } from '../viewController/lines';
 
 const handleOpenLineAddModal = () => {
   const $lineAddModal = $('#line-add-modal');
@@ -13,7 +13,7 @@ const handleOpenLineAddModal = () => {
   const randomNumber = Math.floor(Math.random() * colorOptions.length);
   updateLineColorDot($lineAddModal, `bg-${colorOptions[randomNumber]}`);
 
-  initDepartureStationSelect(store.station.get());
+  initUpStationSelect(store.station.get());
 };
 
 export default handleOpenLineAddModal;
