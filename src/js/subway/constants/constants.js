@@ -21,6 +21,11 @@ export const MODAL_TYPE = {
   LINE_MODIFY: 'line-modify',
 };
 
+export const SUBMIT_TYPE = {
+  ADD: 'add',
+  MODIFY: 'modify',
+};
+
 export const NAME_LENGTH = {
   USER_MIN: 2,
   USER_MAX: 20,
@@ -68,6 +73,7 @@ export const MESSAGE = {
   },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',
+    SIGNOUT: '정말로 로그아웃하시겠습니까?',
   },
   ROOT_GREETING: name => `${name}님, 안녕하세요! 이번에 리뷰를 받게된 도비, 카일입니다. 😀`,
   RETRY: '일시적인 에러가 발생했습니다. 다시 시도해주세요.',
@@ -84,3 +90,6 @@ export const BASE_URL = 'https://www.boorownie.com';
 export const SESSION_KEY = {
   ACCESS_TOKEN: 'ATK',
 };
+
+export const UP_STATION = '상행선';
+export const DOWN_STATION = '하행선';

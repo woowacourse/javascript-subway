@@ -3,9 +3,8 @@ import { $ } from '../@shared/utils';
 import { stateManager } from '../@shared/models/StateManager';
 import { linkButton } from '../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
-import { StationManage, UserAuth, UserJoin } from './components';
+import { StationManage, LineManage, UserAuth, UserJoin } from './components';
 import { hideModal } from './utils';
-import { LineManage } from './components/LineManage';
 
 export class Subway {
   constructor() {

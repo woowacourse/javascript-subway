@@ -44,7 +44,7 @@ export class UserAuth {
       const userName = await userAuthAPI.getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
-      clearInput(this.$$input.$email, this.$$input.$password);
+      this.$signInForm.reset();
       this.$failMessage.classList.add('hidden');
       stateManager[STATE_KEY.SIGNED_USER].set(userName);
       routeTo(ROUTE.ROOT);

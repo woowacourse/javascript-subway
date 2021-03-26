@@ -52,7 +52,7 @@ export const lineModal = `
         id="distance"
         name="distance"
         class="input-field mr-2"
-        placeholder="상행 하행역 거리"
+        placeholder="상행 하행역 거리 (km)"
         required
       />
       <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
@@ -61,7 +61,7 @@ export const lineModal = `
         id="duration"
         name="arrival"
         class="input-field"
-        placeholder="상행 하행역 시간"
+        placeholder="상행 하행역 시간 (분)"
         required
       />
     </div>

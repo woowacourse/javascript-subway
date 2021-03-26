@@ -1,6 +1,5 @@
 import { stateManager } from '../../@shared/models/StateManager';
-import { removeFromSessionStorage } from '../../@shared/utils';
-import { ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, ROUTE, STATE_KEY } from '../constants/constants';
 
 export const getRedirectedPath = pathName => {
   const signedUser = stateManager[STATE_KEY.SIGNED_USER].get();
@@ -20,8 +19,12 @@ export const getRedirectedPath = pathName => {
 };
 
 export const routeTo = pathName => {
-  if (pathName === ROUTE.SIGNOUT) {
-    stateManager[STATE_KEY.SIGNED_USER].set('');
+  if (
+    pathName === ROUTE.SIGNOUT && //
+    stateManager[STATE_KEY.SIGNED_USER].get() &&
+    confirm(MESSAGE.CONFIRM.SIGNOUT)
+  ) {
+    stateManager[STATE_KEY.SIGNED_USER].set(null);
   }
   pathName = getRedirectedPath(pathName);
   history.pushState({ path: pathName }, null, pathName);

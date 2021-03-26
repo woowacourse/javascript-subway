@@ -23,11 +23,11 @@ export const stationModify = `
     </div>
       <button id="station-modify-button" type="submit" name="submit" class="input-submit bg-cyan-300" disabled>확인</button>
     </div>
-    <dlv
+    <div
       id="modify-fail-message-box"
       class="js-message-box message-box mt-1 text-red mb-1 text-center"
       >
-    </dlv>
+    </div>
   </form>
 </div>
 `;

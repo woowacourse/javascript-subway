@@ -1,7 +1,16 @@
 import { stateManager } from '../../@shared/models/StateManager';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
 import { selectorOption } from '../../@shared/views';
-import { MESSAGE, MODAL_TYPE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import {
+  DOWN_STATION,
+  MESSAGE,
+  NAME_LENGTH,
+  ROUTE,
+  SESSION_KEY,
+  STATE_KEY,
+  SUBMIT_TYPE,
+  UP_STATION,
+} from '../constants/constants';
 import { hideModal, isValidName, lineManageAPI, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements } from '../views';
 import { lineInfo, lineList } from '../views';
@@ -32,7 +41,7 @@ export class LineManage {
       }
 
       this.$$lineModal.$upStationSelector.innerHTML = selectorOption({
-        text: '상행선',
+        text: UP_STATION,
         selected: true,
         disabled: true,
       });
@@ -40,7 +49,7 @@ export class LineManage {
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
       this.$$lineModal.$downStationSelector.innerHTML = selectorOption({
-        text: '하행선',
+        text: DOWN_STATION,
         selected: true,
         disabled: true,
       });
@@ -90,7 +99,7 @@ export class LineManage {
   }
 
   handleAddButton() {
-    this.submitType = 'add';
+    this.submitType = SUBMIT_TYPE.ADD;
     showModal(this.props.$modal);
   }
 
@@ -127,12 +136,12 @@ export class LineManage {
       //   throw
       // }
 
-      if (this.submitType === 'add') {
+      if (this.submitType === SUBMIT_TYPE.ADD) {
         const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
 
         this.$lineList.innerHTML += lineInfo(line);
       }
-      if (this.submitType === 'modify') {
+      if (this.submitType === SUBMIT_TYPE.MODIFY) {
         const lineId = this.$$lineModal.$form.dataset.lineId;
 
         await lineManageAPI.modifyLine(accessToken, lineId, requestLineInfo);
@@ -153,7 +162,7 @@ export class LineManage {
     if (!target.classList.contains('js-modify-button')) return;
     const line = target.closest('.js-line-list-item');
 
-    this.submitType = 'modify';
+    this.submitType = SUBMIT_TYPE.MODIFY;
     this.$$lineModal.$form.dataset.lineId = line.dataset.id;
     this.$$lineModal.$nameInput.value = line.dataset.name;
     this.$$lineModal.$colorInput.value = line.dataset.color;

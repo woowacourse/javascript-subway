@@ -3,7 +3,7 @@ import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { stateManager } from './@shared/models/StateManager';
 import { Subway } from './subway';
-import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
+import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { routeTo, userAuthAPI } from './subway/utils';
 
 class App {
@@ -35,7 +35,7 @@ class App {
 window.addEventListener('popstate', event => {
   const pathName = event.state.path;
 
-  stateManager[STATE_KEY.ROUTE].set(pathName);
+  routeTo(pathName);
 });
 
 window.addEventListener('load', async () => {

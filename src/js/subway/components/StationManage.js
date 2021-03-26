@@ -1,6 +1,6 @@
 import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, $, clearInput } from '../../@shared/utils';
-import { MESSAGE, MODAL_TYPE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
 
@@ -78,7 +78,7 @@ export class StationManage {
       const station = await stationManageAPI.addStation(accessToken, this.$$stationAdd.$input);
 
       this.$stationList.innerHTML += stationInfo(station);
-      clearInput(this.$$stationAdd.$input);
+      this.$$stationAdd.$form.reset();
       this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
@@ -112,7 +112,7 @@ export class StationManage {
     try {
       await stationManageAPI.modifyStation(accessToken, stationInfo);
 
-      clearInput(this.$$stationModify.$input);
+      this.$$stationModify.$form.reset();
       $stationName.innerText = stationInfo.name;
       hideModal(this.props.$modal);
       this.props.cache.stations = [];

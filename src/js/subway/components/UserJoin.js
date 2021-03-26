@@ -55,7 +55,7 @@ export class UserJoin {
 
     try {
       await userJoinAPI.signUp(this.$$input);
-      clearInput(...Object.values(this.$$input));
+      this.$signUpForm.reset();
       routeTo(ROUTE.SIGNIN);
     } catch (error) {
       console.error(error.message);
