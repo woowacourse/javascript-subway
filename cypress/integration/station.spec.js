@@ -7,10 +7,10 @@ describe('지하철 노선도 역 관리 기능 테스트', () => {
     cy.get('#navigation-stations-button').click();
   });
 
-  const name = Date.now();
+  const stationName = '테스트역';
 
-  it('지하철 노선이 정상적으로 등록되는지 확인한다.', () => {
-    cy.get('#station-name-input').type(`${name}{enter}`);
+  it('지하철 역이 정상적으로 등록되는지 확인한다.', () => {
+    cy.get('#station-name-input').type(`${stationName}{enter}`);
     cy.get('.station-name').eq(-1).should('have.text', name);
   });
 
@@ -18,17 +18,17 @@ describe('지하철 노선도 역 관리 기능 테스트', () => {
     cy.get('.station-list-item')
       .its('length')
       .then((len) => {
-        cy.get('#station-name-input').type(`${name}{enter}`);
+        cy.get('#station-name-input').type(`${stationName}{enter}`);
         cy.get('.station-list-item').its('length').should('eq', len);
       });
   });
 
   it('등록된 지하철 역을 수정할 수 있는지 확인한다.', () => {
-    const editName = Date.now();
+    const editStationName = '테스터역-수정';
 
     cy.get('.station-edit-button').eq(-1).click();
-    cy.get('#station-edit-name-input').type(`${editName}{enter}`);
-    cy.get('.station-name').eq(-1).should('have.text', editName);
+    cy.get('#station-edit-name-input').type(`${editStationName}{enter}`);
+    cy.get('.station-name').eq(-1).should('have.text', editStationName);
   });
 
   it('등록된 지하철 역을 삭제할 수 있는지 확인한다.', () => {
