@@ -5,11 +5,7 @@ import {
   SUCCESS_MESSAGE,
 } from '../../constants';
 import { request } from '../../utils/api';
-import {
-  isEmptyString,
-  isDifferent,
-  isWrongEmailFormat,
-} from '../../utils/validation';
+import { isEmptyString, isWrongEmailFormat } from '../../utils/validation';
 
 export const checkNameValid = name => {
   if (isEmptyString(name)) {
@@ -44,7 +40,7 @@ export const checkPasswordConfirmValid = (password, passwordConfirm) => {
   if (isEmptyString(passwordConfirm)) {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD_CONFIRM };
   }
-  if (isDifferent(password, passwordConfirm)) {
+  if (password !== passwordConfirm) {
     return { isValid: false, message: ERROR_MESSAGE.DIFFERENT_PASSWORD };
   }
 
