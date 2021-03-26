@@ -27,7 +27,11 @@ export default class Store {
   }
 
   get stations() {
-    return this._state.stations;
+    const sortedStations = this._state.stations.sort(
+      (a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate)
+    );
+
+    return sortedStations;
   }
 
   set stations(stations) {

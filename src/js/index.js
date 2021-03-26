@@ -96,11 +96,10 @@ export default class App {
 
     try {
       const stationListResponse = await stationListRequest(accessToken);
-      const sortedStations = stationListResponse.sort(
-        (a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate)
-      );
 
-      const stations = sortedStations.map((station) => new Station(station));
+      const stations = stationListResponse.map(
+        (station) => new Station(station)
+      );
 
       this.store.stations = stations;
 
