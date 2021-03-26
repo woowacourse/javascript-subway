@@ -120,6 +120,14 @@
   color: white;
 }
 
+.text-red {
+  color: red;
+}
+
+.text-green {
+  color: green;
+}
+
 .text-gray-50 {
   color: rgb(249, 250, 251);
 }
