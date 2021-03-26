@@ -4,6 +4,7 @@ import {
   TOKEN_STORAGE_KEY,
   STATION_NAME_MIN_LENGTH,
   STATION_NAME_MAX_LENGTH,
+  STATION_LIST_ITEM_BORDER_HEIGHT,
 } from "../constants/general.js";
 
 import { $, $$ } from "../utils/DOM.js";
@@ -116,14 +117,20 @@ export default class Stations extends Component {
 
     snackbar.show(message);
     if (message === ERROR_MESSAGE.DUPLICATED_STATION) {
-      const $duplicatedStation = Array.from($$("li", $stationList)).find(
+      const $stationListItems = $$("li", $stationList);
+      const duplicatedStationIndex = Array.from($stationListItems).findIndex(
         ($li) => $(".js-station-name", $li).textContent === stationName
       );
 
-      $duplicatedStation.classList.add("blink-red");
+      $stationList.scrollTo(
+        0,
+        ($stationListItems[0].clientHeight + STATION_LIST_ITEM_BORDER_HEIGHT) *
+          duplicatedStationIndex
+      );
+      $stationListItems[duplicatedStationIndex].classList.add("blink-red");
 
       setTimeout(() => {
-        $duplicatedStation.classList.remove("blink-red");
+        $stationListItems[duplicatedStationIndex].classList.remove("blink-red");
       }, 2000);
     }
   }
