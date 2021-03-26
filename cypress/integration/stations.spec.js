@@ -46,9 +46,7 @@ describe('지하철 역 관리 테스트', () => {
         cy.get('#station-name').type(name);
         cy.get('#station-name-submit').click();
 
-        cy.get('#station-duplicated-warning')
-          .should('be.visible')
-          .and('have.text', '지하철 역이 이미 존재합니다.');
+        cy.get('#station-duplicated-warning').should('be.visible').and('have.text', '지하철 역이 이미 존재합니다.');
       });
   });
 
@@ -57,9 +55,7 @@ describe('지하철 역 관리 테스트', () => {
     const targetStationName = '두강';
 
     cy.intercept('DELETE', `${requestURL}/stations`).as('deleteStation');
-
     cy.on('window:confirm', confirmStub);
-
     cy.get('.station-item-name').contains(targetStationName).should('exist');
 
     cy.get('.station-item-name')
@@ -70,21 +66,49 @@ describe('지하철 역 관리 테스트', () => {
           .find('[data-action="delete"]')
           .click()
           .then(() => {
-            expect(confirmStub.getCall(0)).to.be.calledWith(
-              `${targetStationName}역을 삭제하시겠습니까?`
-            );
+            expect(confirmStub.getCall(0)).to.be.calledWith(`${targetStationName}역을 삭제하시겠습니까?`);
           });
       });
 
     cy.wait('@deleteStation');
+    cy.get('.station-item-name').contains(targetStationName).should('not.exist');
+    cy.get('.snackbar').should('have.text', `${targetStationName}역이 삭제되었습니다.`);
+  });
+
+  it.only('지하철역의 이름을 수정할 수 있다.', () => {
+    cy.intercept('PUT', `${requestURL}/stations`).as('editStation');
 
     cy.get('.station-item-name')
-      .contains(targetStationName)
-      .should('not.exist');
+      .eq(0)
+      .then((item) => {
+        cy.wrap(item)
+          .siblings('[data-action="edit"]')
+          .click()
+          .then(() => {
+            cy.get('.modal').should('be.visible');
+            cy.get('#station-name-edit').type('어쩌지');
+            cy.get('#modal-station-edit').click();
+            cy.wait('@editStation');
+            cy.get('.modal').should('not.be.visible');
+          });
+      });
 
-    cy.get('.snackbar').should(
-      'have.text',
-      `${targetStationName}역이 삭제되었습니다.`
-    );
+    cy.get('.station-item-name').eq(0).should('have.text', '어쩌지');
+  });
+
+  it('지하철역 이름 수정 시, 동일한 역 이름이 존재하면 경고 메시지를 띄운다.', () => {
+    cy.get('.station-item-name')
+      .eq(0)
+      .then((item) => {
+        cy.wrap(item)
+          .siblings('[data-action="edit"]')
+          .click()
+          .then(() => {
+            cy.get('.modal').should('be.visible');
+            cy.get('#station-name-edit').type('뷁뷁');
+            cy.get('#modal-station-edit').click();
+            cy.get('#station-edit-duplicated-warning').should('be.visible');
+          });
+      });
   });
 });
