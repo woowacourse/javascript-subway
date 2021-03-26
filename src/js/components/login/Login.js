@@ -58,14 +58,14 @@ class Login {
 
   _bindLoginEvent() {
     this.$loginForm.addEventListener('submit', e => {
-      e.preventDefault();
-
-      this._handleLogin(e.target.elements);
+      this._handleLogin(e);
     });
   }
 
-  _handleLogin(elements) {
-    const formData = getFormData(elements);
+  _handleLogin(e) {
+    e.preventDefault();
+
+    const formData = getFormData(e.target.elements);
 
     const errorMessage = checkLoginValid(formData);
     if (errorMessage) {
