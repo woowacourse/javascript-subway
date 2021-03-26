@@ -74,8 +74,26 @@ const modifyLine = async (accessToken, lineId, { name, color, upStationId, downS
   }
 };
 
+const removeLine = async (accessToken, lineId) => {
+  const url = `${BASE_URL}/lines/${lineId}`;
+  const option = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await request(url, option);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const lineManageAPI = {
   getLines,
   addLine,
   modifyLine,
+  removeLine,
 };

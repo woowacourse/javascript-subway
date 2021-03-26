@@ -160,19 +160,18 @@ export class LineManage {
     showModal(this.props.$modal);
   }
 
-  handleRemoveButton({ target }) {
-    // if (!target.classList.contains('js-remove-button')) return;
-    // const $line = target.closest('.js-line-list-item');
-    // const requestLineInfo = {
-    //   id: $line.dataset.lineId,
-    // };
-    // if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
-    // try {
-    //   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    //   // await lineManageAPI.removeStation(accessToken, requestLineInfo);
-    //   // $line.remove();
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
+  async handleRemoveButton({ target }) {
+    if (!target.classList.contains('js-remove-button')) return;
+
+    const $line = target.closest('.js-line-list-item');
+
+    if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
+    try {
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+      await lineManageAPI.removeLine(accessToken, $line.dataset.id);
+      $line.remove();
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }
