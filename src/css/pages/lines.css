@@ -26,3 +26,8 @@
   border: none;
   border-radius: 3px;
 }
+
+#selected-line-color {
+  border: 1px solid gray;
+  height: 100%;
+}
