@@ -1,24 +1,10 @@
 import { goTo } from '../../../router/index.js';
-import { notify } from '../../../utils/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
+import { notify, fetchSignUp } from '../../../utils/index.js';
+import { AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
-const requestSignUp = async (event) => {
-  event.preventDefault();
-
-  const { name: $name, email: $email, password: $password } = event.target.elements;
-
+const requestSignUp = async ({ formData }) => {
   try {
-    const response = await fetch(API_ENDPOINT.SIGN_UP, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({
-        name: $name.value,
-        email: $email.value,
-        password: $password.value,
-      }),
-    });
+    const response = await fetchSignUp(formData);
 
     if (!response.ok) {
       throw new Error(AUTH_MESSAGES.SIGN_UP_HAS_BEEN_FAILED);

@@ -1,7 +1,7 @@
 import { validateName, validateEmail, validatePassword, validateForm } from './validate.js';
 import requestSignUp from './request.js';
 import TEMPLATE from './template.js';
-import { debounce } from '../../../utils/index.js';
+import { debounce, dispatchFormData } from '../../../utils/index.js';
 
 const WAIT_TIME = 1500;
 
@@ -31,5 +31,6 @@ export const renderSignUp = ($parent) => {
   $passwordCheckbox.addEventListener('change', handlePasswordCheckboxChange);
 
   $form.addEventListener('input', validateForm);
-  $form.addEventListener('submit', requestSignUp);
+  $form.addEventListener('submit', dispatchFormData);
+  $form.addEventListener('formdata', requestSignUp);
 };

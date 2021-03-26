@@ -1,5 +1,5 @@
-import { getInputValidator } from '../../../utils/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES } from '../../../constants/index.js';
+import { getInputValidator, fetchEmailValidation } from '../../../utils/index.js';
+import { AUTH_MESSAGES } from '../../../constants/index.js';
 
 export const validateForm = ({ currentTarget }) => {
   const $button = currentTarget.submit;
@@ -33,16 +33,7 @@ async function getEmailValidityMessage($input) {
   }
 
   try {
-    const url = new URL(API_ENDPOINT.EMAIL_VALIDATION);
-    const parameters = new URLSearchParams({ email });
-    url.search = parameters.toString();
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    });
+    const response = await fetchEmailValidation(email);
 
     if (!response.ok) {
       return AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED;
