@@ -1,11 +1,13 @@
 import { $ } from '../utils/dom';
 import { requestAddStation, requestEditStationName, requestRemoveStation } from '../requestData/requestUserData';
 import { validateName } from '../validators/validation';
+import { getStationListTemplate } from '../templates/stations';
+import UserDataManager from '../model/UserDataManager';
 
 class Stations {
   constructor() {
-    this.stations = [];
     this.stationNameInEdit = '';
+    this.userDataManager = new UserDataManager();
   }
 
   init() {
@@ -51,7 +53,8 @@ class Stations {
     try {
       validateName(stationName);
       const stationData = await requestAddStation({ name: stationName });
-      this.setStation(stationData);
+      this.userDataManager.setStation(stationData);
+      this.renderStationList(stationData.name);
       target['station-name'].value = '';
     } catch (error) {
       alert(error.message);
@@ -75,8 +78,11 @@ class Stations {
 
     try {
       validateName(newStationName);
-      await requestEditStationName({ id: this.getStationId(this.stationNameInEdit), name: newStationName });
-      this.stations.find((station) => station.name === this.stationNameInEdit).name = newStationName;
+      await requestEditStationName({
+        id: this.userDataManager.getStationId(this.stationNameInEdit),
+        name: newStationName,
+      });
+      this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
 
       $stationListItem.dataset.stationName = newStationName;
       $textNode.innerText = newStationName;
@@ -92,48 +98,16 @@ class Stations {
     const $stationListItem = $(`[data-station-name=${stationName}]`);
 
     try {
-      await requestRemoveStation({ id: this.getStationId(stationName) });
+      await requestRemoveStation({ id: this.userDataManager.getStationId(stationName) });
       $stationListItem.remove();
-      this.stations = this.stations.filter((station) => station.name !== stationName);
+      this.userDataManager.removeStation(stationName);
     } catch (error) {
       alert(error.message);
     }
   }
 
-  setStation(stationData) {
-    this.stations = [stationData, ...this.stations];
-    this.renderStationList(stationData.name);
-  }
-
-  getStationId(stationName) {
-    return this.stations.find((station) => station.name === stationName).id;
-  }
-
   renderStationList(stationName) {
-    this.$stationListWrapper.insertAdjacentHTML('afterbegin', this.getStationListTemplate(stationName));
-  }
-
-  getStationListTemplate(stationName) {
-    return `
-      <li class="station-list-item" data-station-name=${stationName}>
-        <div class="d-flex items-center py-2">
-          <span class="w-100 pl-2">${stationName}</span>
-          <button 
-            type="button"      
-            class="station-list-item__edit-button bg-gray-50 text-gray-500 text-sm mr-1" 
-            >
-              수정
-          </button>
-          <button 
-            type="button" 
-            class="station-list-item__remove-button bg-gray-50 text-gray-500 text-sm" 
-            >
-              삭제
-          </button>
-        </div>
-        <hr class="my-0" />
-      </li>
-    `;
+    this.$stationListWrapper.insertAdjacentHTML('afterbegin', getStationListTemplate(stationName));
   }
 }
 
