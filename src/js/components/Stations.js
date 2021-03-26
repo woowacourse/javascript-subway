@@ -5,6 +5,7 @@ import {
   STATION_NAME_MIN_LENGTH,
   STATION_NAME_MAX_LENGTH,
   STATION_LIST_ITEM_BORDER_HEIGHT,
+  SPACE_REG_EXP,
 } from "../constants/general.js";
 
 import { $, $$ } from "../utils/DOM.js";
@@ -96,7 +97,10 @@ export default class Stations extends Component {
 
     const { target } = event;
     const $stationList = $(".js-station-list", this.innerElement);
-    const stationName = target.elements["station-name"].value;
+    const stationName = target.elements["station-name"].value.replace(
+      SPACE_REG_EXP,
+      ""
+    );
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, station, message } = await addStationAPI(
       stationName,
@@ -133,6 +137,8 @@ export default class Stations extends Component {
         $stationListItems[duplicatedStationIndex].classList.remove("blink-red");
       }, 2000);
     }
+
+    target.elements["station-name"].value = stationName;
   }
 
   async loadPage() {
