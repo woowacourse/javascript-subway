@@ -21,8 +21,7 @@ export default class LineModal extends Observer {
   renderComponent() {
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
-    const isViewMode = this.#state.get(STATE_KEY.IS_ITEM_VIEW_MODE);
-    console.log(isViewMode);
+    const isViewMode = this.#state.get(STATE_KEY.IS_LINE_ITEM_VIEW_MODE);
     $(this.#parentSelector).innerHTML = this.#getModalTemplate(targetLine, isViewMode);
     if (!isViewMode) {
       $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions

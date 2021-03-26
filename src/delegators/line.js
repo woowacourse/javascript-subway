@@ -11,7 +11,7 @@ export function delegateLineClickEvent(event) {
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_MODAL_OPEN)) {
-    onLineItemRegister(target);
+    onLineModalOpen();
     openModal();
   }
 
@@ -45,17 +45,17 @@ function onLineItemDelete(target) {
     });
 }
 
-function onLineItemRegister(target) {
+function onLineModalOpen() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
-  state.update(STATE_KEY.IS_ITEM_VIEW_MODE, false);
+  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, false);
 }
 
 function onLineItemEdit(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
-  state.update(STATE_KEY.IS_ITEM_VIEW_MODE, false);
+  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, false);
 }
 
 function onLineListItemClick(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
-  state.update(STATE_KEY.IS_ITEM_VIEW_MODE, true);
+  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, true);
 }

@@ -5,12 +5,14 @@ export const SELECTOR_ID = Object.freeze({
   STATION_LIST: 'station-list',
   STATION_FORM: 'station-form',
   LINE_LIST: 'line-list',
-  SECTION_LIST: 'section-list',
+  SECTION_STATION_LIST: 'section-station-list',
+  SECTION_MODAL_OPEN: 'section__modal-open',
+  SECTION_LINE: 'section-line',
   LINES: 'lines',
-  SUBWAY_LINE: 'subway-line',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
   SUBWAY_LINE_SUBMIT: 'subway-line-submit',
   SUBWAY_LINE_FORM: 'subway-line-form',
+  SUBWAY_SECTION_FORM: 'subway-section-form',
   LOG_IN_FORM: 'login-form',
   LOG_IN_BUTTON: 'login-button',
   LOG_IN_EMAIL_INPUT: 'login-email-input',
@@ -40,7 +42,9 @@ export const SELECTOR_CLASS = Object.freeze({
   LINE_DELETE_BUTTON: 'line-list__delete-button',
   LINE_LIST_MODAL_OPEN: 'line-list__modal-open',
   LINE_LIST_MODAL_CLOSE: 'line-list__modal-close',
-  SECTION_LIST_ITEM: 'section-list__item',
+  SECTION_ITEM: 'section__item',
+  SECTION_ITEM_ADD: 'section__item-add',
+  SECTION_MODAL_CLOSE: 'section__modal-close',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
   MODAL_INNER: 'modal-inner',
   MODAL: 'modal',
@@ -83,8 +87,9 @@ export const STATE_KEY = Object.freeze({
   STATION_LIST: 'stationList',
   SECTION_LIST: 'sectionList',
   TARGET_LINE_ID: 'targetLineId',
-  TARGET_SECTION_ID: 'targetSectionId',
-  IS_ITEM_VIEW_MODE: 'isItemViewMode'
+  TARGET_SECTION_LINE_ID: 'targetSectionLineId',
+  IS_LINE_ITEM_VIEW_MODE: 'isLineItemViewMode',
+  IS_SECTION_ITEM_VIEW_MODE: 'isSectionItemViewMode',
 });
 
 export const VALIDATION = Object.freeze({
@@ -118,7 +123,7 @@ export const FILE_PATH = Object.freeze({
 export const PAGE_TITLE = Object.freeze({
   STATIONS: '🚇 역 관리',
   LINES: '🚇 노선 관리',
-  SECTIONS: '🚇 구관 관리',
+  SECTIONS: '🚇 구간 관리',
   LOG_IN: '🚇 로그인',
   SIGN_UP: '🚇 회원가입',
   SEARCH: '🚇 길찾기',

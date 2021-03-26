@@ -1,13 +1,15 @@
+import { STATE_KEY } from "../constants";
+
 export default class Subject {
   constructor() {
     this.observers = {
-      stationList: [],
-      lineList: [],
-      sectionList: [],
-      isLoggedIn: [],
-      targetLineId: [],
-      targetSectionId: [],
-      isItemViewMode: [],
+      [STATE_KEY.STATION_LIST]: [],
+      [STATE_KEY.LINE_LIST]: [],
+      [STATE_KEY.IS_LOGGED_IN]: [],
+      [STATE_KEY.TARGET_LINE_ID]: [],
+      [STATE_KEY.TARGET_SECTION_LINE_ID]: [],
+      [STATE_KEY.IS_LINE_ITEM_VIEW_MODE]: [],
+      [STATE_KEY.IS_SECTION_ITEM_VIEW_MODE]: [],
     };
   }
 
