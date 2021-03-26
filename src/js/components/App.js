@@ -85,6 +85,8 @@ export default class App {
 
     if (accessToken === "") {
       this.isLoggedIn = false;
+
+      return;
     }
 
     const { isSucceeded, memberInfo } = await getMemberInfo(accessToken);

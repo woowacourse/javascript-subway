@@ -18,7 +18,7 @@ const createStationListItem = (station) => {
       data-station-id="${station.id}"
       class="station-list-item d-flex items-center"
       >
-      <span class="js-station-name w-100 pl-2">${station.name}</span>
+      <span class="js-station-name w-100">${station.name}</span>
       <button
         type="button"
         class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
@@ -69,13 +69,13 @@ export default class Stations extends Component {
             <button
               type="submit"
               name="submit"
-              class="input-submit bg-cyan-300 ml-2"
+              class="input-submit bg-cyan-300 ml-2 w-30"
             >
               확인
             </button>
           </div>
         </form>
-        <ul class="js-station-list mt-3 pl-0"></ul>
+        <ul class="js-station-list station-list mt-3 pl-0"></ul>
       </div>
     `;
 

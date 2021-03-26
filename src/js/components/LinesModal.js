@@ -92,7 +92,7 @@ export default class LinesModal extends Modal {
             <button
               type="submit"
               name="submit"
-              class="input-submit bg-cyan-300"
+              class="input-submit bg-cyan-300 w-100"
             >
               확인
             </button>
