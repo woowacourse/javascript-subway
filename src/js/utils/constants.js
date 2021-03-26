@@ -65,6 +65,7 @@ export const METHOD = Object.freeze({
   POST: 'POST',
   GET: 'GET',
   PUT: 'PUT',
+  DELETE: 'DELETE',
 });
 
 export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });

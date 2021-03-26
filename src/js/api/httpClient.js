@@ -17,4 +17,6 @@ export const httpClient = {
     fetch(`${API_END_POINT}${path}`, fetchOptions({ method: METHOD.POST, body, accessToken })),
   put: ({ path, body, accessToken }) =>
     fetch(`${API_END_POINT}${path}`, fetchOptions({ method: METHOD.PUT, body, accessToken })),
+  delete: ({ path, accessToken }) =>
+    fetch(`${API_END_POINT}${path}`, fetchOptions({ method: METHOD.DELETE, accessToken })),
 };

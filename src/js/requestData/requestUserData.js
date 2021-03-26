@@ -64,3 +64,14 @@ export const requestEditStationName = async ({ id, name }) => {
     throw new Error('역 이름 수정에 실패했습니다.');
   }
 };
+
+export const requestRemoveStation = async ({ id }) => {
+  try {
+    const response = await httpClient.delete({ path: `/stations/${id}`, accessToken: token.accessToken });
+    if (!response.ok) {
+      throw new Error();
+    }
+  } catch (error) {
+    throw new Error('역 삭제에 실패했습니다.');
+  }
+};

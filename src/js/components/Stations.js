@@ -1,12 +1,11 @@
 import { $ } from '../utils/dom';
-import { requestAddStation, requestEditStationName } from '../requestData/requestUserData';
+import { requestAddStation, requestEditStationName, requestRemoveStation } from '../requestData/requestUserData';
 import { validateName } from '../validators/validation';
 
 class Stations {
   constructor() {
-    this.stations = {};
-    this.stationIdInEdit = '';
-    this.stationTextNodeInEdit = '';
+    this.stations = [];
+    this.stationNameInEdit = '';
   }
 
   init() {
@@ -35,7 +34,7 @@ class Stations {
       }
 
       if (e.target.classList.contains('station-list-item__remove-button')) {
-        this.handleStationNameRemove(e);
+        this.handleStationNameRemoveButton(e);
       }
     });
 
@@ -61,11 +60,9 @@ class Stations {
 
   handleStationNameEditButton(e) {
     this.$modal.classList.add('open');
-    const $editTarget = e.target.previousElementSibling;
-    const stationName = $editTarget.innerText;
+    const { stationName } = e.target.closest('.station-list-item').dataset;
 
-    this.setStationIdInEdit(stationName);
-    this.setStationTextNodeInEdit($editTarget);
+    this.stationNameInEdit = stationName;
 
     this.$modalStationNameEditInput.value = stationName;
     this.$modalStationNameEditInput.focus();
@@ -73,41 +70,69 @@ class Stations {
 
   async handleStationNameEditForm(e) {
     const newStationName = e.target['station-name'].value;
+    const $stationListItem = $(`[data-station-name=${this.stationNameInEdit}]`);
+    const $textNode = $stationListItem.querySelector('span');
 
     try {
       validateName(newStationName);
-      await requestEditStationName({ id: this.stationIdInEdit, name: newStationName });
-      this.stationTextNodeInEdit.innerText = newStationName;
+      await requestEditStationName({ id: this.getStationId(this.stationNameInEdit), name: newStationName });
+      this.stations.find((station) => station.name === this.stationNameInEdit).name = newStationName;
+
+      $stationListItem.dataset.stationName = newStationName;
+      $textNode.innerText = newStationName;
     } catch (error) {
       alert(error.message);
     }
   }
 
-  setStation({ name: stationName, ...rest }) {
-    this.stations[stationName] = { ...rest };
-    this.renderStationList(stationName);
+  async handleStationNameRemoveButton(e) {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+    const { stationName } = e.target.closest('.station-list-item').dataset;
+    const $stationListItem = $(`[data-station-name=${stationName}]`);
+
+    try {
+      await requestRemoveStation({ id: this.getStationId(stationName) });
+      $stationListItem.remove();
+      this.stations = this.stations.filter((station) => station.name !== stationName);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
-  setStationIdInEdit(stationName) {
-    this.stationIdInEdit = this.stations[stationName].id;
+  setStation(stationData) {
+    this.stations = [stationData, ...this.stations];
+    this.renderStationList(stationData.name);
   }
 
-  setStationTextNodeInEdit($targetNode) {
-    this.stationTextNodeInEdit = $targetNode;
+  getStationId(stationName) {
+    return this.stations.find((station) => station.name === stationName).id;
   }
 
   renderStationList(stationName) {
-    this.$stationListWrapper.insertAdjacentHTML('beforeend', this.getStationListTemplate(stationName));
+    this.$stationListWrapper.insertAdjacentHTML('afterbegin', this.getStationListTemplate(stationName));
   }
 
   getStationListTemplate(stationName) {
     return `
-      <li class="station-list-item d-flex items-center py-2">
-        <span class="w-100 pl-2">${stationName}</span>
-        <button type="button" class="station-list-item__edit-button bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+      <li class="station-list-item" data-station-name=${stationName}>
+        <div class="d-flex items-center py-2">
+          <span class="w-100 pl-2">${stationName}</span>
+          <button 
+            type="button"      
+            class="station-list-item__edit-button bg-gray-50 text-gray-500 text-sm mr-1" 
+            >
+              수정
+          </button>
+          <button 
+            type="button" 
+            class="station-list-item__remove-button bg-gray-50 text-gray-500 text-sm" 
+            >
+              삭제
+          </button>
+        </div>
+        <hr class="my-0" />
       </li>
-      <hr class="my-0" />
     `;
   }
 }
