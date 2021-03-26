@@ -1,4 +1,3 @@
-import { MODAL_TYPE } from '../constants/service';
 import { colorOptions } from '/src/js/utils/mock.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {
@@ -18,18 +17,8 @@ export const stationOptionListTemplate = (stations, defaultValue) => {
   return defaultValueTemplate + stations.map(station => stationOptionTemplate(station)).join('');
 };
 
-const modalTypeId = {
-  [MODAL_TYPE.ADD]: 'line-add',
-  [MODAL_TYPE.EDIT]: 'line-edit',
-};
-
-const modalTypeTitle = {
-  [MODAL_TYPE.ADD]: '🛤️ 노선 추가',
-  [MODAL_TYPE.EDIT]: '🚧 노선 수정',
-};
-
-const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
-  <div id="${modalTypeId[type]}-modal" class="modal">
+export const lineAddModalTemplate = `
+  <div id="line-add-modal" class="modal">
     <div class="modal-inner p-8">
       <button class="modal-close">
         <svg viewbox="0 0 40 40">
@@ -37,9 +26,9 @@ const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
         </svg>
       </button>
       <header>
-        <h2 class="text-center">${modalTypeTitle[type]}</h2>
+        <h2 class="text-center">🛤️ 노선 추가</h2>
       </header>
-      <form id="${modalTypeId[type]}-form">
+      <form id="line-add-form">
         <div class="input-control">
           <span class="js-subway-line-color-dot subway-line-color-dot"></span>
           <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
@@ -53,24 +42,24 @@ const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
           />
         </div>
         <div class="input-control">
-          <label for="departure-station" hidden></label>
+          <label for="up-station" hidden></label>
           <select
-            id="departure-station"
-            name="departure-station"
+            id="up-station"
+            name="up-station"
             class="input-field"
             required
           >
-            <option value="" disabled selected hidden>출발역</option>
+            <option value="" disabled selected hidden>상행역</option>
           </select>
-          <label for="arrival-station" hidden></label>
+          <label for="down-station" hidden></label>
           <select
-            id="arrival-station"
-            name="arrival-station"
+            id="down-station"
+            name="down-station"
             class="input-field"
             required
-            disabled
+            disabled}
           >
-            <option value="" disabled selected hidden>종착역</option>
+            <option value="" disabled selected hidden>하행역</option>
           </select>
         </div>
         <div class="input-control">
@@ -78,7 +67,7 @@ const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
           <input
             type="number"
             id="duration"
-            name="arrival"
+            name="down"
             class="input-field"
             placeholder="상행 하행역 시간"
             required
@@ -96,7 +85,7 @@ const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
         <div class="input-control">
           <div>
             <label for="subway-line-color" class="input-label" hidden
-              >간격 시간</label
+              >노선 색상</label
             >
             <input
               type="hidden"
@@ -126,31 +115,98 @@ const linesPageModalTemplate = (type = MODAL_TYPE.ADD) => `
   </div>
 `;
 
-export const lineListItemTemplate = ({ id, name, color }) => `
-  <li
-    class="js-line-list-item line-list-item d-flex items-center py-2 relative"
-    data-id="${id}"
-    data-name="${name}"
-    data-color="${color}"
-  >
-    <span class="subway-line-color-dot ${color}"></span>
-    <span class="w-100 pl-6 subway-line-list-item-name"
-      >${name}</span
-    >
-    <button
-      type="button"
-      class="bg-gray-50 text-gray-500 text-sm mr-1 js-line-edit-button"
-    >
-      수정
-    </button>
-    <button
-      type="button"
-      class="bg-gray-50 text-gray-500 text-sm js-line-delete-button"
-    >
-      삭제
-    </button>
-  </li>
+export const lineEditModalTemplate = `
+  <div id="line-edit-modal" class="modal">
+    <div class="modal-inner p-8">
+      <button class="modal-close">
+        <svg viewbox="0 0 40 40">
+          <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+        </svg>
+      </button>
+      <header>
+        <h2 class="text-center">🚧 노선 수정</h2>
+      </header>
+      <form id="line-edit-form">
+        <div class="input-control">
+          <span class="js-subway-line-color-dot subway-line-color-dot"></span>
+          <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
+          <input
+            type="text"
+            id="subway-line-name"
+            name="subway-line-name"
+            class="input-field"
+            placeholder="노선 이름"
+            required
+          />
+        </div>
+        <div class="input-control">
+          <div>
+            <label for="subway-line-color" class="input-label" hidden
+              >노선 색상</label
+            >
+            <input
+              type="hidden"
+              id="subway-line-color"
+              name="subway-line-color"
+              class="input-field"
+              placeholder="색상을 아래에서 선택해주세요."
+              disabled
+              required
+            />
+          </div>
+        </div>
+        <div class="subway-line-color-selector px-2">
+          ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+        </div>
+        <div class="d-flex justify-end mt-3">
+          <button
+            type="submit"
+            name="submit"
+            class="input-submit bg-cyan-300"
+          >
+            확인
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 `;
+
+export const lineListItemTemplate = ({ id, name, color, sections }) => {
+  const [{ distance, duration, upStation, downStation }] = sections;
+  const upStationId = upStation.id;
+  const downStationId = downStation.id;
+
+  return `
+    <li
+      class="js-line-list-item line-list-item d-flex items-center py-2 relative"
+      data-id="${id}"
+      data-name="${name}"
+      data-color="${color}"
+      data-distance="${distance}"
+      data-duration="${duration}"
+      data-up-station-id="${upStationId}"
+      data-down-station-id="${downStationId}"
+    >
+      <span class="subway-line-color-dot ${color}"></span>
+      <span class="w-100 pl-6 js-line-name subway-line-list-item-name"
+        >${name}</span
+      >
+      <button
+        type="button"
+        class="bg-gray-50 text-gray-500 text-sm mr-1 js-line-edit-button"
+      >
+        수정
+      </button>
+      <button
+        type="button"
+        class="bg-gray-50 text-gray-500 text-sm js-line-delete-button"
+      >
+        삭제
+      </button>
+    </li>
+  `;
+};
 
 const linesPageTemplate = (lineList = []) => `
   <div class="d-flex justify-center mt-5 w-100">
@@ -175,8 +231,8 @@ const linesPageTemplate = (lineList = []) => `
       </main>
     </div>
   </div>
-  ${linesPageModalTemplate(MODAL_TYPE.ADD)}
-  ${linesPageModalTemplate(MODAL_TYPE.EDIT)}
+  ${lineAddModalTemplate}
+  ${lineEditModalTemplate}
 `;
 
 export default linesPageTemplate;

@@ -19,11 +19,15 @@ const line = {
     this.value = new Set([...this.value].filter(({ id }) => id !== targetId));
   },
 
-  editName(name, targetId) {
+  edit(line, targetId) {
     const newValue = [...this.value];
-    const targetLine = newValue.find(({ id }) => id === targetId);
-
-    targetLine.name = name;
+    const targetLineIndex = newValue.findIndex(({ id }) => id === targetId);
+    const targetLine = newValue[targetLineIndex];
+    const editedLine = {
+      ...targetLine,
+      ...line,
+    };
+    newValue[targetLineIndex] = editedLine;
 
     this.value = new Set(newValue);
   },

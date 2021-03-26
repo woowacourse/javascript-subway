@@ -29,12 +29,11 @@ export const handleLineStatus = async ({ target }) => {
   }
 
   if (target.classList.contains('js-line-edit-button')) {
-    const { dataset } = target.closest('.line-list-item');
+    const { id, name, color } = target.closest('.line-list-item').dataset;
 
-    updateLineEditModal(dataset);
-    console.log(dataset);
+    updateLineEditModal({ id, name, color });
     openModal($('#line-edit-modal'));
-    // $('#line-edit-modal #ㄴ-edit-name').focus();
+    // $('#line-edit-modal #-edit-name').focus();
 
     return;
   }

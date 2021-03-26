@@ -16,8 +16,8 @@ const handleAddLine = async event => {
 
   const {
     ['subway-line-name']: name,
-    ['departure-station']: upStationId,
-    ['arrival-station']: downStationId,
+    ['up-station']: upStationId,
+    ['down-station']: downStationId,
     ['subway-line-color']: color,
     duration,
     distance,
