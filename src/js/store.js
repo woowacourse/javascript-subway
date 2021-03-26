@@ -7,6 +7,7 @@ export default class Store {
     this._state = {
       user: new UserAuth(),
       stations: [],
+      lines: [],
     };
   }
 
@@ -40,6 +41,16 @@ export default class Store {
 
   set userName(name) {
     this._state.user.name = name;
+  }
+
+  get lines() {
+    const sortedLines = this._state.lines.sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate));
+
+    return sortedLines;
+  }
+
+  set lines(lines) {
+    this._state.lines = lines;
   }
 
   updateLoggedIn(state) {

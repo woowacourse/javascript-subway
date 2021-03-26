@@ -20,6 +20,7 @@ import {
   SignupForm,
 } from './components';
 import Station from './models/Station.js';
+import Line from './models/Line.js';
 
 export default class App {
   constructor() {
