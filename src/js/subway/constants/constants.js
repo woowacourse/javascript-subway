@@ -66,6 +66,7 @@ export const MESSAGE = {
   STATION_MANAGE: {
     INVALID_NAME: '유효한 역 이름이 아닙니다.',
     OVERLAPPED_NAME: '역 이름이 중복되었습니다.',
+    ADDED_STATION: '노선에 등록된 역은 삭제할 수 없습니다.',
   },
   LINE_MANAGE: {
     INVALID_NAME: '유효한 노선 이름이 아닙니다.',

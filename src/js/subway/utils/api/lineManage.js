@@ -49,8 +49,8 @@ const addLine = async (accessToken, { name, color, upStationId, downStationId, d
   }
 };
 
-const modifyLine = async (accessToken, lineId, { name, color, upStationId, downStationId, distance, duration }) => {
-  const url = `${BASE_URL}/lines/${lineId}`;
+const modifyLine = async (accessToken, { id, name, color, upStationId, downStationId, distance, duration }) => {
+  const url = `${BASE_URL}/lines/${id}`;
   const option = {
     method: 'PUT',
     headers: {
@@ -74,8 +74,8 @@ const modifyLine = async (accessToken, lineId, { name, color, upStationId, downS
   }
 };
 
-const removeLine = async (accessToken, lineId) => {
-  const url = `${BASE_URL}/lines/${lineId}`;
+const removeLine = async (accessToken, { id }) => {
+  const url = `${BASE_URL}/lines/${id}`;
   const option = {
     method: 'DELETE',
     headers: {

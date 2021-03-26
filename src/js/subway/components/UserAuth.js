@@ -1,7 +1,7 @@
 import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { mainElements } from '../views';
 import { stateManager } from '../../@shared/models/StateManager';
-import { $, setToSessionStorage, clearInput, removeFromSessionStorage } from '../../@shared/utils';
+import { $, setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {

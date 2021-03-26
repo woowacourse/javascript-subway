@@ -22,7 +22,7 @@ const getStations = async accessToken => {
   }
 };
 
-const addStation = async (accessToken, $input) => {
+const addStation = async (accessToken, { name }) => {
   const url = `${BASE_URL}/stations`;
   const option = {
     method: 'POST',
@@ -31,7 +31,7 @@ const addStation = async (accessToken, $input) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: $input.value,
+      name,
     }),
   };
 

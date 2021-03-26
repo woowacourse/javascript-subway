@@ -121,7 +121,8 @@ export class LineManage {
   async handleLineSubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    const requestLineInfo = {
+    const requestInfo = {
+      id: this.$$lineModal.$form.dataset.lineId,
       name: this.$$lineModal.$nameInput.value,
       color: this.$$lineModal.$colorInput.value,
       upStationId: this.$$lineModal.$upStationSelector.value,
@@ -132,19 +133,18 @@ export class LineManage {
 
     try {
       // TODO: 상행, 하행같은 경우 처리 필요.
-      // if (requestLineInfo.upStationId === requestLineInfo.downStationId) {
+      // TODO: 상행역, 하행역으로 선택되었을 때도 처리되는 에러
+      // if (requestInfo.upStationId === requestInfo.downStationId) {
       //   throw
       // }
 
       if (this.submitType === SUBMIT_TYPE.ADD) {
-        const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
+        const line = await lineManageAPI.addLine(accessToken, requestInfo);
 
         this.$lineList.innerHTML += lineInfo(line);
       }
       if (this.submitType === SUBMIT_TYPE.MODIFY) {
-        const lineId = this.$$lineModal.$form.dataset.lineId;
-
-        await lineManageAPI.modifyLine(accessToken, lineId, requestLineInfo);
+        await lineManageAPI.modifyLine(accessToken, requestInfo);
         await this.renderLineList();
       }
 
@@ -158,7 +158,6 @@ export class LineManage {
   }
 
   handleModifyButton({ target }) {
-    // TODO: add, modify 상수화
     if (!target.classList.contains('js-modify-button')) return;
     const line = target.closest('.js-line-list-item');
 
@@ -171,13 +170,15 @@ export class LineManage {
 
   async handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
-
     const $line = target.closest('.js-line-list-item');
+    const requestInfo = {
+      id: $line.dataset.id,
+    };
 
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      await lineManageAPI.removeLine(accessToken, $line.dataset.id);
+      await lineManageAPI.removeLine(accessToken, requestInfo);
       $line.remove();
     } catch (error) {
       console.error(error.message);

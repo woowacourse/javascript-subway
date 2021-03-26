@@ -73,9 +73,13 @@ export class StationManage {
 
   async handleAddSubmit(event) {
     event.preventDefault();
+    const requestInfo = {
+      name: this.$$stationAdd.$input.value,
+    };
+
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const station = await stationManageAPI.addStation(accessToken, this.$$stationAdd.$input);
+      const station = await stationManageAPI.addStation(accessToken, requestInfo);
 
       this.$stationList.innerHTML += stationInfo(station);
       this.$$stationAdd.$form.reset();
@@ -102,18 +106,16 @@ export class StationManage {
   async handleModifySubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    // TODO: requestLineInfo 이름 변경.
-    const stationInfo = {
+    const requestInfo = {
       id: this.$$stationModify.$input.dataset.stationId,
       name: this.$$stationModify.$input.value,
     };
-    const $stationName = $(`[data-station-id="${stationInfo.id}"] > .js-station-name`, this.$stationList);
 
     try {
-      await stationManageAPI.modifyStation(accessToken, stationInfo);
+      await stationManageAPI.modifyStation(accessToken, requestInfo);
 
       this.$$stationModify.$form.reset();
-      $stationName.innerText = stationInfo.name;
+      this.renderStationList(ROUTE.STATIONS);
       hideModal(this.props.$modal);
       this.props.cache.stations = [];
     } catch (error) {
@@ -136,10 +138,9 @@ export class StationManage {
   }
 
   async handleRemoveButton({ target }) {
-    // TODO: 노선에 있는 역은 삭제할 수 없다.
     if (!target.classList.contains('js-remove-button')) return;
     const $station = target.closest('.js-station-list-item');
-    const stationInfo = {
+    const requestInfo = {
       id: $station.dataset.stationId,
     };
 
@@ -147,11 +148,14 @@ export class StationManage {
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      await stationManageAPI.removeStation(accessToken, stationInfo);
+
+      await stationManageAPI.removeStation(accessToken, requestInfo);
       $station.remove();
       this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
+      // TODO: 특정 status일 때, alert 처리.
+      alert(MESSAGE.STATION_MANAGE.ADDED_STATION);
     }
   }
 }
