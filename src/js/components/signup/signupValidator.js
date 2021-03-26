@@ -6,13 +6,13 @@ import {
 } from '../../constants';
 import { request } from '../../utils/api';
 import {
-  isEmpty,
+  isEmptyString,
   isDifferent,
   isWrongEmailFormat,
 } from '../../utils/validation';
 
 export const checkNameValid = name => {
-  if (isEmpty(name)) {
+  if (isEmptyString(name)) {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_NAME };
   }
 
@@ -33,7 +33,7 @@ export const checkEmailValid = async email => {
 };
 
 export const checkPasswordValid = password => {
-  if (isEmpty(password)) {
+  if (isEmptyString(password)) {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD };
   }
 
@@ -41,7 +41,7 @@ export const checkPasswordValid = password => {
 };
 
 export const checkPasswordConfirmValid = (password, passwordConfirm) => {
-  if (isEmpty(passwordConfirm)) {
+  if (isEmptyString(passwordConfirm)) {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD_CONFIRM };
   }
   if (isDifferent(password, passwordConfirm)) {
