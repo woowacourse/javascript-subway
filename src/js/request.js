@@ -126,3 +126,10 @@ export const editStationRequest = async (id, name, token) => {
 
   return response;
 };
+
+export const createLineRequest = async (data, token) => {
+  const url = `${HOST}/lines`;
+  const response = await postRequest(url, data, token);
+
+  return response.json();
+};

@@ -36,6 +36,17 @@ export const SELECTOR = {
   STATION_NAME_EDIT_FORM: '#station-name-edit-form',
   STATION_NAME_EDIT_INPUT: '#station-name-edit',
   STATION_NAME_EDIT_DUPLICATED_WARNING: '#station-edit-duplicated-warning',
+
+  CREATE_LINE_BUTTON: '.create-line-btn',
+  SUBWAY_LINE_COLOR_SELECTOR: '.subway-line-color-selector',
+
+  LINE_LIST: '#line-list',
+
+  LINE_CREATION_FORM: '#subway-line-form',
+  LINE_NAME_INPUT: '#subway-line-name',
+  LINE_UP_STATION_SELECT: '#up-station',
+  LINE_DOWN_STATION_SELECT: '#down-station',
+  LINE_DUPLICATED_WARNING: '#line-duplicated-warning',
 };
 
 export const MESSAGES = {
@@ -62,6 +73,11 @@ export const MESSAGES = {
     SUCCESS: '역 이름이 변경되였습니다.',
     FAIL: '역 이름 변경에 실패했습니다.',
     DUPLICATED: '동일한 역 이름이 존재합니다.',
+  },
+
+  LINE_CREATE: {
+    SUCCESS: '노선이 추가되었습니다.',
+    FAIL: '해당 노선을 등록할 수 없습니다.',
   },
 };
 
