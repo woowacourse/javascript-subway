@@ -64,6 +64,7 @@ export class LineManage {
       $distanceInput: $('#distance', this.$modalContent),
       $durationInput: $('#duration', this.$modalContent),
       $colorInput: $('#line-color', this.$modalContent),
+      $palette: $('#line-color-selector', this.$modalContent),
       $submitButton: $('#line-submit-button', this.$modalContent),
       $failMessage: $('#fail-message-box', this.$modalContent),
     };
@@ -73,6 +74,7 @@ export class LineManage {
     this.$lineAddButton.addEventListener('click', this.handleAddButton.bind(this));
     this.$$lineModal.$nameInput.addEventListener('input', this.handleNameInput.bind(this));
     this.$$lineModal.$form.addEventListener('submit', this.handleLineSubmit.bind(this));
+    this.$$lineModal.$palette.addEventListener('click', this.handlePalette.bind(this));
     this.$lineList.addEventListener('click', this.handleModifyButton.bind(this));
     this.$lineList.addEventListener('click', this.handleRemoveButton.bind(this));
   }
@@ -85,13 +87,16 @@ export class LineManage {
   handleNameInput({ target: { value: lineName } }) {
     if (!isValidName(lineName, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) {
       this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.INVALID_NAME;
-      this.$$lineModal.$submitButton.disabled = true;
 
       return;
     }
 
     this.$$lineModal.$failMessage.innerText = '';
-    this.$$lineModal.$submitButton.disabled = false;
+  }
+
+  handlePalette(event) {
+    if (!event.target.classList.contains('color-option')) return;
+    this.$$lineModal.$colorInput.value = event.target.dataset.color;
   }
 
   async handleLineSubmit(event) {
@@ -106,21 +111,22 @@ export class LineManage {
       duration: this.$$lineModal.$durationInput.value,
     };
 
-    requestLineInfo.color = 'bg-blue-300';
-
-    console.log(requestLineInfo);
-
     try {
+      // TODO: 상행, 하행같은 경우 처리 필요.
+      // if (requestLineInfo.upStationId === requestLineInfo.downStationId) {
+      //   throw
+      // }
+
       if (this.submitType === 'add') {
         const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
         this.$lineList.innerHTML += lineInfo(line);
-      } else if (this.submitType === 'modify') {
-        console.log('수정 API');
+      }
+      if (this.submitType === 'modify') {
         // const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
       }
 
-      // TODO: nameInput 말고 다른것도 clear 해주기
-      clearInput(this.$$lineModal.$nameInput);
+      this.$$lineModal.$$form.reset();
+      hideModal(this.props.$modal);
     } catch (error) {
       console.error(error.message);
       this.$$lineModal.$failMessage.innerText =

@@ -79,7 +79,7 @@ export const lineModal = `
         />
       </div>
     </div>
-    <div class="line-color-selector px-2 d-flex justify-center">
+    <div id="line-color-selector" class="line-color-selector px-2 d-flex justify-center">
       <div>
         ${palette}
       </div>
