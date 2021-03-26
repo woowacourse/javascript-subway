@@ -10,7 +10,11 @@ import {
 
 import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import { addStationAPI, getStationsAPI } from "../APIs/subwayAPI.js";
+import {
+  addStationAPI,
+  deleteStationAPI,
+  getStationsAPI,
+} from "../APIs/subwayAPI.js";
 import snackbar from "../utils/snackbar.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
 
@@ -90,6 +94,10 @@ export default class Stations extends Component {
       "submit",
       this.onAddStation.bind(this)
     );
+    $(".js-station-list", this.innerElement).addEventListener(
+      "click",
+      this.onClickStationList.bind(this)
+    );
   }
 
   async onAddStation(event) {
@@ -139,6 +147,30 @@ export default class Stations extends Component {
     }
 
     target.elements["station-name"].value = stationName;
+  }
+
+  async deleteStation(stationId) {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const deleteResult = await deleteStationAPI(stationId, accessToken);
+
+    snackbar.show(deleteResult.message);
+
+    if (!deleteResult.isSucceeded) {
+      return;
+    }
+
+    $(
+      `.js-station-list > li[data-station-id="${stationId}"]`,
+      this.innerElement
+    ).remove();
+
+    this.render();
+  }
+
+  onClickStationList({ target }) {
+    if (target.classList.contains("js-delete-btn")) {
+      this.deleteStation(target.closest("li").dataset.stationId);
+    }
   }
 
   async loadPage() {

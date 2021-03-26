@@ -5,7 +5,7 @@ const PATH = {
   MEMBER_INFO: "/members/me",
   LOGIN: "/login/token",
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
-  STATIONS: "/stations",
+  STATIONS: (id = "") => `/stations/${id}`,
 };
 
 const STATUS = {
@@ -55,6 +55,18 @@ const request = {
         ...headers,
       },
       body: JSON.stringify(body),
+    });
+
+    return response;
+  },
+
+  async delete({ path, headers = {} }) {
+    const response = await fetch(this.createURL(path), {
+      method: "DELETE",
+      headers: {
+        ...this.headers,
+        ...headers,
+      },
     });
 
     return response;
@@ -189,7 +201,7 @@ export const getMemberInfo = async (accessToken) => {
 export const getStationsAPI = async (accessToken) => {
   try {
     const response = await request.get({
-      path: PATH.STATIONS,
+      path: PATH.STATIONS(),
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -221,7 +233,7 @@ export const getStationsAPI = async (accessToken) => {
 export const addStationAPI = async (stationName, accessToken) => {
   try {
     const response = await request.post({
-      path: PATH.STATIONS,
+      path: PATH.STATIONS(),
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -247,6 +259,33 @@ export const addStationAPI = async (stationName, accessToken) => {
     }
 
     throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const deleteStationAPI = async (stationId, accessToken) => {
+  try {
+    const response = await request.delete({
+      path: PATH.STATIONS(stationId),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.DELETE_STATION);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.DELETE_STATION,
+    };
   } catch (e) {
     console.error(e);
 
