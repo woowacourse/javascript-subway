@@ -77,25 +77,27 @@ class SignUp {
   }
 
   async _handleValidMessage({ id, value }) {
-    switch (true) {
-      case id === FORM.SIGNUP.NAME:
-        showValidMessage($(SELECTOR.NAME_MESSAGE), checkNameValid(value));
+    switch (id) {
+      case FORM.SIGNUP.NAME:
+        showValidMess;
+        age($(SELECTOR.NAME_MESSAGE), checkNameValid(value));
         break;
 
-      case id === FORM.SIGNUP.EMAIL:
+      case FORM.SIGNUP.EMAIL:
         showValidMessage(
           $(SELECTOR.EMAIL_MESSAGE),
           await checkEmailValid(value),
         );
         break;
 
-      case id === FORM.SIGNUP.PASSWORD || id === FORM.SIGNUP.PASSWORD_CONFIRM:
+      case FORM.SIGNUP.PASSWORD:
+      case FORM.SIGNUP.PASSWORD_CONFIRM:
         const password = $(SELECTOR.PASSWORD).value;
         const passwordConfirm = $(SELECTOR.PASSWORD_CONFIRM).value;
 
         showValidMessage(
           $(SELECTOR.PASSWORD_MESSAGE),
-          checkPasswordValid(value),
+          checkPasswordValid(password),
         );
 
         showValidMessage(
