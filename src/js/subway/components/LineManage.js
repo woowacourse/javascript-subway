@@ -19,18 +19,22 @@ export class LineManage {
 
   setup() {
     stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderLineList.bind(this));
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderStationOptions.bind(this));
+    stateManager[STATE_KEY.ROUTE].subscribe(this.renderStationOptions.bind(this));
   }
 
-  async renderStationOptions() {
+  async renderStationOptions(route) {
+    if (route !== ROUTE.LINES) return;
+
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const stations = await stationManageAPI.getStations(accessToken);
+      if (this.props.cache.stations.length === 0) {
+        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      }
 
-      this.$$lineModal.$upStationSelector.innerHTML = stations
+      this.$$lineModal.$upStationSelector.innerHTML = this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
-      this.$$lineModal.$downStationSelector.innerHTML = stations
+      this.$$lineModal.$downStationSelector.innerHTML = this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
     } catch (error) {

@@ -9,6 +9,11 @@ import { LineManage } from './components/LineManage';
 
 export class Subway {
   constructor() {
+    this.cache = {
+      stations: [],
+      lines: [],
+    };
+
     this.setup();
     this.selectDOM();
     this.mountChildComponents();
@@ -55,9 +60,9 @@ export class Subway {
 
   mountChildComponents() {
     new UserJoin();
-    new UserAuth();
-    new StationManage({ $modal: this.$modalContainer });
-    new LineManage({ $modal: this.$modalContainer });
+    new UserAuth({ cache: this.cache });
+    new StationManage({ $modal: this.$modalContainer, cache: this.cache });
+    new LineManage({ $modal: this.$modalContainer, cache: this.cache });
   }
 
   bindEvent() {

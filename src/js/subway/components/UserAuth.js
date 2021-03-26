@@ -1,14 +1,27 @@
 import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { mainElements } from '../views';
 import { stateManager } from '../../@shared/models/StateManager';
-import { $, setToSessionStorage, clearInput } from '../../@shared/utils';
+import { $, setToSessionStorage, clearInput, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {
-  constructor() {
+  constructor(props) {
     this.$target = mainElements[ROUTE.SIGNIN];
+    this.props = props;
+    this.setup();
     this.selectDOM();
     this.bindEvent();
+  }
+
+  setup() {
+    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.signOut.bind(this));
+  }
+
+  signOut() {
+    if (stateManager[STATE_KEY.SIGNED_USER].get()) return;
+    removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+    this.props.cache.stations = [];
+    this.props.cache.lines = [];
   }
 
   selectDOM() {

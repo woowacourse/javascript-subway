@@ -15,15 +15,20 @@ export class StationManage {
   }
 
   setup() {
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderStationList.bind(this));
+    stateManager[STATE_KEY.ROUTE].subscribe(this.renderStationList.bind(this));
   }
 
-  async renderStationList() {
+  async renderStationList(route) {
+    if (route !== ROUTE.STATIONS) return;
+
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const stations = await stationManageAPI.getStations(accessToken);
 
-      this.$stationList.innerHTML = stationList(stations);
+      if (this.props.cache.stations.length === 0) {
+        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      }
+
+      this.$stationList.innerHTML = stationList(this.props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }
@@ -74,6 +79,7 @@ export class StationManage {
 
       this.$stationList.innerHTML += stationInfo(station);
       clearInput(this.$$stationAdd.$input);
+      this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
       this.$$stationAdd.$failMessage.innerText =
@@ -109,6 +115,7 @@ export class StationManage {
       clearInput(this.$$stationModify.$input);
       $stationName.innerText = stationInfo.name;
       hideModal(this.props.$modal);
+      this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
       this.$$stationModify.$failMessage.innerText =
@@ -142,6 +149,7 @@ export class StationManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await stationManageAPI.removeStation(accessToken, stationInfo);
       $station.remove();
+      this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
     }

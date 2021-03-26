@@ -21,7 +21,6 @@ export const getRedirectedPath = pathName => {
 
 export const routeTo = pathName => {
   if (pathName === ROUTE.SIGNOUT) {
-    removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     stateManager[STATE_KEY.SIGNED_USER].set('');
   }
   pathName = getRedirectedPath(pathName);
