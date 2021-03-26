@@ -14,7 +14,7 @@ export default class App extends Component {
   constructor() {
     super();
     this.bindEvent();
-    this.Navigation.render();
+    this.changeTemplate('/');
   }
 
   mountComponent() {
