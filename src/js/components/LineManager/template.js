@@ -9,26 +9,7 @@ export const contentTemplate = `
         노선 추가
       </button>
     </div>
-    <ul class="mt-3 pl-0">
-      <li class="d-flex items-center py-2 relative">
-        <span class="subway-line-color-dot bg-blue-400"></span>
-        <span class="w-100 pl-6 subway-line-list-item-name"
-          >1호선</span
-        >
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm"
-        >
-          삭제
-        </button>
-      </li>
-      <hr class="my-0" />
+    <ul id="line-list" class="mt-3 pl-0">
     </ul>
   </div>
 `;
@@ -43,8 +24,8 @@ export const modalTemplate = `
     <header>
       <h2 class="text-center">🛤️ 노선 추가</h2>
     </header>
-    <form>
-      <div class="input-control">
+    <form id="subway-line-form">
+      <div class="input-control d-flex flex-col">
         <label for="subway-line-name" class="input-label" hidden
           >노선 이름</label
         >
@@ -52,18 +33,22 @@ export const modalTemplate = `
           type="text"
           id="subway-line-name"
           name="subway-line-name"
-          class="input-field"
+          class="input-field box-border"
           placeholder="노선 이름"
           required
+          minLength="2"
+          maxLength="10"
+          pattern="[가-힣0-9]+||[^A-Za-z !@#$%^&*]"
         />
+        <p 
+        id="line-duplicated-warning" 
+        class="text-xs text-red w-100 ml-8 my-1 d-none"
+      >노선이 이미 존재합니다.</p>
       </div>
       <div class="d-flex items-center input-control">
         <label for="up-station" class="input-label" hidden>상행역</label>
         <select id="up-station" class="mr-2">
           <option value="" selected disabled hidden>상행역</option>
-          <option>사당</option>
-          <option>방배</option>
-          <option>서초</option>
         </select>
         <label for="down-station" class="input-label" hidden
           >하행역</label
@@ -84,7 +69,7 @@ export const modalTemplate = `
           id="distance"
           name="distance"
           class="input-field mr-2"
-          placeholder="상행 하행역 거리"
+          placeholder="상행 하행역 거리(km)"
           required
         />
         <label for="duration" class="input-label" hidden
@@ -95,7 +80,7 @@ export const modalTemplate = `
           id="duration"
           name="arrival"
           class="input-field"
-          placeholder="상행 하행역 시간"
+          placeholder="상행 하행역 시간(분)"
           required
         />
       </div>
@@ -120,6 +105,7 @@ export const modalTemplate = `
         <button
           type="submit"
           name="submit"
+          id="modal-create-line"
           class="input-submit bg-cyan-300"
         >
           확인
