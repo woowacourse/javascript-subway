@@ -1,23 +1,30 @@
 import { goTo } from '../../../router/index.js';
-import { fetchLogin, notify } from '../../../utils/index.js';
+import { fetchLogin, showNotification, reportError } from '../../../utils/index.js';
 import { login } from '../../../auth/index.js';
-import { AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
+import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
 
 const requestLogin = async ({ formData }) => {
   try {
     const response = await fetchLogin(formData);
+    const body = await response.json();
 
-    if (!response.ok) {
-      throw new Error(AUTH_MESSAGES.LOGIN_HAS_BEEN_FAILED);
+    if (response.status === STATUS_CODE.LOGIN.FAILED) {
+      showNotification(AUTH_MESSAGES.USER_EMAIL_OR_PASSWORD_IS_INVALID);
+      return;
     }
 
-    const { accessToken } = await response.json();
+    if (!response.ok) {
+      throw new Error(`[status code: ${response.status}] ${body}`);
+    }
 
-    login(accessToken);
-    notify(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
+    login(body.accessToken);
+    showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
     goTo(PATHNAMES.STATIONS);
   } catch (error) {
-    notify(error.message);
+    reportError({
+      messageToUser: AUTH_MESSAGES.LOGIN_HAS_BEEN_FAILED,
+      messageToLog: error.message,
+    });
   }
 };
 

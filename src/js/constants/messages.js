@@ -6,7 +6,8 @@ const AUTH_MESSAGES = Object.freeze({
   USER_PASSWORD_IS_REQUIRED: '비밀번호를 입력해주세요.',
   SIGN_UP_HAS_BEEN_COMPLETED: '회원가입이 성공적으로 완료되었습니다.',
   SIGN_UP_HAS_BEEN_FAILED: '회원가입에 실패하였습니다.\n문제가 지속되면 관리자에게 문의해주세요.',
-  LOGIN_HAS_BEEN_FAILED: '로그인에 실패하였습니다. 아이디 또는 비밀번호를 확인해주세요.',
+  USER_EMAIL_OR_PASSWORD_IS_INVALID: '로그인에 실패하였습니다. 아이디 또는 비밀번호를 확인해주세요.',
+  LOGIN_HAS_BEEN_FAILED: '로그인에 실패하였습니다. \n문제가 지속되면 관리자에게 문의해주세요.',
   LOGIN_HAS_BEEN_COMPLETED: '로그인에 성공하였습니다.',
   INPUT_VALIDATION_HAS_BEEN_FAILED: '입력하신 내용을 검사할 수 없습니다.\n문제가 지속되면 관리자에게 문의해주세요.',
 });
