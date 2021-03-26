@@ -49,7 +49,33 @@ const addLine = async (accessToken, { name, color, upStationId, downStationId, d
   }
 };
 
+const modifyLine = async (accessToken, lineId, { name, color, upStationId, downStationId, distance, duration }) => {
+  const url = `${BASE_URL}/lines/${lineId}`;
+  const option = {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      color,
+      upStationId,
+      downStationId,
+      distance,
+      duration,
+    }),
+  };
+
+  try {
+    await request(url, option);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const lineManageAPI = {
-  addLine,
   getLines,
+  addLine,
+  modifyLine,
 };

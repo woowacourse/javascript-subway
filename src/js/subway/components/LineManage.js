@@ -31,10 +31,20 @@ export class LineManage {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      this.$$lineModal.$upStationSelector.innerHTML = this.props.cache.stations
+      this.$$lineModal.$upStationSelector.innerHTML = selectorOption({
+        text: '상행선',
+        selected: true,
+        disabled: true,
+      });
+      this.$$lineModal.$upStationSelector.innerHTML += this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
-      this.$$lineModal.$downStationSelector.innerHTML = this.props.cache.stations
+      this.$$lineModal.$downStationSelector.innerHTML = selectorOption({
+        text: '하행선',
+        selected: true,
+        disabled: true,
+      });
+      this.$$lineModal.$downStationSelector.innerHTML += this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
     } catch (error) {
@@ -119,13 +129,17 @@ export class LineManage {
 
       if (this.submitType === 'add') {
         const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
+
         this.$lineList.innerHTML += lineInfo(line);
       }
       if (this.submitType === 'modify') {
-        // const line = await lineManageAPI.addLine(accessToken, requestLineInfo);
+        const lineId = this.$$lineModal.$form.dataset.lineId;
+
+        await lineManageAPI.modifyLine(accessToken, lineId, requestLineInfo);
+        await this.renderLineList();
       }
 
-      this.$$lineModal.$$form.reset();
+      this.$$lineModal.$form.reset();
       hideModal(this.props.$modal);
     } catch (error) {
       console.error(error.message);
@@ -135,10 +149,15 @@ export class LineManage {
   }
 
   handleModifyButton({ target }) {
-    // if (!target.classList.contains('js-modify-button')) return;
-    // // TODO: add, modify 상수화
-    // this.submitType = 'modify';
-    // showModal(this.props.$modal);
+    // TODO: add, modify 상수화
+    if (!target.classList.contains('js-modify-button')) return;
+    const line = target.closest('.js-line-list-item');
+
+    this.submitType = 'modify';
+    this.$$lineModal.$form.dataset.lineId = line.dataset.id;
+    this.$$lineModal.$nameInput.value = line.dataset.name;
+    this.$$lineModal.$colorInput.value = line.dataset.color;
+    showModal(this.props.$modal);
   }
 
   handleRemoveButton({ target }) {
