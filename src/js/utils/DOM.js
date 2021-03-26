@@ -1,4 +1,12 @@
 function $(target) {
   return document.querySelector(target);
 }
-export { $ };
+
+function onModalShow() {
+  $('.modal').classList.add('open');
+}
+
+function onModalClose() {
+  $('.modal').classList.remove('open');
+}
+export { $, onModalShow, onModalClose };

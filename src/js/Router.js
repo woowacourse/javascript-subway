@@ -5,7 +5,7 @@ import LoginPage from './pages/login/LoginPage.js';
 import SignupPage from './pages/signup/SignupPage.js';
 import MainPage from './pages/main/MainPage.js';
 import StationsController from './pages/stations/StationsController.js';
-import LinesPage from './pages/lines/LinesPage.js';
+import LinesController from './pages/lines/LinesController.js';
 import SectionsPage from './pages/sections/SectionsPage.js';
 import { PATH } from './constants/path.js';
 
@@ -17,7 +17,7 @@ class Router {
     this.loginPage = new LoginPage(this);
     this.mainPage = new MainPage(this);
     this.stationsPage = new StationsController(this);
-    this.linesPage = new LinesPage(this);
+    this.linesPage = new LinesController(this);
     this.sectionsPage = new SectionsPage(this);
 
     this.routes = {
