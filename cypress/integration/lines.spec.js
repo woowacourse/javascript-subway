@@ -22,7 +22,7 @@ describe('지하철 노선 관리 테스트', () => {
   });
 
   it('새로운 지하철 노선을 등록할 수 있다.', () => {
-    const newLineName = '분당선';
+    const newLineName = '우아한테크코스선2';
 
     cy.intercept('POST', `${requestURL}/lines`).as('createLine');
 
@@ -36,7 +36,6 @@ describe('지하철 노선 관리 테스트', () => {
     cy.get('#duration').type('5');
 
     cy.get('.bg-orange-500').click();
-    cy.get('.input-control').find('.subway-line-color-dot').should('have.class', '.bg-orange-500');
 
     cy.get('#modal-create-line').click();
     cy.wait('@createLine');
@@ -52,7 +51,6 @@ describe('지하철 노선 관리 테스트', () => {
     cy.get('.modal').should('be.visible');
 
     cy.get('#subway-line-name').type(newLineName).blur();
-
-    cy.get('#line-duplicated-warning').should('have.text', '노선이 이미 존재합니다.');
+    cy.get('#line-duplicated-warning').should('be.visible').and('have.text', '노선이 이미 존재합니다.');
   });
 });
