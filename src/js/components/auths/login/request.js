@@ -1,24 +1,11 @@
 import { goTo } from '../../../router/index.js';
-import { notify } from '../../../utils/index.js';
+import { fetchLogin, notify } from '../../../utils/index.js';
 import { login } from '../../../auth/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
+import { AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
-const requestLogin = async (event) => {
-  event.preventDefault();
-
-  const { email: $email, password: $password } = event.target.elements;
-
+const requestLogin = async ({ formData }) => {
   try {
-    const response = await fetch(API_ENDPOINT.LOGIN, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({
-        email: $email.value,
-        password: $password.value,
-      }),
-    });
+    const response = await fetchLogin(formData);
 
     if (!response.ok) {
       throw new Error(AUTH_MESSAGES.LOGIN_HAS_BEEN_FAILED);
