@@ -1,16 +1,8 @@
-import {
-  loginRequest,
-  signupRequest,
-  checkEmailDuplicatedRequest,
-} from '../../request.js';
+import { loginRequest, signupRequest, checkEmailDuplicatedRequest } from '../../request.js';
 import { $, show, hide } from '../../utils/dom.js';
 import { setCookie } from '../../utils/cookie.js';
 import routeTo from '../../router.js';
-import {
-  SELECTOR,
-  MESSAGES,
-  SESSION_EXPIRE_DAYS,
-} from '../../constants/constants.js';
+import { SELECTOR, MESSAGES, SESSION_EXPIRE_DAYS } from '../../constants/constants.js';
 import signupTemplate from './template.js';
 
 export default class SignupForm {
@@ -48,15 +40,9 @@ export default class SignupForm {
 
   bindEvents() {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
-    this.$emailInput.addEventListener(
-      'focusout',
-      this.checkEmailAvailable.bind(this)
-    );
+    this.$emailInput.addEventListener('focusout', this.checkEmailAvailable.bind(this));
     this.$password.addEventListener('focusout', this.getPassword.bind(this));
-    this.$passwordConfirm.addEventListener(
-      'input',
-      this.checkPasswordCorrect.bind(this)
-    );
+    this.$passwordConfirm.addEventListener('input', this.checkPasswordCorrect.bind(this));
   }
 
   handleSubmit(event) {
