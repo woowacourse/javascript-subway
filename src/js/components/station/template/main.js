@@ -1,4 +1,4 @@
-export const mainTemplate = () => {
+export const mainTemplate = (stationList) => {
   return `
     <div class="wrapper bg-white p-10">
       <div class="heading">
@@ -26,37 +26,27 @@ export const mainTemplate = () => {
           </button>
         </div>
       </form>
-      <ul class="mt-3 pl-0">
-        <li class="js-station station-list-item d-flex items-center py-2">
-          <span class="w-100 pl-2">사당</span>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm mr-1"
-          >
-            수정
-          </button>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm"
-          >
-            삭제
-          </button>
-        </li>
-        <hr class="my-0" />
-        <li class="js-station station-list-item d-flex items-center py-2">
-          <span class="w-100 pl-2">방배</span>
-          <button
-            type="button"
-            class="js-station__edit bg-gray-50 text-gray-500 text-sm mr-1"
-          >
-            수정
-          </button>
-          <button type="button" class="js-station__delete bg-gray-50 text-gray-500">
-            삭제
-          </button>
-        </li>
-        <hr class="my-0" />
+      <ul class="js-station-list mt-3 pl-0">
+        ${stationList.map(stationListItem).join('')}
       </ul>
     </div>
   `;
 };
+
+const stationListItem = ({ id, name }) => `
+    <li class="js-station-item station-list-item d-flex items-center py-2" data-id="${id}" data-name="${name}">
+      <span class="w-100 pl-2">${name}</span>
+      <button
+        type="button"
+        class="js-station-item__edit bg-gray-50 text-gray-500 text-sm mr-1"
+      >
+        수정
+      </button>
+      <button
+        type="button"
+        class="js-station-item__delete bg-gray-50 text-gray-500 text-sm"
+      >
+        삭제
+      </button>
+    </li>
+`;

@@ -7,7 +7,7 @@ export const stationModal = () => `
         </svg>
       </button>
       <header>
-        <h2 class="text-center">🛤️ 역 추가</h2>
+        <h2 class="text-center">🛤️ 역 수정</h2>
       </header>
       <form id="edit-station-form">
         <div class="input-control">
