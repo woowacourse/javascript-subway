@@ -5,7 +5,7 @@ import {
   SUCCESS_MESSAGE,
 } from '../../constants';
 import { request } from '../../utils/api';
-import { isEmptyString, isWrongEmailFormat } from '../../utils/validation';
+import { isEmptyString, isValidEmailFormat } from '../../utils/validation';
 
 export const checkNameValid = name => {
   if (isEmptyString(name)) {
@@ -17,7 +17,7 @@ export const checkNameValid = name => {
 
 export const checkEmailValid = async email => {
   try {
-    if (isWrongEmailFormat(email)) {
+    if (!isValidEmailFormat(email)) {
       return { isValid: false, message: ERROR_MESSAGE.WRONG_EMAIL_FORMAT };
     }
     await request(`${BASE_URL}${ACTIONS.DUPLICATED_EMAIL}${email}`);
