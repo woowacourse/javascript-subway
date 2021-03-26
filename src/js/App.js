@@ -8,7 +8,7 @@ import Stations from './components/stations/Stations.js';
 import Lines from './components/lines/Lines.js';
 import Sections from './components/sections/Sections.js';
 
-import { snackbar } from './utils/snackbar.js';
+import { showSnackbar } from './utils/snackbar.js';
 import { getLocalStorageItem } from './utils/storage.js';
 import { request } from './utils/api.js';
 import {
@@ -25,7 +25,7 @@ class App {
 
   constructor() {
     this.#isLoggedIn = false;
-    this.#showSnackbar = snackbar();
+    this.#showSnackbar = showSnackbar();
   }
 
   init() {
