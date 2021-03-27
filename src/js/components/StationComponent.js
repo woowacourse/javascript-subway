@@ -7,7 +7,6 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   REQUEST_URL,
-  STATE_KEY,
 } from '../constants.js';
 import {
   fetchStationList,
@@ -24,20 +23,13 @@ class StationComponent extends Component {
 
   initLoad() {
     // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
-    loadStationList(
-      this.props.stationState,
-      this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
-    );
+    loadStationList(this.props.stationState, this.props.loginState.Data);
   }
 
   initState() {
-    this.props.stationState.setListener(
-      STATE_KEY.STATION,
-      this.handleStationListToUpdate
-    );
+    this.props.stationState.setListener(this.handleStationListToUpdate);
   }
 
-  // TODO: 메서드 선언 순서 고민해보기
   initEvent() {
     $(`#${ID_SELECTOR.STATION_FORM}`).addEventListener(
       'submit',
@@ -77,7 +69,7 @@ class StationComponent extends Component {
   }
   #removeStation = async id => {
     const url = REQUEST_URL + `/stations/${id}`;
-    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.Data;
 
     try {
       await fetchStationRemoval(url, {
@@ -87,10 +79,7 @@ class StationComponent extends Component {
         },
       });
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
-      loadStationList(
-        this.props.stationState,
-        this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
-      );
+      loadStationList(this.props.stationState, this.props.loginState.Data);
     } catch (err) {
       alert(err.message);
       return;
@@ -116,7 +105,7 @@ class StationComponent extends Component {
     const data = {
       name: revisionName,
     };
-    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.Data;
 
     try {
       await fetchStationNameRevision(url, {
@@ -129,10 +118,7 @@ class StationComponent extends Component {
       });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
-      loadStationList(
-        this.props.stationState,
-        this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
-      );
+      loadStationList(this.props.stationState, this.props.loginState.Data);
     } catch (err) {
       alert(err.message);
       return;
@@ -152,7 +138,7 @@ class StationComponent extends Component {
     const inputName = $input.value;
     const url = REQUEST_URL + '/stations';
     const data = { name: inputName };
-    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.Data;
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
@@ -168,10 +154,10 @@ class StationComponent extends Component {
       alert('역 추가 완료');
 
       const { id, name } = await response.json();
-      const stations = this.props.stationState.getData(STATE_KEY.STATION);
+      const stations = this.props.stationState.Data;
       // TODO: State 클래스에 pushData 만들기
       stations.push({ id, name });
-      this.props.stationState.setData({ [STATE_KEY.STATION]: stations });
+      this.props.stationState.Data = stations;
 
       $input.value = '';
     } catch (err) {

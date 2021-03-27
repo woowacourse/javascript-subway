@@ -1,7 +1,7 @@
 import Component from './Component.js';
 import MY_INFO_TEMPLATE from '../templates/myInfoTemplate.js';
 import { fetchMyInfo } from '../utils/fetch.js';
-import { ID_SELECTOR, REQUEST_URL, STATE_KEY } from '../constants.js';
+import { ID_SELECTOR, REQUEST_URL } from '../constants.js';
 import $ from '../utils/querySelector.js';
 
 class MyInfoComponent extends Component {
@@ -16,7 +16,7 @@ class MyInfoComponent extends Component {
 
   async #renderMyInfo() {
     const url = REQUEST_URL + '/members/me';
-    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.Data;
 
     try {
       const response = await fetchMyInfo(url, accessToken);

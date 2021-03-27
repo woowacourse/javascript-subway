@@ -1,4 +1,4 @@
-import { REQUEST_URL, STATE_KEY } from '../constants';
+import { REQUEST_URL } from '../constants';
 import { fetchStationList } from './fetch';
 
 //TODO: load = fetch + state에 담기라서 네이밍 고민해보기
@@ -19,7 +19,7 @@ export const loadStationList = async (state, accessToken) => {
       name: station.name,
     }));
 
-    state.setData({ [STATE_KEY.STATION]: stations });
+    state.Data = stations;
   } catch (err) {
     alert(err.message);
     return;
