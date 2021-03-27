@@ -11,7 +11,6 @@ export default class Main extends Component {
   bindEvent() {}
 
   render(token) {
-    console.log(Boolean(token));
     $('main').innerHTML = token ? mainTemplate() : LOGIN_REQUIRED_TEMPLATE;
   }
 
