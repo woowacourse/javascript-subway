@@ -27,20 +27,6 @@ form .input-field:focus:invalid {
   border-color: rgb(53, 53, 53);
 }
 
-form .input-field + span::before {
-  position: absolute;
-  right: 30px;
-  transform: translateY(-50%);
-}
-
-form .input-field:focus:invalid + span::before {
-  content: '🙅❗️';
-}
-
-form .input-field:focus:valid + span::before {
-  content: '👍';
-}
-
 form .input-submit {
   font-size: 1rem;
   line-height: inherit;

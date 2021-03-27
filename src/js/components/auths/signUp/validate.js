@@ -1,26 +1,46 @@
-import { getInputValidator, fetchEmailValidation } from '../../../utils/index.js';
+import { fetchEmailValidation } from '../../../utils/index.js';
 import { AUTH_MESSAGES } from '../../../constants/index.js';
 
-export const validateForm = ({ currentTarget }) => {
+export const updateSubmitButtonState = ({ currentTarget }) => {
   const $button = currentTarget.submit;
 
   $button.disabled = !currentTarget.checkValidity();
 };
 
-export const validateName = getInputValidator(getNameValidityMessage);
-export const validateEmail = getInputValidator(getEmailValidityMessage);
-export const validatePassword = getInputValidator(getPasswordValidityMessage);
+export const updateValidationMessageOfName = ({ target }) => {
+  const message = getValidationMessageOfName(target);
+  const $message = target.form.querySelector('.name-validation-message');
 
-function getNameValidityMessage($input) {
+  $message.innerText = message;
+};
+
+export const updateValidationMessageOfEmail = async ({ target }) => {
+  const message = await getValidationMessageOfEmail(target);
+  const $message = target.form.querySelector('.email-validation-message');
+
+  $message.innerText = message;
+  target.setCustomValidity(message === AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED ? message : '');
+  target.checkValidity();
+};
+
+export const updateValidationMessageOfPassword = ({ target }) => {
+  const message = getValidationMessageOfPassword(target);
+  const $message = target.form.querySelector('.password-validation-message');
+
+  $message.innerText = message;
+};
+
+function getValidationMessageOfName($input) {
   const { valueMissing } = $input.validity;
 
   if (valueMissing) {
     return AUTH_MESSAGES.USER_NAME_IS_REQUIRED;
   }
-  return '';
+
+  return AUTH_MESSAGES.USER_NAME_IS_AVAILABLE;
 }
 
-async function getEmailValidityMessage($input) {
+async function getValidationMessageOfEmail($input) {
   const { valueMissing, typeMismatch } = $input.validity;
   const email = $input.value;
 
@@ -42,14 +62,14 @@ async function getEmailValidityMessage($input) {
     return error.message;
   }
 
-  return '';
+  return AUTH_MESSAGES.USER_EMAIL_IS_AVAILABLE;
 }
 
-function getPasswordValidityMessage($input) {
+function getValidationMessageOfPassword($input) {
   const { valueMissing } = $input.validity;
   if (valueMissing) {
     return AUTH_MESSAGES.USER_PASSWORD_IS_REQUIRED;
   }
 
-  return '';
+  return AUTH_MESSAGES.USER_PASSWORD_IS_AVAILABLE;
 }

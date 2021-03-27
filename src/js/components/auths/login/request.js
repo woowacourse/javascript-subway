@@ -6,7 +6,6 @@ import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.
 const requestLogin = async ({ formData }) => {
   try {
     const response = await fetchLogin(formData);
-    const body = await response.json();
 
     if (response.status === STATUS_CODE.LOGIN.FAILED) {
       showNotification(AUTH_MESSAGES.USER_EMAIL_OR_PASSWORD_IS_INVALID);
@@ -14,10 +13,13 @@ const requestLogin = async ({ formData }) => {
     }
 
     if (!response.ok) {
-      throw new Error(`[status code: ${response.status}] ${body}`);
+      const errorMessage = await response.text();
+      throw new Error(`[status code: ${response.status}] ${errorMessage}`);
     }
 
-    login(body.accessToken);
+    const { accessToken } = await response.json();
+
+    login(accessToken);
     showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
     goTo(PATHNAMES.STATIONS);
   } catch (error) {
