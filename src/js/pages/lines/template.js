@@ -98,14 +98,14 @@ export const lineAddModalTemplate = `
             />
           </div>
         </div>
-        <div class="subway-line-color-selector px-2">
+        <div class="js-subway-line-color-selector subway-line-color-selector px-2">
           ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
         </div>
         <div class="d-flex justify-end mt-3">
           <button
             type="submit"
             name="submit"
-            class="input-submit bg-cyan-300"
+            class="js-input-submit input-submit bg-cyan-300"
           >
             확인
           </button>
@@ -155,14 +155,14 @@ export const lineEditModalTemplate = `
             />
           </div>
         </div>
-        <div class="subway-line-color-selector px-2">
+        <div class="js-subway-line-color-selector subway-line-color-selector px-2">
           ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
         </div>
         <div class="d-flex justify-end mt-3">
           <button
             type="submit"
             name="submit"
-            class="input-submit bg-cyan-300"
+            class="js-input-submit input-submit bg-cyan-300"
           >
             확인
           </button>
