@@ -27,18 +27,22 @@ export const stationsTemplate = stations => {
       </div>
     </form>
     <ul id="station-list" class="mt-3 pl-0">
-      ${stations.map(stationTemplate).join('')}
+      ${Object.keys(stations)
+        .map(id => {
+          return stationTemplate(id, stations[id]);
+        })
+        .join('')}
     </ul>
   </div>`;
 };
 
-export const stationTemplate = ({ id, name }) => {
+export const stationTemplate = (id, { name }) => {
   return `
   <li class="station-list-item d-flex items-center py-2" data-station-id=${id}>
   <span class="w-100 pl-2">${name}</span>
   <button
   type="button"
-  class="modify-button bg-gray-50 text-gray-500 text-sm mr-1"
+  class="modify-button modal-trigger-btn bg-gray-50 text-gray-500 text-sm mr-1"
 >
   수정
 </button>

@@ -13,19 +13,26 @@ import {
 } from '../../constants.js';
 import { request } from '../../utils/api.js';
 import { $, clearForm } from '../../utils/dom.js';
+
 import { showSnackbar } from '../../utils/snackbar.js';
 import { getLocalStorageItem } from '../../utils/storage.js';
-import { stationsTemplate, stationTemplate } from './stationTemplate.js';
+import StationModal from './stationModal.js';
+import {
+  modalTemplate,
+  stationsTemplate,
+  stationTemplate,
+} from './stationTemplate.js';
 import { checkStationValid } from './stationValidator.js';
 
 class Station {
   #userAccessToken;
   #stations;
-  #props;
+  #modal;
 
   constructor() {
     this.#userAccessToken = null;
-    this.#stations = null;
+    this.#stations = {};
+    this.#modal = new StationModal();
   }
 
   async init() {
@@ -38,6 +45,7 @@ class Station {
       title: PAGE_TITLE.STATIONS,
       contents: {
         main: stationsTemplate(this.#stations),
+        modal: modalTemplate(),
       },
     };
   }
@@ -48,6 +56,7 @@ class Station {
     // => 역 추가, 역 수정, 역 삭제
     this.$addStationForm = $(SELECTOR.ADD_STATION_FORM);
     this.$stationList = $(SELECTOR.STATION_LIST);
+    this.#modal.init();
     this._bindEvent();
   }
 
@@ -56,11 +65,15 @@ class Station {
       const option = {
         Authorization: `Bearer ${this.#userAccessToken}`,
       };
-      this.#stations = await request(
+      const requestedStation = await request(
         `${BASE_URL}${ACTIONS.STATIONS}`,
         option,
       ).then(res => {
         return res.json();
+      });
+
+      requestedStation.forEach(({ id, ...rest }) => {
+        this.#stations[id] = rest;
       });
     } catch {
       alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
@@ -81,7 +94,7 @@ class Station {
   _bindUpdateStationEvent() {
     this.$stationList.addEventListener('click', e => {
       if (e.target.classList.contains('modify-button')) {
-        this._handleModifyStation(e);
+        this.#modal.handleModifyStationOpen(this._getSelectedStationInfo(e));
         return;
       }
 
@@ -131,7 +144,25 @@ class Station {
     }
   }
 
-  async _handleModifyStation(e) {}
+  // async _handleModifyStationOpen(e) {
+
+  //   onModalShow();
+  //   const stationItem = e.target.closest('[data-station-id]');
+  //   $('#station-modify-input').value = this.#stations[
+  //     stationItem.dataset.stationId
+  //   ].name;
+
+  //   $('#station-modify-input').focus();
+  // }
+
+  // async _handleModifyStation(e) {
+
+  //   // 모달 열기 + input값 초기화
+
+  //   this.modal._handleModifyStation(e, this.#stations)
+  //   onModalClose()
+  //   // proccess 처리
+  // }
 
   async _handleRemoveStation(e) {
     if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
@@ -142,18 +173,23 @@ class Station {
         Authorization: `Bearer ${this.#userAccessToken}`,
       };
 
-      const stationItem = e.target.closest('[data-station-id]');
-      await request(
-        `${BASE_URL}${ACTIONS.STATIONS}/${stationItem.dataset.stationId}`,
-        option,
-      );
+      const { $stationItem, id } = this._getSelectedStationInfo(e);
 
-      stationItem.remove();
+      await request(`${BASE_URL}${ACTIONS.STATIONS}/${id}`, option);
+
+      $stationItem.remove();
       showSnackbar(SUCCESS_MESSAGE.REMOVE_STATION);
     } catch (error) {
-      console.log(error);
       showSnackbar(ERROR_MESSAGE.REMOVE_STATION_FAILED);
     }
+  }
+
+  _getSelectedStationInfo({ target }) {
+    const $stationItem = target.closest('[data-station-id]');
+    const id = $stationItem.dataset.stationId;
+    const name = this.#stations[id].name;
+
+    return { $stationItem, id, name };
   }
 }
 
