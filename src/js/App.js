@@ -41,7 +41,7 @@ class App {
         Authorization: `Bearer ${userAccessToken}`,
         Accept: 'application/json',
       };
-      await request(BASE_URL + ACTIONS.USER, option);
+      await request(`${BASE_URL}${ACTIONS.USER}`, option);
 
       return true;
     } catch {

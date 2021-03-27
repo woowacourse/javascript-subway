@@ -1,6 +1,7 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
-@import "./pages/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
+@import './pages/index.css';
+@import './pages/station.css';
 
 html,
 body {

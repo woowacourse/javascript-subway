@@ -1,6 +1,8 @@
+import { REQUEST_METHOD } from '../constants';
+
 export const request = async (
   url,
-  { method = 'GET', body = null, Accept = '', Authorization = '' },
+  { method = REQUEST_METHOD.GET, body = null, Accept = '', Authorization = '' },
 ) => {
   const response = await fetch(url, {
     method,
