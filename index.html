@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html lang="kr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>🚇 지하철 노선도</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/src/css/index.css" />
-  </head>
-  <body>
-    <div id="app">
-      <div class="d-flex justify-center mt-5 w-100">
-        <div class="w-100">
-          <header class="my-4"></header>
-          <main class="mt-10 d-flex justify-center">
-            <div class="d-flex flex-col">
-              <div class="d-flex justify-center">
-                <img src="src/images/subway_emoji.png" width="200" />
-              </div>
-              <p class="mt-0 text-center">
-                지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
-              </p>
-            </div>
-          </main>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>🚇 지하철 노선도</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="d-flex justify-center mt-5 w-100">
+      <div class="w-100">
+        <header class="my-4">
+          <a href="/" class="text-black">
+            <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+          </a>
+          <nav id="navigation" class="d-flex justify-center flex-wrap">
+            <a href="/stations" class="my-1">
+              <button type="button" id="stations-nav-button" class="nav-btn btn bg-white shadow mx-1">🚉 역 관리</button>
+            </a>
+            <a href="/lines" class="my-1">
+              <button type="button" id="lines-nav-button" class="nav-btn btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+            </a>
+            <a href="/sections" class="my-1">
+              <button type="button" id="sections-nav-button" class="nav-btn btn bg-white shadow mx-1">🔁 구간 관리</button>
+            </a>
+            <a href="/map" class="my-1">
+              <button type="button" id="map-nav-button" class="nav-btn btn bg-white shadow mx-1" disabled>🗺️ 전체 보기</button>
+            </a>
+            <a href="/search" class="my-1">
+              <button type="button" id="search-nav-button" class="nav-btn btn bg-white shadow mx-1" disabled>🔎 길 찾기</button>
+            </a>
+            <a href="/login" class="my-1">
+              <button type="button" id="login-nav-button" class="nav-btn btn bg-white shadow mx-1" data-action="login">👤 로그인</button>
+            </a>
+          </nav>
+        </header>
+        <main id="content" class="mt-10 d-flex justify-center">
+        </main>
       </div>
     </div>
-    <script type="module" src="./src/js/index.js"></script>
-  </body>
+
+    <div class="modal"></div>
+  </div>
+</body>
+
 </html>

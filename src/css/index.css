@@ -1,5 +1,6 @@
 @import "./shared/index.css";
 @import "./ui/index.css";
+@import "./pages/index.css";
 
 html,
 body {
@@ -45,4 +46,18 @@ ul li button {
 
 ul li button:hover {
   background-color: rgb(229, 231, 235);
+}
+
+.duplicate-check-btn {
+  width: 8rem !important;
+}
+
+#navigation button:enabled:hover {
+  background-color: #2ac1bc;
+  color: #ffffff;
+}
+
+#navigation button.selected {
+  background-color: #2ac1bc;
+  color: #ffffff;
 }

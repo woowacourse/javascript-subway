@@ -18,6 +18,10 @@ form .input-field {
   background: #f1f5f9;
 }
 
+form .input-field:focus {
+  border: 1px solid rgb(78, 207, 224);
+} 
+
 form .input-submit {
   font-size: 1rem;
   line-height: inherit;
@@ -28,6 +32,14 @@ form .input-submit {
   border: none;
   outline: none;
   border-radius: 2rem;
+}
+
+form .input-submit:focus {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+form .input-submit:hover {
+  background-color:  rgb(0, 188, 212);
 }
 
 form select {
