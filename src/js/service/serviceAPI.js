@@ -1,4 +1,6 @@
 import { API } from '../utils/API.js';
+import { showSnackbar } from '../utils/index.js';
+import { SNACKBAR_MESSAGE } from '../constants/index.js';
 
 export const isValidToken = async (token) => {
   try {
@@ -28,8 +30,8 @@ export const isSignupSuccess = async ({ email, password, name }) => {
     await API.signup({ email, password, name });
 
     return true;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return false;
   }
 };
@@ -39,8 +41,8 @@ export const isDuplicatedEmail = async (email) => {
     await API.checkDuplicateEmail(email);
 
     return false;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return true;
   }
 };
@@ -51,8 +53,8 @@ export const getStationList = async (token) => {
     const responseJSON = await response.json();
 
     return responseJSON || null;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return null;
   }
 };
@@ -66,13 +68,13 @@ export const getCreatedStationData = async ({ token, name }) => {
     const responseJSON = await response.json();
 
     return responseJSON;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return null;
   }
 };
 
-export const isStationDeleted = async ({ token, id }) => {
+export const stationDeleted = async ({ token, id }) => {
   try {
     await API.deleteStation({
       token,
@@ -80,8 +82,11 @@ export const isStationDeleted = async ({ token, id }) => {
     });
 
     return true;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    if (status === 400) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_POSSIBLE_DELETE);
+    }
+
     return false;
   }
 };
@@ -90,8 +95,7 @@ export const isStationEdited = async ({ token, name, id }) => {
   try {
     await API.editStation({ token, name, id });
     return true;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
     return false;
   }
 };
@@ -102,8 +106,8 @@ export const getLineList = async (token) => {
     const responseJSON = await response.json();
 
     return responseJSON || null;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return null;
   }
 };
@@ -114,8 +118,8 @@ export const getLineData = async ({ token, id }) => {
     const responseJSON = await response.json();
 
     return responseJSON || null;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return null;
   }
 };
@@ -131,13 +135,13 @@ export const getCreatedLineData = async ({ token, ...contents }) => {
     const responseJSON = await response.json();
 
     return responseJSON;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return null;
   }
 };
 
-export const isLineDeleted = async ({ token, id }) => {
+export const lineDeleted = async ({ token, id }) => {
   try {
     await API.deleteLine({
       token,
@@ -145,8 +149,8 @@ export const isLineDeleted = async ({ token, id }) => {
     });
 
     return true;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return false;
   }
 };
@@ -155,8 +159,8 @@ export const isLineEdited = async ({ token, name, id }) => {
   try {
     await API.editLine({ token, name, id });
     return true;
-  } catch (err) {
-    console.error(err);
+  } catch (status) {
+    console.error(status);
     return false;
   }
 };

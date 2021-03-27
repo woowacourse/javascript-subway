@@ -27,4 +27,5 @@ export const SNACKBAR_MESSAGE = {
   IS_NOT_VALID_LINE_NAME_LENGTH: `노선의 이름은 ${LINES.MIN_LINE_NAME_LENGTH}글자 이상, ${LINES.MAX_LINE_NAME_LENGTH}글자 이하만 입력 가능합니다.`,
   IS_NOT_VALID_DEPARTURE_AND_ARRIVAL: '상행선 역과 하행선 역이 같습니다.',
   IS_NOT_POSITIVE_NUMBER: '0보다 큰 값을 입력해주세요.',
+  IS_NOT_POSSIBLE_DELETE: '노선 및 구간에 등록된 역은 삭제하실 수 없습니다.',
 };
