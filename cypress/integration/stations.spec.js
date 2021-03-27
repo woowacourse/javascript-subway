@@ -1,9 +1,14 @@
-import { ERROR_MESSAGE } from "../../src/js/constants/messages.js";
+import {
+  ERROR_MESSAGE,
+  CONFIRM_MESSAGE,
+} from "../../src/js/constants/messages.js";
 import { TEST_EMAIL, TEST_PW, END_POINT } from "../constants/general.js";
 
 describe("역 관리 페이지", () => {
   before(() => {
     cy.visit("http://127.0.0.1:8080/");
+
+    sessionStorage.clear();
 
     cy.intercept("POST", `${END_POINT}/login/token`).as("login");
     cy.get("#email").clear().type(TEST_EMAIL);
@@ -19,16 +24,12 @@ describe("역 관리 페이지", () => {
 
   it("2자 미만의 역 이름을 입력한 경우 역을 추가할 수 없다.", () => {
     cy.get(".js-station-name").first().type("브").type("{enter}");
-    cy.get(".js-station-name:invalid").should("have.length", 1);
+    cy.get(".js-station-list").children().should("have.length", 0);
   });
 
-  it("20자 초과의 역 이름을 입력한 경우 역을 추가할 수 없다.", () => {
-    cy.get(".js-station-name")
-      .first()
-      .clear()
-      .type("브".repeat(21))
-      .type("{enter}");
-    cy.get(".js-station-name:invalid").should("have.length", 1);
+  it("20자 초과의 역 이름을 입력할 수 없다..", () => {
+    cy.get(".js-station-name").first().clear().type("브".repeat(30));
+    cy.get(".js-station-name").should("have.value", "브".repeat(20));
   });
 
   const STATION_NAME = ["비피더스역", "쿠팡역"];
@@ -42,12 +43,12 @@ describe("역 관리 페이지", () => {
         .type(stationName)
         .type("{enter}");
 
-      cy.wait("@stations");
-
-      cy.get(".js-station-list > li:last-child > span").should(
-        "have.text",
-        stationName
-      );
+      cy.wait("@stations").then(() => {
+        cy.get(".js-station-list > li:last-child > span").should(
+          "have.text",
+          stationName
+        );
+      });
     });
   });
 
@@ -59,16 +60,16 @@ describe("역 관리 페이지", () => {
       .type(STATION_NAME[0])
       .type("{enter}");
 
-    cy.wait("@stations");
-
-    cy.get(".js-snackbar").should(
-      "have.text",
-      ERROR_MESSAGE.DUPLICATED_STATION
-    );
-    cy.get(".js-station-list > li:first-child > span").should(
-      "have.class",
-      "bg-red-200"
-    );
+    cy.wait("@stations").then(() => {
+      cy.get(".js-snackbar").should(
+        "have.text",
+        ERROR_MESSAGE.DUPLICATED_STATION
+      );
+      cy.get(".js-station-list > li:first-child").should(
+        "have.class",
+        "blink-red"
+      );
+    });
   });
 
   it("지하철 역 수정 버튼을 클릭하면 수정 모달이 나타난다.", () => {
@@ -77,17 +78,20 @@ describe("역 관리 페이지", () => {
   });
 
   it("수정할 역 이름이 2자 미만인 경우 수정할 수 없다.", () => {
-    cy.get(".js-modify-station-name").first().type("썬").type("{enter}");
-    cy.get(".js-modify-station-name:invalid").should("have.length", 1);
-  });
-
-  it("수정할 역 이름이 20자 초과인 경우 수정할 수 없다.", () => {
     cy.get(".js-modify-station-name")
       .first()
       .clear()
-      .type("썬".repeat(21))
+      .type("썬")
       .type("{enter}");
-    cy.get(".js-modify-station-name:invalid").should("have.length", 1);
+    cy.get(".js-station-list > li:last-child > span").should(
+      "not.have.text",
+      "썬"
+    );
+  });
+
+  it("수정할 역 이름이 20자 초과인 경우 수정할 수 없다.", () => {
+    cy.get(".js-modify-station-name").first().clear().type("썬".repeat(30));
+    cy.get(".js-modify-station-name").should("have.value", "썬".repeat(20));
   });
 
   it("수정할 역 이름이 기존에 존재하는 역 이름과 중복되는 경우 하단에 안내 메세지를 보여준다.", () => {
@@ -96,7 +100,7 @@ describe("역 관리 페이지", () => {
       .clear()
       .type(STATION_NAME[0])
       .type("{enter}");
-    cy.get(".js-duplicated-station-message")
+    cy.get(".js-modify-station-message")
       .should("be.visible")
       .should("have.text", ERROR_MESSAGE.DUPLICATED_STATION);
   });
@@ -116,10 +120,17 @@ describe("역 관리 페이지", () => {
   });
 
   it("삭제버튼을 누르면 confirm 후 해당 지하철 역이 삭제된다.", () => {
-    cy.get(".js-station-list > li:last-child > .js-delete-btn").click();
-    cy.get(".js-confirm-modal").should("be.visible");
-    cy.get(".js-confirm-btn").click();
-    cy.get(".js-confirm-modal").should("not.be.visible");
+    const stub = cy.stub();
+    cy.on("window:confirm", stub);
+
+    cy.get(".js-station-list > li:last-child > .js-delete-btn")
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith(
+          CONFIRM_MESSAGE.DELETE_STATION
+        );
+      });
+
     cy.get(".js-station-list > li:last-child > span").should(
       "not.have.text",
       modifiedStationName
@@ -129,7 +140,6 @@ describe("역 관리 페이지", () => {
   after(() => {
     cy.get(".js-station-list .js-delete-btn").each(($deleteBtn) => {
       cy.wrap($deleteBtn).click();
-      cy.get(".js-confirm-btn").click();
     });
   });
 });
