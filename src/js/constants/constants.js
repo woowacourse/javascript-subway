@@ -50,6 +50,9 @@ export const SELECTOR = {
 
   LINE_COLOR_INOUT: '#subway-line-color',
   COLOR_OPTION: '.color-option',
+
+  SUBWAY_LINE_SELECT: '#subway-line',
+  SECTION_STATION_LIST: '#section-station-list',
 };
 
 export const MESSAGES = {

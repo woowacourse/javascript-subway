@@ -12,12 +12,24 @@ export default class Line {
     this._modifiedDate = modifiedDate;
   }
 
+  get id() {
+    return this._id;
+  }
+
   get name() {
     return this._name;
   }
 
   get modifiedDate() {
     return this._modifiedDate;
+  }
+
+  get stations() {
+    return this._stations;
+  }
+
+  get sections() {
+    return this._sections;
   }
 
   toListItemTemplate() {
