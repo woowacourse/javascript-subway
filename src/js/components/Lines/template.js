@@ -5,21 +5,23 @@ const subwayLineColorOptionTemplate = (color, index) => {
   return `<button type="button" class="color-option bg-${color}"></button> ${hasNewLine ? '<br/>' : ''}`;
 };
 
-const lineListTemplate = () => {
+export const lineListTemplate = (line) => {
   return `<li class="line-list-item d-flex items-center py-2 relative bottom-line">
-            <span class="subway-line-color-dot bg-blue-400"></span>
+            <span class="subway-line-color-dot" style="background-color: ${line.color}"></span>
             <span class="w-100 pl-6 subway-line-list-item-name"
-              >1호선</span
+              >${line.name}</span
             >
             <button
               type="button"
               class="line-edit-button bg-gray-50 text-gray-500 text-sm mr-1"
+              data-id = ${line.id}
             >
               수정
             </button>
             <button
               type="button"
               class="line-delete-button bg-gray-50 text-gray-500 text-sm"
+              data-id = ${line.id}
             >
               삭제
             </button>
@@ -27,7 +29,11 @@ const lineListTemplate = () => {
          `;
 };
 
-export const linesTemplate = () => {
+const optionTemplate = (station) => {
+  return `<option value=${station.id}>${station.name}</option>`;
+};
+
+export const linesTemplate = (stationList, lineList) => {
   return `
     <div class="lines-container container wrapper bg-white p-10 ">
       <div class="heading d-flex">
@@ -41,7 +47,7 @@ export const linesTemplate = () => {
         </button>
       </div>
       <ul id="lines-list-container" class="mt-3 pl-0">
-        ${lineListTemplate()}
+        ${lineList.map((line) => lineListTemplate(line)).join('')}
       </ul>
      </div>
 
@@ -50,7 +56,7 @@ export const linesTemplate = () => {
      <div id="line-create-modal" class="modal">
       <div class="modal-inner p-8">
        <button class="modal-close">
-         <svg viewbox="0 0 40 40">
+         <svg class="modal-close" viewbox="0 0 40 40">
            <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
          </svg>
        </button>
@@ -80,8 +86,7 @@ export const linesTemplate = () => {
              name="departure-station-select"
              required
              >
-              <option value="잠실역">잠실역</option>
-              <option value="사당역">사당역</option>
+             ${stationList.map((station) => optionTemplate(station)).join('')}
             </select>
            <label for="arrival-station-select" class="select-label" hidden
              >하행역</label
@@ -92,8 +97,7 @@ export const linesTemplate = () => {
              name="arrival-station-select"
              required
            >
-            <option value="잠실역">잠실역</option>
-            <option value="사당역">사당역</option>
+            ${stationList.map((station) => optionTemplate(station)).join('')}
            </select>
          </div>
          <div class="input-control">
@@ -155,7 +159,7 @@ export const linesTemplate = () => {
        <div id="line-edit-modal" class="modal">
        <div class="modal-inner p-8">
        <button class="modal-close">
-         <svg viewbox="0 0 40 40">
+         <svg class="modal-close" viewbox="0 0 40 40">
            <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
          </svg>
        </button>
@@ -185,8 +189,7 @@ export const linesTemplate = () => {
              name="departure-station-edit-select"
              required
              >
-              <option value="잠실역">잠실역</option>
-              <option value="사당역">사당역</option>
+             ${stationList.map((station) => optionTemplate(station)).join('')}
             </select>
            <label for="arrival-station-edit-select" class="select-label" hidden
              >하행역</label
@@ -197,8 +200,7 @@ export const linesTemplate = () => {
              name="arrival-station-edit-select"
              required
            >
-            <option value="잠실역">잠실역</option>
-            <option value="사당역">사당역</option>
+           ${stationList.map((station) => optionTemplate(station)).join('')}
            </select>
          </div>
          <div class="input-control">

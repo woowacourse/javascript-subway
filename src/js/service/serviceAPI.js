@@ -121,8 +121,10 @@ export const getLineData = async ({ token, id }) => {
 };
 
 export const getCreatedLineData = async ({ token, ...contents }) => {
+  console.log(token);
+  console.log(contents);
   try {
-    const response = await API.createStation({
+    const response = await API.createLine({
       token,
       contents,
     });
