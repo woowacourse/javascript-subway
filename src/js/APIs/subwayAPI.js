@@ -60,6 +60,19 @@ const request = {
     return response;
   },
 
+  async put({ path, headers = {}, body }) {
+    const response = await fetch(this.createURL(path), {
+      method: "PUT",
+      headers: {
+        ...this.headers,
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return response;
+  },
+
   async delete({ path, headers = {} }) {
     const response = await fetch(this.createURL(path), {
       method: "DELETE",
@@ -247,7 +260,49 @@ export const addStationAPI = async (stationName, accessToken) => {
 
       return {
         isSucceeded: true,
+        message: SUCCESS_MESSAGE.ADD_STATION,
         station,
+      };
+    }
+
+    if (response.status === STATUS.STATIONS.DUPLICATED) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.DUPLICATED_STATION,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const modifyStationNameAPI = async (
+  stationId,
+  newStationName,
+  accessToken
+) => {
+  try {
+    const response = await request.put({
+      path: PATH.STATIONS(stationId),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: {
+        name: newStationName,
+      },
+    });
+
+    if (response.ok) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.MODIFY_STATION,
       };
     }
 

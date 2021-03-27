@@ -1,3 +1,5 @@
+import { STATION_NAME_MIN_LENGTH, STATION_NAME_MAX_LENGTH } from "./general.js";
+
 export const ERROR_MESSAGE = {
   SIGNUP_FAILURE: "회원가입에 실패했습니다. 다시 시도해주세요.",
   LOGIN_FAILURE: "이메일 혹은 비밀번호가 유효하지 않습니다.",
@@ -11,6 +13,7 @@ export const ERROR_MESSAGE = {
   INVALID_EMAIL_FORM: "올바르지 않은 이메일 형식입니다.",
   DUPLICATED_EMAIL: "이미 존재하는 이메일입니다.",
   DUPLICATED_STATION: "이미 존재하는 지하철역입니다.",
+  STATION_NAME_LENGTH: `${STATION_NAME_MIN_LENGTH}자 이상 ${STATION_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
   DELETE_STATION: "Fail to delete station",
   TYPE_REQUIRED_STRING: "String is required",
   UNKNOWN_API_STATUS: "Unknown API status",
@@ -22,5 +25,11 @@ export const SUCCESS_MESSAGE = {
   LOGIN_SUCCESS: "로그인에 성공하였습니다!",
   LOGOUT_SUCCESS: "로그아웃을 하였습니다.",
   VALID_EMAIL: "사용가능한 이메일입니다.",
+  ADD_STATION: "지하철역을 추가했습니다",
+  MODIFY_STATION: "지하철역 이름을 수정했습니다.",
   DELETE_STATION: "지하철역을 삭제했습니다.",
+};
+
+export const CONFIRM_MESSAGE = {
+  DELETE_STATION: "정말 해당 역을 삭제하시겠습니까?",
 };

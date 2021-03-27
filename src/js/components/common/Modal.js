@@ -23,6 +23,7 @@ export default class Modal extends Component {
 
   open() {
     this.$modal.classList.add("open");
+    this.render();
   }
 
   close() {

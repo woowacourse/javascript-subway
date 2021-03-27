@@ -16,12 +16,14 @@ import {
   getStationsAPI,
 } from "../APIs/subwayAPI.js";
 import snackbar from "../utils/snackbar.js";
-import { ERROR_MESSAGE } from "../constants/messages.js";
+import { CONFIRM_MESSAGE, ERROR_MESSAGE } from "../constants/messages.js";
+import { StationModifyModal } from "./StationModifyModal.js";
 
 const createStationListItem = (station) => {
   return `
     <li
       data-station-id="${station.id}"
+      data-station-name="${station.name}"
       class="station-list-item d-flex items-center"
       >
       <span class="js-station-name w-100">${station.name}</span>
@@ -45,6 +47,9 @@ export default class Stations extends Component {
     super($parent);
     this.pageRouter = pageRouter;
     this.setIsLoggedIn = setIsLoggedIn;
+    this.stationModifyModal = new StationModifyModal({
+      modifyStationName: this.modifyStationName.bind(this),
+    });
 
     this.initContent();
 
@@ -109,11 +114,24 @@ export default class Stations extends Component {
       SPACE_REG_EXP,
       ""
     );
+
+    if (
+      stationName.length < STATION_NAME_MIN_LENGTH ||
+      stationName.length > STATION_NAME_MAX_LENGTH
+    ) {
+      snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
+      target.reset();
+
+      return;
+    }
+
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, station, message } = await addStationAPI(
       stationName,
       accessToken
     );
+
+    snackbar.show(message);
 
     if (isSucceeded) {
       $stationList.insertAdjacentHTML(
@@ -127,7 +145,6 @@ export default class Stations extends Component {
       return;
     }
 
-    snackbar.show(message);
     if (message === ERROR_MESSAGE.DUPLICATED_STATION) {
       const $stationListItems = $$("li", $stationList);
       const duplicatedStationIndex = Array.from($stationListItems).findIndex(
@@ -150,6 +167,10 @@ export default class Stations extends Component {
   }
 
   async deleteStation(stationId) {
+    if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) {
+      return;
+    }
+
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const deleteResult = await deleteStationAPI(stationId, accessToken);
 
@@ -167,9 +188,26 @@ export default class Stations extends Component {
     this.render();
   }
 
+  modifyStationName(stationId, newStationName) {
+    const $target = $(`[data-station-id="${stationId}"]`, this.innerElement);
+
+    $target.dataset.stationName = newStationName;
+    $(".js-station-name", $target).textContent = newStationName;
+  }
+
   onClickStationList({ target }) {
     if (target.classList.contains("js-delete-btn")) {
       this.deleteStation(target.closest("li").dataset.stationId);
+
+      return;
+    }
+
+    if (target.classList.contains("js-modify-btn")) {
+      const $li = target.closest("li");
+      this.stationModifyModal.open({
+        stationId: $li.dataset.stationId,
+        prevStationName: $li.dataset.stationName,
+      });
     }
   }
 
@@ -185,6 +223,7 @@ export default class Stations extends Component {
     );
 
     this.render();
+    this.stationModifyModal.render();
   }
 
   render() {
