@@ -12,7 +12,7 @@ import {
   isAllElementsHaveClass,
   showValidMessage,
 } from '../../utils/dom.js';
-import { request, getPostOption } from '../../utils/api.js';
+import { request } from '../../utils/api.js';
 import {
   BASE_URL,
   ACTIONS,
@@ -79,8 +79,7 @@ class SignUp {
   async _handleValidMessage({ id, value }) {
     switch (id) {
       case FORM.SIGNUP.NAME:
-        showValidMess;
-        age($(SELECTOR.NAME_MESSAGE), checkNameValid(value));
+        showValidMessage($(SELECTOR.NAME_MESSAGE), checkNameValid(value));
         break;
 
       case FORM.SIGNUP.EMAIL:
@@ -124,12 +123,14 @@ class SignUp {
 
   async _requestSignup(data) {
     try {
-      const requestBody = JSON.stringify({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
-      const option = getPostOption(requestBody);
+      const option = {
+        method: 'POST',
+        body: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+      };
 
       await request(BASE_URL + ACTIONS.REGISTER, option);
 

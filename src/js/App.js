@@ -40,13 +40,11 @@ class App {
     if (!userAccessToken) return false;
 
     try {
-      await request(BASE_URL + ACTIONS.USER, {
-        headers: {
-          Authorization: `Bearer ${userAccessToken}`,
-          Accept: 'application/json',
-          Host: REQUEST_HEADER_HOST,
-        },
-      });
+      const option = {
+        Authorization: `Bearer ${userAccessToken}`,
+        Accept: 'application/json',
+      };
+      await request(BASE_URL + ACTIONS.USER, option);
 
       return true;
     } catch (error) {

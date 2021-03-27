@@ -1,7 +1,7 @@
 import { checkLoginValid } from './loginValidator.js';
 import { loginTemplate } from './loginTemplate.js';
 import { $, getFormData } from '../../utils/dom.js';
-import { request, getPostOption } from '../../utils/api.js';
+import { request } from '../../utils/api.js';
 import { setLocalStorageItem } from '../../utils/storage.js';
 import {
   BASE_URL,
@@ -78,11 +78,14 @@ class Login {
 
   async _requestLogin(data) {
     try {
-      const requestBody = JSON.stringify({
-        email: data.email,
-        password: data.password,
-      });
-      const option = getPostOption(requestBody);
+      const option = {
+        method: 'POST',
+        body: {
+          email: data.email,
+          password: data.password,
+        },
+      };
+
       const { accessToken } = await request(
         BASE_URL + ACTIONS.LOGIN,
         option,
