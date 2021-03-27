@@ -1,8 +1,8 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
-import { $, API, showSnackbar, customConfirm } from '../../utils/index.js';
+import { $, showSnackbar, customConfirm } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE, STATIONS } from '../../constants/index.js';
-import { getCreatedStationData, getStationList, isStationDeleted, isStationEdited } from '../../service/index.js';
+import { getCreatedStationData, getStationList, stationDeleted, isStationEdited } from '../../service/index.js';
 
 export default class Stations extends Component {
   #token;
@@ -93,13 +93,12 @@ export default class Stations extends Component {
       await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
     } catch {}
 
-    const isDeleted = await isStationDeleted({
+    const isDeleted = await stationDeleted({
       token: this.#token,
       id: stationId,
     });
 
     if (!isDeleted) {
-      showSnackbar(SNACKBAR_MESSAGE.DELETE_FAILURE);
       return;
     }
 

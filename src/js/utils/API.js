@@ -4,11 +4,12 @@ const _request = async (url, option = {}) => {
   try {
     const response = await fetch(`${BASE_URL}${url}`, option);
     if (!response.ok) {
-      throw new Error(response.message);
+      throw response.status;
     }
+
     return response;
-  } catch (err) {
-    throw err;
+  } catch (status) {
+    throw status;
   }
 };
 

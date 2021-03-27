@@ -2,7 +2,7 @@ import Component from '../../core/Component.js';
 import { linesTemplate, lineListTemplate } from './template.js';
 import { $, $$, showSnackbar, customConfirm } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, LINES, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import { getStationList, getCreatedLineData, getLineList, isLineDeleted } from '../../service/index.js';
+import { getStationList, getCreatedLineData, getLineList, lineDeleted } from '../../service/index.js';
 
 export default class Lines extends Component {
   #token;
@@ -37,7 +37,7 @@ export default class Lines extends Component {
       await customConfirm(MESSAGE.DELETE_CONFIRM(lineName));
     } catch {}
 
-    const isDeleted = await isLineDeleted({
+    const isDeleted = await lineDeleted({
       token: this.#token,
       id: lineId,
     });
