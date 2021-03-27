@@ -36,6 +36,8 @@ export default class Navigation extends Component {
       this.changeTemplate('/');
       history.pushState({ pathName: '/' }, null, '/');
       showSnackbar(SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
+
+      return;
     }
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
@@ -48,6 +50,7 @@ export default class Navigation extends Component {
     if (token) {
       hideElement($('#navigation-login-button'));
       showElement($('#navigation-logout-button'));
+
       return;
     }
 
