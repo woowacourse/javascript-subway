@@ -8,7 +8,7 @@ const subwayLineColorOptionTemplate = (color, index) => {
 export const lineListTemplate = (line) => {
   return `<li class="line-list-item d-flex items-center py-2 relative bottom-line">
             <span class="subway-line-color-dot" style="background-color: ${line.color}"></span>
-            <span class="w-100 pl-6 subway-line-list-item-name"
+            <span class="w-100 pl-6 line-name"
               >${line.name}</span
             >
             <button
@@ -131,7 +131,7 @@ export const linesTemplate = (stationList, lineList) => {
             id="line-color-input"
             name="line-color-input"
             class="input-field"
-            placeholder="색상을 아래에서 선택해주세요."
+            placeholder="색상을 선택해주세요."
             readonly
             required
           />

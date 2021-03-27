@@ -1,8 +1,8 @@
 import Component from '../../core/Component.js';
 import { linesTemplate, lineListTemplate } from './template.js';
-import { $, showSnackbar } from '../../utils/index.js';
-import { LOGIN_REQUIRED_TEMPLATE, LINES, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import { getStationList, getCreatedLineData, getLineList } from '../../service/index.js';
+import { $, $$, showSnackbar, customConfirm } from '../../utils/index.js';
+import { LOGIN_REQUIRED_TEMPLATE, LINES, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
+import { getStationList, getCreatedLineData, getLineList, isLineDeleted } from '../../service/index.js';
 
 export default class Lines extends Component {
   #token;
@@ -17,6 +17,38 @@ export default class Lines extends Component {
     $('#line-create-form').addEventListener('submit', this.handleLineCreateForm.bind(this));
     $('#line-create-modal').addEventListener('click', this.handleLineModalClose.bind(this));
     $('#line-edit-modal').addEventListener('click', this.handleLineModalClose.bind(this));
+    $('.lines-container').addEventListener('click', ({ target }) => {
+      if (target.classList.contains('line-edit-button')) {
+        return;
+      }
+
+      if (target.classList.contains('line-delete-button')) {
+        this.handleLineDelete(target);
+      }
+    });
+  }
+
+  async handleLineDelete(target) {
+    const $lineListItem = target.closest('.line-list-item');
+    const lineName = $lineListItem.querySelector('.line-name').innerText;
+    const lineId = target.dataset.id;
+
+    try {
+      await customConfirm(MESSAGE.DELETE_CONFIRM(lineName));
+    } catch {}
+
+    const isDeleted = await isLineDeleted({
+      token: this.#token,
+      id: lineId,
+    });
+
+    if (!isDeleted) {
+      showSnackbar(SNACKBAR_MESSAGE.DELETE_FAILURE);
+      return;
+    }
+
+    $lineListItem.remove();
+    showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
   }
 
   handleLineModalClose({ target }) {
@@ -48,7 +80,7 @@ export default class Lines extends Component {
     return LINES.MIN_LINE_NAME_LENGTH <= lineName.length && lineName.length <= LINES.MAX_LINE_NAME_LENGTH;
   }
 
-  isValidDepartureAndArriaval(departure, arrival) {
+  isValidDepartureAndArrival(departure, arrival) {
     return departure !== arrival;
   }
 
@@ -72,7 +104,7 @@ export default class Lines extends Component {
       return;
     }
 
-    if (!this.isValidDepartureAndArriaval(upStationId, downStationId)) {
+    if (!this.isValidDepartureAndArrival(upStationId, downStationId)) {
       showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_DEPARTURE_AND_ARRIVAL);
       return;
     }
@@ -98,6 +130,9 @@ export default class Lines extends Component {
     }
 
     $('#lines-list-container').insertAdjacentHTML('beforeend', lineListTemplate(createdLineData));
+    showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
+    $('#line-create-modal').classList.remove('open');
+    $$('.modal input').forEach((inputTag) => (inputTag.value = ''));
   }
 
   render(token, stationList = [], lineList = []) {

@@ -22,6 +22,8 @@ export default class Stations extends Component {
 
   bindEvent() {
     this.$stationInputForm.addEventListener('submit', this.handleStationInputForm.bind(this));
+    this.$stationEditModalClose.addEventListener('click', this.handleStationEditModalClose.bind(this));
+    this.$stationEditModal.addEventListener('submit', this.handleStationEdit.bind(this));
 
     this.$stationListContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('station-edit-button')) {
@@ -32,10 +34,6 @@ export default class Stations extends Component {
         this.handleStationDelete(target);
       }
     });
-
-    this.$stationEditModalClose.addEventListener('click', this.handleStationEditModalClose.bind(this));
-
-    this.$stationEditModal.addEventListener('submit', this.handleStationEdit.bind(this));
   }
 
   handleStationEditModalClose({ target }) {
