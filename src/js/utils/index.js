@@ -1,7 +1,6 @@
-import { $, $$ } from './DOM.js';
 import debounce from './debounce.js';
 import reportError from './reportError.js';
-import getInputValidator from './getInputValidator.js';
+import { $, $$, show, hide } from './DOM.js';
 import { showSnackbar, showNotification } from './notify.js';
 import { dispatchFormData, toStringFromFormData } from './form.js';
 import { fetchEmailValidation, fetchSignUp, fetchLogin } from './fetch.js';
@@ -24,9 +23,10 @@ export {
   fetchSignUp,
   fetchLogin,
   fetchEmailValidation,
-  getInputValidator,
   hasPropertyValue,
+  hide,
   reportError,
+  show,
   showSnackbar,
   showNotification,
   toStringFromFormData,

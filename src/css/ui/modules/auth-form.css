@@ -1,0 +1,86 @@
+.auth-input-control {
+  position: relative;
+  display: grid;
+  grid-template-columns: 68px auto;
+  margin-bottom: 1rem;
+}
+
+.auth-input-label {
+  align-self: center;
+}
+
+/* 사용자 입력창 */
+.auth-input-field {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  height: auto;
+  padding: 0.75rem 1.5rem;
+  border: 2.5px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 2rem;
+  background: #f1f5f9;
+}
+
+.auth-input-field:focus {
+  border-color: rgb(78, 207, 224);
+}
+
+.auth-input-field:focus:invalid {
+  border-color: #ff5252;
+}
+
+/* 유효성 검사 메세지 */
+.validation-message {
+  height: 21px;
+  font-size: 0.9rem;
+  color: gray;
+  margin-top: 5px;
+  padding-left: 20px;
+  align-self: center;
+}
+
+.auth-input-field:invalid ~ .validation-message {
+  color: #c74b2a;
+}
+
+.auth-input-field:valid ~ .validation-message {
+  color: rgb(0, 130, 148);
+}
+
+/* 이모지 */
+.auth-input-field + span::before {
+  position: absolute;
+  top: 40px;
+  right: 30px;
+  transform: translateY(-100%);
+}
+
+.auth-input-field:focus:invalid + span::before {
+  content: '🙅❗️';
+}
+
+.auth-input-field:focus:valid + span::before {
+  content: '👍';
+}
+
+/* 확인버튼 */
+.auth-submit-button {
+  font-size: 1rem;
+  cursor: pointer;
+  width: 90px;
+  height: 2.8rem;
+  padding: 0.65rem 1.25rem;
+  border: 3px solid transparent;
+  outline: none;
+  border-radius: 2rem;
+}
+
+.auth-submit-button:focus {
+  border-color: black;
+}
+
+.auth-submit-button:disabled {
+  background-color: rgba(78, 207, 224, 0.7);
+  cursor: default;
+}
