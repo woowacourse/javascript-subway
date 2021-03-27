@@ -8,8 +8,6 @@ export default class Subject {
       [STATE_KEY.IS_LOGGED_IN]: [],
       [STATE_KEY.TARGET_LINE_ID]: [],
       [STATE_KEY.TARGET_SECTION_LINE_ID]: [],
-      [STATE_KEY.IS_LINE_ITEM_VIEW_MODE]: [],
-      [STATE_KEY.IS_SECTION_ITEM_VIEW_MODE]: [],
     };
   }
 

@@ -21,17 +21,12 @@ export const requestLineRegistration = async line => {
   });
 
   const newLine = await response.json();
-  const [upStation, downStation] = newLine.stations;
   const processedNewLine = {
     id: Number(newLine.id),
     name: newLine.name,
     color: newLine.color,
-    upStationName: upStation.name,
-    upStationId: Number(upStation.id),
-    downStationName: downStation.name,
-    downStationId: Number(downStation.id),
-    distance: Number(newLine.distance),
-    duration: Number(newLine.duration),
+    stations: newLine.stations,
+    sections: newLine.sections,
   };
 
   if (!response.ok) {
@@ -59,17 +54,12 @@ export const requestLineList = async () => {
   }
 
   return newLineList.map(line => {
-    const [upStation, downStation] = line.stations;
     return {
       id: Number(line.id),
       name: line.name,
       color: line.color,
-      upStationName: upStation.name,
-      upStationId: Number(upStation.id),
-      downStationName: downStation.name,
-      downStationId: Number(downStation.id),
-      distance: Number(line.distance),
-      duration: Number(line.duration),
+      stations: line.stations,
+      sections: line.sections,    
     };
   });
 };
@@ -89,26 +79,24 @@ export const requestLineDelete = async lineId => {
   }
 }
 
-// TODO: 노선 API가 duration, distance를 포함하지 않음 => API가 수정되면 요놈을 이용해서 노선 수정 제출 버튼 눌렀을 때 API 요청 보내는 거 구현하기
-export const requestLineEdit = async line => {
+export const requestLineUpdate = async (newline) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${line.id}`, {
+  const response = await fetch(`${API_END_POINT}/lines/${newline.id}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json;charset=UTF-8',
     },
     body: JSON.stringify({
-      name: line.name,
-      color: line.color,
-      upStationId: line.upStationId,
-      downStationId: line.downStationId,
-      distance: line.distance,
-      duration: line.duration,
+      name: newline.name,
+      color: newline.color,
     }),
   });
 
   if (!response.ok) {
     throw new Error('역 수정 실패');
   }
+
+  return newline;
 };

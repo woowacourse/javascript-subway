@@ -10,7 +10,6 @@ export const SELECTOR_ID = Object.freeze({
   SECTION_LINE: 'section-line',
   LINES: 'lines',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
-  SUBWAY_LINE_SUBMIT: 'subway-line-submit',
   SUBWAY_LINE_FORM: 'subway-line-form',
   SUBWAY_SECTION_FORM: 'subway-section-form',
   LOG_IN_FORM: 'login-form',
@@ -46,6 +45,8 @@ export const SELECTOR_CLASS = Object.freeze({
   SECTION_ITEM_ADD: 'section__item-add',
   SECTION_MODAL_CLOSE: 'section__modal-close',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
+  SUBWAY_LINE_REGISTER_FORM: 'subway-line-register-form',
+  SUBWAY_LINE_UPDATE_FORM: 'subway-line-update-form',
   MODAL_INNER: 'modal-inner',
   MODAL: 'modal',
   COLOR_OPTION: 'color-option',
@@ -88,8 +89,6 @@ export const STATE_KEY = Object.freeze({
   SECTION_LIST: 'sectionList',
   TARGET_LINE_ID: 'targetLineId',
   TARGET_SECTION_LINE_ID: 'targetSectionLineId',
-  IS_LINE_ITEM_VIEW_MODE: 'isLineItemViewMode',
-  IS_SECTION_ITEM_VIEW_MODE: 'isSectionItemViewMode',
 });
 
 export const VALIDATION = Object.freeze({
@@ -104,6 +103,7 @@ export const ALERT_MESSAGE = Object.freeze({
   LOGIN_FAILED: '로그인에 실패하셨습니다',
   SIGNUP_FAILED: '회원가입에 실패하였습니다',
   STATION_REGISTRATION_FAILED: '역 등록에 실패하였습니다',
+  LINE_UPDATE_FAILED: '노선 수정에 실패하였습니다',
   NOT_PROPER_STATION_NAME_LENGTH: `역의 이름은 ${VALIDATION.MIN_STATION_NAME_LENGTH}자 이상 ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하여야 합니다`,
   NOT_PROPER_LINE_NAME_LENGTH: `노선의 이름은 ${VALIDATION.MIN_LINE_NAME_LENGTH}자 이상 ${VALIDATION.MAX_LINE_NAME_LENGTH}자 이하여야 합니다`,
   DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다',

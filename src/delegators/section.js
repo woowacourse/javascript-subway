@@ -12,5 +12,4 @@ export function delegateSectionClickEvent(event) {
 
 function onSectionModalOpen() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
-  state.update(STATE_KEY.IS_SECTION_ITEM_VIEW_MODE, false);
 }

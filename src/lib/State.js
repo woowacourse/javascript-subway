@@ -15,8 +15,6 @@ export default class State extends Subject {
       [STATE_KEY.IS_LOGGED_IN]: false,
       [STATE_KEY.TARGET_LINE_ID]: -1,
       [STATE_KEY.TARGET_SECTION_LINE_ID]: -1,
-      [STATE_KEY.IS_LINE_ITEM_VIEW_MODE]: false,
-      [STATE_KEY.IS_SECTION_ITEM_VIEW_MODE]: false,
     };
   }
 

@@ -2,13 +2,18 @@ import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, ALERT_MESSAGE } 
 import { $, closeModal } from "../utils/dom.js";
 import { state } from '../store.js';
 import { isProperLineNameLength, isDuplicatedLineNameExist } from '../validators/line.js';
-import { requestLineRegistration } from '../api/line.js';
+import { requestLineRegistration, requestLineUpdate } from '../api/line.js';
 
 export function delegateLineModalSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
-  if (target.id === SELECTOR_ID.SUBWAY_LINE_FORM) {
-    onSubmitLineItem(target);
+  if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_REGISTER_FORM)) {
+    onLineItemRegister(target);
+    closeModal();
+  }
+  if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_UPDATE_FORM)) {
+    onLineItemUpdate(target);
+    closeModal();
   }
 }
 
@@ -31,7 +36,7 @@ function onColorPickerClick(target) {
   indicator.dataset.color = `bg-${color}`;
 }
 
-function onSubmitLineItem(target) {
+function onLineItemRegister(target) {
   const lineName = target[SELECTOR_NAME.SUBWAY_LINE_NAME].value;
   const upStationId = Number(target[SELECTOR_NAME.SUBWAY_UP_STATION].value);
   const downStationId = Number(target[SELECTOR_NAME.SUBWAY_DOWN_STATION].value);
@@ -63,6 +68,29 @@ function onSubmitLineItem(target) {
     lineList.push(line);
     state.update(STATE_KEY.LINE_LIST, lineList);
   });
+}
 
-  closeModal();
+function onLineItemUpdate(target) {
+  const newLine = {
+    id: state.get(STATE_KEY.TARGET_LINE_ID),
+    name: target[SELECTOR_NAME.SUBWAY_LINE_NAME].value, 
+    color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color
+  }
+  requestLineUpdate(newLine)
+    .then(updateLine)
+    .catch(error => {
+      console.log(error);
+      alert(ALERT_MESSAGE.LINE_UPDATE_FAILED);
+    });
+}
+
+function updateLine(newLine) {
+  const lineList = state.get(STATE_KEY.LINE_LIST);
+  lineList.forEach(line => {
+    if (line.id === newLine.id) {
+      line.name = newLine.name;
+      line.color = newLine.color;    
+    }
+  })
+  state.update(STATE_KEY.LINE_LIST, lineList);
 }

@@ -8,22 +8,26 @@ export function delegateLineClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON) && confirm(CONFIRM_MESSAGE.DELETE)) {
     onLineItemDelete(target);
+    return;
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_MODAL_OPEN)) {
     onLineModalOpen();
     openModal();
+    return;
   }
 
+  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_EDIT)) {
+    onLineItemEdit(target);
+    openModal();
+    return;
+  }
+  // TODO: 리스트 아이템 클릭을 구현할 것인지 결정하기
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`)) {
     const targetListItem = target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`);
     onLineListItemClick(targetListItem);
     openModal();
-  }
-  
-  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_EDIT)) {
-    onLineItemEdit(target);
-    openModal();
+    return;
   }
 }
 
@@ -47,15 +51,12 @@ function onLineItemDelete(target) {
 
 function onLineModalOpen() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
-  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, false);
 }
 
 function onLineItemEdit(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
-  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, false);
 }
 
 function onLineListItemClick(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
-  state.update(STATE_KEY.IS_LINE_ITEM_VIEW_MODE, true);
 }
