@@ -1,7 +1,7 @@
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
-import request from '../../utils/fetch.js';
+import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
 import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';

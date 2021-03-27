@@ -2,7 +2,7 @@ import { $ } from '../../utils/DOM.js';
 import Component from '../../core/Component.js';
 import mainTemplate from './template/main.js';
 import { PATH } from '../../constants/url.js';
-import request from '../../utils/fetch.js';
+import request from '../../utils/request.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import ValidationError from '../../error/ValidationError.js';
 import { ERROR_MESSAGE } from '../../constants/message.js';
