@@ -14,8 +14,8 @@ import {
   fetchStationNameRevision,
   fetchStationRemoval,
 } from '../utils/fetch.js';
-import State from './State.js';
 import { closeModal, openModal } from '../utils/DOM.js';
+import { loadStationList } from '../utils/loadByAJAX.js';
 
 class StationComponent extends Component {
   constructor(props) {
@@ -23,22 +23,25 @@ class StationComponent extends Component {
   }
 
   initLoad() {
-    this.#loadStationList();
+    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
+    loadStationList(
+      this.props.stationState,
+      this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
+    );
   }
 
   initState() {
-    this.state = new State({
-      [STATE_KEY.STATION]: [],
-    });
-
-    this.state.setListener(STATE_KEY.STATION, this.handleStationListToUpdate);
+    this.props.stationState.setListener(
+      STATE_KEY.STATION,
+      this.handleStationListToUpdate
+    );
   }
 
   // TODO: 메서드 선언 순서 고민해보기
   initEvent() {
     $(`#${ID_SELECTOR.STATION_FORM}`).addEventListener(
       'submit',
-      this.#onStationSubmit
+      this.#onStationCreated
     );
 
     $(`.${CLASS_SELECTOR.MODAL_CLOSE}`).addEventListener('click', closeModal);
@@ -74,7 +77,7 @@ class StationComponent extends Component {
   }
   #removeStation = async id => {
     const url = REQUEST_URL + `/stations/${id}`;
-    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchStationRemoval(url, {
@@ -84,7 +87,10 @@ class StationComponent extends Component {
         },
       });
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
-      this.#loadStationList();
+      loadStationList(
+        this.props.stationState,
+        this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
+      );
     } catch (err) {
       alert(err.message);
       return;
@@ -110,7 +116,7 @@ class StationComponent extends Component {
     const data = {
       name: revisionName,
     };
-    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchStationNameRevision(url, {
@@ -123,7 +129,10 @@ class StationComponent extends Component {
       });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
-      this.#loadStationList();
+      loadStationList(
+        this.props.stationState,
+        this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN)
+      );
     } catch (err) {
       alert(err.message);
       return;
@@ -136,15 +145,16 @@ class StationComponent extends Component {
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };
 
-  #onStationSubmit = async event => {
+  #onStationCreated = async event => {
     event.preventDefault();
 
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
     const url = REQUEST_URL + '/stations';
     const data = { name: inputName };
-    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
+    const accessToken = this.props.loginState.getData(STATE_KEY.ACCESS_TOKEN);
 
+    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchStationList(url, {
         method: 'POST',
@@ -158,11 +168,11 @@ class StationComponent extends Component {
       alert('역 추가 완료');
 
       const { id, name } = await response.json();
-      const stations = this.state.getData(STATE_KEY.STATION);
-
+      const stations = this.props.stationState.getData(STATE_KEY.STATION);
       // TODO: State 클래스에 pushData 만들기
       stations.push({ id, name });
-      this.state.setData({ [STATE_KEY.STATION]: stations });
+      this.props.stationState.setData({ [STATE_KEY.STATION]: stations });
+
       $input.value = '';
     } catch (err) {
       alert(err.message);
@@ -170,31 +180,6 @@ class StationComponent extends Component {
       return;
     }
   };
-
-  async #loadStationList() {
-    const url = REQUEST_URL + '/stations';
-    const accessToken = this.props.appState.getData(STATE_KEY.ACCESS_TOKEN);
-
-    try {
-      const response = await fetchStationList(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const stationResponse = await response.json();
-      const stations = stationResponse.map(station => ({
-        id: station.id,
-        name: station.name,
-      }));
-
-      this.state.setData({ [STATE_KEY.STATION]: stations });
-    } catch (err) {
-      alert(err.message);
-      return;
-    }
-  }
 
   // TODO: 위치 생각해보기
   #makeStationTemplate({ id, name }) {
