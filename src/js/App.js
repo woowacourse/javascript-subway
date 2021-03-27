@@ -10,13 +10,7 @@ import Section from './components/section/Section.js';
 
 import { getLocalStorageItem } from './utils/storage.js';
 import { request } from './utils/api.js';
-import {
-  ACTIONS,
-  BASE_URL,
-  PATH,
-  REQUEST_HEADER_HOST,
-  STORAGE,
-} from './constants.js';
+import { ACTIONS, BASE_URL, PATH, STORAGE } from './constants.js';
 
 class App {
   #isLoggedIn;
