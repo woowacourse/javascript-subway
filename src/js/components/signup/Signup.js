@@ -137,8 +137,8 @@ class SignUp {
 
       this.#props.switchURL(PATH.LOGIN);
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP);
-    } catch (error) {
-      alert(SIGNUP_ERROR[error] || ERROR_MESSAGE.SIGNUP_FAILED);
+    } catch ({ status }) {
+      alert(SIGNUP_ERROR[status] || ERROR_MESSAGE.SIGNUP_FAILED);
     }
   }
 }

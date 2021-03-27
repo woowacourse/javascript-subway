@@ -14,4 +14,6 @@ export const request = async (
   if (response.ok) {
     return response;
   }
+
+  throw response;
 };

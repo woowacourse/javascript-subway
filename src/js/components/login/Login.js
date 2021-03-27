@@ -98,8 +98,8 @@ class Login {
 
       this.#props.switchURL(PATH.HOME);
       showSnackbar(SNACKBAR_MESSAGE.LOGIN);
-    } catch (error) {
-      alert(LOGIN_ERROR[error] || ERROR_MESSAGE.LOGIN_FAILED);
+    } catch ({ status }) {
+      alert(LOGIN_ERROR[status] || ERROR_MESSAGE.LOGIN_FAILED);
     }
   }
 }

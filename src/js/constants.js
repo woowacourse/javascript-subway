@@ -52,6 +52,10 @@ export const FORM = {
     PASSWORD: 'password',
     PASSWORD_CONFIRM: 'password-confirm',
   },
+
+  STATION: {
+    ADD_INPUT: 'station-add-input',
+  },
 };
 
 export const SNACK_BAR = {
@@ -72,6 +76,7 @@ export const SUCCESS_MESSAGE = {
   NAME: '좋은 이름이네요! 😁',
   EMAIL: '올바른 이메일 입니다.',
   PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
+  ADD_STATION: '역이 추가되었습니다! 🚇',
 };
 
 export const ERROR_MESSAGE = {
@@ -85,6 +90,13 @@ export const ERROR_MESSAGE = {
   EMPTY_PASSWORD: '비밀번호는 공백이 될 수 없습니다!',
   EMPTY_PASSWORD_CONFIRM: '비밀번호 확인은 공백이 될 수 없습니다!',
   DIFFERENT_PASSWORD: '비밀번호가 일치하지 않습니다!',
+  DUPLICATED_STATION: '중복된 역이 존재합니다!',
+  EMPTY_STATION_NAME: '지하철 역은 공백이 될 수 없습니다!',
+  OVER_RANGE_STATION_NAME:
+    '지하철 역은 최소 2글자 이상, 최대 20글자 이하여야 합니다.',
+  LOAD_STATION_FAILED:
+    '지하철 역 목록을 불러오는데 실패했습니다. 관리자에게 문의해주세요!',
+  ADD_STATION_FAILED: '역을 추가하는데 실패했습니다. 잠시후 다시 시도해주세요.',
 };
 
 export const PAGE_TITLE = {
@@ -104,6 +116,10 @@ export const STATUS = {
   SIGNUP: {
     DUPLICATED_EMAIL: 400,
   },
+
+  STATION: {
+    DUPLICATED_EMAIL: 400,
+  },
 };
 
 export const LOGIN_ERROR = {
@@ -112,6 +128,10 @@ export const LOGIN_ERROR = {
 
 export const SIGNUP_ERROR = {
   [STATUS.SIGNUP.DUPLICATED_EMAIL]: ERROR_MESSAGE.DUPLICATED_EMAIL,
+};
+
+export const STATION_ERROR = {
+  [STATUS.STATION.DUPLICATED_STATION]: ERROR_MESSAGE.DUPLICATED_STATION,
 };
 
 export const REGEXP = {

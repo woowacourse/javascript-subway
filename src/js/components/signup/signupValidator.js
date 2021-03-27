@@ -23,7 +23,7 @@ export const checkEmailValid = async email => {
     await request(`${BASE_URL}${ACTIONS.DUPLICATED_EMAIL}${email}`, {});
 
     return { isValid: true, message: SUCCESS_MESSAGE.EMAIL };
-  } catch (error) {
+  } catch {
     return { isValid: false, message: ERROR_MESSAGE.DUPLICATED_EMAIL };
   }
 };
