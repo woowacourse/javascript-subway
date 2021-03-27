@@ -60,8 +60,8 @@ export const getStationList = async (token) => {
 export const getCreatedStationData = async ({ token, name }) => {
   try {
     const response = await API.createStation({
-      token: token,
-      name: name,
+      token,
+      name,
     });
     const responseJSON = await response.json();
 
@@ -72,7 +72,7 @@ export const getCreatedStationData = async ({ token, name }) => {
   }
 };
 
-export const isDeleteSuccess = async ({ token, id }) => {
+export const isStationDeleted = async ({ token, id }) => {
   try {
     await API.deleteStation({
       token,
@@ -86,9 +86,72 @@ export const isDeleteSuccess = async ({ token, id }) => {
   }
 };
 
-export const isEditStationSuccess = async ({ token, name, id }) => {
+export const isStationEdited = async ({ token, name, id }) => {
   try {
     await API.editStation({ token, name, id });
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const getLineList = async (token) => {
+  try {
+    const response = await API.getLineList(token);
+    const responseJSON = await response.json();
+
+    return responseJSON || null;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const getLineData = async ({ token, id }) => {
+  try {
+    const response = await API.getLineList({ token, id });
+    const responseJSON = await response.json();
+
+    return responseJSON || null;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const getCreatedLineData = async ({ token, ...contents }) => {
+  try {
+    const response = await API.createStation({
+      token,
+      contents,
+    });
+    const responseJSON = await response.json();
+
+    return responseJSON;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const isLineDeleted = async ({ token, id }) => {
+  try {
+    await API.deleteLine({
+      token,
+      id,
+    });
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const isLineEdited = async ({ token, name, id }) => {
+  try {
+    await API.editLine({ token, name, id });
     return true;
   } catch (err) {
     console.error(err);

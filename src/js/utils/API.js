@@ -79,6 +79,7 @@ const request = {
 };
 
 export const API = {
+  // Auth
   signup: ({ email, password, name }) => {
     return request.post({
       url: '/members',
@@ -103,6 +104,7 @@ export const API = {
     });
   },
 
+  // Stations
   getStationList: (token) => {
     return request.get({ url: '/stations', token });
   },
@@ -117,5 +119,26 @@ export const API = {
 
   editStation: ({ token, name, id }) => {
     return request.put({ url: `/stations/${id}`, contents: { name }, token });
+  },
+
+  // Lines
+  getLineList: (token) => {
+    return request.get({ url: `/lines`, token });
+  },
+
+  getLine: ({ token, id }) => {
+    return request.get({ url: `/lines/${id}`, token });
+  },
+
+  createLine: ({ token, ...contents }) => {
+    return request.post({ url: `/lines`, contents, token });
+  },
+
+  deleteLine: ({ token, id }) => {
+    return request.delete({ url: `/lines/${id}`, token });
+  },
+
+  editLine: ({ token, id, ...contents }) => {
+    return request.put({ url: `/lines/${id}`, contents, token });
   },
 };

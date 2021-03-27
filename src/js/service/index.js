@@ -5,5 +5,11 @@ export {
   isDuplicatedEmail,
   getStationList,
   getCreatedStationData,
-  isEditStationSuccess,
+  isStationDeleted,
+  isStationEdited,
+  getLineList,
+  getLineData,
+  getCreatedLineData,
+  isLineDeleted,
+  isLineEdited,
 } from './serviceAPI.js';

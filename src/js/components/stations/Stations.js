@@ -10,8 +10,10 @@ import {
 import {
   getCreatedStationData,
   getStationList,
-  isEditStationSuccess,
+  isStationDeleted,
+  isStationEdited,
 } from '../../service/index.js';
+
 export default class Stations extends Component {
   #token;
   constructor() {
@@ -77,13 +79,13 @@ export default class Stations extends Component {
       return;
     }
 
-    const isEditSuccess = await isEditStationSuccess({
+    const isEdited = await isStationEdited({
       token: this.#token,
       name: $stationEditNameInput.value,
       id: stationId,
     });
 
-    if (!isEditSuccess) {
+    if (!isEdited) {
       showSnackbar(SNACKBAR_MESSAGE.EDIT_FAILURE);
     }
 
@@ -115,7 +117,7 @@ export default class Stations extends Component {
       await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
     } catch {}
 
-    const isDeleted = await API.deleteStation({
+    const isDeleted = await isStationDeleted({
       token: this.#token,
       id: stationId,
     });
