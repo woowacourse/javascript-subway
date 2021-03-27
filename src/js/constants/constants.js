@@ -47,6 +47,9 @@ export const SELECTOR = {
   LINE_UP_STATION_SELECT: '#up-station',
   LINE_DOWN_STATION_SELECT: '#down-station',
   LINE_DUPLICATED_WARNING: '#line-duplicated-warning',
+
+  LINE_COLOR_INOUT: '#subway-line-color',
+  COLOR_OPTION: '.color-option',
 };
 
 export const MESSAGES = {

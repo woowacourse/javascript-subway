@@ -113,7 +113,15 @@ export default class LineModal {
     if (event.target.type !== 'button') return;
 
     const color = [...event.target.classList].find((className) => className.startsWith('bg-'));
-    $('#subway-line-color').value = color;
+    $(SELECTOR.LINE_COLOR_INOUT).value = color;
+
+    $(SELECTOR.COLOR_OPTION).forEach((option) => {
+      if (option.classList.contains(color)) {
+        option.classList.add('selected');
+      } else {
+        option.classList.remove('selected');
+      }
+    });
   }
 
   subwayLineColorOptionTemplate(color, index) {
