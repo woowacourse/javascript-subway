@@ -222,10 +222,7 @@ export const getStationsAPI = async (accessToken) => {
     });
 
     if (!response.ok) {
-      return {
-        isSucceeded: false,
-        message: "",
-      };
+      throw new Error(ERROR_MESSAGE.FETCH_STATION_FAILURE);
     }
 
     const stations = await response.json();
@@ -341,6 +338,35 @@ export const deleteStationAPI = async (stationId, accessToken) => {
     return {
       isSucceeded: true,
       message: SUCCESS_MESSAGE.DELETE_STATION,
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const getLinesAPI = async (accessToken) => {
+  try {
+    const response = await request.get({
+      path: PATH.LINES(),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.FETCH_LINE_FAILURE);
+    }
+
+    const lines = await response.json();
+
+    return {
+      isSucceeded: true,
+      lines,
     };
   } catch (e) {
     console.error(e);

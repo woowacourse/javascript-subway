@@ -38,16 +38,18 @@ export default class App {
       [PAGE_KEYS.STATIONS]: new Stations({
         $parent: staticElements.$main,
         setIsLoggedIn: this.setIsLoggedIn.bind(this),
-        pageRouter: this.pageRouter,
       }),
-      [PAGE_KEYS.LINES]: new Lines({ $parent: staticElements.$main }),
+      [PAGE_KEYS.LINES]: new Lines({
+        $parent: staticElements.$main,
+        setIsLoggedIn: this.setIsLoggedIn.bind(this),
+      }),
       [PAGE_KEYS.SECTIONS]: new Sections({ $parent: staticElements.$main }),
     };
   }
 
   registerRoutes() {
     Object.keys(this.pages).forEach((key) => {
-      if (key === PAGE_KEYS.STATIONS) {
+      if (key === PAGE_KEYS.STATIONS || key === PAGE_KEYS.LINES) {
         this.pageRouter.registerRoute({
           path: PAGE_URLS[key],
           handler: this.pages[key].loadPage.bind(this.pages[key]),

@@ -43,9 +43,8 @@ const createStationListItem = (station) => {
   `;
 };
 export default class Stations extends Component {
-  constructor({ $parent, pageRouter, setIsLoggedIn }) {
+  constructor({ $parent, setIsLoggedIn }) {
     super($parent);
-    this.pageRouter = pageRouter;
     this.setIsLoggedIn = setIsLoggedIn;
     this.stationModifyModal = new StationModifyModal({
       modifyStationName: this.modifyStationName.bind(this),
