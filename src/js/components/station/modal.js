@@ -16,11 +16,6 @@ class Modal extends ModalComponent {
     this.parentNode.innerHTML = stationModal();
   }
 
-  setDataset(dataset) {
-    this.dataset = dataset;
-    this.fillDatasetInForm();
-  }
-
   fillDatasetInForm() {
     const { name } = this.dataset;
     $('#subway-station-name').value = name;
@@ -30,35 +25,32 @@ class Modal extends ModalComponent {
     $('#edit-station-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const { id } = this.dataset;
-      const newName = e.target['subway-station-name'].value;
-
       // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
+      const newName = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
-      try {
-        const response = await request.put(
-          getFetchParams({
-            path: `${PATH.STATIONS}/${id}`,
-            body: newName,
-            accessToken,
-          })
-        );
 
-        if (!response.ok) {
-          throw Error(response.message);
-        }
-        // 모달 클로즈
-        this.hide();
-        // 질문: async함수 마지막에 호출하는 비동기 작업은 await를 걸어주어야할까요?
-        await this.updateItemList(); // 10초
-      } catch (error) {
-        // TODO: 스낵바
-        console.error(error);
-      }
+      await this.updateItem(id, newName, accessToken);
     });
+  }
 
-    // 모든 역 조회
+  async updateItem(id, name, accessToken) {
+    try {
+      const params = getFetchParams({
+        path: `${PATH.STATIONS}/${id}`,
+        body: { name },
+        accessToken,
+      });
+      const response = await request.put(params);
 
-    // Station 리 렌더링
+      if (!response.ok) throw Error(await response.text());
+
+      this.hide();
+      // 질문: async함수 마지막에 호출하는 비동기 작업은 await를 걸어주어야할까요?
+      await this.updateItemList();
+    } catch (error) {
+      // TODO: 스낵바
+      console.error(error.message);
+    }
   }
 }
 

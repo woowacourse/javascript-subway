@@ -12,13 +12,12 @@ export const mainTemplate = (stationList) => {
           <input
             type="text"
             id="station-name"
-            name="stationName"
+            name="station-name"
             class="input-field"
             placeholder="역 이름"
             required
           />
           <button
-            type="button"
             name="submit"
             class="input-submit bg-cyan-300 ml-2"
           >

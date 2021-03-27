@@ -5,18 +5,19 @@ class FetchComponent extends Component {
     super(parentNode, stateManagers);
 
     this.itemList = [];
-    this.addEventListeners();
     this.update();
   }
 
-  // TODO: 최적화 필요
   async update() {
-    this.setItemList((await this.fetchGetItemList()) || []);
+    const newItemList = (await this.fetchGetItemList()) || [];
+    this.setItemList(newItemList);
   }
 
+  // TODO: 최적화 필요
   setItemList(itemList) {
     this.itemList = itemList;
     this.render(this.itemList);
+    this.addEventListeners();
   }
 
   fetchGetItemList() {}
