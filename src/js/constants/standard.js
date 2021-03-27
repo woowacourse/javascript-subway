@@ -10,3 +10,8 @@ export const STATIONS = {
   MIN_STATION_NAME_LENGTH: 2,
   MAX_STATION_NAME_LENGTH: 20,
 };
+
+export const LINES = {
+  MIN_LINE_NAME_LENGTH: 2,
+  MAX_LINE_NAME_LENGTH: 10,
+};

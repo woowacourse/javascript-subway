@@ -1,19 +1,29 @@
 import Component from '../../core/Component.js';
-import { linesTemplate } from './template.js';
-import { $ } from '../../utils/index.js';
-import { LOGIN_REQUIRED_TEMPLATE } from '../../constants/index.js';
+import { linesTemplate, lineListTemplate } from './template.js';
+import { $, showSnackbar } from '../../utils/index.js';
+import { LOGIN_REQUIRED_TEMPLATE, LINES, SNACKBAR_MESSAGE } from '../../constants/index.js';
+import { getStationList, getCreatedLineData, getLineList } from '../../service/index.js';
 
 export default class Lines extends Component {
+  #token;
   constructor() {
     super();
+    this.#token;
   }
 
   bindEvent() {
     $('#line-create-button').addEventListener('click', this.handleLineCreateModalOpen);
-
     $('.subway-line-color-selector').addEventListener('click', this.handleLineColorSelector);
+    $('#line-create-form').addEventListener('submit', this.handleLineCreateForm.bind(this));
+    $('#line-create-modal').addEventListener('click', this.handleLineModalClose.bind(this));
+    $('#line-edit-modal').addEventListener('click', this.handleLineModalClose.bind(this));
+  }
 
-    $('#line-create-form').addEventListener('submit', this.handleLineCreateForm);
+  handleLineModalClose({ target }) {
+    if (target.classList.contains('modal-close')) {
+      $('#line-create-modal').classList.remove('open');
+      $('#line-edit-modal').classList.remove('open');
+    }
   }
 
   handleLineCreateModalOpen() {
@@ -34,23 +44,72 @@ export default class Lines extends Component {
     $lineColorInput.placeholder = '';
   }
 
-  handleLineCreateForm(e) {
+  isValidLineNameLength(lineName) {
+    return LINES.MIN_LINE_NAME_LENGTH <= lineName.length && lineName.length <= LINES.MAX_LINE_NAME_LENGTH;
+  }
+
+  isValidDepartureAndArriaval(departure, arrival) {
+    return departure !== arrival;
+  }
+
+  isPositiveNumber(number) {
+    return number > 0;
+  }
+
+  async handleLineCreateForm(e) {
     e.preventDefault();
 
-    const lineName = e.target.elements['line-name-input'].value;
-    const departureStation = e.target.elements['departure-station-select'].value;
-    const arrivalStation = e.target.elements['arrival-station-select'].value;
+    const name = e.target.elements['line-name-input'].value;
+    const upStationId = e.target.elements['departure-station-select'].value;
+    const downStationId = e.target.elements['arrival-station-select'].value;
     const distance = e.target.elements['distance-input'].value;
     const duration = e.target.elements['duration-input'].value;
-    const lineColor = e.target.elements['line-color-input'].style.backgroundColor;
+    const color = e.target.elements['line-color-input'].style.backgroundColor;
+
+    console.log(name, upStationId, downStationId);
+    if (!this.isValidLineNameLength(name)) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_LINE_NAME_LENGTH);
+      return;
+    }
+
+    if (!this.isValidDepartureAndArriaval(upStationId, downStationId)) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_DEPARTURE_AND_ARRIVAL);
+      return;
+    }
+
+    if (!this.isPositiveNumber(distance) || !this.isPositiveNumber(duration)) {
+      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_POSITIVE_NUMBER);
+      return;
+    }
+
+    const createdLineData = await getCreatedLineData({
+      token: this.#token,
+      name,
+      upStationId,
+      downStationId,
+      distance,
+      duration,
+      color,
+    });
+
+    if (!createdLineData) {
+      showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
+      return;
+    }
+
+    $('#lines-list-container').insertAdjacentHTML('beforeend', lineListTemplate(createdLineData));
   }
 
-  render(token) {
-    $('main').innerHTML = token ? linesTemplate() : LOGIN_REQUIRED_TEMPLATE;
+  render(token, stationList = [], lineList = []) {
+    $('main').innerHTML = token ? linesTemplate(stationList, lineList) : LOGIN_REQUIRED_TEMPLATE;
   }
 
-  load(token = '') {
-    this.render(token);
+  async load(token = '') {
+    const stationList = await getStationList(token);
+    const lineList = await getLineList(token);
+
+    this.#token = token;
+    this.render(token, stationList, lineList);
     this.bindEvent();
   }
 }
