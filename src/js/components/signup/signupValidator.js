@@ -24,7 +24,6 @@ export const checkEmailValid = async email => {
 
     return { isValid: true, message: SUCCESS_MESSAGE.EMAIL };
   } catch (error) {
-    console.error(error);
     return { isValid: false, message: ERROR_MESSAGE.DUPLICATED_EMAIL };
   }
 };

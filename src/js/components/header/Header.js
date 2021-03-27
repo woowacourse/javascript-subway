@@ -1,6 +1,7 @@
 import { removeLocalStorageItem } from '../../utils/storage.js';
 import { headerTemplate } from './headerTemplate.js';
 import { $ } from '../../utils/dom.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 import { SELECTOR, PATH, STORAGE, SNACKBAR_MESSAGE } from '../../constants.js';
 
 class Header {
@@ -48,7 +49,7 @@ class Header {
   _handleLogout() {
     removeLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
     this.#props.switchURL(PATH.HOME);
-    this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGOUT);
+    showSnackbar(SNACKBAR_MESSAGE.LOGOUT);
   }
 }
 

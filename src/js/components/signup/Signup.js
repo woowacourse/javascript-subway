@@ -12,6 +12,7 @@ import {
   isAllElementsHaveClass,
   showValidMessage,
 } from '../../utils/dom.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 import { request } from '../../utils/api.js';
 import {
   BASE_URL,
@@ -135,7 +136,7 @@ class SignUp {
       await request(BASE_URL + ACTIONS.REGISTER, option);
 
       this.#props.switchURL(PATH.LOGIN);
-      this.#props.showSnackbar(SNACKBAR_MESSAGE.SIGNUP);
+      showSnackbar(SNACKBAR_MESSAGE.SIGNUP);
     } catch (error) {
       alert(SIGNUP_ERROR[error] || ERROR_MESSAGE.SIGNUP_FAILED);
     }
