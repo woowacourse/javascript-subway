@@ -82,6 +82,12 @@ export const MESSAGES = {
     SUCCESS: '노선이 추가되었습니다.',
     FAIL: '해당 노선을 등록할 수 없습니다.',
   },
+
+  LINE_DELETE: {
+    CONFIRM: (line) => `${line}을 삭제하시겠습니까?`,
+    SUCCESS: (line) => `${line}이 삭제되었습니다.`,
+    FAIL: '역 삭제에 실패했습니다.',
+  },
 };
 
 export const BUTTON_NAME = {
