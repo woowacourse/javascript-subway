@@ -9,7 +9,7 @@ import { headerTemplate } from './components/header.js';
 import AccessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
-import request from './utils/fetch.js';
+import request from './utils/request.js';
 import { PATH } from './constants/url.js';
 import { ERROR_MESSAGE } from './constants/message.js';
 import Login from './components/login/index.js';

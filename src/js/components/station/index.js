@@ -1,14 +1,19 @@
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
 import { mainTemplate } from './template/main.js';
-import request from '../../utils/fetch.js';
+import request from '../../utils/request.js';
 import FetchComponent from '../../core/FetchComponent.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
 class Station extends FetchComponent {
   constructor(parentNode, stateManagers) {
     super(parentNode, stateManagers);
-    this.modal = new Modal($('.js-modal'), this.stateManagers);
+
+    this.modal = new Modal(
+      $('.js-modal'),
+      this.stateManagers,
+      this.update.bind(this)
+    );
   }
 
   render(itemList = []) {
@@ -16,17 +21,10 @@ class Station extends FetchComponent {
   }
 
   addEventListeners() {
-    $('.js-station-list').addEventListener('click', ({ target }) => {
+    this.parentNode.addEventListener('click', ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        const { id, name } = target.closest('.js-station-item').dataset;
+        this.modal.setDataset(target.closest('.js-station-item').dataset);
         this.modal.show();
-        // TODO:
-        // edit하는 로직이 들어가면 됨
-        // 1. modal이 뜸
-        // 2. 역 이름을 수정
-        // 3. 확인
-        // 4. API 요청 -> Edit 완료
-        // 5. Render
       }
 
       if (target.classList.contains('js-station-item__delete')) {
