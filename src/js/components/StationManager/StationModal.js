@@ -36,6 +36,7 @@ export default class StationModal {
   }
 
   activateInput() {
+    this.$stationNameEditInput.value = '';
     this.$stationNameEditInput.setAttribute('placeholder', this.station.name);
     this.$stationNameEditInput.focus();
   }
@@ -53,7 +54,6 @@ export default class StationModal {
       await editStationRequest(stationID, newName, accessToken);
       popSnackbar(MESSAGES.STATION_NAME_EDIT.SUCCESS);
 
-      this.$stationNameEditInput.value = '';
       this.close();
       this.$root.dispatchEvent(
         new CustomEvent('updateName', {
