@@ -133,3 +133,10 @@ export const createLineRequest = async (data, token) => {
 
   return response.json();
 };
+
+export const deleteLineRequest = async (id, token) => {
+  const url = `${HOST}/lines/${id}`;
+  const response = await deleteRequest(url, token);
+
+  return response;
+};
