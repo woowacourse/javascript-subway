@@ -40,6 +40,10 @@ class StationManager {
     return resFlag;
   }
 
+  getStation(stationId) {
+    return this.stations[stationId];
+  }
+
   async getAllStations() {
     const allStations = (await fetchAllStations()) ?? [];
 

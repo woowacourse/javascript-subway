@@ -1,4 +1,10 @@
-import { fetchAddLine, fetchAllLines, fetchDeleteLine } from '../API/lines.js';
+import {
+  fetchAddLine,
+  fetchAllLines,
+  fetchDeleteLine,
+  fetchModifyLine,
+} from '../API/lines.js';
+import user from './user.js';
 
 class LineManager {
   constructor() {
@@ -39,14 +45,36 @@ class LineManager {
     return resFlag;
   }
 
-  // async modifyLine(id, name) {
-  //   const resFlag = await fetchModifyStation(id, name);
-  //   if (resFlag) {
-  //     this.stations[id] = { id, name };
-  //   }
+  async modifyLine(modifiedLineId, modifiedLineInfo) {
+    const resFlag = await fetchModifyLine(modifiedLineId, modifiedLineInfo);
 
-  //   return resFlag;
-  // }
+    if (resFlag) {
+      this.lines[modifiedLineId].name = modifiedLineInfo.name;
+      this.lines[modifiedLineId].color = modifiedLineInfo.color;
+      this.lines[modifiedLineId].upStation = this.createStationData(
+        user.stationManager.getStation(modifiedLineInfo.upStationId)
+      );
+      this.lines[modifiedLineId].downStation = this.createStationData(
+        user.stationManager.getStation(modifiedLineInfo.downStationId)
+      );
+      this.lines[modifiedLineId].distance = modifiedLineInfo.distance;
+      this.lines[modifiedLineId].duration = modifiedLineInfo.duration;
+      this.lines[modifiedLineId].stations = [
+        this.createStationData(
+          user.stationManager.getStation(modifiedLineInfo.upStationId)
+        ),
+        this.createStationData(
+          user.stationManager.getStation(modifiedLineInfo.downStationId)
+        ),
+      ];
+    }
+
+    return resFlag;
+  }
+
+  getLine(lineId) {
+    return this.lines[lineId];
+  }
 
   async getAllLines() {
     const allLines = (await fetchAllLines()) ?? [];

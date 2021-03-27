@@ -31,3 +31,7 @@
   border: 1px solid gray;
   height: 100%;
 }
+
+#line-list .line-list-item {
+  border-bottom: 1px solid rgb(229, 231, 235);
+}

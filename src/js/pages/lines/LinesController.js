@@ -1,5 +1,11 @@
 import user from '../../models/user.js';
 import { $, onModalClose, onModalShow, resetInput } from '../../utils/DOM.js';
+import {
+  addLineHandler,
+  deleteLineHandler,
+  selectColorHandler,
+  modifyLineHandler,
+} from './LinesHandlers.js';
 import LinesView from './LinesView.js';
 
 class LinesController {
@@ -7,6 +13,8 @@ class LinesController {
     this.linesView = new LinesView();
     this.lineManager = user.lineManager;
     this.router = router;
+
+    this.$modifiedLine = '';
   }
 
   async init() {
@@ -14,46 +22,55 @@ class LinesController {
     this.bindEvents();
   }
 
-  async addLineHandler(e) {
+  async onLineAddBtnClick(e) {
     e.preventDefault();
 
-    try {
-      const newLineInfo = {
-        name: e.target.elements['line-name'].value,
-        color: e.target.elements['line-color'].value,
-        upStationId: Number(e.target.elements['up-station'].value),
-        downStationId: Number(e.target.elements['down-station'].value),
-        distance: Number(e.target.elements['distance'].value),
-        duration: Number(e.target.elements['duration'].value),
-      };
-      const newLine = await this.lineManager.addLine(newLineInfo);
+    const newLine = await addLineHandler(e);
 
-      this.linesView.appendNewLine(newLine);
-      resetInput(e.target, $('#line-name'));
-    } catch (error) {
-      console.error('fail fetch');
-    }
+    this.linesView.appendNewLine(newLine);
+    resetInput(e.target, $('#line-name'));
   }
 
-  selectColorHandler(e) {
-    if (!e.target.classList.contains('color-option')) return;
+  async onLineSaveBtnClick(e) {
+    e.preventDefault();
 
-    $('#line-color').value = e.target.dataset.colorOption;
+    const modifiedLine = await modifyLineHandler(
+      e,
+      this.$modifiedLine.dataset.lineId
+    );
+
+    this.linesView.renderModifiedLine(modifiedLine, this.$modifiedLine);
+    resetInput(e.target, $('#line-name'));
   }
 
-  async updateLineHandler(e) {
+  async onLineUpdateBtnClick(e) {
     if (!e.target.classList.contains('btn')) return;
 
+    if (e.target.classList.contains('js-modify-button')) {
+      onModalShow();
+      this.$modifiedLine = e.target.closest('li');
+      const targetLineId = this.$modifiedLine.dataset.lineId;
+
+      await this.linesView.renderModifyModal(
+        this.lineManager.getLine(targetLineId)
+      );
+
+      this.bindModifymodalEvents();
+    }
+
     if (e.target.classList.contains('js-delete-button')) {
-      const targetLineId = e.target.closest('li').dataset.lineId;
-      const resFlag = await this.lineManager.deleteLine(targetLineId);
-      if (!resFlag) {
-        alert('노선 삭제에 실패했습니다.');
-        return;
-      }
+      await deleteLineHandler(e);
 
       this.linesView.deleteResult(e);
     }
+  }
+
+  bindModifymodalEvents() {
+    $('#lines-modify-form').addEventListener(
+      'submit',
+      this.onLineSaveBtnClick.bind(this)
+    );
+    $('.line-color-selector').addEventListener('click', selectColorHandler);
   }
 
   bindEvents() {
@@ -62,14 +79,15 @@ class LinesController {
       resetInput($('#lines-form'), $('#line-name'));
     });
     $('.modal-close').addEventListener('click', onModalClose.bind(this));
-    $('#lines-form').addEventListener('submit', this.addLineHandler.bind(this));
-    $('.line-color-selector').addEventListener(
-      'click',
-      this.selectColorHandler
+    $('#lines-form').addEventListener(
+      'submit',
+      this.onLineAddBtnClick.bind(this)
     );
+
+    $('.line-color-selector').addEventListener('click', selectColorHandler);
     $('#line-list').addEventListener(
       'click',
-      this.updateLineHandler.bind(this)
+      this.onLineUpdateBtnClick.bind(this)
     );
   }
 }

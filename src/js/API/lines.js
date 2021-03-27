@@ -33,6 +33,7 @@ async function fetchAllLines() {
     method: HTTP.METHOD.GET,
     headers: {
       Authorization: `Bearer ${user.authorization}`,
+      Accept: HTTP.HEADERS.VALUE.APPLICATION_JSON,
     },
   };
 
@@ -66,4 +67,31 @@ async function fetchDeleteLine(id) {
   }
 }
 
-export { fetchAddLine, fetchAllLines, fetchDeleteLine };
+async function fetchModifyLine(modifiedLineId, modifiedLineInfo) {
+  const requestData = {
+    method: HTTP.METHOD.PUT,
+    body: JSON.stringify(modifiedLineInfo),
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/lines/${modifiedLineId}`,
+      requestData
+    );
+
+    if (!response.ok) {
+      throw new Error('노선 수정에 실패했습니다.');
+    }
+
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { fetchAddLine, fetchAllLines, fetchDeleteLine, fetchModifyLine };
