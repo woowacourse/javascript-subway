@@ -1,9 +1,9 @@
-import { requestDeleteLine } from '../services/line';
-import { LINE } from '../constants/alertMessage';
-import store from '../store';
-import { openModal } from '../utils/modal';
-import { $ } from '../utils/dom';
-import { updateLineEditModal } from '../viewController/lines';
+import store from '../../../store';
+import { updateLineEditModal } from '../viewController';
+import { $ } from '../../../utils/dom';
+import { openModal } from '../../../utils/modal';
+import { LINE } from '../../../constants/alertMessage';
+import { requestDeleteLine } from '../../../services/line';
 
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;

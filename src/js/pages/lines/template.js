@@ -1,4 +1,4 @@
-import { colorOptions } from '/src/js/utils/mock.js';
+import { colorOptions } from '../../utils/mock';
 
 const subwayLineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
@@ -57,7 +57,7 @@ export const lineAddModalTemplate = `
             name="down-station"
             class="input-field"
             required
-            disabled}
+            disabled
           >
             <option value="" disabled selected hidden>하행역</option>
           </select>

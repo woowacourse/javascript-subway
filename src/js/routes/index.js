@@ -1,15 +1,15 @@
-import { routeTo } from '../utils/history';
 import {
+  mountError,
+  mountLines,
   mountLogin,
-  mountSignup,
+  mountMap,
   mountSearch,
   mountSections,
+  mountSignup,
   mountStations,
-  mountMap,
-  mountLines,
-  mountError,
-} from './routeHandler';
+} from '../pages';
 import { authenticatedRoute, unauthenticatedRoute } from './utils';
+import { routeTo } from '../utils/history';
 
 const routeHandler = {
   '/': () => authenticatedRoute(mountStations),

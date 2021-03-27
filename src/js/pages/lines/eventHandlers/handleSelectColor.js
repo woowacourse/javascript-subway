@@ -1,4 +1,4 @@
-import { updateLineColorDot } from '../viewController/lines';
+import { updateLineColorDot } from '../viewController';
 
 const handleSelectColor = ({ target }) => {
   if (!target.classList.contains('js-color-option')) return;

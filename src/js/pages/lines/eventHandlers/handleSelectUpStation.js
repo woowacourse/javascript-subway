@@ -1,8 +1,8 @@
-import store from '../store';
-import { $ } from '../utils/dom';
-import { initDownStationSelect } from '../viewController/lines';
+import store from '../../../store';
+import { $ } from '../../../utils/dom';
+import { initDownStationSelect } from '../viewController';
 
-const handleSelectUpStationLineAddModal = event => {
+const handleSelectUpStation = event => {
   const upStationId = event.target.value;
   const filteredStations = store.station.get().filter(({ id }) => id !== Number(upStationId));
 
@@ -10,4 +10,4 @@ const handleSelectUpStationLineAddModal = event => {
   initDownStationSelect(filteredStations);
 };
 
-export default handleSelectUpStationLineAddModal;
+export default handleSelectUpStation;

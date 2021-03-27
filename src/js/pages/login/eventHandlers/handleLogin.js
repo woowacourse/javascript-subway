@@ -1,8 +1,8 @@
-import { AUTH } from '../constants/alertMessage';
-import { requestLogin } from '../services/auth';
-import store, { initPrivateStore } from '../store';
-import { $, showElement } from '../utils/dom';
-import { routeTo } from '../utils/history';
+import { routeTo } from '../../../utils/history';
+import store, { initPrivateStore } from '../../../store';
+import { requestLogin } from '../../../services/auth';
+import { AUTH } from '../../../constants/alertMessage';
+import { $, showElement } from '../../../utils/dom';
 
 export const login = async (email, password, option) => {
   const response = await requestLogin({ email, password });

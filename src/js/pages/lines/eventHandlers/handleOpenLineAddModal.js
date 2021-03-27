@@ -1,8 +1,8 @@
-import store from '../store';
-import { $ } from '../utils/dom';
-import { colorOptions } from '../utils/mock';
-import { openModal } from '../utils/modal';
-import { initUpStationSelect, updateLineColorDot } from '../viewController/lines';
+import store from '../../../store';
+import { $ } from '../../../utils/dom';
+import { colorOptions } from '../../../utils/mock';
+import { openModal } from '../../../utils/modal';
+import { initUpStationSelect, updateLineColorDot } from '../viewController';
 
 const handleOpenLineAddModal = () => {
   const $lineAddModal = $('#line-add-modal');

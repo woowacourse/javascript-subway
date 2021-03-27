@@ -1,4 +1,4 @@
-import { STATION_NAME } from '../constants/service';
+import { STATION_NAME } from '../../constants/service';
 
 export const stationNameEditModalTemplate = `
   <div id="station-name-edit-modal" class="modal" style="z-index:99" hidden>
