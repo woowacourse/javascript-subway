@@ -11,7 +11,7 @@ import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
 import request from './utils/request.js';
 import { PATH } from './constants/url.js';
-import { ERROR_MESSAGE } from './constants/message.js';
+import { INVALID_MESSAGE } from './constants/message.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';

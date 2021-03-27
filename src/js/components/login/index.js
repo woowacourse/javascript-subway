@@ -5,7 +5,7 @@ import { PATH } from '../../constants/url.js';
 import request from '../../utils/request.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import ValidationError from '../../error/ValidationError.js';
-import { ERROR_MESSAGE } from '../../constants/message.js';
+import { INVALID_MESSAGE } from '../../constants/message.js';
 import getFetchParams from '../../api/getFetchParams.js';
 
 class Login extends Component {
@@ -43,7 +43,7 @@ class Login extends Component {
     const response = await request.post(params);
 
     if (response.status === 400) {
-      throw new ValidationError(ERROR_MESSAGE.LOGIN.FAILED);
+      throw new ValidationError(INVALID_MESSAGE.LOGIN.FAILED);
     }
 
     if (!response.ok) throw Error(response.message);
