@@ -91,6 +91,12 @@ export const MESSAGES = {
     SUCCESS: (line) => `${line}이 삭제되었습니다.`,
     FAIL: '역 삭제에 실패했습니다.',
   },
+
+  SECTION_DELETE: {
+    CONFIRM: (station) => `${station}역을 삭제하시겠습니까?`,
+    SUCCESS: (station) => `${station}역이 삭제되었습니다.`,
+    FAIL: '구간 삭제에 실패했습니다.',
+  },
 };
 
 export const BUTTON_NAME = {
