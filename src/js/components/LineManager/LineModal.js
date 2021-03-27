@@ -49,6 +49,15 @@ export default class LineModal {
   open() {
     this.$root.classList.add('open');
     this.activateInput();
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.$lineCreationForm.reset();
+    const prevColorOption = this.$lineColorSelector.querySelector('.selected');
+    if (prevColorOption) {
+      prevColorOption.classList.remove('selected');
+    }
   }
 
   setModalDetails() {
