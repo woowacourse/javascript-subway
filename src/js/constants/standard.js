@@ -7,6 +7,6 @@ export const REG_EXP = {
 };
 
 export const STATIONS = {
-  MIN_STATION_NAME_LENGTH : 2,
-  MAX_STATION_NAME_LENGTH : 20,
-}
+  MIN_STATION_NAME_LENGTH: 2,
+  MAX_STATION_NAME_LENGTH: 20,
+};

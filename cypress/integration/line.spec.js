@@ -28,7 +28,7 @@ describe('지하철 노선도 노선 관리 기능 테스트', () => {
     cy.get('#departure-station-select').select('상행역');
     cy.get('#arrival-station-select').select('하행역');
     cy.get('#distance-input').type(10);
-    cy.get('#time-input').type(10);
+    cy.get('#duration-input').type(10);
     cy.get('.bg-red-600').click();
     cy.get('button').contains('확인').click();
     cy.get('.line-create-modal').should('not.be.visible');
@@ -44,9 +44,7 @@ describe('지하철 노선도 노선 관리 기능 테스트', () => {
     cy.get('button').contains('확인').click();
     cy.get('.line-edit-modal').should('not.be.visible');
 
-    cy.get('.subway-line-list-item-name')
-      .eq(-1)
-      .should('have.text', '테스트 노선 수정');
+    cy.get('.subway-line-list-item-name').eq(-1).should('have.text', '테스트 노선 수정');
     cy.get('.subway-line-color-dot').eq(-1).find('.bg-blue-600');
   });
 

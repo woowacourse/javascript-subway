@@ -19,26 +19,23 @@ const confirmTemplate = (message) => {
 export const customConfirm = (message) => {
   return new Promise((resolve, reject) => {
     $('#app').insertAdjacentHTML('beforeend', confirmTemplate(message));
-    $('.confirm-modal').addEventListener(
-      'click',
-      ({ currentTarget, target }) => {
-        if (currentTarget === target) {
-          currentTarget.remove();
-          return;
-        }
-
-        if (target.classList.contains('cancel-button')) {
-          currentTarget.remove();
-          return;
-        }
-
-        if (target.classList.contains('confirm-button')) {
-          currentTarget.remove();
-          resolve('Clicked confirm button.');
-        }
-
+    $('.confirm-modal').addEventListener('click', ({ currentTarget, target }) => {
+      if (currentTarget === target) {
+        currentTarget.remove();
         return;
-      },
-    );
+      }
+
+      if (target.classList.contains('cancel-button')) {
+        currentTarget.remove();
+        return;
+      }
+
+      if (target.classList.contains('confirm-button')) {
+        currentTarget.remove();
+        resolve('Clicked confirm button.');
+      }
+
+      return;
+    });
   });
 };
