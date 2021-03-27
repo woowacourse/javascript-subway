@@ -130,7 +130,7 @@ export const API = {
     return request.get({ url: `/lines/${id}`, token });
   },
 
-  createLine: ({ token, ...contents }) => {
+  createLine: ({ token, contents }) => {
     return request.post({ url: `/lines`, contents, token });
   },
 
@@ -138,7 +138,7 @@ export const API = {
     return request.delete({ url: `/lines/${id}`, token });
   },
 
-  editLine: ({ token, id, ...contents }) => {
+  editLine: ({ token, id, contents }) => {
     return request.put({ url: `/lines/${id}`, contents, token });
   },
 };
