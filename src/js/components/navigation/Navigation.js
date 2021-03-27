@@ -1,11 +1,5 @@
 import Component from '../../core/Component.js';
-import {
-  $,
-  $$,
-  showElement,
-  hideElement,
-  showSnackbar,
-} from '../../utils/index.js';
+import { $, $$, showElement, hideElement, showSnackbar } from '../../utils/index.js';
 import { LOCAL_STORAGE_KEY, SNACKBAR_MESSAGE } from '../../constants/index.js';
 
 export default class Navigation extends Component {
@@ -59,9 +53,7 @@ export default class Navigation extends Component {
   }
 
   static changeSelectedButtonColor(target = '') {
-    $$('.navigation-button').forEach((button) =>
-      button.classList.remove('bg-cyan-100'),
-    );
+    $$('.navigation-button').forEach((button) => button.classList.remove('bg-cyan-100'));
 
     if (target.id === 'navigation-main' || !target) {
       return;

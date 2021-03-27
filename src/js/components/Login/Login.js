@@ -12,14 +12,8 @@ export default class Login extends Component {
   }
 
   bindEvent() {
-    $('#login-form').addEventListener(
-      'submit',
-      this.handleLoginForm.bind(this),
-    );
-    $('#signup-button').addEventListener(
-      'click',
-      this.handleSingupButton.bind(this),
-    );
+    $('#login-form').addEventListener('submit', this.handleLoginForm.bind(this));
+    $('#signup-button').addEventListener('click', this.handleSingupButton.bind(this));
   }
 
   async handleLoginForm(e) {

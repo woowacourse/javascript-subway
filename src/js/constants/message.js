@@ -4,8 +4,7 @@ export const MESSAGE = {
 };
 
 export const SNACKBAR_MESSAGE = {
-  IS_NOT_VALID_STATION_NAME_LENGTH:
-    '역 이름은 2글자 이상, 20글자 이하만 입력 가능합니다.',
+  IS_NOT_VALID_STATION_NAME_LENGTH: '역 이름은 2글자 이상, 20글자 이하만 입력 가능합니다.',
   MATCH_CONFIRM_PASSWORD: '비밀번호가 일치합니다.',
   NOT_MATCH_CONFIRM_PASSWORD: '비밀번호가 일치하지 않습니다.',
   REQUIRE_CHECK_EMAIL: '이메일의 중복 여부를 확인해주세요.',

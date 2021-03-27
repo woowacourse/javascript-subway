@@ -1,18 +1,8 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
 import { $, API, showSnackbar, customConfirm } from '../../utils/index.js';
-import {
-  LOGIN_REQUIRED_TEMPLATE,
-  MESSAGE,
-  SNACKBAR_MESSAGE,
-  STATIONS,
-} from '../../constants/index.js';
-import {
-  getCreatedStationData,
-  getStationList,
-  isStationDeleted,
-  isStationEdited,
-} from '../../service/index.js';
+import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE, STATIONS } from '../../constants/index.js';
+import { getCreatedStationData, getStationList, isStationDeleted, isStationEdited } from '../../service/index.js';
 
 export default class Stations extends Component {
   #token;
@@ -31,10 +21,7 @@ export default class Stations extends Component {
   }
 
   bindEvent() {
-    this.$stationInputForm.addEventListener(
-      'submit',
-      this.handleStationInputForm.bind(this),
-    );
+    this.$stationInputForm.addEventListener('submit', this.handleStationInputForm.bind(this));
 
     this.$stationListContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('station-edit-button')) {
@@ -46,15 +33,9 @@ export default class Stations extends Component {
       }
     });
 
-    this.$stationEditModalClose.addEventListener(
-      'click',
-      this.handleStationEditModalClose.bind(this),
-    );
+    this.$stationEditModalClose.addEventListener('click', this.handleStationEditModalClose.bind(this));
 
-    this.$stationEditModal.addEventListener(
-      'submit',
-      this.handleStationEdit.bind(this),
-    );
+    this.$stationEditModal.addEventListener('submit', this.handleStationEdit.bind(this));
   }
 
   handleStationEditModalClose({ target }) {
@@ -90,16 +71,14 @@ export default class Stations extends Component {
     }
 
     this.$stationEditModal.classList.remove('open');
-    $(`.station-name[data-id="${stationId}"]`).innerText =
-      $stationEditNameInput.value;
+    $(`.station-name[data-id="${stationId}"]`).innerText = $stationEditNameInput.value;
     $stationEditNameInput.value = '';
     showSnackbar(SNACKBAR_MESSAGE.EDIT_SUCCESS);
   }
 
   handleStationEditModalOpen(target) {
     const $stationListItem = target.closest('.station-list-item');
-    const stationName = $stationListItem.querySelector('.station-name')
-      .innerText;
+    const stationName = $stationListItem.querySelector('.station-name').innerText;
 
     this.$stationEditModal.classList.add('open');
     this.$stationEditNameInput.focus();
@@ -109,8 +88,7 @@ export default class Stations extends Component {
 
   async handleStationDelete(target) {
     const $stationListItem = target.closest('.station-list-item');
-    const stationName = $stationListItem.querySelector('.station-name')
-      .innerText;
+    const stationName = $stationListItem.querySelector('.station-name').innerText;
     const stationId = target.dataset.id;
 
     try {
@@ -132,10 +110,7 @@ export default class Stations extends Component {
   }
 
   isValidStationNameLength(name) {
-    return (
-      STATIONS.MIN_STATION_NAME_LENGTH <= name.length &&
-      name.length <= STATIONS.MAX_STATION_NAME_LENGTH
-    );
+    return STATIONS.MIN_STATION_NAME_LENGTH <= name.length && name.length <= STATIONS.MAX_STATION_NAME_LENGTH;
   }
 
   async handleStationInputForm(e) {
@@ -158,19 +133,14 @@ export default class Stations extends Component {
       return;
     }
 
-    $('#station-list-container').insertAdjacentHTML(
-      'beforeend',
-      stationListTemplate(createdStationData),
-    );
+    $('#station-list-container').insertAdjacentHTML('beforeend', stationListTemplate(createdStationData));
     $stationNameInput.value = '';
 
     showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
   }
 
   render(token, stationList = []) {
-    $('main').innerHTML = token
-      ? stationsTemplate(stationList)
-      : LOGIN_REQUIRED_TEMPLATE;
+    $('main').innerHTML = token ? stationsTemplate(stationList) : LOGIN_REQUIRED_TEMPLATE;
     $('#station-name-input').focus();
   }
 

@@ -9,20 +9,11 @@ export default class Lines extends Component {
   }
 
   bindEvent() {
-    $('#line-create-button').addEventListener(
-      'click',
-      this.handleLineCreateModalOpen,
-    );
+    $('#line-create-button').addEventListener('click', this.handleLineCreateModalOpen);
 
-    $('.subway-line-color-selector').addEventListener(
-      'click',
-      this.handleLineColorSelector,
-    );
+    $('.subway-line-color-selector').addEventListener('click', this.handleLineColorSelector);
 
-    $('#line-create-form').addEventListener(
-      'submit',
-      this.handleLineCreateForm,
-    );
+    $('#line-create-form').addEventListener('submit', this.handleLineCreateForm);
   }
 
   handleLineCreateModalOpen() {
@@ -47,13 +38,11 @@ export default class Lines extends Component {
     e.preventDefault();
 
     const lineName = e.target.elements['line-name-input'].value;
-    const departureStation =
-      e.target.elements['departure-station-select'].value;
+    const departureStation = e.target.elements['departure-station-select'].value;
     const arrivalStation = e.target.elements['arrival-station-select'].value;
     const distance = e.target.elements['distance-input'].value;
     const duration = e.target.elements['duration-input'].value;
-    const lineColor =
-      e.target.elements['line-color-input'].style.backgroundColor;
+    const lineColor = e.target.elements['line-color-input'].style.backgroundColor;
   }
 
   render(token) {

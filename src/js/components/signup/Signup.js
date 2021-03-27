@@ -1,11 +1,6 @@
 import Component from '../../core/Component.js';
 import { signupTemplate } from './template.js';
-import {
-  $,
-  showSnackbar,
-  setFontColorGreen,
-  setFontColorRed,
-} from '../../utils/index.js';
+import { $, showSnackbar, setFontColorGreen, setFontColorRed } from '../../utils/index.js';
 import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 import { isDuplicatedEmail, isSignupSuccess } from '../../service/index.js';
@@ -19,22 +14,10 @@ export default class Signup extends Component {
   }
 
   bindEvent() {
-    $('#signup-form').addEventListener(
-      'submit',
-      this.handleSignupForm.bind(this),
-    );
-    $('#check-email-duplicate-button').addEventListener(
-      'click',
-      this.handleEmailDuplicateButton.bind(this),
-    );
-    $('#signup-password-confirm').addEventListener(
-      'keyup',
-      this.handlePasswordConfirm.bind(this),
-    );
-    $('#signup-email').addEventListener(
-      'keyup',
-      this.handleEmailChange.bind(this),
-    );
+    $('#signup-form').addEventListener('submit', this.handleSignupForm.bind(this));
+    $('#check-email-duplicate-button').addEventListener('click', this.handleEmailDuplicateButton.bind(this));
+    $('#signup-password-confirm').addEventListener('keyup', this.handlePasswordConfirm.bind(this));
+    $('#signup-email').addEventListener('keyup', this.handleEmailChange.bind(this));
   }
 
   handleEmailChange({ target }) {
@@ -117,8 +100,7 @@ export default class Signup extends Component {
 
     if (password !== confirmPassword) {
       setFontColorRed($passwordMatchCheckText);
-      $passwordMatchCheckText.innerText =
-        SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD;
+      $passwordMatchCheckText.innerText = SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD;
       return;
     }
 
