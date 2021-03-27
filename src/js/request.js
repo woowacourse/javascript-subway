@@ -41,6 +41,9 @@ const deleteRequest = async (url, token = '') => {
   });
 
   if (!response.ok) {
+    if (response.status === 400) {
+      throw new Error(await response.text());
+    }
     throw new Error(response.status);
   }
 
@@ -106,6 +109,13 @@ export const lineListRequest = async (token) => {
   return response.json();
 };
 
+export const getLineByIdRequest = async (id, token) => {
+  const url = `${HOST}/lines/${id}`;
+  const response = await getRequest(url, token);
+
+  return response.json();
+};
+
 export const addStationRequest = async (data, token) => {
   const url = `${HOST}/stations`;
   const response = await postRequest(url, data, token);
@@ -136,6 +146,13 @@ export const createLineRequest = async (data, token) => {
 
 export const deleteLineRequest = async (id, token) => {
   const url = `${HOST}/lines/${id}`;
+  const response = await deleteRequest(url, token);
+
+  return response;
+};
+
+export const deleteSectionRequest = async (lineID, stationId, token) => {
+  const url = `${HOST}/lines/${lineID}/sections?stationId=${stationId}`;
   const response = await deleteRequest(url, token);
 
   return response;

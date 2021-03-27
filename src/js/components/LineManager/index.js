@@ -1,8 +1,8 @@
 import { $ } from '../../utils/dom.js';
+import popSnackbar from '../../utils/snackbar.js';
 import { SELECTOR, MESSAGES } from '../../constants/constants.js';
 import { contentTemplate, modalTemplate } from './template.js';
 import { deleteLineRequest } from '../../request.js';
-import popSnackbar from '../../utils/snackbar.js';
 import LineModal from './LineModal.js';
 
 export default class LineManager {
