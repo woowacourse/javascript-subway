@@ -77,6 +77,7 @@ export const SUCCESS_MESSAGE = {
   EMAIL: '올바른 이메일 입니다.',
   PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
   ADD_STATION: '역이 추가되었습니다! 🚇',
+  REMOVE_STATION: '역이 제거되었습니다!',
 };
 
 export const ERROR_MESSAGE = {
@@ -97,6 +98,18 @@ export const ERROR_MESSAGE = {
   LOAD_STATION_FAILED:
     '지하철 역 목록을 불러오는데 실패했습니다. 관리자에게 문의해주세요!',
   ADD_STATION_FAILED: '역을 추가하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  REMOVE_STATION_FAILED:
+    '역을 제거하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+};
+
+export const CONFIRM_MESSAGE = {
+  REMOVE: '정말로 삭제하시겠습니까 ?',
+};
+
+export const REQUEST_METHOD = {
+  GET: 'GET',
+  POST: 'POST',
+  DELETE: 'DELETE',
 };
 
 export const PAGE_TITLE = {

@@ -25,6 +25,7 @@ import {
   ERROR_MESSAGE,
   FORM,
   CLASS_NAME,
+  REQUEST_METHOD,
 } from '../../constants.js';
 
 class SignUp {
@@ -125,7 +126,7 @@ class SignUp {
   async _requestSignup(data) {
     try {
       const option = {
-        method: 'POST',
+        method: REQUEST_METHOD.POST,
         body: {
           name: data.name,
           email: data.email,
@@ -133,7 +134,7 @@ class SignUp {
         },
       };
 
-      await request(BASE_URL + ACTIONS.REGISTER, option);
+      await request(`${BASE_URL}${ACTIONS.REGISTER}`, option);
 
       this.#props.switchURL(PATH.LOGIN);
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP);

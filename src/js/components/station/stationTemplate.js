@@ -46,7 +46,6 @@ export const stationTemplate = ({ id, name }) => {
   삭제
 </button>
 </li>
-<hr class="my-0" />
 `;
 };
 

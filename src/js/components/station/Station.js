@@ -8,6 +8,8 @@ import {
   ERROR_MESSAGE,
   SUCCESS_MESSAGE,
   FORM,
+  CONFIRM_MESSAGE,
+  REQUEST_METHOD,
 } from '../../constants.js';
 import { request } from '../../utils/api.js';
 import { $, clearForm } from '../../utils/dom.js';
@@ -54,11 +56,12 @@ class Station {
       const option = {
         Authorization: `Bearer ${this.#userAccessToken}`,
       };
-      this.#stations = await request(BASE_URL + ACTIONS.STATIONS, option).then(
-        res => {
-          return res.json();
-        },
-      );
+      this.#stations = await request(
+        `${BASE_URL}${ACTIONS.STATIONS}`,
+        option,
+      ).then(res => {
+        return res.json();
+      });
     } catch {
       alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
     }
@@ -66,12 +69,26 @@ class Station {
 
   _bindEvent() {
     this._bindAddStationEvent();
-    // this._bindUpdateStationEvent();
+    this._bindUpdateStationEvent();
   }
 
   _bindAddStationEvent() {
     this.$addStationForm.addEventListener('submit', e => {
       this._handleAddStation(e);
+    });
+  }
+
+  _bindUpdateStationEvent() {
+    this.$stationList.addEventListener('click', e => {
+      if (e.target.classList.contains('modify-button')) {
+        this._handleModifyStation(e);
+        return;
+      }
+
+      if (e.target.classList.contains('delete-button')) {
+        this._handleRemoveStation(e);
+        return;
+      }
     });
   }
 
@@ -88,7 +105,7 @@ class Station {
     try {
       // TODO: option, newStation fetch 과정 분리할수 있으면 분리하기
       const option = {
-        method: 'POST',
+        method: REQUEST_METHOD.POST,
         Authorization: `Bearer ${this.#userAccessToken}`,
         body: {
           name,
@@ -96,7 +113,7 @@ class Station {
       };
 
       const newStation = await request(
-        BASE_URL + ACTIONS.STATIONS,
+        `${BASE_URL}${ACTIONS.STATIONS}`,
         option,
       ).then(res => {
         return res.json();
@@ -111,6 +128,31 @@ class Station {
       showSnackbar(SUCCESS_MESSAGE.ADD_STATION);
     } catch ({ status }) {
       showSnackbar(STATION_ERROR[status] || ERROR_MESSAGE.ADD_STATION_FAILED);
+    }
+  }
+
+  async _handleModifyStation(e) {}
+
+  async _handleRemoveStation(e) {
+    if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
+
+    try {
+      const option = {
+        method: REQUEST_METHOD.DELETE,
+        Authorization: `Bearer ${this.#userAccessToken}`,
+      };
+
+      const stationItem = e.target.closest('[data-station-id]');
+      await request(
+        `${BASE_URL}${ACTIONS.STATIONS}/${stationItem.dataset.stationId}`,
+        option,
+      );
+
+      stationItem.remove();
+      showSnackbar(SUCCESS_MESSAGE.REMOVE_STATION);
+    } catch (error) {
+      console.log(error);
+      showSnackbar(ERROR_MESSAGE.REMOVE_STATION_FAILED);
     }
   }
 }

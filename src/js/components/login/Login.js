@@ -14,6 +14,7 @@ import {
   PAGE_TITLE,
   LOGIN_ERROR,
   STORAGE,
+  REQUEST_METHOD,
 } from '../../constants.js';
 import { showSnackbar } from '../../utils/snackbar.js';
 
@@ -80,7 +81,7 @@ class Login {
   async _requestLogin(data) {
     try {
       const option = {
-        method: 'POST',
+        method: REQUEST_METHOD.POST,
         body: {
           email: data.email,
           password: data.password,
@@ -88,7 +89,7 @@ class Login {
       };
 
       const { accessToken } = await request(
-        BASE_URL + ACTIONS.LOGIN,
+        `${BASE_URL}${ACTIONS.LOGIN}`,
         option,
       ).then(res => {
         return res.json();
