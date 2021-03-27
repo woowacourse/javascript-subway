@@ -30,6 +30,7 @@ export const SUCCESS_MESSAGE = {
   LOGOUT_SUCCESS: "로그아웃을 하였습니다.",
   VALID_EMAIL: "사용가능한 이메일입니다.",
   ADD_STATION: "지하철역을 추가했습니다",
+  ADD_LINE: "지하철 노선을 추가했습니다",
   MODIFY_STATION: "지하철역 이름을 수정했습니다.",
   DELETE_STATION: "지하철역을 삭제했습니다.",
   DELETE_LINE: "지하철 노선을 삭제했습니다.",

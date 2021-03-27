@@ -18,6 +18,9 @@ const STATUS = {
     VALID: 201,
     DUPLICATED: 400,
   },
+  LINES: {
+    DUPLICATED: 400,
+  },
 };
 
 const request = {
@@ -368,6 +371,44 @@ export const getLinesAPI = async (accessToken) => {
       isSucceeded: true,
       lines,
     };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const addLineAPI = async (lineData, accessToken) => {
+  try {
+    const response = await request.post({
+      path: PATH.LINES(),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: lineData,
+    });
+
+    if (response.ok) {
+      const line = await response.json();
+
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.ADD_LINE,
+        line,
+      };
+    }
+
+    if (response.status === STATUS.LINES.DUPLICATED) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.DUPLICATED_LINE,
+      };
+    }
+
+    throw Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 

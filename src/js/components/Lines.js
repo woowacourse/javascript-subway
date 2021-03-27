@@ -1,6 +1,10 @@
 import Component from "./common/Component.js";
 import LinesModal from "./LinesModal.js";
-import { getLinesAPI, deleteLineAPI } from "../APIs/subwayAPI.js";
+import {
+  getLinesAPI,
+  deleteLineAPI,
+  getStationsAPI,
+} from "../APIs/subwayAPI.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
@@ -36,7 +40,9 @@ export default class Lines extends Component {
   constructor({ $parent, setIsLoggedIn }) {
     super($parent);
     this.setIsLoggedIn = setIsLoggedIn;
-    this.linesModal = new LinesModal();
+    this.linesModal = new LinesModal({
+      addLine: this.addLine.bind(this),
+    });
 
     this.initContent();
 
@@ -85,6 +91,14 @@ export default class Lines extends Component {
     this.render();
   }
 
+  addLine(lineData) {
+    this.$lineList.insertAdjacentHTML(
+      "beforeend",
+      createLineListItem(lineData)
+    );
+    this.render();
+  }
+
   onClickLineList({ target }) {
     if (target.classList.contains("js-delete-line-btn")) {
       this.deleteLine(target.closest("li").dataset.lineId);
@@ -104,13 +118,15 @@ export default class Lines extends Component {
 
   async loadPage() {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadResult = await getLinesAPI(accessToken);
+    const loadedLines = await getLinesAPI(accessToken);
+    const loadedStations = await getStationsAPI(accessToken);
 
-    this.setIsLoggedIn(loadResult.isSucceeded);
-    this.$lineList.innerHTML = loadResult.lines.reduce(
+    this.setIsLoggedIn(loadedLines.isSucceeded && loadedStations.isSucceeded);
+    this.$lineList.innerHTML = loadedLines.lines.reduce(
       (lineListHTML, line) => `${lineListHTML}\n${createLineListItem(line)}`,
       ""
     );
+    this.linesModal.renderSelectOption(loadedStations.stations);
 
     this.render();
     this.linesModal.render();

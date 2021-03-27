@@ -15,7 +15,7 @@ import { ERROR_MESSAGE } from "../constants/messages.js";
 export class StationModifyModal extends Modal {
   constructor({ modifyStationName }) {
     super();
-    this.stationid = "";
+    this.stationId = "";
     this.prevStationName = "";
     this.modifyStationName = modifyStationName;
 
