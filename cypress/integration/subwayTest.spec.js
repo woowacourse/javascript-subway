@@ -108,7 +108,7 @@ context('지하철 역 관리 페이지', () => {
     login();
 
     getByHref(URL.STATION).click();
-    register(station).then(() => {
+    registerStation(station).then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
         ALERT_MESSAGE.DUPLICATED_STATION_FAIL
       );
@@ -141,7 +141,34 @@ context('지하철 역 관리 페이지', () => {
       .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`)
       .should('not.exist');
 
-    register(ORIGIN_STATION_NAME);
+    registerStation(ORIGIN_STATION_NAME);
+  });
+
+  it.only('지하철 노선을 등록할 수 있다.', () => {
+    const stub = cy.stub();
+    const LINE = '2호선';
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.LINE).click();
+    cy.get(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).click();
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).type(LINE);
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`).select('강남');
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`).select('잠실');
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).type('bg-green-500');
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
+      .click()
+      .then(() => {
+        expect(stub.getCall(1)).to.be.calledWith(
+          ALERT_MESSAGE.DUPLICATED_LINE_FAIL
+        );
+      });
+
+    //
   });
 });
 
@@ -153,7 +180,7 @@ function login() {
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
 }
 
-function register(station) {
+function registerStation(station) {
   cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(station);
   return cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`).click();
 }

@@ -19,6 +19,16 @@ const ID_SELECTOR = {
   STATION_MODAL_FORM_INPUT: 'station-modal-form__input',
   STATION_MODAL_FORM_SUBMIT: 'station-modal-form__submit',
 
+  LINE_CREATION_BUTTON: 'line-creation-button',
+  LINE_MODAL_FORM: 'line-modal-form',
+  LINE_MODAL_FORM_NAME: 'line-modal-form__name',
+  LINE_MODAL_FORM_UP_STATION: 'line-modal-form__up-station',
+  LINE_MODAL_FORM_DOWN_STATION: 'line-modal-form__down-station',
+  LINE_MODAL_FORM_DISTANCE: 'line-modal-form__distance',
+  LINE_MODAL_FORM_DURATION: 'line-modal-form__duration',
+  LINE_MODAL_FORM_COLOR: 'line-modal-form__color',
+  LINE_MODAL_FORM_SUBMIT: 'line-modal-form__submit',
+
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
   MY_INFO_FORM_NAME: 'my-info-form__name',
@@ -61,6 +71,9 @@ const ALERT_MESSAGE = {
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
   STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
   STATION_REMOVAL_SUCCESS: '해당 역을 삭제했습니다.',
+
+  // LINE
+  DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
 };
 
 const CONFIRM_MESSAGE = {
@@ -81,6 +94,7 @@ const REQUEST_URL = 'https://www.boorownie.com';
 const URL = {
   HOME: '/',
   STATION: '/station',
+  LINE: '/line',
   LOGIN: '/login',
   SIGNUP: '/signup',
   MY_INFO: '/myInfo',

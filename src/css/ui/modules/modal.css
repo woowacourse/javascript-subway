@@ -68,3 +68,7 @@ svg {
 .modal-inner.station-modal-inner .input-control {
   margin-bottom: 0;
 }
+
+.modal-inner.line-modal-inner {
+  height: 90%;
+}
