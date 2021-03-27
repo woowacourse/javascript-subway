@@ -47,10 +47,15 @@ export default class App extends Component {
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
     const isLoggedIn = await isValidToken(token);
 
+    console.log(isLoggedIn);
+
     if (!isLoggedIn) {
       console.error(MESSAGE.REQUIRE_LOGIN);
+      localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
       this.Navigation.render();
       router[pathName]?.();
+
+      return;
     }
 
     this.Navigation.render(token);
