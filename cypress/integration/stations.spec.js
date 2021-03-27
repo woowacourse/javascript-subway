@@ -19,7 +19,7 @@ describe("역 관리 페이지", () => {
 
   it("로그인 후 역 관리 페이지로 이동한다.", () => {
     // TODO: 추후 메인 페이지가 전체보기로 변경되면 역 관리 버튼을 누르는 코드를 추가해야 함
-    cy.url().should("include", "/stations");
+    cy.url().should("include", `${PAGE_URLS[PAGE_KEYS.STATIONS]}`);
   });
 
   it("2자 미만의 역 이름을 입력한 경우 역을 추가할 수 없다.", () => {
