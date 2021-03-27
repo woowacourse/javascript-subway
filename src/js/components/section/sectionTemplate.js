@@ -55,7 +55,7 @@ export const modalTemplate = () => {
       <select>
         <option>1호선</option>
         <option>2호선</option
-        >ㅅ
+        >
         <option>3호선</option>
         <option>4호선</option>
       </select>

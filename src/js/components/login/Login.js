@@ -15,6 +15,7 @@ import {
   LOGIN_ERROR,
   STORAGE,
 } from '../../constants.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 
 class Login {
   #props;
@@ -96,7 +97,7 @@ class Login {
       setLocalStorageItem(STORAGE.USER_ACCESS_TOKEN, accessToken);
 
       this.#props.switchURL(PATH.HOME);
-      this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGIN);
+      showSnackbar(SNACKBAR_MESSAGE.LOGIN);
     } catch (error) {
       alert(LOGIN_ERROR[error] || ERROR_MESSAGE.LOGIN_FAILED);
     }
