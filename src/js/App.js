@@ -44,7 +44,7 @@ class App {
       await request(BASE_URL + ACTIONS.USER, option);
 
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

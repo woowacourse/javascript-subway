@@ -22,3 +22,13 @@ export const showValidMessage = ($message, { isValid, message }) => {
 export const isAllElementsHaveClass = ($elements, className) => {
   return [...$elements].every(element => element.classList.contains(className));
 };
+
+export const clearForm = $form => {
+  $form.reset();
+  $form.elements.forEach(element => {
+    if (element.nodeName === 'INPUT' && element.type === 'text') {
+      element.focus();
+      return;
+    }
+  });
+};
