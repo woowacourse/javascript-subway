@@ -114,7 +114,7 @@ export const getLineList = async (token) => {
 
 export const getLineData = async ({ token, id }) => {
   try {
-    const response = await API.getLineList({ token, id });
+    const response = await API.getLine({ token, id });
     const responseJSON = await response.json();
 
     return responseJSON || null;
@@ -125,8 +125,6 @@ export const getLineData = async ({ token, id }) => {
 };
 
 export const getCreatedLineData = async ({ token, ...contents }) => {
-  console.log(token);
-  console.log(contents);
   try {
     const response = await API.createLine({
       token,
@@ -155,9 +153,9 @@ export const lineDeleted = async ({ token, id }) => {
   }
 };
 
-export const isLineEdited = async ({ token, name, id }) => {
+export const isLineEdited = async ({ token, id, ...contents }) => {
   try {
-    await API.editLine({ token, name, id });
+    await API.editLine({ token, id, contents });
     return true;
   } catch (status) {
     console.error(status);

@@ -16,6 +16,9 @@ export default class Sections extends Component {
 
   load(token = '') {
     this.render(token);
-    this.bindEvent();
+
+    if (token) {
+      this.bindEvent();
+    }
   }
 }

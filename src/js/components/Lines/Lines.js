@@ -2,7 +2,14 @@ import Component from '../../core/Component.js';
 import { linesTemplate, lineListTemplate } from './template.js';
 import { $, $$, showSnackbar, customConfirm } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, LINES, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import { getStationList, getCreatedLineData, getLineList, lineDeleted } from '../../service/index.js';
+import {
+  getStationList,
+  getCreatedLineData,
+  getLineList,
+  lineDeleted,
+  getLineData,
+  isLineEdited,
+} from '../../service/index.js';
 
 export default class Lines extends Component {
   #token;
@@ -14,18 +21,44 @@ export default class Lines extends Component {
   bindEvent() {
     $('#line-create-button').addEventListener('click', this.handleLineCreateModalOpen);
     $('.subway-line-color-selector').addEventListener('click', this.handleLineColorSelector);
-    $('#line-create-form').addEventListener('submit', this.handleLineCreateForm.bind(this));
-    $('#line-create-modal').addEventListener('click', this.handleLineModalClose.bind(this));
-    $('#line-edit-modal').addEventListener('click', this.handleLineModalClose.bind(this));
+    $('#modal-form').addEventListener('submit', this.handleLineForm.bind(this));
+    $('.modal').addEventListener('click', this.handleLineModalClose.bind(this));
     $('.lines-container').addEventListener('click', ({ target }) => {
       if (target.classList.contains('line-edit-button')) {
-        return;
+        this.handleLineEditModalOpen(target);
       }
 
       if (target.classList.contains('line-delete-button')) {
         this.handleLineDelete(target);
       }
     });
+  }
+
+  async handleLineEditModalOpen(target) {
+    $('.modal').classList.add('open');
+    $('#modal-title').innerText = '🛤 노선 수정';
+    $('#modal-form').classList.add('edit-form');
+    $('#modal-form').classList.remove('create-form');
+    $('#line-color-input').placeholder = '';
+
+    const lineData = await getLineData({ token: this.#token, id: target.dataset.id });
+    let duration = 0;
+    let distance = 0;
+
+    lineData.sections.forEach((section) => {
+      duration += section.duration;
+      distance += section.distance;
+    });
+
+    $('#line-name-input').value = lineData.name;
+    $('#departure-station-select').value = lineData.sections[0].upStation.id;
+    $('#departure-station-select').selected = lineData.sections[0].upStation.name;
+    $('#arrival-station-select').value = lineData.sections[lineData.sections.length - 1].downStation.id;
+    $('#arrival-station-select').selected = lineData.sections[lineData.sections.length - 1].downStation.name;
+    $('#distance-input').value = distance;
+    $('#duration-input').value = duration;
+    $('#line-color-input').style.backgroundColor = lineData.color;
+    $('#modal-form').dataset.id = target.dataset.id;
   }
 
   async handleLineDelete(target) {
@@ -53,13 +86,15 @@ export default class Lines extends Component {
 
   handleLineModalClose({ target }) {
     if (target.classList.contains('modal-close')) {
-      $('#line-create-modal').classList.remove('open');
-      $('#line-edit-modal').classList.remove('open');
+      $('.modal').classList.remove('open');
     }
   }
 
   handleLineCreateModalOpen() {
-    $('#line-create-modal').classList.add('open');
+    $('.modal').classList.add('open');
+    $('#modal-title').innerText = '🛤️ 노선 추가';
+    $('#modal-form').classList.add('create-form');
+    $('#modal-form').classList.remove('edit-form');
     $('#line-name-input').focus();
   }
 
@@ -88,7 +123,34 @@ export default class Lines extends Component {
     return number > 0;
   }
 
-  async handleLineCreateForm(e) {
+  async submitCreateForm(contents) {
+    const createdLineData = await getCreatedLineData({
+      token: this.#token,
+      ...contents,
+    });
+
+    if (!createdLineData) {
+      showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
+      return;
+    }
+
+    $('#lines-list-container').insertAdjacentHTML('beforeend', lineListTemplate(createdLineData));
+    showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
+  }
+
+  async submitEditForm(id, contents) {
+    const isEdited = isLineEdited({ token: this.#token, id, ...contents });
+
+    if (!isEdited) {
+      showSnackbar(SNACKBAR_MESSAGE.EDIT_FAILURE);
+      return;
+    }
+
+    $(`.line-list-item[data-id="${id}"] > .subway-line-color-dot`).style.backgroundColor = contents.color;
+    $(`.line-list-item[data-id="${id}"] > .line-name`).innerText = contents.name;
+  }
+
+  async handleLineForm(e) {
     e.preventDefault();
 
     const name = e.target.elements['line-name-input'].value;
@@ -98,7 +160,6 @@ export default class Lines extends Component {
     const duration = e.target.elements['duration-input'].value;
     const color = e.target.elements['line-color-input'].style.backgroundColor;
 
-    console.log(name, upStationId, downStationId);
     if (!this.isValidLineNameLength(name)) {
       showSnackbar(SNACKBAR_MESSAGE.IS_NOT_VALID_LINE_NAME_LENGTH);
       return;
@@ -114,24 +175,18 @@ export default class Lines extends Component {
       return;
     }
 
-    const createdLineData = await getCreatedLineData({
-      token: this.#token,
-      name,
-      upStationId,
-      downStationId,
-      distance,
-      duration,
-      color,
-    });
+    const contents = { name, upStationId, downStationId, distance, duration, color };
 
-    if (!createdLineData) {
-      showSnackbar(SNACKBAR_MESSAGE.CREATE_FAILURE);
-      return;
+    if (e.target.classList.contains('create-form')) {
+      this.submitCreateForm(contents);
     }
 
-    $('#lines-list-container').insertAdjacentHTML('beforeend', lineListTemplate(createdLineData));
-    showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
-    $('#line-create-modal').classList.remove('open');
+    if (e.target.classList.contains('edit-form')) {
+      const id = e.target.dataset.id;
+      this.submitEditForm(id, contents);
+    }
+
+    $('.modal').classList.remove('open');
     $$('.modal input').forEach((inputTag) => (inputTag.value = ''));
   }
 
@@ -145,6 +200,9 @@ export default class Lines extends Component {
 
     this.#token = token;
     this.render(token, stationList, lineList);
-    this.bindEvent();
+
+    if (token) {
+      this.bindEvent();
+    }
   }
 }
