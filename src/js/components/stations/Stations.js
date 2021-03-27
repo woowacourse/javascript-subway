@@ -138,7 +138,6 @@ export default class Stations extends Component {
 
   render(token, stationList = []) {
     $('main').innerHTML = token ? stationsTemplate(stationList) : LOGIN_REQUIRED_TEMPLATE;
-    $('#station-name-input').focus();
   }
 
   async load(token) {
@@ -146,7 +145,11 @@ export default class Stations extends Component {
 
     this.#token = token;
     this.render(token, stationList);
-    this.selectDOM();
-    this.bindEvent(token);
+
+    if (token) {
+      this.selectDOM();
+      this.bindEvent();
+      $('#station-name-input').focus();
+    }
   }
 }
