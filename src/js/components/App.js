@@ -4,6 +4,7 @@ import Sections from './Sections';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Router from '../router/Router';
+import UserDataManager from '../model/UserDataManager';
 import {
   ELEMENT,
   MENU_TITLE,
@@ -22,6 +23,7 @@ class App {
     this.selectDom();
     this.bindEvent();
     this.router = new Router(this.$mainScreen);
+    this.userDataManager = new UserDataManager();
     this.renderMain();
   }
 
@@ -122,6 +124,7 @@ class App {
   changeFromSignInToSignOutStatus() {
     token.removeToken();
     this.renderMain();
+    this.stations.cleanCacheStationListTemplate();
   }
 
   showMenuButton() {

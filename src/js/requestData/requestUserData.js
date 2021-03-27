@@ -75,3 +75,17 @@ export const requestRemoveStation = async ({ id }) => {
     throw new Error('역 삭제에 실패했습니다.');
   }
 };
+
+export const requestGetStationList = async () => {
+  try {
+    const response = await httpClient.get({ path: `/stations`, accessToken: token.accessToken });
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error('역 목록 조회에 실패했습니다.');
+  }
+};

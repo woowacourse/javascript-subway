@@ -12,7 +12,12 @@ export default class UserDataManager {
   }
 
   setStation(stationData) {
-    this.stations = [stationData, ...this.stations];
+    if (Array.isArray(stationData)) {
+      this.stations = stationData;
+      return;
+    }
+
+    this.stations = [...this.stations, stationData];
   }
 
   getStationId(stationName) {
