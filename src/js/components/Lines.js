@@ -1,6 +1,11 @@
-import LinesModal from "./LinesModal.js";
-import { $ } from "../utils/DOM.js";
 import Component from "./common/Component.js";
+import LinesModal from "./LinesModal.js";
+import { deleteLineAPI } from "../APIs/subwayAPI.js";
+import { TOKEN_STORAGE_KEY } from "../constants/general.js";
+import { CONFIRM_MESSAGE } from "../constants/messages.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import { $ } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
 
 export default class Lines extends Component {
   constructor({ $parent }) {
@@ -47,10 +52,42 @@ export default class Lines extends Component {
     this.attachEvent();
   }
 
+  async deleteLine(lineId) {
+    if (!window.confirm(CONFIRM_MESSAGE.DELETE_LINE)) {
+      return;
+    }
+
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const deleteResult = await deleteLineAPI(lineId, accessToken);
+
+    snackbar.show(deleteResult.message);
+
+    if (!deleteResult.isSucceeded) {
+      return;
+    }
+
+    $(
+      `.js-line-list > li[data-line-id="${lineId}"]`,
+      this.innerElement
+    ).remove();
+
+    this.render();
+  }
+
+  onClickLineList({ target }) {
+    if (target.classList.contains("js-delete-line-btn")) {
+      this.deleteLine(target.closest("li").dataset.lineId);
+    }
+  }
+
   attachEvent() {
     $(".js-add-line-btn", this.innerElement).addEventListener(
       "click",
       this.linesModal.open.bind(this.linesModal)
+    );
+    $("js-line-list", this.innerElement).addEventListener(
+      "click",
+      this.onClickLineList.bind(this)
     );
   }
 

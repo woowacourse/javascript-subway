@@ -6,6 +6,7 @@ const PATH = {
   LOGIN: "/login/token",
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
   STATIONS: (id = "") => `/stations/${id}`,
+  LINES: (id = "") => `/lines/${id}`,
 };
 
 const STATUS = {
@@ -340,6 +341,33 @@ export const deleteStationAPI = async (stationId, accessToken) => {
     return {
       isSucceeded: true,
       message: SUCCESS_MESSAGE.DELETE_STATION,
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const deleteLineAPI = async (lineId, accessToken) => {
+  try {
+    const response = await request.delete({
+      path: PATH.LINES(lineId),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.DELETE_LINE);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.DELETE_LINE,
     };
   } catch (e) {
     console.error(e);

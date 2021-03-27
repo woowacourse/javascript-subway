@@ -16,6 +16,7 @@ export const ERROR_MESSAGE = {
   DUPLICATED_LINE: "이미 존재하는 노선입니다.",
   STATION_NAME_LENGTH: `${STATION_NAME_MIN_LENGTH}자 이상 ${STATION_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
   DELETE_STATION: "Fail to delete station",
+  DELETE_LINE: "Fail to delete line",
   TYPE_REQUIRED_STRING: "String is required",
   UNKNOWN_API_STATUS: "Unknown API status",
 };
@@ -29,8 +30,10 @@ export const SUCCESS_MESSAGE = {
   ADD_STATION: "지하철역을 추가했습니다",
   MODIFY_STATION: "지하철역 이름을 수정했습니다.",
   DELETE_STATION: "지하철역을 삭제했습니다.",
+  DELETE_LINE: "지하철 노선을 삭제했습니다.",
 };
 
 export const CONFIRM_MESSAGE = {
   DELETE_STATION: "정말 해당 역을 삭제하시겠습니까?",
+  DELETE_LINE: "정말 해당 노선을 삭제하시겠습니까?",
 };
