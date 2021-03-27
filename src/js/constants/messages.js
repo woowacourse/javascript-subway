@@ -13,6 +13,7 @@ export const ERROR_MESSAGE = {
   INVALID_EMAIL_FORM: "올바르지 않은 이메일 형식입니다.",
   DUPLICATED_EMAIL: "이미 존재하는 이메일입니다.",
   DUPLICATED_STATION: "이미 존재하는 지하철역입니다.",
+  DUPLICATED_LINE: "이미 존재하는 노선입니다.",
   STATION_NAME_LENGTH: `${STATION_NAME_MIN_LENGTH}자 이상 ${STATION_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
   DELETE_STATION: "Fail to delete station",
   TYPE_REQUIRED_STRING: "String is required",
