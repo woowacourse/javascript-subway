@@ -1,6 +1,7 @@
 import $ from '../utils/querySelector.js';
 import HomeComponent from './HomeComponent.js';
 import StationComponent from './StationComponent.js';
+import LineComponent from './LineComponent.js';
 import LoginComponent from './LoginComponent.js';
 import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
@@ -14,28 +15,43 @@ class AppPage extends Page {
   }
 
   initState() {
-    this.state = new State({
+    //TODO: STATE를 여러 종류로 나누기 ex) loginState, stationState
+    //TODO: STATE를 객체를 감싸는 형태로 하지 말고 그냥 넣기
+    this.loginState = new State({
       [STATE_KEY.ACCESS_TOKEN]: KEYWORD.LOGOUT,
     });
 
-    this.state.setListener(
+    this.stationState = new State({
+      [STATE_KEY.STATION]: [],
+    });
+
+    this.loginState.setListener(
       STATE_KEY.ACCESS_TOKEN,
       this.handleNavButtonToChange
     );
-    this.state.setListener(STATE_KEY.ACCESS_TOKEN, this.handlePageToRedirect);
+    this.loginState.setListener(
+      STATE_KEY.ACCESS_TOKEN,
+      this.handlePageToRedirect
+    );
 
     //TODO: 라우트를 initRoute 같은 걸로 나눌 수 있을까?
     this._router = {
       [URL.HOME]: new HomeComponent(),
-      [URL.STATION]: new StationComponent({ appState: this.state }),
+      [URL.STATION]: new StationComponent({
+        loginState: this.loginState,
+        stationState: this.stationState,
+      }),
+      [URL.LINE]: new LineComponent(),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
-        appState: this.state,
+        loginState: this.loginState,
       }),
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
-      [URL.MY_INFO]: new MyInfoComponent({ appState: this.state }),
+      [URL.MY_INFO]: new MyInfoComponent({ loginState: this.loginState }),
     };
   }
+
+  initLoad() {}
 
   initEvent() {
     //TODO: popstate 정리하기
@@ -48,7 +64,7 @@ class AppPage extends Page {
   }
 
   #onLogout = () => {
-    this.state.setData({
+    this.loginState.setData({
       [STATE_KEY.ACCESS_TOKEN]: KEYWORD.LOGOUT,
     });
   };

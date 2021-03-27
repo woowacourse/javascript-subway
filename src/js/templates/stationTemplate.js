@@ -26,7 +26,7 @@ const MAIN_COMPONENT = `
         name="submit"
         class="input-submit bg-cyan-300 ml-2"
       >
-        확인
+        역 추가
       </button>
     </div>
   </form>
