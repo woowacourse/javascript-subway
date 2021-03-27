@@ -34,46 +34,45 @@ export default class LinesModal extends Modal {
               required
             />
           </div>
-          <div class="input-control">
-            <label for="departure-time" class="input-label" hidden
-              >첫차 시간</label
-            >
-            <input
-              type="text"
-              id="departure-time"
-              name="departure-time"
-              class="input-field"
-              placeholder="첫차시간 HH:MM"
-              required
-            />
-            <label for="departure-time" class="input-label" hidden
-              >막차 시간</label
-            >
-            <input
-              type="text"
-              id="arrival-time"
-              name="arrival-time"
-              class="input-field mx-2"
-              placeholder="막차 시간 HH:MM"
-              required
-            />
-            <label for="interval-time" class="input-label" hidden
-              >간격 시간</label
-            >
-            <input
-              type="text"
-              id="interval-time"
-              name="arrival-time"
-              class="input-field"
-              placeholder="간격"
-              required
-            />
-          </div>
+          <div class="d-flex items-center input-control">
+              <label for="up-station" class="input-label" hidden>상행역</label>
+              <select id="up-station" class="mr-2">
+                <option value="" selected disabled hidden>상행역</option>
+                <option>사당</option>
+                <option>방배</option>
+                <option>서초</option>
+              </select>
+              <label for="down-station" class="input-label" hidden>하행역</label>
+              <select id="down-station">
+                <option value="" selected disabled hidden>하행역</option>
+                <option>사당</option>
+                <option>방배</option>
+                <option>서초</option>
+              </select>
+            </div>
+            <div class="input-control">
+              <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
+              <input
+                type="number"
+                id="distance"
+                name="distance"
+                class="input-field mr-2"
+                placeholder="상행 하행역 거리"
+                required
+              />
+              <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
+              <input
+                type="number"
+                id="duration"
+                name="arrival"
+                class="input-field"
+                placeholder="상행 하행역 시간"
+                required
+              />
+            </div>
           <div class="input-control">
             <div>
-              <label for="subway-line-color" class="input-label" hidden
-                >간격 시간</label
-              >
+              <label for="subway-line-color" class="input-label" hidden>색상 선택</label>
               <input
                 type="text"
                 id="subway-line-color"
