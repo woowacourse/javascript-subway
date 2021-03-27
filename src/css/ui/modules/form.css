@@ -1,8 +1,25 @@
+form input,
+form input:-webkit-autofill {
+  font-size: 1rem !important;
+  background-color: #fff !important;
+  border: 1px solid rgb(0 0 0 / 10%) !important;
+  box-shadow: 4px 4px 10px 0px rgb(226 226 226), 0 0 0 35px white inset !important;
+}
+
+form input:hover,
+form input:focus,
+form input:-webkit-autofill:hover,
+form input:-webkit-autofill:focus {
+  font-size: 1rem !important;
+  background-color: #fff !important;
+  border: 1px solid rgb(78 207 224 / 70%) !important;
+  box-shadow: 4px 4px 10px 0px rgb(78 207 224 / 32%), 0 0 0 35px white inset !important;
+}
+
 form .input-control {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
 }
 
 form .input-field {
@@ -14,8 +31,10 @@ form .input-field {
   padding: 0.75rem 1.25rem;
   border: none;
   outline: none;
-  border-radius: 2rem;
-  background: #f1f5f9;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 15px -4px rgb(0 0 0 / 10%),
+    4px 4px 10px 0px rgb(202 202 202 / 32%);
+  background-color: #fff !important;
 }
 
 form .input-submit {
@@ -27,7 +46,9 @@ form .input-submit {
   padding: 0.65rem 1.25rem;
   border: none;
   outline: none;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(78 207 224 / 70%) !important;
+  box-shadow: 4px 4px 10px 0px rgb(226 226 226) !important;
 }
 
 form select {
@@ -40,7 +61,7 @@ form select {
   padding: 0.75rem 1.25rem;
   border: none;
   outline: none;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   background-color: #f1f5f9;
   -webkit-appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, gray 50%),
@@ -50,4 +71,26 @@ form select {
     calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
+}
+
+#login-form .input-control {
+  margin-bottom: 1rem;
+}
+
+#login-form .input-control:nth-child(2) {
+  margin-bottom: 0;
+}
+
+.form__input-check {
+  height: 2rem;
+  padding: 0 1.1rem;
+  line-height: 1.5rem;
+  color: rgb(215, 0, 21);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.form__input-check.correct {
+  color: rgb(36, 138, 61);
+  font-weight: 400;
 }
