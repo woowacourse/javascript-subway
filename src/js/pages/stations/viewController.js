@@ -1,5 +1,5 @@
-import { stationListItemTemplate } from '../templates/stations';
-import { $, appendChildTemplate } from '../utils/dom';
+import { $, appendChildTemplate } from '../../utils/dom';
+import { stationListItemTemplate } from './template';
 
 export const updateStationListItem = ({ id, name }) => {
   $(`[data-id="${id}"] .js-station-name`).textContent = name;

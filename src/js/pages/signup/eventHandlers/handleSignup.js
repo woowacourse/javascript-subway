@@ -1,8 +1,8 @@
-import { AUTH } from '../constants/alertMessage';
-import { requestSignup } from '../services/auth';
-import { $, showElement } from '../utils/dom';
-import { routeTo } from '../utils/history';
-import { login } from './handleLogin';
+import { AUTH } from '../../../constants/alertMessage';
+import { requestSignup } from '../../../services/auth';
+import { $, showElement } from '../../../utils/dom';
+import { routeTo } from '../../../utils/history';
+import { login } from '../../login/eventHandlers/handleLogin';
 
 const handleSignup = async event => {
   event.preventDefault();

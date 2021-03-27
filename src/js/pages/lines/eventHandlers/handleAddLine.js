@@ -1,10 +1,10 @@
-import { requestAddLine } from '../services/line';
-import { LINE } from '../constants/alertMessage';
-import { STATION_AMOUNT } from '../constants/service';
-import store from '../store';
-import { closeModal } from '../utils/modal';
-import { $ } from '../utils/dom';
-import { addLineListItem } from '../viewController/lines';
+import store from '../../../store';
+import { addLineListItem } from '../viewController';
+import { $ } from '../../../utils/dom';
+import { closeModal } from '../../../utils/modal';
+import { STATION_AMOUNT } from '../../../constants/service';
+import { requestAddLine } from '../../../services/line';
+import { LINE } from '../../../constants/alertMessage';
 
 const handleAddLine = async event => {
   event.preventDefault();

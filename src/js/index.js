@@ -1,9 +1,9 @@
 import '../css/index.css';
-import initRouter from './routes/index.js';
-import { $ } from './utils/dom.js';
 import handleRoute from './eventHandlers/handleRoute';
-import { initStore } from './store';
 import handleLogout from './eventHandlers/handleLogout';
+import initRouter from './routes';
+import { initStore } from './store';
+import { $ } from './utils/dom';
 
 const initAppEvent = () => {
   $('#header').addEventListener('click', handleRoute);

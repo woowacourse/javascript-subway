@@ -1,9 +1,9 @@
-import { STATION } from '../constants/alertMessage';
-import { requestEditStation } from '../services/station';
-import store from '../store';
-import { $ } from '../utils/dom';
-import { closeModal } from '../utils/modal';
-import { updateStationListItem } from '../viewController/stations';
+import { STATION } from '../../../constants/alertMessage';
+import { requestEditStation } from '../../../services/station';
+import store from '../../../store';
+import { $ } from '../../../utils/dom';
+import { closeModal } from '../../../utils/modal';
+import { updateStationListItem } from '../viewController';
 
 const handleEditStation = async event => {
   event.preventDefault();

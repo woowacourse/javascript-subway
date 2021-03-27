@@ -1,9 +1,9 @@
-import { requestDeleteStation } from '../services/station';
-import { STATION } from '../constants/alertMessage';
-import { $ } from '../utils/dom';
-import { openModal } from '../utils/modal';
-import { updateStationNameEditModal } from '../viewController/stations';
-import store from '../store';
+import { requestDeleteStation } from '../../../services/station';
+import { STATION } from '../../../constants/alertMessage';
+import store from '../../../store';
+import { updateStationNameEditModal } from '../viewController';
+import { openModal } from '../../../utils/modal';
+import { $ } from '../../../utils/dom';
 
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;

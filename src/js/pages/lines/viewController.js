@@ -1,6 +1,6 @@
-import { lineListItemTemplate, stationOptionListTemplate } from '../templates/lines';
-import { $, appendChildTemplate } from '../utils/dom';
-import { LINE_FORM_LABEL } from '../constants/service';
+import { LINE_FORM_LABEL } from '../../constants/service';
+import { $, appendChildTemplate } from '../../utils/dom';
+import { lineListItemTemplate, stationOptionListTemplate } from './template';
 
 export const addLineListItem = ({ id, name, color, sections }) => {
   appendChildTemplate($('.js-line-list'), lineListItemTemplate({ id, name, color, sections }));
