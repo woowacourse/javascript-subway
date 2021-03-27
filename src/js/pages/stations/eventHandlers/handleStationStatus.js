@@ -9,7 +9,7 @@ const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
 
   const $targetStation = target.closest('.station-list-item');
-  const stationID = $targetStation.dataset.id;
+  const stationID = Number($targetStation.dataset.id);
 
   const result = await requestDeleteStation(stationID);
   if (!result.success) {
