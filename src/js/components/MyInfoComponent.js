@@ -16,7 +16,7 @@ class MyInfoComponent extends Component {
 
   async #renderMyInfo() {
     const url = REQUEST_URL + '/members/me';
-    const accessToken = this.props.loginState.Data;
+    const accessToken = this.props.accessTokenState.Data;
 
     try {
       const response = await fetchMyInfo(url, accessToken);

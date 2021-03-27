@@ -9,6 +9,7 @@ import Page from './Page.js';
 import State from './State.js';
 import { ID_SELECTOR, KEYWORD, URL } from '../constants.js';
 import { show, hide } from '../utils/DOM.js';
+import { loadStationList } from '../utils/loadByAJAX.js';
 class AppPage extends Page {
   constructor(props) {
     super(props);
@@ -16,28 +17,33 @@ class AppPage extends Page {
 
   initState() {
     this.accessTokenState = new State(KEYWORD.LOGOUT);
-    this.stationState = new State([]);
+    this.stationsState = new State([]);
+    this.linesState = new State([]);
+  }
 
+  initStateListener() {
+    this.accessTokenState.setListener(this.handleUserDataToInit);
     this.accessTokenState.setListener(this.handleNavButtonToChange);
     this.accessTokenState.setListener(this.handlePageToRedirect);
 
+    // TODO: 라우터 독립에 대해서 생각해보기
     this._router = {
       [URL.HOME]: new HomeComponent(),
       [URL.STATION]: new StationComponent({
-        loginState: this.accessTokenState,
-        stationState: this.stationState,
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
       }),
       [URL.LINE]: new LineComponent(),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
-        loginState: this.accessTokenState,
+        accessTokenState: this.accessTokenState,
       }),
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
-      [URL.MY_INFO]: new MyInfoComponent({ loginState: this.accessTokenState }),
+      [URL.MY_INFO]: new MyInfoComponent({
+        accessTokenState: this.accessTokenState,
+      }),
     };
   }
-
-  initLoad() {}
 
   initEvent() {
     //TODO: popstate 매직넘버 3 정리하기
@@ -51,6 +57,17 @@ class AppPage extends Page {
 
   #onLogout = () => {
     this.accessTokenState.Data = KEYWORD.LOGOUT;
+  };
+
+  handleUserDataToInit = accessToken => {
+    const isLogout = accessToken === KEYWORD.LOGOUT;
+
+    if (isLogout) {
+      this.#renderGuestNavBar();
+      return;
+    }
+
+    loadStationList(this.stationsState, this.accessTokenState.Data);
   };
 
   handleNavButtonToChange = accessToken => {

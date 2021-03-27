@@ -21,15 +21,6 @@ class StationComponent extends Component {
     super(props);
   }
 
-  initLoad() {
-    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
-    loadStationList(this.props.stationState, this.props.loginState.Data);
-  }
-
-  initState() {
-    this.props.stationState.setListener(this.handleStationListToUpdate);
-  }
-
   initEvent() {
     $(`#${ID_SELECTOR.STATION_FORM}`).addEventListener(
       'submit',
@@ -67,9 +58,19 @@ class StationComponent extends Component {
       }
     );
   }
+
+  initStateListener() {
+    this.props.stationsState.setListener(this.renderStationList);
+  }
+
+  initLoad() {
+    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
+    this.renderStationList(this.props.stationsState.Data);
+  }
+
   #removeStation = async id => {
     const url = REQUEST_URL + `/stations/${id}`;
-    const accessToken = this.props.loginState.Data;
+    const accessToken = this.props.accessTokenState.Data;
 
     try {
       await fetchStationRemoval(url, {
@@ -79,7 +80,10 @@ class StationComponent extends Component {
         },
       });
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
-      loadStationList(this.props.stationState, this.props.loginState.Data);
+      loadStationList(
+        this.props.stationsState,
+        this.props.accessTokenState.Data
+      );
     } catch (err) {
       alert(err.message);
       return;
@@ -105,7 +109,7 @@ class StationComponent extends Component {
     const data = {
       name: revisionName,
     };
-    const accessToken = this.props.loginState.Data;
+    const accessToken = this.props.accessTokenState.Data;
 
     try {
       await fetchStationNameRevision(url, {
@@ -118,14 +122,17 @@ class StationComponent extends Component {
       });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
-      loadStationList(this.props.stationState, this.props.loginState.Data);
+      loadStationList(
+        this.props.stationsState,
+        this.props.accessTokenState.Data
+      );
     } catch (err) {
       alert(err.message);
       return;
     }
   };
 
-  handleStationListToUpdate = stations => {
+  renderStationList = stations => {
     const template = stations.map(this.#makeStationTemplate).join('');
 
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
@@ -138,7 +145,7 @@ class StationComponent extends Component {
     const inputName = $input.value;
     const url = REQUEST_URL + '/stations';
     const data = { name: inputName };
-    const accessToken = this.props.loginState.Data;
+    const accessToken = this.props.accessTokenState.Data;
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
@@ -154,10 +161,10 @@ class StationComponent extends Component {
       alert('역 추가 완료');
 
       const { id, name } = await response.json();
-      const stations = this.props.stationState.Data;
+      const stations = this.props.stationsState.Data;
       // TODO: State 클래스에 pushData 만들기
       stations.push({ id, name });
-      this.props.stationState.Data = stations;
+      this.props.stationsState.Data = stations;
 
       $input.value = '';
     } catch (err) {
