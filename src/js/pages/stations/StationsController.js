@@ -1,4 +1,4 @@
-import { $ } from '../../utils/DOM.js';
+import { $, resetInput } from '../../utils/DOM.js';
 import user from '../../models/user.js';
 import StationsView from './StationsView.js';
 
@@ -13,7 +13,7 @@ class StationsController {
     await this.stationsView.init();
     this.bindEvents();
 
-    this.stationsView.resetInput($('#stations-form'));
+    resetInput($('#stations-form'), $('#station-name'));
   }
 
   async addStationHandler(e) {
@@ -24,7 +24,7 @@ class StationsController {
       const newStation = await this.stationManager.addStation(stationName);
 
       this.stationsView.appendNewStation(newStation);
-      this.stationsView.resetInput(e.target);
+      resetInput(e.target, $('#station-name'));
     } catch (error) {
       alert('지하철 역 추가에 실패하였습니다.');
       console.error('fail fetch');

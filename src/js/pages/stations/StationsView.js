@@ -21,11 +21,6 @@ class StationsView {
     );
   }
 
-  resetInput($target) {
-    $target.reset();
-    $target.elements['station-name'].focus();
-  }
-
   appendNewStation({ id, name }) {
     // TODO : 순서 정렬해서 보여주기
     $('#station-list').insertAdjacentHTML(
