@@ -36,6 +36,7 @@ export const linesTemplate = () => {
         <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
         <button
           type="button"
+          id="line-create-button"
           class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
         >
           노선 추가
@@ -102,20 +103,20 @@ export const linesTemplate = () => {
           >거리</label
           >
           <input
-            type="text"
+            type="number"
             id="distance-input"
             name="distance-input"
             class="input-field"
             placeholder="거리"
             required
           />
-          <label for="time-input" class="input-label" hidden
+          <label for="duration-input" class="input-label" hidden
           >시간</label
           >
           <input
-            type="text"
-            id="time-input"
-            name="time-input"
+            type="number"
+            id="duration-input"
+            name="duration-input"
             class="input-field"
             placeholder="시간"
             required
@@ -129,12 +130,14 @@ export const linesTemplate = () => {
             name="line-color-input"
             class="input-field"
             placeholder="색상을 아래에서 선택해주세요."
-            disabled
+            readonly
             required
           />
          </div>
-         <div class="subway-line-color-selector px-2">
-          ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+         <div class="d-flex justify-center">
+          <div class="subway-line-color-selector px-2" disabled>
+           ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+          </div>
          </div>
          <div class="d-flex justify-end mt-3">
            <button
@@ -205,20 +208,20 @@ export const linesTemplate = () => {
           >거리</label
           >
           <input
-            type="text"
+            type="number"
             id="distance-edit-input"
             name="distance-edit-input"
             class="input-field"
             placeholder="거리"
             required
           />
-          <label for="time-edit-input" class="input-label" hidden
+          <label for="duration-edit-input" class="input-label" hidden
           >시간</label
           >
           <input
-            type="text"
-            id="time-edit-input"
-            name="time-edit-input"
+            type="number"
+            id="duration-edit-input"
+            name="duration-edit-input"
             class="input-field"
             placeholder="시간"
             required
@@ -227,17 +230,19 @@ export const linesTemplate = () => {
           >색깔</label
           >
           <input
-            type="text"
+            type="color"
             id="line-color-edit-input"
             name="line-color-edit-input"
             class="input-field"
             placeholder="색상을 아래에서 선택해주세요."
-            disabled
+            readonly
             required
           />
          </div>
-         <div class="subway-line-color-selector px-2">
-          ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+         <div class="d-flex justify-center">
+          <div class="subway-line-color-selector px-2" disabled>
+           ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
+          </div>
          </div>
          <div class="d-flex justify-end mt-3">
            <button

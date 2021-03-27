@@ -52,7 +52,7 @@ export const getStationList = async (token) => {
 
     return responseJSON || null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -103,7 +103,7 @@ export const getLineList = async (token) => {
 
     return responseJSON || null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -115,7 +115,7 @@ export const getLineData = async ({ token, id }) => {
 
     return responseJSON || null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };

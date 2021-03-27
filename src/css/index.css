@@ -55,3 +55,7 @@ ul li button:hover {
 .bottom-line {
   border-bottom: 1px solid lightgray;
 }
+
+.subway-line-color-selector {
+  transform: rotate(90deg);
+}
