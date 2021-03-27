@@ -7,7 +7,7 @@ import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
-import { ID_SELECTOR, KEYWORD, STATE_KEY, URL } from '../constants.js';
+import { ID_SELECTOR, KEYWORD, URL } from '../constants.js';
 import { show, hide } from '../utils/DOM.js';
 class AppPage extends Page {
   constructor(props) {
@@ -15,46 +15,32 @@ class AppPage extends Page {
   }
 
   initState() {
-    //TODO: STATE를 여러 종류로 나누기 ex) loginState, stationState
-    //TODO: STATE를 객체를 감싸는 형태로 하지 말고 그냥 넣기
-    this.loginState = new State({
-      [STATE_KEY.ACCESS_TOKEN]: KEYWORD.LOGOUT,
-    });
+    this.accessTokenState = new State(KEYWORD.LOGOUT);
+    this.stationState = new State([]);
 
-    this.stationState = new State({
-      [STATE_KEY.STATION]: [],
-    });
+    this.accessTokenState.setListener(this.handleNavButtonToChange);
+    this.accessTokenState.setListener(this.handlePageToRedirect);
 
-    this.loginState.setListener(
-      STATE_KEY.ACCESS_TOKEN,
-      this.handleNavButtonToChange
-    );
-    this.loginState.setListener(
-      STATE_KEY.ACCESS_TOKEN,
-      this.handlePageToRedirect
-    );
-
-    //TODO: 라우트를 initRoute 같은 걸로 나눌 수 있을까?
     this._router = {
       [URL.HOME]: new HomeComponent(),
       [URL.STATION]: new StationComponent({
-        loginState: this.loginState,
+        loginState: this.accessTokenState,
         stationState: this.stationState,
       }),
       [URL.LINE]: new LineComponent(),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
-        loginState: this.loginState,
+        loginState: this.accessTokenState,
       }),
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
-      [URL.MY_INFO]: new MyInfoComponent({ loginState: this.loginState }),
+      [URL.MY_INFO]: new MyInfoComponent({ loginState: this.accessTokenState }),
     };
   }
 
   initLoad() {}
 
   initEvent() {
-    //TODO: popstate 정리하기
+    //TODO: popstate 매직넘버 3 정리하기
     window.addEventListener('popstate', e => {
       this.route('/' + e.state.path.split('/')[3], false);
     });
@@ -64,9 +50,7 @@ class AppPage extends Page {
   }
 
   #onLogout = () => {
-    this.loginState.setData({
-      [STATE_KEY.ACCESS_TOKEN]: KEYWORD.LOGOUT,
-    });
+    this.accessTokenState.Data = KEYWORD.LOGOUT;
   };
 
   handleNavButtonToChange = accessToken => {

@@ -16,7 +16,6 @@ class Component {
 
   initState() {}
 
-  // TODO: initialize 안에서 기본 동작으로 호출할지 고민
   initEvent() {}
 
   render({ TITLE, MAIN, MODAL }) {

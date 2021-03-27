@@ -80,11 +80,6 @@ const CONFIRM_MESSAGE = {
   STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
 };
 
-const STATE_KEY = {
-  ACCESS_TOKEN: 'accessToken',
-  STATION: 'station',
-};
-
 const KEYWORD = {
   LOGOUT: 'logout',
 };
@@ -110,7 +105,6 @@ export {
   CLASS_SELECTOR,
   ALERT_MESSAGE,
   CONFIRM_MESSAGE,
-  STATE_KEY,
   KEYWORD,
   REQUEST_URL,
   URL,
