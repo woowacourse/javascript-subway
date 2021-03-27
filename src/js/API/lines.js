@@ -46,4 +46,24 @@ async function fetchAllLines() {
   }
 }
 
-export { fetchAddLine, fetchAllLines };
+async function fetchDeleteLine(id) {
+  const requestData = {
+    method: HTTP.METHOD.DELETE,
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/lines/${id}`, requestData);
+    if (!response.ok) {
+      throw new Error('노선 삭제에 실패했습니다.');
+    }
+
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { fetchAddLine, fetchAllLines, fetchDeleteLine };

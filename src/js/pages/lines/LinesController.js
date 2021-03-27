@@ -1,11 +1,11 @@
-import LineManager from '../../models/LineManager.js';
-import { $, onModalClose, onModalShow } from '../../utils/DOM.js';
+import user from '../../models/user.js';
+import { $, onModalClose, onModalShow, resetInput } from '../../utils/DOM.js';
 import LinesView from './LinesView.js';
 
 class LinesController {
   constructor(router) {
     this.linesView = new LinesView();
-    this.lineManager = new LineManager();
+    this.lineManager = user.lineManager;
     this.router = router;
   }
 
@@ -29,6 +29,7 @@ class LinesController {
       const newLine = await this.lineManager.addLine(newLineInfo);
 
       this.linesView.appendNewLine(newLine);
+      resetInput(e.target, $('#line-name'));
     } catch (error) {
       console.error('fail fetch');
     }
@@ -40,13 +41,35 @@ class LinesController {
     $('#line-color').value = e.target.dataset.colorOption;
   }
 
+  async updateLineHandler(e) {
+    if (!e.target.classList.contains('btn')) return;
+
+    if (e.target.classList.contains('js-delete-button')) {
+      const targetLineId = e.target.closest('li').dataset.lineId;
+      const resFlag = await this.lineManager.deleteLine(targetLineId);
+      if (!resFlag) {
+        alert('노선 삭제에 실패했습니다.');
+        return;
+      }
+
+      this.linesView.deleteResult(e);
+    }
+  }
+
   bindEvents() {
-    $('.modal-trigger-btn').addEventListener('click', onModalShow.bind(this));
+    $('.modal-trigger-btn').addEventListener('click', () => {
+      onModalShow();
+      resetInput($('#lines-form'), $('#line-name'));
+    });
     $('.modal-close').addEventListener('click', onModalClose.bind(this));
     $('#lines-form').addEventListener('submit', this.addLineHandler.bind(this));
     $('.line-color-selector').addEventListener(
       'click',
       this.selectColorHandler
+    );
+    $('#line-list').addEventListener(
+      'click',
+      this.updateLineHandler.bind(this)
     );
   }
 }

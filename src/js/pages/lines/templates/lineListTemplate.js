@@ -11,7 +11,7 @@ function lineItemTemplate({ id, name, color }) {
     </button>
     <button
       type="button"
-      class="btn bg-gray-50 text-gray-500 text-sm"
+      class="btn bg-gray-50 text-gray-500 text-sm js-delete-button"
     >
       삭제
     </button>

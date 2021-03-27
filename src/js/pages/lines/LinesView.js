@@ -37,6 +37,10 @@ class LinesView {
     // TODO: snackBar 띄우기
     onModalClose();
   }
+
+  deleteResult({ target }) {
+    target.closest('li').remove();
+  }
 }
 
 export default LinesView;

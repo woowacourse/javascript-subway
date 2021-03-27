@@ -9,4 +9,10 @@ function onModalShow() {
 function onModalClose() {
   $('.modal').classList.remove('open');
 }
-export { $, onModalShow, onModalClose };
+
+function resetInput($resetTarget, $focusTarget) {
+  $resetTarget.reset();
+  $focusTarget.focus();
+}
+
+export { $, onModalShow, onModalClose, resetInput };

@@ -1,4 +1,4 @@
-import { fetchAddLine, fetchAllLines } from '../API/lines.js';
+import { fetchAddLine, fetchAllLines, fetchDeleteLine } from '../API/lines.js';
 
 class LineManager {
   constructor() {
@@ -29,14 +29,15 @@ class LineManager {
     return newLine;
   }
 
-  // async deleteLine(stationId) {
-  //   const resFlag = await fetchDeleteStation(stationId);
-  //   if (resFlag) {
-  //     delete this.stations[stationId];
-  //   }
+  async deleteLine(lineId) {
+    const resFlag = await fetchDeleteLine(lineId);
 
-  //   return resFlag;
-  // }
+    if (resFlag) {
+      delete this.lines[lineId];
+    }
+
+    return resFlag;
+  }
 
   // async modifyLine(id, name) {
   //   const resFlag = await fetchModifyStation(id, name);
