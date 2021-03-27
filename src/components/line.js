@@ -21,7 +21,9 @@ export default class Line extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getListListTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    targetContainer.innerHTML = this.#getListListTemplate();
     this.#initEvents();
   }
 

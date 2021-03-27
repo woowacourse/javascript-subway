@@ -16,7 +16,9 @@ export default class Login {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getLoginTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    targetContainer.innerHTML = this.#getLoginTemplate();
     this.#initEvents();
   }
 

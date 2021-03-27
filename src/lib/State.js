@@ -1,5 +1,5 @@
 import { isObject, sessionStore } from '../utils/utils.js';
-import { SESSION_STORAGE_KEY, STATE_KEY } from '../constants.js';
+import { ALERT_MESSAGE, SESSION_STORAGE_KEY, STATE_KEY } from '../constants.js';
 import { requestStationList } from '../api/station.js';
 import { requestLineList } from '../api/line.js';
 import Subject from './Subject.js';
@@ -49,9 +49,15 @@ export default class State extends Subject {
     this.#state.isLoggedIn = true;
     this.#fetchStationList().then(stationList => {
       this.#state.stationList = stationList;
+    }).catch(error => {
+      console.log(error);
+      alert(ALERT_MESSAGE.STATION_GET_FAILED)
     });
     this.#fetchLineList().then(lineList => {
       this.#state.lineList = lineList;
+    }).catch(error => {
+      console.log(error);
+      alert(ALERT_MESSAGE.LINE_GET_FAILED)
     });
   }
 

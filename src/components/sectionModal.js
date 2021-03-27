@@ -18,7 +18,9 @@ export default class SectionModal extends Observer {
   renderPage() {}
 
   renderComponent() {
-    $(this.#parentSelector).innerHTML = this.#getModalTemplate();
+    const modal = $(this.#parentSelector);
+    if (!modal) return;
+    modal.innerHTML = this.#getModalTemplate();
     this.#initEvents();
   }
 
@@ -28,7 +30,7 @@ export default class SectionModal extends Observer {
 
   #getModalTemplate() {
     return `
-      <div class="${SELECTOR_CLASS.MODAL_INNER} p-8">
+      <div class="${SELECTOR_CLASS.MODAL_INNER} wrapper p-8">
         <button class="${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE} modal-close">
           <svg viewbox="0 0 40 40">
             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />

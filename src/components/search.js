@@ -18,7 +18,9 @@ export default class Search {
   }
 
   renderComponent() {
-    // $(this.#targetSelector).innerHTML = this.#getTemplate();
+    // const targetContainer = $(this.#targetSelector);
+    // if (!targetContainer) return;
+    // targetContainer.innerHTML = this.#getTemplate();
   }
 
   // TODO: fade-in 적용하기

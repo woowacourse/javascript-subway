@@ -23,7 +23,9 @@ export default class Main extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getMainTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    targetContainer.innerHTML = this.#getMainTemplate();
   }
 
   #getWrapperTemplate() {

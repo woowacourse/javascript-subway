@@ -28,11 +28,15 @@ export default class Section extends Observer {
   }
 
   renderComponent() {
-    $(this.#lineListSelector).innerHTML = this.#state
+    const lineListContainer = $(this.#lineListSelector);
+    const stationListContainer = $(this.#stationListSelector);
+    if (!lineListContainer || !stationListContainer) return;
+    
+    lineListContainer.innerHTML = this.#state
       .get(STATE_KEY.LINE_LIST)
       .map(line => this.#getLineTemplate(line))
       .join('');
-    $(this.#stationListSelector).innerHTML = this.#state
+    stationListContainer.innerHTML = this.#state
       .get(STATE_KEY.STATION_LIST)
       .map(station => this.#getStationTemplate(station))
       .join('');

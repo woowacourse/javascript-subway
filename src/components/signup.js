@@ -16,7 +16,9 @@ export default class SignUp {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    targetContainer.innerHTML = this.#getTemplate();
   }
 
   #initEvents() {

@@ -19,9 +19,11 @@ export default class LineModal extends Observer {
   renderPage() {}
 
   renderComponent() {
+    const modal = $(this.#parentSelector);
+    if (!modal) return;
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
-    $(this.#parentSelector).innerHTML = this.#getModalTemplate(targetLine);
+    modal.innerHTML = this.#getModalTemplate(targetLine);
     $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions
       .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
       .join('');
@@ -36,7 +38,7 @@ export default class LineModal extends Observer {
 
   #getModalTemplate(lineItem) {
     return `
-      <div class="${SELECTOR_CLASS.MODAL_INNER} p-8">
+      <div class="${SELECTOR_CLASS.MODAL_INNER} wrapper p-8">
         <button class="${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE} modal-close">
           <svg viewbox="0 0 40 40">
             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />

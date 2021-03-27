@@ -25,7 +25,9 @@ export default class Station extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getStationListTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    targetContainer.innerHTML = this.#getStationListTemplate();
     this.#initEvents();
   }
 
