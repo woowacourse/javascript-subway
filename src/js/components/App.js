@@ -102,6 +102,9 @@ class App {
       [PATH.STATIONS]: () => {
         this.stations.init();
       },
+      [PATH.LINES]: () => {
+        this.lines.init();
+      },
     };
 
     pathActions[path]?.();

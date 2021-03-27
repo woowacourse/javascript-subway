@@ -1,0 +1,13 @@
+.selected-color {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.selected-color > button {
+  cursor: auto;
+}
+
+.selected-color > button:focus {
+  outline: none;
+}
