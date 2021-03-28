@@ -34,7 +34,7 @@ class State {
       return;
     }
 
-    if (!this.#isKey(key)) {
+    if (!this.#hasKey(key)) {
       console.error('잘못된 key값입니다.');
       return;
     }
@@ -46,7 +46,7 @@ class State {
     this.#listeners[key].push(handler);
   }
 
-  #isKey(key) {
+  #hasKey(key) {
     return Object.values(STATE_KEY).includes(key);
   }
 }
