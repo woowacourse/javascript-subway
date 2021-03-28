@@ -76,6 +76,7 @@ export const MESSAGE = {
   },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',
+    LINE_REMOVE: '해당 노선을 삭제하시겠습니까?',
     SIGNOUT: '정말로 로그아웃하시겠습니까?',
   },
   ROOT_GREETING: name => `${name}님, 안녕하세요! 이번에 리뷰를 받게된 도비, 카일입니다. 😀`,

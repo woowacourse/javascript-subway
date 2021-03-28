@@ -217,7 +217,7 @@ export class LineManage {
       id: $line.dataset.id,
     };
 
-    if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
+    if (!confirm(MESSAGE.CONFIRM.LINE_REMOVE)) return;
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
