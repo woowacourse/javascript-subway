@@ -39,13 +39,7 @@ class LoginComponent extends Component {
     const data = { email, password };
 
     try {
-      const response = await fetchLogin(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      });
+      const response = await fetchLogin(url, data);
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
       const loginResponse = await response.json();

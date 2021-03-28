@@ -33,13 +33,7 @@ class SignupComponent extends Component {
     const data = { email, name, password };
 
     try {
-      const response = await fetchSignup(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      });
+      await fetchSignup(url, data);
     } catch (err) {
       alert(err.message);
       return;

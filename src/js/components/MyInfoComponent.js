@@ -21,12 +21,7 @@ class MyInfoComponent extends Component {
     );
 
     try {
-      const response = await fetchMyInfo(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Accept: 'application/json',
-        },
-      });
+      const response = await fetchMyInfo(url, accessToken);
       const { email, name } = await response.json();
 
       $(`#${ID_SELECTOR.MY_INFO_FORM_EMAIL}`).value = email;
