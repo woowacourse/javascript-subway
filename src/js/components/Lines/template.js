@@ -140,7 +140,6 @@ export const linesTemplate = (stationList, lineList) => {
          </div>
          <div class="d-flex justify-end mt-3">
            <button
-             type="submit"
              name="submit"
              class="input-submit bg-cyan-300"
            >
