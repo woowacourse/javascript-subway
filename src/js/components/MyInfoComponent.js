@@ -22,7 +22,6 @@ class MyInfoComponent extends Component {
 
     try {
       const response = await fetchMyInfo(url, {
-        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           Accept: 'application/json',
