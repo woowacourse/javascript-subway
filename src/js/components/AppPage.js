@@ -36,8 +36,10 @@ class AppPage extends Page {
   }
 
   initEvent() {
+    //TODO: popstate 매직넘버 3 정리하기
     window.addEventListener('popstate', e => {
-      this.route(e.state.path, false);
+      const path = e.state.path.replace(/.+\/\/[^\/]+/g, '');
+      this.route(path, false);
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
