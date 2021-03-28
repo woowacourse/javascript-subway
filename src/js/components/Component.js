@@ -7,10 +7,10 @@ class Component {
   }
 
   initialize() {
-    this.initEvent();
     this.initState();
     this.initStateListener();
     this.initLoad();
+    this.initEvent();
   }
 
   initLoad() {}
