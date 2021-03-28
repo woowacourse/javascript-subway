@@ -1,5 +1,5 @@
 import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { getFromSessionStorage, $, $$, hide, show } from '../../@shared/utils';
 import { selectorOption } from '../../@shared/views';
 import {
   DOWN_STATION,
@@ -87,6 +87,7 @@ export class LineManage {
       $submitButton: $('#line-submit-button', this.$modalContent),
       $failMessage: $('#fail-message-box', this.$modalContent),
     };
+    this.$$nonModifiable = $$('.js-non-modifiable', this.$modalContent);
   }
 
   bindEvent() {
@@ -100,6 +101,7 @@ export class LineManage {
 
   handleAddButton() {
     this.submitType = SUBMIT_TYPE.ADD;
+    show(...this.$$nonModifiable);
     showModal(this.props.$modal);
   }
 
@@ -132,8 +134,9 @@ export class LineManage {
     };
 
     try {
-      // TODO: 상행, 하행같은 경우 처리 필요.
-      // TODO: 상행역, 하행역으로 선택되었을 때도 처리되는 에러
+      // TODO: name valid 검사
+      // TODO: 상행, 하행같은 경우 처리 필요. // 수정모달에서는 없음
+      // TODO: distance, duration valid check // 수정모달에서는 없음
       // if (requestInfo.upStationId === requestInfo.downStationId) {
       //   throw
       // }
@@ -165,6 +168,7 @@ export class LineManage {
     this.$$lineModal.$form.dataset.lineId = line.dataset.id;
     this.$$lineModal.$nameInput.value = line.dataset.name;
     this.$$lineModal.$colorInput.value = line.dataset.color;
+    hide(...this.$$nonModifiable);
     showModal(this.props.$modal);
   }
 

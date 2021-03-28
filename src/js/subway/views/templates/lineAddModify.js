@@ -29,23 +29,15 @@ export const lineModal = `
         >
       </div>
       </div>
-    <div class="d-flex items-center input-control">
+    <div class="js-non-modifiable d-flex items-center input-control">
       <label for="up-station" class="input-label" hidden>상행역</label>
       <select id="up-station" class="mr-2">
-        <option value="" selected disabled hidden>상행역</option>
-        <option>사당</option>
-        <option>방배</option>
-        <option>서초</option>
       </select>
       <label for="down-station" class="input-label" hidden>하행역</label>
       <select id="down-station">
-        <option value="" selected disabled hidden>하행역</option>
-        <option>사당</option>
-        <option>방배</option>
-        <option>서초</option>
       </select>
     </div>
-    <div class="input-control">
+    <div class="js-non-modifiable input-control">
       <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
       <input
         type="number"
@@ -53,16 +45,14 @@ export const lineModal = `
         name="distance"
         class="input-field mr-2"
         placeholder="상행 하행역 거리 (km)"
-        required
       />
       <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
       <input
         type="number"
         id="duration"
-        name="arrival"
+        name="duration"
         class="input-field"
         placeholder="상행 하행역 시간 (분)"
-        required
       />
     </div>
     <div class="input-control">

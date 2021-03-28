@@ -154,8 +154,7 @@ export class StationManage {
       this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
-      // TODO: 특정 status일 때, alert 처리.
-      alert(MESSAGE.STATION_MANAGE.ADDED_STATION);
+      alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }
   }
 }
