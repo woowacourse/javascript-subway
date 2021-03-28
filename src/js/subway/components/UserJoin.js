@@ -1,4 +1,5 @@
-import { DOM, MESSAGE, NAME_LENGTH, ROUTE } from '../constants';
+import { DOM } from '../constants/dom';
+import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
 export class UserJoin {
@@ -52,7 +53,7 @@ export class UserJoin {
       return;
     }
 
-    DOM.USER_JOIN.MAIN.EMAIN_MSG.innerText = '';
+    DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = '';
   }
 
   handleNameInput({ target: { value } }) {
@@ -63,8 +64,8 @@ export class UserJoin {
 
   handlePasswordInput({ target: { value } }) {
     isValidPassword(value) //
-      ? DOM.USER_JOIN.MAIN.PASSWORD_INPUT.classList.add('hidden')
-      : DOM.USER_JOIN.MAIN.PASSWORD_INPUT.classList.remove('hidden');
+      ? DOM.USER_JOIN.MAIN.PASSWORD_MSG.classList.add('hidden')
+      : DOM.USER_JOIN.MAIN.PASSWORD_MSG.classList.remove('hidden');
 
     value === DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT.value || DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT.value === ''
       ? DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_MSG.classList.add('hidden')

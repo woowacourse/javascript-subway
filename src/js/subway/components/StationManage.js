@@ -1,8 +1,9 @@
 import { store } from '../../@shared/models/store';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { DOM, MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants';
+import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { DOM } from '../constants/dom';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
-import { stationInfo, stationList } from '../views';
+import { subwayView } from '../views';
 
 export class StationManage {
   constructor(props) {
@@ -12,10 +13,10 @@ export class StationManage {
   }
 
   setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.renderStationList.bind(this));
+    store[STATE_KEY.ROUTE].subscribe(this.updateStations.bind(this));
   }
 
-  async renderStationList(route) {
+  async updateStations(route) {
     if (route !== ROUTE.STATIONS) return;
 
     try {
@@ -25,7 +26,7 @@ export class StationManage {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      this.$stationList.innerHTML = stationList(this.props.cache.stations);
+      subwayView.renderStationList(this.props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }
@@ -60,9 +61,9 @@ export class StationManage {
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const station = await stationManageAPI.addStation(accessToken, requestInfo);
 
-      DOM.STATION.MAIN.LIST.innerHTML += stationInfo(station);
+      await stationManageAPI.addStation(accessToken, requestInfo);
+      await this.updateStations(ROUTE.STATION);
       DOM.STATION.MAIN.FORM.reset();
       this.props.cache.stations = [];
     } catch (error) {

@@ -5,7 +5,7 @@ import { stationManage } from './templates/stationManage';
 import { lineManage } from './templates/lineManage';
 import { sectionManage } from './templates/sectionManage';
 
-import { ROUTE } from '../constants';
+import { ROUTE } from '../constants/constants';
 import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
 import { lineAddModify } from './templates/lineAddModify';
@@ -30,3 +30,5 @@ export const modalElements = {
   [ROUTE.LINES]: $('#modal-content', parseToElements(lineAddModify)),
   [ROUTE.SECTIONS]: $('#modal-content', parseToElements(sectionAddModify)),
 };
+
+export { subwayView } from './subwayView';

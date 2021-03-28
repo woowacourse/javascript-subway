@@ -1,4 +1,4 @@
-import { MENU } from '../../constants';
+import { MENU } from '../../constants/constants';
 
 export const lineInfo = ({ id, name, color }) => `
 <li data-id=${id}

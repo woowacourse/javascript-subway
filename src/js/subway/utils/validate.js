@@ -1,4 +1,4 @@
-import { REG_EXP } from '../constants';
+import { REG_EXP } from '../constants/constants';
 
 export const isValidEmail = value => REG_EXP.EMAIL.test(value);
 

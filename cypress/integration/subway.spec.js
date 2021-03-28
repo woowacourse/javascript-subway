@@ -1,5 +1,5 @@
 import { removeFromSessionStorage } from '../../src/js/@shared/utils';
-import { NAME_LENGTH, ROUTE, SESSION_KEY } from '../../src/js/subway/constants';
+import { NAME_LENGTH, ROUTE, SESSION_KEY } from '../../src/js/subway/constants/constants';
 import { isValidEmail, isValidName, isValidPassword } from '../../src/js/subway/utils';
 
 const testMail = 'testUser@gmail.com';

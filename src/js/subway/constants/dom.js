@@ -11,8 +11,7 @@ export const DOM = {
   },
   ROOT: {
     MAIN: {
-      TARGET: mainElements[ROUTE.ROOT],
-      //   MESSAGE_BOX: $('#root-message-box', contentElements[ROUTE.ROOT]),
+      MSG: $('#root-message-box', mainElements[ROUTE.ROOT]),
     },
   },
   USER_JOIN: {

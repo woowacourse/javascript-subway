@@ -1,10 +1,9 @@
-import { menuButtons, mainElements, modalElements } from './views';
-import { $ } from '../@shared/utils';
 import { store } from '../@shared/models/store';
-import { linkButton } from '../@shared/views/templates/linkButton';
-import { DOM, MENU, MESSAGE, ROUTE, STATE_KEY } from './constants';
+import { STATE_KEY } from './constants/constants';
+import { DOM } from './constants/dom';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
+import { subwayView } from './views';
 
 export class Subway {
   constructor() {
@@ -19,33 +18,9 @@ export class Subway {
   }
 
   setup() {
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderRoot.bind(this));
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderNavButtons.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
-  }
-
-  renderRoot(signedUserName) {
-    $('#root-message-box', contentElements[ROUTE.ROOT]).innerHTML = signedUserName
-      ? MESSAGE.ROOT_GREETING(signedUserName)
-      : MESSAGE.SIGNIN.REQUIRED;
-  }
-
-  renderNavButtons(signedUserName) {
-    this.$menuContainer.innerHTML = signedUserName ? menuButtons : '';
-    this.$signContainer.innerHTML = signedUserName
-      ? linkButton({ link: ROUTE.SIGNOUT, text: MENU.SIGNOUT })
-      : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
-  }
-
-  renderMain(route) {
-    this.$mainContainer.innerHTML = '';
-    this.$mainContainer.appendChild(mainElements[route]);
-  }
-
-  renderModal(route) {
-    if (!modalElements[route]) return;
-    this.$modalContainer.innerHTML = '';
-    this.$modalContainer.appendChild(modalElements[route]);
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderRoot.bind(subwayView));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderNavButtons.bind(subwayView));
+    store[STATE_KEY.ROUTE].subscribe(subwayView.renderMain.bind(subwayView));
   }
 
   mountChildComponents() {
@@ -57,7 +32,7 @@ export class Subway {
   }
 
   bindEvent() {
-    this.$modalContainer.addEventListener('mousedown', this.handleModalCloseButton.bind(this));
+    DOM.CONTAINER.MODAL.addEventListener('mousedown', this.handleModalCloseButton.bind(this));
   }
 
   handleModalCloseButton({ target }) {

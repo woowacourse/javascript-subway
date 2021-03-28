@@ -1,8 +1,7 @@
 import { store } from '../../@shared/models/store';
 import { getFromSessionStorage, hide, show } from '../../@shared/utils';
-import { selectorOption } from '../../@shared/views';
+import { DOM } from '../constants/dom';
 import {
-  DOM,
   DOWN_STATION,
   MESSAGE,
   NAME_LENGTH,
@@ -11,7 +10,7 @@ import {
   STATE_KEY,
   SUBMIT_TYPE,
   UP_STATION,
-} from '../constants';
+} from '../constants/constants';
 import {
   hideModal,
   isValidDistance,
@@ -21,7 +20,7 @@ import {
   showModal,
   stationManageAPI,
 } from '../utils';
-import { lineInfo, lineList } from '../views';
+import { subwayView } from '../views';
 
 export class LineManage {
   constructor(props) {
@@ -32,46 +31,33 @@ export class LineManage {
   }
 
   setup() {
-    store[STATE_KEY.SIGNED_USER].subscribe(this.renderLineList.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.renderStationOptions.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.updateLines.bind(this));
+    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
   }
 
-  async renderStationOptions(route) {
+  async updateStationOptions(route) {
     if (route !== ROUTE.LINES) return;
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
       if (this.props.cache.stations.length === 0) {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      DOM.LINE.MODAL.UP_STATION_SELECTOR.innerHTML = selectorOption({
-        text: UP_STATION,
-        selected: true,
-        disabled: true,
-      });
-      DOM.LINE.MODAL.UP_STATION_SELECTOR.innerHTML += this.props.cache.stations
-        .map(({ id: value, name: text }) => selectorOption({ value, text }))
-        .join('');
-      DOM.LINE.MODAL.DOWN_STATION_SELECTOR.innerHTML = selectorOption({
-        text: DOWN_STATION,
-        selected: true,
-        disabled: true,
-      });
-      DOM.LINE.MODAL.DOWN_STATION_SELECTOR.innerHTML += this.props.cache.stations
-        .map(({ id: value, name: text }) => selectorOption({ value, text }))
-        .join('');
+      subwayView.renderStationOptions(UP_STATION);
+      subwayView.renderStationOptions(DOWN_STATION);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  async renderLineList() {
+  async updateLines() {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       const lines = await lineManageAPI.getLines(accessToken);
 
-      DOM.LINE.MAIN.LIST.innerHTML = lineList(lines);
+      subwayView.renderLineList(lines);
     } catch (error) {
       console.error(error.message);
     }
@@ -80,7 +66,7 @@ export class LineManage {
   bindEvent() {
     DOM.LINE.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
     DOM.LINE.MAIN.LIST.addEventListener('click', this.handleModifyButton.bind(this));
-    DOM.LINE.MODAL_NAME_INPUT.addEventListener('input', this.handleNameInput.bind(this));
+    DOM.LINE.MODAL.NAME_INPUT.addEventListener('input', this.handleNameInput.bind(this));
     DOM.LINE.MODAL.FORM.addEventListener('submit', this.handleLineSubmit.bind(this));
     DOM.LINE.MODAL.PALETTE.addEventListener('click', this.handlePalette.bind(this));
     DOM.LINE.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
@@ -156,9 +142,8 @@ export class LineManage {
     }
 
     try {
-      const line = await lineManageAPI.addLine(accessToken, requestInfo);
-
-      DOM.LINE.MAIN.LIST.innerHTML += lineInfo(line);
+      await lineManageAPI.addLine(accessToken, requestInfo);
+      await this.updateLines(ROUTE.LINE);
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -178,7 +163,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
-      await this.renderLineList();
+      await this.updateLines();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {

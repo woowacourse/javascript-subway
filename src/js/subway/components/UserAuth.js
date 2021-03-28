@@ -1,4 +1,5 @@
-import { STATE_KEY, ROUTE, SESSION_KEY, DOM } from '../constants';
+import { DOM } from '../constants/dom';
+import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { store } from '../../@shared/models/store';
 import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
@@ -11,11 +12,11 @@ export class UserAuth {
   }
 
   setup() {
-    store[STATE_KEY.SIGNED_USER].subscribe(this.signOut.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.signOut.bind(this));
   }
 
   signOut() {
-    if (store[STATE_KEY.SIGNED_USER].get()) return;
+    if (store[STATE_KEY.SIGNED_USER_NAME].get()) return;
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     this.props.cache.stations = [];
     this.props.cache.lines = [];

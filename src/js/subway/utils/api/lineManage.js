@@ -1,5 +1,5 @@
 import { request } from '../../../@shared/utils';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '../../constants/constants';
 
 const getLines = async accessToken => {
   if (!accessToken) return [];

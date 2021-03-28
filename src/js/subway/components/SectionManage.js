@@ -1,5 +1,6 @@
 import { getFromSessionStorage, $, $$, show } from '../../@shared/utils';
-import { DOM, MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE } from '../constants';
+import { DOM } from '../constants/dom';
+import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE } from '../constants/constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { mainElements, modalElements, stationInfo, stationList } from '../views';
 

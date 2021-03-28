@@ -3,8 +3,8 @@ import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { store } from './@shared/models/store';
 import { Subway } from './subway';
-import { SESSION_KEY, STATE_KEY } from './subway/constants';
-import { routeTo, userAuthAPI } from './subway/utils';
+import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
+import { routeTo } from './subway/utils';
 
 class App {
   constructor() {
@@ -44,5 +44,5 @@ window.addEventListener('load', async () => {
 
   new App();
   store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
-  routeTo(pathName);
+  routeTo(location.pathname);
 });
