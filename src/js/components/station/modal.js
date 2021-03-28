@@ -6,18 +6,19 @@ import request from '../../utils/request.js';
 import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
-  constructor(parentNode, stateManagers, updateItemList) {
-    super(parentNode, stateManagers, updateItemList);
-
-    this.dataset = {};
+  // 파라미터가 너무 많아서 분리가 필요해보임
+  constructor(parentNode, stateManagers, subwayState, updateSubwayState) {
+    super(parentNode, stateManagers, subwayState, updateSubwayState);
   }
 
   render() {
     this.parentNode.innerHTML = stationModal();
   }
 
-  fillDatasetInForm() {
-    const { name } = this.dataset;
+  fillTargetInForm() {
+    const { name } = this.subwayState.stations.find(
+      ({ id }) => id === targetId
+    );
     $('#subway-station-name').value = name;
   }
 
@@ -45,8 +46,7 @@ class Modal extends ModalComponent {
       if (!response.ok) throw Error(await response.text());
 
       this.hide();
-      // 질문: async함수 마지막에 호출하는 비동기 작업은 await를 걸어주어야할까요?
-      await this.updateItemList();
+      await this.updateSubwayState();
     } catch (error) {
       // TODO: 스낵바
       console.error(error.message);

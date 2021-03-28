@@ -1,16 +1,30 @@
-import Component from '../../core/Component.js';
-import { mainTemplate } from './template/main.js';
+import FetchComponent from '../../core/FetchComponent.js';
+import { $ } from '../../utils/DOM.js';
+import Modal from './modal.js';
+import mainTemplate from './template/main.js';
 
-class Line extends Component {
+class Line extends FetchComponent {
   constructor(parentNode, stateManagers) {
     super(parentNode, stateManagers);
+
+    this.modal = new Modal(
+      $('.js-modal'),
+      stateManagers,
+      this.subwayState,
+      this.updateSubwayState.bind(this)
+    );
   }
 
   render() {
-    this.parentNode.innerHTML = mainTemplate();
+    const { lines } = this.subwayState;
+    this.parentNode.innerHTML = mainTemplate(lines);
   }
 
-  addEventListeners() {}
+  addEventListeners() {
+    $('.js-line-item__create').addEventListener('click', () => {
+      this.modal.show();
+    });
+  }
 }
 
 export default Line;

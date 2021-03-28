@@ -32,8 +32,9 @@ export const mainTemplate = (stationList) => {
   `;
 };
 
-const stationListItem = ({ id, name }) => `
-    <li class="js-station-item station-list-item d-flex items-center py-2" data-id="${id}" data-name="${name}">
+const stationListItem = ({ id, name }) => {
+  return `
+    <li class="js-station-item station-list-item d-flex items-center py-2" data-id="${id}">
       <span class="w-100 pl-2">${name}</span>
       <button
         type="button"
@@ -48,4 +49,5 @@ const stationListItem = ({ id, name }) => `
         삭제
       </button>
     </li>
-`;
+  `;
+};
