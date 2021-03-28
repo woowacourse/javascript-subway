@@ -32,10 +32,7 @@ class Stations {
   }
 
   bindEvent() {
-    this.$stationForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.handleStationForm(e);
-    });
+    this.$stationForm.addEventListener('submit', this.handleStationForm.bind(this));
 
     this.$stationListWrapper.addEventListener('click', (e) => {
       if (e.target.classList.contains('station-list-item__edit-button')) {
@@ -48,18 +45,14 @@ class Stations {
       }
     });
 
-    this.$modalStationNameEditForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      this.handleStationNameEditForm(e);
-    });
+    this.$modalStationNameEditForm.addEventListener('submit', this.handleStationNameEditForm.bind(this));
   }
 
   async renderStationList() {
     try {
       if (!this.stationListTemplate) {
         const stationData = await requestGetStationList();
-        this.userDataManager.setStation(stationData);
+        this.userDataManager.setStationData(stationData);
         this.cacheStationListTemplate();
       }
 
@@ -69,15 +62,16 @@ class Stations {
     }
   }
 
-  async handleStationForm({ target }) {
-    const stationName = target['station-name'].value;
+  async handleStationForm(e) {
+    e.preventDefault();
+    const stationName = e.target['station-name'].value;
 
     try {
       validateName(stationName);
       const stationData = await requestAddStation({ name: stationName });
-      this.userDataManager.setStation(stationData);
-      this.renderAddedStation(stationData.name);
-      target['station-name'].value = '';
+      this.userDataManager.setStationData(stationData);
+      this.renderAddedStation(stationData);
+      e.target['station-name'].value = '';
       this.cleanCacheStationListTemplate();
     } catch (error) {
       alert(error.message);
@@ -94,6 +88,8 @@ class Stations {
   }
 
   async handleStationNameEditForm(e) {
+    e.preventDefault();
+
     const newStationName = e.target['station-name'].value;
     const $stationListItem = $(`[data-station-name=${this.stationNameInEdit}]`);
     const $textNode = $stationListItem.querySelector('span');

@@ -33,10 +33,7 @@ class SignIn {
     this.$signInPasswordInput.addEventListener('keyup', (e) =>
       debounce(this.handlePasswordCheck.bind(this, e), STANDARD_NUMBER.KEY_UP_CHECK_TIME),
     );
-    this.$signInForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.handleSignIn(e.target);
-    });
+    this.$signInForm.addEventListener('submit', this.handleSignIn.bind(this));
   }
 
   handleEmailCheck({ target }) {
@@ -59,9 +56,11 @@ class SignIn {
     } catch (error) {}
   }
 
-  handleSignIn(target) {
-    const email = target[ELEMENT.EMAIL].value;
-    const password = target[ELEMENT.PASSWORD].value;
+  handleSignIn(e) {
+    e.preventDefault();
+
+    const email = e.target[ELEMENT.EMAIL].value;
+    const password = e.target[ELEMENT.PASSWORD].value;
 
     this.requestSignIn({ email, password });
   }

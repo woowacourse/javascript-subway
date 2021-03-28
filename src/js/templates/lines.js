@@ -7,29 +7,38 @@ export const selectedColorTemplate = () => `
     </div>
   `;
 
+const getStationOptionTemplate = (stationName) => `<option>${stationName}</option>`;
+
+export const getStationOptionsTemplate = (stations) =>
+  stations.map((station) => getStationOptionTemplate(station.name)).join('');
+
 const lineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
   return `<button type="button" class="color-option bg-${color}"></button> ${hasNewLine ? '<br/>' : ''}`;
 };
 
+export const getLineListTemplate = ({ lineName, color }) => `
+  <li class="line-list-item" data-line-name=${lineName}>
+    <div class="d-flex items-center py-2">
+      <span class="subway-line-color-dot ${color}"></span>
+      <span class="w-100 pl-6 subway-line-list-item-name">${lineName}</span>
+      <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
+      <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+    </div>
+    <hr class="my-0" />
+  </li>
+`;
+
 export const getLinesTemplate = () => `
-  <div class="line-list-wrapper wrapper bg-white p-10">
+  <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
-        <button type="button" class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2">노선 추가</button>
+        <button type="button" class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2">등록</button>
     </div>
-    <ul class="mt-3 pl-0">
-      <li class="d-flex items-center py-2 relative">
-        <span class="subway-line-color-dot bg-blue-400"></span>
-        <span class="w-100 pl-6 subway-line-list-item-name">1호선</span>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
-      </li>
-      <hr class="my-0" />
-    </ul>
+    <ul class="line-list-wrapper mt-3 pl-0"></ul>
   </div>
   <div class="modal">
-    <div class="modal-inner p-8">
+    <div class="modal-inner line p-8">
       <button class="modal-close">
         <svg viewbox="0 0 40 40">
           <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
@@ -38,7 +47,7 @@ export const getLinesTemplate = () => `
       <header>
         <h2 class="text-center">🛤️ 노선 추가</h2>
       </header>
-      <form>
+      <form class="modal__line-form">
         <div class="input-control">
           <label for="subway-line-name" class="input-label" hidden
             >노선 이름</label
@@ -49,25 +58,21 @@ export const getLinesTemplate = () => `
             name="subway-line-name"
             class="input-field"
             placeholder="노선 이름"
+            minlength="2"
+            maxlength="10"
             required
           />
         </div>
         <div class="d-flex items-center input-control">
           <label for="up-station" class="input-label" hidden>상행역</label>
-          <select id="up-station" class="mr-2">
-            <option value="" selected disabled hidden>상행역</option>
-            <option>사당</option>
-            <option>방배</option>
-            <option>서초</option>
+          <select id="up-station" class="station-selector mr-2">
+            <option value="" class="station-options" selected disabled hidden>상행역</option>
           </select>
           <label for="down-station" class="input-label" hidden
             >하행역</label
           >
           <select id="down-station">
-            <option value="" selected disabled hidden>하행역</option>
-            <option>사당</option>
-            <option>방배</option>
-            <option>서초</option>
+            <option value="" class="station-options" selected disabled hidden>하행역</option>
           </select>
         </div>
         <div class="input-control">
@@ -103,7 +108,7 @@ export const getLinesTemplate = () => `
           <button
             type="submit"
             name="submit"
-            class="input-submit bg-cyan-300"
+            class="modal__line-submit-button input-submit bg-cyan-300"
           >
             확인
           </button>

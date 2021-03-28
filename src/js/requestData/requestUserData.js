@@ -89,3 +89,21 @@ export const requestGetStationList = async () => {
     throw new Error('역 목록 조회에 실패했습니다.');
   }
 };
+
+export const requestAddLine = async ({ name, color, upStationId, downStationId, distance, duration }) => {
+  try {
+    const response = await httpClient.post({
+      path: '/lines',
+      body: { name, color, upStationId, downStationId, distance, duration },
+      accessToken: token.accessToken,
+    });
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.dir(error);
+    throw new Error('노선 생성에 실패했습니다.');
+  }
+};

@@ -67,14 +67,13 @@ class App {
       }
 
       if (isRouterButton(e.target)) {
-        e.preventDefault();
-
         this.handleSelectMenu(e);
       }
     });
   }
 
   handleSelectMenu(e) {
+    e.preventDefault();
     const path = e.target.closest('a').getAttribute('href');
 
     if (path === PATH.SIGNOUT) {
