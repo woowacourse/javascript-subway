@@ -1,5 +1,5 @@
-import { ID_SELECTOR } from '../constants';
-import { colorOptionMatrix } from '../utils/mock';
+import { ID_SELECTOR, CLASS_SELECTOR, THRESHOLD } from '../constants.js';
+import { colorOptionMatrix } from '../utils/mock.js';
 
 const MAIN_COMPONENT = `
 <main class="mt-10 d-flex justify-center">
@@ -14,33 +14,14 @@ const MAIN_COMPONENT = `
         노선 추가
       </button>
     </div>
-    <ul class="mt-3 pl-0">
-      <li class="d-flex items-center py-2 relative">
-        <span class="subway-line-color-dot bg-blue-400"></span>
-        <span class="w-100 pl-6 subway-line-list-item-name"
-          >1호선</span
-        >
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm"
-        >
-          삭제
-        </button>
-      </li>
-      <hr class="my-0" />
+    <ul id="${ID_SELECTOR.LINE_LIST}" class="mt-3 pl-0">
     </ul>
   </div>
   </main>`;
 
 const MODAL_COMPONENT = `
 <div class="modal-inner line-modal-inner p-8">
-<button class="modal-close">
+<button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close"}>
   <svg viewbox="0 0 40 40">
     <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
   </svg>
@@ -48,13 +29,15 @@ const MODAL_COMPONENT = `
 <header>
   <h2 class="text-center">🛤️ 노선 추가</h2>
 </header>
-<form id="">
+<form id="${ID_SELECTOR.LINE_MODAL_FORM}">
   <div class="input-control">
     <label for="${ID_SELECTOR.LINE_MODAL_FORM_NAME}" class="input-label" hidden
       >노선 이름</label
     >
     <input
       type="text"
+      minlength=${THRESHOLD.LINE_NAME_MIN_LENGTH}
+      maxlength=${THRESHOLD.LINE_NAME_MAX_LENGTH}
       id="${ID_SELECTOR.LINE_MODAL_FORM_NAME}"
       name="subway-line-name"
       class="input-field"
@@ -130,7 +113,7 @@ const MODAL_COMPONENT = `
       />
     </div>
   </div>
-  <div class="subway-line-color-selector px-2">
+  <div class="${CLASS_SELECTOR.LINE_COLOR_SELECTOR} px-2">
   ${makeSubwayLineColorOption()}
   </div>
   <div class="d-flex justify-end mt-3">
@@ -156,7 +139,7 @@ function makeSubwayLineColorOption() {
 }
 
 function subwayLineColorOptionTemplate(colorOption) {
-  return `<button type="button" class="color-option bg-${colorOption} mr-1"></button>`;
+  return `<button data-color="${colorOption}" type="button" class="${CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION} color-option bg-${colorOption} mr-1"></button>`;
 }
 
 const LINE_TEMPLATE = {

@@ -10,6 +10,13 @@ class Page extends Component {
     this.#initialUrl = window.location.href.slice(0, -1);
   }
 
+  initialize() {
+    super.initialize();
+    this.initRouter();
+  }
+
+  initRouter() {}
+
   initialRoute(path) {
     const actualPath = this.#initialUrl + path;
 

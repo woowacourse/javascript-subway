@@ -20,6 +20,7 @@ const ID_SELECTOR = {
   STATION_MODAL_FORM_SUBMIT: 'station-modal-form__submit',
 
   LINE_CREATION_BUTTON: 'line-creation-button',
+  LINE_LIST: 'line-list',
   LINE_MODAL_FORM: 'line-modal-form',
   LINE_MODAL_FORM_NAME: 'line-modal-form__name',
   LINE_MODAL_FORM_UP_STATION: 'line-modal-form__up-station',
@@ -54,6 +55,9 @@ const CLASS_SELECTOR = {
   STATION_LIST_ITEM: 'js-station-list__item',
   STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
   STATION_LIST_ITEM_REMOVAL: 'js-station-list__item-removal',
+
+  LINE_COLOR_SELECTOR: 'js-line-color-selector',
+  LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
   MODAL_CLOSE: 'js-modal-close',
 };
@@ -96,8 +100,11 @@ const URL = {
 };
 
 const THRESHOLD = {
-  STATION_MIN_LENGTH: 2,
-  STATION_MAX_LENGTH: 20,
+  STATION_NAME_MIN_LENGTH: 2,
+  STATION_NAME_MAX_LENGTH: 20,
+
+  LINE_NAME_MIN_LENGTH: 2,
+  LINE_NAME_MAX_LENGTH: 20,
 };
 
 export {

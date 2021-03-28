@@ -9,7 +9,7 @@ import Page from './Page.js';
 import State from './State.js';
 import { ID_SELECTOR, KEYWORD, URL } from '../constants.js';
 import { show, hide } from '../utils/DOM.js';
-import { loadStationList } from '../utils/loadByAJAX.js';
+import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
 class AppPage extends Page {
   constructor(props) {
     super(props);
@@ -22,18 +22,26 @@ class AppPage extends Page {
   }
 
   initStateListener() {
+    this.accessTokenState.initListener();
+    this.stationsState.initListener();
+    this.linesState.initListener();
     this.accessTokenState.setListener(this.handleUserDataToInit);
     this.accessTokenState.setListener(this.handleNavButtonToChange);
     this.accessTokenState.setListener(this.handlePageToRedirect);
+  }
 
-    // TODO: 라우터 독립에 대해서 생각해보기
+  initRouter() {
     this._router = {
       [URL.HOME]: new HomeComponent(),
       [URL.STATION]: new StationComponent({
         accessTokenState: this.accessTokenState,
         stationsState: this.stationsState,
       }),
-      [URL.LINE]: new LineComponent(),
+      [URL.LINE]: new LineComponent({
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
+        linesState: this.linesState,
+      }),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
         accessTokenState: this.accessTokenState,
@@ -63,11 +71,12 @@ class AppPage extends Page {
     const isLogout = accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
-      this.#renderGuestNavBar();
+      this.initStateListener();
       return;
     }
 
     loadStationList(this.stationsState, this.accessTokenState.Data);
+    loadLineList(this.linesState, this.accessTokenState.Data);
   };
 
   handleNavButtonToChange = accessToken => {

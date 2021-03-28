@@ -9,7 +9,7 @@ import {
   REQUEST_URL,
 } from '../constants.js';
 import {
-  fetchStationList,
+  fetchStationCreation,
   fetchStationNameRevision,
   fetchStationRemoval,
 } from '../utils/fetch.js';
@@ -149,7 +149,7 @@ class StationComponent extends Component {
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      const response = await fetchStationList(url, {
+      const response = await fetchStationCreation(url, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

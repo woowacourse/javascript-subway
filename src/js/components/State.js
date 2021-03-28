@@ -27,6 +27,10 @@ class State {
     });
   }
 
+  initListener() {
+    this.#listeners = [];
+  }
+
   setListener(handler) {
     if (typeof handler !== 'function') {
       console.error('handler가 function이 아닙니다.');
