@@ -14,12 +14,14 @@ class Station extends FetchComponent {
     this.modal = new Modal(
       $('.js-modal'),
       this.stateManagers,
-      this.update.bind(this)
+      this.subwayState,
+      this.updateSubwayState.bind(this)
     );
   }
 
-  render(itemList = []) {
-    this.parentNode.innerHTML = mainTemplate(itemList);
+  render() {
+    const { stations } = this.subwayState;
+    this.parentNode.innerHTML = mainTemplate(stations);
   }
 
   addEventListeners() {
@@ -34,7 +36,7 @@ class Station extends FetchComponent {
 
     $('.js-station-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        this.modal.setDataset(target.closest('.js-station-item').dataset);
+        this.modal.setTargetId(target.closest('.js-station-item').dataset.id);
         this.modal.show();
       }
 
@@ -76,7 +78,7 @@ class Station extends FetchComponent {
 
       if (!response.ok) throw Error(await response.text());
 
-      this.update();
+      this.updateSubwayState();
     } catch (error) {
       console.error(error.message);
     }
@@ -93,7 +95,7 @@ class Station extends FetchComponent {
 
       if (!response.ok) throw Error(await response.text());
 
-      this.update();
+      this.updateSubwayState();
     } catch (error) {
       console.error(error.message);
     }
