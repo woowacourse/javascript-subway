@@ -2,12 +2,7 @@ import { ID_SELECTOR } from '../constants.js';
 import $ from '../utils/querySelector.js';
 
 class Component {
-  constructor(props) {
-    if (!props) {
-      this.props = {};
-      return;
-    }
-
+  constructor(props = {}) {
     this.props = props;
   }
 
