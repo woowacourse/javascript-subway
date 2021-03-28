@@ -75,6 +75,7 @@ class LinesController {
       'submit',
       this.onLineSaveBtnClick.bind(this)
     );
+    $('.modal-close').addEventListener('click', onModalClose);
     $('.line-color-selector').addEventListener('click', selectColorHandler);
   }
 
@@ -83,7 +84,7 @@ class LinesController {
       onModalShow();
       resetInput($('#lines-form'), $('#line-name'));
     });
-    $('.modal-close').addEventListener('click', onModalClose.bind(this));
+    $('.modal-close').addEventListener('click', onModalClose);
     $('#lines-form').addEventListener(
       'submit',
       this.onLineAddBtnClick.bind(this)
