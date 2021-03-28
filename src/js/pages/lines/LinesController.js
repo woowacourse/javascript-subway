@@ -48,6 +48,7 @@ class LinesController {
 
     if (e.target.classList.contains('js-modify-button')) {
       onModalShow();
+
       this.$modifiedLine = e.target.closest('li');
       const targetLineId = this.$modifiedLine.dataset.lineId;
 
@@ -55,7 +56,7 @@ class LinesController {
         this.lineManager.getLine(targetLineId)
       );
 
-      this.bindModifymodalEvents();
+      this.bindModifyModalEvents();
     }
 
     if (e.target.classList.contains('js-delete-button')) {
@@ -65,7 +66,7 @@ class LinesController {
     }
   }
 
-  bindModifymodalEvents() {
+  bindModifyModalEvents() {
     $('#lines-modify-form').addEventListener(
       'submit',
       this.onLineSaveBtnClick.bind(this)
