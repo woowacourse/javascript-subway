@@ -7,10 +7,22 @@ export const selectedColorTemplate = () => `
     </div>
   `;
 
-const getStationOptionTemplate = (stationName) => `<option>${stationName}</option>`;
+export const getStationOptionsTemplate = (stations) => {
+  const stationOptionTemplate = stations.map((station) => `<option>${station.name}</option>`).join('');
 
-export const getStationOptionsTemplate = (stations) =>
-  stations.map((station) => getStationOptionTemplate(station.name)).join('');
+  return `
+    <label for="up-station" class="input-label" hidden>상행역</label>
+    <select id="up-station" class="up-station-selector mr-2">
+      <option value="" selected disabled hidden>상행역</option>
+      ${stationOptionTemplate}
+    </select>
+    <label for="down-station" class="input-label" hidden>하행역</label>
+    <select id="down-station" class="down-station-selector">
+      <option value="" selected disabled hidden>하행역</option>
+      ${stationOptionTemplate}
+    </select>
+  `;
+};
 
 const lineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
@@ -63,22 +75,9 @@ export const getLinesTemplate = () => `
             required
           />
         </div>
-        <div class="d-flex items-center input-control">
-          <label for="up-station" class="input-label" hidden>상행역</label>
-          <select id="up-station" class="station-selector mr-2">
-            <option value="" class="station-options" selected disabled hidden>상행역</option>
-          </select>
-          <label for="down-station" class="input-label" hidden
-            >하행역</label
-          >
-          <select id="down-station">
-            <option value="" class="station-options" selected disabled hidden>하행역</option>
-          </select>
-        </div>
+        <div class="station-option-wrapper d-flex items-center input-control"></div>
         <div class="input-control">
-          <label for="distance" class="input-label" hidden
-            >상행 하행역 거리</label
-          >
+          <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
           <input
             type="number"
             id="distance"

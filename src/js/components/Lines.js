@@ -1,4 +1,4 @@
-import { $, $$ } from '../utils/dom';
+import { $ } from '../utils/dom';
 import { selectedColorTemplate, getStationOptionsTemplate, getLineListTemplate } from '../templates/lines';
 import { requestAddLine } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
@@ -23,7 +23,7 @@ class Lines {
     this.$modalLineForm = $('.modal__line-form');
     this.$colorSelector = $('.subway-line-color-selector');
     this.$selectedColor = $('.selected-color');
-    this.$$stationOptions = $$('.station-options');
+    this.$stationOptionWrapper = $('.station-option-wrapper');
   }
 
   bindEvent() {
@@ -44,9 +44,7 @@ class Lines {
   handleCreateLineButton() {
     this.$selectedColor.innerHTML = selectedColorTemplate();
     this.selectedLineColor = '';
-    this.$$stationOptions.forEach((option) => {
-      option.insertAdjacentHTML('afterend', getStationOptionsTemplate(this.userDataManager.stations));
-    });
+    this.$stationOptionWrapper.innerHTML = getStationOptionsTemplate(this.userDataManager.stations);
     this.$modal.classList.add('open');
   }
 
@@ -69,12 +67,15 @@ class Lines {
         duration,
       });
       this.userDataManager.setLineData(lineData);
-      this.renderAddedLine(lineName);
-      this.cleanCacheLineListTemplate();
-      this.$modalClose.click();
+      // this.renderAddedLine(lineName);
+      // this.cleanCacheLineListTemplate();
+      // this.$modalClose.click();
     } catch (error) {
       alert(error.message);
     }
+    this.renderAddedLine(lineName);
+    this.cleanCacheLineListTemplate();
+    this.$modalClose.click();
   }
 
   cacheLineListTemplate() {
