@@ -5,10 +5,21 @@ const MESSAGE = {
     DUPLICATED_EMAIL: '중복된 이메일입니다.',
     WRONG_EMAIL_FORMAT: '알맞은 이메일 형식을 입력해 주세요.',
     CHECK_EMAIL_AND_PASSWORD: '이메일과 비밀번호를 확인해주세요.',
-    NOT_CHECKED_EMAIL: '이메일 중복 체크를 해주세요',
   },
   SUCCESS: {
     AVAILABLE_EMAIL: '사용가능한 이메일 입니다.',
+  },
+};
+
+const ALERT_MESSAGE = {
+  ERROR: {
+    NOT_CHECKED_EMAIL: '이메일 중복 체크를 해주세요',
+    FAIL_TO_ADD_STATION: '지하철 역 추가에 실패했습니다.',
+    FAIL_TO_MODIFY_STATION: '지하철 역 수정에 실패했습니다.',
+    FAIL_TO_DELETE_STATION: '지하철 역 삭제에 실패했습니다.',
+    FAIL_TO_ADD_LINE: '노선 추가에 실패했습니다.',
+    FAIL_TO_MODIFY_LINE: '노선 수정에 실패했습니다.',
+    FAIL_TO_DELETE_LINE: '노선 삭제에 실패했습니다.',
   },
 };
 
@@ -20,4 +31,9 @@ const SNACKBAR_MESSAGE = {
   },
 };
 
-export { MESSAGE, SNACKBAR_MESSAGE };
+const CONFIRM_MESSAGE = {
+  DELETE_STATION: '지하철 역을 삭제하시겠습니까?',
+  DELETE_LINE: '노선을 삭제하시겠습니까?',
+};
+
+export { MESSAGE, SNACKBAR_MESSAGE, CONFIRM_MESSAGE, ALERT_MESSAGE };
