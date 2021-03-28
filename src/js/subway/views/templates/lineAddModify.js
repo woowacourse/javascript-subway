@@ -8,7 +8,7 @@ export const lineModal = `
     </svg>
   </button>
   <header>
-    <h2 class="text-center">🛤️ 노선 추가</h2>
+    <h2 class="text-center">🛤️ 정보 입력</h2>
   </header>
   <form id="line-form">
     <div class="input-control flex-col">

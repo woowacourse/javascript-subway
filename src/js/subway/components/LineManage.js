@@ -109,6 +109,7 @@ export class LineManage {
 
   handleAddButton() {
     this.submitType = SUBMIT_TYPE.ADD;
+    this.$$lineModal.$failMessage.innerText = '';
     show(...this.$$nonModifiable);
     showModal(this.props.$modal);
   }
@@ -118,6 +119,7 @@ export class LineManage {
     const line = target.closest('.js-line-list-item');
 
     this.submitType = SUBMIT_TYPE.MODIFY;
+    this.$$lineModal.$failMessage.innerText = '';
     this.$$lineModal.$form.dataset.lineId = line.dataset.id;
     this.$$lineModal.$nameInput.value = line.dataset.name;
     this.$$lineModal.$colorInput.value = line.dataset.color;
