@@ -159,7 +159,7 @@ context('지하철 역 관리 페이지', () => {
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`).select('잠실');
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).type('bg-green-500');
+    cy.get(`.color-option.bg-green-500`).click();
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
       .click()
       .then(() => {
