@@ -1,26 +1,50 @@
-const headerTemplate = `
-<a href="/" class="text-black">
-  <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
-</a>
-<nav class="d-flex justify-center flex-wrap">
-  <a href="/pages/stations.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
-  </a>
-  <a href="/pages/lines.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
-  </a>
-  <a href="/pages/sections.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
-  </a>
-  <a href="/pages/map.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
-  </a>
-  <a href="/pages/search.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
-  </a>
-  <a href="/pages/login.html" class="my-1">
-    <button class="btn bg-white shadow mx-1">👤 로그인</button>
-  </a>
-</nav>`;
+import '../css/index.css';
+import '../images/subway_emoji.png';
+import { $, getFromSessionStorage } from './@shared/utils/index';
+import { store } from './@shared/models/store';
+import { Subway } from './subway';
+import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
+import { getRedirectedPath, getUserName } from './subway/utils';
+import { routeTo } from './subway/utils';
 
-document.querySelector("header").innerHTML = headerTemplate;
+class App {
+  constructor() {
+    this.selectDOM();
+    this.mountChildComponents();
+    this.bindEvents();
+  }
+
+  selectDOM() {
+    this.$app = $('#app');
+  }
+
+  mountChildComponents() {
+    new Subway();
+  }
+
+  bindEvents() {
+    this.$app.addEventListener('click', event => {
+      if (!event.target.classList.contains('js-link')) return;
+      event.preventDefault();
+      const pathName = event.target.dataset.link;
+
+      routeTo(pathName);
+    });
+  }
+}
+
+window.addEventListener('popstate', event => {
+  const pathName = event.state.path;
+
+  store[STATE_KEY.ROUTE].set(pathName);
+});
+
+window.addEventListener('load', async () => {
+  const pathName = getRedirectedPath(location.pathname);
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+  const signedUserName = accessToken ? await getUserName(accessToken) : '';
+
+  new App();
+  store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
+  routeTo(pathName);
+});

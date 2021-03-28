@@ -21,23 +21,21 @@
 
 ### Webpack을 통한 번들링
 
-- [ ] Webpack에서 babel을 설정한다.
-- [ ] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+- [x] Webpack에서 babel을 설정한다.
+- [x] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
 
 ### 회원 기능
 
-- [ ] 유저는 회원 가입을 할 수 있다,
-  - [ ] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
-- [ ] 유저는 로그인 할 수 있다.
-  - [ ] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
-  - [ ] 로그인한 유저만, 정보의 수정이 가능하다.
-  - [ ] 로그인하지 않은 유저는 정보를 읽는 것만 가능하다.
-- [ ] 유저는 로그아웃할 수 있다.
-  - [ ] 로그아웃하면 `/` 루트 페이지로 돌아온다.
+- [x] 유저는 회원 가입을 할 수 있다,
+  - [x] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
+- [x] 유저는 로그인 할 수 있다.
+  - [x] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
+- [x] 유저는 로그아웃할 수 있다.
+  - [x] 로그아웃하면 `/` 루트 페이지로 돌아온다.
 
 ## 🎯🎯 step2
 
@@ -89,36 +87,4 @@
 
 <br>
 
-## ⚙️ Before Started
-
-#### <img alt="Tip" src="https://img.shields.io/static/v1.svg?label=&message=Tip&style=flat-square&color=673ab8"> 로컬에서 서버 띄워서 손쉽게 static resources 변경 및 확인하는 방법
-
-로컬에서 웹서버를 띄워 html, css, js 등을 실시간으로 손쉽게 테스트해 볼 수 있습니다. 이를 위해서는 우선 npm이 설치되어 있어야 합니다. 구글에 `npm install` 이란 키워드로 각자의 운영체제에 맞게끔 npm을 설치해주세요. 이후 아래의 명령어를 통해 실시간으로 웹페이지를 테스트해볼 수 있습니다.
-
-```
-npm install -g live-server
-```
-
-실행은 아래의 커맨드로 할 수 있습니다.
-
-```
-live-server 폴더명
-```
-
-<br>
-
-## 👏 Contributing
-
-만약 미션 수행 중에 개선사항이 보인다면, 언제든 자유롭게 PR을 보내주세요.
-
-<br>
-
-## 🐞 Bug Report
-
-버그를 발견한다면, [Issues](https://github.com/woowacourse/javascript-subway/issues)에 등록해주세요.
-
-<br>
-
-## 📝 License
-
-This project is [MIT](https://github.com/woowacourse/javascript-subway/blob/main/LICENSE) licensed.
+[기능 목록 / 테스트 케이스](./docs/README.md)
