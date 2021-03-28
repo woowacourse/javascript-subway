@@ -44,7 +44,6 @@ class LoginComponent extends Component {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'Content-Length': 72,
         },
       });
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);

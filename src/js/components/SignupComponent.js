@@ -38,7 +38,6 @@ class SignupComponent extends Component {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'Content-Length': 96,
         },
       });
     } catch (err) {
