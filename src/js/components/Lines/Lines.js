@@ -192,6 +192,11 @@ export default class Lines extends Component {
       return;
     }
 
+    if (!color) {
+      showSnackbar(SNACKBAR_MESSAGE.REQUIRE_SELECT_LINE_COLOR);
+      return;
+    }
+
     const contents = { name, upStationId, downStationId, distance, duration, color };
 
     if (e.target.classList.contains('create-form')) {

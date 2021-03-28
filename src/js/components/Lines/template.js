@@ -131,7 +131,6 @@ export const linesTemplate = (stationList, lineList) => {
             class="input-field"
             placeholder="색상을 선택해주세요."
             readonly
-            required
           />
          </div>
          <div class="d-flex justify-center">
