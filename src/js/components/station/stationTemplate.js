@@ -78,7 +78,6 @@ export const modalTemplate = () => {
     <div class="d-flex justify-end mt-3">
       <button
         id="station-modify-button"
-        type="submit"
         name="submit"
         class="input-submit bg-cyan-300"
       >

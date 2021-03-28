@@ -10,7 +10,7 @@ export const onModalClose = () => {
   $modal.classList.remove('open');
 };
 
-export const initModal = () => {
+export const bindModalCloseEvent = () => {
   const $modalClose = $('.modal-close');
   $modalClose.addEventListener('click', onModalClose);
 };

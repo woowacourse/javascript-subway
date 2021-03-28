@@ -110,6 +110,7 @@ export const REQUEST_METHOD = {
   GET: 'GET',
   POST: 'POST',
   DELETE: 'DELETE',
+  PUT: 'PUT',
 };
 
 export const PAGE_TITLE = {
