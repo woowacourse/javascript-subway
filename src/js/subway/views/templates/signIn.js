@@ -1,5 +1,5 @@
 import { linkButton } from '../../../@shared/views/templates/linkButton';
-import { MENU, MESSAGE, ROUTE } from '../../constants/constants';
+import { MENU, MESSAGE, ROUTE } from '../../constants';
 
 export const signIn = `
   <div id="main-content" class="wrapper p-10 bg-white">

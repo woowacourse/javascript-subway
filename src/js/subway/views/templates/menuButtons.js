@@ -1,5 +1,5 @@
 import { linkButton } from '../../../@shared/views/templates/linkButton';
-import { MENU, ROUTE } from '../../constants/constants';
+import { MENU, ROUTE } from '../../constants';
 
 const navButtonInfos = [
   { link: ROUTE.STATIONS, text: MENU.STATIONS },

@@ -1,40 +1,28 @@
-import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
-import { mainElements } from '../views';
-import { stateManager } from '../../@shared/models/StateManager';
-import { $, setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
+import { STATE_KEY, ROUTE, SESSION_KEY, DOM } from '../constants';
+import { store } from '../../@shared/models/store';
+import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {
   constructor(props) {
-    this.$target = mainElements[ROUTE.SIGNIN];
     this.props = props;
     this.setup();
-    this.selectDOM();
     this.bindEvent();
   }
 
   setup() {
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.signOut.bind(this));
+    store[STATE_KEY.SIGNED_USER].subscribe(this.signOut.bind(this));
   }
 
   signOut() {
-    if (stateManager[STATE_KEY.SIGNED_USER].get()) return;
+    if (store[STATE_KEY.SIGNED_USER].get()) return;
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     this.props.cache.stations = [];
     this.props.cache.lines = [];
   }
 
-  selectDOM() {
-    this.$signInForm = $('#signin-form', this.$target);
-    this.$$input = {
-      $email: $('#signin-email', this.$target),
-      $password: $('#signin-password', this.$target),
-    };
-    this.$failMessage = $('#fail-message-box', this.$target);
-  }
-
   bindEvent() {
-    this.$signInForm.addEventListener('submit', this.handleSubmit.bind(this));
+    DOM.USER_AUTH.MAIN.FORM.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
   async handleSubmit(event) {
@@ -44,15 +32,15 @@ export class UserAuth {
       const userName = await userAuthAPI.getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
-      this.$signInForm.reset();
-      this.$failMessage.classList.add('hidden');
+      DOM.USER_AUTH.MAIN.FORM.reset();
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.add('hidden');
       store[STATE_KEY.SIGNED_USER_NAME].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
       console.error(error.message);
-      this.$failMessage.classList.remove('hidden');
-      this.$$input.$password.value = '';
-      this.$$input.$password.focus();
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.remove('hidden');
+      DOM.USER_AUTH.MAIN.PASSWORD_INPUT.value = '';
+      DOM.USER_AUTH.MAIN.PASSWORD_INPUT.focus();
     }
   }
 }

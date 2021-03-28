@@ -1,4 +1,4 @@
-import { MENU } from '../../constants/constants';
+import { MENU } from '../../constants';
 
 export const stationInfo = ({ id, name }) => `
   <li data-station-id=${id} class="js-station-list-item border-bottom d-flex items-center py-2 my-2">

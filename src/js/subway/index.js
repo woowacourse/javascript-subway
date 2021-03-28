@@ -2,7 +2,7 @@ import { menuButtons, mainElements, modalElements } from './views';
 import { $ } from '../@shared/utils';
 import { store } from '../@shared/models/store';
 import { linkButton } from '../@shared/views/templates/linkButton';
-import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
+import { DOM, MENU, MESSAGE, ROUTE, STATE_KEY } from './constants';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 
@@ -14,7 +14,6 @@ export class Subway {
     };
 
     this.setup();
-    this.selectDOM();
     this.mountChildComponents();
     this.bindEvent();
   }
@@ -22,13 +21,7 @@ export class Subway {
   setup() {
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderRoot.bind(this));
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderNavButtons.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
-  }
-
-  selectDOM() {
-    this.$menuContainer = $('#menu-buttons-container');
-    this.$signContainer = $('#sign-button-container');
-    this.$mainContainer = $('#main-container');
+    store[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
   }
 
   renderRoot(signedUserName) {
@@ -55,19 +48,12 @@ export class Subway {
     this.$modalContainer.appendChild(modalElements[route]);
   }
 
-  selectDOM() {
-    this.$menuContainer = $('#menu-buttons-container');
-    this.$signContainer = $('#sign-button-container');
-    this.$mainContainer = $('#main-container');
-    this.$modalContainer = $('#modal-container');
-  }
-
   mountChildComponents() {
     new UserJoin();
     new UserAuth({ cache: this.cache });
-    new StationManage({ $modal: this.$modalContainer, cache: this.cache });
-    new LineManage({ $modal: this.$modalContainer, cache: this.cache });
-    new SectionManage({ $modal: this.$modalContainer, cache: this.cache });
+    new StationManage({ cache: this.cache });
+    new LineManage({ cache: this.cache });
+    new SectionManage({ cache: this.cache });
   }
 
   bindEvent() {
@@ -76,11 +62,11 @@ export class Subway {
 
   handleModalCloseButton({ target }) {
     if (
-      target === this.$modalContainer ||
+      target === DOM.CONTAINER.MODAL ||
       target.parentNode.classList.contains('modal-close') ||
       target.classList.contains('close-x')
     ) {
-      hideModal(this.$modalContainer);
+      hideModal(DOM.CONTAINER.MODAL);
     }
   }
 }

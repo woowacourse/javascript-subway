@@ -1,4 +1,4 @@
-import { MENU } from '../../constants/constants';
+import { MENU } from '../../constants';
 
 export const sectionInfo = () => `
 <li class="js-section-list-item d-flex items-center py-2 relative">

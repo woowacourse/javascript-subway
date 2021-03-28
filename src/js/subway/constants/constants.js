@@ -15,12 +15,6 @@ export const ROUTE = {
   SEARCH: '/search',
 };
 
-export const MODAL_TYPE = {
-  STATION_MODIFY: 'station-modify',
-  LINE_ADD: 'line-add',
-  LINE_MODIFY: 'line-modify',
-};
-
 export const SUBMIT_TYPE = {
   ADD: 'add',
   MODIFY: 'modify',

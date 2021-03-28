@@ -1,7 +1,8 @@
-import { stateManager } from '../../@shared/models/StateManager';
-import { getFromSessionStorage, $, $$, hide, show } from '../../@shared/utils';
+import { store } from '../../@shared/models/store';
+import { getFromSessionStorage, hide, show } from '../../@shared/utils';
 import { selectorOption } from '../../@shared/views';
 import {
+  DOM,
   DOWN_STATION,
   MESSAGE,
   NAME_LENGTH,
@@ -10,7 +11,7 @@ import {
   STATE_KEY,
   SUBMIT_TYPE,
   UP_STATION,
-} from '../constants/constants';
+} from '../constants';
 import {
   hideModal,
   isValidDistance,
@@ -20,23 +21,19 @@ import {
   showModal,
   stationManageAPI,
 } from '../utils';
-import { mainElements, modalElements } from '../views';
 import { lineInfo, lineList } from '../views';
 
 export class LineManage {
   constructor(props) {
-    this.$mainContent = mainElements[ROUTE.LINES];
-    this.$modalContent = modalElements[ROUTE.LINES];
     this.props = props;
     this.submitType = null;
     this.setup();
-    this.selectDOM();
     this.bindEvent();
   }
 
   setup() {
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderLineList.bind(this));
-    stateManager[STATE_KEY.ROUTE].subscribe(this.renderStationOptions.bind(this));
+    store[STATE_KEY.SIGNED_USER].subscribe(this.renderLineList.bind(this));
+    store[STATE_KEY.ROUTE].subscribe(this.renderStationOptions.bind(this));
   }
 
   async renderStationOptions(route) {
@@ -48,20 +45,20 @@ export class LineManage {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      this.$$lineModal.$upStationSelector.innerHTML = selectorOption({
+      DOM.LINE.MODAL.UP_STATION_SELECTOR.innerHTML = selectorOption({
         text: UP_STATION,
         selected: true,
         disabled: true,
       });
-      this.$$lineModal.$upStationSelector.innerHTML += this.props.cache.stations
+      DOM.LINE.MODAL.UP_STATION_SELECTOR.innerHTML += this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
-      this.$$lineModal.$downStationSelector.innerHTML = selectorOption({
+      DOM.LINE.MODAL.DOWN_STATION_SELECTOR.innerHTML = selectorOption({
         text: DOWN_STATION,
         selected: true,
         disabled: true,
       });
-      this.$$lineModal.$downStationSelector.innerHTML += this.props.cache.stations
+      DOM.LINE.MODAL.DOWN_STATION_SELECTOR.innerHTML += this.props.cache.stations
         .map(({ id: value, name: text }) => selectorOption({ value, text }))
         .join('');
     } catch (error) {
@@ -74,44 +71,26 @@ export class LineManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       const lines = await lineManageAPI.getLines(accessToken);
 
-      this.$lineList.innerHTML = lineList(lines);
+      DOM.LINE.MAIN.LIST.innerHTML = lineList(lines);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  selectDOM() {
-    this.$lineAddButton = $('#line-add-modal-button', this.$mainContent);
-    this.$lineList = $('#line-list', this.$mainContent);
-    this.$$lineModal = {
-      $form: $('#line-form', this.$modalContent),
-      $nameInput: $('#line-name-input', this.$modalContent),
-      $upStationSelector: $('#up-station', this.$modalContent),
-      $downStationSelector: $('#down-station', this.$modalContent),
-      $distanceInput: $('#distance', this.$modalContent),
-      $durationInput: $('#duration', this.$modalContent),
-      $colorInput: $('#line-color', this.$modalContent),
-      $palette: $('#line-color-selector', this.$modalContent),
-      $submitButton: $('#line-submit-button', this.$modalContent),
-      $failMessage: $('#fail-message-box', this.$modalContent),
-    };
-    this.$$nonModifiable = $$('.js-non-modifiable', this.$modalContent);
-  }
-
   bindEvent() {
-    this.$lineAddButton.addEventListener('click', this.handleAddButton.bind(this));
-    this.$lineList.addEventListener('click', this.handleModifyButton.bind(this));
-    this.$$lineModal.$nameInput.addEventListener('input', this.handleNameInput.bind(this));
-    this.$$lineModal.$form.addEventListener('submit', this.handleLineSubmit.bind(this));
-    this.$$lineModal.$palette.addEventListener('click', this.handlePalette.bind(this));
-    this.$lineList.addEventListener('click', this.handleRemoveButton.bind(this));
+    DOM.LINE.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
+    DOM.LINE.MAIN.LIST.addEventListener('click', this.handleModifyButton.bind(this));
+    DOM.LINE.MODAL_NAME_INPUT.addEventListener('input', this.handleNameInput.bind(this));
+    DOM.LINE.MODAL.FORM.addEventListener('submit', this.handleLineSubmit.bind(this));
+    DOM.LINE.MODAL.PALETTE.addEventListener('click', this.handlePalette.bind(this));
+    DOM.LINE.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
   handleAddButton() {
     this.submitType = SUBMIT_TYPE.ADD;
-    this.$$lineModal.$failMessage.innerText = '';
-    show(...this.$$nonModifiable);
-    showModal(this.props.$modal);
+    DOM.LINE.MODAL.MSG.innerText = '';
+    show(...DOM.LINE.MODAL.NON_MODIFIABLE);
+    showModal(DOM.CONTAINER.MODAL);
   }
 
   handleModifyButton({ target }) {
@@ -119,27 +98,27 @@ export class LineManage {
     const line = target.closest('.js-line-list-item');
 
     this.submitType = SUBMIT_TYPE.MODIFY;
-    this.$$lineModal.$failMessage.innerText = '';
-    this.$$lineModal.$form.dataset.lineId = line.dataset.id;
-    this.$$lineModal.$nameInput.value = line.dataset.name;
-    this.$$lineModal.$colorInput.value = line.dataset.color;
-    hide(...this.$$nonModifiable);
-    showModal(this.props.$modal);
+    DOM.LINE.MODAL.MSG.innerText = '';
+    DOM.LINE.MODAL.FORM.dataset.lineId = line.dataset.id;
+    DOM.LINE.MODAL_NAME_INPUT.value = line.dataset.name;
+    DOM.LINE.MODAL.COLOR_INPUT.value = line.dataset.color;
+    hide(...DOM.LINE.MODAL.NON_MODIFIABLE);
+    showModal(DOM.CONTAINER.MODAL);
   }
 
   handleNameInput({ target: { value: lineName } }) {
     if (!isValidName(lineName, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) {
-      this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.INVALID_NAME;
+      DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.INVALID_NAME;
 
       return;
     }
 
-    this.$$lineModal.$failMessage.innerText = '';
+    DOM.LINE.MODAL.MSG.innerText = '';
   }
 
   handlePalette(event) {
     if (!event.target.classList.contains('color-option')) return;
-    this.$$lineModal.$colorInput.value = event.target.dataset.color;
+    DOM.LINE.MODAL.COLOR_INPUT.value = event.target.dataset.color;
   }
 
   handleLineSubmit(event) {
@@ -155,23 +134,23 @@ export class LineManage {
 
   async handleAddSubmit(accessToken) {
     const requestInfo = {
-      id: this.$$lineModal.$form.dataset.lineId,
-      name: this.$$lineModal.$nameInput.value,
-      color: this.$$lineModal.$colorInput.value,
-      upStationId: this.$$lineModal.$upStationSelector.value,
-      downStationId: this.$$lineModal.$downStationSelector.value,
-      distance: this.$$lineModal.$distanceInput.value,
-      duration: this.$$lineModal.$durationInput.value,
+      id: DOM.LINE.MODAL.FORM.dataset.lineId,
+      name: DOM.LINE.MODAL_NAME_INPUT.value,
+      color: DOM.LINE.MODAL.COLOR_INPUT.value,
+      upStationId: DOM.LINE.MODAL.UP_STATION_SELECTOR.value,
+      downStationId: DOM.LINE.MODAL.DOWN_STATION_SELECTOR.value,
+      distance: DOM.LINE.MODAL.DISTANCE_INPUT.value,
+      duration: DOM.LINE.MODAL.DURATION_INPUT.value,
     };
 
     if (!isValidName(requestInfo.name, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) return;
     if (requestInfo.upStationId === requestInfo.downStationId) {
-      this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.SAME_STATIONS;
+      DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.SAME_STATIONS;
 
       return;
     }
     if (!(isValidDistance(requestInfo.distance) && isValidDuration(requestInfo.duration))) {
-      this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.INVALID_DISTANCE_DURATION;
+      DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.INVALID_DISTANCE_DURATION;
 
       return;
     }
@@ -179,21 +158,20 @@ export class LineManage {
     try {
       const line = await lineManageAPI.addLine(accessToken, requestInfo);
 
-      this.$lineList.innerHTML += lineInfo(line);
-      this.$$lineModal.$form.reset();
-      hideModal(this.props.$modal);
+      DOM.LINE.MAIN.LIST.innerHTML += lineInfo(line);
+      DOM.LINE.MODAL.FORM.reset();
+      hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       console.error(error.message);
-      this.$$lineModal.$failMessage.innerText =
-        error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
+      DOM.LINE.MODAL.MSG.innerText = error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
   }
 
   async handleModifySubmit(accessToken) {
     const requestInfo = {
-      id: this.$$lineModal.$form.dataset.lineId,
-      name: this.$$lineModal.$nameInput.value,
-      color: this.$$lineModal.$colorInput.value,
+      id: DOM.LINE.MODAL.FORM.dataset.lineId,
+      name: DOM.LINE.MODAL_NAME_INPUT.value,
+      color: DOM.LINE.MODAL.COLOR_INPUT.value,
     };
 
     if (!isValidName(requestInfo.name, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) return;
@@ -201,12 +179,11 @@ export class LineManage {
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
       await this.renderLineList();
-      this.$$lineModal.$form.reset();
-      hideModal(this.props.$modal);
+      DOM.LINE.MODAL.FORM.reset();
+      hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       console.error(error.message);
-      this.$$lineModal.$failMessage.innerText =
-        error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
+      DOM.LINE.MODAL.MSG.innerText = error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
   }
 
