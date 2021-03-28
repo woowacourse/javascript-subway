@@ -1,3 +1,4 @@
+import { optionTemplate } from '../../templates/option';
 import { colorOptions } from '../../utils/mock';
 
 const subwayLineColorOptionTemplate = (color, index) => {
@@ -7,14 +8,10 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
-export const stationOptionTemplate = ({ id, name }) => `
-  <option value="${id}">${name}</option>
-`;
-
 export const stationOptionListTemplate = (stations, defaultValue) => {
   const defaultValueTemplate = `<option value="" disabled selected hidden>${defaultValue}</option>`;
 
-  return defaultValueTemplate + stations.map(station => stationOptionTemplate(station)).join('');
+  return defaultValueTemplate + stations.map(({ id, name }) => optionTemplate(id, name)).join('');
 };
 
 export const lineAddModalTemplate = `
@@ -179,7 +176,7 @@ export const lineListItemTemplate = ({ id, name, color, sections }) => {
 
   return `
     <li
-      class="js-line-list-item line-list-item d-flex items-center py-2 relative"
+      class="js-line-list-item list-item d-flex items-center py-2 relative"
       data-id="${id}"
       data-name="${name}"
       data-color="${color}"

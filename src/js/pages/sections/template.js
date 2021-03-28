@@ -1,3 +1,5 @@
+import { optionTemplate } from '../../templates/option';
+
 const sectionModalTemplate = `
   <div class="modal">
     <div class="modal-inner p-8">
@@ -13,8 +15,7 @@ const sectionModalTemplate = `
         <div class="input-control">
           <select>
             <option>1호선</option>
-            <option>2호선</option
-            >ㅅ
+            <option>2호선</option>
             <option>3호선</option>
             <option>4호선</option>
           </select>
@@ -48,7 +49,27 @@ const sectionModalTemplate = `
   </div>
 `;
 
-const sectionsPageTemplate = `
+const sectionListItem = (id, name) => `
+  <li class="d-flex items-center py-2 relative list-item" data-section-id=${id} data-section-name=${id}>
+    <span class="w-100 pl-6">${name}</span>
+    <button
+      type="button"
+      class="bg-gray-50 text-gray-500 text-sm mr-1"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      class="bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+`;
+
+export const sectionListItems = sections => sections.map(({ id, name }) => sectionListItem(id, name)).join('');
+
+const sectionsPageTemplate = lines => `
   <div class="d-flex justify-center mt-5 w-100">
     <div class="w-100">
       <header class="my-4"></header>
@@ -64,31 +85,12 @@ const sectionsPageTemplate = `
             </button>
           </div>
           <form class="d-flex items-center pl-1">
-            <select class="bg-blue-400">
-              <option>1호선</option>
-              <option>2호선</option>
-              <option>3호선</option>
-              <option>4호선</option>
+            <select id="line-select">
+              <option value="" disabled selected hidden>노선 선택</option>
+              ${lines.map(({ id, name }) => optionTemplate(id, name)).join('')}
             </select>
           </form>
-          <ul class="mt-3 pl-0">
-            <li class="d-flex items-center py-2 relative">
-              <span class="w-100 pl-6">인천</span>
-              <button
-                type="button"
-                class="bg-gray-50 text-gray-500 text-sm mr-1"
-              >
-                수정
-              </button>
-              <button
-                type="button"
-                class="bg-gray-50 text-gray-500 text-sm"
-              >
-                삭제
-              </button>
-            </li>
-            <hr class="my-0" />
-          </ul>
+          <ul class="js-section-list mt-3 pl-0"></ul>
         </div>
       </main>
     </div>

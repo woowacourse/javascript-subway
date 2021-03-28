@@ -35,8 +35,8 @@ describe('지하철 노선도 STEP2', () => {
     cy.get('#station-name').type('고려대');
     cy.get('#station-form').submit();
 
-    cy.get('#station-list .station-list-item').should('contain', '낙성대');
-    cy.get('#station-list .station-list-item').should('contain', '연세대');
+    cy.get('#station-list .js-station-list-item').should('contain', '낙성대');
+    cy.get('#station-list .js-station-list-item').should('contain', '연세대');
   });
 
   it('지하철역을 수정할 수 있다.', () => {
@@ -44,13 +44,13 @@ describe('지하철 노선도 STEP2', () => {
     cy.get('#station-name-edit-form #station-edit-name').clear();
     cy.get('#station-name-edit-form #station-edit-name').type('서울대');
     cy.get('#station-name-edit-form').submit();
-    cy.get('#station-list .station-list-item').should('contain', '서울대');
-    cy.get('#station-list .station-list-item').should('not.contain', '낙성대');
+    cy.get('#station-list .js-station-list-item').should('contain', '서울대');
+    cy.get('#station-list .js-station-list-item').should('not.contain', '낙성대');
   });
 
   it('지하철역을 삭제할 수 있다.', () => {
     cy.get('[data-name="서울대"] .js-station-delete-button').click();
-    cy.get('#station-list .station-list-item').should('not.contain', '서울대');
+    cy.get('#station-list .js-station-list-item').should('not.contain', '서울대');
   });
 
   it('지하철 노선을 등록할 수 있다.', () => {
