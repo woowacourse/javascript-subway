@@ -85,9 +85,11 @@ export default class Lines extends Component {
     const lineName = $lineListItem.querySelector('.line-name').innerText;
     const lineId = target.dataset.id;
 
-    try {
-      await customConfirm(MESSAGE.DELETE_CONFIRM(lineName));
-    } catch {}
+    const confirm = await customConfirm(MESSAGE.DELETE_CONFIRM(lineName));
+
+    if (!confirm) {
+      return;
+    }
 
     const isDeleted = await lineDeleted({
       token: this.#token,
