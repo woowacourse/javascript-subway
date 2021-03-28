@@ -1,7 +1,7 @@
 import '../css/index.css';
 import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
-import { stateManager } from './@shared/models/StateManager';
+import { store } from './@shared/models/store';
 import { Subway } from './subway';
 import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { getRedirectedPath, getUserName } from './subway/utils';
@@ -36,15 +36,15 @@ class App {
 window.addEventListener('popstate', event => {
   const pathName = event.state.path;
 
-  stateManager[STATE_KEY.ROUTE].set(pathName);
+  store[STATE_KEY.ROUTE].set(pathName);
 });
 
 window.addEventListener('load', async () => {
   const pathName = getRedirectedPath(location.pathname);
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const signedUser = accessToken ? await getUserName(accessToken) : '';
+  const signedUserName = accessToken ? await getUserName(accessToken) : '';
 
   new App();
-  stateManager[STATE_KEY.SIGNED_USER].set(signedUser);
+  store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
   routeTo(pathName);
 });

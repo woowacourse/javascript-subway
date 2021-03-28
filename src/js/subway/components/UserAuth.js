@@ -1,6 +1,6 @@
 import { STATE_KEY, ROUTE, BASE_URL, SESSION_KEY } from '../constants/constants';
 import { contentElements } from '../views';
-import { stateManager } from '../../@shared/models/StateManager';
+import { store } from '../../@shared/models/store';
 import { $, encrypt, request, setToSessionStorage } from '../../@shared/utils';
 import { routeTo, getUserName } from '../utils';
 
@@ -33,7 +33,7 @@ export class UserAuth {
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
       this.clearInputs();
       this.$failMessage.classList.add('hidden');
-      stateManager[STATE_KEY.SIGNED_USER].set(userName);
+      store[STATE_KEY.SIGNED_USER_NAME].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
       console.error(error.message);
