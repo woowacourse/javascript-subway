@@ -27,6 +27,10 @@
   position: relative;
 }
 
+.modal-inner.line {
+  height: 80vh;
+}
+
 .modal-close {
   margin: 20px;
   width: 20px;
