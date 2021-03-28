@@ -1,4 +1,4 @@
-export const API_END_POINT = 'http://3.35.213.149:8080';
+export const API_END_POINT = 'https://www.boorownie.com';
 export const TOKEN_KEY = 'token';
 export const COOKIE_EXPIRE_TIME = 60;
 export const SNACKBAR_SHOW_TIME = 1500;
