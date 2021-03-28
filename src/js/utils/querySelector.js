@@ -2,7 +2,7 @@ const $ = selector => {
   const $element = document.querySelectorAll(selector);
 
   if ($element.length === 0) {
-    alert(`${selector}가 없습니다.`);
+    console.err(`${selector}가 없습니다.`);
     return;
   }
 

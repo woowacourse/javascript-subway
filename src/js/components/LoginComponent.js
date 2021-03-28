@@ -15,7 +15,7 @@ class LoginComponent extends Component {
     super(props);
 
     if (!this.props?.appState.getData(STATE_KEY.LOGIN_RESPONSE)) {
-      alert('not exist loginResponse');
+      console.error('not exist loginResponse');
     }
   }
 

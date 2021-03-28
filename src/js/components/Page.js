@@ -19,7 +19,7 @@ class Page extends Component {
 
   route = (path, shouldPushState = true) => {
     if (!this._routingUrl) {
-      alert('Page 인스턴스에 url이 정의되어 있지 않습니다.');
+      console.error('Page 인스턴스에 url이 정의되어 있지 않습니다.');
     }
 
     if (shouldPushState) {
