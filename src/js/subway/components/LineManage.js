@@ -11,7 +11,15 @@ import {
   SUBMIT_TYPE,
   UP_STATION,
 } from '../constants/constants';
-import { hideModal, isValidName, lineManageAPI, showModal, stationManageAPI } from '../utils';
+import {
+  hideModal,
+  isValidDistance,
+  isValidDuration,
+  isValidName,
+  lineManageAPI,
+  showModal,
+  stationManageAPI,
+} from '../utils';
 import { mainElements, modalElements } from '../views';
 import { lineInfo, lineList } from '../views';
 
@@ -92,16 +100,28 @@ export class LineManage {
 
   bindEvent() {
     this.$lineAddButton.addEventListener('click', this.handleAddButton.bind(this));
+    this.$lineList.addEventListener('click', this.handleModifyButton.bind(this));
     this.$$lineModal.$nameInput.addEventListener('input', this.handleNameInput.bind(this));
     this.$$lineModal.$form.addEventListener('submit', this.handleLineSubmit.bind(this));
     this.$$lineModal.$palette.addEventListener('click', this.handlePalette.bind(this));
-    this.$lineList.addEventListener('click', this.handleModifyButton.bind(this));
     this.$lineList.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
   handleAddButton() {
     this.submitType = SUBMIT_TYPE.ADD;
     show(...this.$$nonModifiable);
+    showModal(this.props.$modal);
+  }
+
+  handleModifyButton({ target }) {
+    if (!target.classList.contains('js-modify-button')) return;
+    const line = target.closest('.js-line-list-item');
+
+    this.submitType = SUBMIT_TYPE.MODIFY;
+    this.$$lineModal.$form.dataset.lineId = line.dataset.id;
+    this.$$lineModal.$nameInput.value = line.dataset.name;
+    this.$$lineModal.$colorInput.value = line.dataset.color;
+    hide(...this.$$nonModifiable);
     showModal(this.props.$modal);
   }
 
@@ -120,9 +140,18 @@ export class LineManage {
     this.$$lineModal.$colorInput.value = event.target.dataset.color;
   }
 
-  async handleLineSubmit(event) {
+  handleLineSubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+    if (this.submitType === SUBMIT_TYPE.ADD) {
+      this.handleAddSubmit(accessToken);
+    } else if (this.submitType === SUBMIT_TYPE.MODIFY) {
+      this.handleModifySubmit(accessToken);
+    }
+  }
+
+  async handleAddSubmit(accessToken) {
     const requestInfo = {
       id: this.$$lineModal.$form.dataset.lineId,
       name: this.$$lineModal.$nameInput.value,
@@ -133,24 +162,22 @@ export class LineManage {
       duration: this.$$lineModal.$durationInput.value,
     };
 
+    if (!isValidName(requestInfo.name, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) return;
+    if (requestInfo.upStationId === requestInfo.downStationId) {
+      this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.SAME_STATIONS;
+
+      return;
+    }
+    if (!(isValidDistance(requestInfo.distance) && isValidDuration(requestInfo.duration))) {
+      this.$$lineModal.$failMessage.innerText = MESSAGE.LINE_MANAGE.INVALID_DISTANCE_DURATION;
+
+      return;
+    }
+
     try {
-      // TODO: name valid 검사
-      // TODO: 상행, 하행같은 경우 처리 필요. // 수정모달에서는 없음
-      // TODO: distance, duration valid check // 수정모달에서는 없음
-      // if (requestInfo.upStationId === requestInfo.downStationId) {
-      //   throw
-      // }
+      const line = await lineManageAPI.addLine(accessToken, requestInfo);
 
-      if (this.submitType === SUBMIT_TYPE.ADD) {
-        const line = await lineManageAPI.addLine(accessToken, requestInfo);
-
-        this.$lineList.innerHTML += lineInfo(line);
-      }
-      if (this.submitType === SUBMIT_TYPE.MODIFY) {
-        await lineManageAPI.modifyLine(accessToken, requestInfo);
-        await this.renderLineList();
-      }
-
+      this.$lineList.innerHTML += lineInfo(line);
       this.$$lineModal.$form.reset();
       hideModal(this.props.$modal);
     } catch (error) {
@@ -160,16 +187,25 @@ export class LineManage {
     }
   }
 
-  handleModifyButton({ target }) {
-    if (!target.classList.contains('js-modify-button')) return;
-    const line = target.closest('.js-line-list-item');
+  async handleModifySubmit(accessToken) {
+    const requestInfo = {
+      id: this.$$lineModal.$form.dataset.lineId,
+      name: this.$$lineModal.$nameInput.value,
+      color: this.$$lineModal.$colorInput.value,
+    };
 
-    this.submitType = SUBMIT_TYPE.MODIFY;
-    this.$$lineModal.$form.dataset.lineId = line.dataset.id;
-    this.$$lineModal.$nameInput.value = line.dataset.name;
-    this.$$lineModal.$colorInput.value = line.dataset.color;
-    hide(...this.$$nonModifiable);
-    showModal(this.props.$modal);
+    if (!isValidName(requestInfo.name, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) return;
+
+    try {
+      await lineManageAPI.modifyLine(accessToken, requestInfo);
+      await this.renderLineList();
+      this.$$lineModal.$form.reset();
+      hideModal(this.props.$modal);
+    } catch (error) {
+      console.error(error.message);
+      this.$$lineModal.$failMessage.innerText =
+        error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
+    }
   }
 
   async handleRemoveButton({ target }) {

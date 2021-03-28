@@ -1,4 +1,11 @@
-export { isValidEmail, isValidName, isValidPassword, findInValidInput } from './validate';
+export {
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+  findInValidInput,
+  isValidDistance,
+  isValidDuration,
+} from './validate';
 export { routeTo, getRedirectedPath } from './route';
 export { showModal, hideModal } from './modal';
 export { userJoinAPI } from './api/userJoin';

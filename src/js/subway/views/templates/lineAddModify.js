@@ -23,11 +23,6 @@ export const lineModal = `
           required
         />
       </div>
-      <div
-        id="fail-message-box"
-        class="js-message-box message-box mt-1 text-red mb-1 text-center"
-        >
-      </div>
       </div>
     <div class="js-non-modifiable d-flex items-center input-control">
       <label for="up-station" class="input-label" hidden>상행역</label>
@@ -63,6 +58,7 @@ export const lineModal = `
           id="line-color"
           name="subway-line-color"
           class="input-field"
+          value="bg-gray-900"
           placeholder="색상을 아래에서 선택해주세요."
           disabled
           required
@@ -73,6 +69,11 @@ export const lineModal = `
       <div>
         ${palette}
       </div>
+    </div>
+    <div
+      id="fail-message-box"
+      class="js-message-box message-box mt-1 text-red mb-1 text-center"
+      >
     </div>
     <div class="d-flex justify-end mt-3">
       <button id="line-submit-button" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>

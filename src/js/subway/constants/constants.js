@@ -71,6 +71,8 @@ export const MESSAGE = {
   LINE_MANAGE: {
     INVALID_NAME: '유효한 노선 이름이 아닙니다.',
     OVERLAPPED_NAME: '노선 이름이 중복되었습니다.',
+    SAME_STATIONS: '상행역과 하행역은 달라야 합니다.',
+    INVALID_DISTANCE_DURATION: '유효한 거리와 시간을 입력해 주세요.',
   },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',

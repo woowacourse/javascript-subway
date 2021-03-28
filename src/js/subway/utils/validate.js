@@ -21,3 +21,7 @@ export const findInValidInput = $$input => {
     return $$input.$passwordConfirm;
   }
 };
+
+export const isValidDistance = value => Number(value) > 0;
+
+export const isValidDuration = value => Number(value) > 0;
