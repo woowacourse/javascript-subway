@@ -35,7 +35,6 @@ class MyInfoComponent extends Component {
     } catch (err) {
       alert(err.message);
       history.back();
-      this.props.return;
     }
   }
 }

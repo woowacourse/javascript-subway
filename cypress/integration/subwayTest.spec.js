@@ -90,5 +90,5 @@ function login() {
 
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_EMAIL}`).type(EMAIL);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_PASSWORD}`).type(PASSWORD);
-  return cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
+  cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
 }
