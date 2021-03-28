@@ -26,9 +26,10 @@ class LinesController {
     e.preventDefault();
 
     const newLine = await addLineHandler(e);
-
-    this.linesView.appendNewLine(newLine);
-    resetInput(e.target, $('#line-name'));
+    if (newLine) {
+      this.linesView.appendNewLine(newLine);
+      resetInput(e.target, $('#line-name'));
+    }
   }
 
   async onLineSaveBtnClick(e) {
@@ -39,8 +40,10 @@ class LinesController {
       this.$modifiedLine.dataset.lineId
     );
 
-    this.linesView.renderModifiedLine(modifiedLine, this.$modifiedLine);
-    resetInput(e.target, $('#line-name'));
+    if (modifiedLine) {
+      this.linesView.renderModifiedLine(modifiedLine, this.$modifiedLine);
+      resetInput(e.target, $('#line-name'));
+    }
   }
 
   async onLineUpdateBtnClick(e) {
@@ -60,9 +63,10 @@ class LinesController {
     }
 
     if (e.target.classList.contains('js-delete-button')) {
-      await deleteLineHandler(e);
-
-      this.linesView.deleteResult(e);
+      const resFlag = await deleteLineHandler(e);
+      if (resFlag) {
+        this.linesView.deleteResult(e);
+      }
     }
   }
 

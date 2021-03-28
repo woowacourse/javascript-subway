@@ -1,5 +1,5 @@
-import user from '../../models/user';
-import { $ } from '../../utils/DOM.js';
+import user from '../../models/user.js';
+import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 
 async function addStationHandler(e) {
   try {
@@ -7,8 +7,7 @@ async function addStationHandler(e) {
 
     return await user.stationManager.addStation(stationName);
   } catch (error) {
-    alert('지하철 역 추가에 실패하였습니다.');
-    console.error('fail fetch');
+    alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
   }
 }
 
@@ -22,18 +21,18 @@ async function saveModifyStationHandler(stationId, newStationName) {
   );
 
   if (!resFlag) {
-    alert('역 수정에 실패했습니다.');
+    alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
   }
 
   return resFlag;
 }
 
 async function deleteStationHandler(targetStationId) {
-  if (!window.confirm('역을 삭제하시겠습니까?')) return;
+  if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
 
   const resFlag = await user.stationManager.deleteStation(targetStationId);
   if (!resFlag) {
-    alert('역 삭제에 실패했습니다.');
+    alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
   }
 
   return resFlag;
