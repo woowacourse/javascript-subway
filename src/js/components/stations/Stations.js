@@ -17,12 +17,12 @@ export default class Stations extends Component {
 
     this.$stationEditModal = $('#station-edit-modal');
     this.$stationEditNameInput = $('#station-edit-name-input');
-    this.$stationEditModalCloseButton = $('#modal-close-button');
+    this.$stationEditModalClose = $('.modal-close');
   }
 
   bindEvent() {
     this.$stationInputForm.addEventListener('submit', this.handleStationInputForm.bind(this));
-    this.$stationEditModalCloseButton.addEventListener('click', this.handleStationEditModalClose.bind(this));
+    this.$stationEditModalClose.addEventListener('click', this.handleStationEditModalClose.bind(this));
     this.$stationEditModal.addEventListener('submit', this.handleStationEdit.bind(this));
 
     this.$stationListContainer.addEventListener('click', ({ target }) => {
@@ -36,8 +36,10 @@ export default class Stations extends Component {
     });
   }
 
-  handleStationEditModalClose() {
-    this.$stationEditModal.classList.remove('open');
+  handleStationEditModalClose({ target }) {
+    if (target.classList.contains('modal-close')) {
+      this.$stationEditModal.classList.remove('open');
+    }
   }
 
   async handleStationEdit(e) {
@@ -87,9 +89,11 @@ export default class Stations extends Component {
     const stationName = $stationListItem.querySelector('.station-name').innerText;
     const stationId = target.dataset.id;
 
-    try {
-      await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
-    } catch {}
+    const confirm = await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
+
+    if (!confirm) {
+      return;
+    }
 
     const isDeleted = await stationDeleted({
       token: this.#token,

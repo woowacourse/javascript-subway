@@ -22,17 +22,17 @@ export const customConfirm = (message) => {
     $('.confirm-modal').addEventListener('click', ({ currentTarget, target }) => {
       if (currentTarget === target) {
         currentTarget.remove();
-        return;
+        resolve(false);
       }
 
       if (target.classList.contains('cancel-button')) {
         currentTarget.remove();
-        return;
+        resolve(false);
       }
 
       if (target.classList.contains('confirm-button')) {
         currentTarget.remove();
-        resolve('Clicked confirm button.');
+        resolve(true);
       }
 
       return;
