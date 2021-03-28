@@ -4,8 +4,8 @@ class State {
   #state;
   #listeners;
 
-  constructor(state) {
-    this.#state = state ? state : {};
+  constructor(state = {}) {
+    this.#state = state;
     this.#listeners = {};
   }
 
