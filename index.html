@@ -4,26 +4,80 @@
     <meta charset="UTF-8" />
     <title>🚇 지하철 노선도</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/src/css/index.css" />
+    <link rel="stylesheet" href="./bundle/bundle.css" />
   </head>
+
   <body>
     <div id="app">
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
-          <header class="my-4"></header>
-          <main class="mt-10 d-flex justify-center">
-            <div class="d-flex flex-col">
-              <div class="d-flex justify-center">
-                <img src="src/images/subway_emoji.png" width="200" />
-              </div>
-              <p class="mt-0 text-center">
-                지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
-              </p>
-            </div>
-          </main>
+          <header class="my-4">
+            <a href="/" class="js-anchor text-black">
+              <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+            </a>
+            <nav class="d-flex justify-center flex-wrap">
+              <a
+                id="nav__station"
+                href="/pages/stations.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+              </a>
+              <a
+                id="nav__line"
+                href="/pages/lines.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+              </a>
+              <a
+                id="nav__section"
+                href="/pages/sections.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
+              </a>
+              <a
+                id="nav__full-map"
+                href="/pages/fullMap.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+              </a>
+              <a
+                id="nav__search"
+                href="/pages/search.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🔎 길 찾기</button>
+              </a>
+              <a
+                id="nav__my-info"
+                href="/pages/myInfo.html"
+                class="js-anchor my-1 hidden"
+              >
+                <button class="btn bg-white shadow mx-1">🔒 내 정보</button>
+              </a>
+              <a
+                id="nav__login"
+                href="/pages/login.html"
+                class="js-anchor my-1"
+              >
+                <button class="btn bg-white shadow mx-1">👤 로그인</button>
+              </a>
+              <button
+                id="nav__logout"
+                class="btn bg-white shadow mx-1 my-1 hidden"
+              >
+                🚪 로그아웃
+              </button>
+            </nav>
+          </header>
+          <main id="main" class="mt-10 d-flex justify-center"></main>
+          <div id="modal" class="modal"></div>
         </div>
       </div>
     </div>
-    <script type="module" src="./src/js/index.js"></script>
+    <script type="module" src="./bundle/bundle.js"></script>
   </body>
 </html>
