@@ -43,6 +43,18 @@ const line = {
   get length() {
     return this.value.size;
   },
+
+  getColor(lineId) {
+    const targetLine = [...this.value].find(({ id }) => id === lineId);
+
+    return targetLine.color;
+  },
+
+  getLineStations(lineId) {
+    const targetLine = [...this.value].find(({ id }) => id === lineId);
+
+    return targetLine.stations;
+  },
 };
 
 export default line;

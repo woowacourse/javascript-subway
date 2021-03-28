@@ -8,7 +8,7 @@ import { requestDeleteLine } from '../../../services/line';
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;
 
-  const $targetLine = target.closest('.line-list-item');
+  const $targetLine = target.closest('.js-line-list-item');
   const lineID = $targetLine.dataset.id;
 
   const result = await requestDeleteLine(lineID);
@@ -29,11 +29,11 @@ export const handleLineStatus = async ({ target }) => {
   }
 
   if (target.classList.contains('js-line-edit-button')) {
-    const { id, name, color } = target.closest('.line-list-item').dataset;
+    const { id, name, color } = target.closest('.js-line-list-item').dataset;
 
     updateLineEditModal({ id, name, color });
     openModal($('#line-edit-modal'));
-    // $('#line-edit-modal #-edit-name').focus();
+    $('#line-edit-modal #subway-line-name').focus();
 
     return;
   }

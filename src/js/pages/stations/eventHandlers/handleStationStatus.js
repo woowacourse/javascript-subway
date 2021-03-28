@@ -8,7 +8,7 @@ import { $ } from '../../../utils/dom';
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
 
-  const $targetStation = target.closest('.station-list-item');
+  const $targetStation = target.closest('.js-station-list-item');
   const stationID = Number($targetStation.dataset.id);
 
   const result = await requestDeleteStation(stationID);
@@ -29,7 +29,7 @@ const handleStationStatus = async ({ target }) => {
   }
 
   if (target.classList.contains('js-station-edit-button')) {
-    const { dataset } = target.closest('.station-list-item');
+    const { dataset } = target.closest('.js-station-list-item');
 
     updateStationNameEditModal(dataset);
     openModal($('#station-name-edit-modal'));
