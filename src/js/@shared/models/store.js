@@ -1,6 +1,6 @@
 import { State } from './State';
 
-export const stateManager = {
-  signedUser: new State(),
+export const store = {
+  signedUserName: new State(),
   route: new State(),
 };
