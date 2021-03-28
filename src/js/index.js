@@ -1,7 +1,7 @@
 import '../css/index.css';
 import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
-import { stateManager } from './@shared/models/StateManager';
+import { store } from './@shared/models/store';
 import { Subway } from './subway';
 import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { routeTo, userAuthAPI } from './subway/utils';
@@ -40,9 +40,9 @@ window.addEventListener('popstate', event => {
 
 window.addEventListener('load', async () => {
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const signedUser = accessToken ? await userAuthAPI.getUserName(accessToken) : null;
+  const signedUserName = accessToken ? await getUserName(accessToken) : '';
 
   new App();
-  stateManager[STATE_KEY.SIGNED_USER].set(signedUser);
-  routeTo(location.pathname);
+  store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
+  routeTo(pathName);
 });

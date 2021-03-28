@@ -46,7 +46,7 @@ export class UserAuth {
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
       this.$signInForm.reset();
       this.$failMessage.classList.add('hidden');
-      stateManager[STATE_KEY.SIGNED_USER].set(userName);
+      store[STATE_KEY.SIGNED_USER_NAME].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
       console.error(error.message);

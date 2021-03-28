@@ -1,6 +1,6 @@
 export const STATE_KEY = {
   ROUTE: 'route',
-  SIGNED_USER: 'signedUser',
+  SIGNED_USER_NAME: 'signedUserName',
 };
 
 export const ROUTE = {
@@ -51,7 +51,7 @@ export const MESSAGE = {
   SIGNUP: {
     INVALID_EMAIL: '유효하지 않은 이메일입니다.',
     INVALID_NAME: '유효하지 않은 이름입니다.',
-    INVALID_PASSWORD: '유효하지 않은 패스워드입니다.',
+    INVALID_PASSWORD: '패스워드는 최소 6자이상, 영숫자 및 특수문자의 조합으로 이루어져야 합니다.',
     INVALID_PASSWORD_CONFIRM: '패스워드가 일치하지 않습니다.',
     FAIL: '회원가입 실패',
     OVERLAP_CHECK_REQUIRED: '중복 여부를 확인해 주세요.',

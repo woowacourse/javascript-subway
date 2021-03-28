@@ -1,5 +1,5 @@
 export class State {
-  #value;
+  #value = null;
   #subscribers = [];
 
   constructor(value) {

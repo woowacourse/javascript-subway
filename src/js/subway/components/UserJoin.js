@@ -85,6 +85,10 @@ export class UserJoin {
     isValidPassword(value) //
       ? this.$$message.$password.classList.add('hidden')
       : this.$$message.$password.classList.remove('hidden');
+
+    value === this.$$input.$passwordConfirm.value || this.$$input.$passwordConfirm.value === ''
+      ? this.$$message.$passwordConfirm.classList.add('hidden')
+      : this.$$message.$passwordConfirm.classList.remove('hidden');
   }
 
   handlePasswordConfirmInput({ target: { value } }) {

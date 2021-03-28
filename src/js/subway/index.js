@@ -1,6 +1,6 @@
 import { menuButtons, mainElements, modalElements } from './views';
 import { $ } from '../@shared/utils';
-import { stateManager } from '../@shared/models/StateManager';
+import { store } from '../@shared/models/store';
 import { linkButton } from '../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
@@ -20,21 +20,26 @@ export class Subway {
   }
 
   setup() {
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderRoot.bind(this));
-    stateManager[STATE_KEY.SIGNED_USER].subscribe(this.renderNavButtons.bind(this));
-    stateManager[STATE_KEY.ROUTE].subscribe(this.renderMain.bind(this));
-    stateManager[STATE_KEY.ROUTE].subscribe(this.renderModal.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderRoot.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderNavButtons.bind(this));
+    store[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
   }
 
-  renderRoot(signedUser) {
-    $('#root-message-box', mainElements[ROUTE.ROOT]).innerHTML = signedUser
-      ? MESSAGE.ROOT_GREETING(signedUser)
+  selectDOM() {
+    this.$menuContainer = $('#menu-buttons-container');
+    this.$signContainer = $('#sign-button-container');
+    this.$mainContainer = $('#main-container');
+  }
+
+  renderRoot(signedUserName) {
+    $('#root-message-box', contentElements[ROUTE.ROOT]).innerHTML = signedUserName
+      ? MESSAGE.ROOT_GREETING(signedUserName)
       : MESSAGE.SIGNIN.REQUIRED;
   }
 
-  renderNavButtons(signedUser) {
-    this.$menuContainer.innerHTML = signedUser ? menuButtons : '';
-    this.$signContainer.innerHTML = signedUser
+  renderNavButtons(signedUserName) {
+    this.$menuContainer.innerHTML = signedUserName ? menuButtons : '';
+    this.$signContainer.innerHTML = signedUserName
       ? linkButton({ link: ROUTE.SIGNOUT, text: MENU.SIGNOUT })
       : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
   }
