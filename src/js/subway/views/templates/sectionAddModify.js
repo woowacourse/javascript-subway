@@ -38,6 +38,11 @@ export const sectionAddModify = `
           placeholder="상행 하행역 시간 (분)"
         />
     </div>
+    <div
+      id="fail-message-box"
+      class="js-message-box message-box mt-1 text-red mb-1 text-center"
+      >
+    </div>
       <div class="d-flex justify-end mt-3">
         <button id="section-submit-button" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
       </div>

@@ -3,7 +3,7 @@ import { $ } from '../@shared/utils';
 import { stateManager } from '../@shared/models/StateManager';
 import { linkButton } from '../@shared/views/templates/linkButton';
 import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
-import { StationManage, LineManage, UserAuth, UserJoin } from './components';
+import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 
 export class Subway {
@@ -62,6 +62,7 @@ export class Subway {
     new UserAuth({ cache: this.cache });
     new StationManage({ $modal: this.$modalContainer, cache: this.cache });
     new LineManage({ $modal: this.$modalContainer, cache: this.cache });
+    new SectionManage({ $modal: this.$modalContainer, cache: this.cache });
   }
 
   bindEvent() {
