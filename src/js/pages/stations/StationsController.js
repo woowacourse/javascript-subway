@@ -1,6 +1,11 @@
 import { $, resetInput } from '../../utils/DOM.js';
 import user from '../../models/user.js';
 import StationsView from './StationsView.js';
+import {
+  addStationHandler,
+  saveModifyStationHandler,
+  deleteStationHandler,
+} from './StationHandlers.js';
 
 class StationsController {
   constructor(router) {
@@ -16,22 +21,17 @@ class StationsController {
     resetInput($('#stations-form'), $('#station-name'));
   }
 
-  async addStationHandler(e) {
+  async onStationAddBtnClick(e) {
     e.preventDefault();
 
-    try {
-      const stationName = e.target.elements['station-name'].value;
-      const newStation = await this.stationManager.addStation(stationName);
-
+    const newStation = await addStationHandler(e);
+    if (newStation) {
       this.stationsView.appendNewStation(newStation);
       resetInput(e.target, $('#station-name'));
-    } catch (error) {
-      alert('지하철 역 추가에 실패하였습니다.');
-      console.error('fail fetch');
     }
   }
 
-  async updateStationHandler(e) {
+  async onStationUpdateBtnClick(e) {
     // TODO : early return 이 필요한 부분인가?
     if (!e.target.classList.contains('btn')) return;
 
@@ -47,39 +47,30 @@ class StationsController {
         'new-station-name'
       ].value;
 
-      const resFlag = await this.stationManager.modifyStation(
-        Number(stationId),
-        newStationName
-      );
-
-      if (!resFlag) {
-        alert('역 수정에 실패했습니다.');
-        return;
+      const resFlag = await saveModifyStationHandler(stationId, newStationName);
+      if (resFlag) {
+        this.stationsView.renderModifyResult(e, stationId, newStationName);
       }
-
-      this.stationsView.renderModifyResult(e, stationId, newStationName);
     }
 
     if (e.target.classList.contains('js-delete-button')) {
       const targetStationId = e.target.closest('li').dataset.stationId;
-      const resFlag = await this.stationManager.deleteStation(targetStationId);
-      if (!resFlag) {
-        alert('역 삭제에 실패했습니다.');
-        return;
-      }
+      const resFlag = await deleteStationHandler(targetStationId);
 
-      this.stationsView.deleteResult(e);
+      if (resFlag) {
+        this.stationsView.deleteResult(e);
+      }
     }
   }
 
   bindEvents() {
     $('#stations-form').addEventListener(
       'submit',
-      this.addStationHandler.bind(this)
+      this.onStationAddBtnClick.bind(this)
     );
     $('#station-list').addEventListener(
       'click',
-      this.updateStationHandler.bind(this)
+      this.onStationUpdateBtnClick.bind(this)
     );
   }
 }
