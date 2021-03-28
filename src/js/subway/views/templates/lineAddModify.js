@@ -1,6 +1,6 @@
 import { palette } from './palette';
 
-export const lineModal = `
+export const lineAddModify = `
   <div id="modal-content" class="modal-inner p-8">
   <button class="modal-close">
     <svg viewbox="0 0 40 40">

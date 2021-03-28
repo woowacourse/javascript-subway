@@ -8,12 +8,13 @@ import { sectionManage } from './templates/sectionManage';
 import { ROUTE } from '../constants/constants';
 import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
-import { lineModal } from './templates/lineAddModify';
+import { lineAddModify } from './templates/lineAddModify';
+import { sectionAddModify } from './templates/sectionAddModify';
 
+export { menuButtons } from './templates/menuButtons';
 export { stationInfo, stationList } from './templates/stationManage';
 export { lineInfo, lineList } from './templates/lineManage';
-export { menuButtons } from './templates/menuButtons';
-export { sectionAddModal } from './templates/sectionAddModal';
+export { sectionInfo, sectionList } from './templates/sectionManage';
 
 export const mainElements = {
   [ROUTE.ROOT]: $('#main-content', parseToElements(root)),
@@ -26,5 +27,6 @@ export const mainElements = {
 
 export const modalElements = {
   [ROUTE.STATIONS]: $('#modal-content', parseToElements(stationModify)),
-  [ROUTE.LINES]: $('#modal-content', parseToElements(lineModal)),
+  [ROUTE.LINES]: $('#modal-content', parseToElements(lineAddModify)),
+  [ROUTE.SECTIONS]: $('#modal-content', parseToElements(sectionAddModify)),
 };
