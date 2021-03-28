@@ -56,7 +56,7 @@ class Station {
     // => 역 추가, 역 수정, 역 삭제
     this.$addStationForm = $(SELECTOR.ADD_STATION_FORM);
     this.$stationList = $(SELECTOR.STATION_LIST);
-    this.#modal.init();
+    this.#modal.init(this.#userAccessToken);
     this._bindEvent();
   }
 

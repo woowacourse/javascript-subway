@@ -1,26 +1,83 @@
-import { initModal, onModalShow } from '../../utils/modal.js';
+import {
+  onModalShow,
+  onModalClose,
+  bindModalCloseEvent,
+} from '../../utils/modal.js';
 import { $ } from '../../utils/dom.js';
+import { checkStationValid } from './stationValidator.js';
+import { REQUEST_METHOD, ACTIONS, BASE_URL } from '../../constants.js';
+import { request } from '../../utils/api.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 
 class StationModal {
+  #userAccessToken;
+
   constructor() {
     this.stationInfo = null;
+    this.#userAccessToken = null;
   }
 
-  init() {
-    initModal();
+  init(userAccessToken) {
+    this.#userAccessToken = userAccessToken;
+    this.initDOM();
   }
 
-  handleModifyStationOpen({ $stationItem, id, name }) {
+  initDOM() {
+    bindModalCloseEvent();
+
+    $('form[name="modify-station"]').addEventListener(
+      'submit',
+      this._handleModifyStationClose.bind(this),
+    );
+  }
+
+  handleModifyStationOpen(stationInfo) {
     onModalShow();
-    $('#station-modify-input').value = name;
+    this.stationInfo = stationInfo;
+    $('#station-modify-input').value = this.stationInfo.name;
     $('#station-modify-input').focus();
   }
 
-  _handleModifyStation() {
-    // 모달 열기 + input값 초기화
-    onModalClose();
+  async _handleModifyStationClose(e) {
+    e.preventDefault();
+
+    const { $stationItem, id, name } = this.stationInfo;
+    if ($('#station-modify-input').value === name) {
+      onModalClose();
+      return;
+    }
+
+    const message = checkStationValid(name);
+    if (message) {
+      alert(message);
+      return;
+    }
+
     // proccess 처리
+    try {
+      const option = {
+        method: REQUEST_METHOD.PUT,
+        Authorization: `Bearer ${this.#userAccessToken}`,
+        body: {
+          name,
+        },
+      };
+
+      const newStation = await request(
+        `${BASE_URL}${ACTIONS.STATIONS}/${id}`,
+        option,
+      ).then(res => {
+        return res.json();
+      });
+
+      // view 처리
+
+      onModalClose();
+      // 성공 snackbar
+    } catch (res) {
+      const message = await res.text();
+      showSnackbar(message);
+    }
   }
 }
-
 export default StationModal;
