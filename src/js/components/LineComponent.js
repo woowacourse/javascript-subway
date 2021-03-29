@@ -60,7 +60,7 @@ class LineComponent extends Component {
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
 
     const url = REQUEST_URL + '/lines';
-    const data = {
+    const bodyData = {
       name: lineName,
       color,
       upStationId,
@@ -73,13 +73,10 @@ class LineComponent extends Component {
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchLineCreation(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        bodyData,
+        accessToken,
       });
+
       //TODO:스낵바로 확인
       alert('노선 추가 완료');
 

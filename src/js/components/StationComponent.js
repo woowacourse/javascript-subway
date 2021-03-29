@@ -73,13 +73,10 @@ class StationComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationRemoval(url, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await fetchStationRemoval(url, accessToken);
+
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
+
       loadStationList(
         this.props.stationsState,
         this.props.accessTokenState.Data
@@ -106,20 +103,13 @@ class StationComponent extends Component {
     const revisionId = $input.dataset.id;
 
     const url = REQUEST_URL + `/stations/${revisionId}`;
-    const data = {
+    const bodyData = {
       name: revisionName,
     };
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationNameRevision(url, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      });
+      await fetchStationNameRevision(url, { bodyData, accessToken });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
       loadStationList(
@@ -144,19 +134,16 @@ class StationComponent extends Component {
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
     const url = REQUEST_URL + '/stations';
-    const data = { name: inputName };
+    const bodyData = { name: inputName };
     const accessToken = this.props.accessTokenState.Data;
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchStationCreation(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        bodyData,
+        accessToken,
       });
+
       //TODO:스낵바로 확인
       alert('역 추가 완료');
 
