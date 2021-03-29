@@ -92,5 +92,5 @@ export const SESSION_KEY = {
   ACCESS_TOKEN: 'ATK',
 };
 
-export const UP_STATION = '상행선';
-export const DOWN_STATION = '하행선';
+export const UP_STATION = '상행역';
+export const DOWN_STATION = '하행역';

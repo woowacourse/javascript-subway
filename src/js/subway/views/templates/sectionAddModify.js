@@ -9,15 +9,19 @@ export const sectionAddModify = `
       <h2 class="text-center">정보 입력</h2>
     </header>
     <form id="section-form">
-      <div class="js-non-modifiable input-control">
-        <select id="modal-line-selector">
-        </select>
+      <div class="d-flex justify-center items-center mb-3">
+      <input
+          type="text"
+          id="modal-line-name"
+          class="input-field text-center"
+          disabled
+        />
       </div>
-      <div class="js-non-modifable d-flex items-center input-control">
-        <select id="up-station-selector">
+      <div class="js-non-modifiable d-flex items-center input-control">
+        <select id="up-station">
         </select>
         <div class="d-inline-block mx-3 text-2xl">➡️</div>
-        <select id="down-station-selector">
+        <select id="down-station">
         </select>
       </div>
       <div class="input-control">

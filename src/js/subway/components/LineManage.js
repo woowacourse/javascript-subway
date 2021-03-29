@@ -45,8 +45,8 @@ export class LineManage {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      subwayView.renderStationOptions(UP_STATION, this.props.cache.stations);
-      subwayView.renderStationOptions(DOWN_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }

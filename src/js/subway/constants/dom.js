@@ -78,13 +78,14 @@ export const DOM = {
     },
     MODAL: {
       FORM: $('#section-form', modalElements[ROUTE.SECTIONS]),
+      LINE_NAME: $('#modal-line-name', modalElements[ROUTE.SECTIONS]),
       UP_STATION_SELECTOR: $('#up-station', modalElements[ROUTE.SECTIONS]),
       DOWN_STATION_SELECTOR: $('#down-station', modalElements[ROUTE.SECTIONS]),
       DISTANCE_INPUT: $('#distance', modalElements[ROUTE.SECTIONS]),
       DURATION_INPUT: $('#duration', modalElements[ROUTE.SECTIONS]),
       SUBMIT_BUTTON: $('#section-submit-button', modalElements[ROUTE.SECTIONS]),
       MSG: $('#fail-message-box', modalElements[ROUTE.SECTIONS]),
-      NON_MODIFIABLE: $$('.js-non-modifiable', modalElements[ROUTE.SECTIONS]),
+      NON_MODIFIABLE: $('.js-non-modifiable', modalElements[ROUTE.SECTIONS]),
     },
   },
 };

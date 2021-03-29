@@ -35,14 +35,9 @@ export const subwayView = {
     DOM.STATION.MAIN.LIST.innerHTML = stationList(stations);
   },
 
-  renderStationOptions: (defaultOption, stations = []) => {
-    const selector =
-      defaultOption === UP_STATION //
-        ? DOM.LINE.MODAL.UP_STATION_SELECTOR
-        : DOM.LINE.MODAL.DOWN_STATION_SELECTOR;
-
-    selector.innerHTML = selectorOption({ option: defaultOption, selected: true, disabled: true });
-    selector.innerHTML += stations //
+  renderStationOptions: ($selector, defaultOption, stations = []) => {
+    $selector.innerHTML = selectorOption({ option: defaultOption, selected: true, disabled: true });
+    $selector.innerHTML += stations //
       .map(({ id: value, name: option }) => selectorOption({ value, option }))
       .join('');
   },

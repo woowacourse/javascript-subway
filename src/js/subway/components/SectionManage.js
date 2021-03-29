@@ -1,7 +1,7 @@
-import { getFromSessionStorage, show } from '../../@shared/utils';
+import { getFromSessionStorage, show, $ } from '../../@shared/utils';
 import { DOM } from '../constants/dom';
-import { ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE } from '../constants/constants';
-import { lineManageAPI, showModal } from '../utils';
+import { ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE, UP_STATION, DOWN_STATION } from '../constants/constants';
+import { lineManageAPI, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../@shared/models/store';
 
@@ -14,7 +14,25 @@ export class SectionManage {
   }
 
   setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
     store[STATE_KEY.ROUTE].subscribe(this.updateLineOptions.bind(this));
+  }
+
+  async updateStationOptions(route) {
+    if (route !== ROUTE.SECTIONS) return;
+
+    try {
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+      if (this.props.cache.stations.length === 0) {
+        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      }
+
+      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOM.SECTION.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   async updateLineOptions(route) {
@@ -40,8 +58,19 @@ export class SectionManage {
 
   handleAddButton() {
     this.submitType = SUBMIT_TYPE.ADD;
+    const lineId = DOM.SECTION.MAIN.LINE_SELECTOR.value;
+
+    if (!lineId) {
+      alert('노선을 선택해 주세요.');
+
+      return;
+    }
+    DOM.SECTION.MODAL.FORM.dataset.lineId = lineId;
+
+    DOM.SECTION.MODAL.LINE_NAME.value = $(`option[value='${lineId}']`, DOM.SECTION.MAIN.LINE_SELECTOR).innerText;
     DOM.SECTION.MODAL.MSG.innerText = '';
-    show(...DOM.SECTION.MODAL.NON_MODIFIABLE);
+
+    show(DOM.SECTION.MODAL.NON_MODIFIABLE);
     showModal(DOM.CONTAINER.MODAL);
   }
 
