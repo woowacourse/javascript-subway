@@ -20,6 +20,10 @@ export default class Line {
     return this._name;
   }
 
+  get color() {
+    return this._color;
+  }
+
   get modifiedDate() {
     return this._modifiedDate;
   }

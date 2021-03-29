@@ -45,7 +45,7 @@ export const modalTemplate = `
         class="text-xs text-red w-100 ml-8 my-1 d-none"
       >노선이 이미 존재합니다.</p>
       </div>
-      <div class="d-flex items-center input-control">
+      <div class="updown-data d-flex items-center input-control">
         <label for="up-station" class="input-label" hidden>상행역</label>
         <select id="up-station" class="mr-2">
           <option value="" selected disabled hidden>상행역</option>
@@ -60,7 +60,7 @@ export const modalTemplate = `
           <option>서초</option>
         </select>
       </div>
-      <div class="input-control">
+      <div class="updown-data input-control">
         <label for="distance" class="input-label" hidden
           >상행 하행역 거리</label
         >

@@ -36,6 +36,8 @@ export default class LineModal {
     this.$lineUpStationSelect = $(SELECTOR.LINE_UP_STATION_SELECT);
     this.$lineDownStationSelect = $(SELECTOR.LINE_DOWN_STATION_SELECT);
     this.$lineColorSelector = $(SELECTOR.SUBWAY_LINE_COLOR_SELECTOR);
+    this.$lineColorInput = $(SELECTOR.LINE_COLOR_INPUT);
+    this.$lineUpdownInput = $(SELECTOR.LINE_UP_DOWN_STATION_INPUT);
   }
 
   bindEvents() {
@@ -46,14 +48,47 @@ export default class LineModal {
     this.$lineNameInput.addEventListener('focusout', this.checkNameDuplicated.bind(this));
   }
 
-  open() {
+  open(lineID) {
     this.$root.classList.add('open');
     this.activateInput();
     this.resetForm();
+    if (lineID) {
+      const line = this.store.lines.find((line) => line.id === Number(lineID));
+
+      this.type = 'edit';
+      this.setEditingState(line);
+      this.setEditForm(line);
+    } else {
+      this.type = 'open';
+      this.$lineUpdownInput.forEach(($input) => show($input));
+    }
+  }
+
+  setEditingState(line) {
+    const { name, color } = line;
+
+    this.state = { ...this.state, name, color };
+  }
+
+  setEditForm(line) {
+    const { name, color } = line;
+
+    this.$lineNameInput.setAttribute('placeholder', name);
+    this.$lineNameInput.setAttribute('value', name);
+    this.$lineColorInput.setAttribute('placeholder', color);
+    this.$lineColorInput.setAttribute('value', color);
+    this.$lineUpdownInput.forEach(($input) => hide($input));
   }
 
   resetForm() {
+    this.$lineNameInput.setAttribute('placeholder', '노선 이름');
+    this.$lineColorInput.setAttribute('placeholder', '색상을 아래에서 선택해주세요.');
+    this.$lineNameInput.removeAttribute('value');
+    this.$lineColorInput.removeAttribute('value');
+
     this.$lineCreationForm.reset();
+    hide(this.$lineDuplicatedWarning);
+
     const prevColorOption = this.$lineColorSelector.querySelector('.selected');
     if (prevColorOption) {
       prevColorOption.classList.remove('selected');
@@ -72,6 +107,15 @@ export default class LineModal {
 
   checkNameDuplicated(event) {
     const name = event.target.value;
+
+    if (this.type === 'edit') {
+      if (name === this.state.name) {
+        this.isLineNameAvailable = true;
+        hide(this.$lineDuplicatedWarning);
+
+        return;
+      }
+    }
 
     if (this.store.lines.find((line) => line.name === name)) {
       show(this.$lineDuplicatedWarning);
@@ -122,7 +166,7 @@ export default class LineModal {
     if (event.target.type !== 'button') return;
 
     const color = [...event.target.classList].find((className) => className.startsWith('bg-'));
-    $(SELECTOR.LINE_COLOR_INOUT).value = color;
+    $(SELECTOR.LINE_COLOR_INPUT).setAttribute('value', color);
 
     $(SELECTOR.COLOR_OPTION).forEach((option) => {
       if (option.classList.contains(color)) {
