@@ -114,10 +114,11 @@ export default class Stations extends Component {
       ""
     );
 
-    if (
-      stationName.length < STATION_NAME_MIN_LENGTH ||
-      stationName.length > STATION_NAME_MAX_LENGTH
-    ) {
+    const isValidNameLength =
+      stationName.length >= STATION_NAME_MIN_LENGTH &&
+      stationName.length <= STATION_NAME_MAX_LENGTH;
+
+    if (!isValidNameLength) {
       snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
       target.reset();
 
