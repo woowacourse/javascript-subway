@@ -57,13 +57,13 @@ export const subwayView = {
       .join('');
   },
 
-  renderSectionList: sections => {
+  renderSectionList: (sections = []) => {
     DOM.SECTION.MAIN.LIST.innerHTML = sectionList(sections);
   },
 
   fillLineColorBar: color => {
     const dot = DOM.SECTION.MAIN.LINE_COLOR_BAR;
-
+    dot.classList.remove('hidden');
     if (dot.dataset.color) {
       dot.classList.remove(dot.dataset.color);
     }

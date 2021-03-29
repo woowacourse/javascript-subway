@@ -1,7 +1,15 @@
 import { getFromSessionStorage, show, $ } from '../../@shared/utils';
 import { DOM } from '../constants/dom';
-import { ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE, UP_STATION, DOWN_STATION } from '../constants/constants';
-import { lineManageAPI, showModal, stationManageAPI } from '../utils';
+import { ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE, UP_STATION, DOWN_STATION, MESSAGE } from '../constants/constants';
+import {
+  hideModal,
+  isValidDistance,
+  isValidDuration,
+  lineManageAPI,
+  sectionManageAPI,
+  showModal,
+  stationManageAPI,
+} from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../@shared/models/store';
 
@@ -46,6 +54,25 @@ export class SectionManage {
       }
 
       subwayView.renderLineOptions(this.props.cache.lines);
+      DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
+      subwayView.renderSectionList();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async updateSections() {
+    try {
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+      const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
+
+      if (this.props.cache.lines.length === 0) {
+        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
+      }
+
+      const { sections } = this.props.cache.lines.find(line => line.id === lineId);
+
+      subwayView.renderSectionList(sections);
     } catch (error) {
       console.error(error.message);
     }
@@ -54,6 +81,7 @@ export class SectionManage {
   bindEvent() {
     DOM.SECTION.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
     DOM.SECTION.MAIN.LINE_SELECTOR.addEventListener('change', this.handleLineSelector.bind(this));
+    DOM.SECTION.MODAL.FORM.addEventListener('submit', this.handleSectionSubmit.bind(this));
   }
 
   handleAddButton() {
@@ -61,7 +89,7 @@ export class SectionManage {
     const lineId = DOM.SECTION.MAIN.LINE_SELECTOR.value;
 
     if (!lineId) {
-      alert('노선을 선택해 주세요.');
+      alert(MESSAGE.SECTION_MANAGE.LINE_SELECT_REQUIRED);
 
       return;
     }
@@ -81,4 +109,48 @@ export class SectionManage {
     subwayView.fillLineColorBar(color);
     subwayView.renderSectionList(sections);
   }
+
+  handleSectionSubmit(event) {
+    event.preventDefault();
+    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+    if (this.submitType === SUBMIT_TYPE.ADD) {
+      this.handleAddSubmit(accessToken);
+    } else if (this.submitType === SUBMIT_TYPE.MODIFY) {
+      this.handleModifySubmit(accessToken);
+    }
+  }
+
+  async handleAddSubmit(accessToken) {
+    const requestInfo = {
+      id: DOM.SECTION.MODAL.FORM.dataset.lineId,
+      upStationId: DOM.SECTION.MODAL.UP_STATION_SELECTOR.value,
+      downStationId: DOM.SECTION.MODAL.DOWN_STATION_SELECTOR.value,
+      distance: DOM.SECTION.MODAL.DISTANCE_INPUT.value,
+      duration: DOM.SECTION.MODAL.DURATION_INPUT.value,
+    };
+
+    if (requestInfo.upStationId === requestInfo.downStationId) {
+      DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.SAME_STATIONS;
+
+      return;
+    }
+
+    if (!(isValidDistance(requestInfo.distance) && isValidDuration(requestInfo.duration))) {
+      DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.INVALID_DISTANCE_DURATION;
+
+      return;
+    }
+
+    try {
+      await sectionManageAPI.addSection(accessToken, requestInfo);
+      this.props.cache.lines = [];
+      await this.updateSections();
+      DOM.SECTION.MODAL.FORM.reset();
+      hideModal(DOM.CONTAINER.MODAL);
+    } catch (error) {
+      DOM.SECTION.MODAL.MSG.innerText = error.message;
+    }
+  }
+  handleModifySubmit(accessToken) {}
 }
