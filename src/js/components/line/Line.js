@@ -1,38 +1,86 @@
+import LineModal from './LineModal.js';
 import { linesTemplate, modalTemplate } from './lineTemplate.js';
-import { colorOptions } from '/src/js/utils/mock.js';
-import { PAGE_TITLE } from '../../constants.js';
+
+import { ERROR_MESSAGE, PAGE_TITLE, STORAGE } from '../../constants.js';
 import { $ } from '../../utils/dom.js';
+import { getLocalStorageItem } from '../../utils/storage.js';
+import { stationAPI } from '../../../../api/station.js';
+import { lineAPI } from '../../../../api/line.js';
 
 class Line {
-  init() {}
+  #userAccessToken;
+  #stations;
+  #lines;
+  #modal;
+
+  constructor() {
+    this.#userAccessToken = null;
+    this.#stations = {};
+    this.#lines = {};
+    this.#modal = new LineModal({ updateLines: this.updateLines.bind(this) });
+  }
+
+  async init() {
+    this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
+    await this._initStations();
+    await this._initLines();
+  }
 
   getPageInfo() {
     return {
       title: PAGE_TITLE.LINES,
       contents: {
-        main: linesTemplate(),
-        modal: modalTemplate(),
+        main: linesTemplate(this.#lines),
+        modal: modalTemplate(this.#stations),
       },
     };
   }
 
   initDOM() {
-    this.selectDOM();
+    this.#modal.init(this.#userAccessToken);
+    this._bindEvent();
   }
 
-  // TODO(2단계) : 아래 메서드ㄷ 모듈화, 리팩토링
-  selectDOM() {
-    const $subwayLineColorSelector = $('.subway-line-color-selector');
-    $subwayLineColorSelector.innerHTML = colorOptions
-      .map(this.subwayLineColorOptionTemplate)
-      .join('');
+  _bindEvent() {
+    this._bindAddLineEvent();
   }
 
-  subwayLineColorOptionTemplate(color, index) {
-    const hasNewLine = (index + 1) % 7 === 0;
-    return `<button type="button" class="color-option bg-${color}"></button> ${
-      hasNewLine ? '<br/>' : ''
-    }`;
+  _bindAddLineEvent() {
+    $('.create-line-btn').addEventListener('click', e => {
+      this.#modal.handleAddLineOpen({ state: 'add' });
+    });
+  }
+
+  async _initStations() {
+    try {
+      this.#stations = {};
+
+      const stations = await stationAPI.getStations(this.#userAccessToken);
+      stations.forEach(({ id, ...rest }) => {
+        this.#stations[id] = rest;
+      });
+    } catch {
+      alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
+    }
+  }
+
+  async _initLines() {
+    try {
+      this.#lines = {};
+
+      const lines = await lineAPI.getLines(this.#userAccessToken);
+      console.log(lines);
+      lines.forEach(({ id, name, color }) => {
+        this.#lines[id] = { name, color };
+      });
+    } catch {
+      alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
+    }
+  }
+
+  updateLines(id, value) {
+    this.#lines[id] = value;
+    console.log(this.#lines);
   }
 }
 
