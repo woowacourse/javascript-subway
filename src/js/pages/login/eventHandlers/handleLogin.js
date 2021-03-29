@@ -4,9 +4,8 @@ import { requestLogin } from '../../../services/auth';
 import { AUTH } from '../../../constants/alertMessage';
 import { $, showElement } from '../../../utils/dom';
 
-export const login = async (email, password, option) => {
+export const login = async (email, password, { keepLogin }) => {
   const response = await requestLogin({ email, password });
-  const { keepLogin } = option;
 
   if (!response.success) {
     alert(AUTH.LOGIN_FAILED);

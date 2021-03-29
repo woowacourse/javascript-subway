@@ -1,5 +1,5 @@
 const debounceGenerator = () => {
-  let timerId;
+  let timerId = null;
 
   return (func, delay) => {
     clearTimeout(timerId);

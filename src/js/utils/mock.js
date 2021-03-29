@@ -1,4 +1,4 @@
-export const colorOptions = [
+export const colorOptions = Object.freeze([
   'gray-300',
   'gray-400',
   'gray-500',
@@ -69,4 +69,4 @@ export const colorOptions = [
   'pink-700',
   'pink-800',
   'pink-900',
-];
+]);
