@@ -62,6 +62,7 @@ class Station {
 
   async _initStations() {
     try {
+      this.#stations = {};
       const option = {
         Authorization: `Bearer ${this.#userAccessToken}`,
       };
