@@ -1,4 +1,5 @@
-import { requestCheckLogin } from '../services/auth';
+import { requestCheckLogin } from '../api/auth';
+import { STORE } from '../constants/alertMessage';
 import accessToken from './accessToken';
 import line from './line';
 import station from './station';
@@ -24,8 +25,12 @@ export const initStore = async () => {
 };
 
 export const initPrivateStore = async () => {
-  await station.init();
-  await line.init();
+  try {
+    await station.init();
+    await line.init();
+  } catch (error) {
+    alert(STORE.DATA_LOAD_FAILED);
+  }
 };
 
 export default store;

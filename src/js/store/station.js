@@ -1,4 +1,4 @@
-import { requestStationList } from '../services/station';
+import { requestStationList } from '../api/station';
 
 const station = {
   value: new Set(),

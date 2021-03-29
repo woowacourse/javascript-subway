@@ -1,11 +1,11 @@
 import { routeTo } from '../../utils/history';
 import { $, hideElement } from '../../utils/dom';
-import { requestCheckLogin } from '../../services/auth';
 import signupTemplate from './template';
 import handleValidateSignupForm from './eventHandlers/handleValidateSignupForm';
 import handleSignup from './eventHandlers/handleSignup';
 import handleCheckEmail from './eventHandlers/handleCheckEmail';
 import handleRoute from '../../eventHandlers/handleRoute';
+import { requestCheckLogin } from '../../api/auth';
 
 const mountSignup = async () => {
   const isLogin = await requestCheckLogin();

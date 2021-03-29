@@ -1,6 +1,6 @@
 import { STATION } from '../../../constants/alertMessage';
 import { STATION_NAME } from '../../../constants/service';
-import { requestAddStation } from '../../../services/station';
+import { requestAddStation } from '../../../api/station';
 import store from '../../../store';
 import { isInRange } from '../../../utils/validation';
 import { addStationListItem } from '../viewController';

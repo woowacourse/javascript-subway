@@ -29,4 +29,14 @@ export const LINE = Object.freeze({
   EDIT_LINE_FAILED: '노선 수정에 실패했습니다',
 });
 
-export const SECTION = Object.freeze({});
+export const SECTION = Object.freeze({
+  NO_AVAILABLE_STATION: '등록할 수 있는 역이 없습니다. 역을 추가해주세요.',
+  ADD_SECTION_FAILED: '구간 추가에 실패했습니다.',
+  EDIT_SECTION_FAILED: '구간 수정에 실패했습니다.',
+  DELETE_SECTION_FAILED: '구간 삭제에 실패했습니다.',
+  GET_SECTION_FAILED: '구간 조회에 실패했습니다.',
+});
+
+export const STORE = Object.freeze({
+  DATA_LOAD_FAILED: '데이터를 불러오는데 실패했습니다.',
+});

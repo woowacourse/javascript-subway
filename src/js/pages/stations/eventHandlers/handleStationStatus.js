@@ -1,9 +1,9 @@
-import { requestDeleteStation } from '../../../services/station';
 import { STATION } from '../../../constants/alertMessage';
 import store from '../../../store';
 import { updateStationNameEditModal } from '../viewController';
 import { openModal } from '../../../utils/modal';
 import { $ } from '../../../utils/dom';
+import { requestDeleteStation } from '../../../api/station';
 
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;

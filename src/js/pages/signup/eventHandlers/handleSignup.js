@@ -1,8 +1,8 @@
 import { AUTH } from '../../../constants/alertMessage';
-import { requestSignup } from '../../../services/auth';
+import { requestSignup } from '../../../api/auth';
 import { $, showElement } from '../../../utils/dom';
 import { routeTo } from '../../../utils/history';
-import { login } from '../../login/eventHandlers/handleLogin';
+import { login } from '../../../services/auth';
 
 const handleSignup = async event => {
   event.preventDefault();
@@ -24,7 +24,13 @@ const handleSignup = async event => {
 
   alert(AUTH.SIGNUP_SUCCESS);
 
-  await login(email.value, password.value, { keepLogin: false });
+  const isSuccess = await login(email.value, password.value, { keepLogin: false });
+
+  if (!isSuccess) {
+    routeTo('/login');
+    return;
+  }
+
   showElement($('#nav'));
   routeTo('/');
 };

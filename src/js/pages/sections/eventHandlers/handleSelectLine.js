@@ -1,7 +1,7 @@
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { getTextColorByBackgroundColor } from '../../../utils/style';
-import { sectionListItems } from '../template';
+import { updateSectionList } from '../viewController';
 
 const handleSelectLine = event => {
   const $lineSelect = event.currentTarget;
@@ -17,11 +17,10 @@ const handleSelectLine = event => {
 
   const stations = store.line.getLineStations(id);
   const sections = store.line.getLineSections(id);
-
   const data = [...sections, { upStation: stations[stations.length - 1] }];
 
   const $sectionList = $('.js-section-list');
-  $sectionList.innerHTML = sectionListItems(data);
+  updateSectionList(data);
   $sectionList.dataset.lineId = id;
 };
 
