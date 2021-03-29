@@ -3,6 +3,11 @@
   z-index: 3;
 }
 
+/* Layout - overflow */
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
 /* Layout - Position */
 .relative {
   position: relative;
