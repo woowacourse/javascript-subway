@@ -7,9 +7,10 @@ class Stations {
     this.userDataManager = new UserDataManager();
   }
 
-  init() {
+  async init() {
     this.selectDom();
     this.bindEvent();
+    !this.stationListTemplate && (await this.setStationListTemplate());
     this.renderStationList();
   }
 
@@ -39,18 +40,18 @@ class Stations {
     this.$modalStationNameEditForm.addEventListener('submit', this.handleStationNameEditForm.bind(this));
   }
 
-  async renderStationList() {
+  async setStationListTemplate() {
     try {
-      if (!this.stationListTemplate) {
-        const stationData = await requestGetStationList();
-        this.userDataManager.setStationData(stationData);
-        this.cacheStationListTemplate();
-      }
-
-      this.$stationListWrapper.insertAdjacentHTML('beforeend', this.stationListTemplate);
+      const stationData = await requestGetStationList();
+      this.userDataManager.setStationData(stationData);
+      this.cacheStationListTemplate();
     } catch (error) {
       alert(error.message);
     }
+  }
+
+  renderStationList() {
+    this.$stationListWrapper.innerHTML = this.stationListTemplate;
   }
 
   async handleStationForm(e) {
@@ -61,7 +62,7 @@ class Stations {
       validateName(stationName);
       const stationData = await requestAddStation({ name: stationName });
       this.userDataManager.setStationData(stationData);
-      this.renderAddedStation(stationData);
+      this.renderAddedStation(stationName);
       e.target['station-name'].value = '';
       this.cleanCacheStationListTemplate();
     } catch (error) {

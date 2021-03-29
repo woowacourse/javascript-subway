@@ -22,16 +22,7 @@ class App {
     this.selectDom();
     this.bindEvent();
     this.router = new Router(this.$mainScreen);
-    this.renderMain();
-  }
-
-  renderMain() {
-    const signInUser = isSignIn();
-
-    this.router.route(PATH.MAIN);
-    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest('a').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
-    signInUser ? this.showMenuButton() : this.hideMenuButton();
+    this.userDataManager = new UserDataManager();
   }
 
   init() {
@@ -42,6 +33,8 @@ class App {
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
+
+    this.setMainBySignInStatus();
   }
 
   selectDom() {
@@ -68,6 +61,22 @@ class App {
         this.handleSelectMenu(e);
       }
     });
+  }
+
+  setMainBySignInStatus() {
+    const signInUser = isSignIn();
+
+    this.router.route(PATH.MAIN);
+
+    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
+    this.$signInButton.closest('a').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
+    signInUser ? this.showMenuButton() : this.hideMenuButton();
+
+    signInUser && this.setInitialUserData();
+  }
+
+  setInitialUserData() {
+    this.stations.setStationListTemplate();
   }
 
   handleSelectMenu(e) {
@@ -112,12 +121,12 @@ class App {
 
   changeFromSignOutToSignInStatus(accessToken) {
     token.setToken(accessToken);
-    this.renderMain();
+    this.setMainBySignInStatus();
   }
 
   changeFromSignInToSignOutStatus() {
     token.removeToken();
-    this.renderMain();
+    this.setMainBySignInStatus();
   }
 
   showMenuButton() {

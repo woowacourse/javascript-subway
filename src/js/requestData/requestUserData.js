@@ -53,7 +53,6 @@ export const requestAddLine = async ({ name, color, upStationId, downStationId, 
 
     return await response.json();
   } catch (error) {
-    console.dir(error);
     throw new Error('노선 생성에 실패했습니다.');
   }
 };
