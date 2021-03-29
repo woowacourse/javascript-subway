@@ -20,15 +20,6 @@ export default class UserDataManager {
     this.stations = [...this.stations, stationData];
   }
 
-  setLineData(lineData) {
-    if (Array.isArray(lineData)) {
-      this.lines = lineData;
-      return;
-    }
-
-    this.lines = [...this.lines, lineData];
-  }
-
   getStationId(stationName) {
     return this.stations.find((station) => station.name === stationName).id;
   }
@@ -39,5 +30,18 @@ export default class UserDataManager {
 
   removeStation(stationName) {
     this.stations = this.stations.filter((station) => station.name !== stationName);
+  }
+
+  setLineData(lineData) {
+    if (Array.isArray(lineData)) {
+      this.lines = lineData;
+      return;
+    }
+
+    this.lines = [...this.lines, lineData];
+  }
+
+  getLineColors() {
+    return this.lines.map((line) => line.color);
   }
 }

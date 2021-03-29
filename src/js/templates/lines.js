@@ -14,12 +14,12 @@ export const getStationOptionsTemplate = (stations) => {
 
   return `
     <label for="up-station" class="input-label" hidden>상행역</label>
-    <select id="up-station" class="up-station-selector mr-2">
+    <select id="up-station" class="up-station-selector mr-2" required>
       <option value="" selected disabled hidden>상행역</option>
       ${stationOptionTemplate}
     </select>
     <label for="down-station" class="input-label" hidden>하행역</label>
-    <select id="down-station" class="down-station-selector">
+    <select id="down-station" class="down-station-selector" required>
       <option value="" selected disabled hidden>하행역</option>
       ${stationOptionTemplate}
     </select>

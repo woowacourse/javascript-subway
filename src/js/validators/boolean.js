@@ -33,3 +33,15 @@ export const isAllSignUpInputSuccess = () => {
 export const isAllSignInInputSuccess = () => {
   return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
 };
+
+export const isStationNameUnderMinLength = (stationName) => {
+  return stationName.length < 2;
+};
+
+export const isStationNameOverMaxLength = (stationName) => {
+  return stationName.length > 20;
+};
+
+export const isDuplicatedLineColor = (selectedColor, colorList) => {
+  return colorList.includes(selectedColor);
+};

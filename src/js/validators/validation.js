@@ -3,6 +3,7 @@ import {
   isInvalidUserNameType,
   isUnderPasswordMinLength,
   isDifferentPasswordAndPasswordConfirm,
+  isDuplicatedLineColor,
 } from './boolean';
 import { ERROR_MESSAGE } from '../utils/constants';
 
@@ -27,5 +28,15 @@ export const validatePassword = (password) => {
 export const validatePasswordConfirm = (password, passwordConfirm) => {
   if (isDifferentPasswordAndPasswordConfirm(password, passwordConfirm)) {
     throw new Error(ERROR_MESSAGE.DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM);
+  }
+};
+
+export const validateLineColor = (selectedColor, colorList) => {
+  if (!selectedColor) {
+    throw new Error('색을 선택해주세요.');
+  }
+
+  if (isDuplicatedLineColor(selectedColor, colorList)) {
+    throw new Error('이미 같은 색의 노선이 존재합니다.');
   }
 };

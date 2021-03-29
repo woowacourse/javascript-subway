@@ -56,3 +56,17 @@ export const requestAddLine = async ({ name, color, upStationId, downStationId, 
     throw new Error('노선 생성에 실패했습니다.');
   }
 };
+
+export const requestGetLineList = async () => {
+  try {
+    const response = await httpClient.get({ path: `/lines`, accessToken: token.accessToken });
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error('노선 목록 조회에 실패했습니다.');
+  }
+};

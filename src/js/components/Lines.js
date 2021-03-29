@@ -1,7 +1,8 @@
 import { $ } from '../utils/dom';
 import { selectedColorTemplate, getStationOptionsTemplate, getLineListTemplate } from '../templates/lines';
-import { requestAddLine } from '../requestData/requestUserData';
+import { requestAddLine, requestGetLineList } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
+import { validateLineColor } from '../validators/validation';
 
 class Lines {
   constructor() {
@@ -10,9 +11,11 @@ class Lines {
     this.userDataManager = new UserDataManager();
   }
 
-  init() {
+  async init() {
     this.selectDom();
     this.bindEvent();
+    !this.lineListTemplate && (await this.setLineListTemplate());
+    this.renderLineList();
   }
 
   selectDom() {
@@ -41,6 +44,20 @@ class Lines {
     });
   }
 
+  async setLineListTemplate() {
+    try {
+      const lineData = await requestGetLineList();
+      this.userDataManager.setLineData(lineData);
+      this.cacheLineListTemplate();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  renderLineList() {
+    this.$lineListWrapper.innerHTML = this.lineListTemplate;
+  }
+
   handleCreateLineButton() {
     this.$selectedColor.innerHTML = selectedColorTemplate();
     this.selectedLineColor = '';
@@ -50,10 +67,6 @@ class Lines {
 
   async handleCreateLineForm(e) {
     e.preventDefault();
-    if (!this.selectedLineColor) {
-      alert('색을 선택해주세요.');
-      return;
-    }
 
     const lineName = e.target['subway-line-name'].value;
     const upStationId = this.userDataManager.getStationId(e.target['up-station'].value);
@@ -62,6 +75,7 @@ class Lines {
     const duration = e.target.duration.valueAsNumber;
 
     try {
+      validateLineColor(this.selectedLineColor, this.userDataManager.getLineColors());
       const lineData = await requestAddLine({
         name: lineName,
         color: this.selectedLineColor,
