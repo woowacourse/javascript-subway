@@ -39,7 +39,7 @@ export const stationsTemplate = stations => {
 export const stationTemplate = (id, { name }) => {
   return `
   <li class="station-list-item d-flex items-center py-2" data-station-id=${id}>
-  <span class="w-100 pl-2">${name}</span>
+  <span class="station-list-item-name w-100 pl-2">${name}</span>
   <button
   type="button"
   class="modify-button modal-trigger-btn bg-gray-50 text-gray-500 text-sm mr-1"

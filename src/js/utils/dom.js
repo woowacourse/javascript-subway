@@ -1,8 +1,10 @@
 import { REQUEST_METHOD } from '../constants';
 
-export const $ = selector => document.querySelector(selector);
+export const $ = (selector, $element = document) =>
+  $element.querySelector(selector);
 
-export const $$ = selector => document.querySelectorAll(selector);
+export const $$ = (selector, $element = document) =>
+  $element.querySelectorAll(selector);
 
 export const getFormData = formCollections => {
   return Array.from(formCollections)
