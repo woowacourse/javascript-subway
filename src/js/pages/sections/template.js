@@ -42,11 +42,33 @@ const sectionAddModalTemplate = `
       <header>
         <h2 class="text-center">🔁 구간 추가</h2>
       </header>
-      <form id="section-add-form">
-        <div class="d-flex items-center input-control">
-          <select id="up-station"></select>
-          <div class="d-inline-block mx-3 text-2xl">➡️</div>
-          <select id="down-station"></select>
+      <form id="section-add-form" class="d-flex flex-col items-center">
+        <label for="up-station" class="input-label" hidden>상행역</label>
+        <select name="up-station-id" id="up-station" class="mb-4" required></select>
+        <div class="mx-3 text-2xl mb-4">⬇️</div>
+        <label for="distance" class="input-down-statio" hidden>하행역</label>
+        <select name="down-station-id" id="down-station" class="mb-4" required></select>
+        <div class="input-control mb-4">
+          <label for="duration" class="input-label" hidden>소요시간</label>
+          <input
+            type="number"
+            class="input-field mr-4"
+            id="duration"
+            name="duration"
+            placeholder="소요시간"
+            min="0"
+            required
+          />
+          <label for="distance" class="input-label" hidden>거리</label>
+          <input
+            type="number"
+            class="input-field"
+            placeholder="거리"
+            id="distance"
+            name="distance"
+            min="0"
+            required
+          />
         </div>
         <div class="d-flex justify-end mt-3">
           <button

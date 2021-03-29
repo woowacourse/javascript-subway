@@ -1,4 +1,4 @@
-import { requestCheckEmail } from '../../../services/auth';
+import { requestCheckEmail } from '../../../api/auth';
 import debounce from '../../../utils/debounce';
 import { $ } from '../../../utils/dom';
 import handleValidateSignupForm from './handleValidateSignupForm';

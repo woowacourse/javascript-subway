@@ -1,4 +1,4 @@
-import { requestCheckLogin } from '../services/auth';
+import { requestCheckLogin } from '../api/auth';
 import store from '../store';
 import { routeTo } from '../utils/history';
 

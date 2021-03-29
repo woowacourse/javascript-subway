@@ -1,5 +1,5 @@
+import { requestEditStation } from '../../../api/station';
 import { STATION } from '../../../constants/alertMessage';
-import { requestEditStation } from '../../../services/station';
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { closeModal } from '../../../utils/modal';
