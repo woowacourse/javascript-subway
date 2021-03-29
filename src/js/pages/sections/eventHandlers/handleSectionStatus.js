@@ -2,7 +2,7 @@ import { getAvailableStations, getSections } from '../../../services/section';
 import { $ } from '../../../utils/dom';
 import { openModal } from '../../../utils/modal';
 import { SECTION, STORE } from '../../../constants/alertMessage';
-import { initDownStationSelect, initUpStationSelect, setMaxNumber, updateSectionList } from '../viewController';
+import { updateDownStationAddModal, updateSectionList, updateUpStationAddModal } from '../viewController';
 import { requestDeleteSection } from '../../../api/section';
 import store from '../../../store';
 
@@ -10,6 +10,13 @@ const deleteSection = async ({ lineId, stationId }) => {
   if (!window.confirm(SECTION.DELETE_SECTION_CONFIRM)) return;
 
   const result = await requestDeleteSection({ lineId, stationId });
+  try {
+    store.line.init();
+    updateSectionList(getSections(lineId));
+  } catch (error) {
+    alert(STORE.DATA_LOAD_FAILED);
+    return;
+  }
 
   if (!result.success) {
     alert(result.message);
@@ -18,11 +25,15 @@ const deleteSection = async ({ lineId, stationId }) => {
 };
 
 const handleSectionStatus = async event => {
+  if (!event.target.classList.contains('js-section-status-button')) return;
+
   const $targetSection = event.target.closest('.js-section-list-item');
 
   const lineId = Number($('.js-section-list').dataset.lineId);
   const upStationId = Number($targetSection.dataset.upStationId);
   const upStationName = $targetSection.dataset.upStationName;
+  const downStationId = Number($targetSection.dataset.downStationId);
+  const downStationName = $targetSection.dataset.downStationName;
   const distance = Number($targetSection.dataset.distance);
   const duration = Number($targetSection.dataset.duration);
 
@@ -34,22 +45,17 @@ const handleSectionStatus = async event => {
       return;
     }
 
-    initUpStationSelect({ id: upStationId, name: upStationName });
-
-    const availableDownStations = getAvailableStations(lineId);
-    initDownStationSelect(availableDownStations);
-
-    setMaxNumber({ distance: distance - 1, duration: duration - 1 });
+    if (!upStationId) {
+      updateUpStationAddModal({ lineId, downStationId, downStationName, distance, duration });
+    } else {
+      updateDownStationAddModal({ lineId, upStationId, upStationName, distance, duration });
+    }
 
     openModal($('#section-add-modal'));
   }
 
-  if (event.target.classList.contains('section-edit-button')) {
-    openModal($('#section-edit-modal'));
-  }
-
   if (event.target.classList.contains('section-delete-button')) {
-    await deleteSection({ lineId, stationId: upStationId });
+    deleteSection({ lineId, stationId: upStationId });
 
     try {
       await store.line.init();
