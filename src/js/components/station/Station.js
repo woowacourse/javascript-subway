@@ -108,8 +108,8 @@ class Station {
   async _handleAddStation(e) {
     e.preventDefault();
 
-    const name = e.target.elements[FORM.STATION.ADD_INPUT].value;
-    const message = checkStationValid(name);
+    const stationName = e.target.elements[FORM.STATION.ADD_INPUT].value;
+    const message = checkStationValid(stationName);
     if (message) {
       alert(message);
       return;
@@ -121,11 +121,11 @@ class Station {
         method: REQUEST_METHOD.POST,
         Authorization: `Bearer ${this.#userAccessToken}`,
         body: {
-          name,
+          name: stationName,
         },
       };
 
-      const newStation = await request(
+      const { id, name } = await request(
         `${BASE_URL}${ACTIONS.STATIONS}`,
         option,
       ).then(res => {
@@ -134,7 +134,7 @@ class Station {
 
       this.$stationList.insertAdjacentHTML(
         'beforeend',
-        stationTemplate(newStation),
+        stationTemplate(id, { name }),
       );
 
       clearForm(this.$addStationForm);

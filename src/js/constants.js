@@ -37,6 +37,7 @@ export const SELECTOR = {
   PASSWORD: '#password',
   PASSWORD_CONFIRM: '#password-confirm',
   STATION_LIST: '#station-list',
+  STATION_ITEM_NAME: '.station-list-item-name',
 };
 
 export const CLASS_NAME = {
@@ -78,6 +79,7 @@ export const SUCCESS_MESSAGE = {
   PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
   ADD_STATION: '역이 추가되었습니다! 🚇',
   REMOVE_STATION: '역이 제거되었습니다!',
+  MODIFY_STATION: '역명이 수정되었습니다 !',
 };
 
 export const ERROR_MESSAGE = {

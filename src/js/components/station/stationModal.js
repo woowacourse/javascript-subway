@@ -5,7 +5,13 @@ import {
 } from '../../utils/modal.js';
 import { $ } from '../../utils/dom.js';
 import { checkStationValid } from './stationValidator.js';
-import { REQUEST_METHOD, ACTIONS, BASE_URL } from '../../constants.js';
+import {
+  REQUEST_METHOD,
+  ACTIONS,
+  BASE_URL,
+  SELECTOR,
+  SUCCESS_MESSAGE,
+} from '../../constants.js';
 import { request } from '../../utils/api.js';
 import { showSnackbar } from '../../utils/snackbar.js';
 
@@ -41,39 +47,33 @@ class StationModal {
   async _handleModifyStationClose(e) {
     e.preventDefault();
 
+    const newName = $('#station-modify-input').value;
     const { $stationItem, id, name } = this.stationInfo;
-    if ($('#station-modify-input').value === name) {
+    if (newName === name) {
       onModalClose();
       return;
     }
 
-    const message = checkStationValid(name);
+    const message = checkStationValid(newName);
     if (message) {
       alert(message);
       return;
     }
 
-    // proccess 처리
     try {
       const option = {
         method: REQUEST_METHOD.PUT,
         Authorization: `Bearer ${this.#userAccessToken}`,
         body: {
-          name,
+          name: newName,
         },
       };
 
-      const newStation = await request(
-        `${BASE_URL}${ACTIONS.STATIONS}/${id}`,
-        option,
-      ).then(res => {
-        return res.json();
-      });
+      await request(`${BASE_URL}${ACTIONS.STATIONS}/${id}`, option);
 
-      // view 처리
-
+      $(SELECTOR.STATION_ITEM_NAME, $stationItem).innerHTML = newName;
       onModalClose();
-      // 성공 snackbar
+      showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (res) {
       const message = await res.text();
       showSnackbar(message);
