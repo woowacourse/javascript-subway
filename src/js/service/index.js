@@ -12,4 +12,5 @@ export {
   getCreatedLineData,
   lineDeleted,
   isLineEdited,
+  getSectionData,
 } from './serviceAPI.js';
