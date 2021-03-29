@@ -72,6 +72,9 @@ export const DOM = {
   SECTION: {
     MAIN: {
       ADD_MODAL_BUTTON: $('#section-add-modal-button', mainElements[ROUTE.SECTIONS]),
+      LINE_COLOR_BAR: $('.section-hr', mainElements[ROUTE.SECTIONS]),
+      LINE_SELECTOR: $('#main-line-selector', mainElements[ROUTE.SECTIONS]),
+      LIST: $('#section-list', mainElements[ROUTE.SECTIONS]),
     },
     MODAL: {
       FORM: $('#section-form', modalElements[ROUTE.SECTIONS]),

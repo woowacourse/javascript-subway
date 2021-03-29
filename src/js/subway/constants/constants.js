@@ -68,6 +68,9 @@ export const MESSAGE = {
     SAME_STATIONS: '상행역과 하행역은 달라야 합니다.',
     INVALID_DISTANCE_DURATION: '유효한 거리와 시간을 입력해 주세요.',
   },
+  SECTION_MANAGE: {
+    LINE_DEFAULT_OPTION: '노선 선택',
+  },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',
     LINE_REMOVE: '해당 노선을 삭제하시겠습니까?',

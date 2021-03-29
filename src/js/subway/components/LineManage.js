@@ -31,8 +31,8 @@ export class LineManage {
   }
 
   setup() {
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.updateLines.bind(this));
     store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.updateLines.bind(this));
   }
 
   async updateStationOptions(route) {
@@ -55,9 +55,12 @@ export class LineManage {
   async updateLines() {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const lines = await lineManageAPI.getLines(accessToken);
 
-      subwayView.renderLineList(lines);
+      if (this.props.cache.lines.length === 0) {
+        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
+      }
+
+      subwayView.renderLineList(this.props.cache.lines);
     } catch (error) {
       console.error(error.message);
     }
@@ -143,6 +146,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.addLine(accessToken, requestInfo);
+      this.props.cache.lines = [];
       await this.updateLines(ROUTE.LINE);
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -163,6 +167,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
+      this.props.cache.lines = [];
       await this.updateLines();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -184,6 +189,7 @@ export class LineManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
       $line.remove();
+      this.props.cache.lines = [];
     } catch (error) {
       console.error(error.message);
     }
