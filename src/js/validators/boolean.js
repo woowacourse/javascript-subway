@@ -41,3 +41,7 @@ export const isStationNameUnderMinLength = (stationName) => {
 export const isStationNameOverMaxLength = (stationName) => {
   return stationName.length > 20;
 };
+
+export const isDuplicatedLineColor = (selectedColor, colorList) => {
+  return colorList.includes(selectedColor);
+};
