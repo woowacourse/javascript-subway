@@ -32,7 +32,6 @@ export const SELECTOR = {
   STATION_NAME_INPUT: '#station-name',
   STATION_DUPLICATED_WARNING: '#station-duplicated-warning',
 
-  STATION_NAME_EDIT_INPUT: '#station-name-edit',
   STATION_NAME_EDIT_FORM: '#station-name-edit-form',
   STATION_NAME_EDIT_INPUT: '#station-name-edit',
   STATION_NAME_EDIT_DUPLICATED_WARNING: '#station-edit-duplicated-warning',
@@ -44,11 +43,12 @@ export const SELECTOR = {
 
   LINE_CREATION_FORM: '#subway-line-form',
   LINE_NAME_INPUT: '#subway-line-name',
+  LINE_UP_DOWN_STATION_INPUT: '.updown-data',
   LINE_UP_STATION_SELECT: '#up-station',
   LINE_DOWN_STATION_SELECT: '#down-station',
   LINE_DUPLICATED_WARNING: '#line-duplicated-warning',
 
-  LINE_COLOR_INOUT: '#subway-line-color',
+  LINE_COLOR_INPUT: '#subway-line-color',
   COLOR_OPTION: '.color-option',
 
   SUBWAY_LINE_SELECT: '#subway-line',
