@@ -15,7 +15,14 @@ const handleSelectLine = event => {
   const rgb = window.getComputedStyle($lineSelect, null).backgroundColor;
   $lineSelect.style.color = getTextColorByBackgroundColor(rgb);
 
-  $('.js-section-list').innerHTML = sectionListItems(store.line.getLineStations(id));
+  const stations = store.line.getLineStations(id);
+  const sections = store.line.getLineSections(id);
+
+  const data = [...sections, { upStation: stations[stations.length - 1] }];
+
+  const $sectionList = $('.js-section-list');
+  $sectionList.innerHTML = sectionListItems(data);
+  $sectionList.dataset.lineId = id;
 };
 
 export default handleSelectLine;

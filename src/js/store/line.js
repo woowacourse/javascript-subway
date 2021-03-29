@@ -50,6 +50,12 @@ const line = {
     return targetLine.color;
   },
 
+  getLineSections(lineId) {
+    const targetLine = [...this.value].find(({ id }) => id === lineId);
+
+    return targetLine.sections;
+  },
+
   getLineStations(lineId) {
     const targetLine = [...this.value].find(({ id }) => id === lineId);
 
