@@ -170,7 +170,6 @@ export const getSectionData = async ({ token, id }) => {
     return null;
   }
 
-  // return lineData.sections;
   return lineData.stations;
 };
 
@@ -186,5 +185,20 @@ export const getCreatedSectionData = async ({ token, id, contents }) => {
   } catch (status) {
     console.error(status);
     return null;
+  }
+};
+
+export const sectionDeleted = async ({ token, lineId, stationId }) => {
+  try {
+    await API.deleteSection({
+      token,
+      lineId,
+      stationId,
+    });
+
+    return true;
+  } catch (status) {
+    console.error(status);
+    return false;
   }
 };

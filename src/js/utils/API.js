@@ -149,6 +149,6 @@ export const API = {
   },
 
   deleteSection: ({ token, lineId, stationId }) => {
-    return request.delete({ url: `lines/${lineId}/sections?stationId=${stationId}`, token });
+    return request.delete({ url: `/lines/${lineId}/sections?stationId=${stationId}`, token });
   },
 };
