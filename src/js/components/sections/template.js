@@ -5,14 +5,14 @@ export const sectionListTemplate = (station, index) => {
       <button
         type="button"
         class="section-edit-button bg-gray-50 text-gray-500 text-sm mr-1"
-        data-index=${index}
+        data-id=${station.id}
       >
         수정
       </button>
       <button
         type="button"
         class="section-delete-button bg-gray-50 text-gray-500 text-sm"
-        data-index=${index}
+        data-id=${station.id}
       >
         삭제
       </button>

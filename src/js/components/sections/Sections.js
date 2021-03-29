@@ -1,8 +1,14 @@
 import Component from '../../core/Component.js';
 import { sectionListTemplate, sectionsTemplate } from './template.js';
-import { $, showSnackbar } from '../../utils/index.js';
-import { LOGIN_REQUIRED_TEMPLATE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import { getStationList, getLineList, getSectionData, getCreatedSectionData } from '../../service/index.js';
+import { $, customConfirm, showSnackbar } from '../../utils/index.js';
+import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
+import {
+  getStationList,
+  getLineList,
+  getSectionData,
+  getCreatedSectionData,
+  sectionDeleted,
+} from '../../service/index.js';
 
 export default class Sections extends Component {
   #token;
@@ -20,6 +26,7 @@ export default class Sections extends Component {
     this.$lineSelect = $('#line-select');
     this.$sectionListContainer = $('#section-list-container');
     this.$createSectionButton = $('.create-section-btn');
+    this.$sectionContainer = $('.sections-container');
   }
 
   bindEvent() {
@@ -27,6 +34,40 @@ export default class Sections extends Component {
     this.$createSectionButton.addEventListener('click', this.handleModalOpen.bind(this));
     this.$modalCloseButton.addEventListener('click', this.handleModalClose.bind(this));
     this.$modalForm.addEventListener('submit', this.handleSectionForm.bind(this));
+    this.$sectionContainer.addEventListener('click', this.handleSectionDelete.bind(this));
+  }
+
+  async handleSectionDelete({ target }) {
+    if (!target.classList.contains('section-delete-button')) {
+      return;
+    }
+
+    const $sectionListItem = target.closest('.section-list-item');
+
+    console.log($sectionListItem);
+
+    const stationName = $sectionListItem.querySelector('.section-name').innerText;
+    const stationId = target.dataset.id;
+
+    const confirm = await customConfirm(MESSAGE.DELETE_CONFIRM(stationName));
+
+    if (!confirm) {
+      return;
+    }
+
+    const isDeleted = await sectionDeleted({
+      token: this.#token,
+      lineId: this.#lineId,
+      stationId,
+    });
+
+    if (!isDeleted) {
+      showSnackbar(SNACKBAR_MESSAGE.DELETE_FAILURE);
+      return;
+    }
+
+    $sectionListItem.remove();
+    showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
   }
 
   async handleSectionForm(e) {
