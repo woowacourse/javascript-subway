@@ -39,16 +39,11 @@ class LoginComponent extends Component {
     const password = event.target[ID_SELECTOR.LOGIN_FORM_PASSWORD].value;
 
     const url = REQUEST_URL + '/login/token';
-    const data = { email, password };
+    const bodyData = { email, password };
 
     try {
-      const response = await fetchLogin(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      });
+      const response = await fetchLogin(url, bodyData);
+
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
       const { accessToken } = await response.json();
