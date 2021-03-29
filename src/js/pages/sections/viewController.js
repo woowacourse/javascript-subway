@@ -15,6 +15,8 @@ export const updateSectionList = sections => {
 };
 
 export const setMaxNumber = ({ distance, duration }) => {
-  $('#section-add-form #distance').setAttribute('max', distance);
-  $('#section-add-form #duration').setAttribute('max', duration);
+  if (distance > 0 && duration > 0) {
+    $('#section-add-form #distance').setAttribute('max', distance);
+    $('#section-add-form #duration').setAttribute('max', duration);
+  }
 };

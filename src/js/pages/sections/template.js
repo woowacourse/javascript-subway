@@ -56,7 +56,7 @@ const sectionAddModalTemplate = `
             id="duration"
             name="duration"
             placeholder="소요시간"
-            min="0"
+            min="1"
             required
           />
           <label for="distance" class="input-label" hidden>거리</label>
@@ -66,7 +66,7 @@ const sectionAddModalTemplate = `
             placeholder="거리"
             id="distance"
             name="distance"
-            min="0"
+            min="1"
             required
           />
         </div>
@@ -84,7 +84,7 @@ const sectionAddModalTemplate = `
   </div>
 `;
 
-const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration = -1 }) => `
+const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration = -1, isDeletable }) => `
   <li
     class="js-section-list-item d-flex items-center relative list-item"
     data-up-station-id="${upStation.id}"
@@ -95,12 +95,16 @@ const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration 
     data-duration="${duration}"
   >
     <span class="w-100 pl-6">${upStation.name}</span>
-    <button
-      type="button"
-      class="list-button js-section-delete-button section-delete-button"
-    >
-      ❌
-    </button>
+   ${
+     isDeletable
+       ? `<button
+            type="button"
+            class="list-button js-section-delete-button section-delete-button"
+          >
+            ❌
+          </button>`
+       : ''
+   }
     <div class="section-detail">
       ${duration > -1 ? `<div class="section-duration">${duration}</div>` : ''}
       ${distance > -1 ? `<div class="section-distance">${distance}</div>` : ''}
@@ -122,12 +126,15 @@ const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration 
   </li>
 `;
 
-export const sectionListItems = sections =>
-  sections
+export const sectionListItems = sections => {
+  const isDeletable = sections.length > 2;
+
+  return sections
     .map(({ upStation, downStation, distance, duration }) =>
-      sectionListItem({ upStation, downStation, distance, duration })
+      sectionListItem({ upStation, downStation, distance, duration, isDeletable })
     )
     .join('');
+};
 
 const sectionsPageTemplate = (lines = []) => `
   <div class="d-flex justify-center mt-5 w-100">
