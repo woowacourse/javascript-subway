@@ -54,10 +54,11 @@ router.initRouteEvent();
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);
 state.subscribe(STATE_KEY.STATION_LIST, station);
 state.subscribe(STATE_KEY.LINE_LIST, line);
-// state.subscribe(STATE_KEY.LINE_LIST, section);
-// state.subscribe(STATE_KEY.STATION_LIST, section);
+state.subscribe(STATE_KEY.LINE_LIST, section);
+state.subscribe(STATE_KEY.STATION_LIST, section);
 state.subscribe(STATE_KEY.TARGET_LINE_ID, lineModal);
 state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, sectionModal);
+state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, section);
 // targetSectionLineId 어떻게 운영할 지 고민
 // section modal이 length of undefined로 안 열림
 // line API 구조 수정(API로 날아오는 데이터 구조가 바뀜)

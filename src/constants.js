@@ -8,6 +8,7 @@ export const SELECTOR_ID = Object.freeze({
   SECTION_STATION_LIST: 'section-station-list',
   SECTION_MODAL_OPEN: 'section__modal-open',
   SECTION_LINE: 'section-line',
+  SECTION_LINE_SELECT: 'section-line-select',
   LINES: 'lines',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
   SUBWAY_LINE_FORM: 'subway-line-form',
@@ -130,4 +131,8 @@ export const PAGE_TITLE = Object.freeze({
   SIGN_UP: '🚇 회원가입',
   SEARCH: '🚇 길찾기',
   SUBWAY: '🚇 전체 보기',
+});
+
+export const SETTINGS = Object.freeze({
+  NOT_INITIATED_NUMBER: -1,
 });

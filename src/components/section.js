@@ -1,4 +1,4 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_ID, STATE_KEY } from '../constants.js';
+import { FILE_PATH, PAGE_TITLE, SELECTOR_ID, SETTINGS, STATE_KEY } from '../constants.js';
 import { delegateSectionClickEvent } from '../delegators/section.js';
 import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
@@ -30,22 +30,30 @@ export default class Section extends Observer {
   renderComponent() {
     const lineListContainer = $(this.#lineListSelector);
     const stationListContainer = $(this.#stationListSelector);
-    if (!lineListContainer || !stationListContainer) return;
-    
-    lineListContainer.innerHTML = this.#state
-      .get(STATE_KEY.LINE_LIST)
-      .map(line => this.#getLineTemplate(line))
-      .join('');
-    stationListContainer.innerHTML = this.#state
-      .get(STATE_KEY.STATION_LIST)
-      .map(station => this.#getStationTemplate(station))
-      .join('');
-    
+    const targetLineId = Number(this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
+    if (!lineListContainer || !stationListContainer || targetLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
+
+    const lineList = this.#state.get(STATE_KEY.LINE_LIST);
+    const targetLine = lineList.find(line => line.id === targetLineId);
+    lineListContainer.innerHTML = `
+      <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
+      <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="bg-blue-400">
+        ${lineList.map(line => {
+          const isSelected = line.id === targetLineId;
+          return this.#getLineTemplate(line, isSelected);
+        }).join("")}
+      </select>
+    `;
+    stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
     this.#initEvents();
   }
 
   #initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateSectionClickEvent);
+    const $lineSelect = $(`#${SELECTOR_ID.SECTION_LINE_SELECT}`);
+    $lineSelect.addEventListener('change', () => {
+      this.#state.update(STATE_KEY.TARGET_SECTION_LINE_ID, Number($lineSelect.value));
+    })
   }
 
   #getWrapperTemplate() {
@@ -61,18 +69,15 @@ export default class Section extends Observer {
             구간 추가
           </button>
         </div>
-        <form class="d-flex items-center pl-1">
-          <label for="${SELECTOR_ID.SECTION_LINE}" class="input-label" hidden>노선</label>
-          <select id="${SELECTOR_ID.SECTION_LINE}" class="bg-blue-400"></select>
-        </form>
+        <form id="${SELECTOR_ID.SECTION_LINE}" class="d-flex items-center pl-1"></form>
         <ul id="${SELECTOR_ID.SECTION_STATION_LIST}" class="mt-3 pl-0"></ul>
       </div>
     `;
   }
 
-  #getLineTemplate(line) {
+  #getLineTemplate(line, isSelected) {
     return `
-      <option>${line.name}</option>
+      <option value="${line.id}" ${isSelected ? 'selected="selected"' : ''}>${line.name}</option>
     `;
   }
 

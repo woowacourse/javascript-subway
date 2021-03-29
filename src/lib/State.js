@@ -1,5 +1,5 @@
 import { isObject, sessionStore } from '../utils/utils.js';
-import { ALERT_MESSAGE, SESSION_STORAGE_KEY, STATE_KEY } from '../constants.js';
+import { ALERT_MESSAGE, SESSION_STORAGE_KEY, STATE_KEY, SETTINGS } from '../constants.js';
 import { requestStationList } from '../api/station.js';
 import { requestLineList } from '../api/line.js';
 import Subject from './Subject.js';
@@ -13,8 +13,8 @@ export default class State extends Subject {
       [STATE_KEY.STATION_LIST]: [],
       [STATE_KEY.LINE_LIST]: [],
       [STATE_KEY.IS_LOGGED_IN]: false,
-      [STATE_KEY.TARGET_LINE_ID]: -1,
-      [STATE_KEY.TARGET_SECTION_LINE_ID]: -1,
+      [STATE_KEY.TARGET_LINE_ID]: SETTINGS.NOT_INITIATED_NUMBER,
+      [STATE_KEY.TARGET_SECTION_LINE_ID]: SETTINGS.NOT_INITIATED_NUMBER,
     };
   }
 
@@ -44,21 +44,27 @@ export default class State extends Subject {
   }
 
   initState() {
-    // API 요청을 보내서 역 목록, 노선 목록, 구간 목록을 받아와야 함.
     if (!sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN)) return;
-    this.#state.isLoggedIn = true;
-    this.#fetchStationList().then(stationList => {
-      this.#state.stationList = stationList;
-    }).catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.STATION_GET_FAILED)
-    });
-    this.#fetchLineList().then(lineList => {
-      this.#state.lineList = lineList;
-    }).catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.LINE_GET_FAILED)
-    });
+    this.#state[STATE_KEY.IS_LOGGED_IN] = true;
+    this.#fetchStationList()
+      .then(stationList => {
+        this.#state[STATE_KEY.STATION_LIST] = stationList;
+      })
+      .catch(error => {
+        console.log(error);
+        alert(ALERT_MESSAGE.STATION_GET_FAILED);
+      });
+    this.#fetchLineList()
+      .then(lineList => {
+        if (lineList.length === 0) return;
+        this.#state[STATE_KEY.LINE_LIST] = lineList;
+        const [firstLine] = lineList;
+        this.#state[STATE_KEY.TARGET_SECTION_LINE_ID] = firstLine.id;
+      })
+      .catch(error => {
+        console.log(error);
+        alert(ALERT_MESSAGE.LINE_GET_FAILED);
+      });
   }
 
   async #fetchStationList() {
@@ -72,10 +78,8 @@ export default class State extends Subject {
       id: lineItem.id,
       name: lineItem.name,
       color: lineItem.color,
-      upStationName: lineItem.upStationName,
-      upStationId: lineItem.upStationId,
-      downStationName: lineItem.downStationName,
-      downStationId: lineItem.downStationId,
+      stations: lineItem.stations,
+      sections: lineItem.sections,
     }));
   }
 }

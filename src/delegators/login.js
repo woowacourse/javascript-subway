@@ -20,7 +20,7 @@ async function onLogInFormSubmit(target) {
   sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
   state.update(STATE_KEY.IS_LOGGED_IN, true);
   state.initState();
-  
+
   history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
   router.navigate(PATH.ROOT);
 }
