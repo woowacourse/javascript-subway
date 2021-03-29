@@ -29,7 +29,7 @@
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 /* Layout - Top / Right / Bottom / Left */

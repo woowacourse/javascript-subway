@@ -45,7 +45,7 @@ export default class LineManager {
     if (event.target.type !== 'button') return;
 
     if (event.target.dataset.action === 'edit') {
-      // modal open
+      this.modal.open(event.target.closest('li').dataset.lineId);
     }
 
     if (event.target.dataset.action === 'delete') {
