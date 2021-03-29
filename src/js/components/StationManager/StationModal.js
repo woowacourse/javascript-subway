@@ -36,8 +36,8 @@ export default class StationModal {
   }
 
   activateInput() {
-    this.$stationNameEditInput.value = '';
     this.$stationNameEditInput.setAttribute('placeholder', this.station.name);
+    this.$stationNameEditInput.setAttribute('value', this.station.name);
     this.$stationNameEditInput.focus();
   }
 
