@@ -3,6 +3,7 @@ import {
   CONFIRM_MESSAGE,
 } from "../../src/js/constants/messages.js";
 import { TEST_EMAIL, TEST_PW, END_POINT } from "../constants/general.js";
+import { PAGE_URLS, PAGE_KEYS } from "../../src/js/constants/pages.js";
 
 describe("역 관리 페이지", () => {
   before(() => {
@@ -11,9 +12,7 @@ describe("역 관리 페이지", () => {
     sessionStorage.clear();
 
     cy.intercept("POST", `${END_POINT}/login/token`).as("login");
-    cy.get("#email").clear().type(TEST_EMAIL);
-    cy.get("#password").clear().type(TEST_PW);
-    cy.get("#password").type("{enter}");
+    cy.login();
     cy.wait("@login");
   });
 

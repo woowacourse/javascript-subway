@@ -1,8 +1,10 @@
+import { TEST_EMAIL, TEST_PW } from "../constants/general.js";
+
 Cypress.Commands.add("login", () => {
   sessionStorage.clear();
 
-  cy.get("#email").type("sunccol@test.com");
-  cy.get("#password").type("1q2w3e4r").type("{enter}");
+  cy.get("#email").type(TEST_EMAIL);
+  cy.get("#password").type(TEST_PW).type("{enter}");
 });
 
 Cypress.Commands.add("addLine", (line) => {
