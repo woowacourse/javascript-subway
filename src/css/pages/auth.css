@@ -2,6 +2,11 @@ form .input-submit {
   width: 100%;
 }
 
+#check-duplicated-email-button {
+  width: 30%;
+  margin-left: 12px;
+}
+
 main .wrapper {
   width: 300px;
 }

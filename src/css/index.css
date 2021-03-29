@@ -1,5 +1,6 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
+@import './pages/index.css';
 
 html,
 body {
@@ -8,10 +9,23 @@ body {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.5;
-  background-color: #f1f5f9;
+  background-color: #fafafa;
 }
 
 #app {
+  padding-bottom: 72px;
+}
+
+#app-navbar {
+  height: 54px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+#app-navbar #logout-button:hover {
+  background-color: rgb(209, 213, 219);
+}
+
+#app-body {
   max-width: 960px;
   margin: 0 auto;
 }
@@ -33,16 +47,24 @@ hr {
   background-color: lightgray;
 }
 
-ul li button {
-  width: 60px;
+ul {
+  padding: 0;
+}
+
+ul li a button {
+  width: 100px;
   line-height: inherit;
   cursor: pointer;
-  height: auto;
+  height: 36px;
   border: none;
   outline: none;
   border-radius: 2rem;
 }
 
-ul li button:hover {
-  background-color: rgb(229, 231, 235);
+ul li a button:hover {
+  background-color: rgb(78, 207, 224);
+}
+
+ul li {
+  list-style-type: none;
 }
