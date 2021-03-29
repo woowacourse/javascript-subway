@@ -1,4 +1,11 @@
-import { STATION_NAME_MIN_LENGTH, STATION_NAME_MAX_LENGTH } from "./general.js";
+import {
+  STATION_NAME_MIN_LENGTH,
+  STATION_NAME_MAX_LENGTH,
+  LINE_MIN_DISTANCE,
+  LINE_MIN_DURATION,
+  LINE_NAME_MIN_LENGTH,
+  LINE_NAME_MAX_LENGTH,
+} from "./general.js";
 
 export const ERROR_MESSAGE = {
   SIGNUP_FAILURE: "회원가입에 실패했습니다. 다시 시도해주세요.",
@@ -15,6 +22,12 @@ export const ERROR_MESSAGE = {
   DUPLICATED_STATION: "이미 존재하는 지하철역입니다.",
   DUPLICATED_LINE: "이미 존재하는 노선입니다.",
   STATION_NAME_LENGTH: `${STATION_NAME_MIN_LENGTH}자 이상 ${STATION_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
+  LINE_NAME_LENGTH: `${LINE_NAME_MIN_LENGTH}자 이상 ${LINE_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
+  EMPTY_UP_STATION: "상행역을 선택해주세요",
+  EMPTY_DOWN_STATION: "하행역을 선택해주세요",
+  SAME_UP_DOWN_STATION: "상행역과 하행역은 같을 수 없습니다.",
+  INVALID_LINE_DISTANCE: `상행역과 하행역 사이의 거리는 ${LINE_MIN_DISTANCE} 이상이어야 합니다.`,
+  INVALID_LINE_DURATION: `상행역과 하행역 사이의 소요 시간은 ${LINE_MIN_DURATION} 이상이어야 합니다.`,
   FETCH_STATION_FAILURE: "Fail to fetch stations",
   DELETE_STATION: "Fail to delete station",
   FETCH_LINE_FAILURE: "Fail to fetch lines",
