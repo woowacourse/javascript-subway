@@ -6,6 +6,8 @@ import {
   saveModifyStationHandler,
   deleteStationHandler,
 } from './StationHandlers.js';
+import showSnackBar from '../../utils/snackbar.js';
+import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
 
 class StationsController {
   constructor(router) {
@@ -27,12 +29,12 @@ class StationsController {
     const newStation = await addStationHandler(e);
     if (newStation) {
       this.stationsView.appendNewStation(newStation);
+      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.ADD_STATION);
       resetInput(e.target, $('#station-name'));
     }
   }
 
   async onStationUpdateBtnClick(e) {
-    // TODO : early return 이 필요한 부분인가?
     if (!e.target.classList.contains('btn')) return;
 
     if (e.target.classList.contains('js-modify-button')) {
@@ -48,8 +50,10 @@ class StationsController {
       ].value;
 
       const resFlag = await saveModifyStationHandler(stationId, newStationName);
+
       if (resFlag) {
         this.stationsView.renderModifyResult(e, stationId, newStationName);
+        showSnackBar(SNACKBAR_MESSAGE.SUCCESS.MODIFY_STATION);
       }
     }
 
@@ -59,6 +63,7 @@ class StationsController {
 
       if (resFlag) {
         this.stationsView.deleteResult(e);
+        showSnackBar(SNACKBAR_MESSAGE.SUCCESS.DELETE_STATION);
       }
     }
   }

@@ -14,8 +14,9 @@ const stationsTemplate = `
         name="stationName"
         class="input-field"
         placeholder="역 이름"
-        required
+        minlength="2"
         maxlength="20"
+        required
       />
       <button
         type="submit"

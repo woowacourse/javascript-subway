@@ -30,11 +30,16 @@ async function saveModifyStationHandler(stationId, newStationName) {
 async function deleteStationHandler(targetStationId) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
 
-  const resFlag = await user.stationManager.deleteStation(targetStationId);
-  if (!resFlag) {
-    alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
+  const response = await user.stationManager.deleteStation(targetStationId);
+  if (!response.ok) {
+    // TODO: 토큰 만료 후에는 어떻게 처리할지
+    if (response.status === 400) {
+      alert(ALERT_MESSAGE.ERROR.INCLUDED_STATION);
+    } else {
+      alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
+    }
   }
 
-  return resFlag;
+  return response.ok;
 }
 export { addStationHandler, saveModifyStationHandler, deleteStationHandler };

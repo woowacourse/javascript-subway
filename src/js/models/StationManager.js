@@ -9,9 +9,19 @@ class StationManager {
   constructor() {
     this.stations = {};
   }
-  // TODO: 네이밍 생각해보기
+
   createStationData({ id, name }) {
     return { id, name };
+  }
+
+  async getAllStations() {
+    const allStations = (await fetchAllStations()) ?? [];
+
+    allStations.forEach(
+      station => (this.stations[station.id] = this.createStationData(station))
+    );
+
+    return this.stations;
   }
 
   async addStation(stationName) {
@@ -20,15 +30,6 @@ class StationManager {
     this.stations[newStation.id] = this.createStationData(newStation);
 
     return newStation;
-  }
-
-  async deleteStation(stationId) {
-    const resFlag = await fetchDeleteStation(stationId);
-    if (resFlag) {
-      delete this.stations[stationId];
-    }
-
-    return resFlag;
   }
 
   async modifyStation(id, name) {
@@ -40,18 +41,17 @@ class StationManager {
     return resFlag;
   }
 
-  getStation(stationId) {
-    return this.stations[stationId];
+  async deleteStation(stationId) {
+    const response = await fetchDeleteStation(stationId);
+    if (response.ok) {
+      delete this.stations[stationId];
+    }
+
+    return response;
   }
 
-  async getAllStations() {
-    const allStations = (await fetchAllStations()) ?? [];
-
-    allStations.forEach(
-      station => (this.stations[station.id] = this.createStationData(station))
-    );
-
-    return this.stations;
+  getStation(stationId) {
+    return this.stations[stationId];
   }
 }
 

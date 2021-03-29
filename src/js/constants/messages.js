@@ -23,6 +23,7 @@ const ALERT_MESSAGE = {
     FAIL_TO_ADD_SECTION: '구간 추가에 실패했습니다.',
     FAIL_TO_MODIFY_SECTION: '구간 수정에 실패했습니다.',
     FAIL_TO_DELETE_SECTION: '구간 삭제에 실패했습니다.',
+    INCLUDED_STATION: '노선에 포함된 지하철 역입니다.',
   },
 };
 
@@ -31,6 +32,15 @@ const SNACKBAR_MESSAGE = {
     SIGNUP: '회원가입에 성공했습니다.',
     LOGIN: '로그인에 성공했습니다.',
     LOGOUT: '로그아웃에 성공했습니다.',
+    ADD_STATION: '지하철 역을 추가했습니다.',
+    MODIFY_STATION: '지하철 역을 수정했습니다.',
+    DELETE_STATION: '지하철 역을 삭제했습니다.',
+    ADD_LINE: '노선 추가를 성공했습니다.',
+    MODIFY_LINE: '노선 수정에 성공했습니다.',
+    DELETE_LINE: '노선 삭제를 성공했습니다.',
+    ADD_SECTION: '구간 추가를 성공했습니다.',
+    MODIFY_SECTION: '구간 수정에 성공했습니다.',
+    DELETE_SECTION: '구간 삭제를 성공했습니다.',
   },
 };
 

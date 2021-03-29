@@ -19,7 +19,7 @@ function stationItemTemplate({ id, name }) {
 
 function stationListTemplate(stations) {
   return Object.values(stations)
-    .map(station => stationItemTemplate({ id: station.id, name: station.name }))
+    .map(station => stationItemTemplate(station))
     .join('');
 }
 
