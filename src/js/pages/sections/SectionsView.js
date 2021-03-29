@@ -3,7 +3,10 @@ import {
   sectionsTemplate,
 } from './templates/sectionsTemplate.js';
 import { $ } from '../../utils/DOM.js';
-import { sectionListTemplate } from './templates/sectionsListTemplate.js';
+import {
+  sectionItemTemplate,
+  sectionListTemplate,
+} from './templates/sectionsListTemplate.js';
 
 class SectionsView {
   constructor() {

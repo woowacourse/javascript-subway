@@ -13,7 +13,7 @@ async function sectionsTemplate() {
       </button>
     </div>
 
-    <form id="sections-form" class="d-flex items-center pl-1">
+    <form id="sections-line-form" class="d-flex items-center pl-1">
     <label for="line-name" class="input-label" hidden>노선 이름</label>
       <select id="line-name">
       <option value="" selected disabled hidden>노선 선택</option>
@@ -39,15 +39,16 @@ async function sectionsModalTemplate() {
       <header>
         <h2 class="text-center">🔁 구간 추가</h2>
       </header>
-      <form>
+      <form id="sections-form">
         <div class="input-control">
-          <label for="subway-line-for-section" class="input-label" hidden
+          <label for="line-for-section" class="input-label" hidden
             >노선</label
           >
-          <select id="subway-line-for-section">
-            ${Object.values(await user.lineManager.getAllLines())
-              .map(line => `<option value=${line.id}>${line.name}</option>`)
-              .join('')}
+          <select id="line-for-section">
+          <option value="" selected disabled hidden>노선 선택</option>
+          ${Object.values(await user.lineManager.getAllLines())
+            .map(line => `<option value=${line.id}>${line.name}</option>`)
+            .join('')}
           </select>
         </div>
         <div class="d-flex items-center mb-5">

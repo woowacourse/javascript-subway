@@ -1,6 +1,7 @@
 import SectionsView from './SectionsView.js';
 import { $, onModalClose, onModalShow } from '../../utils/DOM.js';
 import user from '../../models/user.js';
+import { addSectionHandler } from './SectionHandlers.js';
 
 class SectionsController {
   constructor(router) {
@@ -20,12 +21,30 @@ class SectionsController {
     this.sectionsView.renderSections(sections);
   }
 
+  async onSectionAddBtnClick(e) {
+    e.preventDefault();
+
+    const resFlag = await addSectionHandler(e);
+    const $selectedLine = e.target.elements['line-for-section'];
+
+    if (resFlag && $('#line-name').value === $selectedLine.value) {
+      const sections = user.lineManager.getAllSections($selectedLine.value);
+      this.sectionsView.renderSections(sections);
+    }
+
+    onModalClose();
+  }
+
   bindEvents() {
     $('.modal-trigger-btn').addEventListener('click', () => onModalShow());
     $('.modal-close').addEventListener('click', onModalClose);
-    $('#sections-form').addEventListener(
+    $('#sections-line-form').addEventListener(
       'change',
       this.onLineSelect.bind(this)
+    );
+    $('#sections-form').addEventListener(
+      'submit',
+      this.onSectionAddBtnClick.bind(this)
     );
   }
 }

@@ -20,6 +20,9 @@ const ALERT_MESSAGE = {
     FAIL_TO_ADD_LINE: '노선 추가에 실패했습니다.',
     FAIL_TO_MODIFY_LINE: '노선 수정에 실패했습니다.',
     FAIL_TO_DELETE_LINE: '노선 삭제에 실패했습니다.',
+    FAIL_TO_ADD_SECTION: '구간 추가에 실패했습니다.',
+    FAIL_TO_MODIFY_SECTION: '구간 수정에 실패했습니다.',
+    FAIL_TO_DELETE_SECTION: '구간 삭제에 실패했습니다.',
   },
 };
 

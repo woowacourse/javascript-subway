@@ -4,6 +4,7 @@ import {
   fetchDeleteLine,
   fetchModifyLine,
 } from '../API/lines.js';
+import { fetchAddSection } from '../API/sections.js';
 import user from './user.js';
 
 class LineManager {
@@ -96,6 +97,22 @@ class LineManager {
     allLines.forEach(line => (this.lines[line.id] = this.createLineData(line)));
 
     return this.lines;
+  }
+
+  async addSection(newSectionInfo, lineId) {
+    const resFlag = await fetchAddSection(newSectionInfo, lineId);
+
+    const upStationIndex = this.lines[lineId].stations.findIndex(
+      station => station.id === newSectionInfo.upStationId
+    );
+    const newSection = this.createStationData(
+      user.stationManager.getStation(newSectionInfo.downStationId)
+    );
+    if (resFlag) {
+      this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
+    }
+
+    return resFlag;
   }
 }
 
