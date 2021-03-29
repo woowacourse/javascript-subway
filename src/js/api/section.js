@@ -25,3 +25,23 @@ export const requestAddSection = async ({ lineId, upStationId, downStationId, di
     };
   }
 };
+
+export const requestDeleteSection = async ({ lineId, stationId }) => {
+  try {
+    const response = await httpClient.delete(`/lines/${lineId}/sections?stationId=${stationId}`);
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message ?? SECTION.DELETE_SECTION_FAILED,
+    };
+  }
+};

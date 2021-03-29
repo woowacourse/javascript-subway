@@ -35,6 +35,7 @@ export const SECTION = Object.freeze({
   EDIT_SECTION_FAILED: '구간 수정에 실패했습니다.',
   DELETE_SECTION_FAILED: '구간 삭제에 실패했습니다.',
   GET_SECTION_FAILED: '구간 조회에 실패했습니다.',
+  DELETE_SECTION_CONFIRM: '구간을 삭제하시겠습니까?',
 });
 
 export const STORE = Object.freeze({

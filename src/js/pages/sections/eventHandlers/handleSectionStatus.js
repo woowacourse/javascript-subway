@@ -1,17 +1,30 @@
-import { getAvailableStations } from '../../../services/section';
+import { getAvailableStations, getSections } from '../../../services/section';
 import { $ } from '../../../utils/dom';
 import { openModal } from '../../../utils/modal';
-import { SECTION } from '../../../constants/alertMessage';
-import { initDownStationSelect, initUpStationSelect, setMaxNumber } from '../viewController';
+import { SECTION, STORE } from '../../../constants/alertMessage';
+import { initDownStationSelect, initUpStationSelect, setMaxNumber, updateSectionList } from '../viewController';
+import { requestDeleteSection } from '../../../api/section';
+import store from '../../../store';
 
-const handleSectionStatus = event => {
+const deleteSection = async ({ lineId, stationId }) => {
+  if (!window.confirm(SECTION.DELETE_SECTION_CONFIRM)) return;
+
+  const result = await requestDeleteSection({ lineId, stationId });
+
+  if (!result.success) {
+    alert(result.message);
+    return;
+  }
+};
+
+const handleSectionStatus = async event => {
   const $targetSection = event.target.closest('.js-section-list-item');
 
   const lineId = Number($('.js-section-list').dataset.lineId);
   const upStationId = Number($targetSection.dataset.upStationId);
   const upStationName = $targetSection.dataset.upStationName;
-  const distance = $targetSection.dataset.distance;
-  const duration = $targetSection.dataset.duration;
+  const distance = Number($targetSection.dataset.distance);
+  const duration = Number($targetSection.dataset.duration);
 
   if (event.target.classList.contains('section-add-button')) {
     const availableStations = getAvailableStations(lineId);
@@ -36,6 +49,15 @@ const handleSectionStatus = event => {
   }
 
   if (event.target.classList.contains('section-delete-button')) {
+    deleteSection({ lineId, stationId: upStationId });
+
+    try {
+      await store.line.init();
+    } catch (error) {
+      alert(STORE.DATA_LOAD_FAILED);
+      return;
+    }
+    updateSectionList(getSections(lineId));
   }
 };
 

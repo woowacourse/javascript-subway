@@ -21,6 +21,7 @@ const handleAddSection = async event => {
     alert(result.message);
     return;
   }
+
   try {
     await store.line.init();
   } catch (error) {
@@ -28,8 +29,7 @@ const handleAddSection = async event => {
     return;
   }
 
-  const sections = getSections(lineId);
-  updateSectionList(sections);
+  updateSectionList(getSections(lineId));
   closeModal($('#section-add-modal'));
 };
 
