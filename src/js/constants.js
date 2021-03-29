@@ -56,6 +56,8 @@ const CLASS_SELECTOR = {
   STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
   STATION_LIST_ITEM_REMOVAL: 'js-station-list__item-removal',
 
+  LINE_LIST_ITEM_REVISION: 'js-line-list__item-revision',
+  LINE_LIST_ITEM_REMOVAL: 'js-line-list__item-removal',
   LINE_COLOR_SELECTOR: 'js-line-color-selector',
   LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
@@ -86,6 +88,8 @@ const CONFIRM_MESSAGE = {
 
 const KEYWORD = {
   LOGOUT: 'logout',
+  CREATION: 'creation',
+  REVISION: 'revision',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';

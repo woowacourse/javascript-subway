@@ -1,13 +1,21 @@
-import { CLASS_SELECTOR, ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD } from '../constants.js';
 import LINE_TEMPLATE from '../templates/lineTemplate.js';
-import { closeModal, openModal } from '../utils/DOM.js';
+import { openModal } from '../utils/DOM.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
-import { fetchLineCreation } from '../utils/fetch.js';
+import { ModalComponent } from './ModalComponent.js';
 
 class LineComponent extends Component {
+  modalComponent;
+
   constructor(props) {
     super(props);
+
+    this.modalComponent = new ModalComponent({
+      accessTokenState: this.props.accessTokenState,
+      linesState: this.props.linesState,
+    });
+    this.modalComponent.initialize();
   }
 
   initStateListener() {
@@ -23,76 +31,56 @@ class LineComponent extends Component {
   initEvent() {
     $(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).addEventListener(
       'click',
-      openModal
+      this.#onCreationModalOpened
     );
 
-    $(`.${CLASS_SELECTOR.MODAL_CLOSE}`).addEventListener('click', closeModal);
-
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener(
-      'submit',
-      this.#onLineCreated
-    );
-
-    $(`.${CLASS_SELECTOR.LINE_COLOR_SELECTOR}`).addEventListener(
-      'click',
-      ({ target }) => {
-        if (
-          !target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)
-        ) {
-          return;
-        }
-
-        $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
+    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
+      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
+        this.#openRevisionModal(target);
+        return;
       }
-    );
+    });
+
+    $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
+      if (
+        !target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)
+      ) {
+        return;
+      }
+
+      $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
+    });
   }
 
-  #onLineCreated = async event => {
-    event.preventDefault();
+  #findLineBy(targetId) {
+    const lines = this.props.linesState.Data;
 
-    const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
-    const upStationId =
-      event.target[ID_SELECTOR.LINE_MODAL_FORM_UP_STATION].value;
-    const downStationId =
-      event.target[ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION].value;
-    const distance = event.target[ID_SELECTOR.LINE_MODAL_FORM_DISTANCE].value;
-    const duration = event.target[ID_SELECTOR.LINE_MODAL_FORM_DURATION].value;
-    const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
+    return lines.find(line => line.id === Number(targetId));
+  }
 
-    const url = REQUEST_URL + '/lines';
-    const bodyData = {
-      name: lineName,
-      color,
-      upStationId,
-      downStationId,
-      distance,
-      duration,
-    };
-    const accessToken = this.props.accessTokenState.Data;
+  #onCreationModalOpened = () => {
+    this.modalComponent.modalState.Data = KEYWORD.CREATION;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
-    try {
-      const response = await fetchLineCreation(url, {
-        bodyData,
-        accessToken,
-      });
-
-      //TODO:스낵바로 확인
-      alert('노선 추가 완료');
-
-      const { id, name, color } = await response.json();
-      const lines = this.props.linesState.Data;
-
-      // TODO: State 클래스에 pushData 만들기
-      lines.push({ id, name, color });
-      this.props.linesState.Data = lines;
-      closeModal();
-      this.#clearModalInput();
-    } catch (err) {
-      alert(err.message);
-      return;
-    }
+    openModal();
   };
+
+  #openRevisionModal(target) {
+    const lineId = target.dataset.id;
+
+    if (!lineId) {
+      console.err('button의 dataset 속성으로 lineId가 존재하지 않습니다.');
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
+    this.modalComponent.modalState.Data = KEYWORD.REVISION;
+
+    const line = this.#findLineBy(lineId);
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
+
+    openModal();
+  }
 
   #loadSelectOption(selector) {
     $(selector).innerHTML = this.props.stationsState.Data.map(
@@ -100,14 +88,7 @@ class LineComponent extends Component {
     ).join('');
   }
 
-  #clearModalInput() {
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = '';
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).value = '';
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).value = '';
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = '';
-  }
-
-  #makeLineTemplate({ name, color }) {
+  #makeLineTemplate({ name, color, id }) {
     return `
     <li class="d-flex items-center py-2 relative">
       <span class="subway-line-color-dot bg-${color}"></span>
@@ -116,12 +97,15 @@ class LineComponent extends Component {
       >
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
+        data-id="${id}"
+        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
       >
         수정
       </button>
       <button
         type="button"
+        data-id="${id}"
+        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}"
         class="bg-gray-50 text-gray-500 text-sm"
       >
         삭제

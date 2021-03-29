@@ -166,6 +166,27 @@ const fetchLineRead = async (url, accessToken) => {
   return response;
 };
 
+const fetchLineRevision = async (url, { bodyData, accessToken }) => {
+  const response = await fetch(url, {
+    method: 'PUT',
+    body: JSON.stringify(bodyData),
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+
+  if (response.status === 400) {
+    throw new Error(ALERT_MESSAGE.DUPLICATED_LINE_FAIL);
+  }
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 //TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
@@ -177,4 +198,5 @@ export {
   fetchStationRemoval,
   fetchLineCreation,
   fetchLineRead,
+  fetchLineRevision,
 };
