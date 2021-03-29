@@ -69,6 +69,11 @@ const signupTemplate = `
                 확인
               </button>
             </div>
+            <div class="input-control">
+              <a href="/login" id="login-link" class="js-link">
+                로그인하러 가기
+              </a>
+            </div>
           </form>
         </div>
       </main>

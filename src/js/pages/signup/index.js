@@ -5,6 +5,7 @@ import signupTemplate from './template';
 import handleValidateSignupForm from './eventHandlers/handleValidateSignupForm';
 import handleSignup from './eventHandlers/handleSignup';
 import handleCheckEmail from './eventHandlers/handleCheckEmail';
+import handleRoute from '../../eventHandlers/handleRoute';
 
 const mountSignup = async () => {
   const isLogin = await requestCheckLogin();
@@ -22,6 +23,7 @@ const mountSignup = async () => {
   $('#email').addEventListener('input', handleCheckEmail);
   $('#signup-form').addEventListener('input', handleValidateSignupForm);
   $('#signup-form').addEventListener('submit', handleSignup);
+  $('#login-link').addEventListener('click', handleRoute);
 };
 
 export default mountSignup;
