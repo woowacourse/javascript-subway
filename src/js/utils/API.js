@@ -142,4 +142,13 @@ export const API = {
   editLine: ({ token, id, contents }) => {
     return request.put({ url: `/lines/${id}`, contents, token });
   },
+
+  // Sections
+  createSection: ({ token, id, contents }) => {
+    return request.post({ url: `/lines/${id}/sections`, contents, token });
+  },
+
+  deleteSection: ({ token, lineId, stationId }) => {
+    return request.delete({ url: `lines/${lineId}/sections?stationId=${stationId}`, token });
+  },
 };
