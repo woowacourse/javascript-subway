@@ -4,6 +4,7 @@ import { SELECTOR, MESSAGES } from '../../constants/constants.js';
 import { contentTemplate, modalTemplate } from './template.js';
 import { deleteLineRequest } from '../../request.js';
 import LineModal from './LineModal.js';
+import Line from '../../models/Line.js';
 
 export default class LineManager {
   constructor(store) {
@@ -31,6 +32,7 @@ export default class LineManager {
     $(SELECTOR.CREATE_LINE_BUTTON).addEventListener('click', () => this.modal.open());
     this.$lineList.addEventListener('click', this.handleItemButtons.bind(this));
     $(SELECTOR.MODAL).addEventListener('createLine', this.addLine.bind(this));
+    $(SELECTOR.MODAL).addEventListener('editLine', this.editLine.bind(this));
   }
 
   addLine(event) {
@@ -39,6 +41,18 @@ export default class LineManager {
     const lines = this.store.lines;
     const newLines = [event.detail.line, ...lines];
     this.store.lines = newLines;
+  }
+
+  // TODO: 원본 배열 건드리지 않고 데이터 수정하기
+  editLine(event) {
+    const line = event.detail.line;
+    const { name, color } = event.detail.data;
+
+    line.name = name;
+    line.color = color;
+    line.modifiedDate = new Date();
+
+    this.$lineList.innerHTML = this.store.lines.map((line) => line.toListItemTemplate()).join('');
   }
 
   async handleItemButtons(event) {

@@ -92,6 +92,12 @@ export const MESSAGES = {
     FAIL: '역 삭제에 실패했습니다.',
   },
 
+  LINE_EDIT: {
+    SUCCESS: '노선 정보가 변경되였습니다.',
+    FAIL: '노선 정보 변경에 실패했습니다.',
+    DUPLICATED: '동일한 노선 이름이 존재합니다.',
+  },
+
   SECTION_DELETE: {
     CONFIRM: (station) => `${station}역을 삭제하시겠습니까?`,
     SUCCESS: (station) => `${station}역이 삭제되었습니다.`,
