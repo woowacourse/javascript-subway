@@ -157,3 +157,10 @@ export const deleteSectionRequest = async (lineID, stationId, token) => {
 
   return response;
 };
+
+export const editLineRequest = async (lineID, data, token) => {
+  const url = `${HOST}/lines/${lineID}`;
+  const response = await putRequest(url, data, token);
+
+  return response;
+};

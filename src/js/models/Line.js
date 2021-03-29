@@ -20,12 +20,24 @@ export default class Line {
     return this._name;
   }
 
+  set name(name) {
+    this._name = name;
+  }
+
   get color() {
     return this._color;
   }
 
+  set color(color) {
+    this._color = color;
+  }
+
   get modifiedDate() {
     return this._modifiedDate;
+  }
+
+  set modifiedDate(date) {
+    this._modifiedDate = date;
   }
 
   get stations() {

@@ -101,6 +101,7 @@ export default class StationManager {
     }
   }
 
+  // TODO: 원본 배열 건드리지 않고 데이터 수정하기
   async updateName(event) {
     const updatedStation = event.detail.station;
     const updatedName = event.detail.newName;
