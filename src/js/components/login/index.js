@@ -13,7 +13,7 @@ class Login extends Component {
     super(parentNode, stateManagers);
   }
 
-  render() {
+  renderSelf() {
     this.parentNode.innerHTML = mainTemplate();
   }
 

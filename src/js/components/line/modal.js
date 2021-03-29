@@ -6,17 +6,18 @@ import { PATH } from '../../constants/url.js';
 import getFetchParams from '../../api/getFetchParams.js';
 
 class Modal extends ModalComponent {
-  constructor(parentNode, stateManagers, subwayState, updateSubwayState) {
-    super(parentNode, stateManagers, subwayState, updateSubwayState);
+  constructor(parentNode, stateManagers) {
+    super(parentNode, stateManagers);
   }
 
-  render() {
-    // stations 가져와야함 시점?
-    const { stations } = this.subwayState;
+  renderSelf() {
+    const stations = this.state.stations;
     this.parentNode.innerHTML = linesModal(stations);
   }
 
   addEventListeners() {
+    $('.modal-close').addEventListener('click', () => this.hide());
+
     $('.js-subway-line-color-selector').addEventListener(
       'click',
       ({ target }) => {
@@ -57,6 +58,8 @@ class Modal extends ModalComponent {
         const response = await request.post(params);
 
         if (!response.ok) throw Error(await response.text());
+
+        this.updateSubwayState();
       } catch (error) {
         console.error(error.message);
       }

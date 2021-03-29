@@ -11,27 +11,38 @@ import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
 import request from './utils/request.js';
 import { PATH } from './constants/url.js';
-import { INVALID_MESSAGE } from './constants/message.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
 import getFetchParams from './api/getFetchParams.js';
+import { ERROR_MESSAGE } from './constants/message.js';
+import Component from './core/Component.js';
 
-class App {
-  constructor(stateManagers) {
-    this.stateManagers = stateManagers;
-    this.components = {
-      [HOME_LINK.ROUTE]: () => this.privateRouter(Station),
-      [AUTHENTICATED_LINK.STATION.ROUTE]: () => this.privateRouter(Station),
-      [AUTHENTICATED_LINK.LINE.ROUTE]: () => this.privateRouter(Line),
-      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => this.privateRouter(Section),
+class App extends Component {
+  constructor(parentNode, stateManagers, childComponents, state) {
+    super(parentNode, stateManagers, childComponents, state);
+    this.routeComponents = {
+      [HOME_LINK.ROUTE]: () => this.privateRouter(this.childComponents.Station),
+      [AUTHENTICATED_LINK.STATION.ROUTE]: () => {
+        this.privateRouter(this.childComponents.Station);
+      },
+      [AUTHENTICATED_LINK.LINE.ROUTE]: () => {
+        this.privateRouter(this.childComponents.Line);
+      },
+      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => {
+        this.privateRouter(this.childComponents.Section);
+      },
       // TODO: 3단계 요구사항
       // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
       // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
-      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => this.publicRouter(Login),
-      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => this.publicRouter(Signup),
+      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => {
+        this.publicRouter(this.childComponents.Login);
+      },
+      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => {
+        this.publicRouter(this.childComponents.Signup);
+      },
     };
 
     this.stateManagers.accessToken.subscribe(this.renderHeader);
@@ -51,7 +62,7 @@ class App {
       null,
       UNAUTHENTICATED_LINK.LOGIN.ROUTE
     );
-    return Login;
+    return this.childComponents.Login;
   }
 
   publicRouter(Component) {
@@ -64,12 +75,12 @@ class App {
       null,
       AUTHENTICATED_LINK.STATION.ROUTE
     );
-    return Station;
+
+    return this.childComponents.Station;
   }
 
   renderComponent(path = location.pathname) {
-    const component = this.components[path]();
-    new component($('.js-main'), this.stateManagers);
+    this.routeComponents[path]().render();
   }
 
   renderHeader() {
@@ -141,7 +152,25 @@ class App {
   }
 }
 
-new App({
+const stateManagers = {
   accessToken: new AccessTokenManager(),
   route: new RouteManager(),
-});
+};
+
+const initalState = {
+  stations: [],
+  lines: [],
+};
+
+new App(
+  $('#app'),
+  stateManagers,
+  {
+    Login: new Login($('.js-main'), stateManagers),
+    Signup: new Signup($('.js-main'), stateManagers),
+    Station: new Station($('.js-main'), stateManagers),
+    Line: new Line($('.js-main'), stateManagers),
+    Section: new Section($('.js-main'), stateManagers),
+  },
+  initalState
+);
