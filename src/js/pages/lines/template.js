@@ -191,13 +191,13 @@ export const lineListItemTemplate = ({ id, name, color, sections }) => {
       >
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1 js-line-edit-button"
+        class="list-button bg-gray-50 text-gray-500 text-sm mr-1 js-line-edit-button"
       >
         수정
       </button>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm js-line-delete-button"
+        class="list-button bg-gray-50 text-gray-500 text-sm js-line-delete-button"
       >
         삭제
       </button>

@@ -15,9 +15,8 @@ body {
   user-select: none;
 }
 
-#app {
-  max-width: 960px;
-  margin: 0 auto;
+button:disabled {
+  pointer-events: none;
 }
 
 a {
@@ -36,7 +35,12 @@ hr {
   background-color: lightgray;
 }
 
-ul li button {
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.list-button {
   width: 60px;
   line-height: inherit;
   cursor: pointer;
@@ -46,7 +50,7 @@ ul li button {
   border-radius: 2rem;
 }
 
-ul li button:hover {
+.list-button:hover {
   background-color: rgb(229, 231, 235);
 }
 
@@ -64,10 +68,6 @@ ul li button:hover {
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-button:disabled {
-  pointer-events: none;
 }
 
 .list-item {

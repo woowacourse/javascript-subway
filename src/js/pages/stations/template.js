@@ -43,8 +43,8 @@ export const stationNameEditModalTemplate = `
 export const stationListItemTemplate = ({ id, name }) => `
   <li class="js-station-list-item list-item d-flex justify-between items-center py-2" data-id="${id}" data-name="${name}">
     <span class="js-station-name station-name pl-2 w-100">${name}</span>
-    <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 edit-button js-station-edit-button">수정</button>
-    <button type="button" class="bg-gray-50 text-gray-500 text-sm delete-button js-station-delete-button">삭제</button>
+    <button type="button" class="list-button bg-gray-50 text-gray-500 text-sm mr-1 edit-button js-station-edit-button">수정</button>
+    <button type="button" class="list-button bg-gray-50 text-gray-500 text-sm delete-button js-station-delete-button">삭제</button>
   </li>
 `;
 
