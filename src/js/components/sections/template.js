@@ -1,6 +1,6 @@
 export const sectionListTemplate = (line, index) => {
   return `
-      <li class="d-flex items-center py-2 relative bottom-line">
+    <li class="section-list-item d-flex items-center py-2 relative bottom-line">
       <span class="w-100 pl-6 section-name">${line.sections[index].upStation} <-> ${line.sections[index].downStation}</span>
       <button
         type="button"
@@ -39,7 +39,7 @@ export const sectionsTemplate = (stationList = [], lineList = [], sectionList = 
               </button>
             </div>
             <form class="d-flex items-center pl-1">
-              <select class="bg-blue-400">
+              <select id="line-select" class="bg-blue-400">
               ${
                 lineList.length
                   ? lineList.map((line) => optionTemplate(line)).join('')
@@ -63,7 +63,7 @@ export const sectionsTemplate = (stationList = [], lineList = [], sectionList = 
         </header>
         <form>
           <div class="input-control">
-            <select id="line-select">
+            <select id="modal-line-select">
               ${
                 lineList.length
                   ? lineList.map((line) => optionTemplate(line)).join('')
