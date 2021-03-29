@@ -50,6 +50,11 @@ class Lines {
 
   async handleCreateLineForm(e) {
     e.preventDefault();
+    if (!this.selectedLineColor) {
+      alert('색을 선택해주세요.');
+      return;
+    }
+
     const lineName = e.target['subway-line-name'].value;
     const upStationId = this.userDataManager.getStationId(e.target['up-station'].value);
     const downStationId = this.userDataManager.getStationId(e.target['down-station'].value);
@@ -57,7 +62,6 @@ class Lines {
     const duration = e.target.duration.valueAsNumber;
 
     try {
-      // 중복 노선 이름 입력 검증 필요
       const lineData = await requestAddLine({
         name: lineName,
         color: this.selectedLineColor,
@@ -67,15 +71,12 @@ class Lines {
         duration,
       });
       this.userDataManager.setLineData(lineData);
-      // this.renderAddedLine(lineName);
-      // this.cleanCacheLineListTemplate();
-      // this.$modalClose.click();
+      this.renderAddedLine(lineName);
+      this.cleanCacheLineListTemplate();
+      this.$modalClose.click();
     } catch (error) {
       alert(error.message);
     }
-    this.renderAddedLine(lineName);
-    this.cleanCacheLineListTemplate();
-    this.$modalClose.click();
   }
 
   cacheLineListTemplate() {
