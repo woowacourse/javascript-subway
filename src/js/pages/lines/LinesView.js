@@ -24,8 +24,7 @@ class LinesView {
       // TODO : 순서 역순으로 보여주기
       await this.lineManager.getAllLines()
     );
-    $('#lines-modal').innerHTML = await linesModalTemplate();
-    this.renderLineColorSelector();
+    await this.renderModal();
   }
 
   renderLineColorSelector() {
@@ -47,12 +46,17 @@ class LinesView {
     target.closest('li').remove();
   }
 
+  async renderModal() {
+    $('#lines-modal').innerHTML = await linesModalTemplate();
+    this.renderLineColorSelector();
+  }
+
   async renderModifyModal(targetLine) {
     $('#lines-modal').innerHTML = await linesModifyingModalTemplate(targetLine);
     this.renderLineColorSelector();
   }
 
-  async renderModifiedLine({ id, name, color }, $modifiedLine) {
+  renderModifiedLine({ id, name, color }, $modifiedLine) {
     $modifiedLine.insertAdjacentHTML(
       'beforebegin',
       lineItemTemplate({ id, name, color })

@@ -59,7 +59,7 @@ class LinesController {
         this.lineManager.getLine(targetLineId)
       );
 
-      this.bindModifyModalEvents();
+      this.bindModalEvents('#lines-modify-form');
     }
 
     if (e.target.classList.contains('js-delete-button')) {
@@ -70,27 +70,28 @@ class LinesController {
     }
   }
 
-  bindModifyModalEvents() {
-    $('#lines-modify-form').addEventListener(
-      'submit',
-      this.onLineSaveBtnClick.bind(this)
-    );
+  bindModalEvents($targetForm) {
+    $targetForm === '#lines-form'
+      ? $($targetForm).addEventListener(
+          'submit',
+          this.onLineAddBtnClick.bind(this)
+        )
+      : $($targetForm).addEventListener(
+          'submit',
+          this.onLineSaveBtnClick.bind(this)
+        );
+
     $('.modal-close').addEventListener('click', onModalClose);
     $('.line-color-selector').addEventListener('click', selectColorHandler);
   }
 
   bindEvents() {
-    $('.modal-trigger-btn').addEventListener('click', () => {
+    $('.modal-trigger-btn').addEventListener('click', async () => {
       onModalShow();
-      resetInput($('#lines-form'), $('#line-name'));
+      await this.linesView.renderModal();
+      this.bindModalEvents('#lines-form');
     });
-    $('.modal-close').addEventListener('click', onModalClose);
-    $('#lines-form').addEventListener(
-      'submit',
-      this.onLineAddBtnClick.bind(this)
-    );
 
-    $('.line-color-selector').addEventListener('click', selectColorHandler);
     $('#line-list').addEventListener(
       'click',
       this.onLineUpdateBtnClick.bind(this)
