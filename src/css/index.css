@@ -1,5 +1,5 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
 
 html,
 body {
@@ -9,6 +9,7 @@ body {
   font-weight: normal;
   line-height: 1.5;
   background-color: #f1f5f9;
+  user-select: none;
 }
 
 #app {
@@ -22,8 +23,7 @@ a {
 
 main .wrapper {
   width: 540px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
@@ -45,4 +45,24 @@ ul li button {
 
 ul li button:hover {
   background-color: rgb(229, 231, 235);
+}
+
+.d-none {
+  display: none;
+}
+
+#signup-link:hover,
+#signup-link:focus {
+  text-decoration: underline;
+}
+
+.input-check-hint {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+button:disabled {
+  pointer-events: none;
 }
