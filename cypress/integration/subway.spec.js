@@ -175,18 +175,18 @@ describe('지하철 구간 관리', () => {
   });
 
   it('지하철 구간을 중간에 추가할 수 있다.', () => {
-    cy.get('.js-section-add-button').eq(1).click({ force: true });
+    cy.get('.js-section-add-button').eq(2).click({ force: true });
 
     addSection({ downStation: '브라운감사해요역', distance: 10, duration: 10 });
-    cy.wait(500).get('.js-section-list-item').eq(2).contains('브라운감사해요역');
+    cy.wait(500).get('.js-section-list-item').eq(3).contains('브라운감사해요역');
   });
 
-  // it('지하철 구간을 최상단에 추가할 수 있다.', () => {
-  //   cy.get('.js-section-add-button').eq(0).click();
+  it('지하철 구간을 최상단에 추가할 수 있다.', () => {
+    cy.get('.js-section-add-button').eq(0).click();
 
-  //   addSection({ downStation: '브라운밥사주세요역', distance: 10, duration: 10 });
-  //   cy.get('.js-section-list-item').eq(1).contains('브라운감사해요역');
-  // });
+    addSection({ downStation: '브라운밥사주세요역', distance: 10, duration: 10 });
+    cy.get('.js-section-list-item').eq(1).contains('브라운감사해요역');
+  });
 
   it('지하철 구간을 최하단에 추가할 수 있다.', () => {
     cy.get('.js-section-add-button').eq(-1).click({ force: true });
