@@ -1,7 +1,7 @@
-export const sectionListTemplate = (section, index) => {
+export const sectionListTemplate = (station, index) => {
   return `
     <li class="section-list-item d-flex items-center py-2 relative bottom-line">
-      <span class="w-100 pl-6 section-name">${section.upStation.name} <-> ${section.downStation.name}</span>
+      <span class="w-100 pl-6 section-name">${station.name}</span>
       <button
         type="button"
         class="section-edit-button bg-gray-50 text-gray-500 text-sm mr-1"
@@ -51,7 +51,7 @@ export const sectionsTemplate = (stationList = [], lineList = []) => {
         </div>
       <div class="modal">
         <div class="modal-inner p-8">
-        <button class="modal-close">
+        <button id="modal-close-button" class="modal-close">
           <svg viewbox="0 0 40 40">
             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
           </svg>
@@ -59,7 +59,7 @@ export const sectionsTemplate = (stationList = [], lineList = []) => {
         <header>
           <h2 id="modal-title" class="text-center">🔁 구간 추가</h2>
         </header>
-        <form>
+        <form id="modal-form">
           <div class="input-control">
             <select id="modal-line-select">
               ${

@@ -170,5 +170,21 @@ export const getSectionData = async ({ token, id }) => {
     return null;
   }
 
-  return lineData.sections;
+  // return lineData.sections;
+  return lineData.stations;
+};
+
+export const getCreatedSectionData = async ({ token, id, contents }) => {
+  try {
+    const response = await API.createSection({
+      token,
+      id,
+      contents,
+    });
+
+    return response;
+  } catch (status) {
+    console.error(status);
+    return null;
+  }
 };
