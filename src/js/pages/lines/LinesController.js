@@ -71,6 +71,7 @@ class LinesController {
   }
 
   bindModalEvents($targetForm) {
+    resetInput($($targetForm), $('#line-name'));
     $targetForm === '#lines-form'
       ? $($targetForm).addEventListener(
           'submit',
