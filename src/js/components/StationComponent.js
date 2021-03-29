@@ -27,7 +27,6 @@ class StationComponent extends Component {
       this.#onStationCreated
     );
 
-    $(`.${CLASS_SELECTOR.MODAL_CLOSE}`).addEventListener('click', closeModal);
     //TODO : dimmed 부분을 누르면 모달창 닫히게
     $(`#${ID_SELECTOR.STATION_MODAL_FORM}`).addEventListener(
       'submit',

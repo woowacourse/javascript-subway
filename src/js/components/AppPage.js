@@ -7,8 +7,8 @@ import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
-import { ID_SELECTOR, KEYWORD, URL } from '../constants.js';
-import { show, hide } from '../utils/DOM.js';
+import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD, URL } from '../constants.js';
+import { show, hide, closeModal } from '../utils/DOM.js';
 import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
 class AppPage extends Page {
   constructor(props) {
@@ -60,7 +60,14 @@ class AppPage extends Page {
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
+
     $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
+
+    $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
+      if (!target.closest(`.${CLASS_SELECTOR.MODAL_CLOSE}`)) return;
+
+      closeModal();
+    });
   }
 
   #onLogout = () => {
