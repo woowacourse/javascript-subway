@@ -131,7 +131,7 @@ export default class StationManager {
       popSnackbar(MESSAGES.STATION_DELETE.SUCCESS(stationName));
     } catch (error) {
       console.error(error);
-      popSnackbar(MESSAGES.STATION_DELETE.FAIL);
+      popSnackbar(error.message || MESSAGES.STATION_DELETE.FAIL);
     }
   }
 
