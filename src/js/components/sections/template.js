@@ -1,11 +1,10 @@
-export const sectionListTemplate = (line, index) => {
+export const sectionListTemplate = (section, index) => {
   return `
     <li class="section-list-item d-flex items-center py-2 relative bottom-line">
-      <span class="w-100 pl-6 section-name">${line.sections[index].upStation} <-> ${line.sections[index].downStation}</span>
+      <span class="w-100 pl-6 section-name">${section.upStation.name} <-> ${section.downStation.name}</span>
       <button
         type="button"
         class="section-edit-button bg-gray-50 text-gray-500 text-sm mr-1"
-        data-id=${line.id}
         data-index=${index}
       >
         수정
@@ -13,7 +12,6 @@ export const sectionListTemplate = (line, index) => {
       <button
         type="button"
         class="section-delete-button bg-gray-50 text-gray-500 text-sm"
-        data-id=${line.id}
         data-index=${index}
       >
         삭제
@@ -26,7 +24,7 @@ const optionTemplate = (data) => {
   return `<option value=${data.id}>${data.name}</option>`;
 };
 
-export const sectionsTemplate = (stationList = [], lineList = [], sectionList = []) => {
+export const sectionsTemplate = (stationList = [], lineList = []) => {
   return `
       <div class="sections-container container wrapper bg-white p-10">
             <div class="heading d-flex">
@@ -42,13 +40,13 @@ export const sectionsTemplate = (stationList = [], lineList = [], sectionList = 
               <select id="line-select" class="bg-blue-400">
               ${
                 lineList.length
-                  ? lineList.map((line) => optionTemplate(line)).join('')
+                  ? `<option value="" selected disabled>노선을 선택해주세요</option>` +
+                    lineList.map((line) => optionTemplate(line)).join('')
                   : `<option value="" selected disabled>노선을 추가해주세요</option>`
               }
               </select>
             </form>
             <ul id="section-list-container" class="mt-3 pl-0">
-              ${sectionList.map((line, index) => sectionListTemplate(line, index)).join('')}
             </ul>
         </div>
       <div class="modal">

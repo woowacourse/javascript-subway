@@ -162,3 +162,13 @@ export const isLineEdited = async ({ token, id, ...contents }) => {
     return false;
   }
 };
+
+export const getSectionData = async ({ token, id }) => {
+  const lineData = await getLineData({ token, id });
+
+  if (!lineData) {
+    return null;
+  }
+
+  return lineData.sections;
+};
