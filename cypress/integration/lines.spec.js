@@ -73,7 +73,7 @@ describe("역 관리 페이지", () => {
 
   it("중복된 지하철 노선을 등록할 수 없다.", () => {
     cy.addLine(line);
-    cy.get(".js-line-name-message").should(
+    cy.get(".js-add-line-message").should(
       "have.text",
       ERROR_MESSAGE.DUPLICATED_LINE
     );
