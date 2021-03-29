@@ -25,7 +25,14 @@ export class UserJoin {
       return;
     }
 
-    const $input = findInValidInput(this.$$input);
+    const $$input = {
+      $email: DOM.USER_JOIN.MAIN.EMAIL_INPUT,
+      $name: DOM.USER_JOIN.MAIN.NAME_INPUT,
+      $password: DOM.USER_JOIN.MAIN.PASSWORD_INPUT,
+      $passwordConfirm: DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT,
+    };
+
+    const $input = findInValidInput($$input);
 
     if ($input) {
       $input.value = '';
@@ -35,7 +42,7 @@ export class UserJoin {
     }
 
     try {
-      await userJoinAPI.signUp(this.$$input);
+      await userJoinAPI.signUp($$input);
       DOM.USER_JOIN.MAIN.FORM.reset();
       routeTo(ROUTE.SIGNIN);
     } catch (error) {

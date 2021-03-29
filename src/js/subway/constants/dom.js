@@ -4,9 +4,9 @@ import { ROUTE } from './constants';
 
 export const DOM = {
   CONTAINER: {
-    MAIN: $('#menu-buttons-container'),
-    MENU: $('#sign-button-container'),
-    SIGN: $('#main-container'),
+    MENU: $('#menu-buttons-container'),
+    SIGN: $('#sign-button-container'),
+    MAIN: $('#main-container'),
     MODAL: $('#modal-container'),
   },
   ROOT: {

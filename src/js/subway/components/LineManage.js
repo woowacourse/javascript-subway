@@ -45,8 +45,8 @@ export class LineManage {
         this.props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      subwayView.renderStationOptions(UP_STATION);
-      subwayView.renderStationOptions(DOWN_STATION);
+      subwayView.renderStationOptions(UP_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOWN_STATION, this.props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }
@@ -86,7 +86,7 @@ export class LineManage {
     this.submitType = SUBMIT_TYPE.MODIFY;
     DOM.LINE.MODAL.MSG.innerText = '';
     DOM.LINE.MODAL.FORM.dataset.lineId = line.dataset.id;
-    DOM.LINE.MODAL_NAME_INPUT.value = line.dataset.name;
+    DOM.LINE.MODAL.NAME_INPUT.value = line.dataset.name;
     DOM.LINE.MODAL.COLOR_INPUT.value = line.dataset.color;
     hide(...DOM.LINE.MODAL.NON_MODIFIABLE);
     showModal(DOM.CONTAINER.MODAL);
@@ -121,7 +121,7 @@ export class LineManage {
   async handleAddSubmit(accessToken) {
     const requestInfo = {
       id: DOM.LINE.MODAL.FORM.dataset.lineId,
-      name: DOM.LINE.MODAL_NAME_INPUT.value,
+      name: DOM.LINE.MODAL.NAME_INPUT.value,
       color: DOM.LINE.MODAL.COLOR_INPUT.value,
       upStationId: DOM.LINE.MODAL.UP_STATION_SELECTOR.value,
       downStationId: DOM.LINE.MODAL.DOWN_STATION_SELECTOR.value,
@@ -155,7 +155,7 @@ export class LineManage {
   async handleModifySubmit(accessToken) {
     const requestInfo = {
       id: DOM.LINE.MODAL.FORM.dataset.lineId,
-      name: DOM.LINE.MODAL_NAME_INPUT.value,
+      name: DOM.LINE.MODAL.NAME_INPUT.value,
       color: DOM.LINE.MODAL.COLOR_INPUT.value,
     };
 

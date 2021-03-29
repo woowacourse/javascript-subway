@@ -5,6 +5,7 @@ import { store } from './@shared/models/store';
 import { Subway } from './subway';
 import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { routeTo } from './subway/utils';
+import { getUserName } from './subway/utils/api/userAuth';
 
 class App {
   constructor() {

@@ -18,7 +18,7 @@ const getStations = async accessToken => {
 
     return stations;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -59,7 +59,7 @@ const modifyStation = async (accessToken, { id, name }) => {
   try {
     await request(url, option);
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
@@ -76,7 +76,7 @@ const removeStation = async (accessToken, { id }) => {
   try {
     await request(url, option);
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 

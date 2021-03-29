@@ -43,8 +43,8 @@ export class StationManage {
 
   handleAddInput({ target: { value: stationName } }) {
     if (!isValidName(stationName, NAME_LENGTH.STATION_MIN, NAME_LENGTH.STATION_MAX)) {
-      this.$$stationAdd.$failMessage.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
-      this.$$stationAdd.$button.disabled = true;
+      DOM.STATION.MAIN.NAME_MSG.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
+      DOM.STATION.MAIN.SUBMIT_BUTTON.disabled = true;
 
       return;
     }
@@ -63,9 +63,9 @@ export class StationManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await stationManageAPI.addStation(accessToken, requestInfo);
-      await this.updateStations(ROUTE.STATION);
-      DOM.STATION.MAIN.FORM.reset();
       this.props.cache.stations = [];
+      await this.updateStations(ROUTE.STATIONS);
+      DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
       console.error(error.message);
       DOM.STATION.MAIN.NAME_MSG.innerText =
@@ -97,9 +97,9 @@ export class StationManage {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
 
       DOM.STATION.MODAL.FORM.reset();
-      this.renderStationList(ROUTE.STATIONS);
-      hideModal(DOM.CONTAINER.MODAL);
       this.props.cache.stations = [];
+      await this.updateStations(ROUTE.STATIONS);
+      hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       console.error(error.message);
       DOM.STATION.MODAL.NAME_MSG.innerText =

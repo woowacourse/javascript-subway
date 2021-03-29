@@ -21,6 +21,7 @@ export class Subway {
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderRoot.bind(subwayView));
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderNavButtons.bind(subwayView));
     store[STATE_KEY.ROUTE].subscribe(subwayView.renderMain.bind(subwayView));
+    store[STATE_KEY.ROUTE].subscribe(subwayView.renderModal.bind(subwayView));
   }
 
   mountChildComponents() {

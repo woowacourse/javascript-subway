@@ -29,7 +29,11 @@ export class UserAuth {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const { accessToken } = await userAuthAPI.signIn(this.$$input);
+      const $$input = {
+        $email: DOM.USER_AUTH.MAIN.EMAIL_INPUT,
+        $password: DOM.USER_AUTH.MAIN.PASSWORD_INPUT,
+      };
+      const { accessToken } = await userAuthAPI.signIn($$input);
       const userName = await userAuthAPI.getUserName(accessToken);
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
