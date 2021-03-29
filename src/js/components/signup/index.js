@@ -16,7 +16,7 @@ class Signup extends Component {
     this.formValidationFlag = { name: false, email: false, password: false };
   }
 
-  render() {
+  renderSelf() {
     this.parentNode.innerHTML = mainTemplate();
   }
 

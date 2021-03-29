@@ -7,18 +7,16 @@ import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
   // 파라미터가 너무 많아서 분리가 필요해보임
-  constructor(parentNode, stateManagers, subwayState, updateSubwayState) {
-    super(parentNode, stateManagers, subwayState, updateSubwayState);
+  constructor(parentNode, stateManagers) {
+    super(parentNode, stateManagers);
   }
 
-  render() {
+  renderSelf() {
     this.parentNode.innerHTML = stationModal();
   }
 
   fillTargetInForm() {
-    const { name } = this.subwayState.stations.find(
-      ({ id }) => id === targetId
-    );
+    const { name } = this.state.stations.find(({ id }) => id === targetId);
     $('#subway-station-name').value = name;
   }
 

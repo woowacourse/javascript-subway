@@ -1,15 +1,37 @@
 class Component {
-  constructor(parentNode, stateManagers) {
+  constructor(parentNode, stateManagers, childComponents = {}, state = {}) {
     this.parentNode = parentNode;
     this.stateManagers = stateManagers;
-
-    this.render();
-    this.addEventListeners();
+    this.childComponents = childComponents;
+    this.state = state;
   }
 
-  render() {}
+  setState(state) {
+    this.state = state;
+    this.setChildState();
+    this.render();
+  }
+
+  render() {
+    this.addEventListeners();
+    this.renderSelf();
+  }
+
+  setChildState() {
+    Object.values(this.childComponents).forEach((child) => {
+      child.setState(this.state);
+    });
+  }
+
+  renderSelf() {}
 
   addEventListeners() {}
+
+  setChildProps(name, props) {
+    Object.entries(props).forEach(([key, value]) => {
+      this.childComponents[name][key] = value;
+    });
+  }
 
   clear() {
     this.parentNode.innerHTML = '';
