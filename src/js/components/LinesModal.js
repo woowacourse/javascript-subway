@@ -14,14 +14,53 @@ import { ERROR_MESSAGE } from "../constants/messages.js";
 
 const subwayLineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
-
-  return `<button type="button" class="color-option bg-${color}"></button> ${
-    hasNewLine ? "<br/>" : ""
-  }`;
+  return `
+    <label class="color-option">
+      <input name="subway-line-color" value="bg-${color}" type="radio" required />
+      <span class="radio bg-${color}"></span>
+    </label>
+    ${hasNewLine ? "<br/>" : ""}
+  `;
 };
 
 const createStationSelectOption = (station) =>
   `<option value="${station.id}">${station.name}</option>`;
+
+const getInputsErrorMessage = (lineData) => {
+  const isValidNameLength =
+    lineData.name.length >= LINE_NAME_MIN_LENGTH &&
+    lineData.name.length <= LINE_NAME_MAX_LENGTH;
+
+  if (!isValidNameLength) {
+    return ERROR_MESSAGE.LINE_NAME_LENGTH;
+  }
+
+  if (lineData.upStationId === "") {
+    return ERROR_MESSAGE.EMPTY_UP_STATION;
+  }
+
+  if (lineData.downStationId === "") {
+    return ERROR_MESSAGE.EMPTY_DOWN_STATION;
+  }
+
+  if (lineData.upStationId === lineData.downStationId) {
+    return ERROR_MESSAGE.SAME_UP_DOWN_STATION;
+  }
+
+  if (lineData.distance < 1) {
+    return ERROR_MESSAGE.INVALID_LINE_DISTANCE;
+  }
+
+  if (lineData.duration < 1) {
+    return ERROR_MESSAGE.INVALID_LINE_DURATION;
+  }
+
+  if (!lineData.color || lineData.color === "") {
+    return ERROR_MESSAGE.EMPTY_LINE_COLOR;
+  }
+
+  return "";
+};
 
 const upStationOption = `<option value="" selected disabled hidden>상행역</option>`;
 const downStationOption = `<option value="" selected disabled hidden>하행역</option>`;
@@ -81,20 +120,8 @@ export default class LinesModal extends Modal {
                 required
               />
             </div>
-          <div class="input-control">
-            <div>
-              <label for="subway-line-color" class="input-label" hidden>색상 선택</label>
-              <input
-                type="text"
-                id="subway-line-color"
-                name="subway-line-color"
-                class="input-field"
-                placeholder="색상을 아래에서 선택해주세요."
-                required
-              />
-            </div>
-          </div>
           <div class="subway-line-color-selector px-2">
+            <p>색상을 선택하세요.</p>
             ${colorOptions.map(subwayLineColorOptionTemplate).join("")}
           </div>
           <p class="js-add-line-message text-base text-red text-center"></p>
@@ -131,43 +158,10 @@ export default class LinesModal extends Modal {
       distance: target.distance.value,
       duration: target.duration.value,
     };
+    const inputsErrorMessage = getInputsErrorMessage(lineData);
 
-    const isValidNameLength =
-      lineData.name.length >= LINE_NAME_MIN_LENGTH &&
-      lineData.name.length <= LINE_NAME_MAX_LENGTH;
-
-    if (!isValidNameLength) {
-      $message.textContent = ERROR_MESSAGE.LINE_NAME_LENGTH;
-
-      return;
-    }
-
-    if (lineData.upStationId === "") {
-      $message.textContent = ERROR_MESSAGE.EMPTY_UP_STATION;
-
-      return;
-    }
-
-    if (lineData.downStationId === "") {
-      $message.textContent = ERROR_MESSAGE.EMPTY_DOWN_STATION;
-
-      return;
-    }
-
-    if (lineData.upStationId === lineData.downStationId) {
-      $message.textContent = ERROR_MESSAGE.SAME_UP_DOWN_STATION;
-
-      return;
-    }
-
-    if (lineData.distance < 1) {
-      $message.textContent = ERROR_MESSAGE.INVALID_LINE_DISTANCE;
-
-      return;
-    }
-
-    if (lineData.duration < 1) {
-      $message.textContent = ERROR_MESSAGE.INVALID_LINE_DURATION;
+    if (inputsErrorMessage !== "") {
+      $message.textContent = inputsErrorMessage;
 
       return;
     }

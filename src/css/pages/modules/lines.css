@@ -19,10 +19,40 @@
 }
 
 .color-option {
-  width: 30px;
-  height: 30px;
   display: inline-block;
+  position: relative;
+  height: 30px;
+  width: 30px;
+  margin: 1.5px;
   cursor: pointer;
-  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.color-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.color-option .radio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   border-radius: 3px;
+  box-sizing: border-box;
+}
+
+input[type="radio"]:checked ~ .radio {
+  border: 3px solid black;
+  transform: scale(0.9);
+}
+
+input[type="radio"]:hover ~ .radio {
+  transform: scale(0.9);
 }

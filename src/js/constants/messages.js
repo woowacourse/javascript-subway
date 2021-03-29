@@ -25,6 +25,7 @@ export const ERROR_MESSAGE = {
   LINE_NAME_LENGTH: `${LINE_NAME_MIN_LENGTH}자 이상 ${LINE_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
   EMPTY_UP_STATION: "상행역을 선택해주세요",
   EMPTY_DOWN_STATION: "하행역을 선택해주세요",
+  EMPTY_LINE_COLOR: "노선의 색상을 선택해주세요",
   SAME_UP_DOWN_STATION: "상행역과 하행역은 같을 수 없습니다.",
   INVALID_LINE_DISTANCE: `상행역과 하행역 사이의 거리는 ${LINE_MIN_DISTANCE} 이상이어야 합니다.`,
   INVALID_LINE_DURATION: `상행역과 하행역 사이의 소요 시간은 ${LINE_MIN_DURATION} 이상이어야 합니다.`,
