@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from "../../src/js/constants/messages.js";
-import { PAGE_URLS } from "../../src/js/constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../../src/js/constants/pages.js";
+import { END_POINT } from "../constants/general.js";
 
 describe("역 관리 페이지", () => {
   const stations = ["배민역", "쿠팡역", "카카오역"];
@@ -31,8 +32,10 @@ describe("역 관리 페이지", () => {
   });
 
   it("로그인 후 지하철 노선 관리 페이지로 이동한다.", () => {
+    cy.intercept("GET", `${END_POINT}/lines`).as("visitLines");
     cy.get(`.js-page-link[href="${PAGE_URLS[PAGE_KEYS.LINES]}"]`).click();
     cy.url().should("include", `${PAGE_URLS[PAGE_KEYS.LINES]}`);
+    cy.wait("@visitLines");
   });
 
   it("노선 추가 버튼을 누르면 새로운 지하철 노선을 추가할 수 있는 모달이 나타난다.", () => {
@@ -98,9 +101,9 @@ describe("역 관리 페이지", () => {
     ).should("not.have.text", line.name);
   });
 
-  after(() => {
-    cy.get(".js-line-list .js-delete-line-btn").each(($deleteBtn) => {
-      cy.wrap($deleteBtn).click();
-    });
-  });
+  // after(() => {
+  //   cy.get(".js-line-list .js-delete-line-btn").each(($deleteBtn) => {
+  //     cy.wrap($deleteBtn).click();
+  //   });
+  // });
 });
