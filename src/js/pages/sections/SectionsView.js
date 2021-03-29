@@ -21,6 +21,10 @@ class SectionsView {
   renderSections(sections) {
     $('#section-list').innerHTML = sectionListTemplate(sections);
   }
+
+  deleteResult({ target }) {
+    target.closest('li').remove();
+  }
 }
 
 export default SectionsView;

@@ -1,4 +1,5 @@
 import { ALERT_MESSAGE } from '../../constants/messages.js';
+import { $ } from '../../utils/DOM.js';
 import user from '../../models/user.js';
 
 async function addSectionHandler(e) {
@@ -20,4 +21,16 @@ async function addSectionHandler(e) {
   return resFlag;
 }
 
-export { addSectionHandler };
+async function deleteSectionHandler(e) {
+  const lineId = $('#line-name').value;
+  const stationId = e.target.closest('li').dataset.sectionId;
+
+  const resFlag = user.lineManager.deleteSection(lineId, stationId);
+  if (!resFlag) {
+    alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_SECTION);
+  }
+
+  return resFlag;
+}
+
+export { addSectionHandler, deleteSectionHandler };

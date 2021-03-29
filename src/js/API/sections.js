@@ -29,4 +29,28 @@ async function fetchAddSection(newSectionInfo, lineId) {
   }
 }
 
-export { fetchAddSection };
+async function fetchDeleteSection(lineId, stationId) {
+  const requestData = {
+    method: HTTP.METHOD.DELETE,
+    headers: {
+      Authorization: `Bearer ${user.authorization}`,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/lines/${lineId}/sections?stationId=${stationId}`,
+      requestData
+    );
+
+    if (!response.ok) {
+      throw new Error('구간 삭제에 실패했습니다.');
+    }
+
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { fetchAddSection, fetchDeleteSection };

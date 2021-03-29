@@ -4,7 +4,7 @@ import {
   fetchDeleteLine,
   fetchModifyLine,
 } from '../API/lines.js';
-import { fetchAddSection } from '../API/sections.js';
+import { fetchAddSection, fetchDeleteSection } from '../API/sections.js';
 import user from './user.js';
 
 class LineManager {
@@ -105,11 +105,30 @@ class LineManager {
     const upStationIndex = this.lines[lineId].stations.findIndex(
       station => station.id === newSectionInfo.upStationId
     );
-    const newSection = this.createStationData(
-      user.stationManager.getStation(newSectionInfo.downStationId)
-    );
+    const newSection =
+      upStationIndex === -1
+        ? this.createStationData(
+            user.stationManager.getStation(newSectionInfo.upStationId)
+          )
+        : this.createStationData(
+            user.stationManager.getStation(newSectionInfo.downStationId)
+          );
+
     if (resFlag) {
       this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
+    }
+
+    return resFlag;
+  }
+
+  async deleteSection(lineId, stationId) {
+    console.log(lineId, stationId);
+
+    const resFlag = await fetchDeleteSection(lineId, stationId);
+    if (resFlag) {
+      this.lines[lineId].stations = this.lines[lineId].stations.filter(
+        station => station.id !== Number(stationId)
+      );
     }
 
     return resFlag;

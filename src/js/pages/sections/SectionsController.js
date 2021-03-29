@@ -1,7 +1,7 @@
 import SectionsView from './SectionsView.js';
 import { $, onModalClose, onModalShow } from '../../utils/DOM.js';
 import user from '../../models/user.js';
-import { addSectionHandler } from './SectionHandlers.js';
+import { addSectionHandler, deleteSectionHandler } from './SectionHandlers.js';
 
 class SectionsController {
   constructor(router) {
@@ -35,6 +35,17 @@ class SectionsController {
     onModalClose();
   }
 
+  async onSectionUpdateBtnClick(e) {
+    if (!e.target.classList.contains('btn')) return;
+
+    if (e.target.classList.contains('js-delete-button')) {
+      const resFlag = await deleteSectionHandler(e);
+      if (resFlag) {
+        this.sectionsView.deleteResult(e);
+      }
+    }
+  }
+
   bindEvents() {
     $('.modal-trigger-btn').addEventListener('click', () => onModalShow());
     $('.modal-close').addEventListener('click', onModalClose);
@@ -45,6 +56,10 @@ class SectionsController {
     $('#sections-form').addEventListener(
       'submit',
       this.onSectionAddBtnClick.bind(this)
+    );
+    $('#section-list').addEventListener(
+      'click',
+      this.onSectionUpdateBtnClick.bind(this)
     );
   }
 }
