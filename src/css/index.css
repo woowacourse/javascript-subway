@@ -2,6 +2,7 @@
 @import './ui/index.css';
 @import './pages/index.css';
 @import './pages/station.css';
+@import './pages/lines.css';
 
 html,
 body {

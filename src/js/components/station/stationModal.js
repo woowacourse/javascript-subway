@@ -5,22 +5,17 @@ import {
 } from '../../utils/modal.js';
 import { $ } from '../../utils/dom.js';
 import { checkStationValid } from './stationValidator.js';
-import {
-  REQUEST_METHOD,
-  ACTIONS,
-  BASE_URL,
-  SELECTOR,
-  SUCCESS_MESSAGE,
-} from '../../constants.js';
-import { request } from '../../utils/api.js';
+import { SELECTOR, SUCCESS_MESSAGE } from '../../constants.js';
 import { showSnackbar } from '../../utils/snackbar.js';
+import { stationAPI } from '../../../../api/station.js';
 
 class StationModal {
   #userAccessToken;
 
-  constructor() {
+  constructor({ updateStations }) {
     this.stationInfo = null;
     this.#userAccessToken = null;
+    this.updateStations = updateStations;
   }
 
   init(userAccessToken) {
@@ -29,8 +24,14 @@ class StationModal {
   }
 
   initDOM() {
-    bindModalCloseEvent();
+    this.bindEvent();
+  }
 
+  bindEvent() {
+    bindModalCloseEvent();
+    this.bindStationFormEvent();
+  }
+  bindStationFormEvent() {
     $('form[name="modify-station"]').addEventListener(
       'submit',
       this._handleModifyStationClose.bind(this),
@@ -61,17 +62,14 @@ class StationModal {
     }
 
     try {
-      const option = {
-        method: REQUEST_METHOD.PUT,
-        Authorization: `Bearer ${this.#userAccessToken}`,
-        body: {
-          name: newName,
-        },
-      };
-
-      await request(`${BASE_URL}${ACTIONS.STATIONS}/${id}`, option);
-
+      await stationAPI.modifyStation({
+        userAccessToken: this.#userAccessToken,
+        id,
+        name: newName,
+      });
       $(SELECTOR.STATION_ITEM_NAME, $stationItem).innerHTML = newName;
+
+      this.updateStations(id, newName);
       onModalClose();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (res) {

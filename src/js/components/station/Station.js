@@ -1,6 +1,5 @@
+import { stationAPI } from '../../../../api/station.js';
 import {
-  ACTIONS,
-  BASE_URL,
   PAGE_TITLE,
   STORAGE,
   SELECTOR,
@@ -9,14 +8,12 @@ import {
   SUCCESS_MESSAGE,
   FORM,
   CONFIRM_MESSAGE,
-  REQUEST_METHOD,
 } from '../../constants.js';
-import { request } from '../../utils/api.js';
 import { $, clearForm } from '../../utils/dom.js';
 
 import { showSnackbar } from '../../utils/snackbar.js';
 import { getLocalStorageItem } from '../../utils/storage.js';
-import StationModal from './stationModal.js';
+import StationModal from './StationModal.js';
 import {
   modalTemplate,
   stationsTemplate,
@@ -32,7 +29,9 @@ class Station {
   constructor() {
     this.#userAccessToken = null;
     this.#stations = {};
-    this.#modal = new StationModal();
+    this.#modal = new StationModal({
+      updateStations: this.updateStations.bind(this),
+    });
   }
 
   async init() {
@@ -51,9 +50,6 @@ class Station {
   }
 
   initDOM() {
-    // TODO
-    // 2. 역 수정/삭제 관련 이벤트 등록(위임) <ul>
-    // => 역 추가, 역 수정, 역 삭제
     this.$addStationForm = $(SELECTOR.ADD_STATION_FORM);
     this.$stationList = $(SELECTOR.STATION_LIST);
     this.#modal.init(this.#userAccessToken);
@@ -63,17 +59,9 @@ class Station {
   async _initStations() {
     try {
       this.#stations = {};
-      const option = {
-        Authorization: `Bearer ${this.#userAccessToken}`,
-      };
-      const requestedStation = await request(
-        `${BASE_URL}${ACTIONS.STATIONS}`,
-        option,
-      ).then(res => {
-        return res.json();
-      });
 
-      requestedStation.forEach(({ id, ...rest }) => {
+      const stations = await stationAPI.getStations(this.#userAccessToken);
+      stations.forEach(({ id, ...rest }) => {
         this.#stations[id] = rest;
       });
     } catch {
@@ -117,25 +105,15 @@ class Station {
     }
 
     try {
-      // TODO: option, newStation fetch 과정 분리할수 있으면 분리하기
-      const option = {
-        method: REQUEST_METHOD.POST,
-        Authorization: `Bearer ${this.#userAccessToken}`,
-        body: {
-          name: stationName,
-        },
-      };
-
-      const { id, name } = await request(
-        `${BASE_URL}${ACTIONS.STATIONS}`,
-        option,
-      ).then(res => {
-        return res.json();
+      const { id, ...rest } = await stationAPI.addStations({
+        userAccessToken: this.#userAccessToken,
+        name: stationName,
       });
 
+      this.#stations[id] = rest;
       this.$stationList.insertAdjacentHTML(
         'beforeend',
-        stationTemplate(id, { name }),
+        stationTemplate(id, { name: this.#stations[id].name }),
       );
 
       clearForm(this.$addStationForm);
@@ -145,39 +123,18 @@ class Station {
     }
   }
 
-  // async _handleModifyStationOpen(e) {
-
-  //   onModalShow();
-  //   const stationItem = e.target.closest('[data-station-id]');
-  //   $('#station-modify-input').value = this.#stations[
-  //     stationItem.dataset.stationId
-  //   ].name;
-
-  //   $('#station-modify-input').focus();
-  // }
-
-  // async _handleModifyStation(e) {
-
-  //   // 모달 열기 + input값 초기화
-
-  //   this.modal._handleModifyStation(e, this.#stations)
-  //   onModalClose()
-  //   // proccess 처리
-  // }
-
   async _handleRemoveStation(e) {
     if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
 
     try {
-      const option = {
-        method: REQUEST_METHOD.DELETE,
-        Authorization: `Bearer ${this.#userAccessToken}`,
-      };
-
       const { $stationItem, id } = this._getSelectedStationInfo(e);
+      console.log($stationItem, id);
+      await stationAPI.deleteStations({
+        userAccessToken: this.#userAccessToken,
+        id,
+      });
 
-      await request(`${BASE_URL}${ACTIONS.STATIONS}/${id}`, option);
-
+      delete this.#stations[id];
       $stationItem.remove();
       showSnackbar(SUCCESS_MESSAGE.REMOVE_STATION);
     } catch (error) {
@@ -191,6 +148,10 @@ class Station {
     const name = this.#stations[id].name;
 
     return { $stationItem, id, name };
+  }
+
+  updateStations(id, name) {
+    this.#stations[id].name = name;
   }
 }
 

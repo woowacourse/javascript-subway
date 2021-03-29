@@ -6,6 +6,7 @@ export const ACTIONS = {
   LOGIN: '/login/token',
   DUPLICATED_EMAIL: '/members/check-validation?email=',
   STATIONS: '/stations',
+  LINES: '/lines',
 };
 
 export const PATH = {
@@ -102,6 +103,8 @@ export const ERROR_MESSAGE = {
   ADD_STATION_FAILED: '역을 추가하는데 실패했습니다. 잠시후 다시 시도해주세요.',
   REMOVE_STATION_FAILED:
     '역을 제거하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  LOAD_LINE_FAILED:
+    '노선 목록을 불러오는데 실패했습니다. 관리자에게 문의해주세요!',
 };
 
 export const CONFIRM_MESSAGE = {
