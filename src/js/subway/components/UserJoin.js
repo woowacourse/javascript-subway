@@ -1,11 +1,12 @@
 import { DOM } from '../constants/dom';
 import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
+import { Component } from '../../@shared/models/Component';
 
-export class UserJoin {
+export class UserJoin extends Component {
   constructor() {
+    super();
     this.isUniqueEmail = false;
-    this.bindEvent();
   }
 
   bindEvent() {

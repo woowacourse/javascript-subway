@@ -3,13 +3,9 @@ import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { store, updateUserInfo } from '../../subway/models/store';
 import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
+import { Component } from '../../@shared/models/Component';
 
-export class UserAuth {
-  constructor() {
-    this.setup();
-    this.bindEvent();
-  }
-
+export class UserAuth extends Component {
   setup() {
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.signOut.bind(this));
   }

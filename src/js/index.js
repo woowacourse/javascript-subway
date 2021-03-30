@@ -5,13 +5,9 @@ import { updateUserInfo } from './subway/models/store';
 import { Subway } from './subway';
 import { userAuthAPI, routeTo } from './subway/utils';
 import { DOM, SESSION_KEY } from './subway/constants';
+import { Component } from './@shared/models/Component';
 
-class App {
-  constructor() {
-    this.mountChildComponents();
-    this.bindEvent();
-  }
-
+class App extends Component {
   mountChildComponents() {
     new Subway();
   }

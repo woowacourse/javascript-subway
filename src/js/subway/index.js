@@ -4,14 +4,9 @@ import { DOM } from './constants/dom';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 import { subwayView } from './views';
+import { Component } from '../@shared/models/Component';
 
-export class Subway {
-  constructor() {
-    this.setup();
-    this.mountChildComponents();
-    this.bindEvent();
-  }
-
+export class Subway extends Component {
   setup() {
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderRoot.bind(subwayView));
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderNavButtons.bind(subwayView));

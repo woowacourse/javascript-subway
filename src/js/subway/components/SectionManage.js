@@ -4,13 +4,9 @@ import { SESSION_KEY, STATE_KEY, UP_STATION, DOWN_STATION, MESSAGE, ROUTE } from
 import { hideModal, isValidDistance, isValidDuration, sectionManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../subway/models/store';
+import { Component } from '../../@shared/models/Component';
 
-export class SectionManage {
-  constructor() {
-    this.setup();
-    this.bindEvent();
-  }
-
+export class SectionManage extends Component {
   setup() {
     store[STATE_KEY.ROUTE].subscribe(this.resetSelector.bind(this));
     store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));

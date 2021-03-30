@@ -13,12 +13,12 @@ import {
 } from '../constants/constants';
 import { hideModal, isValidDistance, isValidDuration, isValidName, lineManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
+import { Component } from '../../@shared/models/Component';
 
-export class LineManage {
+export class LineManage extends Component {
   constructor() {
+    super();
     this.submitType = null;
-    this.setup();
-    this.bindEvent();
   }
 
   setup() {

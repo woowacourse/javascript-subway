@@ -4,13 +4,9 @@ import { MESSAGE, NAME_LENGTH, SESSION_KEY, STATE_KEY } from '../constants/const
 import { DOM } from '../constants/dom';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
+import { Component } from '../../@shared/models/Component';
 
-export class StationManage {
-  constructor() {
-    this.setup();
-    this.bindEvent();
-  }
-
+export class StationManage extends Component {
   setup() {
     store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
   }
