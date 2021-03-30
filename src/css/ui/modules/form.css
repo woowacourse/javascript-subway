@@ -3,7 +3,8 @@ form .input-control {
 
   align-items: center;
   justify-content: flex-start;
-  height: 80px;
+  max-height: 80px;
+  margin-bottom: 8px;
 }
 
 form .input-control input:focus {

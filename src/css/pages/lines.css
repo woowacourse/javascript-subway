@@ -28,7 +28,16 @@
 }
 
 .line-item {
+  display: flex;
   border-bottom: 1px solid #e1e1e1;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.line-item-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 form[name='modify-line'] .hide {

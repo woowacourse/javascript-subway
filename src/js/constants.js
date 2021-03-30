@@ -43,7 +43,7 @@ export const SELECTOR = {
   LINE_FORM: 'form[name="modify-line"]',
   LINE_LIST: '#line-list',
   LINE_ITEM: '.line-item',
-  // LINE_ITEM_NAME: '.station-list-item-name',
+  LINE_ITEM_NAME: '.line-list-item-name',
 };
 
 export const CLASS_NAME = {
@@ -88,6 +88,7 @@ export const SUCCESS_MESSAGE = {
   MODIFY_STATION: '역명이 수정되었습니다 !',
   ADD_LINE: '노선이 추가되었습니다! 🚇',
   REMOVE_LINE: '노선이 제거되었습니다!',
+  MODIFY_LINE: '노선이 수정되었습니다!',
 };
 
 export const ERROR_MESSAGE = {

@@ -39,4 +39,17 @@ export const lineAPI = {
 
     await request(`${BASE_URL}${ACTIONS.LINES}/${id}`, option);
   },
+
+  modifyLine: async ({ userAccessToken, id, name, color }) => {
+    const option = {
+      method: REQUEST_METHOD.PUT,
+      Authorization: `Bearer ${userAccessToken}`,
+      body: {
+        name,
+        color,
+      },
+    };
+
+    await request(`${BASE_URL}${ACTIONS.LINES}/${id}`, option);
+  },
 };

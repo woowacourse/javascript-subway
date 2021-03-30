@@ -1,5 +1,3 @@
-import { REQUEST_METHOD } from '../constants';
-
 export const $ = (selector, $element = document) =>
   $element.querySelector(selector);
 
