@@ -15,6 +15,16 @@ describe('역 관리 기능테스트', () => {
       url: `${API_ENDPOINT.LOGIN}`,
     }).as('login');
 
+    cy.intercept({
+      method: 'POST',
+      url: `${API_ENDPOINT.STATIONS}`,
+    }).as('createStation');
+
+    cy.intercept({
+      method: 'GET',
+      url: `${API_ENDPOINT.STATIONS}`,
+    }).as('readStation');
+
     cy.window().then((window) => {
       cy.stub(window, 'confirm').returns(true).as('window:confirm');
     });
@@ -25,15 +35,28 @@ describe('역 관리 기능테스트', () => {
     cy.get('#password').type(oldUser.password);
     cy.get('button[type="submit"]').click();
     cy.wait('@login');
+    cy.wait('@readStation');
   });
 
-  const stationName = '몽촌토성';
+  const stationName = `몽촌토성00009`;
 
   it('역 이름을 입력하고 추가버튼을 클릭하면 역 이름 목록 최상단에 역 이름이 추가된다.', () => {
     cy.get('#add-station-name').type(stationName);
     cy.get('.submit-button').click();
 
-    cy.get('.station-list-item').first().should('contain', stationName);
+    cy.wait('@createStation');
+    cy.wait('@readStation');
+
+    cy.get('.station-list-item')
+      .first()
+      .get('input[type="text"]')
+      .then(($el) => {
+        const [$newStation] = $el;
+
+        expect($newStation.value).to.be.equal(stationName);
+      });
+
+    cy.get('#snackbar-container').should('contain', STATIONS_MESSAGES.STATION_HAS_BEEN_ADDED);
   });
 
   it('중복된 역 이름 추가 시도할 경우, 중복 알림 메세지가 스낵바로 표시된다.', () => {
@@ -51,7 +74,7 @@ describe('역 관리 기능테스트', () => {
     cy.get('#add-station-name').type(stationName);
     cy.get('.submit-button').click();
     cy.get('.edit-button').first().click();
-    cy.get('#add-station-name').first().type(newStationName);
+    cy.get('.edit-station-name').first().type(newStationName);
     cy.get('.check-button').first().click();
 
     cy.get('#snackbar-container').should('contain', STATIONS_MESSAGES.STATION_HAS_BEEN_UPDATED);
