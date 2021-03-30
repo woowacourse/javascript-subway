@@ -4,19 +4,25 @@ import { updateStationNameEditModal } from '../viewController';
 import { openModal } from '../../../utils/modal';
 import { $ } from '../../../utils/dom';
 import { requestDeleteStation } from '../../../api/station';
+import { isStationInLines } from '../../../services/station';
 
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
 
   const $targetStation = target.closest('.js-station-list-item');
-  const stationID = Number($targetStation.dataset.id);
+  const stationId = Number($targetStation.dataset.id);
 
-  const result = await requestDeleteStation(stationID);
+  if (isStationInLines(stationId)) {
+    alert('역을 삭제할 수 없습니다. 이미 노선에 등록된 역입니다.');
+    return;
+  }
+
+  const result = await requestDeleteStation(stationId);
   if (!result.success) {
     alert(result.message);
     return;
   }
-  store.station.delete(stationID);
+  store.station.delete(stationId);
   $targetStation.remove();
 
   alert(STATION.DELETE_STATION_SUCCESS);
