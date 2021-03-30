@@ -4,6 +4,8 @@ export const SELECTOR_ID = Object.freeze({
   MAIN_CONTAINER: 'main-container',
   STATION_LIST: 'station-list',
   STATION_FORM: 'station-form',
+  STATION_FORM_NAME_INPUT: 'station-form__name-input',
+  STATION_FORM_SUBMIT: 'station-form__submit',
   LINE_LIST: 'line-list',
   SECTION_STATION_LIST: 'section-station-list',
   SECTION_MODAL_OPEN: 'section__modal-open',
@@ -62,6 +64,7 @@ export const SELECTOR_CLASS = Object.freeze({
 });
 
 export const SELECTOR_NAME = Object.freeze({
+  STATION_NAME_INPUT: 'station-name-input',
   SUBWAY_LINE_NAME: 'subway-line-name',
   SUBWAY_UP_STATION: 'subway-up-station',
   SUBWAY_DOWN_STATION: 'subway-down-station',

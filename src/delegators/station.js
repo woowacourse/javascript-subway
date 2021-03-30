@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE } from '../constants';
+import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE, SELECTOR_NAME } from '../constants';
 import { state } from '../store.js';
 import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
 import { requestStationDelete, requestStationRegistration } from '../api/station.js';
@@ -33,7 +33,7 @@ export function delegateStationFocusOutEvent(event) {
 }
 
 function onStationFormSubmit(target) {
-  const { stationName: stationNameInput } = target;
+  const { [SELECTOR_NAME.STATION_NAME_INPUT]: stationNameInput } = target;
   const stationList = state.get(STATE_KEY.STATION_LIST);
   if (!isProperStationNameLength(stationNameInput.value)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
@@ -46,6 +46,7 @@ function onStationFormSubmit(target) {
   requestStationRegistration(stationNameInput.value)
     .then(({ id, name }) => {
       state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
+      target[SELECTOR_NAME.STATION_NAME_INPUT].value = '';
     })
     .catch(error => {
       console.log(error);

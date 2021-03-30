@@ -1,4 +1,4 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
+import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, STYLE_CLASS } from '../constants';
 import Observer from '../lib/Observer';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
 import { delegateStationClickEvent, delegateStationFocusOutEvent, delegateStationSubmitEvent } from '../delegators/station.js';
@@ -43,15 +43,15 @@ export default class Station extends Observer {
         <div class="heading"><h2 class="mt-1">🚉 역 관리</h2></div>
         <form id="${SELECTOR_ID.STATION_FORM}">
           <div class="d-flex w-100">
-            <label for="station-name" class="input-label" hidden> 역 이름 </label
+            <label for="${SELECTOR_ID.STATION_FORM_NAME_INPUT}" class="input-label" hidden> 역 이름 </label
             ><input
               type="text"
-              id="station-name"
-              name="stationName"
+              id="${SELECTOR_ID.STATION_FORM_NAME_INPUT}"
+              name="${SELECTOR_NAME.STATION_NAME_INPUT}"
               class="input-field"
               placeholder="역 이름"
               required
-            /><button type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
+            /><button id="${SELECTOR_ID.STATION_FORM_SUBMIT}" type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
           </div>
         </form>
         <ul id="${SELECTOR_ID.STATION_LIST}" class="mt-3 pl-0"></ul>
