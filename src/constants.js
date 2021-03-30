@@ -24,6 +24,7 @@ export const SELECTOR_ID = Object.freeze({
   LOG_IN_EMAIL_INPUT: 'login-email-input',
   LOG_IN_PASSWORD_INPUT: 'login-password-input',
   LOG_OUT_BUTTON: 'logout-button',
+  SIGN_UP_FORM_WRAPPER: 'signup-form-wrapper',
   SIGN_UP_FORM: 'signup-form',
   SIGN_UP_BUTTON: 'signup-button',
   SIGN_UP_EMAIL_INPUT: 'signup-email-input',

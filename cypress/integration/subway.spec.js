@@ -6,7 +6,7 @@ const TEST_USER_PASSWORD = 'test123';
 const WAIT_SECONDS = 2000;
 
 // TODO: accessToken을 state에 직접 저장하지 말고 isloggedIn으로 바꾸기
-context('지하철 노선도', () => {
+context('계정', () => {
   before(() => {
     cy.visit(HOST_URL, {
       onBeforeLoad(win) {
@@ -48,6 +48,54 @@ context('지하철 노선도', () => {
   });
 });
 
+context('역 관리', () => {
+  before(() => {
+    cy.visit(HOST_URL, {
+      onBeforeLoad(win) {
+        win.sessionStorage.clear();
+      },
+    });
+    login();
+  });
+
+  describe('지하철역 등록 및 조회', () => {
+    it('마우스 클릭으로 역 추가', () => {
+      
+    })
+    it('엔터키로 역 추가', () => {
+
+    })
+    it('입력 예외 테스트', () => {
+
+    })
+  })
+
+  describe('지하철역 수정', () => {
+    it('수정 버튼 클릭 시 수정 Input Modal 생성', () => {
+      
+    })
+    it('수정할 이름 입력', () => {
+
+    })
+    it('입력 예외 테스트', () => {
+
+    })
+  })
+
+  describe('지하철역 삭제', () => {
+    it('삭제 confirm 시 역 삭제', () => {
+      
+    })
+    it('삭제 confirm 취소 시 역 삭제 X', () => {
+
+    })
+    it('이미 노선에 등록된 역인 경우 삭제되지 않음', () => {
+
+    })
+  })
+
+})
+
 function click(selector) {
   cy.get(selector).click();
 }
@@ -59,10 +107,19 @@ function type(selector, text) {
 function checkAccessTokenExist(isExist) {
   cy.window().then(win => {
     const accessToken = win.sessionStorage.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
+    console.log(accessToken)
     if (isExist) {
       expect(accessToken).to.not.equal(null);
       return;
     }
     expect(accessToken).to.equal(null);
   });
+}
+
+function login() {
+  click(`a[href="${PATH.LOG_IN}"]`);
+  type(`#${SELECTOR_ID.LOG_IN_EMAIL_INPUT}`, TEST_USER_EMAIL);
+  type(`#${SELECTOR_ID.LOG_IN_PASSWORD_INPUT}`, TEST_USER_PASSWORD);
+  click(`#${SELECTOR_ID.LOG_IN_BUTTON}`);
+  cy.wait(WAIT_SECONDS);
 }
