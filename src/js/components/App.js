@@ -8,7 +8,7 @@ import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
 import { LOCAL_STORAGE_KEY, MESSAGE } from '../constants/index.js';
 import { getLocalStorageItem } from '../utils/index.js';
-import { isValidToken } from '../service/index.js';
+import { serviceAPI } from '../service/index.js';
 
 export default class App extends Component {
   constructor() {
@@ -45,7 +45,7 @@ export default class App extends Component {
       '/signup': (token = '') => this.Signup.load(token),
     };
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
-    const isLoggedIn = await isValidToken(token);
+    const isLoggedIn = await serviceAPI.isValidToken(token);
 
     if (!isLoggedIn) {
       console.error(MESSAGE.REQUIRE_LOGIN);

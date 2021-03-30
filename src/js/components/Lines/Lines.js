@@ -2,14 +2,7 @@ import Component from '../../core/Component.js';
 import { linesTemplate, lineListTemplate } from './template.js';
 import { $, $$, showSnackbar, customConfirm } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, LINES, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import {
-  getStationList,
-  getCreatedLineData,
-  getLineList,
-  lineDeleted,
-  getLineData,
-  isLineEdited,
-} from '../../service/index.js';
+import { serviceAPI } from '../../service/index.js';
 
 export default class Lines extends Component {
   #token;
@@ -60,7 +53,7 @@ export default class Lines extends Component {
     this.$modalForm.classList.remove('create-form');
     this.$lineColorInput.placeholder = '';
 
-    const lineData = await getLineData({ token: this.#token, id: target.dataset.id });
+    const lineData = await serviceAPI.getLineData({ token: this.#token, id: target.dataset.id });
     let duration = 0;
     let distance = 0;
 
@@ -91,7 +84,7 @@ export default class Lines extends Component {
       return;
     }
 
-    const isDeleted = await lineDeleted({
+    const isDeleted = await serviceAPI.deleteLine({
       token: this.#token,
       id: lineId,
     });
@@ -142,7 +135,7 @@ export default class Lines extends Component {
   }
 
   async submitCreateForm(contents) {
-    const createdLineData = await getCreatedLineData({
+    const createdLineData = await serviceAPI.getCreatedLineData({
       token: this.#token,
       ...contents,
     });
@@ -157,7 +150,7 @@ export default class Lines extends Component {
   }
 
   async submitEditForm(id, contents) {
-    const isEdited = isLineEdited({ token: this.#token, id, ...contents });
+    const isEdited = await serviceAPI.editLine({ token: this.#token, id, ...contents });
 
     if (!isEdited) {
       showSnackbar(SNACKBAR_MESSAGE.EDIT_FAILURE);
@@ -219,8 +212,8 @@ export default class Lines extends Component {
   }
 
   async load(token = '') {
-    const stationList = await getStationList(token);
-    const lineList = await getLineList(token);
+    const stationList = await serviceAPI.getStationList(token);
+    const lineList = await serviceAPI.getLineList(token);
 
     this.#token = token;
     this.render(token, stationList, lineList);

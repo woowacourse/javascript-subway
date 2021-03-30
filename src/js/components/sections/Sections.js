@@ -2,13 +2,7 @@ import Component from '../../core/Component.js';
 import { sectionListTemplate, sectionsTemplate } from './template.js';
 import { $, customConfirm, showSnackbar } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import {
-  getStationList,
-  getLineList,
-  getSectionData,
-  getCreatedSectionData,
-  sectionDeleted,
-} from '../../service/index.js';
+import { serviceAPI } from '../../service/index.js';
 
 export default class Sections extends Component {
   #token;
@@ -55,7 +49,7 @@ export default class Sections extends Component {
       return;
     }
 
-    const isDeleted = await sectionDeleted({
+    const isDeleted = await serviceAPI.deleteSection({
       token: this.#token,
       lineId: this.#lineId,
       stationId,
@@ -79,7 +73,7 @@ export default class Sections extends Component {
     const distance = e.target.elements['distance-input'].value;
     const duration = e.target.elements['duration-input'].value;
 
-    const createdSectionData = await getCreatedSectionData({
+    const createdSectionData = await serviceAPI.getCreatedSectionData({
       token: this.#token,
       id: this.#lineId,
       contents: { upStationId, downStationId, duration, distance },
@@ -110,7 +104,7 @@ export default class Sections extends Component {
 
   async handleLineSelect({ target }) {
     this.#lineId = target.value;
-    const stationList = await getSectionData({ token: this.#token, id: this.#lineId });
+    const stationList = await serviceAPI.getSectionData({ token: this.#token, id: this.#lineId });
 
     this.$sectionListContainer.innerHTML = stationList
       .map((station, index) => sectionListTemplate(station, index))
@@ -123,8 +117,8 @@ export default class Sections extends Component {
   }
 
   async load(token = '') {
-    const stationList = await getStationList(token);
-    const lineList = await getLineList(token);
+    const stationList = await serviceAPI.getStationList(token);
+    const lineList = await serviceAPI.getLineList(token);
 
     this.#token = token;
     this.render(token, stationList, lineList);
