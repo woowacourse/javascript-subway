@@ -2,7 +2,7 @@ import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
 import { $, showSnackbar, customConfirm } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE, STATIONS } from '../../constants/index.js';
-import { getCreatedStationData, getStationList, stationDeleted, isStationEdited } from '../../service/index.js';
+import { serviceAPI } from '../../service/index.js';
 
 export default class Stations extends Component {
   #token;
@@ -58,7 +58,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const isEdited = await isStationEdited({
+    const isEdited = await serviceAPI.editStation({
       token: this.#token,
       name: $stationEditNameInput.value,
       id: stationId,
@@ -95,7 +95,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const isDeleted = await stationDeleted({
+    const isDeleted = await serviceAPI.deleteStation({
       token: this.#token,
       id: stationId,
     });
@@ -122,7 +122,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const createdStationData = await getCreatedStationData({
+    const createdStationData = await serviceAPI.getCreatedStationData({
       token: this.#token,
       name: $stationNameInput.value,
     });
@@ -143,7 +143,7 @@ export default class Stations extends Component {
   }
 
   async load(token) {
-    const stationList = await getStationList(token);
+    const stationList = await serviceAPI.getStationList(token);
 
     this.#token = token;
     this.render(token, stationList);
