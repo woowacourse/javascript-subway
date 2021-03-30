@@ -9,8 +9,10 @@ context('Window', () => {
     cy.visit('http://127.0.0.1:5500/');
   });
 
+  it('test', () => {});
+
   // TODO: cypress 첫 번째 테스트일 경우 alert를 감지하지 못하는 문제
-  it('회원 가입 시 `email`, `name`, `password`를 제출해야한다.', () => {
+  it('회원 가입 시 `email`, `name`, `password`에 대한 예외 처리가 작동했을 때, 에러를 출력한다.', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
@@ -31,7 +33,7 @@ context('Window', () => {
       });
   });
 
-  it('알맞은 이메일과 비밀번호를 입력해야 로그인할 수 있다.', () => {
+  it('알맞은 이메일과 비밀번호가 있을 때 로그인을 할 수 있는지 테스트한다.', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
 
