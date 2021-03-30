@@ -35,10 +35,10 @@ export default class SectionModal {
 
   bindEvents() {
     this.$subwaySectionForm.addEventListener('submit', this.handleSubmit.bind(this));
+    this.$upStationSelect.addEventListener('change', this.checkValidStation.bind(this));
+    this.$downStationSelect.addEventListener('change', this.checkValidStation.bind(this));
     this.$modalCloseButton.addEventListener('click', this.close.bind(this));
     this.$root.addEventListener('mousedown', this.handleClickOutsideModal.bind(this));
-    this.$upStationSelect.addEventListener('change', this.checkSameStation.bind(this));
-    this.$downStationSelect.addEventListener('change', this.checkSameStation.bind(this));
   }
 
   open(lineID) {
@@ -55,7 +55,7 @@ export default class SectionModal {
     this.$downStationSelect.append(...this.store.stations.map((station) => new Option(station.name, station.id)));
   }
 
-  checkSameStation() {
+  checkValidStation() {
     this.state.upStationId = this.$upStationSelect.value;
     this.state.downStationId = this.$downStationSelect.value;
 
@@ -63,6 +63,7 @@ export default class SectionModal {
       show(this.$sameStationWarning);
       return;
     }
+
     hide(this.$sameStationWarning);
   }
 
@@ -78,13 +79,10 @@ export default class SectionModal {
     } = event.target.elements;
 
     if (upStationId === downStationId) {
-      show(this.$sameStationWarning);
       return;
     }
 
     this.state = { lineId, upStationId, downStationId, distance, duration };
-
-    hide(this.$sameStationWarning);
     await this.addSection();
   }
 
