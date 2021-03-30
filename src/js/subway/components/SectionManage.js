@@ -16,7 +16,6 @@ import { store } from '../../@shared/models/store';
 export class SectionManage {
   constructor(props) {
     this.props = props;
-    this.submitType = null;
     this.setup();
     this.bindEvent();
   }
@@ -86,7 +85,6 @@ export class SectionManage {
   }
 
   handleAddButton() {
-    this.submitType = SUBMIT_TYPE.ADD;
     const lineId = DOM.SECTION.MAIN.LINE_SELECTOR.value;
 
     if (!lineId) {
@@ -115,12 +113,7 @@ export class SectionManage {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-    if (this.submitType === SUBMIT_TYPE.ADD) {
-      this.handleAddSubmit(accessToken);
-    }
-    // else if (this.submitType === SUBMIT_TYPE.MODIFY) {
-    //   this.handleModifySubmit(accessToken);
-    // }
+    this.handleAddSubmit(accessToken);
   }
 
   async handleAddSubmit(accessToken) {
@@ -154,8 +147,6 @@ export class SectionManage {
       DOM.SECTION.MODAL.MSG.innerText = error.message;
     }
   }
-
-  // handleModifySubmit(accessToken) {}
 
   async handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
