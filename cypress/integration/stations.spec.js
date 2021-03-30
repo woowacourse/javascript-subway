@@ -8,6 +8,8 @@ describe('지하철 역 관리 테스트', () => {
 
     cy.intercept('POST', `${requestURL}/login/token`).as('login');
     cy.intercept('GET', `${requestURL}/members/me`).as('userInfo');
+    cy.intercept('GET', `${requestURL}/stations`).as('getStations');
+    cy.intercept('GET', `${requestURL}/lines`).as('getLines');
 
     cy.get('#login-nav-button').click();
 
@@ -17,6 +19,8 @@ describe('지하철 역 관리 테스트', () => {
     cy.get('#login-submit').click();
     cy.wait('@login');
     cy.wait('@userInfo');
+    cy.wait('@getStations');
+    cy.wait('@getLines');
 
     cy.get('#stations-nav-button').click();
   });
@@ -27,7 +31,7 @@ describe('지하철 역 관리 테스트', () => {
    **/
 
   it('새로운 지하철 역을 등록할 수 있다.', () => {
-    const newStationName = '두강';
+    const newStationName = '댕댕이';
 
     cy.intercept('POST', `${requestURL}/stations`).as('createStation');
 
@@ -52,7 +56,7 @@ describe('지하철 역 관리 테스트', () => {
 
   it('지하철역을 삭제할 수 있다.', () => {
     const confirmStub = cy.stub();
-    const targetStationName = '두강';
+    const targetStationName = '댕댕이';
 
     cy.intercept('DELETE', `${requestURL}/stations`).as('deleteStation');
     cy.on('window:confirm', confirmStub);
@@ -75,7 +79,7 @@ describe('지하철 역 관리 테스트', () => {
     cy.get('.snackbar').should('have.text', `${targetStationName}역이 삭제되었습니다.`);
   });
 
-  it.only('지하철역의 이름을 수정할 수 있다.', () => {
+  it('지하철역의 이름을 수정할 수 있다.', () => {
     cy.intercept('PUT', `${requestURL}/stations`).as('editStation');
 
     cy.get('.station-item-name')
@@ -86,14 +90,14 @@ describe('지하철 역 관리 테스트', () => {
           .click()
           .then(() => {
             cy.get('.modal').should('be.visible');
-            cy.get('#station-name-edit').type('어쩌지');
+            cy.get('#station-name-edit').clear().type('어쩌지3');
             cy.get('#modal-station-edit').click();
             cy.wait('@editStation');
             cy.get('.modal').should('not.be.visible');
           });
       });
 
-    cy.get('.station-item-name').eq(0).should('have.text', '어쩌지');
+    cy.get('.station-item-name').eq(0).should('have.text', '어쩌지3');
   });
 
   it('지하철역 이름 수정 시, 동일한 역 이름이 존재하면 경고 메시지를 띄운다.', () => {
@@ -105,7 +109,7 @@ describe('지하철 역 관리 테스트', () => {
           .click()
           .then(() => {
             cy.get('.modal').should('be.visible');
-            cy.get('#station-name-edit').type('뷁뷁');
+            cy.get('#station-name-edit').clear().type('한강');
             cy.get('#modal-station-edit').click();
             cy.get('#station-edit-duplicated-warning').should('be.visible');
           });
