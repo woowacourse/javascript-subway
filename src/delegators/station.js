@@ -46,11 +46,12 @@ function onStationFormSubmit(target) {
   requestStationRegistration(stationNameInput.value)
     .then(({ id, name }) => {
       state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
-      target[SELECTOR_NAME.STATION_NAME_INPUT].value = '';
     })
     .catch(error => {
       console.log(error);
       alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
+    }).finally(() => {
+      target[SELECTOR_NAME.STATION_NAME_INPUT].value = '';
     });
 }
 
