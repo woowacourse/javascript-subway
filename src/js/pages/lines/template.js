@@ -43,7 +43,6 @@ export const lineAddModalTemplate = `
           <select
             id="up-station"
             name="up-station"
-            class="input-field"
             required
           >
             <option value="" disabled selected hidden>상행역</option>
@@ -52,7 +51,6 @@ export const lineAddModalTemplate = `
           <select
             id="down-station"
             name="down-station"
-            class="input-field"
             required
             disabled
           >
