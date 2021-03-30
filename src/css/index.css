@@ -161,6 +161,7 @@ hr {
   border-radius: 100px;
 }
 
-.self-left {
-  align-self: flex-start;
+.list-item:first-child .section-edit,
+.list-item:last-child .section-edit {
+  transform: translateX(50%);
 }
