@@ -18,6 +18,7 @@ export default class SectionManager {
     this.selectDOM();
     this.bindEvents();
     this.modal.init();
+    this.lineID = '';
   }
 
   render() {
@@ -41,10 +42,14 @@ export default class SectionManager {
   }
 
   async handleLineSelect(event) {
-    this.lineID = Number(event.target.value);
-    await this.updateSectionData();
+    this.lineID = event.target.value;
 
-    const targetLine = this.store.lines.find((line) => line.id === this.lineID);
+    await this.updateSectionData();
+    this.renderLineData();
+  }
+
+  renderLineData() {
+    const targetLine = this.store.lines.find((line) => line.id === Number(this.lineID));
     const prevLineColor = [...this.$sectionsSelect.classList].find((className) => className.startsWith('bg-'));
 
     this.$sectionsSelect.classList.remove(prevLineColor);
@@ -83,17 +88,19 @@ export default class SectionManager {
     }
   }
 
-  async addSection() {
-    await this.updateSectionData();
-    const targetLine = this.store.lines.find((line) => line.id === this.lineID);
+  async addSection(event) {
+    this.lineID = event.detail;
+    const targetLine = [...this.$sectionsSelect.options].find((option) => option.value === this.lineID);
 
-    this.$sectionStationList.innerHTML = targetLine.stations.map((station) => station.toListItemTemplate()).join('');
+    targetLine.setAttribute('selected', 'selected');
+    await this.updateSectionData();
+    this.renderLineData();
   }
 
   async updateSectionData() {
     try {
       const updatedLineResponse = await getLineByIdRequest(this.lineID, this.store.userAuth.accessToken);
-      const targetLine = this.store.lines.find((line) => line.id === this.lineID);
+      const targetLine = this.store.lines.find((line) => line.id === Number(this.lineID));
       const newLine = new Line(updatedLineResponse);
       const updatedLines = [...this.store.lines];
 
