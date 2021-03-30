@@ -7,9 +7,13 @@ export class Component {
 
   mount() {
     this.#methods.forEach(method => {
-      if (method in this) {
+      if (this.isMethod(method)) {
         this[method]();
       }
     });
+  }
+
+  isMethod(method) {
+    return method in this && typeof this[method] === 'function';
   }
 }

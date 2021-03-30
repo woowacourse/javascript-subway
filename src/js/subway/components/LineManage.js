@@ -158,6 +158,7 @@ export class LineManage extends Component {
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
       await lineManageAPI.removeLine(accessToken, requestInfo);
       store[STATE_KEY.LINES].update();
     } catch (error) {

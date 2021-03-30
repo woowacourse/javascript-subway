@@ -76,8 +76,8 @@ export class StationManage extends Component {
     try {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
 
-      DOM.STATION.MODAL.FORM.reset();
       store[STATE_KEY.STATIONS].update();
+      DOM.STATION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       DOM.STATION.MODAL.NAME_MSG.innerText =
@@ -110,7 +110,7 @@ export class StationManage extends Component {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await stationManageAPI.removeStation(accessToken, requestInfo);
-      $station.remove();
+      store[STATE_KEY.STATIONS].update();
     } catch (error) {
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }

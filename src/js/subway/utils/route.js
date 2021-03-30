@@ -20,14 +20,9 @@ export const getRedirectedPath = pathName => {
 };
 
 export const routeTo = (pathName = ROUTE.ROOT) => {
-  if (
-    pathName === ROUTE.SIGNOUT && //
-    store[STATE_KEY.SIGNED_USER_NAME].get() &&
-    confirm(MESSAGE.CONFIRM.SIGNOUT)
-  ) {
-    removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    store[STATE_KEY.SIGNED_USER_NAME].set('');
-    pathName = getRedirectedPath(pathName);
+  if (pathName === ROUTE.SIGNOUT && store[STATE_KEY.SIGNED_USER_NAME].get()) {
+    if (!confirm(MESSAGE.CONFIRM.SIGNOUT)) return;
+    store[STATE_KEY.SIGNED_USER_NAME].set(null);
   }
   pathName = getRedirectedPath(pathName);
   history.pushState({ path: pathName }, null, pathName);
