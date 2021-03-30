@@ -18,7 +18,9 @@ const addSection = async (accessToken, { id, upStationId, downStationId, distanc
   };
 
   try {
-    await request(url, option);
+    const response = await request(url, option);
+
+    if (!response.ok) throw new Error(await response.text());
   } catch (error) {
     throw new Error(error.message);
   }
@@ -34,7 +36,9 @@ const removeSection = async (accessToken, { lineId, stationId }) => {
   };
 
   try {
-    await request(url, option);
+    const response = await request(url, option);
+
+    if (!response.ok) throw new Error(await response.text());
   } catch (error) {
     throw new Error(error.message);
   }

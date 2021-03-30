@@ -15,6 +15,8 @@ const signIn = async ({ $email, $password }) => {
   try {
     const response = await request(url, option);
 
+    if (!response.ok) throw new Error(await response.text());
+
     return await response.json();
   } catch (error) {
     throw new Error(error.message);
@@ -34,6 +36,9 @@ export const getUserName = async accessToken => {
 
   try {
     const response = await request(url, option);
+
+    if (!response.ok) throw new Error(await response.text());
+
     const { name: userName } = await response.json();
 
     return userName;

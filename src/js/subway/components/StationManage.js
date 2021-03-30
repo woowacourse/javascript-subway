@@ -133,7 +133,6 @@ export class StationManage {
       $station.remove();
       this.props.cache.stations = [];
     } catch (error) {
-      console.error(error.message);
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }
   }

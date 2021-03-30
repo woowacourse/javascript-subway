@@ -38,11 +38,10 @@ export class UserAuth {
 
       setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
       DOM.USER_AUTH.MAIN.FORM.reset();
-      DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.add('hidden');
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.innerText = '';
       store[STATE_KEY.SIGNED_USER_NAME].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
-      console.error(error.message);
       DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.remove('hidden');
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.value = '';
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.focus();
