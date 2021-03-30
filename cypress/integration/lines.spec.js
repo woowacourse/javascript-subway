@@ -62,13 +62,8 @@ describe("역 관리 페이지", () => {
   });
 
   it("지하철 노선을 클릭하면 상행역, 하행역, 거리, 시간을 확인할 수 있다.", () => {
-    cy.get(".js-line-list > li:last-child").click();
-    cy.get(".js-modal").should("have.class", "open");
-
-    cy.get(".js-up-station").should("have.text", line.upStation);
-    cy.get(".js-down-station").should("have.text", line.downStation);
-    cy.get(".js-distance").should("have.text", line.distance);
-    cy.get(".js-duration").should("have.text", line.duration);
+    cy.get(".js-line-list > li").first().click();
+    cy.get(".js-line-info").first().should("be.visible");
   });
 
   it("중복된 지하철 노선을 등록할 수 없다.", () => {
@@ -80,11 +75,37 @@ describe("역 관리 페이지", () => {
   });
 
   it("지하철 노선의 수정 버튼을 클릭하면 수정 모달이 나타난다.", () => {
-    cy.get(".js-modify-line-btn").click();
+    cy.get(".js-modify-line-btn").first().click();
     cy.get(".js-modal").should("be.visible");
   });
 
-  it("삭제버튼을 누르면 confirm 후 해당 지하철 노선이 삭제된다.", () => {
+  it("지하철 노선을 수정하면 지하철 역 목록에 반영된다.", () => {
+    const newStationData = {
+      name: "브로콜리콜리콜리역",
+      color: "bg-blue-300",
+    };
+
+    cy.get("#subway-line-name").type(newStationData.name);
+    cy.get(`input[data-color="${newStationData.color}"]`).click();
+    cy.get("form button[name='submit']").click();
+    cy.get(".modal").should("not.be.visible");
+
+    cy.get(".js-line-list-item .js-line-color-dot")
+      .first()
+      .should("have.class", newStationData.color);
+    cy.get(".js-line-list-item .js-line-name")
+      .first()
+      .should("have.text", newStationData.name);
+
+    cy.get(".js-line-list-item")
+      .first()
+      .should("have.attr", "data-line-name", newStationData.name);
+    cy.get(".js-line-list-item")
+      .first()
+      .should("have.attr", "data-line-color", newStationData.color);
+  });
+
+  it("삭제 버튼을 누르면 confirm 후 해당 지하철 노선이 삭제된다.", () => {
     const stub = cy.stub();
     cy.on("window:confirm", stub);
 
