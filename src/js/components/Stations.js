@@ -89,7 +89,7 @@ class Stations {
     try {
       validateName(newStationName);
       await requestEditStationName({
-        id: this.userDataManager.getStationId(this.stationNameInEdit),
+        id: this.userDataManager.getTargetStationId(this.stationNameInEdit),
         name: newStationName,
       });
       this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
@@ -110,7 +110,7 @@ class Stations {
     const $stationListItem = $(`[data-station-name=${stationName}]`);
 
     try {
-      await requestRemoveStation({ id: this.userDataManager.getStationId(stationName) });
+      await requestRemoveStation({ id: this.userDataManager.getTargetStationId(stationName) });
       $stationListItem.remove();
       this.userDataManager.removeStation(stationName);
       this.cleanCacheStationListTemplate();

@@ -20,7 +20,7 @@ export default class UserDataManager {
     this.stations = [...this.stations, stationData];
   }
 
-  getStationId(stationName) {
+  getTargetStationId(stationName) {
     return this.stations.find((station) => station.name === stationName).id;
   }
 
@@ -43,5 +43,19 @@ export default class UserDataManager {
 
   getLineColors() {
     return this.lines.map((line) => line.color);
+  }
+
+  getEditTargetLineData(lineName) {
+    const targetLineData = this.lines.find((line) => line.name === lineName);
+    const targetSectionData = targetLineData.sections[0];
+
+    return {
+      lineName: targetLineData.name,
+      lineColor: targetLineData.color,
+      distance: targetSectionData.distance,
+      duration: targetSectionData.duration,
+      downStationName: targetSectionData.downStation.name,
+      upStationName: targetSectionData.upStation.name,
+    };
   }
 }
