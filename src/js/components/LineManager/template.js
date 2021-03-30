@@ -80,18 +80,26 @@ export const modalTemplate = `
 `;
 
 export const inputSectionTemplate = `
-  <div class="updown-data d-flex items-center input-control">
-    <label for="up-station" class="input-label" hidden>상행역</label>
-    <select id="up-station" class="mr-2">
-      <option value="" selected disabled hidden>상행역</option>
-    </select>
-    <label for="down-station" class="input-label" hidden
-      >하행역</label
-    >
-    <select id="down-station">
-      <option value="" selected disabled hidden>하행역</option>
-    </select>
+  <div class="updown-data d-flex flex-col items-center input-control"> 
+    <div class="d-flex items-center w-100">
+      <label for="up-station" class="input-label" hidden>상행역</label>
+      <select id="up-station" class="mr-2" required>
+        <option value="" selected disabled hidden>상행역</option>
+      </select>
+      <label for="down-station" class="input-label" hidden
+        >하행역</label
+      >
+      <select id="down-station" required>
+        <option value="" selected disabled hidden>하행역</option>
+      </select>
+    </div>
+    <p 
+      id="same-station-warning" 
+      class="text-xs text-red w-100 ml-8 my-1 d-none"
+    >상행역과 하행역은 같을 수 없습니다.</p>
   </div>
+
+
   <div class="updown-data input-control">
     <label for="distance" class="input-label" hidden
       >상행 하행역 거리</label
