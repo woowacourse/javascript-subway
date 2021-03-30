@@ -1,7 +1,7 @@
 import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE, SELECTOR_NAME } from '../constants';
 import { state } from '../store.js';
-import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
-import { requestStationDelete, requestStationRegistration } from '../api/station.js';
+import { isDuplicatedStationExist, isProperStationNameLength } from '../validators/station.js';
+import { requestStationDelete, requestStationRegistration, requestStationUpdate } from '../api/station.js';
 import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation } from '../utils/dom.js';
 import { wait } from '../utils/utils';
 
@@ -35,16 +35,17 @@ export function delegateStationFocusOutEvent(event) {
 
 function onStationFormSubmit(target) {
   const { [SELECTOR_NAME.STATION_NAME]: stationNameInput } = target;
+  const targetStationName = stationNameInput.value
   const stationList = state.get(STATE_KEY.STATION_LIST);
-  if (!isProperStationNameLength(stationNameInput.value)) {
+  if (!isProperStationNameLength(targetStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     return;
   }
-  if (isDuplicatedStationNameExist(stationNameInput.value, stationList)) {
+  if (isDuplicatedStationExist({name: targetStationName}, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     return;
   }
-  requestStationRegistration(stationNameInput.value)
+  requestStationRegistration(targetStationName)
     .then(({ id, name }) => {
       state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
     })
@@ -52,7 +53,7 @@ function onStationFormSubmit(target) {
       console.log(error);
       alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
     }).finally(() => {
-      target[SELECTOR_NAME.STATION_NAME].value = '';
+      stationNameInput.value = '';
     });
 }
 
@@ -65,20 +66,29 @@ function onStationItemInputOpen(target) {
 }
 
 function onStationItemInputFocusOut(targetInput) {
-  const targetStationName = targetInput.value;
-  const targetStationId = targetInput.dataset.stationId;
+  const newStationName = targetInput.value;
+  const targetStationId = Number(targetInput.dataset.stationId);
   const stationList = state.get(STATE_KEY.STATION_LIST);
-  if (!isProperStationNameLength(targetStationName)) {
+  const targetStationItem = stationList.find(station => station.id === targetStationId);
+  if (targetStationItem.name === newStationName) {
+    state.update(STATE_KEY.STATION_LIST, stationList);
+    return;
+  }
+  if (!isProperStationNameLength(newStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     return;
   }
-  if (isDuplicatedStationNameExist(targetStationName, stationList)) {
+  if (isDuplicatedStationExist({id: targetStationId, name: newStationName}, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     return;
   }
-  const targetStationItem = stationList.find(station => station.id === Number(targetStationId));
-  targetStationItem.name = targetStationName;
-  state.update(STATE_KEY.STATION_LIST, stationList);
+  targetStationItem.name = newStationName;
+  requestStationUpdate(targetStationId, newStationName).then(() => {
+    state.update(STATE_KEY.STATION_LIST, stationList);
+  }).catch(error => {
+    console.log(error);
+    alert(ALERT_MESSAGE.STATION_UPDATE_FAILED)
+  })
 }
 
 function onStationItemDeleteClick(target) {

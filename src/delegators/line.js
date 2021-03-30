@@ -13,7 +13,7 @@ export function delegateLineClickEvent(event) {
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
-    openLineUpdateModal(target);
+    initLineUpdateModal(target);
     openModal();
   }
 
@@ -45,6 +45,6 @@ function openLineModal() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
 }
 
-function openLineUpdateModal(target) {
+function initLineUpdateModal(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
 }

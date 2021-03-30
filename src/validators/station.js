@@ -5,6 +5,6 @@ export const isProperStationNameLength = (stationName) => {
   && stationName.length <= VALIDATION.MAX_STATION_NAME_LENGTH
 }
 
-export const isDuplicatedStationNameExist = (stationName, stationList) => {
-  return stationList.some(station => station.name === stationName);
+export const isDuplicatedStationExist = ({id, name}, stationList) => {
+  return stationList.some(station => station.name === name && station.id !== id);
 }

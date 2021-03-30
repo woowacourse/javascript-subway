@@ -119,6 +119,7 @@ export const ALERT_MESSAGE = Object.freeze({
   SIGNUP_FAILED: '회원가입에 실패하였습니다',
   STATION_GET_FAILED: '역 조회에 실패하였습니다',
   STATION_REGISTRATION_FAILED: '역 등록에 실패하였습니다',
+  STATION_UPDATE_FAILED: '역 수정에 실패하였습니다',
   DELETING_STATION_EXCLUDED_IN_LINE: '삭제하려는 역이 노선에 이미 등록되어 있습니다.',
   LINE_GET_FAILED: '노선 조회에 실패하였습니다',
   LINE_UPDATE_FAILED: '노선 수정에 실패하였습니다',

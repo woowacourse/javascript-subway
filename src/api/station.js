@@ -22,6 +22,24 @@ export const requestStationRegistration = async stationName => {
   return { id, name };
 };
 
+export const requestStationUpdate = async (stationId, stationName) => {
+  const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
+  if (!accessToken) return;
+  const response = await fetch(`${API_END_POINT}/stations/${stationId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    body: JSON.stringify({ name: stationName }),
+  });
+  
+  if (!response.ok) {
+    throw new Error('역 등록 실패');
+  }
+};
+
+
 export const requestStationList = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
