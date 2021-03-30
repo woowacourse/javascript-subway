@@ -70,9 +70,9 @@ export class SectionManage {
         this.props.cache.lines = await lineManageAPI.getLines(accessToken);
       }
 
-      const { sections } = this.props.cache.lines.find(line => line.id === lineId);
+      const { stations } = this.props.cache.lines.find(line => line.id === lineId);
 
-      subwayView.renderSectionList(sections);
+      subwayView.renderSectionList(stations);
     } catch (error) {
       console.error(error.message);
     }
@@ -104,10 +104,10 @@ export class SectionManage {
 
   handleLineSelector(event) {
     const id = Number(event.target.value);
-    const { color, sections } = this.props.cache.lines.find(line => line.id === id);
+    const { color, stations } = this.props.cache.lines.find(line => line.id === id);
 
     subwayView.fillLineColorBar(color);
-    subwayView.renderSectionList(sections);
+    subwayView.renderSectionList(stations);
   }
 
   handleSectionSubmit(event) {

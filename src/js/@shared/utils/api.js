@@ -6,7 +6,6 @@ export const request = async (url, option = {}) => {
 
     return response;
   } catch (error) {
-    console.log(error);
     throw new Error(error.message);
   }
 };

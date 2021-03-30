@@ -14,7 +14,6 @@ import { sectionAddModify } from './templates/sectionAddModify';
 export { menuButtons } from './templates/menuButtons';
 export { stationInfo, stationList } from './templates/stationManage';
 export { lineInfo, lineList } from './templates/lineManage';
-export { sectionInfo, sectionList } from './templates/sectionManage';
 
 export const mainElements = {
   [ROUTE.ROOT]: $('#main-content', parseToElements(root)),

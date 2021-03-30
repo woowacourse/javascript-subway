@@ -19,7 +19,6 @@ const addSection = async (accessToken, { id, upStationId, downStationId, distanc
 
   try {
     const res = await request(url, option);
-    console.log(await res.text());
   } catch (error) {
     throw new Error(error.message);
   }

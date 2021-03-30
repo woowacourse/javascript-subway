@@ -57,8 +57,8 @@ export const subwayView = {
       .join('');
   },
 
-  renderSectionList: (sections = []) => {
-    DOM.SECTION.MAIN.LIST.innerHTML = sectionList(sections);
+  renderSectionList: (stations = []) => {
+    DOM.SECTION.MAIN.LIST.innerHTML = stationList(stations);
   },
 
   fillLineColorBar: color => {
