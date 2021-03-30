@@ -13,7 +13,7 @@ export default class Login extends Component {
 
   bindEvent() {
     $('#login-form').addEventListener('submit', this.handleLoginForm.bind(this));
-    $('#signup-button').addEventListener('click', this.handleSingupButton.bind(this));
+    $('#signup-button').addEventListener('click', this.handleSignupButton.bind(this));
   }
 
   async handleLoginForm(e) {
@@ -40,7 +40,7 @@ export default class Login extends Component {
     Navigation.changeSelectedButtonColor();
   }
 
-  handleSingupButton(e) {
+  handleSignupButton(e) {
     e.preventDefault();
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
