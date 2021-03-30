@@ -1,7 +1,21 @@
 import { MENU } from '../../constants/constants';
 
+export const sectionInfo = ({ id, name }) => `
+  <li data-station-id=${id} class="js-station-list-item border-bottom d-flex items-center py-2 my-2">
+    <span class="js-station-name w-100 pl-2">${name}</span>
+    <button
+      type="button"
+      class="js-remove-button bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+      </button>
+  </li>
+  `;
+
+export const sectionList = sections => sections.map(sectionInfo).join('');
+
 export const sectionManage = `
-  <div id="main-content" class="wrapper bg-white p-10">
+  <div id="main-content" class="manage wrapper bg-white p-10">
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">${MENU.SECTIONS}</h2>
       <button

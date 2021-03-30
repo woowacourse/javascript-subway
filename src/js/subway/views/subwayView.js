@@ -58,7 +58,7 @@ export const subwayView = {
   },
 
   renderSectionList: (stations = []) => {
-    DOM.SECTION.MAIN.LIST.innerHTML = stationList(stations);
+    DOM.SECTION.MAIN.LIST.innerHTML = sectionList(stations);
   },
 
   fillLineColorBar: color => {
