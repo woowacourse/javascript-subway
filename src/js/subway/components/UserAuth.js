@@ -22,11 +22,12 @@ export class UserAuth extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+    const $$input = {
+      $email: DOM.USER_AUTH.MAIN.EMAIL_INPUT,
+      $password: DOM.USER_AUTH.MAIN.PASSWORD_INPUT,
+    };
+
     try {
-      const $$input = {
-        $email: DOM.USER_AUTH.MAIN.EMAIL_INPUT,
-        $password: DOM.USER_AUTH.MAIN.PASSWORD_INPUT,
-      };
       const { accessToken } = await userAuthAPI.signIn($$input);
       const userName = await userAuthAPI.getUserName(accessToken);
 

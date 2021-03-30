@@ -75,7 +75,6 @@ export class StationManage extends Component {
 
     try {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
-
       store[STATE_KEY.STATIONS].update();
       DOM.STATION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);

@@ -24,6 +24,7 @@ export const routeTo = (pathName = ROUTE.ROOT) => {
     if (!confirm(MESSAGE.CONFIRM.SIGNOUT)) return;
     store[STATE_KEY.SIGNED_USER_NAME].set(null);
   }
+
   pathName = getRedirectedPath(pathName);
   history.pushState({ path: pathName }, null, pathName);
   store[STATE_KEY.ROUTE].set(pathName);

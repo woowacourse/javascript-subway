@@ -48,8 +48,8 @@ export class SectionManage extends Component {
 
       return;
     }
-    DOM.SECTION.MODAL.FORM.dataset.lineId = lineId;
 
+    DOM.SECTION.MODAL.FORM.dataset.lineId = lineId;
     DOM.SECTION.MODAL.LINE_NAME.value = $(`option[value='${lineId}']`, DOM.SECTION.MAIN.LINE_SELECTOR).innerText;
     DOM.SECTION.MODAL.MSG.innerText = '';
 

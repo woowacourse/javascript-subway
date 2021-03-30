@@ -50,6 +50,7 @@ export class LineManage extends Component {
 
       return;
     }
+
     this.submitType = SUBMIT_TYPE.ADD;
     DOM.LINE.MODAL.MSG.innerText = '';
     show(...DOM.LINE.MODAL.NON_MODIFIABLE);
