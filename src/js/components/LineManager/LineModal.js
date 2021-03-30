@@ -194,7 +194,7 @@ export default class LineModal {
         })
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       popSnackbar(MESSAGES.LINE_CREATE.FAIL);
     }
   }
@@ -218,7 +218,7 @@ export default class LineModal {
         })
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       popSnackbar(MESSAGES.LINE_EDIT.FAIL);
     }
   }

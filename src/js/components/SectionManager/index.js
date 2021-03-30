@@ -107,7 +107,7 @@ export default class SectionManager {
       updatedLines.splice(this.store.lines.indexOf(targetLine), 1, newLine);
       this.store.lines = updatedLines;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }
