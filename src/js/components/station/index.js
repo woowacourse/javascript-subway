@@ -20,14 +20,13 @@ class Station extends Component {
       }
     );
 
-    this.updateSubwayState();
-
     this.setChildProps('modal', {
       updateSubwayState: this.updateSubwayState.bind(this),
     });
   }
 
   renderSelf() {
+    console.log('station renderSelf');
     const stations = this.state.stations;
     this.parentNode.innerHTML = mainTemplate(stations);
   }
@@ -44,8 +43,12 @@ class Station extends Component {
 
     $('.js-station-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        this.modal.setTargetId(target.closest('.js-station-item').dataset.id);
-        this.modal.show();
+        console.log(target);
+        console.log(target.closest('.js-station-item').dataset.id);
+        this.childComponents.modal.setTargetId(
+          target.closest('.js-station-item').dataset.id
+        );
+        this.childComponents.modal.show();
       }
 
       if (target.classList.contains('js-station-item__delete')) {

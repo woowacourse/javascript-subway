@@ -16,14 +16,18 @@ class Modal extends ModalComponent {
   }
 
   fillTargetInForm() {
-    const { name } = this.state.stations.find(({ id }) => id === targetId);
+    const { name } = this.state.stations.find(
+      ({ id }) => id === Number(this.targetId)
+    );
     $('#subway-station-name').value = name;
   }
 
   addEventListeners() {
+    $('.modal-close').addEventListener('click', () => this.hide());
+
     $('#edit-station-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const { id } = this.dataset;
+      const id = this.targetId;
       // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
       const newName = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
