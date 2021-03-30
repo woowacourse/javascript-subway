@@ -119,3 +119,18 @@ export const requestGetLineList = async () => {
     throw new Error(error);
   }
 };
+
+export const requestEditLineData = async ({ id, name, color }) => {
+  try {
+    const response = await httpClient.put({
+      path: `/lines/${id}`,
+      body: { name, color },
+      accessToken: token.accessToken,
+    });
+    if (!response.ok) {
+      throw await response.text();
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};

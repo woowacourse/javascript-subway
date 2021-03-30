@@ -1,4 +1,4 @@
-import { validateEmail, validateUserName, validatePassword, validatePasswordConfirm } from '../validators/validation';
+import { validateEmail, validateName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
 import { PATH, ELEMENT, SUCCESS_MESSAGE, ERROR_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';

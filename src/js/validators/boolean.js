@@ -6,16 +6,12 @@ export const isInvalidEmailFormat = (email) => {
   return !REG_EXP.EMAIL.test(email);
 };
 
-export const isInvalidUserNameType = (userName) => {
+export const isInvalidNameType = (userName) => {
   return !REG_EXP.USER_NAME.test(userName);
 };
 
 export const isUnderPasswordMinLength = (password) => {
   return password.length < STANDARD_NUMBER.PASSWORD_MIN_LENGTH;
-};
-
-export const isDifferentPasswordAndPasswordConfirm = (password, passwordConfirm) => {
-  return password !== passwordConfirm;
 };
 
 export const isRouterButton = (target) => {
@@ -34,14 +30,10 @@ export const isAllSignInInputSuccess = () => {
   return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
 };
 
-export const isStationNameUnderMinLength = (stationName) => {
-  return stationName.length < 2;
-};
-
-export const isStationNameOverMaxLength = (stationName) => {
-  return stationName.length > 20;
-};
-
 export const isDuplicatedLineColor = (selectedColor, colorList) => {
   return colorList.includes(selectedColor);
+};
+
+export const isInvalidLineNameType = (lineName) => {
+  return !REG_EXP.LINE_NAME.test(lineName);
 };

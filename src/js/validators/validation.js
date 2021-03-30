@@ -1,8 +1,8 @@
 import {
   isInvalidEmailFormat,
-  isInvalidUserNameType,
+  isInvalidNameType,
+  isInvalidLineNameType,
   isUnderPasswordMinLength,
-  isDifferentPasswordAndPasswordConfirm,
   isDuplicatedLineColor,
 } from './boolean';
 import { ERROR_MESSAGE } from '../utils/constants';
@@ -13,8 +13,8 @@ export const validateEmail = (email) => {
   }
 };
 
-export const validateUserName = (userName) => {
-  if (isInvalidUserNameType(userName)) {
+export const validateName = (userName) => {
+  if (isInvalidNameType(userName)) {
     throw new Error(ERROR_MESSAGE.INVALID_USER_NAME_TYPE);
   }
 };
@@ -26,17 +26,35 @@ export const validatePassword = (password) => {
 };
 
 export const validatePasswordConfirm = (password, passwordConfirm) => {
-  if (isDifferentPasswordAndPasswordConfirm(password, passwordConfirm)) {
+  if (password !== passwordConfirm) {
     throw new Error(ERROR_MESSAGE.DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM);
   }
 };
 
-export const validateLineColor = (selectedColor, colorList) => {
-  if (!selectedColor) {
-    throw new Error('색을 선택해주세요.');
+export const validateAddLine = ({ lineName, upStationId, downStationId, selectedLineColor, lineColorList }) => {
+  if (isInvalidLineNameType(lineName)) {
+    throw new Error(ERROR_MESSAGE.INVALID_NAME_TYPE);
   }
 
-  if (isDuplicatedLineColor(selectedColor, colorList)) {
-    throw new Error('이미 같은 색의 노선이 존재합니다.');
+  if (upStationId === downStationId) {
+    throw new Error(ERROR_MESSAGE.NEED_DIFFERENT_UP_DOWN_STATION);
+  }
+
+  if (!selectedLineColor) {
+    throw new Error(ERROR_MESSAGE.NEED_SELECT_COLOR);
+  }
+
+  if (isDuplicatedLineColor(selectedLineColor, lineColorList)) {
+    throw new Error(ERROR_MESSAGE.DUPLICATED_LINE_COLOR);
+  }
+};
+
+export const validateEditLine = ({ lineName, selectedLineColor, lineColorList }) => {
+  if (isInvalidLineNameType(lineName)) {
+    throw new Error(ERROR_MESSAGE.INVALID_NAME_TYPE);
+  }
+
+  if (selectedLineColor && isDuplicatedLineColor(selectedLineColor, lineColorList)) {
+    throw new Error(ERROR_MESSAGE.DUPLICATED_LINE_COLOR);
   }
 };

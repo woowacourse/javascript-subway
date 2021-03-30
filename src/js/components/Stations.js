@@ -92,19 +92,13 @@ class Stations {
     e.preventDefault();
 
     const newStationName = e.target['station-name'].value;
-    const $stationListItem = $(`[data-station-name=${this.stationNameInEdit}]`);
-    const $textNode = $stationListItem.querySelector('span');
+    const stationId = this.userDataManager.getTargetStationId(this.stationNameInEdit);
 
     try {
       validateName(newStationName);
-      await requestEditStationName({
-        id: this.userDataManager.getTargetStationId(this.stationNameInEdit),
-        name: newStationName,
-      });
+      await requestEditStationName({ id: stationId, name: newStationName });
       this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
-
-      $stationListItem.dataset.stationName = newStationName;
-      $textNode.innerText = newStationName;
+      this.renderEditedStation(newStationName);
       this.cleanCacheStationListTemplate();
       closeModal(this.$modal);
     } catch (error) {
@@ -116,7 +110,7 @@ class Stations {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
     const { stationName } = e.target.closest('.station-list-item').dataset;
-    const $stationListItem = $(`[data-station-name=${stationName}]`);
+    const $stationListItem = $(`[data-station-name="${stationName}"]`);
 
     try {
       await requestRemoveStation({ id: this.userDataManager.getTargetStationId(stationName) });
@@ -140,6 +134,11 @@ class Stations {
 
   renderAddedStation(stationName) {
     this.$stationListWrapper.insertAdjacentHTML('beforeend', getStationListTemplate(stationName));
+  }
+
+  renderEditedStation(newStationName) {
+    const $stationListItem = $(`[data-station-name="${this.stationNameInEdit}"]`);
+    $stationListItem.outerHTML = getStationListTemplate(newStationName);
   }
 }
 
