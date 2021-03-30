@@ -41,8 +41,12 @@ export default class SectionModal {
     this.$downStationSelect.addEventListener('change', this.checkSameStation.bind(this));
   }
 
-  open() {
+  open(lineID) {
     this.$root.classList.add('open');
+    if (lineID) {
+      const targetLine = [...this.$subwayLineSelect.options].find((option) => Number(option.value) === lineID);
+      targetLine.setAttribute('selected', 'selected');
+    }
   }
 
   setOptions() {

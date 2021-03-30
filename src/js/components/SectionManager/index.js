@@ -35,7 +35,7 @@ export default class SectionManager {
     this.$sectionsSelect.addEventListener('change', this.handleLineSelect.bind(this));
     this.$sectionStationList.addEventListener('click', this.handleDeleteButton.bind(this));
     this.$sectionAddButton.addEventListener('click', () => {
-      this.modal.open();
+      this.modal.open(this.lineID);
     });
     $(SELECTOR.MODAL).addEventListener('addSection', this.addSection.bind(this));
   }
