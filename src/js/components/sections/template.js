@@ -1,4 +1,4 @@
-export const sectionListTemplate = (station, lineColor, duration = '', distance = '') => {
+export const sectionListTemplate = (lineColor, { name, id, duration, distance }) => {
   return `
   <li class="section-list-item list-style-none">
     <div class="d-flex items-center relative">
@@ -6,11 +6,11 @@ export const sectionListTemplate = (station, lineColor, duration = '', distance 
         <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
         <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
       </div>
-      <span class="w-100 pl-6 section-name">${station.name}</span>
+      <span class="w-100 pl-6 section-name">${name}</span>
       <button
         type="button"
         class="section-delete-button bg-gray-50 text-gray-500 text-sm"
-        data-id=${station.id}
+        data-id=${id}
       >
         삭제
       </button>

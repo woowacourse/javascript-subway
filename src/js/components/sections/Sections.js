@@ -103,21 +103,33 @@ export default class Sections extends Component {
     this.#lineId = target.value;
 
     const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
+    const stationList = line.stations;
     const sectionList = line.sections;
-    console.log(line.stations);
-    console.log(sectionList);
     const lineColor = line.color;
+    const sortedSectionList = [];
 
-    this.$sectionListContainer.innerHTML = sectionList
-      .map((section, index) => {
-        if (sectionList.length === 1 || index === sectionList.length - 1) {
-          return (
-            sectionListTemplate(section.upStation, lineColor, section.duration, section.distance) +
-            sectionListTemplate(section.downStation, lineColor)
-          );
+    stationList.forEach((station, index) => {
+      if (index === stationList.length - 1) {
+        sortedSectionList.push({ name: station.name, id: station.id });
+        return;
+      }
+
+      sectionList.find((section) => {
+        if (station.name === section.upStation.name) {
+          sortedSectionList.push({
+            name: station.name,
+            id: station.id,
+            duration: section.duration,
+            distance: section.distance,
+          });
+          return true;
         }
-        return sectionListTemplate(section.upStation, lineColor, section.duration, section.distance);
-      })
+        return false;
+      });
+    });
+
+    this.$sectionListContainer.innerHTML = sortedSectionList
+      .map((section) => sectionListTemplate(lineColor, section))
       .join('');
   }
 
