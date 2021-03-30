@@ -55,6 +55,11 @@ ul li button:hover {
   border-bottom: 1px solid lightgray;
 }
 
+.sections-bottom-line {
+  border-bottom: 2px dashed lightgray;
+  width: 50%;
+}
+
 .subway-line-color-selector {
   transform: rotate(90deg);
 }
@@ -67,4 +72,10 @@ ul li button:hover {
   width: 4px;
   height: 40px;
   z-index: 1;
+}
+
+.section-info-container {
+  position: absolute;
+  left: 51%;
+  transform: translate(0%, -50%);
 }

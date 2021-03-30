@@ -37,9 +37,6 @@ export default class Sections extends Component {
     }
 
     const $sectionListItem = target.closest('.section-list-item');
-
-    console.log($sectionListItem);
-
     const stationName = $sectionListItem.querySelector('.section-name').innerText;
     const stationId = target.dataset.id;
 
@@ -106,11 +103,23 @@ export default class Sections extends Component {
     this.#lineId = target.value;
 
     const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
-    const stationList = line.stations;
+    const sectionList = line.sections;
     const lineColor = line.color;
 
-    this.$sectionListContainer.innerHTML = stationList
-      .map((station) => sectionListTemplate(station, lineColor))
+    this.$sectionListContainer.innerHTML = sectionList
+      .map((section, index) => {
+        if (sectionList.length === 1) {
+          return (
+            sectionListTemplate(section.upStation, lineColor, section.duration, section.distance) +
+            sectionListTemplate(section.downStation, lineColor)
+          );
+        }
+
+        if (index === sectionList.length - 1) {
+          return sectionListTemplate(section.downStation, lineColor);
+        }
+        return sectionListTemplate(section.upStation, lineColor, section.duration, section.distance);
+      })
       .join('');
   }
 

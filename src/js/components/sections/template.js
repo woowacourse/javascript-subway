@@ -1,26 +1,30 @@
-export const sectionListTemplate = (station, lineColor) => {
+export const sectionListTemplate = (station, lineColor, duration = '', distance = '') => {
   return `
-    <li class="section-list-item d-flex items-center relative">
-      <div class="d-flex justify-center align-center">
-        <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
-        <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
-      </div>
-      <span class="w-100 pl-6 section-name">${station.name}</span>
-      <button
-        type="button"
-        class="section-edit-button bg-gray-50 text-gray-500 text-sm mr-1"
-        data-id=${station.id}
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        class="section-delete-button bg-gray-50 text-gray-500 text-sm"
-        data-id=${station.id}
-      >
-        삭제
-      </button>
-    </li>
+  <li class="section-list-item d-flex items-center relative">
+    <div class="d-flex justify-center align-center">
+      <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
+      <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+    </div>
+    <span class="w-100 pl-6 section-name">${station.name}</span>
+    <button
+      type="button"
+      class="section-delete-button bg-gray-50 text-gray-500 text-sm"
+      data-id=${station.id}
+    >
+      삭제
+    </button>
+  </li>
+  
+  ${
+    duration && distance
+      ? `<div class="sections-bottom-line"></div>
+         <div class="section-info-container">
+           <span class="section-info chip bg-blue-100">거리: ${distance}</span>
+           <span class="section-info chip bg-blue-100">시간: ${duration}</span>
+         </div>`
+      : ''
+  } 
+ 
   `;
 };
 
@@ -41,7 +45,7 @@ export const sectionsTemplate = (stationList = [], lineList = []) => {
               </button>
             </div>
             <form class="d-flex items-center pl-1">
-              <select id="line-select" class="bg-blue-400">
+              <select id="line-select" class="bg-blue-200">
               ${
                 lineList.length
                   ? `<option value="" selected disabled>노선을 선택해주세요</option>` +
