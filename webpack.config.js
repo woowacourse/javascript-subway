@@ -47,5 +47,6 @@ module.exports = {
     inline: true,
     open: true,
     compress: true,
+    historyApiFallback: true,
   },
 };
