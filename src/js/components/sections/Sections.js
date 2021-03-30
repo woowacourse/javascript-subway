@@ -104,10 +104,13 @@ export default class Sections extends Component {
 
   async handleLineSelect({ target }) {
     this.#lineId = target.value;
-    const stationList = await serviceAPI.getSectionData({ token: this.#token, id: this.#lineId });
+
+    const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
+    const stationList = line.stations;
+    const lineColor = line.color;
 
     this.$sectionListContainer.innerHTML = stationList
-      .map((station, index) => sectionListTemplate(station, index))
+      .map((station) => sectionListTemplate(station, lineColor))
       .join('');
   }
 
