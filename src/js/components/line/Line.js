@@ -1,11 +1,19 @@
 import LineModal from './LineModal.js';
 import { linesTemplate, modalTemplate } from './lineTemplate.js';
 
-import { ERROR_MESSAGE, PAGE_TITLE, STORAGE } from '../../constants.js';
+import {
+  CONFIRM_MESSAGE,
+  ERROR_MESSAGE,
+  PAGE_TITLE,
+  SELECTOR,
+  STORAGE,
+  SUCCESS_MESSAGE,
+} from '../../constants.js';
 import { $ } from '../../utils/dom.js';
 import { getLocalStorageItem } from '../../utils/storage.js';
 import { stationAPI } from '../../../../api/station.js';
 import { lineAPI } from '../../../../api/line.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 
 class Line {
   #userAccessToken;
@@ -37,18 +45,9 @@ class Line {
   }
 
   initDOM() {
+    this.$lineList = $(SELECTOR.LINE_LIST);
     this.#modal.init(this.#userAccessToken);
     this._bindEvent();
-  }
-
-  _bindEvent() {
-    this._bindAddLineEvent();
-  }
-
-  _bindAddLineEvent() {
-    $('.create-line-btn').addEventListener('click', e => {
-      this.#modal.handleLineOpen({ state: 'add' });
-    });
   }
 
   async _initStations() {
@@ -75,6 +74,54 @@ class Line {
     } catch {
       alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
     }
+  }
+
+  _bindEvent() {
+    this._bindAddLineEvent();
+    this._bindUpdateLineEvent();
+  }
+
+  _bindAddLineEvent() {
+    $('.create-line-btn').addEventListener('click', () => {
+      this.#modal.handleLineOpen({ state: 'add' });
+    });
+  }
+
+  _bindUpdateLineEvent() {
+    this.$lineList.addEventListener('click', e => {
+      console.log(e.target, e.target.classList);
+      if (e.target.classList.contains('delete-button')) {
+        console.log('delete');
+        this._handleRemoveLine(e);
+      }
+    });
+  }
+
+  async _handleRemoveLine(e) {
+    if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
+
+    try {
+      const { $lineItem, id } = this._getSelectedLineInfo(e);
+      console.log($lineItem, id);
+      await lineAPI.deleteLine({
+        userAccessToken: this.#userAccessToken,
+        id,
+      });
+
+      delete this.#lines[id];
+      $lineItem.remove();
+      showSnackbar(SUCCESS_MESSAGE.REMOVE_LINE); // 만들기
+    } catch {
+      showSnackbar(ERROR_MESSAGE.REMOVE_LINE_FAILED); // 만들기
+    }
+  }
+
+  _getSelectedLineInfo({ target }) {
+    const $lineItem = target.closest('[data-line-id]');
+    const id = $lineItem.dataset.lineId;
+    const { name, color } = this.#lines[id].name;
+
+    return { $lineItem, id, name, color };
   }
 
   updateLines(id, value) {

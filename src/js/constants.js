@@ -86,6 +86,7 @@ export const SUCCESS_MESSAGE = {
   REMOVE_STATION: '역이 제거되었습니다!',
   MODIFY_STATION: '역명이 수정되었습니다 !',
   ADD_LINE: '노선이 추가되었습니다! 🚇',
+  REMOVE_LINE: '노선이 제거되었습니다!',
 };
 
 export const ERROR_MESSAGE = {
@@ -115,6 +116,8 @@ export const ERROR_MESSAGE = {
   EMPTY_VALUE: '입력은 공백이 될 수 없습니다!',
   SAME_END_STATION: '상행역과 하행역은 동일할 수 없습니다!',
   NEGATIVE_NUMBER: '입력값은 음수가 될 수 없습니다.',
+  REMOVE_LINE_FAILED:
+    '노선을 삭제하는데 실패했습니다. 잠시후 다시 시도해주세요.',
 };
 
 export const CONFIRM_MESSAGE = {

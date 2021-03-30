@@ -32,13 +32,13 @@ export const lineTemplate = (id, { name, color }) => {
       >
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
+        class="modify-button bg-gray-50 text-gray-500 text-sm mr-1"
       >
         수정
       </button>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm"
+        class="delete-button bg-gray-50 text-gray-500 text-sm"
       >
         삭제
       </button>
