@@ -14,18 +14,20 @@ import { subwayView } from '../views';
 import { store } from '../../@shared/models/store';
 
 export class SectionManage {
+  #prop = null;
+
   constructor(props) {
     this.props = props;
-    this.setup();
-    this.bindEvent();
+    this.#setup();
+    this.#bindEvent();
   }
 
-  setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.updateLineOptions.bind(this));
+  #setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.#updateStationOptions.bind(this));
+    store[STATE_KEY.ROUTE].subscribe(this.#updateLineOptions.bind(this));
   }
 
-  async updateStationOptions(route) {
+  async #updateStationOptions(route) {
     if (route !== ROUTE.SECTIONS) return;
 
     try {
@@ -42,7 +44,7 @@ export class SectionManage {
     }
   }
 
-  async updateLineOptions(route) {
+  async #updateLineOptions(route) {
     if (route !== ROUTE.SECTIONS) return;
 
     try {
@@ -60,7 +62,7 @@ export class SectionManage {
     }
   }
 
-  async updateSections() {
+  async #updateSections() {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
@@ -77,14 +79,14 @@ export class SectionManage {
     }
   }
 
-  bindEvent() {
-    DOM.SECTION.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
-    DOM.SECTION.MAIN.LINE_SELECTOR.addEventListener('change', this.handleLineSelector.bind(this));
-    DOM.SECTION.MODAL.FORM.addEventListener('submit', this.handleSectionSubmit.bind(this));
-    DOM.SECTION.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
+  #bindEvent() {
+    DOM.SECTION.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.#handleAddButton.bind(this));
+    DOM.SECTION.MAIN.LINE_SELECTOR.addEventListener('change', this.#handleLineSelector.bind(this));
+    DOM.SECTION.MODAL.FORM.addEventListener('submit', this.#handleSectionSubmit.bind(this));
+    DOM.SECTION.MAIN.LIST.addEventListener('click', this.#handleRemoveButton.bind(this));
   }
 
-  handleAddButton() {
+  #handleAddButton() {
     const lineId = DOM.SECTION.MAIN.LINE_SELECTOR.value;
 
     if (!lineId) {
@@ -101,7 +103,7 @@ export class SectionManage {
     showModal(DOM.CONTAINER.MODAL);
   }
 
-  handleLineSelector(event) {
+  #handleLineSelector(event) {
     const id = Number(event.target.value);
     const { color, stations, sections } = this.props.cache.lines.find(line => line.id === id);
 
@@ -109,14 +111,14 @@ export class SectionManage {
     subwayView.renderSectionList(stations, sections);
   }
 
-  handleSectionSubmit(event) {
+  #handleSectionSubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-    this.handleAddSubmit(accessToken);
+    this.#handleAddSubmit(accessToken);
   }
 
-  async handleAddSubmit(accessToken) {
+  async #handleAddSubmit(accessToken) {
     const requestInfo = {
       id: DOM.SECTION.MODAL.FORM.dataset.lineId,
       upStationId: DOM.SECTION.MODAL.UP_STATION_SELECTOR.value,
@@ -140,7 +142,7 @@ export class SectionManage {
     try {
       await sectionManageAPI.addSection(accessToken, requestInfo);
       this.props.cache.lines = [];
-      await this.updateSections();
+      await this.#updateSections();
       DOM.SECTION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -148,7 +150,7 @@ export class SectionManage {
     }
   }
 
-  async handleRemoveButton({ target }) {
+  async #handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
     const $station = target.closest('.js-station-list-item');
     const requestInfo = {
@@ -163,7 +165,7 @@ export class SectionManage {
 
       await sectionManageAPI.removeSection(accessToken, requestInfo);
       this.props.cache.lines = [];
-      this.updateSections();
+      this.#updateSections();
     } catch (error) {
       alert(error.message);
     }

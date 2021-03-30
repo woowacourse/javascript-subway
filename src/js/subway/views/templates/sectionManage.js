@@ -19,8 +19,6 @@ export const sectionInfo = ({ id, name, distance, duration }) => `
           </div>`
           : ''
       }
-
-
   </li>
   `;
 

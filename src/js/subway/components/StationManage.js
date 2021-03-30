@@ -6,17 +6,19 @@ import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
 
 export class StationManage {
+  #props = null;
+
   constructor(props) {
     this.props = props;
-    this.setup();
-    this.bindEvent();
+    this.#setup();
+    this.#bindEvent();
   }
 
-  setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStations.bind(this));
+  #setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.#updateStations.bind(this));
   }
 
-  async updateStations(route) {
+  async #updateStations(route) {
     if (route !== ROUTE.STATIONS) return;
 
     try {
@@ -32,16 +34,16 @@ export class StationManage {
     }
   }
 
-  bindEvent() {
-    DOM.STATION.MAIN.FORM.addEventListener('input', this.handleAddInput.bind(this));
-    DOM.STATION.MAIN.FORM.addEventListener('submit', this.handleAddSubmit.bind(this));
-    DOM.STATION.MAIN.LIST.addEventListener('click', this.handleModifyButton.bind(this));
-    DOM.STATION.MODAL.NAME_INPUT.addEventListener('input', this.handleModifyInput.bind(this));
-    DOM.STATION.MODAL.FORM.addEventListener('submit', this.handleModifySubmit.bind(this));
-    DOM.STATION.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
+  #bindEvent() {
+    DOM.STATION.MAIN.FORM.addEventListener('input', this.#handleAddInput.bind(this));
+    DOM.STATION.MAIN.FORM.addEventListener('submit', this.#handleAddSubmit.bind(this));
+    DOM.STATION.MAIN.LIST.addEventListener('click', this.#handleModifyButton.bind(this));
+    DOM.STATION.MODAL.NAME_INPUT.addEventListener('input', this.#handleModifyInput.bind(this));
+    DOM.STATION.MODAL.FORM.addEventListener('submit', this.#handleModifySubmit.bind(this));
+    DOM.STATION.MAIN.LIST.addEventListener('click', this.#handleRemoveButton.bind(this));
   }
 
-  handleAddInput({ target: { value: stationName } }) {
+  #handleAddInput({ target: { value: stationName } }) {
     if (!isValidName(stationName, NAME_LENGTH.STATION_MIN, NAME_LENGTH.STATION_MAX)) {
       DOM.STATION.MAIN.NAME_MSG.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       DOM.STATION.MAIN.SUBMIT_BUTTON.disabled = true;
@@ -53,7 +55,7 @@ export class StationManage {
     DOM.STATION.MAIN.SUBMIT_BUTTON.disabled = false;
   }
 
-  async handleAddSubmit(event) {
+  async #handleAddSubmit(event) {
     event.preventDefault();
     const requestInfo = {
       name: DOM.STATION.MAIN.NAME_INPUT.value,
@@ -64,7 +66,7 @@ export class StationManage {
 
       await stationManageAPI.addStation(accessToken, requestInfo);
       this.props.cache.stations = [];
-      await this.updateStations(ROUTE.STATIONS);
+      await this.#updateStations(ROUTE.STATIONS);
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
       DOM.STATION.MAIN.NAME_MSG.innerText =
@@ -72,7 +74,7 @@ export class StationManage {
     }
   }
 
-  handleModifyButton({ target }) {
+  #handleModifyButton({ target }) {
     if (!target.classList.contains('js-modify-button')) return;
 
     const $station = target.closest('.js-station-list-item');
@@ -84,7 +86,7 @@ export class StationManage {
     showModal(DOM.CONTAINER.MODAL);
   }
 
-  async handleModifySubmit(event) {
+  async #handleModifySubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     const requestInfo = {
@@ -98,7 +100,7 @@ export class StationManage {
       DOM.STATION.MODAL.FORM.reset();
       this.props.cache.stations = [];
       this.props.cache.lines = [];
-      await this.updateStations(ROUTE.STATIONS);
+      await this.#updateStations(ROUTE.STATIONS);
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       DOM.STATION.MODAL.NAME_MSG.innerText =
@@ -106,7 +108,7 @@ export class StationManage {
     }
   }
 
-  handleModifyInput({ target: { value: stationName } }) {
+  #handleModifyInput({ target: { value: stationName } }) {
     if (!isValidName(stationName, NAME_LENGTH.STATION_MIN, NAME_LENGTH.STATION_MAX)) {
       DOM.STATION.MODAL.NAME_MSG.innerText = MESSAGE.STATION_MANAGE.INVALID_NAME;
       DOM.STATION.MODAL.SUBMIT_BUTTON.disabled = true;
@@ -118,7 +120,7 @@ export class StationManage {
     DOM.STATION.MODAL.SUBMIT_BUTTON.disabled = false;
   }
 
-  async handleRemoveButton({ target }) {
+  async #handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
     const $station = target.closest('.js-station-list-item');
     const requestInfo = {

@@ -24,75 +24,78 @@ import {
 import { subwayView } from '../views';
 
 export class LineManage {
+  #props = null;
+  #submitType = null;
+
   constructor(props) {
-    this.props = props;
-    this.submitType = null;
-    this.setup();
-    this.bindEvent();
+    this.#props = props;
+    this.#submitType = null;
+    this.#setup();
+    this.#bindEvent();
   }
 
-  setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.updateLines.bind(this));
+  #setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.#updateStationOptions.bind(this));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.#updateLines.bind(this));
   }
 
-  async updateStationOptions(route) {
+  async #updateStationOptions(route) {
     if (route !== ROUTE.LINES) return;
 
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (this.#props.cache.stations.length === 0) {
+        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
-      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, this.#props.cache.stations);
+      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.#props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  async updateLines() {
+  async #updateLines() {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (this.#props.cache.lines.length === 0) {
+        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
       }
 
-      subwayView.renderLineList(this.props.cache.lines);
+      subwayView.renderLineList(this.#props.cache.lines);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  bindEvent() {
-    DOM.LINE.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
-    DOM.LINE.MAIN.LIST.addEventListener('click', this.handleModifyButton.bind(this));
-    DOM.LINE.MODAL.NAME_INPUT.addEventListener('input', this.handleNameInput.bind(this));
-    DOM.LINE.MODAL.FORM.addEventListener('submit', this.handleLineSubmit.bind(this));
-    DOM.LINE.MODAL.PALETTE.addEventListener('click', this.handlePalette.bind(this));
-    DOM.LINE.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
+  #bindEvent() {
+    DOM.LINE.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.#handleAddButton.bind(this));
+    DOM.LINE.MAIN.LIST.addEventListener('click', this.#handleModifyButton.bind(this));
+    DOM.LINE.MODAL.NAME_INPUT.addEventListener('input', this.#handleNameInput.bind(this));
+    DOM.LINE.MODAL.FORM.addEventListener('submit', this.#handleLineSubmit.bind(this));
+    DOM.LINE.MODAL.PALETTE.addEventListener('click', this.#handlePalette.bind(this));
+    DOM.LINE.MAIN.LIST.addEventListener('click', this.#handleRemoveButton.bind(this));
   }
 
-  handleAddButton() {
-    if (this.props.cache.stations.length < MIN_STATION_COUNT) {
+  #handleAddButton() {
+    if (this.#props.cache.stations.length < MIN_STATION_COUNT) {
       alert(MESSAGE.LINE_MANAGE.STAION_ADD_REQUIRED);
 
       return;
     }
-    this.submitType = SUBMIT_TYPE.ADD;
+    this.#submitType = SUBMIT_TYPE.ADD;
     DOM.LINE.MODAL.MSG.innerText = '';
     show(...DOM.LINE.MODAL.NON_MODIFIABLE);
     showModal(DOM.CONTAINER.MODAL);
   }
 
-  handleModifyButton({ target }) {
+  #handleModifyButton({ target }) {
     if (!target.classList.contains('js-modify-button')) return;
     const line = target.closest('.js-line-list-item');
 
-    this.submitType = SUBMIT_TYPE.MODIFY;
+    this.#submitType = SUBMIT_TYPE.MODIFY;
     DOM.LINE.MODAL.MSG.innerText = '';
     DOM.LINE.MODAL.FORM.dataset.lineId = line.dataset.id;
     DOM.LINE.MODAL.NAME_INPUT.value = line.dataset.name;
@@ -101,7 +104,7 @@ export class LineManage {
     showModal(DOM.CONTAINER.MODAL);
   }
 
-  handleNameInput({ target: { value: lineName } }) {
+  #handleNameInput({ target: { value: lineName } }) {
     if (!isValidName(lineName, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) {
       DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.INVALID_NAME;
 
@@ -111,23 +114,23 @@ export class LineManage {
     DOM.LINE.MODAL.MSG.innerText = '';
   }
 
-  handlePalette(event) {
+  #handlePalette(event) {
     if (!event.target.classList.contains('color-option')) return;
     DOM.LINE.MODAL.COLOR_INPUT.value = event.target.dataset.color;
   }
 
-  handleLineSubmit(event) {
+  #handleLineSubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-    if (this.submitType === SUBMIT_TYPE.ADD) {
-      this.handleAddSubmit(accessToken);
-    } else if (this.submitType === SUBMIT_TYPE.MODIFY) {
-      this.handleModifySubmit(accessToken);
+    if (this.#submitType === SUBMIT_TYPE.ADD) {
+      this.#handleAddSubmit(accessToken);
+    } else if (this.#submitType === SUBMIT_TYPE.MODIFY) {
+      this.#handleModifySubmit(accessToken);
     }
   }
 
-  async handleAddSubmit(accessToken) {
+  async #handleAddSubmit(accessToken) {
     const requestInfo = {
       id: DOM.LINE.MODAL.FORM.dataset.lineId,
       name: DOM.LINE.MODAL.NAME_INPUT.value,
@@ -152,8 +155,8 @@ export class LineManage {
 
     try {
       await lineManageAPI.addLine(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      await this.updateLines(ROUTE.LINE);
+      this.#props.cache.lines = [];
+      await this.#updateLines(ROUTE.LINE);
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -161,7 +164,7 @@ export class LineManage {
     }
   }
 
-  async handleModifySubmit(accessToken) {
+  async #handleModifySubmit(accessToken) {
     const requestInfo = {
       id: DOM.LINE.MODAL.FORM.dataset.lineId,
       name: DOM.LINE.MODAL.NAME_INPUT.value,
@@ -172,8 +175,8 @@ export class LineManage {
 
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      await this.updateLines();
+      this.#props.cache.lines = [];
+      await this.#updateLines();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -181,7 +184,7 @@ export class LineManage {
     }
   }
 
-  async handleRemoveButton({ target }) {
+  async #handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
     const $line = target.closest('.js-line-list-item');
     const requestInfo = {
@@ -193,7 +196,7 @@ export class LineManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
       $line.remove();
-      this.props.cache.lines = [];
+      this.#props.cache.lines = [];
     } catch (error) {
       console.error(error.message);
     }

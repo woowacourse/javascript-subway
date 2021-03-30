@@ -5,28 +5,30 @@ import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/uti
 import { routeTo, userAuthAPI } from '../utils';
 
 export class UserAuth {
+  #props = null;
+
   constructor(props) {
-    this.props = props;
-    this.setup();
-    this.bindEvent();
+    this.#props = props;
+    this.#setup();
+    this.#bindEvent();
   }
 
-  setup() {
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.signOut.bind(this));
+  #setup() {
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.#signOut.bind(this));
   }
 
-  signOut() {
+  #signOut() {
     if (store[STATE_KEY.SIGNED_USER_NAME].get()) return;
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    this.props.cache.stations = [];
-    this.props.cache.lines = [];
+    this.#props.cache.stations = [];
+    this.#props.cache.lines = [];
   }
 
-  bindEvent() {
-    DOM.USER_AUTH.MAIN.FORM.addEventListener('submit', this.handleSubmit.bind(this));
+  #bindEvent() {
+    DOM.USER_AUTH.MAIN.FORM.addEventListener('submit', this.#handleSubmit.bind(this));
   }
 
-  async handleSubmit(event) {
+  async #handleSubmit(event) {
     event.preventDefault();
     try {
       const $$input = {

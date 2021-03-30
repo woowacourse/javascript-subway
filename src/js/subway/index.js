@@ -12,19 +12,19 @@ export class Subway {
       lines: [],
     };
 
-    this.setup();
-    this.mountChildComponents();
-    this.bindEvent();
+    this.#setup();
+    this.#mountChildComponents();
+    this.#bindEvent();
   }
 
-  setup() {
+  #setup() {
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderRoot.bind(subwayView));
     store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderNavButtons.bind(subwayView));
     store[STATE_KEY.ROUTE].subscribe(subwayView.renderMain.bind(subwayView));
     store[STATE_KEY.ROUTE].subscribe(subwayView.renderModal.bind(subwayView));
   }
 
-  mountChildComponents() {
+  #mountChildComponents() {
     new UserJoin();
     new UserAuth({ cache: this.cache });
     new StationManage({ cache: this.cache });
@@ -32,11 +32,11 @@ export class Subway {
     new SectionManage({ cache: this.cache });
   }
 
-  bindEvent() {
-    DOM.CONTAINER.MODAL.addEventListener('mousedown', this.handleModalCloseButton.bind(this));
+  #bindEvent() {
+    DOM.CONTAINER.MODAL.addEventListener('mousedown', this.#handleModalCloseButton.bind(this));
   }
 
-  handleModalCloseButton({ target }) {
+  #handleModalCloseButton({ target }) {
     if (
       target === DOM.CONTAINER.MODAL ||
       target.parentNode.classList.contains('modal-close') ||

@@ -9,20 +9,20 @@ import { getUserName } from './subway/utils/api/userAuth';
 
 class App {
   constructor() {
-    this.selectDOM();
-    this.mountChildComponents();
-    this.bindEvent();
+    this.#selectDOM();
+    this.#mountChildComponents();
+    this.#bindEvent();
   }
 
-  selectDOM() {
+  #selectDOM() {
     this.$app = $('#app');
   }
 
-  mountChildComponents() {
+  #mountChildComponents() {
     new Subway();
   }
 
-  bindEvent() {
+  #bindEvent() {
     this.$app.addEventListener('click', event => {
       if (!event.target.classList.contains('js-link')) return;
       event.preventDefault();

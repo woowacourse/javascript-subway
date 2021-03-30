@@ -3,21 +3,23 @@ import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
 export class UserJoin {
+  #isUniqueEmail = null;
+
   constructor() {
-    this.isUniqueEmail = false;
-    this.bindEvent();
+    this.#isUniqueEmail = false;
+    this.#bindEvent();
   }
 
-  bindEvent() {
-    DOM.USER_JOIN.MAIN.FORM.addEventListener('submit', this.handleSubmit.bind(this));
-    DOM.USER_JOIN.MAIN.EMAIL_INPUT.addEventListener('input', this.handleEmailInput.bind(this));
-    DOM.USER_JOIN.MAIN.EMAIL_INPUT.addEventListener('focusout', this.handleEmailFocusOut.bind(this));
-    DOM.USER_JOIN.MAIN.NAME_INPUT.addEventListener('input', this.handleNameInput.bind(this));
-    DOM.USER_JOIN.MAIN.PASSWORD_INPUT.addEventListener('input', this.handlePasswordInput.bind(this));
-    DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT.addEventListener('input', this.handlePasswordConfirmInput.bind(this));
+  #bindEvent() {
+    DOM.USER_JOIN.MAIN.FORM.addEventListener('submit', this.#handleSubmit.bind(this));
+    DOM.USER_JOIN.MAIN.EMAIL_INPUT.addEventListener('input', this.#handleEmailInput.bind(this));
+    DOM.USER_JOIN.MAIN.EMAIL_INPUT.addEventListener('focusout', this.#handleEmailFocusOut.bind(this));
+    DOM.USER_JOIN.MAIN.NAME_INPUT.addEventListener('input', this.#handleNameInput.bind(this));
+    DOM.USER_JOIN.MAIN.PASSWORD_INPUT.addEventListener('input', this.#handlePasswordInput.bind(this));
+    DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT.addEventListener('input', this.#handlePasswordConfirmInput.bind(this));
   }
 
-  async handleSubmit(event) {
+  async #handleSubmit(event) {
     event.preventDefault();
     if (!this.isUniqueEmail) {
       alert(MESSAGE.SIGNUP.OVERLAP_CHECK_REQUIRED);
@@ -50,7 +52,7 @@ export class UserJoin {
     }
   }
 
-  handleEmailInput({ target: { value } }) {
+  #handleEmailInput({ target: { value } }) {
     this.isUniqueEmail = false;
 
     if (!isValidEmail(value)) {
@@ -63,13 +65,13 @@ export class UserJoin {
     DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = '';
   }
 
-  handleNameInput({ target: { value } }) {
+  #handleNameInput({ target: { value } }) {
     isValidName(value, NAME_LENGTH.USER_MIN, NAME_LENGTH.USER_MAX) //
       ? DOM.USER_JOIN.MAIN.NAME_MSG.classList.add('hidden')
       : DOM.USER_JOIN.MAIN.NAME_MSG.classList.remove('hidden');
   }
 
-  handlePasswordInput({ target: { value } }) {
+  #handlePasswordInput({ target: { value } }) {
     isValidPassword(value) //
       ? DOM.USER_JOIN.MAIN.PASSWORD_MSG.classList.add('hidden')
       : DOM.USER_JOIN.MAIN.PASSWORD_MSG.classList.remove('hidden');
@@ -79,13 +81,13 @@ export class UserJoin {
       : DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_MSG.classList.remove('hidden');
   }
 
-  handlePasswordConfirmInput({ target: { value } }) {
+  #handlePasswordConfirmInput({ target: { value } }) {
     value === DOM.USER_JOIN.MAIN.PASSWORD_INPUT.value
       ? DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_MSG.classList.add('hidden')
       : DOM.USER_JOIN.MAIN.PASSWORD_CONFIRM_MSG.classList.remove('hidden');
   }
 
-  async handleEmailFocusOut({ target: { value: email } }) {
+  async #handleEmailFocusOut({ target: { value: email } }) {
     if (!isValidEmail(email)) return;
 
     try {
