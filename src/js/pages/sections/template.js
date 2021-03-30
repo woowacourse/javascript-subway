@@ -99,7 +99,7 @@ const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration 
      isDeletable
        ? `<button
             type="button"
-            class="list-button js-section-delete-button section-delete-button"
+            class="list-button js-section-status-button js-section-delete-button section-delete-button"
           >
             ❌
           </button>`
@@ -111,13 +111,13 @@ const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration 
       <div class="section-edit">
         <button
           type="button"
-          class="list-button js-section-add-button section-add-button mr-1"
+          class="list-button js-section-status-button js-section-add-button section-add-button mr-1"
         >
           ➕
         </button>
         <button
           type="button"
-          class="list-button js-section-edit-button section-edit-button"
+          class="list-button js-section-status-button js-section-edit-button section-edit-button"
         >
           ✏️
         </button>
