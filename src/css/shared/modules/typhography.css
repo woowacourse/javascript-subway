@@ -171,3 +171,11 @@
 .text-green {
   color: green;
 }
+
+.text-brown {
+  color: brown;
+}
+
+.text-blue {
+  color: rgb(58, 65, 170);
+}

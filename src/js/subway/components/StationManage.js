@@ -97,6 +97,7 @@ export class StationManage {
 
       DOM.STATION.MODAL.FORM.reset();
       this.props.cache.stations = [];
+      this.props.cache.lines = [];
       await this.updateStations(ROUTE.STATIONS);
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {

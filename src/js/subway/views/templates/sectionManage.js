@@ -1,7 +1,7 @@
 import { MENU } from '../../constants/constants';
 
-export const sectionInfo = ({ id, name }) => `
-  <li data-station-id=${id} class="js-station-list-item border-bottom d-flex items-center py-2 my-2">
+export const sectionInfo = ({ id, name, distance, duration }) => `
+  <li data-station-id=${id} class="js-station-list-item d-flex items-center py-2 my-2">
     <span class="js-station-name w-100 pl-2">${name}</span>
     <button
       type="button"
@@ -9,10 +9,24 @@ export const sectionInfo = ({ id, name }) => `
     >
       삭제
       </button>
+      ${
+        distance && duration
+          ? `
+          <div class="sectionInfo">
+            <span>></span>
+            <span class="text-xs text-brown ">거리: ${distance}km</span>
+            <span class="text-xs text-blue">시간: ${duration}분</span>
+          </div>`
+          : ''
+      }
+
+
   </li>
   `;
 
-export const sectionList = sections => sections.map(sectionInfo).join('');
+export const sectionList = (stations, sections) => {
+  return stations.map((station, index) => sectionInfo({ ...station, ...sections[index] })).join('');
+};
 
 export const sectionManage = `
   <div id="main-content" class="manage wrapper bg-white p-10">
