@@ -1,7 +1,12 @@
 import { $ } from '../utils/dom';
 import { openModal, closeModal } from '../utils/modal';
 import { getLineListTemplate, getEditLineModalTemplate, getAddLineModalTemplate } from '../templates/lines';
-import { requestAddLine, requestGetLineList, requestEditLineData } from '../requestData/requestUserData';
+import {
+  requestAddLine,
+  requestGetLineList,
+  requestEditLineData,
+  requestRemoveLine,
+} from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
 import { validateAddLine, validateEditLine } from '../validators/validation';
 
@@ -182,7 +187,21 @@ class Lines {
     }
   }
 
-  handleLineRemoveButton(e) {}
+  async handleLineRemoveButton(e) {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+    const { lineName } = e.target.closest('.line-list-item').dataset;
+    const $lineListItem = $(`[data-line-name="${lineName}"]`);
+
+    try {
+      await requestRemoveLine({ id: this.userDataManager.getTargetLineId(lineName) });
+      $lineListItem.remove();
+      this.userDataManager.removeLine(lineName);
+      this.cleanCacheLineListTemplate();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   cacheLineListTemplate() {
     this.lineListTemplate = this.userDataManager.lines
