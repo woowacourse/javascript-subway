@@ -7,8 +7,18 @@ import { Component } from '../../@shared/models/Component';
 
 export class SectionManage extends Component {
   setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.reset.bind(this));
     store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
     store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
+  }
+
+  reset(route) {
+    if (route !== ROUTE.SECTIONS) return;
+    const lines = store[STATE_KEY.LINES].get();
+
+    subwayView.renderLineOptions(lines);
+    DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
+    subwayView.renderSectionList();
   }
 
   updateStations(stations) {
@@ -17,18 +27,8 @@ export class SectionManage extends Component {
   }
 
   updateLines(lines) {
-    const prevLines = $$('option', DOM.SECTION.MAIN.LINE_SELECTOR);
-
-    if (prevLines.length - 1 !== lines.length) {
-      subwayView.renderLineOptions(lines);
-      DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
-      subwayView.renderSectionList();
-
-      return;
-    }
-
     const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
-    const { stations } = store[STATE_KEY.LINES].get().find(line => line.id === lineId);
+    const { stations } = lines.find(line => line.id === lineId);
 
     subwayView.renderSectionList(stations);
   }
