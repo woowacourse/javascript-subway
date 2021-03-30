@@ -49,7 +49,11 @@ export default class App {
 
   registerRoutes() {
     Object.keys(this.pages).forEach((key) => {
-      if (key === PAGE_KEYS.STATIONS || key === PAGE_KEYS.LINES) {
+      if (
+        key === PAGE_KEYS.STATIONS ||
+        key === PAGE_KEYS.LINES ||
+        key === PAGE_KEYS.SECTIONS
+      ) {
         this.pageRouter.registerRoute({
           path: PAGE_URLS[key],
           handler: this.pages[key].loadPage.bind(this.pages[key]),

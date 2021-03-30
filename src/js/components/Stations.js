@@ -1,4 +1,5 @@
 import Component from "./common/Component.js";
+import { StationModifyModal } from "./StationModifyModal.js";
 
 import {
   TOKEN_STORAGE_KEY,
@@ -7,41 +8,19 @@ import {
   STATION_LIST_ITEM_BORDER_HEIGHT,
   SPACE_REG_EXP,
 } from "../constants/general.js";
+import { CONFIRM_MESSAGE, ERROR_MESSAGE } from "../constants/messages.js";
+import { createStationListItem } from "../constants/template.js";
 
-import { $, $$ } from "../utils/DOM.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import {
   addStationAPI,
   deleteStationAPI,
   getStationsAPI,
 } from "../APIs/subwayAPI.js";
-import snackbar from "../utils/snackbar.js";
-import { CONFIRM_MESSAGE, ERROR_MESSAGE } from "../constants/messages.js";
-import { StationModifyModal } from "./StationModifyModal.js";
 
-const createStationListItem = (station) => {
-  return `
-    <li
-      data-station-id="${station.id}"
-      data-station-name="${station.name}"
-      class="station-list-item d-flex items-center"
-      >
-      <span class="js-station-name w-100">${station.name}</span>
-      <button
-        type="button"
-        class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        class="js-delete-btn bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-  `;
-};
+import { $, $$ } from "../utils/DOM.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import snackbar from "../utils/snackbar.js";
+
 export default class Stations extends Component {
   constructor({ $parent, setIsLoggedIn }) {
     super($parent);
