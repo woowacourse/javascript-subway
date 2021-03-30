@@ -53,8 +53,11 @@ ul {
   padding: 0;
 }
 
-nav ul li {
+li {
   list-style: none;
+}
+
+nav ul li {
   margin-right: 1rem;
 }
 

@@ -352,10 +352,10 @@ export const deleteStationAPI = async (stationId, accessToken) => {
   }
 };
 
-export const getLinesAPI = async (accessToken) => {
+export const getLinesAPI = async (accessToken, lineId = "") => {
   try {
     const response = await request.get({
-      path: PATH.LINES(),
+      path: PATH.LINES(lineId),
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

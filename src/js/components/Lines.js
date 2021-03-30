@@ -12,27 +12,35 @@ import { $ } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 const createLineListItem = (line) => {
+  const { upStation, downStation, distance, duration } = line.sections[0];
+
   return `
     <li 
       data-line-id="${line.id}"
       data-line-name="${line.name}"
       data-line-color="${line.color}"
-      class="d-flex items-center py-2 relative border-b-gray"
+      class="js-line-list-item py-2 relative border-b-gray"
       >
-      <span class="js-line-color-dot subway-line-color-dot ${line.color}"></span>
-      <span class="js-line-name w-100 pl-6 subway-line-list-item-name">${line.name}</span>
-      <button
-        type="button"
-        class="js-modify-line-btn bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        class="js-delete-line-btn bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
+      <div class="d-flex items-center">
+        <span class="js-line-color-dot subway-line-color-dot ${line.color}"></span>
+        <span class="js-line-name w-100 pl-6 subway-line-list-item-name">${line.name}</span>
+        <button
+          type="button"
+          class="js-modify-line-btn bg-gray-50 text-gray-500 text-sm mr-1"
+        >
+          수정
+        </button>
+        <button
+          type="button"
+          class="js-delete-line-btn bg-gray-50 text-gray-500 text-sm"
+        >
+          삭제
+        </button>
+      </div>
+
+      <div class="js-line-info d-flex d-none">
+        <p>${upStation.name} ➡️ 거리: ${distance}, 소요시간: ${duration} ➡️ ${downStation.name}</p>
+      </div>
     </li>
   `;
 };
@@ -102,7 +110,6 @@ export default class Lines extends Component {
   }
 
   modifyLine(lineData) {
-    console.log(lineData);
     const $modifiedLine = $(
       `li[data-line-id="${lineData.id}"]`,
       this.innerElement
@@ -119,6 +126,11 @@ export default class Lines extends Component {
     this.render();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  toggleLineInfo($lineListItem) {
+    $(".js-line-info", $lineListItem).classList.toggle("d-none");
+  }
+
   onClickLineList({ target }) {
     if (target.classList.contains("js-modify-line-btn")) {
       const lineData = target.closest("li").dataset;
@@ -129,7 +141,11 @@ export default class Lines extends Component {
 
     if (target.classList.contains("js-delete-line-btn")) {
       this.deleteLine(target.closest("li").dataset.lineId);
+
+      return;
     }
+
+    this.toggleLineInfo(target.closest("li"));
   }
 
   attachEvent() {
