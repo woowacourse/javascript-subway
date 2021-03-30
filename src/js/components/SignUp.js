@@ -122,8 +122,8 @@ class SignUp {
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
   }
 
-  manageSignUpFail() {
-    alert(ERROR_MESSAGE.SIGN_UP_FAIL);
+  manageSignUpFail(errorMessage) {
+    alert(errorMessage);
   }
 }
 
