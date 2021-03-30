@@ -24,6 +24,9 @@ const ALERT_MESSAGE = {
     FAIL_TO_MODIFY_SECTION: '구간 수정에 실패했습니다.',
     FAIL_TO_DELETE_SECTION: '구간 삭제에 실패했습니다.',
     INCLUDED_STATION: '노선에 포함된 지하철 역입니다.',
+    DUPLICATED_STATION_NAME: '중복된 지하철 역 이름입니다.',
+    DUPLICATED_LINE_NAME: '중복된 노선 이름입니다.',
+    DUPLICATED_UP_DOWN_STATIONS: '서로 다른 종점역을 선택해주세요.',
   },
 };
 

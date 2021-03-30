@@ -33,16 +33,17 @@ class StationManager {
   }
 
   async modifyStation(id, name) {
-    const resFlag = await fetchModifyStation(id, name);
-    if (resFlag) {
+    const response = await fetchModifyStation(id, name);
+    if (response.ok) {
       this.stations[id] = { id, name };
     }
 
-    return resFlag;
+    return response;
   }
 
   async deleteStation(stationId) {
     const response = await fetchDeleteStation(stationId);
+
     if (response.ok) {
       delete this.stations[stationId];
     }

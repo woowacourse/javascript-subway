@@ -15,31 +15,46 @@ async function saveModifyStationHandler(stationId, newStationName) {
   const currentStationName = user.stationManager.getStation(stationId).name;
   if (currentStationName === newStationName) return true;
 
-  const resFlag = await user.stationManager.modifyStation(
-    Number(stationId),
-    newStationName
-  );
+  try {
+    const response = await user.stationManager.modifyStation(
+      Number(stationId),
+      newStationName
+    );
 
-  if (!resFlag) {
-    alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
+    if (!response.ok) {
+      throw response;
+    }
+
+    return response.ok;
+  } catch (response) {
+    switch (response.status) {
+      case 400:
+        alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
+    }
   }
-
-  return resFlag;
 }
 
 async function deleteStationHandler(targetStationId) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
+  try {
+    const response = await user.stationManager.deleteStation(targetStationId);
+    if (!response.ok) {
+      throw response;
+    }
 
-  const response = await user.stationManager.deleteStation(targetStationId);
-  if (!response.ok) {
-    // TODO: 토큰 만료 후에는 어떻게 처리할지
-    if (response.status === 400) {
-      alert(ALERT_MESSAGE.ERROR.INCLUDED_STATION);
-    } else {
-      alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
+    return response.ok;
+  } catch (response) {
+    switch (response.status) {
+      case 400:
+        alert(ALERT_MESSAGE.ERROR.INCLUDED_STATION);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
     }
   }
-
-  return response.ok;
 }
+
 export { addStationHandler, saveModifyStationHandler, deleteStationHandler };

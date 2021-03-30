@@ -6,7 +6,8 @@ async function fetchAllStations() {
   const requestData = {
     method: HTTP.METHOD.GET,
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -14,11 +15,13 @@ async function fetchAllStations() {
 
   try {
     const response = await fetch(`${BASE_URL}/stations`, requestData);
-    const stations = await response.json();
+    if (!response.ok) {
+      throw response;
+    }
 
-    return stations;
-  } catch (error) {
-    console.error(error);
+    return await response.json();
+  } catch (response) {
+    console.error(await response.text());
   }
 }
 
@@ -29,7 +32,8 @@ async function fetchAddStation(stationName) {
       name: stationName,
     }),
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -56,7 +60,8 @@ async function fetchModifyStation(id, name) {
     method: HTTP.METHOD.PUT,
     body: JSON.stringify({ name }),
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -66,12 +71,14 @@ async function fetchModifyStation(id, name) {
     const response = await fetch(`${BASE_URL}/stations/${id}`, requestData);
 
     if (!response.ok) {
-      throw new Error(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
+      throw response;
     }
 
-    return response.ok;
-  } catch (error) {
-    console.error(error);
+    return response;
+  } catch (response) {
+    console.error(await response.text());
+
+    return response;
   }
 }
 
@@ -79,7 +86,8 @@ async function fetchDeleteStation(id) {
   const requestData = {
     method: HTTP.METHOD.DELETE,
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
     },
   };
 
