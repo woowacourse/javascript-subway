@@ -29,6 +29,10 @@ class LoginComponent extends Component {
     );
   }
 
+  render() {
+    super.render(LOGIN_TEMPLATE);
+  }
+
   #onLoginSubmit = async event => {
     event.preventDefault();
 
@@ -49,10 +53,6 @@ class LoginComponent extends Component {
       return;
     }
   };
-
-  render() {
-    super.render(LOGIN_TEMPLATE);
-  }
 }
 
 export default LoginComponent;
