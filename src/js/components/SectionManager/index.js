@@ -40,8 +40,10 @@ export default class SectionManager {
     $(SELECTOR.MODAL).addEventListener('addSection', this.addSection.bind(this));
   }
 
-  handleLineSelect(event) {
+  async handleLineSelect(event) {
     this.lineID = Number(event.target.value);
+    await this.updateSectionData();
+
     const targetLine = this.store.lines.find((line) => line.id === this.lineID);
     const prevLineColor = [...this.$sectionsSelect.classList].find((className) => className.startsWith('bg-'));
 
