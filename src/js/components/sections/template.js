@@ -1,6 +1,10 @@
-export const sectionListTemplate = (station, index) => {
+export const sectionListTemplate = (station, lineColor) => {
   return `
-    <li class="section-list-item d-flex items-center py-2 relative bottom-line">
+    <li class="section-list-item d-flex items-center relative">
+      <div class="d-flex justify-center align-center">
+        <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
+        <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+      </div>
       <span class="w-100 pl-6 section-name">${station.name}</span>
       <button
         type="button"
