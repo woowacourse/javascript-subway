@@ -1,4 +1,5 @@
 import { lineAPI } from '../../../../api/line.js';
+import { stationAPI } from '../../../../api/station.js';
 import {
   ERROR_MESSAGE,
   PAGE_TITLE,
@@ -8,6 +9,7 @@ import {
 } from '../../constants.js';
 import { $ } from '../../utils/dom.js';
 import { getLocalStorageItem } from '../../utils/storage.js';
+import SectionModal from './SectionModal.js';
 import {
   sectionsTemplate,
   sectionTemplate,
@@ -15,17 +17,22 @@ import {
 } from './sectionTemplate.js';
 class Section {
   #userAccessToken;
+  #stations;
   #sections;
   #props;
+  #modal;
 
   constructor(props) {
     this.#props = props;
     this.#userAccessToken = null;
+    this.#stations = {};
     this.#sections = {};
+    this.#modal = new SectionModal();
   }
 
   async init() {
     this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
+    await this._initStations();
     await this._initSections();
   }
 
@@ -34,7 +41,7 @@ class Section {
       title: PAGE_TITLE.SECTIONS,
       contents: {
         main: sectionsTemplate(this.#sections),
-        modal: modalTemplate(),
+        modal: modalTemplate(this.#stations),
       },
     };
   }
@@ -42,6 +49,19 @@ class Section {
   initDOM() {
     this.$sectionSelectForm = $(SELECTOR.SECTION_SELECT_FORM);
     this._bindEvent();
+  }
+
+  async _initStations() {
+    try {
+      this.#stations = {};
+
+      const stations = await stationAPI.getStations(this.#userAccessToken);
+      stations.forEach(({ id, ...rest }) => {
+        this.#stations[id] = rest;
+      });
+    } catch {
+      alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
+    }
   }
 
   async _initSections() {
@@ -66,6 +86,7 @@ class Section {
 
   _bindEvent() {
     this._bindSelectLineEvent();
+    this._bindAddSectionEvent();
   }
 
   _bindSelectLineEvent() {
@@ -76,12 +97,25 @@ class Section {
     });
   }
 
+  _bindAddSectionEvent() {
+    $('.create-section-btn').addEventListener('click', e => {
+      this.#modal.handleSectionOpen({
+        sectionInfo: this._getSelectedSectionInfo(),
+      });
+    });
+  }
+
   _handleSelectLine({ target }) {
     const id = target.value;
     const { stations, color } = this.#sections[id];
 
     target.className = color;
     $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+  }
+
+  _getSelectedSectionInfo() {
+    // const keyLine;
+    // this.#sections[keyLine]; // station들에 대한정보
   }
 }
 

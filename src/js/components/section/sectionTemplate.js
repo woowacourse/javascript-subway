@@ -39,7 +39,7 @@ export const sectionTemplate = ({ id, name }) => {
   `;
 };
 
-export const modalTemplate = () => {
+export const modalTemplate = stations => {
   return `
   <div class="modal-inner p-8">
   <button class="modal-close">
