@@ -1,5 +1,5 @@
 import { SELECTOR_ID } from '../constants.js';
-import delegateLoginSubmitEvent from '../delegators/login.js';
+import { delegateLoginClickEvent, delegateLoginSubmitEvent } from '../delegators/login.js';
 import { $ } from '../utils/dom.js';
 
 export default class Login {
@@ -23,7 +23,9 @@ export default class Login {
   }
 
   #initEvents() {
-    $(this.#targetSelector).addEventListener('submit', delegateLoginSubmitEvent)
+    $(this.#targetSelector).addEventListener('submit', delegateLoginSubmitEvent);
+    $(this.#targetSelector).addEventListener('click', delegateLoginClickEvent);
+
   }
 
   #getWrapperTemplate() {

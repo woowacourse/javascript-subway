@@ -4,7 +4,7 @@ import { state } from '../store.js';
 import router from '../router/router.js';
 import { sessionStore } from '../utils/utils';
 
-function delegateLoginSubmitEvent(event) {
+export function delegateLoginSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.LOG_IN_FORM) {
@@ -25,4 +25,15 @@ async function onLogInFormSubmit(target) {
   router.navigate(PATH.ROOT);
 }
 
-export default delegateLoginSubmitEvent;
+export function delegateLoginClickEvent(event) {
+  const { target } = event;
+  if (target.id === SELECTOR_ID.SIGN_UP_BUTTON) {
+    event.preventDefault();
+    onSignUpPageMove();
+  }
+}
+
+function onSignUpPageMove() {
+  history.pushState({ path: PATH.SIGN_UP }, null, PATH.SIGN_UP);
+  router.navigate(PATH.SIGN_UP);
+}

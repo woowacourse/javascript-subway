@@ -19,6 +19,7 @@ export default class SignUp {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
     targetContainer.innerHTML = this.#getTemplate();
+    this.#initEvents();
   }
 
   #initEvents() {
