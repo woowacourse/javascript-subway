@@ -3,8 +3,8 @@ class State {
   #listeners;
 
   constructor(state) {
-    if (!state) {
-      console.error('state가 빈 값입니다.');
+    if (state === undefined) {
+      console.error('state가 undefined입니다.');
     }
 
     this.#state = state;

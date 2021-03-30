@@ -8,29 +8,27 @@ import {
   ID_SELECTOR,
   REQUEST_URL,
 } from '../constants.js';
-import {
-  fetchStationCreation,
-  fetchStationNameRevision,
-  fetchStationRemoval,
-} from '../utils/fetch.js';
-import { closeModal, openModal } from '../utils/DOM.js';
+import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
+import StationModalComponent from './StationModalComponent.js';
 
 class StationComponent extends Component {
+  stationModalComponent;
+
   constructor(props) {
     super(props);
+
+    this.stationModalComponent = new StationModalComponent({
+      accessTokenState: this.props.accessTokenState,
+      stationsState: this.props.stationsState,
+    });
+    this.stationModalComponent.initialize();
   }
 
   initEvent() {
     $(`#${ID_SELECTOR.STATION_FORM}`).addEventListener(
       'submit',
       this.#onStationCreated
-    );
-
-    //TODO : dimmed 부분을 누르면 모달창 닫히게
-    $(`#${ID_SELECTOR.STATION_MODAL_FORM}`).addEventListener(
-      'submit',
-      this.#onRevisionSubmit
     );
 
     //TODO: if문 내부 리펙토링 하기
@@ -40,7 +38,7 @@ class StationComponent extends Component {
         if (
           target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
         ) {
-          this.#renderStationModal(target);
+          this.stationModalComponent.renderStationModal(target);
           return;
         }
 
@@ -67,6 +65,12 @@ class StationComponent extends Component {
     this.renderStationList(this.props.stationsState.Data);
   }
 
+  renderStationList = stations => {
+    const template = stations.map(this.#makeStationTemplate).join('');
+
+    $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
+  };
+
   #removeStation = async id => {
     const url = REQUEST_URL + `/stations/${id}`;
     const accessToken = this.props.accessTokenState.Data;
@@ -84,47 +88,6 @@ class StationComponent extends Component {
       alert(err.message);
       return;
     }
-  };
-
-  #renderStationModal(target) {
-    const stationId = target.dataset.id;
-    const stationName = target.dataset.name;
-
-    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).value = stationName;
-    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).dataset.id = stationId;
-    openModal();
-  }
-
-  #onRevisionSubmit = async event => {
-    event.preventDefault();
-    const $input = event.target[ID_SELECTOR.STATION_MODAL_FORM_INPUT];
-    const revisionName = $input.value;
-    const revisionId = $input.dataset.id;
-
-    const url = REQUEST_URL + `/stations/${revisionId}`;
-    const bodyData = {
-      name: revisionName,
-    };
-    const accessToken = this.props.accessTokenState.Data;
-
-    try {
-      await fetchStationNameRevision(url, { bodyData, accessToken });
-      alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
-      closeModal();
-      loadStationList(
-        this.props.stationsState,
-        this.props.accessTokenState.Data
-      );
-    } catch (err) {
-      alert(err.message);
-      return;
-    }
-  };
-
-  renderStationList = stations => {
-    const template = stations.map(this.#makeStationTemplate).join('');
-
-    $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };
 
   #onStationCreated = async event => {

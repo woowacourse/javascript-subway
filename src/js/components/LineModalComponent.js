@@ -2,12 +2,12 @@ import Component from './Component';
 import { fetchLineCreation, fetchLineRevision } from '../utils/fetch.js';
 import { ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
 import $ from '../utils/querySelector.js';
-import { closeModal } from '../utils/DOM';
+import { openModal, closeModal } from '../utils/DOM';
 import { loadLineList } from '../utils/loadByAJAX';
 import State from './State.js';
 import LINE_TEMPLATE from '../templates/lineTemplate';
 
-export class ModalComponent extends Component {
+class LineModalComponent extends Component {
   modalState;
 
   constructor(props) {
@@ -15,7 +15,7 @@ export class ModalComponent extends Component {
   }
 
   initState() {
-    this.modalState = new State(KEYWORD.CREATION);
+    this.modalState = new State('');
   }
 
   initStateListener() {
@@ -45,6 +45,10 @@ export class ModalComponent extends Component {
   handleModalTemplateToChange = modalState => {
     if (modalState === KEYWORD.CREATION) {
       $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.MODAL;
+
+      this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`);
+      this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`);
+
       return;
     }
 
@@ -59,6 +63,42 @@ export class ModalComponent extends Component {
       `유효한 modal keyword가 아닙니다. (modalState: ${modalState})`
     );
   };
+
+  openRevisionModal(target) {
+    const lineId = target.dataset.id;
+
+    if (!lineId) {
+      console.err('button의 dataset 속성으로 lineId가 존재하지 않습니다.');
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
+    this.modalState.Data = KEYWORD.REVISION;
+
+    const line = this.#findLineBy(lineId);
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
+
+    openModal();
+  }
+
+  onCreationModalOpened = () => {
+    this.modalState.Data = KEYWORD.CREATION;
+
+    openModal();
+  };
+
+  #findLineBy(targetId) {
+    const lines = this.props.linesState.Data;
+
+    return lines.find(line => line.id === Number(targetId));
+  }
+
+  #loadSelectOption(selector) {
+    $(selector).innerHTML = this.props.stationsState.Data.map(
+      ({ id, name }) => `<option value="${id}">${name}</option>`
+    ).join('');
+  }
 
   #createLine = async event => {
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
@@ -142,3 +182,5 @@ export class ModalComponent extends Component {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = '';
   }
 }
+
+export default LineModalComponent;

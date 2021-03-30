@@ -1,18 +1,17 @@
-import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD } from '../constants.js';
+import { CLASS_SELECTOR, ID_SELECTOR } from '../constants.js';
 import LINE_TEMPLATE from '../templates/lineTemplate.js';
-import { openModal } from '../utils/DOM.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
-import { ModalComponent } from './ModalComponent.js';
-
+import LineModalComponent from './LineModalComponent.js';
 class LineComponent extends Component {
   modalComponent;
 
   constructor(props) {
     super(props);
 
-    this.modalComponent = new ModalComponent({
+    this.modalComponent = new LineModalComponent({
       accessTokenState: this.props.accessTokenState,
+      stationsState: this.props.stationsState,
       linesState: this.props.linesState,
     });
     this.modalComponent.initialize();
@@ -23,20 +22,18 @@ class LineComponent extends Component {
   }
 
   initLoad() {
-    this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`);
-    this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`);
     this.renderLineList(this.props.linesState.Data);
   }
 
   initEvent() {
     $(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).addEventListener(
       'click',
-      this.#onCreationModalOpened
+      this.modalComponent.onCreationModalOpened
     );
 
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
       if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
-        this.#openRevisionModal(target);
+        this.modalComponent.openRevisionModal(target);
         return;
       }
     });
@@ -52,40 +49,14 @@ class LineComponent extends Component {
     });
   }
 
-  #findLineBy(targetId) {
-    const lines = this.props.linesState.Data;
+  renderLineList = lines => {
+    const template = lines.map(this.#makeLineTemplate).join('');
 
-    return lines.find(line => line.id === Number(targetId));
-  }
-
-  #onCreationModalOpened = () => {
-    this.modalComponent.modalState.Data = KEYWORD.CREATION;
-
-    openModal();
+    $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
 
-  #openRevisionModal(target) {
-    const lineId = target.dataset.id;
-
-    if (!lineId) {
-      console.err('button의 dataset 속성으로 lineId가 존재하지 않습니다.');
-    }
-
-    $(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
-    this.modalComponent.modalState.Data = KEYWORD.REVISION;
-
-    const line = this.#findLineBy(lineId);
-
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
-
-    openModal();
-  }
-
-  #loadSelectOption(selector) {
-    $(selector).innerHTML = this.props.stationsState.Data.map(
-      ({ id, name }) => `<option value="${id}">${name}</option>`
-    ).join('');
+  render() {
+    super.render(LINE_TEMPLATE);
   }
 
   #makeLineTemplate({ name, color, id }) {
@@ -112,16 +83,6 @@ class LineComponent extends Component {
       </button>
     </li>
     <hr class="my-0" />`;
-  }
-
-  renderLineList = lines => {
-    const template = lines.map(this.#makeLineTemplate).join('');
-
-    $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
-  };
-
-  render() {
-    super.render(LINE_TEMPLATE);
   }
 }
 

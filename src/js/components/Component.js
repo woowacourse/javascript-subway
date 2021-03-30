@@ -13,18 +13,17 @@ class Component {
     this.initEvent();
   }
 
-  initLoad() {}
-
   initState() {}
 
   initStateListener() {}
 
+  initLoad() {}
+
   initEvent() {}
 
-  render({ TITLE, MAIN, MODAL }) {
+  render({ TITLE, MAIN }) {
     $('title').innerHTML = TITLE;
     $(`#${ID_SELECTOR.MAIN}`).innerHTML = MAIN;
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
   }
 
   _onAnchorClicked = event => {
