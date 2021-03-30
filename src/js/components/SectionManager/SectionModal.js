@@ -9,9 +9,9 @@ export default class SectionModal {
     this.store = store;
     this.$root = $(SELECTOR.MODAL);
     this.state = {
-      lineId: 0,
-      upStationId: 0,
-      downStationId: 0,
+      lineId: '',
+      upStationId: '',
+      downStationId: '',
       distance: 0,
       duration: 0,
     };
@@ -44,7 +44,7 @@ export default class SectionModal {
   open(lineID) {
     this.$root.classList.add('open');
     if (lineID) {
-      const targetLine = [...this.$subwayLineSelect.options].find((option) => Number(option.value) === lineID);
+      const targetLine = [...this.$subwayLineSelect.options].find((option) => option.value === lineID);
       targetLine.setAttribute('selected', 'selected');
     }
   }
@@ -90,12 +90,12 @@ export default class SectionModal {
     const accessToken = this.store.userAuth.accessToken;
 
     try {
-      const response = await addSectionRequest(this.state.lineId, this.state, accessToken);
+      await addSectionRequest(this.state.lineId, this.state, accessToken);
       this.$subwaySectionForm.reset();
       this.close();
       popSnackbar(MESSAGES.SECTION_ADD.SUCCESS);
 
-      this.$root.dispatchEvent(new CustomEvent('addSection'));
+      this.$root.dispatchEvent(new CustomEvent('addSection', { detail: this.state.lineId }));
     } catch (error) {
       console.error(error);
       popSnackbar(error.message || MESSAGES.SECTION_ADD.FAIL);
@@ -103,6 +103,7 @@ export default class SectionModal {
   }
 
   close() {
+    this.$subwaySectionForm.reset();
     this.$root.classList.remove('open');
   }
 
