@@ -1,6 +1,6 @@
 {
   "name": "javascript-subway",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/GwangYeol-Im/javascript-subway.git",
   "author": "Kyle <mkitigy@gmail.com>",
@@ -9,6 +9,7 @@
     "@babel/core": "^7.13.10",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "babel-eslint": "^10.1.0",
@@ -23,6 +24,7 @@
     "html-webpack-plugin": "^5.3.1",
     "prettier": "2.2.1",
     "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
     "webpack": "^5.26.2",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"

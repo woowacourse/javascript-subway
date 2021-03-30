@@ -1,7 +1,7 @@
 import { MENU, MESSAGE } from '../../constants/constants';
 
 export const signUp = `
-  <div id="content" class="wrapper p-10 bg-white">
+  <div id="main-content" class="wrapper p-10 bg-white">
     <div class="heading">
       <h2 class="text">${MENU.SIGNUP}</h2>
     </div>

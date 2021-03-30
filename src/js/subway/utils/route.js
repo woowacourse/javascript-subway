@@ -1,31 +1,31 @@
-import { stateManager } from '../../@shared/models/StateManager';
+import { store } from '../../subway/models/store';
 import { removeFromSessionStorage } from '../../@shared/utils';
-import { ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants';
 
 export const getRedirectedPath = pathName => {
-  const signedUser = stateManager[STATE_KEY.SIGNED_USER].get();
+  const signedUserName = store[STATE_KEY.SIGNED_USER_NAME].get();
   const redirectedPath = {
     [ROUTE.ROOT]: ROUTE.ROOT,
-    [ROUTE.SIGNIN]: signedUser ? ROUTE.ROOT : ROUTE.SIGNIN,
-    [ROUTE.SIGNUP]: signedUser ? ROUTE.ROOT : ROUTE.SIGNUP,
+    [ROUTE.SIGNIN]: signedUserName ? ROUTE.ROOT : ROUTE.SIGNIN,
+    [ROUTE.SIGNUP]: signedUserName ? ROUTE.ROOT : ROUTE.SIGNUP,
     [ROUTE.SIGNOUT]: ROUTE.ROOT,
-    [ROUTE.STATIONS]: signedUser ? ROUTE.STATIONS : ROUTE.ROOT,
-    [ROUTE.LINES]: signedUser ? ROUTE.LINES : ROUTE.ROOT,
-    [ROUTE.SECTIONS]: signedUser ? ROUTE.SECTIONS : ROUTE.ROOT,
-    [ROUTE.MAP]: signedUser ? ROUTE.MAP : ROUTE.ROOT,
-    [ROUTE.SEARCH]: signedUser ? ROUTE.SEARCH : ROUTE.ROOT,
+    [ROUTE.STATIONS]: signedUserName ? ROUTE.STATIONS : ROUTE.ROOT,
+    [ROUTE.LINES]: signedUserName ? ROUTE.LINES : ROUTE.ROOT,
+    [ROUTE.SECTIONS]: signedUserName ? ROUTE.SECTIONS : ROUTE.ROOT,
+    [ROUTE.MAP]: signedUserName ? ROUTE.MAP : ROUTE.ROOT,
+    [ROUTE.SEARCH]: signedUserName ? ROUTE.SEARCH : ROUTE.ROOT,
   };
 
   return redirectedPath[pathName];
 };
 
-export const routeTo = pathName => {
-  if (pathName === ROUTE.SIGNOUT) {
-    removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    stateManager[STATE_KEY.SIGNED_USER].set('');
-    pathName = getRedirectedPath(pathName);
+export const routeTo = (pathName = ROUTE.ROOT) => {
+  if (pathName === ROUTE.SIGNOUT && store[STATE_KEY.SIGNED_USER_NAME].get()) {
+    if (!confirm(MESSAGE.CONFIRM.SIGNOUT)) return;
+    store[STATE_KEY.SIGNED_USER_NAME].set(null);
   }
 
+  pathName = getRedirectedPath(pathName);
   history.pushState({ path: pathName }, null, pathName);
-  stateManager[STATE_KEY.ROUTE].set(pathName);
+  store[STATE_KEY.ROUTE].set(pathName);
 };
