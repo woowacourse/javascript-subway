@@ -57,7 +57,7 @@ ul li button:hover {
 
 .sections-bottom-line {
   border-bottom: 2px dashed lightgray;
-  width: 50%;
+  width: 45%;
 }
 
 .subway-line-color-selector {
@@ -76,6 +76,6 @@ ul li button:hover {
 
 .section-info-container {
   position: absolute;
-  left: 51%;
+  left: 46%;
   transform: translate(0%, -50%);
 }
