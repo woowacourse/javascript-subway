@@ -32,24 +32,24 @@ export const modalTemplate = `
       <h2 class="text-center">🔁 구간 추가</h2>
     </header>
     <form id="subway-section-form">
-      <div class="input-control">
+      <div class="d-flex flex-col input-control">
         <label for="subway-line-for-section" class="input-label" hidden
           >노선</label
         >
-        <select id="subway-line-for-section">
+        <select id="subway-line-for-section" required>
           <option value="" selected disabled hidden>지하철 노선</option>
         </select>
       </div>
       <div class="d-flex flex-col input-control">
         <div class="d-flex items-center w-100">
           <label for="up-station" class="input-label" hidden>상행역</label>
-          <select id="up-station">
+          <select id="up-station" required>
             <option value="" selected disabled hidden>상행역</option>
           </select>
           <div class="d-inline-block mx-3 text-2xl">👉</div>
           <label for="down-station" class="input-label" hidden
             >하행역</label>
-          <select id="down-station">
+          <select id="down-station" required>
             <option value="" selected disabled hidden>하행역</option>
           </select>
         </div>
