@@ -1,14 +1,14 @@
 const lineListItem = ({ id, color, name }) => {
   return `
-    <li class="d-flex items-center py-2 relative" data-id="${id}">
-      <span class="subway-line-color-dot ${color}"></span>
+    <li class="js-line-item d-flex items-center py-2 relative" data-id="${id}">
+      <span class="subway-line-color-dot bg-${color}"></span>
       <span class="w-100 pl-6 subway-line-list-item-name">${name}</span>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
+        class="js-line-item__edit bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
       <button
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+        class="js-line-item__delete bg-gray-50 text-gray-500 text-sm">삭제</button>
     </li>
   `;
 };
@@ -23,7 +23,7 @@ const mainTemplate = (lines) => {
           class="js-line-item__create create-line-btn bg-cyan-300 ml-2"
         >노선 추가</button>
       </div>
-      <ul class="mt-3 pl-0">
+      <ul class="js-line-list mt-3 pl-0">
         ${lines.map(lineListItem).join('')}
       </ul>
     </div>

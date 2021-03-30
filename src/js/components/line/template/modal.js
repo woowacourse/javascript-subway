@@ -9,7 +9,53 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
-const linesModal = (stations) => {
+const lineFormDetail = (stations) => `
+  <div class="js-line-form__detail">
+    <div class="d-flex items-center input-control">
+      <label for="up-station" class="input-label" hidden>상행역</label>
+      <select id="up-station" name="subway-line-up-station" class="mr-2">
+        <option value="" selected disabled hidden>상행역</option>
+        ${stations
+          .map(({ id, name }) => `<option value=${id}>${name}</option>`)
+          .join('')}
+      </select>
+      <label for="down-station" class="input-label" hidden
+        >하행역</label
+      >
+      <select id="down-station" name="subway-line-down-station">
+        <option value="" selected disabled hidden>하행역</option>
+        ${stations
+          .map(({ id, name }) => `<option value=${id}>${name}</option>`)
+          .join('')}
+      </select>
+    </div>
+    <div class="input-control">
+      <label for="distance" class="input-label" hidden
+        >상행 하행역 거리</label>
+      <input
+        type="number"
+        id="distance"
+        name="distance"
+        class="input-field mr-2"
+        placeholder="상행 하행역 거리"
+        required
+      />
+      <label for="duration" class="input-label" hidden
+        >상행 하행역 시간</label
+      >
+      <input
+        type="number"
+        id="duration"
+        name="arrival"
+        class="input-field"
+        placeholder="상행 하행역 시간"
+        required
+      />
+    </div>
+  </div>
+  `;
+
+const linesModal = () => {
   return `
     <div class="modal">
       <div class="modal-inner p-8">
@@ -19,9 +65,9 @@ const linesModal = (stations) => {
           </svg>
         </button>
         <header>
-          <h2 class="text-center">🛤️ 노선 추가</h2>
+          <h2 class="text-center" id="line-title">🛤️ 노선 추가</h2>
         </header>
-        <form id="create-line-form">
+        <form id="line-form">
           <div class="input-control">
             <label for="subway-line-name" class="input-label" hidden
               >노선 이름</label
@@ -35,48 +81,7 @@ const linesModal = (stations) => {
               required
             />
           </div>
-          <div class="d-flex items-center input-control">
-            <label for="up-station" class="input-label" hidden>상행역</label>
-            <select id="up-station" name="subway-line-up-station" class="mr-2">
-              <option value="" selected disabled hidden>상행역</option>
-              ${stations
-                .map(({ id, name }) => `<option value=${id}>${name}</option>`)
-                .join('')}
-            </select>
-            <label for="down-station" class="input-label" hidden
-              >하행역</label
-            >
-            <select id="down-station" name="subway-line-down-station">
-              <option value="" selected disabled hidden>하행역</option>
-              ${stations
-                .map(({ id, name }) => `<option value=${id}>${name}</option>`)
-                .join('')}
-            </select>
-          </div>
-          <div class="input-control">
-            <label for="distance" class="input-label" hidden
-              >상행 하행역 거리</label
-            >
-            <input
-              type="number"
-              id="distance"
-              name="distance"
-              class="input-field mr-2"
-              placeholder="상행 하행역 거리"
-              required
-            />
-            <label for="duration" class="input-label" hidden
-              >상행 하행역 시간</label
-            >
-            <input
-              type="number"
-              id="duration"
-              name="arrival"
-              class="input-field"
-              placeholder="상행 하행역 시간"
-              required
-            />
-          </div>
+          <div class="js-line-detail-container"></div>
           <div class="input-control">
             <div>
               <label for="subway-line-color" class="input-label" hidden
@@ -113,4 +118,4 @@ const linesModal = (stations) => {
   `;
 };
 
-export default linesModal;
+export { linesModal, lineFormDetail };

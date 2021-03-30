@@ -24,24 +24,26 @@ class App extends Component {
   constructor(parentNode, stateManagers, childComponents, state) {
     super(parentNode, stateManagers, childComponents, state);
     this.routeComponents = {
-      [HOME_LINK.ROUTE]: () => this.privateRouter(this.childComponents.Station),
+      [HOME_LINK.ROUTE]: () => {
+        return this.privateRouter(this.childComponents.Station);
+      },
       [AUTHENTICATED_LINK.STATION.ROUTE]: () => {
-        this.privateRouter(this.childComponents.Station);
+        return this.privateRouter(this.childComponents.Station);
       },
       [AUTHENTICATED_LINK.LINE.ROUTE]: () => {
-        this.privateRouter(this.childComponents.Line);
+        return this.privateRouter(this.childComponents.Line);
       },
       [AUTHENTICATED_LINK.SECTION.ROUTE]: () => {
-        this.privateRouter(this.childComponents.Section);
+        return this.privateRouter(this.childComponents.Section);
       },
       // TODO: 3단계 요구사항
       // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
       // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
       [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => {
-        this.publicRouter(this.childComponents.Login);
+        return this.publicRouter(this.childComponents.Login);
       },
       [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => {
-        this.publicRouter(this.childComponents.Signup);
+        return this.publicRouter(this.childComponents.Signup);
       },
     };
 
@@ -62,6 +64,7 @@ class App extends Component {
       null,
       UNAUTHENTICATED_LINK.LOGIN.ROUTE
     );
+
     return this.childComponents.Login;
   }
 
@@ -79,8 +82,11 @@ class App extends Component {
     return this.childComponents.Station;
   }
 
-  renderComponent(path = location.pathname) {
-    this.routeComponents[path]().render();
+  // Login 하지 않으면 updateSubwayState가 필요없어서 나머지는 render
+  async renderComponent(path = location.pathname) {
+    const component = this.routeComponents[path]();
+
+    isLogin() ? await component.updateSubwayState() : component.render();
   }
 
   renderHeader() {
@@ -162,6 +168,10 @@ const initalState = {
   lines: [],
 };
 
+/* 00. 앱이 실행됨.
+  실행되면서 각 페이지가 한 번씩 생성됨.
+  이 페이지들은 나중에 render를 통해 새로운 데이터로 페이지를 그려줌
+ */
 new App(
   $('#app'),
   stateManagers,

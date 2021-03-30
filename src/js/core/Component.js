@@ -13,8 +13,8 @@ class Component {
   }
 
   render() {
-    this.addEventListeners();
     this.renderSelf();
+    this.addEventListeners();
   }
 
   setChildState() {
