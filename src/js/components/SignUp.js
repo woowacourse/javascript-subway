@@ -121,6 +121,10 @@ class SignUp {
 
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_UP, showtime: SNACKBAR_SHOW_TIME });
   }
+
+  manageSignUpFail(errorMessage) {
+    alert(errorMessage);
+  }
 }
 
 export default SignUp;

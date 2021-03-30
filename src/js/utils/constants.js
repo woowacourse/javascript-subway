@@ -86,7 +86,6 @@ export const ERROR_MESSAGE = Object.freeze({
   NEED_OVER_PASSWORD_MIN_LENGTH: `비밀번호는 ${STANDARD_NUMBER.PASSWORD_MIN_LENGTH}자 이상으로 입력하셔야 합니다.`,
   DIFFERENT_PASSWORD_AND_PASSWORD_CONFIRM: '비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.',
   DUPLICATED_EMAIL: '중복된 이메일을 입력하셨습니다.',
-  UNCAUGHT_ERROR: '오류가 발생하였습니다. 문제가 지속될 경우, 관리자에게 문의하시기 바랍니다.',
   SIGN_UP_FAIL: '회원가입에 실패하였습니다.',
   SIGN_IN_FAIL: '이메일과 비밀번호를 확인해주세요.',
 });

@@ -6,7 +6,6 @@ import { getSectionsTemplate } from '../templates/sections';
 import { getSignInTemplate } from '../templates/signIn';
 import { getSignUpTemplate } from '../templates/signUp';
 import { isSignIn } from '../validators/boolean';
-import UserDataManager from '../model/UserDataManager';
 
 class Router {
   constructor(target) {
