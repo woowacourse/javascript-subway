@@ -41,7 +41,7 @@ export default class SignupForm {
   bindEvents() {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
     this.$emailInput.addEventListener('focusout', this.checkEmailAvailable.bind(this));
-    this.$password.addEventListener('focusout', this.getPassword.bind(this));
+    this.$password.addEventListener('input', this.checkPasswordCorrect.bind(this));
     this.$passwordConfirm.addEventListener('input', this.checkPasswordCorrect.bind(this));
   }
 
@@ -113,14 +113,8 @@ export default class SignupForm {
     routeTo(path);
   }
 
-  getPassword(event) {
-    this.state.password = event.target.value;
-  }
-
-  checkPasswordCorrect(event) {
-    const passwordConfirm = event.target.value;
-
-    if (this.state.password !== passwordConfirm) {
+  checkPasswordCorrect() {
+    if (this.$password.value !== this.$passwordConfirm.value) {
       show(this.$passwordConfirmWarning);
       hide(this.$passwordConfirmCorrect);
     } else {
