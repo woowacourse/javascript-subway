@@ -1,6 +1,6 @@
 import { DOM } from '../constants/dom';
 import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
-import { store } from '../../@shared/models/store';
+import { store } from '../../subway/models/store';
 import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
 
@@ -18,8 +18,8 @@ export class UserAuth {
   signOut() {
     if (store[STATE_KEY.SIGNED_USER_NAME].get()) return;
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    this.props.cache.stations = [];
-    this.props.cache.lines = [];
+    store[STATE_KEY.STATIONS].clear();
+    store[STATE_KEY.LINES].clear();
   }
 
   bindEvent() {
@@ -40,6 +40,8 @@ export class UserAuth {
       DOM.USER_AUTH.MAIN.FORM.reset();
       DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.add('hidden');
       store[STATE_KEY.SIGNED_USER_NAME].set(userName);
+      store[STATE_KEY.STATIONS].update();
+      store[STATE_KEY.LINES].update();
       routeTo(ROUTE.ROOT);
     } catch (error) {
       console.error(error.message);

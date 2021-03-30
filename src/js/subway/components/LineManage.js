@@ -1,4 +1,4 @@
-import { store } from '../../@shared/models/store';
+import { store } from '../../subway/models/store';
 import { getFromSessionStorage, hide, show } from '../../@shared/utils';
 import { DOM } from '../constants/dom';
 import {
@@ -32,39 +32,17 @@ export class LineManage {
   }
 
   setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.updateLines.bind(this));
+    store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
+    store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
   }
 
-  async updateStationOptions(route) {
-    if (route !== ROUTE.LINES) return;
-
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
-      }
-
-      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
-      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
-    } catch (error) {
-      console.error(error.message);
-    }
+  async updateStations(stations) {
+    subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, stations);
+    subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, stations);
   }
 
-  async updateLines() {
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
-      }
-
-      subwayView.renderLineList(this.props.cache.lines);
-    } catch (error) {
-      console.error(error.message);
-    }
+  async updateLines(lines) {
+    subwayView.renderLineList(lines);
   }
 
   bindEvent() {
@@ -77,7 +55,7 @@ export class LineManage {
   }
 
   handleAddButton() {
-    if (this.props.cache.stations.length < MIN_STATION_COUNT) {
+    if (store[STATE_KEY.STATIONS].get().length < MIN_STATION_COUNT) {
       alert(MESSAGE.LINE_MANAGE.STAION_ADD_REQUIRED);
 
       return;
@@ -152,8 +130,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.addLine(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      await this.updateLines(ROUTE.LINE);
+      store[STATE_KEY.LINES].update();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -173,8 +150,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      await this.updateLines();
+      store[STATE_KEY.LINES].update();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -195,7 +171,6 @@ export class LineManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
       $line.remove();
-      this.props.cache.lines = [];
     } catch (error) {
       console.error(error.message);
     }

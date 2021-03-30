@@ -1,4 +1,4 @@
-import { store } from '../@shared/models/store';
+import { store } from '../subway/models/store';
 import { STATE_KEY } from './constants/constants';
 import { DOM } from './constants/dom';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
@@ -7,11 +7,6 @@ import { subwayView } from './views';
 
 export class Subway {
   constructor() {
-    this.cache = {
-      stations: [],
-      lines: [],
-    };
-
     this.setup();
     this.mountChildComponents();
     this.bindEvent();
@@ -26,10 +21,10 @@ export class Subway {
 
   mountChildComponents() {
     new UserJoin();
-    new UserAuth({ cache: this.cache });
-    new StationManage({ cache: this.cache });
-    new LineManage({ cache: this.cache });
-    new SectionManage({ cache: this.cache });
+    new UserAuth();
+    new StationManage();
+    new LineManage();
+    new SectionManage();
   }
 
   bindEvent() {

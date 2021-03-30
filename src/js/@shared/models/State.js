@@ -28,4 +28,8 @@ export class State {
   notify() {
     this.#subscribers.forEach(subscriber => subscriber(this.#value));
   }
+
+  clear() {
+    this.#value = null;
+  }
 }

@@ -1,4 +1,4 @@
-import { store } from '../../@shared/models/store';
+import { store } from '../../subway/models/store';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
 import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { DOM } from '../constants/dom';
@@ -13,23 +13,11 @@ export class StationManage {
   }
 
   setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStations.bind(this));
+    store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
   }
 
-  async updateStations(route) {
-    if (route !== ROUTE.STATIONS) return;
-
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
-      }
-
-      subwayView.renderStationList(this.props.cache.stations);
-    } catch (error) {
-      console.error(error.message);
-    }
+  async updateStations(stations) {
+    subwayView.renderStationList(stations);
   }
 
   bindEvent() {
@@ -63,8 +51,7 @@ export class StationManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await stationManageAPI.addStation(accessToken, requestInfo);
-      this.props.cache.stations = [];
-      await this.updateStations(ROUTE.STATIONS);
+      store[STATE_KEY.STATIONS].update();
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
       console.error(error.message);
@@ -97,8 +84,7 @@ export class StationManage {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
 
       DOM.STATION.MODAL.FORM.reset();
-      this.props.cache.stations = [];
-      await this.updateStations(ROUTE.STATIONS);
+      store[STATE_KEY.STATIONS].update();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       console.error(error.message);
@@ -133,7 +119,6 @@ export class StationManage {
 
       await stationManageAPI.removeStation(accessToken, requestInfo);
       $station.remove();
-      this.props.cache.stations = [];
     } catch (error) {
       console.error(error.message);
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);

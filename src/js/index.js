@@ -1,7 +1,7 @@
 import '../css/index.css';
 import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
-import { store } from './@shared/models/store';
+import { store } from './subway/models/store';
 import { Subway } from './subway';
 import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { routeTo } from './subway/utils';
@@ -45,5 +45,7 @@ window.addEventListener('load', async () => {
 
   new App();
   store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
+  store[STATE_KEY.STATIONS].update();
+  store[STATE_KEY.LINES].update();
   routeTo(location.pathname);
 });

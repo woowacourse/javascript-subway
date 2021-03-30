@@ -11,77 +11,46 @@ import {
   stationManageAPI,
 } from '../utils';
 import { subwayView } from '../views';
-import { store } from '../../@shared/models/store';
+import { store } from '../../subway/models/store';
 
 export class SectionManage {
   constructor(props) {
     this.props = props;
-    this.submitType = null;
     this.setup();
     this.bindEvent();
   }
 
   setup() {
-    store[STATE_KEY.ROUTE].subscribe(this.updateStationOptions.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.updateLineOptions.bind(this));
+    store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
+    store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
   }
 
-  async updateStationOptions(route) {
-    if (route !== ROUTE.SECTIONS) return;
-
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
-      }
-
-      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
-      subwayView.renderStationOptions(DOM.SECTION.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
-    } catch (error) {
-      console.error(error.message);
-    }
+  updateStations(stations) {
+    subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, stations);
+    subwayView.renderStationOptions(DOM.SECTION.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, stations);
   }
 
-  async updateLineOptions(route) {
-    if (route !== ROUTE.SECTIONS) return;
+  updateLines(lines) {
+    const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
 
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
-      }
-
-      subwayView.renderLineOptions(this.props.cache.lines);
-      DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
-      subwayView.renderSectionList();
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  async updateSections() {
-    try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-      const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
-
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
-      }
-
-      const { stations } = this.props.cache.lines.find(line => line.id === lineId);
+    console.log(lineId);
+    if (lineId) {
+      const { stations } = lines.find(line => line.id === lineId);
 
       subwayView.renderSectionList(stations);
-    } catch (error) {
-      console.error(error.message);
+
+      return;
     }
+
+    subwayView.renderLineOptions(lines);
+    DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
+    subwayView.renderSectionList();
   }
 
   bindEvent() {
     DOM.SECTION.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
     DOM.SECTION.MAIN.LINE_SELECTOR.addEventListener('change', this.handleLineSelector.bind(this));
-    DOM.SECTION.MODAL.FORM.addEventListener('submit', this.handleSectionSubmit.bind(this));
+    DOM.SECTION.MODAL.FORM.addEventListener('submit', this.handleAddSubmit.bind(this));
     DOM.SECTION.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
@@ -105,25 +74,15 @@ export class SectionManage {
 
   handleLineSelector(event) {
     const id = Number(event.target.value);
-    const { color, stations } = this.props.cache.lines.find(line => line.id === id);
+    const { color, stations } = store[STATE_KEY.LINES].get().find(line => line.id === id);
 
     subwayView.fillLineColorBar(color);
     subwayView.renderSectionList(stations);
   }
 
-  handleSectionSubmit(event) {
+  async handleAddSubmit(event) {
     event.preventDefault();
     const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-    if (this.submitType === SUBMIT_TYPE.ADD) {
-      this.handleAddSubmit(accessToken);
-    }
-    // else if (this.submitType === SUBMIT_TYPE.MODIFY) {
-    //   this.handleModifySubmit(accessToken);
-    // }
-  }
-
-  async handleAddSubmit(accessToken) {
     const requestInfo = {
       id: DOM.SECTION.MODAL.FORM.dataset.lineId,
       upStationId: DOM.SECTION.MODAL.UP_STATION_SELECTOR.value,
@@ -137,7 +96,6 @@ export class SectionManage {
 
       return;
     }
-
     if (!(isValidDistance(requestInfo.distance) && isValidDuration(requestInfo.duration))) {
       DOM.LINE.MODAL.MSG.innerText = MESSAGE.LINE_MANAGE.INVALID_DISTANCE_DURATION;
 
@@ -146,16 +104,13 @@ export class SectionManage {
 
     try {
       await sectionManageAPI.addSection(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      await this.updateSections();
+      store[STATE_KEY.LINES].update();
       DOM.SECTION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
       DOM.SECTION.MODAL.MSG.innerText = error.message;
     }
   }
-
-  // handleModifySubmit(accessToken) {}
 
   async handleRemoveButton({ target }) {
     if (!target.classList.contains('js-remove-button')) return;
@@ -171,8 +126,7 @@ export class SectionManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await sectionManageAPI.removeSection(accessToken, requestInfo);
-      this.props.cache.lines = [];
-      this.updateSections();
+      store[STATE_KEY.LINES].update();
     } catch (error) {
       alert(error.message);
     }

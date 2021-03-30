@@ -1,6 +1,8 @@
 export const STATE_KEY = {
   ROUTE: 'route',
   SIGNED_USER_NAME: 'signedUserName',
+  STATIONS: 'stations',
+  LINES: 'lines',
 };
 
 export const ROUTE = {

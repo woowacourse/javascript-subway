@@ -1,4 +1,4 @@
-import { store } from '../../@shared/models/store';
+import { store } from '../../subway/models/store';
 import { removeFromSessionStorage } from '../../@shared/utils';
 import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 
