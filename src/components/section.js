@@ -1,4 +1,4 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_ID, SETTINGS, STATE_KEY } from '../constants.js';
+import { FILE_PATH, PAGE_TITLE, SELECTOR_ID, SELECTOR_CLASS, SETTINGS, STATE_KEY } from '../constants.js';
 import { delegateSectionClickEvent } from '../delegators/section.js';
 import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
@@ -37,7 +37,7 @@ export default class Section extends Observer {
     const targetLine = lineList.find(line => line.id === targetLineId);
     lineListContainer.innerHTML = `
       <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
-      <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="bg-blue-400">
+      <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
         ${lineList.map(line => {
           const isSelected = line.id === targetLineId;
           return this.#getLineTemplate(line, isSelected);
@@ -87,13 +87,8 @@ export default class Section extends Observer {
         <span class="w-100 pl-6">${station.name}</span>
         <button
           type="button"
-          class="bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm"
+          class="${SELECTOR_CLASS.SECTION_DELETE_BUTTON} bg-gray-50 text-gray-500 text-sm"
+          data-station-id="${station.id}"
         >
           삭제
         </button>

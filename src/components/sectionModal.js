@@ -1,5 +1,5 @@
 import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY } from "../constants";
-import { delegateSectionModalClickEvent } from '../delegators/sectionModal.js';
+import { delegateSectionModalClickEvent, delegateSectionModalSubmitEvent } from '../delegators/sectionModal.js';
 import Observer from "../lib/Observer";
 import { $ } from '../utils/dom.js';
 
@@ -26,6 +26,7 @@ export default class SectionModal extends Observer {
 
   #initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateSectionModalClickEvent);
+    $(this.#targetSelector).addEventListener('submit', delegateSectionModalSubmitEvent);
   }
 
   #getModalTemplate() {
@@ -41,23 +42,28 @@ export default class SectionModal extends Observer {
         </header>
         <form id="${SELECTOR_ID.SUBWAY_SECTION_FORM}">
           <div class="input-control">
-            <select>
-              ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option>${lineItem.name}</option>`).join('')}
+            <select id="${SELECTOR_ID.SECTION_MODAL_LINE_SELECT}">
+              ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option value="${lineItem.id}">${lineItem.name}</option>`).join('')}
             </select>
           </div>
           <div class="d-flex items-center input-control">
-            <select>
+            <select id="${SELECTOR_ID.SECTION_MODAL_UP_STATION_SELECT}">
               <option value="" selected disabled hidden>이전역</option>
-              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option>${stationItem.name}</option>`).join('')}
-              </select>
-              <div class="d-inline-block mx-3 text-2xl">➡️</div>
-              <select>
+              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`).join('')}
+            </select>
+            <div class="d-inline-block mx-3 text-2xl">➡️</div>
+            <select id="${SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT}">
               <option value="" selected disabled hidden>다음역</option>
-              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option>${stationItem.name}</option>`).join('')}
+              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`).join('')}
             </select>
           </div>
+          <div class="d-flex items-center input-control">
+            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 거리(km)"/>
+            <div class="d-inline-block mx-3 text-2xl"></div>
+            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 시간(분)"/>
+          </div>
           <div class="d-flex justify-end mt-3">
-            <button type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
+            <button id="${SELECTOR_ID.SECTION_MODAL_SUBMIT}" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
           </div>
         </form>
       </div>  

@@ -12,6 +12,7 @@ export const requestStationRegistration = async stationName => {
     },
     body: JSON.stringify({ name: stationName }),
   });
+  
   const { id, name } = await response.json();
 
   if (!response.ok) {

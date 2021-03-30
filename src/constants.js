@@ -7,8 +7,14 @@ export const SELECTOR_ID = Object.freeze({
   LINE_LIST: 'line-list',
   SECTION_STATION_LIST: 'section-station-list',
   SECTION_MODAL_OPEN: 'section__modal-open',
+  SECTION_MODAL_SUBMIT: 'section-modal__submit',
   SECTION_LINE: 'section-line',
   SECTION_LINE_SELECT: 'section-line-select',
+  SECTION_MODAL_LINE_SELECT: 'section-modal__line-select',
+  SECTION_MODAL_UP_STATION_SELECT: 'section-modal__up-station-select',
+  SECTION_MODAL_DOWN_STATION_SELECT: 'section-modal__down-station-select',
+  SECTION_MODAL_DISTANCE_INPUT: 'section-modal__distance-input',
+  SECTION_MODAL_DURATION_INPUT: 'section-modal__duration-input',
   LINES: 'lines',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
   SUBWAY_LINE_FORM: 'subway-line-form',
@@ -45,6 +51,7 @@ export const SELECTOR_CLASS = Object.freeze({
   SECTION_ITEM: 'section__item',
   SECTION_ITEM_ADD: 'section__item-add',
   SECTION_MODAL_CLOSE: 'section__modal-close',
+  SECTION_DELETE_BUTTON: 'section-delete-button',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
   SUBWAY_LINE_REGISTER_FORM: 'subway-line-register-form',
   SUBWAY_LINE_UPDATE_FORM: 'subway-line-update-form',
@@ -81,6 +88,8 @@ export const PATH = Object.freeze({
 
 export const SESSION_STORAGE_KEY = Object.freeze({
   ACCESS_TOKEN: 'accessToken',
+  USER_EMAIL: 'userEamil',
+  USER_PASSWORD: 'userPassword'
 });
 
 export const STATE_KEY = Object.freeze({
