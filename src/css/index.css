@@ -15,6 +15,11 @@ body {
   user-select: none;
 }
 
+button,
+input {
+  font-family: inherit;
+}
+
 button:disabled {
   pointer-events: none;
 }
