@@ -44,6 +44,7 @@ export const SELECTOR = {
   LINE_LIST: '#line-list',
   LINE_ITEM: '.line-item',
   LINE_ITEM_NAME: '.line-list-item-name',
+  SECTION_SELECT_FORM: 'form[name="select-section"]',
 };
 
 export const CLASS_NAME = {
@@ -104,6 +105,7 @@ export const ERROR_MESSAGE = {
   DIFFERENT_PASSWORD: '비밀번호가 일치하지 않습니다!',
   DUPLICATED_STATION: '중복된 역이 존재합니다!',
   EMPTY_STATION_NAME: '지하철 역은 공백이 될 수 없습니다!',
+  IN_LINE_STATION: '노선에 포함된 역은 제거할 수 없습니다!',
   OVER_RANGE_STATION_NAME:
     '지하철 역은 최소 2글자 이상, 최대 20글자 이하여야 합니다.',
   LOAD_STATION_FAILED:
@@ -152,7 +154,8 @@ export const STATUS = {
   },
 
   STATION: {
-    DUPLICATED_EMAIL: 400,
+    DUPLICATED_STATION: 400,
+    IN_LINE_STATION: 400,
   },
 };
 
@@ -165,8 +168,15 @@ export const SIGNUP_ERROR = {
 };
 
 export const STATION_ERROR = {
-  [STATUS.STATION.DUPLICATED_STATION]: ERROR_MESSAGE.DUPLICATED_STATION,
+  ADD: {
+    [STATUS.STATION.DUPLICATED_STATION]: ERROR_MESSAGE.DUPLICATED_STATION,
+  },
+  DELETE: {
+    [STATUS.STATION.IN_LINE_STATION]: ERROR_MESSAGE.IN_LINE_STATION,
+  },
 };
+
+export const STATION_DELETE_ERROR = {};
 
 export const REGEXP = {
   EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,

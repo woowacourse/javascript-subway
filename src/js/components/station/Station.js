@@ -119,7 +119,9 @@ class Station {
       clearForm(this.$addStationForm);
       showSnackbar(SUCCESS_MESSAGE.ADD_STATION);
     } catch ({ status }) {
-      showSnackbar(STATION_ERROR[status] || ERROR_MESSAGE.ADD_STATION_FAILED);
+      showSnackbar(
+        STATION_ERROR.ADD[status] || ERROR_MESSAGE.ADD_STATION_FAILED,
+      );
     }
   }
 
@@ -137,8 +139,10 @@ class Station {
       delete this.#stations[id];
       $stationItem.remove();
       showSnackbar(SUCCESS_MESSAGE.REMOVE_STATION);
-    } catch (error) {
-      showSnackbar(ERROR_MESSAGE.REMOVE_STATION_FAILED);
+    } catch ({ status }) {
+      showSnackbar(
+        STATION_ERROR.DELETE[status] || ERROR_MESSAGE.REMOVE_STATION_FAILED,
+      );
     }
   }
 
