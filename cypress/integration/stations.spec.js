@@ -2,7 +2,7 @@ import {
   ERROR_MESSAGE,
   CONFIRM_MESSAGE,
 } from "../../src/js/constants/messages.js";
-import { TEST_EMAIL, TEST_PW, END_POINT } from "../constants/general.js";
+import { END_POINT } from "../constants/general.js";
 import { PAGE_URLS, PAGE_KEYS } from "../../src/js/constants/pages.js";
 
 describe("역 관리 페이지", () => {

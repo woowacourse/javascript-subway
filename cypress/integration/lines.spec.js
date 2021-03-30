@@ -32,7 +32,9 @@ describe("역 관리 페이지", () => {
   });
 
   it("로그인 후 지하철 노선 관리 페이지로 이동한다.", () => {
-    cy.intercept("GET", `${END_POINT}/lines`).as("visitLines");
+    cy.intercept("GET", `${END_POINT}${PAGE_URLS[PAGE_KEYS.LINES]}`).as(
+      "visitLines"
+    );
     cy.get(`.js-page-link[href="${PAGE_URLS[PAGE_KEYS.LINES]}"]`).click();
     cy.url().should("include", `${PAGE_URLS[PAGE_KEYS.LINES]}`);
     cy.wait("@visitLines");
