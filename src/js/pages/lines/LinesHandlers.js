@@ -13,9 +13,26 @@ async function addLineHandler(e) {
       duration: Number(e.target.elements.duration.value),
     };
 
-    return await user.lineManager.addLine(newLineInfo);
-  } catch (error) {
-    alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
+    if (newLineInfo.upStationId === newLineInfo.downStationId) {
+      alert(ALERT_MESSAGE.ERROR.DUPLICATED_UP_DOWN_STATIONS);
+      return;
+    }
+
+    const { newLine, response } = await user.lineManager.addLine(newLineInfo);
+
+    if (!response.ok) {
+      throw response;
+    }
+
+    return newLine;
+  } catch (response) {
+    switch (response.status) {
+      case 400:
+        alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
+    }
   }
 }
 
@@ -24,20 +41,15 @@ async function modifyLineHandler(e, modifiedLineId) {
     const modifiedLineInfo = {
       name: e.target.elements['line-name'].value,
       color: e.target.elements['line-color'].value,
-      upStationId: Number(e.target.elements['up-station'].value),
-      downStationId: Number(e.target.elements['down-station'].value),
-      distance: Number(e.target.elements.distance.value),
-      duration: Number(e.target.elements.duration.value),
     };
 
-    const resFlag = await user.lineManager.modifyLine(
+    const response = await user.lineManager.modifyLine(
       modifiedLineId,
       modifiedLineInfo
     );
 
-    if (!resFlag) {
-      alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
-      return;
+    if (!response.ok) {
+      throw response;
     }
 
     return {
@@ -45,17 +57,22 @@ async function modifyLineHandler(e, modifiedLineId) {
       name: modifiedLineInfo.name,
       color: modifiedLineInfo.color,
     };
-  } catch (error) {
-    // TODO : 에러 처리 고려
-    console.error('fail fetch');
+  } catch (response) {
+    switch (response.status) {
+      case 400:
+        alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
+    }
   }
 }
 
 async function deleteLineHandler(e) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_LINE)) return;
 
-  const targetLineId = e.target.closest('li').dataset.lineId;
-  const resFlag = await user.lineManager.deleteLine(targetLineId);
+  const { lineId } = e.target.closest('li').dataset;
+  const resFlag = await user.lineManager.deleteLine(lineId);
   if (!resFlag) {
     alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);
   }

@@ -1,4 +1,4 @@
-import { $, onModalClose } from '../../utils/DOM.js';
+import { $ } from '../../utils/DOM.js';
 import colorOptions from '../../utils/colorOptions.js';
 import lineColorOptionTemplate from './templates/lineColorOptionTemplate.js';
 import {
@@ -15,11 +15,10 @@ import user from '../../models/user.js';
 class LinesView {
   constructor() {
     this.lineManager = user.lineManager;
-    this.$main = $('#main');
   }
 
   async init() {
-    this.$main.innerHTML = linesTemplate;
+    $('#main').innerHTML = linesTemplate;
     $('#line-list').innerHTML = lineListTemplate(
       // TODO : 순서 역순으로 보여주기
       await this.lineManager.getAllLines()
@@ -38,8 +37,6 @@ class LinesView {
       'beforeend',
       lineItemTemplate({ id, name, color })
     );
-    // TODO: snackBar 띄우기
-    onModalClose();
   }
 
   deleteResult({ target }) {
@@ -51,8 +48,8 @@ class LinesView {
     this.renderLineColorSelector();
   }
 
-  async renderModifyModal(targetLine) {
-    $('#lines-modal').innerHTML = await linesModifyingModalTemplate(targetLine);
+  renderModifyModal(targetLine) {
+    $('#lines-modal').innerHTML = linesModifyingModalTemplate(targetLine);
     this.renderLineColorSelector();
   }
 
@@ -62,8 +59,6 @@ class LinesView {
       lineItemTemplate({ id, name, color })
     );
     $modifiedLine.remove();
-    // TODO: snackBar 띄우기
-    onModalClose();
   }
 }
 

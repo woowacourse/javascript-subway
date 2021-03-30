@@ -29,54 +29,55 @@ class LineManager {
     };
   }
 
-  async addLine(newLineInfo) {
-    const newLine = await fetchAddLine(newLineInfo);
-    this.lines[newLine.id] = this.createLineData(newLine);
+  async getAllLines() {
+    const allLines = (await fetchAllLines()) ?? [];
 
-    return newLine;
+    allLines.forEach(line => (this.lines[line.id] = this.createLineData(line)));
+
+    return this.lines;
+  }
+
+  async addLine(newLineInfo) {
+    const response = await fetchAddLine(newLineInfo);
+
+    if (response.ok) {
+      try {
+        const newLine = await response.json();
+        this.lines[newLine.id] = this.createLineData(newLine);
+        return { newLine: this.lines[newLine.id], response };
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return { response };
+  }
+
+  async modifyLine(modifiedLineId, { name, color }) {
+    const response = await fetchModifyLine(modifiedLineId, {
+      name,
+      color,
+    });
+
+    if (response.ok) {
+      this.lines[modifiedLineId] = {
+        ...this.lines[modifiedLineId],
+        name,
+        color,
+      };
+    }
+
+    return response;
   }
 
   async deleteLine(lineId) {
-    const resFlag = await fetchDeleteLine(lineId);
+    const response = await fetchDeleteLine(lineId);
 
-    if (resFlag) {
+    if (response.ok) {
       delete this.lines[lineId];
     }
 
-    return resFlag;
-  }
-
-  async modifyLine(modifiedLineId, modifiedLineInfo) {
-    const resFlag = await fetchModifyLine(modifiedLineId, modifiedLineInfo);
-
-    if (resFlag) {
-      this.lines[modifiedLineId].name = modifiedLineInfo;
-      this.lines[modifiedLineId].color = modifiedLineInfo;
-      this.lines[modifiedLineId].upStation = this.createStationData(
-        user.stationManager.getStation(modifiedLineInfo.upStationId)
-      );
-      this.lines[modifiedLineId].downStation = this.createStationData(
-        user.stationManager.getStation(modifiedLineInfo.downStationId)
-      );
-      this.lines[modifiedLineId].distance = modifiedLineInfo.distance;
-      this.lines[modifiedLineId].duration = modifiedLineInfo.duration;
-      this.lines[modifiedLineId].stations.splice(
-        0,
-        1,
-        this.createStationData(
-          user.stationManager.getStation(modifiedLineInfo.upStationId)
-        )
-      );
-      this.lines[modifiedLineId].stations.splice(
-        this.getSectionsLength(modifiedLineId) - 1,
-        1,
-        this.createStationData(
-          user.stationManager.getStation(modifiedLineInfo.upStationId)
-        )
-      );
-    }
-
-    return resFlag;
+    return response.ok;
   }
 
   getLine(lineId) {
@@ -87,32 +88,21 @@ class LineManager {
     return this.lines[lineId].stations;
   }
 
-  getSectionsLength(lineId) {
-    return this.lines[lineId].stations.length;
-  }
-
-  async getAllLines() {
-    const allLines = (await fetchAllLines()) ?? [];
-
-    allLines.forEach(line => (this.lines[line.id] = this.createLineData(line)));
-
-    return this.lines;
-  }
-
   async addSection(newSectionInfo, lineId) {
     const resFlag = await fetchAddSection(newSectionInfo, lineId);
 
     const upStationIndex = this.lines[lineId].stations.findIndex(
-      station => station.id === newSectionInfo.upStationId
+      ({ id }) => id === newSectionInfo.upStationId
     );
-    const newSection =
+
+    const newSectionId =
       upStationIndex === -1
-        ? this.createStationData(
-            user.stationManager.getStation(newSectionInfo.upStationId)
-          )
-        : this.createStationData(
-            user.stationManager.getStation(newSectionInfo.downStationId)
-          );
+        ? newSectionInfo.upStationId
+        : newSectionInfo.downStationId;
+
+    const newSection = this.createStationData(
+      user.stationManager.getStation(newSectionId)
+    );
 
     if (resFlag) {
       this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
@@ -122,16 +112,19 @@ class LineManager {
   }
 
   async deleteSection(lineId, stationId) {
-    console.log(lineId, stationId);
+    const response = await fetchDeleteSection(lineId, stationId);
 
-    const resFlag = await fetchDeleteSection(lineId, stationId);
-    if (resFlag) {
+    if (!response.ok) {
       this.lines[lineId].stations = this.lines[lineId].stations.filter(
         station => station.id !== Number(stationId)
       );
     }
 
-    return resFlag;
+    return response.ok;
+  }
+
+  getSectionsLength(lineId) {
+    return this.lines[lineId].stations.length;
   }
 }
 

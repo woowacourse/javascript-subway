@@ -1,5 +1,7 @@
+import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import user from '../../models/user.js';
 import { $, onModalClose, onModalShow, resetInput } from '../../utils/DOM.js';
+import showSnackBar from '../../utils/snackbar.js';
 import {
   addLineHandler,
   deleteLineHandler,
@@ -28,7 +30,9 @@ class LinesController {
     const newLine = await addLineHandler(e);
     if (newLine) {
       this.linesView.appendNewLine(newLine);
-      resetInput(e.target, $('#line-name'));
+
+      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.ADD_LINE);
+      onModalClose();
     }
   }
 
@@ -42,7 +46,9 @@ class LinesController {
 
     if (modifiedLine) {
       this.linesView.renderModifiedLine(modifiedLine, this.$modifiedLine);
-      resetInput(e.target, $('#line-name'));
+
+      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.MODIFY_LINE);
+      onModalClose();
     }
   }
 
@@ -55,17 +61,18 @@ class LinesController {
       this.$modifiedLine = e.target.closest('li');
       const targetLineId = this.$modifiedLine.dataset.lineId;
 
-      await this.linesView.renderModifyModal(
-        this.lineManager.getLine(targetLineId)
-      );
+      this.linesView.renderModifyModal(this.lineManager.getLine(targetLineId));
 
       this.bindModalEvents('#lines-modify-form');
     }
 
     if (e.target.classList.contains('js-delete-button')) {
       const resFlag = await deleteLineHandler(e);
+
       if (resFlag) {
         this.linesView.deleteResult(e);
+
+        showSnackBar(SNACKBAR_MESSAGE.SUCCESS.DELETE_LINE);
       }
     }
   }
@@ -89,10 +96,10 @@ class LinesController {
   bindEvents() {
     $('.modal-trigger-btn').addEventListener('click', async () => {
       onModalShow();
+
       await this.linesView.renderModal();
       this.bindModalEvents('#lines-form');
     });
-
     $('#line-list').addEventListener(
       'click',
       this.onLineUpdateBtnClick.bind(this)

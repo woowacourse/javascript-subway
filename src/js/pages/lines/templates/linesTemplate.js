@@ -39,6 +39,8 @@ async function linesModalTemplate() {
             name="line-name"
             class="input-field"
             placeholder="노선 이름"
+            minlength="2"
+            maxlength="10"
             required
           />
         </div>
@@ -75,6 +77,7 @@ async function linesModalTemplate() {
             name="distance"
             class="input-field mr-2"
             placeholder="상행 하행역 거리"
+            min="1"
             required
           />
           <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
@@ -84,6 +87,7 @@ async function linesModalTemplate() {
             name="arrival"
             class="input-field"
             placeholder="상행 하행역 시간"
+            min="1"
             required
           />
         </div>
@@ -121,7 +125,7 @@ async function linesModalTemplate() {
     </div>`;
 }
 
-async function linesModifyingModalTemplate(targetLine) {
+function linesModifyingModalTemplate(targetLine) {
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">
@@ -150,29 +154,17 @@ async function linesModifyingModalTemplate(targetLine) {
 
         <div class="d-flex items-center mb-5">
           <label for="up-station" class="input-label" hidden>상행역</label>
-          <select id="up-station" class="mr-2">
+          <select id="up-station" class="mr-2" disabled>
             <option value=${targetLine.upStation.id} selected hidden>
               ${targetLine.upStation.name}
             </option>
-              ${Object.values(await user.stationManager.getAllStations())
-                .map(
-                  station =>
-                    `<option value=${station.id}>${station.name}</option>`
-                )
-                .join('')}
           </select>
           
           <label for="down-station" class="input-label" hidden>하행역</label>
-          <select id="down-station">
+          <select id="down-station" disabled>
           <option value=${targetLine.downStation.id} selected hidden>
               ${targetLine.downStation.name}
             </option>
-            ${Object.values(await user.stationManager.getAllStations())
-              .map(
-                station =>
-                  `<option value=${station.id}>${station.name}</option>`
-              )
-              .join('')}
           </select>
         </div>
 
@@ -185,6 +177,7 @@ async function linesModifyingModalTemplate(targetLine) {
             class="input-field mr-2"
             placeholder="상행 하행역 거리"
             value=${targetLine.distance}
+            disabled
             required
           />
           <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
@@ -195,6 +188,7 @@ async function linesModifyingModalTemplate(targetLine) {
             class="input-field"
             placeholder="상행 하행역 시간"
             value=${targetLine.duration}
+            disabled
             required
           />
         </div>
