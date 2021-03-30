@@ -26,23 +26,33 @@ export const linesTemplate = lines => {
 export const lineTemplate = (id, { name, color }) => {
   return `
     <li class="line-item d-flex items-center py-2 relative" data-line-id=${id}>
-      <span class="subway-line-color-dot ${color}"></span>
-      <span class="w-100 pl-6 subway-line-list-item-name"
-        >${name}</span
-      >
-      <button
-        type="button"
-        class="modify-button bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        class="delete-button bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
+      <div class="line-item-info">
+        ${lineItemInfoTemplate({ name, color })}
+      </div>
+      <div>
+        <button
+          type="button"
+          class="modify-button bg-gray-50 text-gray-500 text-sm mr-1"
+        >
+          수정
+        </button>
+        <button
+          type="button"
+          class="delete-button bg-gray-50 text-gray-500 text-sm"
+        >
+          삭제
+        </button>
+      </div>
     </li>
+  `;
+};
+
+export const lineItemInfoTemplate = ({ name, color }) => {
+  return `
+  <span class="subway-line-color-dot ${color}"></span>
+  <span class="w-100 pl-6 subway-line-list-item-name"
+    >${name}</span
+  >
   `;
 };
 
@@ -71,9 +81,9 @@ export const modalTemplate = stations => {
         required
       />
     </div>
-    <div class="d-flex items-center input-control optional">
+    <div class="d-flex items-center input-control">
       <label for="up-station" class="input-label" hidden>상행역</label>
-      <select id="up-station" name="up-station" class="mr-2">
+      <select id="up-station" name="up-station" class="optional mr-2">
         <option value="" selected disabled hidden>상행역</option>
         ${modalStationOptionTemplate(stations)}
        
@@ -81,7 +91,7 @@ export const modalTemplate = stations => {
       <label for="down-station" class="input-label" hidden
         >하행역</label
       >
-      <select id="down-station" name="down-station">
+      <select id="down-station" name="down-station" class="optional">
         <option value="" selected disabled hidden>하행역</option>
         ${modalStationOptionTemplate(stations)}
       </select>
@@ -94,7 +104,7 @@ export const modalTemplate = stations => {
         type="number"
         id="distance"
         name="distance"
-        class="input-field mr-2"
+        class="input-field mr-2 optional"
         placeholder="상행 하행역 거리"
         required
       />
@@ -105,7 +115,7 @@ export const modalTemplate = stations => {
         type="number"
         id="duration"
         name="arrival"
-        class="input-field"
+        class="input-field optional"
         placeholder="상행 하행역 시간"
         required
       />

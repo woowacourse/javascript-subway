@@ -42,7 +42,6 @@ class StationModal {
     onModalShow();
     this.stationInfo = stationInfo;
     $('#station-modify-input').value = this.stationInfo.name;
-    // $('#station-modify-input').focus();
     $('#station-modify-input').select();
   }
 

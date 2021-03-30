@@ -7,12 +7,13 @@ import {
   onModalShow,
 } from '../../utils/modal';
 import { showSnackbar } from '../../utils/snackbar';
-import { lineTemplate } from './lineTemplate';
-import { checkLineValid } from './lineValidator';
+import { lineTemplate, lineItemInfoTemplate } from './lineTemplate';
+import { checkLineValid, checkLineModifyValid } from './lineValidator';
 
 class LineModal {
   #userAccessToken;
   #state;
+  #lineInfo;
 
   constructor({ updateLines }) {
     this.updateLines = updateLines;
@@ -27,6 +28,8 @@ class LineModal {
     this.$lineTitle = $(SELECTOR.LINE_MODAL_TITLE);
     this.$lineForm = $(SELECTOR.LINE_FORM);
     this.$lineList = $(SELECTOR.LINE_LIST);
+    this.$lineName = $('#subway-line-name');
+    this.$lineColor = $('#subway-line-color');
     this.bindEvent();
   }
 
@@ -57,11 +60,13 @@ class LineModal {
 
   handleLineOpen({ state, lineInfo = {} }) {
     this.#state = state;
+    this.#lineInfo = lineInfo;
     onModalShow();
     if (state === 'add') {
       this.$lineTitle.textContent = '🛤️ 노선 추가';
       $$('.optional', this.$lineForm).forEach(element => {
         element.classList.remove('hide');
+        element.required = true;
       });
     }
 
@@ -69,12 +74,13 @@ class LineModal {
       this.$lineTitle.textContent = '🛤️ 노선 수정';
       $$('.optional', this.$lineForm).forEach(element => {
         element.classList.add('hide');
+        element.required = false;
       });
 
-      const { name, color } = lineInfo;
-      $('#subway-line-name').value = name;
-      $('#subway-line-color').value = color;
-      $('#subway-line-name').select();
+      const { name, color } = this.#lineInfo;
+      this.$lineName.value = name;
+      this.$lineColor.value = color;
+      this.$lineName.select();
     }
   }
 
@@ -108,12 +114,47 @@ class LineModal {
     }
   }
 
-  // _handleModifyLineClose(e) {
-  //   e.preventDefault();
-  // }
+  async _handleModifyLineClose(e) {
+    e.preventDefault();
+
+    const newName = this.$lineName.value;
+    const newColor = this.$lineColor.value;
+    const { $lineItem, id, name, color } = this.#lineInfo;
+    if (newName === name && newColor === color) {
+      onModalClose();
+      return;
+    }
+
+    const message = checkLineModifyValid({ name, color });
+    if (message) {
+      onModalClose();
+      return;
+    }
+
+    try {
+      await lineAPI.modifyLine({
+        userAccessToken: this.#userAccessToken,
+        id,
+        name: newName,
+        color: newColor,
+      });
+
+      $('.line-item-info', $lineItem).innerHTML = lineItemInfoTemplate({
+        name: newName,
+        color: newColor,
+      });
+
+      this.updateLines(id, { name: newName, color: newColor });
+      onModalClose();
+      showSnackbar(SUCCESS_MESSAGE.MODIFY_LINE);
+    } catch (res) {
+      const message = await res.text();
+      showSnackbar(message);
+    }
+  }
 
   _handleSelectColor(e) {
-    $('#subway-line-color').value = e.target.dataset.color;
+    this.$lineColor.value = e.target.dataset.color;
   }
 }
 
