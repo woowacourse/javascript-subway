@@ -164,16 +164,6 @@ export const serviceAPI = {
     }
   },
 
-  getSectionData: async ({ token, id }) => {
-    const lineData = await serviceAPI.getLineData({ token, id });
-
-    if (!lineData) {
-      return null;
-    }
-
-    return lineData.stations;
-  },
-
   getCreatedSectionData: async ({ token, id, contents }) => {
     try {
       const response = await API.createSection({

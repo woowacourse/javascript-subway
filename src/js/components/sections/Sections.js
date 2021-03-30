@@ -104,19 +104,17 @@ export default class Sections extends Component {
 
     const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
     const sectionList = line.sections;
+    console.log(line.stations);
+    console.log(sectionList);
     const lineColor = line.color;
 
     this.$sectionListContainer.innerHTML = sectionList
       .map((section, index) => {
-        if (sectionList.length === 1) {
+        if (sectionList.length === 1 || index === sectionList.length - 1) {
           return (
             sectionListTemplate(section.upStation, lineColor, section.duration, section.distance) +
             sectionListTemplate(section.downStation, lineColor)
           );
-        }
-
-        if (index === sectionList.length - 1) {
-          return sectionListTemplate(section.downStation, lineColor);
         }
         return sectionListTemplate(section.upStation, lineColor, section.duration, section.distance);
       })

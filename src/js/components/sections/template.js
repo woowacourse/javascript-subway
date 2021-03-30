@@ -1,30 +1,30 @@
 export const sectionListTemplate = (station, lineColor, duration = '', distance = '') => {
   return `
-  <li class="section-list-item d-flex items-center relative">
-    <div class="d-flex justify-center align-center">
-      <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
-      <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+  <li class="section-list-item list-style-none">
+    <div class="d-flex items-center relative">
+      <div class="d-flex justify-center align-center">
+        <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
+        <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+      </div>
+      <span class="w-100 pl-6 section-name">${station.name}</span>
+      <button
+        type="button"
+        class="section-delete-button bg-gray-50 text-gray-500 text-sm"
+        data-id=${station.id}
+      >
+        삭제
+      </button>
     </div>
-    <span class="w-100 pl-6 section-name">${station.name}</span>
-    <button
-      type="button"
-      class="section-delete-button bg-gray-50 text-gray-500 text-sm"
-      data-id=${station.id}
-    >
-      삭제
-    </button>
+    ${
+      duration && distance
+        ? `<div class="sections-bottom-line"></div>
+          <div class="section-info-container">
+            <span class="section-info chip bg-blue-100">시간: ${duration}분</span>
+            <span class="section-info chip bg-blue-100">거리: ${distance}Km</span>
+          </div>`
+        : ''
+    } 
   </li>
-  
-  ${
-    duration && distance
-      ? `<div class="sections-bottom-line"></div>
-         <div class="section-info-container">
-           <span class="section-info chip bg-blue-100">거리: ${distance}</span>
-           <span class="section-info chip bg-blue-100">시간: ${duration}</span>
-         </div>`
-      : ''
-  } 
- 
   `;
 };
 
@@ -54,7 +54,7 @@ export const sectionsTemplate = (stationList = [], lineList = []) => {
               }
               </select>
             </form>
-            <ul id="section-list-container" class="mt-3 pl-0">
+            <ul id="section-list-container" class="mt-3 pl-8 pr-4">
             </ul>
         </div>
       <div class="modal">
