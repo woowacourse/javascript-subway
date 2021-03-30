@@ -16,7 +16,7 @@ export const contentTemplate = `
           placeholder="역 이름"
           minlength="2"
           maxlength="20"
-          pattern="[가-힣]+||[^A-Za-z0-9 !@#$%^&*]"
+          pattern="[가-힣0-9]+||[^A-Za-z !@#$%^&*]"
           autocomplete="off" 
           required
           autofocus
@@ -61,7 +61,7 @@ export const modalTemplate = `
           class="input-field box-border"
           minlength="2"
           maxlength="20"
-          pattern="[가-힣]+||[^A-Za-z0-9 !@#$%^&*]"
+          pattern="[가-힣0-9]+||[^A-Za-z !@#$%^&*]"
           autocomplete="off" 
           required
         />
