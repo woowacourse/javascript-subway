@@ -32,9 +32,8 @@ export const signIn = `
       </div>
       <div
         id="fail-message-box"
-        class="js-message-box message-box hidden mt-1 text-red mb-1 text-center"
+        class="js-message-box message-box mt-1 text-red mb-1 text-center"
         >
-        ${MESSAGE.SIGNIN.FAIL}
       </div>
       <div class="input-control w-100">
         <button

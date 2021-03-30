@@ -134,7 +134,6 @@ export class LineManage {
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
-      console.error(error.message);
       DOM.LINE.MODAL.MSG.innerText = error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
   }
@@ -154,7 +153,6 @@ export class LineManage {
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
-      console.error(error.message);
       DOM.LINE.MODAL.MSG.innerText = error.message === '400' ? MESSAGE.LINE_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
   }

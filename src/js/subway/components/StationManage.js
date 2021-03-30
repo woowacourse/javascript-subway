@@ -54,7 +54,6 @@ export class StationManage {
       store[STATE_KEY.STATIONS].update();
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
-      console.error(error.message);
       DOM.STATION.MAIN.NAME_MSG.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
@@ -87,7 +86,6 @@ export class StationManage {
       store[STATE_KEY.STATIONS].update();
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
-      console.error(error.message);
       DOM.STATION.MODAL.NAME_MSG.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
@@ -120,7 +118,6 @@ export class StationManage {
       await stationManageAPI.removeStation(accessToken, requestInfo);
       $station.remove();
     } catch (error) {
-      console.error(error.message);
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }
   }

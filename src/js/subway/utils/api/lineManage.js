@@ -14,6 +14,9 @@ const getLines = async accessToken => {
 
   try {
     const response = await request(url, option);
+
+    if (!response.ok) throw new Error(response.status);
+
     const lines = await response.json();
 
     return lines;
@@ -43,6 +46,8 @@ const addLine = async (accessToken, { name, color, upStationId, downStationId, d
   try {
     const response = await request(url, option);
 
+    if (!response.ok) throw new Error(response.status);
+
     return await response.json();
   } catch (error) {
     throw new Error(error.message);
@@ -68,7 +73,9 @@ const modifyLine = async (accessToken, { id, name, color, upStationId, downStati
   };
 
   try {
-    await request(url, option);
+    const response = await request(url, option);
+
+    if (!response.ok) throw new Error(response.status);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -85,7 +92,9 @@ const removeLine = async (accessToken, { id }) => {
   };
 
   try {
-    await request(url, option);
+    const response = await request(url, option);
+
+    if (!response.ok) throw new Error(response.status);
   } catch (error) {
     throw new Error(error.message);
   }

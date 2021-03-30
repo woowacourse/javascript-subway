@@ -46,7 +46,7 @@ export class UserJoin {
       DOM.USER_JOIN.MAIN.FORM.reset();
       routeTo(ROUTE.SIGNIN);
     } catch (error) {
-      console.error(error.message);
+      alert(MESSAGE.RETRY);
     }
   }
 
@@ -94,8 +94,8 @@ export class UserJoin {
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.UNIQUE_EMAIL;
       DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-red', 'text-green');
     } catch (error) {
-      console.error(error.message);
-      DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.OVERLAPPED_EMAIL;
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText =
+        error.message === '422' ? MESSAGE.SIGNUP.OVERLAPPED_EMAIL : MESSAGE.RETRY;
       DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
     }
   }
