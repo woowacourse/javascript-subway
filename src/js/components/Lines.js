@@ -1,5 +1,5 @@
 import Component from "./common/Component.js";
-import LinesModal from "./LinesModal.js";
+import LineModal from "./LineModal.js";
 import {
   getLinesAPI,
   deleteLineAPI,
@@ -16,10 +16,11 @@ const createLineListItem = (line) => {
     <li 
       data-line-id="${line.id}"
       data-line-name="${line.name}"
+      data-line-color="${line.color}"
       class="d-flex items-center py-2 relative border-b-gray"
       >
-      <span class="subway-line-color-dot ${line.color}"></span>
-      <span class="w-100 pl-6 subway-line-list-item-name">${line.name}</span>
+      <span class="js-line-color-dot subway-line-color-dot ${line.color}"></span>
+      <span class="js-line-name w-100 pl-6 subway-line-list-item-name">${line.name}</span>
       <button
         type="button"
         class="js-modify-line-btn bg-gray-50 text-gray-500 text-sm mr-1"
@@ -40,8 +41,9 @@ export default class Lines extends Component {
   constructor({ $parent, setIsLoggedIn }) {
     super($parent);
     this.setIsLoggedIn = setIsLoggedIn;
-    this.linesModal = new LinesModal({
+    this.lineModal = new LineModal({
       addLine: this.addLine.bind(this),
+      modifyLine: this.modifyLine.bind(this),
     });
 
     this.initContent();
@@ -99,7 +101,32 @@ export default class Lines extends Component {
     this.render();
   }
 
+  modifyLine(lineData) {
+    console.log(lineData);
+    const $modifiedLine = $(
+      `li[data-line-id="${lineData.id}"]`,
+      this.innerElement
+    );
+
+    $modifiedLine.dataset.lineName = lineData.name;
+    $modifiedLine.dataset.lineColor = lineData.color;
+    $(
+      ".js-line-color-dot",
+      $modifiedLine
+    ).className = `js-line-color-dot subway-line-color-dot ${lineData.color}`;
+    $(".js-line-name", $modifiedLine).textContent = lineData.name;
+
+    this.render();
+  }
+
   onClickLineList({ target }) {
+    if (target.classList.contains("js-modify-line-btn")) {
+      const lineData = target.closest("li").dataset;
+      this.lineModal.openForModify(lineData);
+
+      return;
+    }
+
     if (target.classList.contains("js-delete-line-btn")) {
       this.deleteLine(target.closest("li").dataset.lineId);
     }
@@ -108,7 +135,7 @@ export default class Lines extends Component {
   attachEvent() {
     $(".js-add-line-btn", this.innerElement).addEventListener(
       "click",
-      this.linesModal.open.bind(this.linesModal)
+      this.lineModal.openForAdd.bind(this.lineModal)
     );
     $(".js-line-list", this.innerElement).addEventListener(
       "click",
@@ -126,10 +153,10 @@ export default class Lines extends Component {
       (lineListHTML, line) => `${lineListHTML}\n${createLineListItem(line)}`,
       ""
     );
-    this.linesModal.renderSelectOption(loadedStations.stations);
+    this.lineModal.renderSelectOption(loadedStations.stations);
 
     this.render();
-    this.linesModal.render();
+    this.lineModal.render();
   }
 
   render() {

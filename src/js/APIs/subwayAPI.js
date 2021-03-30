@@ -419,6 +419,44 @@ export const addLineAPI = async (lineData, accessToken) => {
   }
 };
 
+export const modifyLineAPI = async (lineData, accessToken) => {
+  try {
+    const response = await request.put({
+      path: PATH.LINES(lineData.id),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: {
+        name: lineData.name,
+        color: lineData.color,
+      },
+    });
+
+    if (response.ok) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.MODIFY_LINE,
+      };
+    }
+
+    if (response.status === STATUS.LINES.DUPLICATED) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.DUPLICATED_LINE,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+  } catch (e) {
+    console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
 export const deleteLineAPI = async (lineId, accessToken) => {
   try {
     const response = await request.delete({

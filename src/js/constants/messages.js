@@ -46,6 +46,7 @@ export const SUCCESS_MESSAGE = {
   ADD_STATION: "지하철역을 추가했습니다",
   ADD_LINE: "지하철 노선을 추가했습니다",
   MODIFY_STATION: "지하철역 이름을 수정했습니다.",
+  MODIFY_LINE: "지하철역 노선을 수정했습니다.",
   DELETE_STATION: "지하철역을 삭제했습니다.",
   DELETE_LINE: "지하철 노선을 삭제했습니다.",
 };

@@ -1,61 +1,66 @@
-import { addLineAPI } from "../APIs/subwayAPI.js";
+import { addLineAPI, modifyLineAPI } from "../APIs/subwayAPI.js";
 import {
   TOKEN_STORAGE_KEY,
   SPACE_REG_EXP,
   LINE_NAME_MIN_LENGTH,
   LINE_NAME_MAX_LENGTH,
+  LINE_MODAL_MODE,
 } from "../constants/general.js";
-import { $, $$, removeAllChildren } from "../utils/DOM.js";
+import {
+  $,
+  $$,
+  removeAllChildren,
+  showElement,
+  hideElement,
+} from "../utils/DOM.js";
 import colorOptions from "../utils/mock.js";
 import snackbar from "../utils/snackbar.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import Modal from "./common/Modal.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
-
-const subwayLineColorOptionTemplate = (color, index) => {
-  const hasNewLine = (index + 1) % 7 === 0;
-  return `
-    <label class="color-option">
-      <input name="subway-line-color" value="bg-${color}" type="radio" required />
-      <span class="radio bg-${color}"></span>
-    </label>
-    ${hasNewLine ? "<br/>" : ""}
-  `;
-};
-
-const createStationSelectOption = (station) =>
-  `<option value="${station.id}">${station.name}</option>`;
+import {
+  createStationSelectOption,
+  subwayLineColorOptionTemplate,
+} from "../constants/template.js";
 
 const getInputsErrorMessage = (lineData) => {
+  const {
+    name,
+    upStationId,
+    downStationId,
+    distance,
+    duration,
+    color,
+  } = lineData;
+
   const isValidNameLength =
-    lineData.name.length >= LINE_NAME_MIN_LENGTH &&
-    lineData.name.length <= LINE_NAME_MAX_LENGTH;
+    name.length >= LINE_NAME_MIN_LENGTH && name.length <= LINE_NAME_MAX_LENGTH;
 
   if (!isValidNameLength) {
     return ERROR_MESSAGE.LINE_NAME_LENGTH;
   }
 
-  if (lineData.upStationId === "") {
+  if (upStationId && upStationId === "") {
     return ERROR_MESSAGE.EMPTY_UP_STATION;
   }
 
-  if (lineData.downStationId === "") {
+  if (downStationId && downStationId === "") {
     return ERROR_MESSAGE.EMPTY_DOWN_STATION;
   }
 
-  if (lineData.upStationId === lineData.downStationId) {
+  if (upStationId && upStationId === downStationId) {
     return ERROR_MESSAGE.SAME_UP_DOWN_STATION;
   }
 
-  if (lineData.distance < 1) {
+  if (distance && distance < 1) {
     return ERROR_MESSAGE.INVALID_LINE_DISTANCE;
   }
 
-  if (lineData.duration < 1) {
+  if (duration && duration < 1) {
     return ERROR_MESSAGE.INVALID_LINE_DURATION;
   }
 
-  if (!lineData.color || lineData.color === "") {
+  if (!color || color === "") {
     return ERROR_MESSAGE.EMPTY_LINE_COLOR;
   }
 
@@ -64,10 +69,14 @@ const getInputsErrorMessage = (lineData) => {
 
 const upStationOption = `<option value="" selected disabled hidden>상행역</option>`;
 const downStationOption = `<option value="" selected disabled hidden>하행역</option>`;
-export default class LinesModal extends Modal {
-  constructor({ addLine }) {
+
+export default class LineAddModal extends Modal {
+  constructor({ addLine, modifyLine }) {
     super();
     this.addLine = addLine;
+    this.modifyLine = modifyLine;
+    this.prevDataForModify = {};
+    this.mode = "";
 
     this.initContent();
   }
@@ -76,9 +85,9 @@ export default class LinesModal extends Modal {
     const template = `
       <div>
         <header>
-          <h2 class="text-center">🛤️ 노선 추가</h2>
+          <h2 class="js-line-header text-center">🛤️ 노선 추가</h2>
         </header>
-        <form class="h-70vh overflow-y-auto">
+        <form class="max-h-70vh overflow-y-auto">
           <div class="input-control">
             <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
             <input
@@ -90,13 +99,14 @@ export default class LinesModal extends Modal {
               required
             />
           </div>
-          <div class="d-flex items-center input-control">
-              <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="up-station" name="up-station" class="js-station-select mr-2">
-              </select>
-              <label for="down-station" class="input-label" hidden>하행역</label>
-              <select id="down-station" name="down-station" class="js-station-select">
-              </select>
+          <div class="js-element-for-add">
+            <div class="d-flex items-center input-control">
+                <label for="up-station" class="input-label" hidden>상행역</label>
+                <select id="up-station" name="up-station" class="js-station-select mr-2">
+                </select>
+                <label for="down-station" class="input-label" hidden>하행역</label>
+                <select id="down-station" name="down-station" class="js-station-select">
+                </select>
             </div>
             <div class="input-control">
               <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
@@ -107,7 +117,6 @@ export default class LinesModal extends Modal {
                 class="input-field mr-2"
                 placeholder="상행 하행역 거리"
                 min="1"
-                required
               />
               <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
               <input
@@ -117,14 +126,14 @@ export default class LinesModal extends Modal {
                 class="input-field"
                 placeholder="상행 하행역 시간"
                 min="1"
-                required
               />
             </div>
+          </div>
           <div class="subway-line-color-selector px-2">
             <p>색상을 선택하세요.</p>
             ${colorOptions.map(subwayLineColorOptionTemplate).join("")}
           </div>
-          <p class="js-add-line-message text-base text-red text-center"></p>
+          <p class="js-line-modal-error-message text-base text-red text-center"></p>
           <div class="d-flex justify-end mt-3">
             <button
               type="submit"
@@ -142,11 +151,22 @@ export default class LinesModal extends Modal {
     this.attachEvent();
   }
 
-  async onAddLine(event) {
+  onSubmitLine(event) {
     event.preventDefault();
 
-    const { target } = event;
-    const $message = $(".js-add-line-message", this.innerElement);
+    if (this.mode === LINE_MODAL_MODE.ADD) {
+      this.onAddLine(event);
+
+      return;
+    }
+
+    if (this.mode === LINE_MODAL_MODE.MODIFY) {
+      this.onModifyLine(event);
+    }
+  }
+
+  async onAddLine({ target }) {
+    const $message = $(".js-line-modal-error-message", this.innerElement);
     const lineData = {
       name: target.elements["subway-line-name"].value.replace(
         SPACE_REG_EXP,
@@ -182,6 +202,43 @@ export default class LinesModal extends Modal {
     }
 
     $message.textContent = message;
+    // eslint-disable-next-line no-param-reassign
+    target.elements["subway-line-name"].value = lineData.name;
+  }
+
+  async onModifyLine({ target }) {
+    const $message = $(".js-line-modal-error-message", this.innerElement);
+    const lineData = {
+      id: this.prevDataForModify.id,
+      name: target.elements["subway-line-name"].value.replace(
+        SPACE_REG_EXP,
+        ""
+      ),
+      color: target.elements["subway-line-color"].value,
+    };
+
+    const inputsErrorMessage = getInputsErrorMessage(lineData);
+
+    if (inputsErrorMessage !== "") {
+      $message.textContent = inputsErrorMessage;
+
+      return;
+    }
+
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const { isSucceeded, message } = await modifyLineAPI(lineData, accessToken);
+
+    if (isSucceeded) {
+      this.modifyLine(lineData);
+      snackbar.show(message);
+      target.reset();
+      this.close();
+
+      return;
+    }
+
+    $message.textContent = message;
+    // eslint-disable-next-line no-param-reassign
     target.elements["subway-line-name"].value = lineData.name;
   }
 
@@ -189,7 +246,7 @@ export default class LinesModal extends Modal {
     super.attachEvent();
     $("form", this.innerElement).addEventListener(
       "submit",
-      this.onAddLine.bind(this)
+      this.onSubmitLine.bind(this)
     );
   }
 
@@ -218,9 +275,37 @@ export default class LinesModal extends Modal {
     this.render();
   }
 
-  open() {
+  openForAdd() {
+    showElement($(".js-element-for-add", this.innerElement));
+    $(".js-line-header", this.innerElement).textContent = "🛤️ 노선추가";
     $("form", this.innerElement).reset();
+    this.mode = LINE_MODAL_MODE.ADD;
+
     super.open();
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  openForModify({ lineId, lineName, lineColor }) {
+    hideElement($(".js-element-for-add", this.innerElement));
+
+    $("form", this.innerElement).reset();
+    $(
+      ".js-line-header",
+      this.innerElement
+    ).textContent = `🛤️ ${lineName} 수정하기`;
+    $(`input[data-color="${lineColor}"]`, this.innerElement).checked = true;
+    this.mode = LINE_MODAL_MODE.MODIFY;
+    this.prevDataForModify = {
+      id: lineId,
+      name: lineName,
+    };
+
+    super.open();
+  }
+
+  close() {
+    $(".js-line-modal-error-message", this.innerElement).textContent = "";
+    super.close();
   }
 
   render() {
