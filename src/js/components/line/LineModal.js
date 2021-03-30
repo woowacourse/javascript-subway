@@ -1,11 +1,14 @@
 import { lineAPI } from '../../../../api/line';
-import { $, getFormData } from '../../utils/dom';
+import { SELECTOR, SUCCESS_MESSAGE } from '../../constants';
+import { $, clearForm, getFormData } from '../../utils/dom';
 import {
   bindModalCloseEvent,
   onModalClose,
   onModalShow,
 } from '../../utils/modal';
 import { showSnackbar } from '../../utils/snackbar';
+import { lineTemplate } from './lineTemplate';
+import { checkLineValid } from './lineValidator';
 
 class LineModal {
   #userAccessToken;
@@ -21,6 +24,8 @@ class LineModal {
   }
 
   initDOM() {
+    this.$lineForm = $(SELECTOR.LINE_FORM);
+    this.$lineList = $(SELECTOR.LINE_LIST);
     this.bindEvent();
   }
 
@@ -29,9 +34,9 @@ class LineModal {
     this.bindLineFormEvent();
     this.bindSelectColorEvent();
   }
+
   bindLineFormEvent() {
-    $('form[name="modify-line"]').addEventListener('submit', e => {
-      console.log(this.#state);
+    this.$lineForm.addEventListener('submit', e => {
       if (this.#state === 'add') {
         this._handleAddLineClose(e);
       }
@@ -49,22 +54,34 @@ class LineModal {
     });
   }
 
-  handleAddLineOpen({ state }) {
+  handleLineOpen({ state }) {
     onModalShow();
     this.#state = state;
   }
 
   async _handleAddLineClose(e) {
     e.preventDefault();
-    // TODO : valid 확인
+    const lineInfo = getFormData(e.target.elements);
+    const message = checkLineValid(lineInfo);
+    if (message) {
+      alert(message);
+      return;
+    }
 
     try {
       const { id, name, color } = await lineAPI.addLine({
         userAccessToken: this.#userAccessToken,
-        lineInfo: getFormData(e.target.elements),
+        lineInfo,
       });
-      // view 업데이트하기
+
       this.updateLines(id, { name, color });
+      this.$lineList.insertAdjacentHTML(
+        'beforeend',
+        lineTemplate(id, { name, color }),
+      );
+
+      clearForm(this.$lineForm);
+      showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
       onModalClose();
     } catch (res) {
       const message = await res.text();

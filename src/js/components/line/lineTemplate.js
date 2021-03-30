@@ -1,7 +1,6 @@
 import { colorOptions } from '/src/js/utils/mock.js';
 
 export const linesTemplate = lines => {
-  console.log(lines);
   return `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -13,13 +12,12 @@ export const linesTemplate = lines => {
         노선 추가
       </button>
     </div>
-    <ul class="mt-3 pl-0">
+    <ul id="line-list" class="mt-3 pl-0">
     ${Object.keys(lines)
       .map(id => {
         return lineTemplate(id, lines[id]);
       })
       .join('')}
-      <hr class="my-0" />
     </ul>
   </div>
   `;

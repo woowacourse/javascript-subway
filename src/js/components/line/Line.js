@@ -47,7 +47,7 @@ class Line {
 
   _bindAddLineEvent() {
     $('.create-line-btn').addEventListener('click', e => {
-      this.#modal.handleAddLineOpen({ state: 'add' });
+      this.#modal.handleLineOpen({ state: 'add' });
     });
   }
 
@@ -69,7 +69,6 @@ class Line {
       this.#lines = {};
 
       const lines = await lineAPI.getLines(this.#userAccessToken);
-      console.log(lines);
       lines.forEach(({ id, name, color }) => {
         this.#lines[id] = { name, color };
       });
@@ -80,7 +79,6 @@ class Line {
 
   updateLines(id, value) {
     this.#lines[id] = value;
-    console.log(this.#lines);
   }
 }
 

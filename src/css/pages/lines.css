@@ -26,3 +26,7 @@
   border: none;
   border-radius: 3px;
 }
+
+.line-item {
+  border-bottom: 1px solid #e1e1e1;
+}
