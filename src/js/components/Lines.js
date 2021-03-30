@@ -1,9 +1,9 @@
 import { $ } from '../utils/dom';
 import { openModal, closeModal } from '../utils/modal';
 import { getLineListTemplate, getEditLineModalTemplate, getAddLineModalTemplate } from '../templates/lines';
-import { requestAddLine, requestGetLineList } from '../requestData/requestUserData';
+import { requestAddLine, requestGetLineList, requestEditLineData } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
-import { validateLineColor } from '../validators/validation';
+import { validateAddLine, validateEditLine } from '../validators/validation';
 
 class Lines {
   constructor() {
@@ -48,7 +48,16 @@ class Lines {
   }
 
   bindModalEvent() {
-    this.$modalLineForm.addEventListener('submit', this.handleCreateLineForm.bind(this));
+    this.$modalLineForm.addEventListener('submit', (e) => {
+      if ($('.add-modal')) {
+        this.handleCreateLineForm(e);
+        return;
+      }
+
+      if ($('.edit-modal')) {
+        this.handleEditLineForm(e);
+      }
+    });
 
     this.$colorSelector.addEventListener('click', (e) => {
       if (!e.target.classList.contains('color-option')) return;
@@ -101,10 +110,17 @@ class Lines {
     const duration = e.target.duration.valueAsNumber;
 
     try {
-      validateLineColor(this.selectedLineColor, this.userDataManager.getLineColors());
+      validateAddLine({
+        lineName,
+        upStationId,
+        downStationId,
+        selectedLineColor: this.selectedLineColor,
+        lineColorList: this.userDataManager.getLineColors(),
+      });
+
       const lineData = await requestAddLine({
         name: lineName,
-        lineColor: this.selectedLineColor,
+        color: this.selectedLineColor,
         upStationId,
         downStationId,
         distance,
@@ -126,12 +142,10 @@ class Lines {
   handleLineEditButton(e) {
     const { lineName } = e.target.closest('.line-list-item').dataset;
     const editTargetLineData = this.userDataManager.getEditTargetLineData(lineName);
+
     this.lineNameInEdit = lineName;
-
-    // 노선 추가 타이틀을 '00호선 수정'으로 변경
-
-    // 노선 이름, 상행역, 하행역, 거리, 시간, 색상 모두 입력되어 있어야 함
-    // 상행역, 하행역, 거리, 시간은 수정 불가하도록 disabled로 attr 수정
+    this.selectedLineColor = '';
+    this.lineColorInEdit = this.userDataManager.getTargetLineColor(lineName);
     this.showLineEditModal(editTargetLineData);
   }
 
@@ -139,6 +153,33 @@ class Lines {
     this.$modal.innerHTML = getEditLineModalTemplate(lineData);
     this.initModal();
     openModal(this.$modal);
+  }
+
+  async handleEditLineForm(e) {
+    e.preventDefault();
+
+    const newLineName = e.target['subway-line-name'].value;
+    const newColor = this.selectedLineColor || this.lineColorInEdit;
+    const lineIdInEdit = this.userDataManager.getTargetLineId(this.lineNameInEdit);
+
+    try {
+      validateEditLine({
+        lineName: newLineName,
+        selectedLineColor: this.selectedLineColor,
+        lineColorList: this.userDataManager.getLineColors(),
+      });
+      await requestEditLineData({ id: lineIdInEdit, name: newLineName, color: newColor });
+      this.userDataManager.editLineData({
+        oldLineName: this.lineNameInEdit,
+        newLineName,
+        newColor,
+      });
+      this.renderEditedLine(newLineName, newColor);
+      this.cleanCacheLineListTemplate();
+      closeModal(this.$modal);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   handleLineRemoveButton(e) {}
@@ -158,6 +199,11 @@ class Lines {
       'beforeend',
       getLineListTemplate({ lineName, lineColor: this.selectedLineColor }),
     );
+  }
+
+  renderEditedLine(newLineName, newLineColor) {
+    const $lineListItem = $(`[data-line-name="${this.lineNameInEdit}"]`);
+    $lineListItem.outerHTML = getLineListTemplate({ lineName: newLineName, lineColor: newLineColor });
   }
 }
 

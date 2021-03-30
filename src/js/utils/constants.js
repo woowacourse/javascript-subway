@@ -73,6 +73,7 @@ export const TYPE = Object.freeze({ JSON: 'json', TEXT: 'text' });
 export const REG_EXP = {
   NAME: /^[a-z가-힣]+$/i,
   EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  LINE_NAME: /^[a-z가-힣0-9]+$/i,
 };
 
 export const STANDARD_NUMBER = Object.freeze({
@@ -90,6 +91,9 @@ export const ERROR_MESSAGE = Object.freeze({
   DUPLICATED_EMAIL: '중복된 이메일을 입력하셨습니다.',
   SIGN_UP_FAIL: '회원가입에 실패하였습니다.',
   SIGN_IN_FAIL: '이메일과 비밀번호를 확인해주세요.',
+  NEED_DIFFERENT_UP_DOWN_STATION: '상행역과 하행역은 동일하게 설정할 수 없습니다.',
+  NEED_SELECT_COLOR: '색을 선택해주세요.',
+  DUPLICATED_LINE_COLOR: '이미 같은 색의 노선이 존재합니다.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({

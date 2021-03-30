@@ -30,7 +30,7 @@ const lineColorOptionTemplate = (color, index) => {
 
 export const getAddLineModalTemplate = (stationData) => {
   return `
-  <div class="modal-inner line p-8">
+  <div class="modal-inner add-modal line p-8">
     <button class="modal-close">
       <svg viewbox="0 0 40 40">
         <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
@@ -96,7 +96,7 @@ export const getAddLineModalTemplate = (stationData) => {
 };
 
 export const getEditLineModalTemplate = (lineData) => `
-  <div class="modal-inner line p-8">
+  <div class="modal-inner edit-modal line p-8">
     <button class="modal-close">
       <svg viewbox="0 0 40 40">
         <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />

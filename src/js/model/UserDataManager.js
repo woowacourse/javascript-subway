@@ -45,9 +45,17 @@ export default class UserDataManager {
     return this.lines.map((line) => line.color);
   }
 
+  getTargetLineColor(lineName) {
+    return this.lines.find((line) => line.name === lineName).color;
+  }
+
+  getTargetLineId(lineName) {
+    return this.lines.find((line) => line.name === lineName).id;
+  }
+
   getEditTargetLineData(lineName) {
     const targetLineData = this.lines.find((line) => line.name === lineName);
-    const targetSectionData = targetLineData.sections[0];
+    const [targetSectionData] = targetLineData.sections;
 
     return {
       lineName: targetLineData.name,
@@ -57,5 +65,11 @@ export default class UserDataManager {
       downStationName: targetSectionData.downStation.name,
       upStationName: targetSectionData.upStation.name,
     };
+  }
+
+  editLineData({ oldLineName, newLineName, newColor }) {
+    const editTargetLine = this.lines.find((line) => line.name === oldLineName);
+    editTargetLine.name = newLineName;
+    editTargetLine.color = newColor;
   }
 }
