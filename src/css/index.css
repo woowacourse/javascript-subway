@@ -160,3 +160,7 @@ hr {
   background-color: white;
   border-radius: 100px;
 }
+
+.self-left {
+  align-self: flex-start;
+}

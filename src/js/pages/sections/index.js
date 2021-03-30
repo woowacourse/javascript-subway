@@ -14,7 +14,6 @@ const mountSections = () => {
   $('#section-add-form').addEventListener('submit', handleAddSection);
 
   modalCloseEventInit('#section-add-modal');
-  modalCloseEventInit('#section-edit-modal');
 };
 
 export default mountSections;

@@ -8,8 +8,9 @@ export const getAvailableStations = lineId => {
 };
 
 export const getSections = lineId => {
-  const stations = store.line.getLineStations(lineId);
   const sections = store.line.getLineSections(lineId);
+  const startSection = { downStation: sections[0].upStation };
+  const endSection = { upStation: sections[sections.length - 1].downStation };
 
-  return [...sections, { upStation: stations[stations.length - 1] }];
+  return [startSection, ...sections, endSection];
 };

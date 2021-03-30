@@ -1,3 +1,4 @@
+import { getSections } from '../../../services/section';
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { getTextColorByBackgroundColor } from '../../../utils/style';
@@ -15,12 +16,8 @@ const handleSelectLine = event => {
   const rgb = window.getComputedStyle($lineSelect, null).backgroundColor;
   $lineSelect.style.color = getTextColorByBackgroundColor(rgb);
 
-  const stations = store.line.getLineStations(id);
-  const sections = store.line.getLineSections(id);
-  const data = [...sections, { upStation: stations[stations.length - 1] }];
-
   const $sectionList = $('.js-section-list');
-  updateSectionList(data);
+  updateSectionList(getSections(id));
   $sectionList.dataset.lineId = id;
 };
 

@@ -1,35 +1,5 @@
+import { STATION_AMOUNT } from '../../constants/service';
 import { optionTemplate } from '../../templates/option';
-
-const sectionEditModalTemplate = `
-  <div id="section-edit-modal" class="modal">
-    <div class="modal-inner p-8">
-      <button class="modal-close">
-        <svg viewbox="0 0 40 40">
-          <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
-        </svg>
-      </button>
-      <header>
-        <h2 class="text-center">🔁 구간 수정</h2>
-      </header>
-      <form id="section-edit-form">
-        <div class="d-flex items-center input-control">
-          <select id="up-station"></select>
-          <div class="d-inline-block mx-3 text-2xl">➡️</div>
-          <select id="down-station"></select>
-        </div>
-        <div class="d-flex justify-end mt-3">
-          <button
-            type="submit"
-            name="submit"
-            class="input-submit bg-cyan-300"
-          >
-            확인
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-`;
 
 const sectionAddModalTemplate = `
   <div id="section-add-modal" class="modal">
@@ -43,10 +13,10 @@ const sectionAddModalTemplate = `
         <h2 class="text-center">🔁 구간 추가</h2>
       </header>
       <form id="section-add-form" class="d-flex flex-col items-center">
-        <label for="up-station" class="input-label" hidden>상행역</label>
+        <label for="up-station" class="input-label self-left mb-2 ml-4">상행역</label>
         <select name="up-station-id" id="up-station" class="mb-4" required></select>
         <div class="mx-3 text-2xl mb-4">⬇️</div>
-        <label for="distance" class="input-down-statio" hidden>하행역</label>
+        <label for="down-station" class="input-label self-left mb-2 ml-4">하행역</label>
         <select name="down-station-id" id="down-station" class="mb-4" required></select>
         <div class="input-control mb-4">
           <label for="duration" class="input-label" hidden>소요시간</label>
@@ -84,17 +54,17 @@ const sectionAddModalTemplate = `
   </div>
 `;
 
-const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration = -1, isDeletable }) => `
+const sectionListItem = ({ upStation = {}, downStation = {}, distance = -1, duration = -1 }, isDeletable) => `
   <li
     class="js-section-list-item d-flex items-center relative list-item"
-    data-up-station-id="${upStation.id}"
-    data-up-station-name="${upStation.name}"
+    data-up-station-id="${upStation.id ?? ''}"
+    data-up-station-name="${upStation.name ?? ''}"
     data-down-station-id="${downStation.id ?? ''}"
     data-distance="${distance}"
     data-down-station-name="${downStation.name ?? ''}"
     data-duration="${duration}"
   >
-    <span class="w-100 pl-6">${upStation.name}</span>
+    <span class="w-100 pl-6">${upStation.name ?? ''}</span>
    ${
      isDeletable
        ? `<button
@@ -115,23 +85,17 @@ const sectionListItem = ({ upStation, downStation = {}, distance = -1, duration 
         >
           ➕
         </button>
-        <button
-          type="button"
-          class="list-button js-section-status-button js-section-edit-button section-edit-button"
-        >
-          ✏️
-        </button>
       </div>
     </div>
   </li>
 `;
 
 export const sectionListItems = sections => {
-  const isDeletable = sections.length > 2;
+  const hasMoreSectionsThanMinimum = sections.length > STATION_AMOUNT.MIN + 1;
 
   return sections
-    .map(({ upStation, downStation, distance, duration }) =>
-      sectionListItem({ upStation, downStation, distance, duration, isDeletable })
+    .map(({ upStation, downStation, distance, duration }, index) =>
+      sectionListItem({ upStation, downStation, distance, duration }, index !== 0 && hasMoreSectionsThanMinimum)
     )
     .join('');
 };
@@ -157,7 +121,6 @@ const sectionsPageTemplate = (lines = []) => `
     </div>
   </div>
   ${sectionAddModalTemplate}
-  ${sectionEditModalTemplate}
 `;
 
 export default sectionsPageTemplate;
