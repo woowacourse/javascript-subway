@@ -1,6 +1,5 @@
 import { store } from '../subway/models/store';
-import { STATE_KEY } from './constants/constants';
-import { DOM } from './constants/dom';
+import { DOM, STATE_KEY } from './constants';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 import { subwayView } from './views';

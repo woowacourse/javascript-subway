@@ -1,5 +1,5 @@
 import { DOM } from '../constants/dom';
-import { MENU, MESSAGE, ROUTE } from '../constants/constants';
+import { MENU, MESSAGE, ROUTE } from '../constants';
 import { lineList } from './templates/lineManage';
 import { stationList } from './templates/stationManage';
 import { linkButton, selectorOption } from '../../@shared/views';

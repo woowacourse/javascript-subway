@@ -11,4 +11,5 @@ export {
   SESSION_KEY,
   UP_STATION,
   DOWN_STATION,
+  MIN_STATION_COUNT,
 } from './constants';

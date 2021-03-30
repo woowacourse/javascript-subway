@@ -1,7 +1,6 @@
 import { store } from '../../subway/models/store';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { MESSAGE, NAME_LENGTH, SESSION_KEY, STATE_KEY } from '../constants/constants';
-import { DOM } from '../constants/dom';
+import { DOM, MESSAGE, NAME_LENGTH, SESSION_KEY, STATE_KEY } from '../constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
 import { Component } from '../../@shared/models/Component';

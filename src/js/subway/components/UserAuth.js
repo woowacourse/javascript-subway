@@ -1,5 +1,4 @@
-import { DOM } from '../constants/dom';
-import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
+import { DOM, STATE_KEY, ROUTE, SESSION_KEY } from '../constants';
 import { store, updateUserInfo } from '../../subway/models/store';
 import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
@@ -37,8 +36,6 @@ export class UserAuth extends Component {
       updateUserInfo(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
-      // TODO: 에러 케이스에 맞게 예외 처리.
-      console.error(error);
       DOM.USER_AUTH.MAIN.PASSWORD_MSG.innerText = error.message;
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.value = '';
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.focus();

@@ -1,5 +1,4 @@
-import { DOM } from '../constants/dom';
-import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
+import { DOM, MESSAGE, NAME_LENGTH, ROUTE } from '../constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 import { Component } from '../../@shared/models/Component';
 

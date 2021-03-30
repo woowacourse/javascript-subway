@@ -1,5 +1,5 @@
 import { encrypt, request } from '../../../@shared/utils';
-import { BASE_URL } from '../../constants/constants';
+import { BASE_URL } from '../../constants';
 
 const signUp = async ({ $email, $password, $name }) => {
   const url = `${BASE_URL}/members`;

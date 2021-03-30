@@ -1,7 +1,7 @@
 import { store } from '../../subway/models/store';
 import { getFromSessionStorage, hide, show } from '../../@shared/utils';
-import { DOM } from '../constants/dom';
 import {
+  DOM,
   DOWN_STATION,
   MESSAGE,
   MIN_STATION_COUNT,
@@ -10,7 +10,7 @@ import {
   STATE_KEY,
   SUBMIT_TYPE,
   UP_STATION,
-} from '../constants/constants';
+} from '../constants';
 import { hideModal, isValidDistance, isValidDuration, isValidName, lineManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
 import { Component } from '../../@shared/models/Component';
@@ -155,10 +155,11 @@ export class LineManage extends Component {
     };
 
     if (!confirm(MESSAGE.CONFIRM.LINE_REMOVE)) return;
+
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
-      $line.remove();
+      store[STATE_KEY.LINES].update();
     } catch (error) {
       console.error(error.message);
     }
