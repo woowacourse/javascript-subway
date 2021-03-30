@@ -134,3 +134,14 @@ export const requestEditLineData = async ({ id, name, color }) => {
     throw new Error(error);
   }
 };
+
+export const requestRemoveLine = async ({ id }) => {
+  try {
+    const response = await httpClient.delete({ path: `/lines/${id}`, accessToken: token.accessToken });
+    if (!response.ok) {
+      throw await response.text();
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};

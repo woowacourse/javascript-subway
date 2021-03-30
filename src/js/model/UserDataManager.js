@@ -72,4 +72,8 @@ export default class UserDataManager {
     editTargetLine.name = newLineName;
     editTargetLine.color = newColor;
   }
+
+  removeLine(lineName) {
+    this.lines = this.lines.filter((line) => line.name !== lineName);
+  }
 }
