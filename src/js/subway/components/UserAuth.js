@@ -42,7 +42,7 @@ export class UserAuth {
       store[STATE_KEY.SIGNED_USER_NAME].set(userName);
       routeTo(ROUTE.ROOT);
     } catch (error) {
-      DOM.USER_AUTH.MAIN.PASSWORD_MSG.classList.remove('hidden');
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.innerText = error.message;
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.value = '';
       DOM.USER_AUTH.MAIN.PASSWORD_INPUT.focus();
     }
