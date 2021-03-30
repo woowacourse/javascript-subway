@@ -31,8 +31,9 @@ export default class Section extends Observer {
     const lineListContainer = $(this.#lineListSelector);
     const stationListContainer = $(this.#stationListSelector);
     const targetLineId = Number(this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
+    
     if (!lineListContainer || !stationListContainer || targetLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
-
+    console.log('hey')
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const targetLine = lineList.find(line => line.id === targetLineId);
     lineListContainer.innerHTML = `

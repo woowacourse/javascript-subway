@@ -17,6 +17,7 @@ module.exports = {
     contentBase: './dist',
     port: 5500,
     open: true,
+    historyApiFallback: true
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -7,7 +7,6 @@ import { requestLineList } from "../api/line.js";
 export function delegateSectionClickEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.SECTION_MODAL_OPEN) {
-    onSectionModalOpen();
     openModal();
   }
 
@@ -16,10 +15,6 @@ export function delegateSectionClickEvent(event) {
     
     onSectionItemDelete(target);
   }
-}
-
-function onSectionModalOpen() {
-  state.update(STATE_KEY.TARGET_SECTION_LINE_ID, -1);
 }
 
 async function onSectionItemDelete(target) {
