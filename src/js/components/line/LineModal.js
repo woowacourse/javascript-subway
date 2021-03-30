@@ -1,6 +1,6 @@
 import { lineAPI } from '../../../../api/line';
 import { SELECTOR, SUCCESS_MESSAGE } from '../../constants';
-import { $, clearForm, getFormData } from '../../utils/dom';
+import { $, $$, clearForm, getFormData } from '../../utils/dom';
 import {
   bindModalCloseEvent,
   onModalClose,
@@ -24,6 +24,7 @@ class LineModal {
   }
 
   initDOM() {
+    this.$lineTitle = $(SELECTOR.LINE_MODAL_TITLE);
     this.$lineForm = $(SELECTOR.LINE_FORM);
     this.$lineList = $(SELECTOR.LINE_LIST);
     this.bindEvent();
@@ -54,9 +55,27 @@ class LineModal {
     });
   }
 
-  handleLineOpen({ state }) {
-    onModalShow();
+  handleLineOpen({ state, lineInfo = {} }) {
     this.#state = state;
+    onModalShow();
+    if (state === 'add') {
+      this.$lineTitle.textContent = '🛤️ 노선 추가';
+      $$('.optional', this.$lineForm).forEach(element => {
+        element.classList.remove('hide');
+      });
+    }
+
+    if (state === 'modify') {
+      this.$lineTitle.textContent = '🛤️ 노선 수정';
+      $$('.optional', this.$lineForm).forEach(element => {
+        element.classList.add('hide');
+      });
+
+      const { name, color } = lineInfo;
+      $('#subway-line-name').value = name;
+      $('#subway-line-color').value = color;
+      $('#subway-line-name').select();
+    }
   }
 
   async _handleAddLineClose(e) {

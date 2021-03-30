@@ -55,7 +55,7 @@ export const modalTemplate = stations => {
     </svg>
   </button>
   <header>
-    <h2 class="text-center">🛤️ 노선 추가</h2>
+    <h2 id="line-modal-title" class="text-center">🛤️ 노선 추가</h2>
   </header>
   <form name="modify-line">
     <div class="input-control">
@@ -71,7 +71,7 @@ export const modalTemplate = stations => {
         required
       />
     </div>
-    <div class="d-flex items-center input-control">
+    <div class="d-flex items-center input-control optional">
       <label for="up-station" class="input-label" hidden>상행역</label>
       <select id="up-station" name="up-station" class="mr-2">
         <option value="" selected disabled hidden>상행역</option>
@@ -86,7 +86,7 @@ export const modalTemplate = stations => {
         ${modalStationOptionTemplate(stations)}
       </select>
     </div>
-    <div class="input-control">
+    <div class="input-control optional">
       <label for="distance" class="input-label" hidden
         >상행 하행역 거리</label
       >

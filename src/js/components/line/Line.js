@@ -89,9 +89,13 @@ class Line {
 
   _bindUpdateLineEvent() {
     this.$lineList.addEventListener('click', e => {
-      console.log(e.target, e.target.classList);
+      if (e.target.classList.contains('modify-button')) {
+        this.#modal.handleLineOpen({
+          state: 'modify',
+          lineInfo: this._getSelectedLineInfo(e),
+        });
+      }
       if (e.target.classList.contains('delete-button')) {
-        console.log('delete');
         this._handleRemoveLine(e);
       }
     });
@@ -110,16 +114,16 @@ class Line {
 
       delete this.#lines[id];
       $lineItem.remove();
-      showSnackbar(SUCCESS_MESSAGE.REMOVE_LINE); // 만들기
+      showSnackbar(SUCCESS_MESSAGE.REMOVE_LINE);
     } catch {
-      showSnackbar(ERROR_MESSAGE.REMOVE_LINE_FAILED); // 만들기
+      showSnackbar(ERROR_MESSAGE.REMOVE_LINE_FAILED);
     }
   }
 
   _getSelectedLineInfo({ target }) {
     const $lineItem = target.closest('[data-line-id]');
     const id = $lineItem.dataset.lineId;
-    const { name, color } = this.#lines[id].name;
+    const { name, color } = this.#lines[id];
 
     return { $lineItem, id, name, color };
   }
