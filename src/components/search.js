@@ -6,7 +6,6 @@ export default class Search {
   #parentSelector;
   #state;
 
-  // TODO: targetSelector 기본값 만들어주기
   constructor(state, targetSelector, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
@@ -23,7 +22,6 @@ export default class Search {
     // targetContainer.innerHTML = this.#getTemplate();
   }
 
-  // TODO: fade-in 적용하기
   #getWrapperTemplate() {
     return `
       검색 페이지

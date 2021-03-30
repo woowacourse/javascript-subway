@@ -13,7 +13,7 @@ export function delegateSectionModalClickEvent(event) {
 
 export function delegateSectionModalSubmitEvent(event) {
   const { target } = event;
-  if (target.id === SELECTOR_ID.SUBWAY_SECTION_FORM) {
+  if (target.id === SELECTOR_ID.SECTION_FORM) {
     event.preventDefault();
     onSectionItemRegister(target);
     closeModal();

@@ -17,23 +17,24 @@ export function delegateStationSubmitEvent(event) {
 
 export function delegateStationClickEvent(event) {
   const { target } = event;
-  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_EDIT)) {
+  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE)) {
     onStationItemInputOpen(target);
   }
-  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE) && confirm(CONFIRM_MESSAGE.DELETE)) {
-    onStationItemDelete(target);
+  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE)) {
+    if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
+    onStationItemDeleteClick(target);
   }
 }
 
 export function delegateStationFocusOutEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_INPUT)) {
-    onStationItemEdit(target);
+    onStationItemInputFocusOut(target);
   }
 }
 
 function onStationFormSubmit(target) {
-  const { [SELECTOR_NAME.STATION_NAME_INPUT]: stationNameInput } = target;
+  const { [SELECTOR_NAME.STATION_NAME]: stationNameInput } = target;
   const stationList = state.get(STATE_KEY.STATION_LIST);
   if (!isProperStationNameLength(stationNameInput.value)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
@@ -51,7 +52,7 @@ function onStationFormSubmit(target) {
       console.log(error);
       alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
     }).finally(() => {
-      target[SELECTOR_NAME.STATION_NAME_INPUT].value = '';
+      target[SELECTOR_NAME.STATION_NAME].value = '';
     });
 }
 
@@ -63,18 +64,30 @@ function onStationItemInputOpen(target) {
   $stationInput.focus();
 }
 
-// TODO : 후에 역 이름 수정 API 삽입
-function onStationItemEdit(target) {
-  const { stationId } = target.dataset;
+function onStationItemInputFocusOut(targetInput) {
+  const targetStationName = targetInput.value;
+  const targetStationId = targetInput.dataset.stationId;
   const stationList = state.get(STATE_KEY.STATION_LIST);
-  const newStationName = target.value;
-  const targetStationItem = stationList.find(station => station.id === Number(stationId));
-  targetStationItem.name = newStationName;
+  if (!isProperStationNameLength(targetStationName)) {
+    alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
+    return;
+  }
+  if (isDuplicatedStationNameExist(targetStationName, stationList)) {
+    alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
+    return;
+  }
+  const targetStationItem = stationList.find(station => station.id === Number(targetStationId));
+  targetStationItem.name = targetStationName;
   state.update(STATE_KEY.STATION_LIST, stationList);
 }
 
-function onStationItemDelete(target) {
-  const { stationId } = target.dataset;
+function onStationItemDeleteClick(target) {
+  const stationId = Number(target.dataset.stationId);
+  if (isStationExistInLine(stationId)) {
+    alert(ALERT_MESSAGE.DELETING_STATION_EXCLUDED_IN_LINE);
+    return;
+  };
+
   const newStationList = state.get(STATE_KEY.STATION_LIST).filter(station => station.id !== Number(stationId));
   const stationItem = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM}[data-station-id="${stationId}"]`);
   setTurnRedAnimation(stationItem);
@@ -89,4 +102,10 @@ function onStationItemDelete(target) {
       cancelTurnRedAnimation(stationItem);
       console.log(error);
     });
+}
+
+function isStationExistInLine(stationId) {
+  const lineList = state.get(STATE_KEY.LINE_LIST);
+
+  return lineList.some(line =>  line.stations.some(station => station.id === stationId));
 }

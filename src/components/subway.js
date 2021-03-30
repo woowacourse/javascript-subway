@@ -7,7 +7,6 @@ export default class Subway extends Observer {
   #parentSelector;
   #state;
 
-  // TODO: targetSelector 기본값 만들어주기
   constructor(state, targetSelector, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
     this.#targetSelector = targetSelector;
@@ -25,7 +24,6 @@ export default class Subway extends Observer {
     // targetContainer.innerHTML = this.#getTemplate();
   }
 
-  // TODO: fade-in 적용하기
   #getWrapperTemplate() {
     return `
       전체 보기

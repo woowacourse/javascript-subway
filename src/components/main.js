@@ -32,7 +32,6 @@ export default class Main extends Observer {
     return `<div id="${SELECTOR_ID.GUIDE_WRAPPER}" class="fade-in"></div>`;
   }
 
-  // TODO : 계정마다 다른 State 초기화가 이루어져야 한다.
   #getMainTemplate() {
     return this.#state.get(STATE_KEY.IS_LOGGED_IN)
       ? `<div data-test-id="" class="d-flex flex-col">

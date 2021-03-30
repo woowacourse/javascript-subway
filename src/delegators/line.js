@@ -6,32 +6,24 @@ import { requestLineDelete } from '../api/line.js';
 
 export function delegateLineClickEvent(event) {
   const { target } = event;
-  if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON) && confirm(CONFIRM_MESSAGE.DELETE)) {
-    onLineItemDelete(target);
-    return;
-  }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_MODAL_OPEN)) {
-    onLineModalOpen();
+    openLineModal();
     openModal();
-    return;
   }
 
-  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_EDIT)) {
-    onLineItemEdit(target);
+  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
+    openLineUpdateModal(target);
     openModal();
-    return;
   }
-  // TODO: 리스트 아이템 클릭을 구현할 것인지 결정하기
-  if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`)) {
-    const targetListItem = target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`);
-    onLineListItemClick(targetListItem);
-    openModal();
-    return;
+
+  if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON)) {
+    if (! confirm(CONFIRM_MESSAGE.DELETE)) return;
+    deleteLineItem(target);
   }
 }
 
-function onLineItemDelete(target) {
+function deleteLineItem(target) {
   const { lineId } = target.dataset;
   const newLineList = state.get(STATE_KEY.LINE_LIST).filter(line => line.id !== Number(lineId));
   const lineItem = $(`.${SELECTOR_CLASS.LINE_LIST_ITEM}[data-line-id="${lineId}"]`);
@@ -49,14 +41,10 @@ function onLineItemDelete(target) {
     });
 }
 
-function onLineModalOpen() {
+function openLineModal() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
 }
 
-function onLineItemEdit(target) {
-  state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
-}
-
-function onLineListItemClick(target) {
+function openLineUpdateModal(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
 }

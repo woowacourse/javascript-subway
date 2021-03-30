@@ -23,14 +23,14 @@ state.initState();
 const main = new Main(state, `#${SELECTOR_ID.GUIDE_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const station = new Station(state, `#${SELECTOR_ID.STATION_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const line = new Line(state, `#${SELECTOR_ID.LINE_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const lineModal = new LineModal(state, `#${SELECTOR_ID.SUBWAY_LINE_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
+const lineModal = new LineModal(state, `#${SELECTOR_ID.LINE_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
 const section = new Section(
   state,
   `#${SELECTOR_ID.SECTION_LINE}`,
   `#${SELECTOR_ID.SECTION_STATION_LIST}`,
   `#${SELECTOR_ID.MAIN_CONTAINER}`
 );
-const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SUBWAY_SECTION_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
+const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SECTION_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
 const search = new Search(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const subway = new Subway(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);

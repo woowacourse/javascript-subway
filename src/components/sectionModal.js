@@ -8,7 +8,7 @@ export default class SectionModal extends Observer {
   #parentSelector;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_SECTION_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
+  constructor(state, targetSelector = `#${SELECTOR_ID.SECTION_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();
     this.#state = state;
     this.#targetSelector = targetSelector;
@@ -40,7 +40,7 @@ export default class SectionModal extends Observer {
         <header>
           <h2 class="text-center">🔁 구간 추가</h2>
         </header>
-        <form id="${SELECTOR_ID.SUBWAY_SECTION_FORM}">
+        <form id="${SELECTOR_ID.SECTION_FORM}">
           <div class="input-control">
             <select id="${SELECTOR_ID.SECTION_MODAL_LINE_SELECT}">
               ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option value="${lineItem.id}">${lineItem.name}</option>`).join('')}

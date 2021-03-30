@@ -33,8 +33,8 @@ export default class Station extends Observer {
 
   #initEvents() {
     $(this.#parentSelector).addEventListener('submit', delegateStationSubmitEvent);
-    $(this.#parentSelector).addEventListener('focusout', delegateStationFocusOutEvent);
-    $(this.#parentSelector).addEventListener('click', delegateStationClickEvent);
+    $(this.#targetSelector).addEventListener('focusout', delegateStationFocusOutEvent);
+    $(this.#targetSelector).addEventListener('click', delegateStationClickEvent);
   }
 
   #getWrapperTemplate() {
@@ -47,7 +47,7 @@ export default class Station extends Observer {
             ><input
               type="text"
               id="${SELECTOR_ID.STATION_FORM_NAME_INPUT}"
-              name="${SELECTOR_NAME.STATION_NAME_INPUT}"
+              name="${SELECTOR_NAME.STATION_NAME}"
               class="input-field"
               placeholder="역 이름"
               required
@@ -72,7 +72,7 @@ export default class Station extends Observer {
         <span class="${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2">${station.name}</span>
         <button 
           type="button" 
-          class="${SELECTOR_CLASS.STATION_LIST_ITEM_EDIT} bg-gray-50 text-gray-500 text-sm mr-1"
+          class="${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1"
           data-station-id="${station.id}"
           data-station-name="${station.name}"
         >

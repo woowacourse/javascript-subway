@@ -9,7 +9,7 @@ export default class LineModal extends Observer {
   #parentSelector;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_LINE_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
+  constructor(state, targetSelector = `#${SELECTOR_ID.LINE_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();
     this.#parentSelector = parentSelector;
     this.#targetSelector = targetSelector;
@@ -24,7 +24,7 @@ export default class LineModal extends Observer {
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
     modal.innerHTML = this.#getModalTemplate(targetLine);
-    $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions
+    $(`.${SELECTOR_CLASS.LINE_COLOR_PICKER}`).innerHTML = colorOptions
       .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
       .join('');
     
@@ -49,16 +49,16 @@ export default class LineModal extends Observer {
             ${lineItem ? '🛤️ 노선 수정' : '🛤️ 노선 추가'}
           </h2>
         </header>
-        <form id="${SELECTOR_ID.SUBWAY_LINE_FORM}"
-          class="${lineItem ? SELECTOR_CLASS.SUBWAY_LINE_UPDATE_FORM : SELECTOR_CLASS.SUBWAY_LINE_REGISTER_FORM}">
+        <form id="${SELECTOR_ID.LINE_FORM}"
+          class="${lineItem ? SELECTOR_CLASS.LINE_UPDATE_FORM : SELECTOR_CLASS.LINE_REGISTER_FORM}">
           <div class="input-control">
-            <label for="subway-line-name" class="input-label" hidden
+            <label for="${SELECTOR_ID.LINE_NAME_INPUT}" class="input-label" hidden
               >노선 이름</label
             >
             <input
               type="text"
-              id="subway-line-name"
-              name="${SELECTOR_NAME.SUBWAY_LINE_NAME}"
+              id="${SELECTOR_ID.LINE_NAME_INPUT}"
+              name="${SELECTOR_NAME.LINE_NAME}"
               class="input-field"
               placeholder="노선 이름"
               value="${lineItem ? lineItem.name : ''}"
@@ -68,7 +68,7 @@ export default class LineModal extends Observer {
           ${lineItem ? '' : `
             <div class="d-flex items-center input-control">
               <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="up-station" name="${SELECTOR_NAME.SUBWAY_UP_STATION}" class="mr-2">
+              <select id="up-station" name="${SELECTOR_NAME.UP_STATION}" class="mr-2">
                 <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
                 ${this.#state
                   .get(STATE_KEY.STATION_LIST)
@@ -76,7 +76,7 @@ export default class LineModal extends Observer {
                   .join('')}
               </select>
               <label for="down-station" class="input-label" hidden>하행역</label>
-              <select id="down-station"" name="${SELECTOR_NAME.SUBWAY_DOWN_STATION}">
+              <select id="down-station"" name="${SELECTOR_NAME.DOWN_STATION}">
                 <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
                 <${this.#state
                   .get(STATE_KEY.STATION_LIST)
@@ -116,13 +116,13 @@ export default class LineModal extends Observer {
           
           <div class="input-control">
             <div>
-              <label for="subway-line-color" class="input-label" hidden
+              <label for="${SELECTOR_ID.LINE_COLOR_INDICATOR}" class="input-label" hidden
                 >색상</label
               >
               <input
                 type="text"
-                id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}"
-                name="subway-line-color"
+                id="${SELECTOR_ID.LINE_COLOR_INDICATOR}"
+                name="${SELECTOR_NAME.LINE_COLOR}"
                 class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
                 placeholder="색상을 아래에서 선택해주세요."
                 ${lineItem ? `data-color="${lineItem.color}"` : '' }
@@ -131,7 +131,7 @@ export default class LineModal extends Observer {
               />
             </div>
           </div>
-          <div class="${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER} px-2"></div>
+          <div class="${SELECTOR_CLASS.LINE_COLOR_PICKER} px-2"></div>
           <div class="d-flex justify-end mt-3">
             ${lineItem ? `<button
               type="submit"
@@ -152,7 +152,6 @@ export default class LineModal extends Observer {
     `;
   }
 
-  // TODO: color picker 배열 고쳐서 빈자리 없게 만들기
   #getSubwayLineColorOptionTemplate(color, index) {
     const hasNewLine = (index + 1) % 7 === 0;
     return `<button type="button" class="${SELECTOR_CLASS.COLOR_OPTION} bg-${color}" data-color="${color}"></button> ${

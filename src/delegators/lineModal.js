@@ -7,11 +7,11 @@ import { requestLineRegistration, requestLineUpdate } from '../api/line.js';
 export function delegateLineModalSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
-  if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_REGISTER_FORM)) {
+  if (target.classList.contains(SELECTOR_CLASS.LINE_REGISTER_FORM)) {
     onLineItemRegister(target);
     closeModal();
   }
-  if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_UPDATE_FORM)) {
+  if (target.classList.contains(SELECTOR_CLASS.LINE_UPDATE_FORM)) {
     onLineItemUpdate(target);
     closeModal();
   }
@@ -30,19 +30,19 @@ export function delegateLineModalClickEvent(event) {
 
 function onColorPickerClick(target) {
   const color = target.dataset.color;
-  const indicator = $(`#${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}`);
+  const indicator = $(`#${SELECTOR_ID.LINE_COLOR_INDICATOR}`);
   indicator.className = 'color-input-field text-white';
   indicator.classList.add(`bg-${color}`);
   indicator.dataset.color = `bg-${color}`;
 }
 
 function onLineItemRegister(target) {
-  const lineName = target[SELECTOR_NAME.SUBWAY_LINE_NAME].value;
-  const upStationId = Number(target[SELECTOR_NAME.SUBWAY_UP_STATION].value);
-  const downStationId = Number(target[SELECTOR_NAME.SUBWAY_DOWN_STATION].value);
+  const lineName = target[SELECTOR_NAME.LINE_NAME].value;
+  const upStationId = Number(target[SELECTOR_NAME.UP_STATION].value);
+  const downStationId = Number(target[SELECTOR_NAME.DOWN_STATION].value);
   const distance = Number(target[SELECTOR_NAME.LINE_DISTANCE].value);
   const duration = Number(target[SELECTOR_NAME.LINE_DURATION].value);
-  const color = target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color;
+  const color = target[SELECTOR_NAME.LINE_COLOR].dataset.color;
   const lineList = state.get(STATE_KEY.LINE_LIST);
 
   if (!isProperLineNameLength(lineName)) {
@@ -73,8 +73,8 @@ function onLineItemRegister(target) {
 function onLineItemUpdate(target) {
   const newLine = {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
-    name: target[SELECTOR_NAME.SUBWAY_LINE_NAME].value, 
-    color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color
+    name: target[SELECTOR_NAME.LINE_NAME].value, 
+    color: target[SELECTOR_NAME.LINE_COLOR].dataset.color
   }
   requestLineUpdate(newLine)
     .then(updateLine)
