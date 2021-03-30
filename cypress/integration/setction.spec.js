@@ -12,17 +12,18 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
     cy.get('#station-name-input').type('하행역{enter}');
 
     // 테스트에 사용할 노선을 등록한다.
+    cy.get('#navigation-lines-button').click();
     cy.get('#line-create-button').click();
     cy.get('#line-name-input').type('테스트노선');
     cy.get('#departure-station-select').select('상행역');
     cy.get('#arrival-station-select').select('하행역');
-    cy.get('#distance-input').type(10);
-    cy.get('#duration-input').type(10);
+    cy.get('#distance-input').type(100);
+    cy.get('#duration-input').type(100);
     cy.get('.bg-red-600').click();
     cy.get('.input-submit').click({ force: true });
 
     cy.get('#navigation-sections-button').click();
-    cy.geT('#line-select').select('테스트노선');
+    cy.get('#line-select').select('테스트노선');
   });
 
   after(() => {
@@ -31,7 +32,7 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
     cy.get('#login-email').type('yujo@a.a');
     cy.get('#login-password').type('asd{enter}');
 
-    cy.get('#navigation-line-button').click();
+    cy.get('#navigation-lines-button').click();
     cy.get('.line-delete-button').eq(-1).click();
     cy.get('.confirm-button').click();
 
@@ -54,14 +55,14 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
     cy.get('#duration-input').type(10);
     cy.get('.input-submit').click();
 
-    cy.get('.section-list-item').its('length').should('eq', 2);
+    cy.get('.section-list-item').its('length').should('eq', 3);
   });
 
   it('등록한 구간을 제거할 수 있어야 한다.', () => {
     cy.get('.section-list-item')
       .its('length')
       .then((len) => {
-        cy.get('.section-delete-button').eq(-1).click();
+        cy.get('.section-delete-button').eq(-2).click({ force: true });
         cy.get('.confirm-button').click();
         cy.get('#section-list-container')
           .children()

@@ -38,7 +38,7 @@ describe('지하철 노선도 테스트', () => {
   it('정상적으로 로그아웃이 되는지 확인한다.', () => {
     cy.get('#navigation-logout-button').click();
     cy.get('.snackbar').should('have.text', SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
-    cy.url().should('eq', `${MAIN_URL}logout`);
+    cy.url().should('eq', `${MAIN_URL}`);
     cy.get('#navigation-login-button').should('be.visible');
   });
 });
