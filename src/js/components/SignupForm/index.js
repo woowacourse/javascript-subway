@@ -82,7 +82,6 @@ export default class SignupForm {
       console.error(error);
       hide(this.$emailAvailable);
       show(this.$emailDuplicatedWarning);
-      this.$emailInput.focus();
     }
   }
 
