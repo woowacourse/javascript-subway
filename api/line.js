@@ -30,4 +30,13 @@ export const lineAPI = {
       return res.json();
     });
   },
+
+  deleteLine: async ({ userAccessToken, id }) => {
+    const option = {
+      method: REQUEST_METHOD.DELETE,
+      Authorization: `Bearer ${userAccessToken}`,
+    };
+
+    await request(`${BASE_URL}${ACTIONS.LINES}/${id}`, option);
+  },
 };
