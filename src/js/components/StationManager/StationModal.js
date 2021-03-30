@@ -48,6 +48,11 @@ export default class StationModal {
     const newName = event.target.elements['station-name-edit'].value;
     const accessToken = this.store.userAuth.accessToken;
 
+    if (this.station.name === newName) {
+      this.close();
+      return;
+    }
+
     if (this.checkNameDuplicated(newName)) return;
 
     try {

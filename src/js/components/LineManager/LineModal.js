@@ -51,10 +51,13 @@ export default class LineModal {
     this.$lineDownStationSelect.addEventListener('change', this.checkValidStation.bind(this));
   }
 
-  open(lineID) {
+  open(lineID = '') {
     this.$root.classList.add('open');
     this.type = lineID ? 'edit' : 'create';
-    this.line = this.store.lines.find((line) => line.id === Number(lineID)) || null;
+
+    if (this.type === 'edit') {
+      this.line = this.store.lines.find((line) => line.id === Number(lineID));
+    }
 
     this.resetForm();
     this.activateInput();
@@ -189,7 +192,8 @@ export default class LineModal {
         distance: { value: distance },
         duration: { value: duration },
       } = event.target.elements;
-      this.state = { color, name, upStationId, downStationId, distance, duration };
+      this.state = { ...this.state, upStationId, downStationId, distance, duration };
+
       await this.createLine();
     } else {
       await this.editLine();

@@ -68,6 +68,7 @@ export const MESSAGES = {
 
   ERROR_FETCH_USER_INFO: '사용자 정보를 가져오는 과정에서 문제가 발생했습니다.',
   ERROR_FETCH_STATION_DATA: '지하철 데이터를 가져오는 과정에서 문제가 발생했습니다.',
+  ERROR_FETCH_SECTION_DATA: '구간 데이터를 가져오는 과정에서 문제가 발생했습니다',
 
   STATION_ADD: {
     FAIL: '해당 역을 등록할 수 없습니다.',

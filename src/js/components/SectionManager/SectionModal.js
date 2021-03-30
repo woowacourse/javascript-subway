@@ -25,12 +25,12 @@ export default class SectionModal {
   }
 
   selectDOM() {
-    this.$modalCloseButton = $(SELECTOR.MODAL_CLOSE);
+    this.$subwaySectionForm = $(SELECTOR.SECTION_FORM);
     this.$subwayLineSelect = $(SELECTOR.LINE_FOR_SECTION);
     this.$upStationSelect = $(SELECTOR.LINE_UP_STATION_SELECT);
     this.$downStationSelect = $(SELECTOR.LINE_DOWN_STATION_SELECT);
-    this.$subwaySectionForm = $(SELECTOR.SECTION_FORM);
     this.$sameStationWarning = $(SELECTOR.SAME_STATION_WARNING);
+    this.$modalCloseButton = $(SELECTOR.MODAL_CLOSE);
   }
 
   bindEvents() {
@@ -75,9 +75,7 @@ export default class SectionModal {
       duration: { value: duration },
     } = event.target.elements;
 
-    if (upStationId === downStationId) {
-      return;
-    }
+    if (upStationId === downStationId) return;
 
     this.state = { lineId, upStationId, downStationId, distance, duration };
     await this.addSection();

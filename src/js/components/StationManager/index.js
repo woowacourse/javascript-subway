@@ -11,6 +11,7 @@ export default class StationManager {
     this.store = store;
     this.$content = $(SELECTOR.CONTENT);
     this.modal = new StationModal(this.store);
+    this.bindModalEvents();
   }
 
   init() {
@@ -35,6 +36,9 @@ export default class StationManager {
     this.$stationNameInput.addEventListener('input', this.handleNameInput.bind(this));
     this.$stationNameForm.addEventListener('submit', this.handleNameSubmit.bind(this));
     this.$stationList.addEventListener('click', this.handleItemButtons.bind(this));
+  }
+
+  bindModalEvents() {
     $(SELECTOR.MODAL).addEventListener('updateName', this.updateName.bind(this));
   }
 
@@ -59,7 +63,8 @@ export default class StationManager {
 
   async handleNameSubmit(event) {
     event.preventDefault();
-    this.$stationNameInput.reportValidity();
+    if (!this.$stationNameInput.reportValidity()) return;
+
     await this.addStation(event);
   }
 
@@ -67,7 +72,6 @@ export default class StationManager {
     try {
       const accessToken = this.store.userAuth.accessToken;
       const name = event.target.elements.stationName.value;
-      const stations = this.store.stations;
 
       if (stations.find((station) => station.name === name)) {
         show($(SELECTOR.STATION_DUPLICATED_WARNING));
@@ -77,7 +81,7 @@ export default class StationManager {
       const response = await addStationRequest({ name }, accessToken);
       const station = new Station(response);
 
-      this.store.stations = [station, ...stations];
+      this.store.stations = [station, ...this.store.stations];
 
       $(SELECTOR.STATION_LIST).insertAdjacentHTML('afterbegin', station.toListItemTemplate());
       this.$stationNameInput.value = '';
@@ -102,7 +106,7 @@ export default class StationManager {
   }
 
   // TODO: 원본 배열 건드리지 않고 데이터 수정하기
-  async updateName(event) {
+  updateName(event) {
     const updatedStation = event.detail.station;
     const updatedName = event.detail.newName;
 
@@ -114,9 +118,9 @@ export default class StationManager {
 
   async deleteStationItem(event) {
     const stationItem = event.target.closest('li');
-    const itemDivider = stationItem.nextElementSibling;
     const stationName = stationItem.dataset.stationName;
     const stationID = Number(stationItem.dataset.stationId);
+    const itemDivider = stationItem.nextElementSibling;
     const accessToken = this.store.userAuth.accessToken;
 
     if (!window.confirm(MESSAGES.STATION_DELETE.CONFIRM(stationName))) return;
@@ -125,8 +129,9 @@ export default class StationManager {
       await deleteStationRequest(stationID, accessToken);
 
       stationItem.remove();
-      if (!itemDivider.matches('hr')) return;
-      itemDivider.remove();
+      if (itemDivider.matches('hr')) {
+        itemDivider.remove();
+      }
 
       this.deleteStationData(stationID);
       popSnackbar(MESSAGES.STATION_DELETE.SUCCESS(stationName));
