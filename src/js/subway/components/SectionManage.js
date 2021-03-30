@@ -28,6 +28,8 @@ export class SectionManage extends Component {
 
   updateLines(lines) {
     const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
+
+    if (!lineId) return;
     const { stations } = lines.find(line => line.id === lineId);
 
     subwayView.renderSectionList(stations);
