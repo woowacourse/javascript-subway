@@ -3,7 +3,7 @@ import popSnackbar from '../../utils/snackbar.js';
 import { SELECTOR, MESSAGES } from '../../constants/constants.js';
 import { deleteSectionRequest, getLineByIdRequest } from '../../request.js';
 import Line from '../../models/Line.js';
-import { contentTemplate, modalTemplate } from './template.js';
+import { contentTemplate } from './template.js';
 import SectionModal from './SectionModal.js';
 
 export default class SectionManager {
@@ -11,6 +11,7 @@ export default class SectionManager {
     this.store = store;
     this.$content = $(SELECTOR.CONTENT);
     this.modal = new SectionModal(this.store);
+    this.bindModalEvents();
   }
 
   init() {
@@ -34,10 +35,13 @@ export default class SectionManager {
 
   bindEvents() {
     this.$sectionsSelect.addEventListener('change', this.handleLineSelect.bind(this));
-    this.$sectionStationList.addEventListener('click', this.handleDeleteButton.bind(this));
     this.$sectionAddButton.addEventListener('click', () => {
       this.modal.open(this.lineID);
     });
+    this.$sectionStationList.addEventListener('click', this.handleDeleteButton.bind(this));
+  }
+
+  bindModalEvents() {
     $(SELECTOR.MODAL).addEventListener('addSection', this.addSection.bind(this));
   }
 
@@ -66,9 +70,9 @@ export default class SectionManager {
 
   async deleteSection(event) {
     const stationItem = event.target.closest('li');
-    const itemDivider = stationItem.nextElementSibling;
     const stationID = stationItem.dataset.stationId;
     const stationName = stationItem.dataset.stationName;
+    const itemDivider = stationItem.nextElementSibling;
     const accessToken = this.store.userAuth.accessToken;
 
     if (!window.confirm(MESSAGES.SECTION_DELETE.CONFIRM(stationName))) return;
@@ -77,22 +81,27 @@ export default class SectionManager {
       await deleteSectionRequest(this.lineID, stationID, accessToken);
 
       stationItem.remove();
-      if (!itemDivider.matches('hr')) return;
-      itemDivider.remove();
+      if (itemDivider.matches('hr')) {
+        itemDivider.remove();
+      }
 
       this.updateSectionData();
       popSnackbar(MESSAGES.SECTION_DELETE.SUCCESS(stationName));
     } catch (error) {
       console.error(error);
-      popSnackbar(error.message);
+      popSnackbar(error.message || MESSAGES.SECTION_DELETE.FAIL);
     }
   }
 
   async addSection(event) {
     this.lineID = event.detail;
-    const targetLine = [...this.$sectionsSelect.options].find((option) => option.value === this.lineID);
 
-    targetLine.setAttribute('selected', 'selected');
+    [...this.$sectionsSelect.options].forEach((option, index) => {
+      if (option.value === this.lineID) {
+        this.$sectionsSelect.selectedIndex = index;
+      }
+    });
+
     await this.updateSectionData();
     this.renderLineData();
   }
@@ -108,6 +117,7 @@ export default class SectionManager {
       this.store.lines = updatedLines;
     } catch (error) {
       console.error(error);
+      popSnackbar(MESSAGES.ERROR_FETCH_SECTION_DATA);
     }
   }
 }
