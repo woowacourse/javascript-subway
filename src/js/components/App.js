@@ -17,6 +17,7 @@ import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
 import { isRouterButton, isSignIn } from '../validators/boolean';
 import token from '../token/Token';
+import { closeModal } from '../utils/modal';
 
 class App {
   constructor() {
@@ -55,7 +56,7 @@ class App {
         (e.target.classList.contains('modal') && e.target.classList.contains('open')) ||
         e.target.closest('.modal-close')
       ) {
-        document.querySelector('.modal').classList.remove('open');
+        closeModal($('.modal'));
       }
 
       if (isRouterButton(e.target)) {
