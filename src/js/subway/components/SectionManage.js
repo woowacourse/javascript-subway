@@ -82,6 +82,7 @@ export class SectionManage {
     DOM.SECTION.MAIN.ADD_MODAL_BUTTON.addEventListener('click', this.handleAddButton.bind(this));
     DOM.SECTION.MAIN.LINE_SELECTOR.addEventListener('change', this.handleLineSelector.bind(this));
     DOM.SECTION.MODAL.FORM.addEventListener('submit', this.handleSectionSubmit.bind(this));
+    DOM.SECTION.MAIN.LIST.addEventListener('click', this.handleRemoveButton.bind(this));
   }
 
   handleAddButton() {
@@ -116,9 +117,10 @@ export class SectionManage {
 
     if (this.submitType === SUBMIT_TYPE.ADD) {
       this.handleAddSubmit(accessToken);
-    } else if (this.submitType === SUBMIT_TYPE.MODIFY) {
-      this.handleModifySubmit(accessToken);
     }
+    // else if (this.submitType === SUBMIT_TYPE.MODIFY) {
+    //   this.handleModifySubmit(accessToken);
+    // }
   }
 
   async handleAddSubmit(accessToken) {
@@ -152,5 +154,27 @@ export class SectionManage {
       DOM.SECTION.MODAL.MSG.innerText = error.message;
     }
   }
-  handleModifySubmit(accessToken) {}
+
+  // handleModifySubmit(accessToken) {}
+
+  async handleRemoveButton({ target }) {
+    if (!target.classList.contains('js-remove-button')) return;
+    const $station = target.closest('.js-station-list-item');
+    const requestInfo = {
+      lineId: DOM.SECTION.MAIN.LINE_SELECTOR.value,
+      stationId: $station.dataset.stationId,
+    };
+
+    if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
+
+    try {
+      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+
+      await sectionManageAPI.removeSection(accessToken, requestInfo);
+      this.props.cache.lines = [];
+      this.updateSections();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 }

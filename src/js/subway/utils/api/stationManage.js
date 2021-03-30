@@ -69,7 +69,6 @@ const removeStation = async (accessToken, { id }) => {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
     },
   };
 

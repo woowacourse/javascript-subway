@@ -18,7 +18,23 @@ const addSection = async (accessToken, { id, upStationId, downStationId, distanc
   };
 
   try {
-    const res = await request(url, option);
+    await request(url, option);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const removeSection = async (accessToken, { lineId, stationId }) => {
+  const url = `${BASE_URL}/lines/${lineId}/sections?stationId=${stationId}`;
+  const option = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  try {
+    await request(url, option);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -26,4 +42,5 @@ const addSection = async (accessToken, { id, upStationId, downStationId, distanc
 
 export const sectionManageAPI = {
   addSection,
+  removeSection,
 };
