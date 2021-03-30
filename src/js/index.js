@@ -1,21 +1,15 @@
 import '../css/index.css';
 import '../images/subway_emoji.png';
-import { $, getFromSessionStorage } from './@shared/utils/index';
-import { store } from './subway/models/store';
+import { getFromSessionStorage } from './@shared/utils';
+import { updateUserInfo } from './subway/models/store';
 import { Subway } from './subway';
-import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
-import { routeTo } from './subway/utils';
-import { getUserName } from './subway/utils/api/userAuth';
+import { userAuthAPI, routeTo } from './subway/utils';
+import { DOM, SESSION_KEY } from './subway/constants';
 
 class App {
   constructor() {
-    this.selectDOM();
     this.mountChildComponents();
     this.bindEvent();
-  }
-
-  selectDOM() {
-    this.$app = $('#app');
   }
 
   mountChildComponents() {
@@ -23,7 +17,7 @@ class App {
   }
 
   bindEvent() {
-    this.$app.addEventListener('click', event => {
+    DOM.APP.addEventListener('click', event => {
       if (!event.target.classList.contains('js-link')) return;
       event.preventDefault();
       const pathName = event.target.dataset.link;
@@ -41,11 +35,9 @@ window.addEventListener('popstate', event => {
 
 window.addEventListener('load', async () => {
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const signedUserName = accessToken ? await getUserName(accessToken) : '';
+  const userName = accessToken ? await userAuthAPI.getUserName(accessToken) : null;
 
   new App();
-  store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
-  store[STATE_KEY.STATIONS].update();
-  store[STATE_KEY.LINES].update();
+  updateUserInfo(userName);
   routeTo(location.pathname);
 });

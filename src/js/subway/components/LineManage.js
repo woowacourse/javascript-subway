@@ -6,26 +6,16 @@ import {
   MESSAGE,
   MIN_STATION_COUNT,
   NAME_LENGTH,
-  ROUTE,
   SESSION_KEY,
   STATE_KEY,
   SUBMIT_TYPE,
   UP_STATION,
 } from '../constants/constants';
-import {
-  hideModal,
-  isValidDistance,
-  isValidDuration,
-  isValidName,
-  lineManageAPI,
-  showModal,
-  stationManageAPI,
-} from '../utils';
+import { hideModal, isValidDistance, isValidDuration, isValidName, lineManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
 
 export class LineManage {
-  constructor(props) {
-    this.props = props;
+  constructor() {
     this.submitType = null;
     this.setup();
     this.bindEvent();

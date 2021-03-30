@@ -1,28 +1,28 @@
 import { getFromSessionStorage, show, $ } from '../../@shared/utils';
 import { DOM } from '../constants/dom';
-import { ROUTE, SESSION_KEY, STATE_KEY, SUBMIT_TYPE, UP_STATION, DOWN_STATION, MESSAGE } from '../constants/constants';
-import {
-  hideModal,
-  isValidDistance,
-  isValidDuration,
-  lineManageAPI,
-  sectionManageAPI,
-  showModal,
-  stationManageAPI,
-} from '../utils';
+import { SESSION_KEY, STATE_KEY, UP_STATION, DOWN_STATION, MESSAGE, ROUTE } from '../constants/constants';
+import { hideModal, isValidDistance, isValidDuration, sectionManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../subway/models/store';
 
 export class SectionManage {
-  constructor(props) {
-    this.props = props;
+  constructor() {
     this.setup();
     this.bindEvent();
   }
 
   setup() {
+    store[STATE_KEY.ROUTE].subscribe(this.resetSelector.bind(this));
     store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
     store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
+  }
+
+  resetSelector(route) {
+    if (route !== ROUTE.SECTIONS) return;
+
+    subwayView.renderLineOptions();
+    DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
+    subwayView.renderSectionList();
   }
 
   updateStations(stations) {
@@ -33,18 +33,14 @@ export class SectionManage {
   updateLines(lines) {
     const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
 
-    console.log(lineId);
-    if (lineId) {
-      const { stations } = lines.find(line => line.id === lineId);
-
-      subwayView.renderSectionList(stations);
+    if (!lineId) {
+      subwayView.renderLineOptions(lines);
 
       return;
     }
+    const { stations } = lines.find(line => line.id === lineId);
 
-    subwayView.renderLineOptions(lines);
-    DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
-    subwayView.renderSectionList();
+    subwayView.renderSectionList(stations);
   }
 
   bindEvent() {
@@ -55,7 +51,6 @@ export class SectionManage {
   }
 
   handleAddButton() {
-    this.submitType = SUBMIT_TYPE.ADD;
     const lineId = DOM.SECTION.MAIN.LINE_SELECTOR.value;
 
     if (!lineId) {

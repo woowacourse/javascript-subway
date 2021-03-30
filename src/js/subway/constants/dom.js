@@ -3,6 +3,7 @@ import { mainElements, modalElements } from '../views';
 import { ROUTE } from './constants';
 
 export const DOM = {
+  APP: $('#app'),
   CONTAINER: {
     MENU: $('#menu-buttons-container'),
     SIGN: $('#sign-button-container'),

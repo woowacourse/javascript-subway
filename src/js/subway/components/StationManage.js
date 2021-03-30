@@ -1,13 +1,12 @@
 import { store } from '../../subway/models/store';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, NAME_LENGTH, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { DOM } from '../constants/dom';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
 
 export class StationManage {
-  constructor(props) {
-    this.props = props;
+  constructor() {
     this.setup();
     this.bindEvent();
   }
