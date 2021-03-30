@@ -11,6 +11,9 @@ const postRequest = async (url, data, token = '') => {
   });
 
   if (!response.ok) {
+    if (response.status === 400) {
+      throw new Error(await response.text());
+    }
     throw new Error(response.status);
   }
 
@@ -161,6 +164,13 @@ export const deleteSectionRequest = async (lineID, stationId, token) => {
 export const editLineRequest = async (lineID, data, token) => {
   const url = `${HOST}/lines/${lineID}`;
   const response = await putRequest(url, data, token);
+
+  return response;
+};
+
+export const addSectionRequest = async (lineId, data, token) => {
+  const url = `${HOST}/lines/${lineId}/sections`;
+  const response = await postRequest(url, data, token);
 
   return response;
 };

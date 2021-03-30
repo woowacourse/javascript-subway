@@ -53,6 +53,10 @@ export const SELECTOR = {
 
   SUBWAY_LINE_SELECT: '#subway-line',
   SECTION_STATION_LIST: '#section-station-list',
+  SECTION_ADD_BUTTON: '#add-section-btn',
+  LINE_FOR_SECTION: '#subway-line-for-section',
+  SECTION_FORM: '#subway-section-form',
+  SAME_STATION_WARNING: '#same-station-warning',
 };
 
 export const MESSAGES = {
@@ -102,6 +106,11 @@ export const MESSAGES = {
     CONFIRM: (station) => `${station}역을 삭제하시겠습니까?`,
     SUCCESS: (station) => `${station}역이 삭제되었습니다.`,
     FAIL: '구간 삭제에 실패했습니다.',
+  },
+
+  SECTION_ADD: {
+    SUCCESS: '구간을 생성하였습니다.',
+    FAIL: '구간 생성에 실패했습니다.',
   },
 };
 
