@@ -1,4 +1,4 @@
-import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY } from "../constants.js";
+import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY, CONFIRM_MESSAGE } from "../constants.js";
 import { state } from '../store.js';
 import { openModal } from "../utils/dom.js";
 import { requestSectionDelete } from '../api/section.js';
@@ -11,7 +11,7 @@ export function delegateSectionClickEvent(event) {
     openModal();
   }
 
-  if (target.classList.contains(SELECTOR_CLASS.SECTION_DELETE_BUTTON)) {
+  if (target.classList.contains(SELECTOR_CLASS.SECTION_DELETE_BUTTON) && confirm(CONFIRM_MESSAGE.DELETE)) {
     onSectionItemDelete(target);
   }
 }
