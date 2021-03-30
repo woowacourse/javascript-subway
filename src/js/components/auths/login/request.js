@@ -1,7 +1,7 @@
 import { goTo } from '../../../router/index.js';
-import { fetchLogin, showNotification, reportError } from '../../../utils/index.js';
+import { showNotification, reportError, toStringFromFormData } from '../../../utils/index.js';
 import { login } from '../../../auth/index.js';
-import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
+import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE, API_ENDPOINT, HEADERS } from '../../../constants/index.js';
 
 const requestLogin = async ({ formData }) => {
   try {
@@ -29,5 +29,15 @@ const requestLogin = async ({ formData }) => {
     });
   }
 };
+
+async function fetchLogin(formData) {
+  const response = await fetch(API_ENDPOINT.LOGIN, {
+    method: 'POST',
+    headers: HEADERS,
+    body: toStringFromFormData(formData),
+  });
+
+  return response;
+}
 
 export default requestLogin;

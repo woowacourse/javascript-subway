@@ -1,13 +1,13 @@
 export const LIST_ITEM_TEMPLATE = ({ id, name }) => `
 <li class="station-list-item d-flex items-center py-2">
-  <i class="remove-button fas fa-minus-circle" data-station-id="${id}"}></i>
-  <form>
+  <form class="edit-form" data-station-id="${id}" data-station-name="${name}">
+    <i class="remove-button fas fa-minus-circle v-hidden"></i>
     <label for="edit-station-name-${id}" class="input-label" hidden>역 이름</label>
-    <input type="text" id="edit-station-name-${id}" class="w-100 pl-2 edit-station-name" name="name" value="${name}" />
+    <input type="text" id="edit-station-name-${id}" class="w-100 pl-2 edit-station-name" name="name" value="${name}" minlength="2" maxlength="20" disabled />
+    <i class="edit-button fas fa-edit" ></i>
+    <i class="check-button fas fa-check v-hidden"></i>
+    <i class="undo-button fas fa-undo v-hidden"></i>
   </form>
-  <i class="edit-button fas fa-edit" data-station-id="${id}"></i>
-  <i class="check-button fas fa-check" data-station-id="${id}"></i>
-  <i class="undo-button fas fa-undo" data-station-id="${id}"></i>
 </li>
 <hr class="my-0" />
 `;
@@ -17,7 +17,7 @@ export const STATIONS_TEMPLATE = `
   <div class="heading">
     <h2 class="mt-1">🚉 역 관리</h2>
   </div>
-  <form>
+  <form class="add-form">
     <div class="d-flex w-100">
       <label for="add-station-name" class="input-label" hidden>역 이름</label>
       <input type="text" id="add-station-name" class="input-field add-station-name" name="name" placeholder="역 이름" minlength="2" maxlength="20" required />

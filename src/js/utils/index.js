@@ -3,7 +3,6 @@ import reportError from './reportError.js';
 import { $, $$, show, hide } from './DOM.js';
 import { showSnackbar, showNotification } from './notify.js';
 import { dispatchFormData, toStringFromFormData } from './form.js';
-import { fetchEmailValidation, fetchSignUp, fetchLogin } from './fetch.js';
 
 const hasPropertyValue = (obj, value) => {
   if (obj === null || typeof obj !== 'object') {
@@ -20,9 +19,6 @@ export {
   $$,
   debounce,
   dispatchFormData,
-  fetchSignUp,
-  fetchLogin,
-  fetchEmailValidation,
   hasPropertyValue,
   hide,
   reportError,

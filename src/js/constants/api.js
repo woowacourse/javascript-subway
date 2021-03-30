@@ -1,13 +1,13 @@
 const ORIGIN = 'https://www.boorownie.com';
 
-const API_ENDPOINT = Object.freeze({
+export const API_ENDPOINT = Object.freeze({
   EMAIL_VALIDATION: `${ORIGIN}/members/check-validation`,
   SIGN_UP: `${ORIGIN}/members`,
   LOGIN: `${ORIGIN}/login/token`,
   STATIONS: `${ORIGIN}/stations`,
 });
 
-const STATUS_CODE = {
+export const STATUS_CODE = {
   AUTH_FAILED: 401,
   EMAIL_VALIDATION: {
     OK: 200,
@@ -34,10 +34,12 @@ const STATUS_CODE = {
       OK: 200,
       DUPLICATED: 400,
     },
-    DELETE: {
+    REMOVE: {
       OK: 204,
     },
   },
 };
 
-export { API_ENDPOINT, STATUS_CODE };
+export const HEADERS = {
+  'Content-Type': 'application/json; charset=UTF-8',
+};
