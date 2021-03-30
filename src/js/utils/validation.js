@@ -1,5 +1,12 @@
 import { REGEXP } from '../constants';
 
+export const isFormDataLacked = formData => {
+  return Object.keys(formData)
+    .filter(key => key !== 'submit')
+    .some(key => {
+      return isEmptyString(formData[key]);
+    });
+};
 export const isEmptyString = value => {
   return value.trim().length === 0;
 };

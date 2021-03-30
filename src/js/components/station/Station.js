@@ -128,7 +128,7 @@ class Station {
 
     try {
       const { $stationItem, id } = this._getSelectedStationInfo(e);
-      console.log($stationItem, id);
+
       await stationAPI.deleteStations({
         userAccessToken: this.#userAccessToken,
         id,
