@@ -1,6 +1,7 @@
 import Component from './Component';
 
 class Page extends Component {
+  // TODO: default value 설정
   _routingUrl;
   #initialUrl;
 

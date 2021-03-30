@@ -16,6 +16,10 @@ class SignupComponent extends Component {
     );
   }
 
+  render() {
+    super.render(SIGNUP_TEMPLATE);
+  }
+
   #onSignupSubmit = async event => {
     event.preventDefault();
 
@@ -43,10 +47,6 @@ class SignupComponent extends Component {
 
     this.props.route('/pages/login.html');
   };
-
-  render() {
-    super.render(SIGNUP_TEMPLATE);
-  }
 }
 
 export default SignupComponent;

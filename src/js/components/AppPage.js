@@ -46,14 +46,6 @@ class AppPage extends Page {
     $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
   }
 
-  #onLogout = () => {
-    this.state.setData({
-      loginResponse: {
-        accessToken: KEYWORD.LOGOUT,
-      },
-    });
-  };
-
   handleNavButtonToChange = loginResponse => {
     const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
 
@@ -74,6 +66,14 @@ class AppPage extends Page {
     }
 
     this.route('/');
+  };
+
+  #onLogout = () => {
+    this.state.setData({
+      loginResponse: {
+        accessToken: KEYWORD.LOGOUT,
+      },
+    });
   };
 
   #renderUserNavBar() {
