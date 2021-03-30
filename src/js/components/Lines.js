@@ -1,4 +1,5 @@
 import { $ } from '../utils/dom';
+import { openModal, closeModal } from '../utils/modal';
 import { getLineListTemplate, getEditLineModalTemplate, getAddLineModalTemplate } from '../templates/lines';
 import { requestAddLine, requestGetLineList } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
@@ -20,28 +21,13 @@ class Lines {
   }
 
   selectDom() {
-    this.$lineListWrapper = $('.line-list-wrapper');
     this.$createLineButton = $('.create-line-btn');
+    this.$lineListWrapper = $('.line-list-wrapper');
     this.$modal = $('.modal');
-    this.$modalClose = $('.modal-close');
-    this.$modalLineForm = $('.modal__line-form');
-    this.$colorSelector = $('.subway-line-color-selector');
-    this.$selectedColor = $('.selected-color');
   }
 
   bindEvent() {
     this.$createLineButton.addEventListener('click', this.handleCreateLineButton.bind(this));
-    this.$modalLineForm.addEventListener('submit', this.handleCreateLineForm.bind(this));
-
-    this.$colorSelector.addEventListener('click', (e) => {
-      if (!e.target.classList.contains('color-option')) return;
-      const colorTemplate = e.target.outerHTML;
-      const lineColor = e.target.classList[1];
-
-      this.$selectedColor.querySelector('button').remove();
-      this.$selectedColor.insertAdjacentHTML('afterbegin', colorTemplate);
-      this.selectedLineColor = lineColor;
-    });
 
     this.$lineListWrapper.addEventListener('click', (e) => {
       if (e.target.classList.contains('line-list-item__edit-button')) {
@@ -52,6 +38,26 @@ class Lines {
       if (e.target.classList.contains('line-list-item__remove-button')) {
         this.handleLineRemoveButton(e);
       }
+    });
+  }
+
+  selectModalDom() {
+    this.$modalLineForm = $('.modal__line-form');
+    this.$colorSelector = $('.subway-line-color-selector');
+    this.$selectedColor = $('.selected-color');
+  }
+
+  bindModalEvent() {
+    this.$modalLineForm.addEventListener('submit', this.handleCreateLineForm.bind(this));
+
+    this.$colorSelector.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('color-option')) return;
+      const colorTemplate = e.target.outerHTML;
+      const [lineColor] = e.target.classList;
+
+      this.$selectedColor.querySelector('button').remove();
+      this.$selectedColor.insertAdjacentHTML('afterbegin', colorTemplate);
+      this.selectedLineColor = lineColor;
     });
   }
 
@@ -76,9 +82,13 @@ class Lines {
 
   showLineAddModal() {
     this.$modal.innerHTML = getAddLineModalTemplate(this.userDataManager.stations);
-    this.$colorSelector = this.$modal.querySelector('.subway-line-color-selector');
-    this.$selectedColor = this.$modal.querySelector('.selected-color');
-    this.$modal.classList.add('open');
+    this.initModal();
+    openModal(this.$modal);
+  }
+
+  initModal() {
+    this.selectModalDom();
+    this.bindModalEvent();
   }
 
   async handleCreateLineForm(e) {
@@ -103,7 +113,7 @@ class Lines {
       this.userDataManager.setLineData(lineData);
       this.renderAddedLine(lineName);
       this.cleanCacheLineListTemplate();
-      this.$modalClose.click();
+      closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
     }
@@ -127,7 +137,8 @@ class Lines {
 
   showLineEditModal(lineData) {
     this.$modal.innerHTML = getEditLineModalTemplate(lineData);
-    this.$modal.classList.add('open');
+    this.initModal();
+    openModal(this.$modal);
   }
 
   handleLineRemoveButton(e) {}

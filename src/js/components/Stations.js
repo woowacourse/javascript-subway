@@ -1,4 +1,14 @@
-// 2단계에 구현 예정
+import { $ } from '../utils/dom';
+import { openModal, closeModal } from '../utils/modal';
+import {
+  requestAddStation,
+  requestEditStationName,
+  requestRemoveStation,
+  requestGetStationList,
+} from '../requestData/requestUserData';
+import { validateName } from '../validators/validation';
+import { getStationListTemplate } from '../templates/stations';
+import UserDataManager from '../model/UserDataManager';
 
 class Stations {
   constructor() {
@@ -18,7 +28,6 @@ class Stations {
     this.$stationForm = $('.station-form');
     this.$stationListWrapper = $('.station-list-wrapper');
     this.$modal = $('.modal');
-    this.$modalClose = $('.modal-close');
     this.$modalStationNameEditInput = $('.modal__station-name-edit-input');
     this.$modalStationNameEditForm = $('.modal__station-name-edit-form');
   }
@@ -71,7 +80,7 @@ class Stations {
   }
 
   handleStationNameEditButton(e) {
-    this.$modal.classList.add('open');
+    openModal(this.$modal);
     const { stationName } = e.target.closest('.station-list-item').dataset;
     this.stationNameInEdit = stationName;
 
@@ -97,7 +106,7 @@ class Stations {
       $stationListItem.dataset.stationName = newStationName;
       $textNode.innerText = newStationName;
       this.cleanCacheStationListTemplate();
-      this.$modalClose.click();
+      closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
     }

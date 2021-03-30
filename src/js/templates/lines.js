@@ -25,7 +25,7 @@ export const getStationOptionsTemplate = (stationData) => {
 
 const lineColorOptionTemplate = (color, index) => {
   const hasNewLine = (index + 1) % 7 === 0;
-  return `<button type="button" class="color-option bg-${color}"></button> ${hasNewLine ? '<br/>' : ''}`;
+  return `<button type="button" class="bg-${color} color-option"></button> ${hasNewLine ? '<br/>' : ''}`;
 };
 
 export const getAddLineModalTemplate = (stationData) => {
@@ -145,7 +145,7 @@ export const getEditLineModalTemplate = (lineData) => `
         />
       </div>
       <div class="selected-color justify-center">
-        <button type="button" class="color-option ${lineData.lineColor}"></button>
+        <button type="button" class="${lineData.lineColor} color-option"></button>
         <div class="ml-2">
         색을 아래에서 선택해주세요.
         </div>
@@ -185,7 +185,5 @@ export const getLinesTemplate = () => `
     </div>
     <ul class="line-list-wrapper mt-3 pl-0"></ul>
   </div>
-  <div class="modal">
-  ${getAddLineModalTemplate()}
-  </div>
+  <div class="modal"></div>
 `;
