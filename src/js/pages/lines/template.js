@@ -43,6 +43,7 @@ export const lineAddModalTemplate = `
           <select
             id="up-station"
             name="up-station"
+            class="mr-4"
             required
           >
             <option value="" disabled selected hidden>상행역</option>
@@ -63,7 +64,7 @@ export const lineAddModalTemplate = `
             type="number"
             id="duration"
             name="down"
-            class="input-field"
+            class="input-field mr-4"
             placeholder="상행 하행역 시간"
             required
           />
@@ -93,7 +94,7 @@ export const lineAddModalTemplate = `
             />
           </div>
         </div>
-        <div class="js-subway-line-color-selector subway-line-color-selector px-2">
+        <div class="js-subway-line-color-selector subway-line-color-selector text-center px-2">
           ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
         </div>
         <div class="d-flex justify-end mt-3">
