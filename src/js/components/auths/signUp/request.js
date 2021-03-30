@@ -1,8 +1,8 @@
 import { goTo } from '../../../router/index.js';
-import { reportError, showNotification, fetchSignUp } from '../../../utils/index.js';
-import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
+import { reportError, showNotification, toStringFromFormData } from '../../../utils/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE, HEADERS } from '../../../constants/index.js';
 
-const requestSignUp = async ({ formData }) => {
+export default async function requestSignUp({ formData }) {
   try {
     const response = await fetchSignUp(formData);
 
@@ -24,6 +24,14 @@ const requestSignUp = async ({ formData }) => {
       messageToLog: error.message,
     });
   }
-};
+}
 
-export default requestSignUp;
+async function fetchSignUp(formData) {
+  const response = await fetch(API_ENDPOINT.SIGN_UP, {
+    method: 'POST',
+    headers: HEADERS,
+    body: toStringFromFormData(formData),
+  });
+
+  return response;
+}

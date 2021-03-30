@@ -1,5 +1,4 @@
-import { fetchEmailValidation } from '../../../utils/index.js';
-import { AUTH_MESSAGES } from '../../../constants/index.js';
+import { AUTH_MESSAGES, API_ENDPOINT, HEADERS } from '../../../constants/index.js';
 
 export const updateSubmitButtonState = ({ currentTarget }) => {
   const $button = currentTarget.submit;
@@ -72,4 +71,18 @@ function getValidationMessageOfPassword($input) {
   }
 
   return AUTH_MESSAGES.USER_PASSWORD_IS_AVAILABLE;
+}
+
+async function fetchEmailValidation(email) {
+  const url = new URL(API_ENDPOINT.EMAIL_VALIDATION);
+  const parameters = new URLSearchParams({ email });
+
+  url.search = parameters.toString();
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: HEADERS,
+  });
+
+  return response;
 }

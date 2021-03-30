@@ -1,29 +1,67 @@
-import { LIST_ITEM_TEMPLATE, STATIONS_TEMPLATE } from './template.js';
-import { requestReadStation, requestCreateStation } from './request.js';
+import onClickButton from './onClickButton.js';
+import requestReadStation from './read.js';
+import requestCreateStation from './create.js';
+import requestUpdateStation from './update.js';
 import updateSubmitButtonState from './validate.js';
-import { dispatchFormData } from '../../../utils/index.js';
+import { dispatchFormData, show, hide } from '../../../utils/index.js';
+import { LIST_ITEM_TEMPLATE, STATIONS_TEMPLATE } from './template.js';
 
 const $main = document.createElement('main');
 $main.classList.add('mt-10', 'd-flex', 'justify-center');
 $main.innerHTML = STATIONS_TEMPLATE;
 
 const $list = $main.querySelector('ul');
-const $form = $main.querySelector('form');
-const $input = $form.elements['add-station-name'];
+const $addForm = $main.querySelector('.add-form');
+const $addInput = $addForm.elements['add-station-name'];
 
-$form.addEventListener('input', updateSubmitButtonState);
-$form.addEventListener('submit', dispatchFormData);
-$form.addEventListener('formdata', requestCreateStation);
+$addForm.addEventListener('input', updateSubmitButtonState);
+$addForm.addEventListener('submit', dispatchFormData);
+$addForm.addEventListener('formdata', requestCreateStation);
 
-// eslint-disable-next-line import/prefer-default-export
-export const renderStations = async ($parent) => {
+$list.addEventListener('click', onClickButton);
+$list.addEventListener('submit', dispatchFormData);
+$list.addEventListener('formdata', requestUpdateStation);
+
+export const renderStations = async ($currMain) => {
   const stationList = await requestReadStation();
 
   $list.innerHTML = stationList
     .map((station) => LIST_ITEM_TEMPLATE(station))
     .reverse()
     .join('');
-  $parent.replaceWith($main);
+  $currMain.replaceWith($main);
 
-  $input.focus();
+  $addInput.focus();
 };
+
+export function renderEditMode($editForm) {
+  const $editInput = $editForm.querySelector('input');
+  const $editButton = $editForm.querySelector('.edit-button');
+  const $checkButton = $editForm.querySelector('.check-button');
+  const $undoButton = $editForm.querySelector('.undo-button');
+  const $removeButton = $editForm.querySelector('.remove-button');
+
+  $editInput.disabled = false;
+  // TODO: 수정 가능한 input 스타일로 변경
+
+  hide($editButton);
+  show($undoButton);
+  show($checkButton);
+  show($removeButton);
+}
+
+export function renderNonEditMode($editForm) {
+  const $editInput = $editForm.querySelector('input');
+  const $editButton = $editForm.querySelector('.edit-button');
+  const $checkButton = $editForm.querySelector('.check-button');
+  const $undoButton = $editForm.querySelector('.undo-button');
+  const $removeButton = $editForm.querySelector('.remove-button');
+
+  $editInput.disabled = true;
+  // TODO: 수정 불가능한 input 스타일로 변경
+
+  show($editButton);
+  hide($undoButton);
+  hide($checkButton);
+  hide($removeButton);
+}
