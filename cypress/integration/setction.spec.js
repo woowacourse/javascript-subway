@@ -55,6 +55,7 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
     cy.get('#duration-input').type(10);
     cy.get('.input-submit').click();
 
+    cy.wait(1000);
     cy.get('.section-list-item').its('length').should('eq', 3);
   });
 
