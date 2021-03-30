@@ -11,7 +11,7 @@ describe('지하철 노선도 역 관리 기능 테스트', () => {
 
   it('지하철 역이 정상적으로 등록되는지 확인한다.', () => {
     cy.get('#station-name-input').type(`${stationName}{enter}`);
-    cy.get('.station-name').eq(-1).should('have.text', name);
+    cy.get('.station-name').eq(-1).should('have.text', stationName);
   });
 
   it('중복된 지하철 역이 추가되지 않는지 확인한다.', () => {
