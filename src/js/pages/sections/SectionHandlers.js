@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../../constants/messages.js';
+import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 import { $ } from '../../utils/DOM.js';
 import user from '../../models/user.js';
 
@@ -22,10 +22,12 @@ async function addSectionHandler(e) {
 }
 
 async function deleteSectionHandler(e) {
-  const lineId = $('#line-name').value;
-  const stationId = e.target.closest('li').dataset.sectionId;
+  if (!window.confirm(CONFIRM_MESSAGE.DELETE_SECTION)) return;
 
-  const resFlag = user.lineManager.deleteSection(lineId, stationId);
+  const lineId = $('#line-name').value;
+  const { sectionId } = e.target.closest('li').dataset;
+
+  const resFlag = user.lineManager.deleteSection(lineId, sectionId);
   if (!resFlag) {
     alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_SECTION);
   }

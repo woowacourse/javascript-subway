@@ -6,7 +6,8 @@ async function fetchAddSection(newSectionInfo, lineId) {
     method: HTTP.METHOD.POST,
     body: JSON.stringify(newSectionInfo),
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -19,13 +20,14 @@ async function fetchAddSection(newSectionInfo, lineId) {
     );
 
     if (!response.ok) {
-      throw new Error('이미 존재하는 구간입니다.');
+      throw response;
     }
 
-    return response.ok;
-  } catch (error) {
-    // 거리 유효하지 않게 넣으면 400, false
-    console.error(error);
+    return response;
+  } catch (response) {
+    console.error(await response.text());
+
+    return response;
   }
 }
 
@@ -33,7 +35,8 @@ async function fetchDeleteSection(lineId, stationId) {
   const requestData = {
     method: HTTP.METHOD.DELETE,
     headers: {
-      Authorization: `Bearer ${user.authorization}`,
+      [HTTP.HEADERS.KEY
+        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
     },
   };
 
@@ -44,12 +47,14 @@ async function fetchDeleteSection(lineId, stationId) {
     );
 
     if (!response.ok) {
-      throw new Error('구간 삭제에 실패했습니다.');
+      throw response;
     }
 
-    return response.ok;
-  } catch (error) {
-    console.error(error);
+    return response;
+  } catch (response) {
+    console.error(await response.text());
+
+    return response;
   }
 }
 

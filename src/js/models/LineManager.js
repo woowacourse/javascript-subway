@@ -89,26 +89,25 @@ class LineManager {
   }
 
   async addSection(newSectionInfo, lineId) {
-    const resFlag = await fetchAddSection(newSectionInfo, lineId);
+    const response = await fetchAddSection(newSectionInfo, lineId);
 
-    const upStationIndex = this.lines[lineId].stations.findIndex(
-      ({ id }) => id === newSectionInfo.upStationId
-    );
+    if (response.ok) {
+      const upStationIndex = this.lines[lineId].stations.findIndex(
+        ({ id }) => id === newSectionInfo.upStationId
+      );
+      const newSectionId =
+        upStationIndex === -1
+          ? newSectionInfo.upStationId
+          : newSectionInfo.downStationId;
 
-    const newSectionId =
-      upStationIndex === -1
-        ? newSectionInfo.upStationId
-        : newSectionInfo.downStationId;
+      const newSection = this.createStationData(
+        user.stationManager.getStation(newSectionId)
+      );
 
-    const newSection = this.createStationData(
-      user.stationManager.getStation(newSectionId)
-    );
-
-    if (resFlag) {
       this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
     }
 
-    return resFlag;
+    return response.ok;
   }
 
   async deleteSection(lineId, stationId) {

@@ -50,6 +50,7 @@ const SNACKBAR_MESSAGE = {
 const CONFIRM_MESSAGE = {
   DELETE_STATION: '지하철 역을 삭제하시겠습니까?',
   DELETE_LINE: '노선을 삭제하시겠습니까?',
+  DELETE_SECTION: '구간을 삭제하시겠습니까?',
 };
 
 export { MESSAGE, SNACKBAR_MESSAGE, CONFIRM_MESSAGE, ALERT_MESSAGE };
