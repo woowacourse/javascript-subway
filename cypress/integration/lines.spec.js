@@ -8,6 +8,8 @@ describe('지하철 노선 관리 테스트', () => {
 
     cy.intercept('POST', `${requestURL}/login/token`).as('login');
     cy.intercept('GET', `${requestURL}/members/me`).as('userInfo');
+    cy.intercept('GET', `${requestURL}/stations`).as('getStations');
+    cy.intercept('GET', `${requestURL}/lines`).as('getLines');
 
     cy.get('#login-nav-button').click();
 
@@ -18,11 +20,13 @@ describe('지하철 노선 관리 테스트', () => {
     cy.wait('@login');
     cy.wait('@userInfo');
 
+    cy.wait('@getStations');
+    cy.wait('@getLines');
     cy.get('#lines-nav-button').click();
   });
 
   it('새로운 지하철 노선을 등록할 수 있다.', () => {
-    const newLineName = '우아한테크코스선2';
+    const newLineName = '우아한테크코스선3';
 
     cy.intercept('POST', `${requestURL}/lines`).as('createLine');
 
@@ -35,7 +39,7 @@ describe('지하철 노선 관리 테스트', () => {
     cy.get('#distance').type('10');
     cy.get('#duration').type('5');
 
-    cy.get('.bg-orange-500').click();
+    cy.get('.subway-line-color-selector > .bg-orange-500').click();
 
     cy.get('#modal-create-line').click();
     cy.wait('@createLine');
