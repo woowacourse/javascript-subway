@@ -53,7 +53,7 @@ export class SectionManage {
       }
 
       subwayView.renderLineOptions(this.props.cache.lines);
-      DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
+      DOM.SECTION.MAIN.LIST.classList.add('hidden');
       subwayView.renderSectionList();
     } catch (error) {
       console.error(error.message);

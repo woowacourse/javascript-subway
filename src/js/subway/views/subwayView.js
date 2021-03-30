@@ -62,13 +62,13 @@ export const subwayView = {
   },
 
   fillLineColorBar: color => {
-    const dot = DOM.SECTION.MAIN.LINE_COLOR_BAR;
-    dot.classList.remove('hidden');
-    if (dot.dataset.color) {
-      dot.classList.remove(dot.dataset.color);
+    const sectionList = DOM.SECTION.MAIN.LIST;
+    sectionList.classList.remove('hidden');
+    if (sectionList.dataset.color) {
+      sectionList.classList.remove(sectionList.dataset.color);
     }
 
-    dot.dataset.color = color;
-    dot.classList.add(color);
+    sectionList.dataset.color = color;
+    sectionList.classList.add(color);
   },
 };

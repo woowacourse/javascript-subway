@@ -67,7 +67,6 @@ export class StationManage {
       await this.updateStations(ROUTE.STATIONS);
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
-      console.error(error.message);
       DOM.STATION.MAIN.NAME_MSG.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }
@@ -101,7 +100,6 @@ export class StationManage {
       await this.updateStations(ROUTE.STATIONS);
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
-      console.error(error.message);
       DOM.STATION.MODAL.NAME_MSG.innerText =
         error.message === '400' ? MESSAGE.STATION_MANAGE.OVERLAPPED_NAME : MESSAGE.RETRY;
     }

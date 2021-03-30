@@ -1,0 +1,63 @@
+#section-list {
+  margin: 5% 10%;
+  padding-left: 4px;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 0px;
+}
+
+#section-list > .js-station-list-item {
+  position: relative;
+  left: 1em;
+  height: 2em;
+  width: 30em;
+  font: bold 14px arial;
+}
+
+#section-list > .js-station-list-item::before {
+  content: '';
+  position: absolute;
+  top: 0.75em;
+  left: -2em;
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 4px solid #526512;
+  border-radius: 16px;
+  background: linear-gradient(45deg, orange, yellow, skyblue, mintcream);
+  background-size: 400%;
+  animation: gradient 3s ease infinite;
+  cursor: pointer;
+}
+
+#section-list > .js-station-list-item:hover::before {
+  transform: scale(1.2);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+
+#section-list > .js-station-list-item .js-remove-button {
+  display: none;
+  position: absolute;
+  right: 0%;
+  border-radius: 5px;
+  font: 16px Georgia;
+  border: 1px solid red;
+}
+
+#section-list > .js-station-list-item:hover > .js-remove-button {
+  display: block;
+  background-color: red;
+  color: black;
+  font-weight: bold;
+}

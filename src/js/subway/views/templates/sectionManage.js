@@ -30,7 +30,6 @@ export const sectionManage = `
       <select id="main-line-selector">
       </select>
     </form>
-    <hr class="section-hr"/>
     <ul id="section-list" class="mt-3 pl-0">
     </ul>
   </div>
