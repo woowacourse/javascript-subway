@@ -28,7 +28,7 @@ export const isAllElementsHaveClass = ($elements, className) => {
 export const clearForm = $form => {
   $form.reset();
   $form.elements.forEach(element => {
-    if (element.nodeName === 'INPUT' && element.type === 'text') {
+    if (element.tagName === 'INPUT' && element.type === 'text') {
       element.focus();
       return;
     }

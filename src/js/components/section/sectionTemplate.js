@@ -1,4 +1,4 @@
-export const sectionsTemplate = () => {
+export const sectionsTemplate = sections => {
   return `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -10,33 +10,33 @@ export const sectionsTemplate = () => {
         구간 추가
       </button>
     </div>
-    <form class="d-flex items-center pl-1">
-      <select class="bg-blue-400">
-        <option>1호선</option>
-        <option>2호선</option>
-        <option>3호선</option>
-        <option>4호선</option>
+    <form name="select-section" class="d-flex items-center pl-1">
+      <select class="">
+        <option value="" selected disabled hidden>관리할 구간에 해당되는 노선을 선택해주세요</option>
+        ${Object.keys(sections)
+          .map(key => {
+            return `<option value=${key}>${sections[key].name}</option>`;
+          })
+          .join('')}
       </select>
     </form>
-    <ul class="mt-3 pl-0">
-      <li class="d-flex items-center py-2 relative">
-        <span class="w-100 pl-6">인천</span>
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="bg-gray-50 text-gray-500 text-sm"
-        >
-          삭제
-        </button>
-      </li>
-      <hr class="my-0" />
+    <ul id="section-list" class="mt-3 pl-0">
     </ul>
   </div>`;
+};
+
+export const sectionTemplate = ({ id, name }) => {
+  return `
+    <li class="section-item d-flex items-center py-2 relative" data-section-id=${id}>
+    <span class="w-100 pl-6">${name}</span>
+    <button
+      type="button"
+      class="bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  `;
 };
 
 export const modalTemplate = () => {

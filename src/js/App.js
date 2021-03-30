@@ -59,7 +59,7 @@ class App {
       switchURL: this.switchURL.bind(this),
     });
     this.stations = new Station();
-    this.sections = new Section();
+    this.sections = new Section({ switchURL: this.switchURL.bind(this) });
     this.lines = new Line();
   }
 
