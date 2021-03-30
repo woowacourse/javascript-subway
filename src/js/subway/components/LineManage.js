@@ -4,6 +4,7 @@ import { DOM } from '../constants/dom';
 import {
   DOWN_STATION,
   MESSAGE,
+  MIN_STATION_COUNT,
   NAME_LENGTH,
   ROUTE,
   SESSION_KEY,
@@ -76,6 +77,11 @@ export class LineManage {
   }
 
   handleAddButton() {
+    if (this.props.cache.stations.length < MIN_STATION_COUNT) {
+      alert(MESSAGE.LINE_MANAGE.STAION_ADD_REQUIRED);
+
+      return;
+    }
     this.submitType = SUBMIT_TYPE.ADD;
     DOM.LINE.MODAL.MSG.innerText = '';
     show(...DOM.LINE.MODAL.NON_MODIFIABLE);

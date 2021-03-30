@@ -63,6 +63,7 @@ export const MESSAGE = {
     ADDED_STATION: '노선에 등록된 역은 삭제할 수 없습니다.',
   },
   LINE_MANAGE: {
+    STAION_ADD_REQUIRED: '먼저 역을 2개 이상 추가해주세요.',
     INVALID_NAME: '유효한 노선 이름이 아닙니다.',
     OVERLAPPED_NAME: '노선 이름이 중복되었습니다.',
     SAME_STATIONS: '상행역과 하행역은 달라야 합니다.',
@@ -93,5 +94,6 @@ export const SESSION_KEY = {
   ACCESS_TOKEN: 'ATK',
 };
 
+export const MIN_STATION_COUNT = 2;
 export const UP_STATION = '상행역';
 export const DOWN_STATION = '하행역';
