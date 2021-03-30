@@ -33,7 +33,7 @@ export default class SectionManager {
 
   bindEvents() {
     this.$sectionsSelect.addEventListener('change', this.handleLineSelect.bind(this));
-    this.$sectionStationList.addEventListener('click', this.handleItemButtons.bind(this));
+    this.$sectionStationList.addEventListener('click', this.handleDeleteButton.bind(this));
     this.$sectionAddButton.addEventListener('click', () => {
       this.modal.open();
     });
@@ -48,18 +48,13 @@ export default class SectionManager {
     this.$sectionsSelect.classList.remove(prevLineColor);
     this.$sectionsSelect.classList.add(targetLine.color);
     this.$sectionStationList.innerHTML = targetLine.stations.map((station) => station.toListItemTemplate()).join('');
+    this.$sectionStationList.querySelectorAll('[data-action="edit"]').forEach(($editButton) => $editButton.remove());
   }
 
-  async handleItemButtons(event) {
-    if (event.target.type !== 'button') return;
+  async handleDeleteButton(event) {
+    if (event.target.dataset.action !== 'delete') return;
 
-    if (event.target.dataset.action === 'edit') {
-      // TODO: open edit modal
-    }
-
-    if (event.target.dataset.action === 'delete') {
-      await this.deleteSection(event);
-    }
+    await this.deleteSection(event);
   }
 
   async deleteSection(event) {
