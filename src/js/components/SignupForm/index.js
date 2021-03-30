@@ -45,7 +45,7 @@ export default class SignupForm {
     this.$passwordConfirm.addEventListener('input', this.checkPasswordCorrect.bind(this));
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     if (!this.isEmailAvailable) return;
 
@@ -60,17 +60,13 @@ export default class SignupForm {
 
     if (this.state.password !== passwordConfirm) return;
 
-    this.submitForm();
+    await this.submitForm();
   }
 
   async checkEmailAvailable(event) {
     const email = event.target.value;
-    const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    if (!email.match(emailFormat)) {
-      event.target.reportValidity();
-      return;
-    }
+    if (!event.target.reportValidity()) return;
 
     try {
       await checkEmailDuplicatedRequest(email);
@@ -82,6 +78,7 @@ export default class SignupForm {
       console.error(error);
       hide(this.$emailAvailable);
       show(this.$emailDuplicatedWarning);
+      this.isEmailAvailable = false;
     }
   }
 
@@ -90,22 +87,22 @@ export default class SignupForm {
       await signupRequest(this.state);
 
       alert(MESSAGES.SIGNUP_SUCCESS);
-      this.loginAfterSignup();
+      await this.loginAfterSignup();
     } catch (error) {
       console.error(error);
-      show(this.$emailDuplicatedWarning);
     }
   }
 
   async loginAfterSignup() {
     const { email, password } = this.state;
     const response = await loginRequest({ email, password });
-    const userToken = response.accessToken;
+    const accessToken = response.accessToken;
     const path = '/';
+    this.store.userAuth.accessToken = accessToken;
 
     setCookie({
       key: 'token',
-      value: userToken,
+      value: accessToken,
       expireDays: SESSION_EXPIRE_DAYS,
     });
 

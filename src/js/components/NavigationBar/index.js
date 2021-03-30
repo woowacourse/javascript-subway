@@ -35,26 +35,12 @@ export default class NavigationBar {
   setLogButton() {
     const isLoggedIn = this.store.isLoggedIn;
 
-    this.logButton.textContent = isLoggedIn
-      ? BUTTON_NAME.LOGOUT
-      : BUTTON_NAME.LOGIN;
+    this.logButton.textContent = isLoggedIn ? BUTTON_NAME.LOGOUT : BUTTON_NAME.LOGIN;
     this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
 
     if (isLoggedIn) {
       this.logButton.classList.remove('selected');
     }
-  }
-
-  selectButton() {
-    this.navButtons.forEach((button) => {
-      const href = button.closest('a').getAttribute('href');
-
-      if (href === location.pathname) {
-        button.classList.add('selected');
-      } else {
-        button.classList.remove('selected');
-      }
-    });
   }
 
   async handleNavigation(event) {
@@ -71,6 +57,18 @@ export default class NavigationBar {
     routeTo(getAvailablePath(path, this.store.isLoggedIn));
 
     this.selectButton();
+  }
+
+  selectButton() {
+    this.navButtons.forEach((button) => {
+      const href = button.closest('a').getAttribute('href');
+
+      if (href === location.pathname) {
+        button.classList.add('selected');
+      } else {
+        button.classList.remove('selected');
+      }
+    });
   }
 
   logout() {

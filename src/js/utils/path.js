@@ -4,7 +4,7 @@ const getAvailablePath = (path, isLoggedIn) => {
   if (!paths.includes(path)) return '/';
 
   if (isLoggedIn) {
-    if (path === '/login' || path === '/signup') return '/stations';
+    if (path === '/login' || path === '/signup') return '/';
 
     return path;
   } else {

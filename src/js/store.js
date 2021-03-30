@@ -23,10 +23,6 @@ export default class Store {
     return this._state.user;
   }
 
-  set userAuth(accessToken) {
-    return (this._state.user.accessToken = accessToken);
-  }
-
   get stations() {
     const sortedStations = this._state.stations.sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate));
 

@@ -90,17 +90,13 @@ export default class App {
 
   async getPersonalSubwayData() {
     const accessToken = this.store.userAuth.accessToken;
-
     try {
       const stationListResponse = await stationListRequest(accessToken);
-
       const stations = stationListResponse.map((station) => new Station(station));
-
-      this.store.stations = stations;
-
       const lineListResponse = await lineListRequest(accessToken);
       const lines = lineListResponse.map((line) => new Line(line));
 
+      this.store.stations = stations;
       this.store.lines = lines;
     } catch (error) {
       console.error(error);
@@ -109,7 +105,7 @@ export default class App {
   }
 }
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   const app = new App();
-  app.execute();
+  await app.execute();
 });

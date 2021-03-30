@@ -34,8 +34,8 @@ export default class LoginForm {
   }
 
   bindEvents() {
-    this.$signupLink.addEventListener('click', this.goSignupForm.bind(this));
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
+    this.$signupLink.addEventListener('click', this.goSignupForm.bind(this));
   }
 
   async goSignupForm(event) {
@@ -45,7 +45,7 @@ export default class LoginForm {
     routeTo(getAvailablePath(path, this.store.isLoggedIn));
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
 
     const {
@@ -54,7 +54,7 @@ export default class LoginForm {
     } = event.target.elements;
 
     this.state = { email, password };
-    this.submitForm();
+    await this.submitForm();
   }
 
   async submitForm() {
