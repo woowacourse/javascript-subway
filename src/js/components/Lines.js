@@ -1,5 +1,5 @@
 import { $ } from '../utils/dom';
-import { selectedColorTemplate, getStationOptionsTemplate, getLineListTemplate } from '../templates/lines';
+import { getLineListTemplate, getEditLineModalTemplate, getAddLineModalTemplate } from '../templates/lines';
 import { requestAddLine, requestGetLineList } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
 import { validateLineColor } from '../validators/validation';
@@ -8,6 +8,7 @@ class Lines {
   constructor() {
     this.selectedLineColor = '';
     this.lineListTemplate = '';
+    this.lineNameInEdit = '';
     this.userDataManager = new UserDataManager();
   }
 
@@ -26,7 +27,6 @@ class Lines {
     this.$modalLineForm = $('.modal__line-form');
     this.$colorSelector = $('.subway-line-color-selector');
     this.$selectedColor = $('.selected-color');
-    this.$stationOptionWrapper = $('.station-option-wrapper');
   }
 
   bindEvent() {
@@ -36,11 +36,22 @@ class Lines {
     this.$colorSelector.addEventListener('click', (e) => {
       if (!e.target.classList.contains('color-option')) return;
       const colorTemplate = e.target.outerHTML;
-      const color = e.target.classList[1];
+      const lineColor = e.target.classList[1];
 
       this.$selectedColor.querySelector('button').remove();
       this.$selectedColor.insertAdjacentHTML('afterbegin', colorTemplate);
-      this.selectedLineColor = color;
+      this.selectedLineColor = lineColor;
+    });
+
+    this.$lineListWrapper.addEventListener('click', (e) => {
+      if (e.target.classList.contains('line-list-item__edit-button')) {
+        this.handleLineEditButton(e);
+        return;
+      }
+
+      if (e.target.classList.contains('line-list-item__remove-button')) {
+        this.handleLineRemoveButton(e);
+      }
     });
   }
 
@@ -59,9 +70,14 @@ class Lines {
   }
 
   handleCreateLineButton() {
-    this.$selectedColor.innerHTML = selectedColorTemplate();
     this.selectedLineColor = '';
-    this.$stationOptionWrapper.innerHTML = getStationOptionsTemplate(this.userDataManager.stations);
+    this.showLineAddModal();
+  }
+
+  showLineAddModal() {
+    this.$modal.innerHTML = getAddLineModalTemplate(this.userDataManager.stations);
+    this.$colorSelector = this.$modal.querySelector('.subway-line-color-selector');
+    this.$selectedColor = this.$modal.querySelector('.selected-color');
     this.$modal.classList.add('open');
   }
 
@@ -69,8 +85,8 @@ class Lines {
     e.preventDefault();
 
     const lineName = e.target['subway-line-name'].value;
-    const upStationId = this.userDataManager.getStationId(e.target['up-station'].value);
-    const downStationId = this.userDataManager.getStationId(e.target['down-station'].value);
+    const upStationId = this.userDataManager.getTargetStationId(e.target['up-station'].value);
+    const downStationId = this.userDataManager.getTargetStationId(e.target['down-station'].value);
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
@@ -78,7 +94,7 @@ class Lines {
       validateLineColor(this.selectedLineColor, this.userDataManager.getLineColors());
       const lineData = await requestAddLine({
         name: lineName,
-        color: this.selectedLineColor,
+        lineColor: this.selectedLineColor,
         upStationId,
         downStationId,
         distance,
@@ -93,9 +109,32 @@ class Lines {
     }
   }
 
+  clearModalInput() {
+    this.$modal.querySelectorAll('input').forEach((input) => (input.value = ''));
+  }
+
+  handleLineEditButton(e) {
+    const { lineName } = e.target.closest('.line-list-item').dataset;
+    const editTargetLineData = this.userDataManager.getEditTargetLineData(lineName);
+    this.lineNameInEdit = lineName;
+
+    // 노선 추가 타이틀을 '00호선 수정'으로 변경
+
+    // 노선 이름, 상행역, 하행역, 거리, 시간, 색상 모두 입력되어 있어야 함
+    // 상행역, 하행역, 거리, 시간은 수정 불가하도록 disabled로 attr 수정
+    this.showLineEditModal(editTargetLineData);
+  }
+
+  showLineEditModal(lineData) {
+    this.$modal.innerHTML = getEditLineModalTemplate(lineData);
+    this.$modal.classList.add('open');
+  }
+
+  handleLineRemoveButton(e) {}
+
   cacheLineListTemplate() {
     this.lineListTemplate = this.userDataManager.lines
-      .map((line) => getLineListTemplate({ lineName: line.name, color: line.color }))
+      .map((line) => getLineListTemplate({ lineName: line.name, lineColor: line.color }))
       .join('');
   }
 
@@ -106,7 +145,7 @@ class Lines {
   renderAddedLine(lineName) {
     this.$lineListWrapper.insertAdjacentHTML(
       'beforeend',
-      getLineListTemplate({ lineName, color: this.selectedLineColor }),
+      getLineListTemplate({ lineName, lineColor: this.selectedLineColor }),
     );
   }
 }
