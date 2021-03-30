@@ -34,7 +34,7 @@ const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SUBWAY_SECTION_FORM
 const search = new Search(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const subway = new Subway(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 
 // 라우팅 등록

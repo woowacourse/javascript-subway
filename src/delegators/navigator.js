@@ -10,13 +10,14 @@ function delegateNavigatorClickEvent(event) {
     onLogOut();
     return;
   }
-  if (target.id === SELECTOR_ID.SIGN_UP_BUTTON || target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) {
+
+  if (target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) {
     event.preventDefault();
     onPageMove(target);
   }
 }
 
-function onPageMove(target) {
+export function onPageMove(target) {
   const path = target.getAttribute('href');
   if (!isAuthenticationPath(path) && !state.get(STATE_KEY.IS_LOGGED_IN)) {
     history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
