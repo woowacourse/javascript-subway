@@ -56,10 +56,7 @@ export default class SectionModal {
   }
 
   checkValidStation() {
-    this.state.upStationId = this.$upStationSelect.value;
-    this.state.downStationId = this.$downStationSelect.value;
-
-    if (this.state.upStationId === this.state.downStationId) {
+    if (this.$upStationSelect.value === this.$downStationSelect.value) {
       show(this.$sameStationWarning);
       return;
     }

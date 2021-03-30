@@ -46,6 +46,11 @@ export default class LineModal {
     this.$root.addEventListener('mousedown', this.handleClickOutsideModal.bind(this));
   }
 
+  bindCreationEvents() {
+    this.$lineUpStationSelect.addEventListener('change', this.checkValidStation.bind(this));
+    this.$lineDownStationSelect.addEventListener('change', this.checkValidStation.bind(this));
+  }
+
   open(lineID) {
     this.$root.classList.add('open');
     this.type = lineID ? 'edit' : 'create';
@@ -64,7 +69,9 @@ export default class LineModal {
       this.$lineUpStationSelect = $(SELECTOR.LINE_UP_STATION_SELECT);
       this.$lineDownStationSelect = $(SELECTOR.LINE_DOWN_STATION_SELECT);
       this.$lineUpdownInput = $(SELECTOR.LINE_UP_DOWN_STATION_INPUT);
+      this.$sameStationWarning = $(SELECTOR.SAME_STATION_WARNING);
 
+      this.bindCreationEvents();
       this.setModalStationOptions();
     } else {
       this.$updownInputContainer.innerHTML = '';
@@ -134,6 +141,15 @@ export default class LineModal {
     }
     this.isLineNameAvailable = true;
     hide(this.$lineDuplicatedWarning);
+  }
+
+  checkValidStation() {
+    if (this.$lineUpStationSelect.value === this.$lineDownStationSelect.value) {
+      show(this.$sameStationWarning);
+      return;
+    }
+
+    hide(this.$sameStationWarning);
   }
 
   subwayLineColorOptionTemplate(color, index) {
