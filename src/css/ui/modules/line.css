@@ -52,12 +52,11 @@
   right: 0%;
   border-radius: 5px;
   font: 16px Georgia;
-  border: 1px solid red;
+  background-color: #eee;
 }
 
 #section-list > .js-station-list-item:hover > .js-remove-button {
   display: block;
-  background-color: red;
   color: black;
   font-weight: bold;
 }

@@ -3,7 +3,7 @@ export const root = `
         <div class="d-flex justify-center">
             <img src="subway_emoji.png" width="200" />
         </div>
-        <p id="root-message-box" class="mt-0 text-center">
+        <p id="root-message-box" class="mt-0 text-center text-white text-xl">
         </p>
     </div>
 `;

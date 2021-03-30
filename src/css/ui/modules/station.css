@@ -1,0 +1,4 @@
+#station-list > .js-station-list-item > button:hover {
+  background-color: #eee;
+  transform: scale(1.2);
+}

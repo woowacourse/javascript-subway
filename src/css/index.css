@@ -10,6 +10,8 @@ body {
   font-weight: normal;
   line-height: 1.5;
   background-color: #f1f5f9;
+  background: url('https://media1.giphy.com/media/5SzCNbcYNPSWngBJlx/giphy.gif');
+  background-size: cover;
 }
 
 #app {
