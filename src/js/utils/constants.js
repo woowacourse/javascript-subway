@@ -39,7 +39,6 @@ export const PATH = Object.freeze({
   LINES: '/lines',
   SECTIONS: '/sections',
   MAP: '/map',
-  SEARCH: '/search',
   SIGNIN: '/signin',
   SIGNUP: '/signup',
   SIGNOUT: '/signout',

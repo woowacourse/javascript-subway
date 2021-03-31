@@ -6,7 +6,7 @@ const getSectionListItemTemplate = (stationName) => `
   <li class="section-list-item">
     <div class="d-flex items-center py-2">
       <span class="w-100 pl-6">${stationName}</span>
-      <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
+      <button type="button" class="section-list-item__remove-button bg-gray-50 text-gray-500 text-sm" data-station-name="${stationName}">삭제</button>
     </div>
     <hr class="my-0" />
   </li>
@@ -40,9 +40,9 @@ export const getSectionsTemplate = () => `
       <h2 class="mt-1 w-100">🔁 구간 관리</h2>
       <button type="button" class="create-section-button modal-trigger-btn bg-cyan-300 ml-2">등록</button>
     </div>
-    <form class="line-options-wrapper d-flex items-center pl-1">
+    <form class="d-flex items-center pl-1">
     <label for="subway-line" class="input-label" hidden>노선</label>
-      <select id="subway-line" class="bg-gray-50 line-options"></select>
+      <select id="subway-line" class="bg-gray-50 line-options-wrapper"></select>
     </form>
     <ul class="list-wrapper mt-3 pl-0"></ul>
   </div>

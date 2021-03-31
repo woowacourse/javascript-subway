@@ -2,7 +2,7 @@ import UserDataManager from '../model/UserDataManager';
 import { $ } from '../utils/dom';
 import { getLineOptionsTemplate, getTargetSectionListTemplate, getStationOptionsTemplate } from '../templates/sections';
 import { openModal, closeModal } from '../utils/modal';
-import { requestAddSection, requestGetTargetLineList } from '../requestData/requestUserData';
+import { requestAddSection, requestGetTargetLineList, requestRemoveSection } from '../requestData/requestUserData';
 
 class Sections {
   constructor() {
@@ -18,7 +18,7 @@ class Sections {
 
   selectDOM() {
     this.$listWrapper = $('.list-wrapper');
-    this.$lineOptions = $('.line-options');
+    this.lineOptionsWrapper = $('.line-options-wrapper');
     this.$createSectionButton = $('.create-section-button');
     this.$modal = $('.modal');
     this.$modalStationOptionsWrapper = $('.modal__station-options-wrapper');
@@ -27,7 +27,7 @@ class Sections {
   }
 
   bindEvent() {
-    this.$lineOptions.addEventListener('change', (e) => {
+    this.lineOptionsWrapper.addEventListener('change', (e) => {
       const selectedLineName = e.target.value;
       this.renderLineColor(this.userDataManager.getTargetLineColor(selectedLineName));
       this.renderStationListInTargetLine(selectedLineName);
@@ -35,12 +35,18 @@ class Sections {
 
     this.$createSectionButton.addEventListener('click', this.handleCreateSectionButton.bind(this));
     this.$modalSectionForm.addEventListener('submit', this.handleCreateSectionForm.bind(this));
+
+    this.$listWrapper.addEventListener('click', (e) => {
+      if (e.target.classList.contains('section-list-item__remove-button')) {
+        this.handleRemoveSection(e);
+      }
+    });
   }
 
   renderLineOptionsTemplate() {
     const lineData = this.userDataManager.lines;
     this.renderLineColor(lineData[0].color);
-    this.$lineOptions.innerHTML = getLineOptionsTemplate(lineData);
+    this.lineOptionsWrapper.innerHTML = getLineOptionsTemplate(lineData);
   }
 
   renderStationListInTargetLine(selectedLineName) {
@@ -49,8 +55,8 @@ class Sections {
   }
 
   renderLineColor(newColor) {
-    const [oldColor] = this.$lineOptions.classList;
-    this.$lineOptions.classList.replace(oldColor, newColor);
+    const [oldColor] = this.lineOptionsWrapper.classList;
+    this.lineOptionsWrapper.classList.replace(oldColor, newColor);
   }
 
   handleCreateSectionButton() {
@@ -69,10 +75,34 @@ class Sections {
 
     try {
       await requestAddSection({ id: lineId, upStationId, downStationId, distance, duration });
-      const updatedTargetLine = await requestGetTargetLineList({ id: lineId });
-      this.userDataManager.updateTargetLineData(updatedTargetLine);
-      this.renderStationListInTargetLine(lineName);
+      await this.updateTargetLineData({ lineId, lineName });
       closeModal(this.$modal);
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async handleRemoveSection(e) {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+    const lineName = this.lineOptionsWrapper.value;
+    const lineId = this.userDataManager.getTargetLineId(lineName);
+    const removeTargetStation = e.target.dataset.stationName;
+    const removeTargetStationId = this.userDataManager.getTargetStationId(removeTargetStation);
+
+    try {
+      await requestRemoveSection({ lineId, stationId: removeTargetStationId });
+      await this.updateTargetLineData({ lineId, lineName });
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async updateTargetLineData({ lineId, lineName }) {
+    try {
+      const targetLineList = await requestGetTargetLineList({ id: lineId });
+      this.userDataManager.updateTargetLineData(targetLineList);
+      this.renderStationListInTargetLine(lineName);
     } catch (error) {
       alert(error.message);
     }

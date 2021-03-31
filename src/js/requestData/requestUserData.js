@@ -175,3 +175,18 @@ export const requestAddSection = async ({ id, upStationId, downStationId, distan
     throw new Error(error);
   }
 };
+
+export const requestRemoveSection = async ({ lineId, stationId }) => {
+  try {
+    const response = await httpClient.delete({
+      path: `/lines/${lineId}/sections?stationId=${stationId}`,
+      accessToken: token.accessToken,
+    });
+
+    if (!response.ok) {
+      throw await response.text();
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
