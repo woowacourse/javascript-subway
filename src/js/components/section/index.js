@@ -53,7 +53,6 @@ class Section extends Component {
     });
 
     $('.js-section-list').addEventListener('click', async ({ target }) => {
-      console.log(target, '?????');
       if (!target.classList.contains('js-section-item__delete')) return;
       if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 

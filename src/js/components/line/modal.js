@@ -39,9 +39,14 @@ class Modal extends ModalComponent {
       switch (this.submitType) {
         case 'post':
           this.createLine(e.target, name, lineColor, accessToken);
+          break;
 
         case 'put':
           this.editLine(name, lineColor, accessToken);
+          break;
+
+        default:
+          break;
       }
     });
   }
