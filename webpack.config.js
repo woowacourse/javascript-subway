@@ -38,6 +38,7 @@ module.exports = {
     inline: true,
     port: 5500,
     open: true,
+    historyApiFallback: true,
   },
 
   plugins: [

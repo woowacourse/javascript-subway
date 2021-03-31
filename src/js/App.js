@@ -19,11 +19,11 @@ class App {
     this.#isLoggedIn = false;
   }
 
-  init() {
+  init(path) {
     this._initRouter();
     this._mountComponent();
     this._registerRouterComponent();
-    this.switchURL(PATH.HOME);
+    this.switchURL(path);
   }
 
   async _isValidUserAccessToken() {
