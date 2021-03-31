@@ -36,12 +36,12 @@ function onClickCheckButton($checkButton) {
 }
 
 function onClickRemoveButton($removeButton) {
-  const $editForm = $removeButton.closest('.edit-form');
   // eslint-disable-next-line no-alert
   if (!window.confirm(STATIONS_MESSAGES.ARE_YOU_SURE_TO_REMOVE)) {
     return;
   }
 
+  const $editForm = $removeButton.closest('.edit-form');
   requestRemoveStation($editForm);
 }
 
