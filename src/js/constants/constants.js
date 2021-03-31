@@ -6,6 +6,9 @@ export const SELECTOR = {
   NAVIGATION: '#navigation',
   NAV_BUTTON: '.nav-btn',
   NAV_LOG_BUTTON: '#login-nav-button',
+  USER_GREET_MESSAGE: '#user-greet-message',
+  USER_GREET_NAME: '#user-name',
+
   CONTENT: '#content',
   MODAL: '.modal',
   MODAL_CLOSE: '.modal-close',

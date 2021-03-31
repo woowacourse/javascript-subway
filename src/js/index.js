@@ -5,7 +5,7 @@ import { userInfoRequest, stationListRequest, lineListRequest } from './request.
 import { getCookie } from './utils/cookie.js';
 import getAvailablePath from './utils/path.js';
 import popSnackbar from './utils/snackbar.js';
-import { MESSAGES } from './constants/constants.js';
+import { SELECTOR, MESSAGES } from './constants/constants.js';
 import {
   NavigationBar,
   EntryPage,
@@ -17,6 +17,7 @@ import {
 } from './components';
 import Station from './models/Station.js';
 import Line from './models/Line.js';
+import { $, show, hide } from './utils/dom.js';
 
 export default class App {
   constructor() {
@@ -64,7 +65,11 @@ export default class App {
   async update() {
     if (this.store.isLoggedIn) {
       await this.getPersonalSubwayData();
+      show($(SELECTOR.USER_GREET_MESSAGE));
+      $(SELECTOR.USER_GREET_NAME).textContent = this.store.userAuth.name;
+      return;
     }
+    hide($(SELECTOR.USER_GREET_MESSAGE));
   }
 
   async checkIsLoggedIn() {

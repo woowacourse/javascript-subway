@@ -27,6 +27,11 @@ main .wrapper {
   border-radius: 4px;
 }
 
+#user-greet-message {
+  top: 1rem;
+  right: 1rem;
+}
+
 hr {
   border: 0;
   height: 1px;
