@@ -7,6 +7,7 @@ const PATH = {
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
   STATIONS: (id = "") => `/stations/${id}`,
   LINES: (id = "") => `/lines/${id}`,
+  SECTIONS: (id = "") => `/lines/${id}/sections`,
 };
 
 const STATUS = {
@@ -20,6 +21,9 @@ const STATUS = {
   },
   LINES: {
     DUPLICATED: 400,
+  },
+  SECTIONS: {
+    INVALID: 400,
   },
 };
 
@@ -476,6 +480,43 @@ export const deleteLineAPI = async (lineId, accessToken) => {
     };
   } catch (e) {
     console.error(e);
+
+    return {
+      isSucceeded: false,
+      message: ERROR_MESSAGE.API_CALL_FAILURE,
+    };
+  }
+};
+
+export const addSectionAPI = async (lineId, sectionData, accessToken) => {
+  try {
+    const response = await request.post({
+      path: PATH.SECTIONS(lineId),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: sectionData,
+    });
+
+    if (response.ok) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.ADD_SECTION,
+      };
+    }
+
+    if (response.status === STATUS.SECTIONS.INVALID) {
+      const message = await response.text();
+
+      return {
+        isSucceeded: false,
+        message,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+  } catch (e) {
+    console.log(e);
 
     return {
       isSucceeded: false,

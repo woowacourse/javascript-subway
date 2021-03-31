@@ -12,7 +12,7 @@ export const subwayLineColorOptionTemplate = (color, index) => {
 export const createStationSelectOption = (station) =>
   `<option value="${station.id}">${station.name}</option>`;
 
-export const createStationListItem = (station) => {
+export const createStationListItem = (station, displayModifyBtn = true) => {
   return `
       <li
         data-station-id="${station.id}"
@@ -20,12 +20,16 @@ export const createStationListItem = (station) => {
         class="station-list-item d-flex items-center"
         >
         <span class="js-station-name w-100">${station.name}</span>
-        <button
-          type="button"
-          class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
+        ${
+          displayModifyBtn === true
+            ? `<button
+                type="button"
+                class="js-modify-btn bg-gray-50 text-gray-500 text-sm mr-1"
+              >
+                수정
+              </button>`
+            : ""
+        }
         <button
           type="button"
           class="js-delete-btn bg-gray-50 text-gray-500 text-sm"
