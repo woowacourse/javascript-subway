@@ -68,3 +68,7 @@ ul li a button:hover {
 ul li {
   list-style-type: none;
 }
+
+.disable-scroll {
+  overflow: hidden;
+}

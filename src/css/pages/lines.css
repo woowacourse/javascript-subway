@@ -41,3 +41,7 @@
   background-color: transparent;
   color: #fff;
 }
+
+#lines-modal .modal-inner {
+  height: 90%;
+}

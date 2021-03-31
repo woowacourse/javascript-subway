@@ -25,6 +25,8 @@
   background: #fff;
   border-radius: 5px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modal-close {
@@ -50,10 +52,10 @@ svg {
   stroke-width: 5;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 1200px) {
   .modal-inner {
-    width: 90%;
     height: 90%;
+    width: 90%;
     box-sizing: border-box;
   }
-}
+} */
