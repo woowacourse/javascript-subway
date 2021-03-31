@@ -25,10 +25,6 @@ describe('역 관리 기능테스트', () => {
       url: `${API_ENDPOINT.STATIONS}`,
     }).as('readStation');
 
-    cy.window().then((window) => {
-      cy.stub(window, 'confirm').returns(true).as('window:confirm');
-    });
-
     cy.visit('/');
     cy.get(`a[href*="${PATHNAMES.LOGIN}"]`).click();
     cy.get('#email').type(oldUser.email);
@@ -74,21 +70,35 @@ describe('역 관리 기능테스트', () => {
     cy.get('#add-station-name').type(stationName);
     cy.get('.submit-button').click();
     cy.get('.edit-button').first().click();
-    cy.get('.edit-station-name').first().type(newStationName);
+
+    cy.get('.edit-station-name').first().clear({ force: true }).type(newStationName);
     cy.get('.check-button').first().click();
 
     cy.get('#snackbar-container').should('contain', STATIONS_MESSAGES.STATION_HAS_BEEN_UPDATED);
-    cy.get('.station-list-item').should('not.contain', stationName);
-    cy.get('.station-list-item').should('contain', newStationName);
+
+    cy.get('.station-list-item input[type="text"]')
+      .first()
+      .then(($el) => {
+        const [$newStation] = $el;
+
+        expect($newStation.value).to.be.equal(newStationName);
+      });
   });
 
   it('역의 편집버튼을 클릭 후 삭제버튼을 클릭하면 confirm창이 뜨고, 확인을 누르면 역 이름이 삭제된다.', () => {
+    const stub = cy.stub();
+    cy.on('window:confirm', stub);
+
     cy.get('#add-station-name').type(stationName);
     cy.get('.submit-button').click();
-    cy.get('.edit-button').click();
-    cy.get('.remove-button').click();
+    cy.get('.edit-button').first().click();
+    cy.get('.remove-button')
+      .first()
+      .click({ force: true })
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith(STATIONS_MESSAGES.ARE_YOU_SURE_TO_REMOVE);
+      });
 
-    cy.get('@window:confirm').should('be.calledWith', STATIONS_MESSAGES.ARE_YOU_SURE_TO_REMOVE);
     cy.get('#snackbar-container').should('contain', STATIONS_MESSAGES.STATION_HAS_BEEN_REMOVED);
     cy.get('.station-list-item').should('not.contain', stationName);
   });
