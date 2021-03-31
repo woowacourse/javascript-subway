@@ -82,10 +82,12 @@ const ALERT_MESSAGE = {
   // LINE
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
   LINE_REVISION_SUCCESS: '노선을 수정했습니다.',
+  LINE_REMOVAL_SUCCESS: '해당 노선을 삭제했습니다.',
 };
 
 const CONFIRM_MESSAGE = {
   STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
+  LINE_REMOVAL: '해당 노선을 삭제하시겠습니까?',
 };
 
 // TODO: creation, revision을 modalType으로 분리하기
