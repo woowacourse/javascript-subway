@@ -8,17 +8,17 @@ export const selectedColorTemplate = () => `
   `;
 
 export const getStationOptionsTemplate = (stationData) => {
-  const stationOptionTemplate = stationData?.map((station) => `<option>${station.name}</option>`).join('');
+  const stationOptionsTemplate = stationData.map((station) => `<option>${station.name}</option>`).join('');
   return `
     <label for="up-station" class="input-label" hidden>상행역</label>
-    <select id="up-station" class="up-station=-s=elector mr-2" required>
+    <select id="up-station" class="up-station-selector mr-2" required>
       <option value="" selected disabled hidden>상행역</option>
-      ${stationOptionTemplate}
+      ${stationOptionsTemplate}
     </select>
     <label for="down-station" class="input-label" hidden>하행역</label>
     <select id="down-station" class="down-station-selector" required>
       <option value="" selected disabled hidden>하행역</option>
-      ${stationOptionTemplate}
+      ${stationOptionsTemplate}
     </select>
   `;
 };
@@ -28,7 +28,7 @@ const lineColorOptionTemplate = (color, index) => {
   return `<button type="button" class="bg-${color} color-option"></button> ${hasNewLine ? '<br/>' : ''}`;
 };
 
-export const getAddLineModalTemplate = (stationData) => {
+export const getLineAddModalTemplate = (stationData) => {
   return `
   <div class="modal-inner add-modal line p-8">
     <button class="modal-close">
@@ -95,7 +95,7 @@ export const getAddLineModalTemplate = (stationData) => {
   `;
 };
 
-export const getEditLineModalTemplate = (lineData) => `
+export const getLineEditModalTemplate = (lineData) => `
   <div class="modal-inner edit-modal line p-8">
     <button class="modal-close">
       <svg viewbox="0 0 40 40">
@@ -181,7 +181,7 @@ export const getLinesTemplate = () => `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
-        <button type="button" class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2">등록</button>
+        <button type="button" class="create-line-button modal-trigger-btn bg-cyan-300 ml-2">등록</button>
     </div>
     <ul class="line-list-wrapper mt-3 pl-0"></ul>
   </div>

@@ -1,3 +1,5 @@
+import { sum } from '../utils/calculate';
+
 export default class UserDataManager {
   static instance;
 
@@ -6,7 +8,6 @@ export default class UserDataManager {
 
     this.stations = [];
     this.lines = [];
-    this.sections = [];
 
     UserDataManager.instance = this;
   }
@@ -53,18 +54,25 @@ export default class UserDataManager {
     return this.lines.find((line) => line.name === lineName).id;
   }
 
-  getEditTargetLineData(lineName) {
+  getTargetLineDataForEdit(lineName) {
     const targetLineData = this.lines.find((line) => line.name === lineName);
-    const [targetSectionData] = targetLineData.sections;
+    const upStationName = targetLineData.stations[0].name;
+    const downStationName = targetLineData.stations[targetLineData.stations.length - 1].name;
+    const distanceArray = targetLineData.sections.map((section) => section.distance);
+    const durationArray = targetLineData.sections.map((section) => section.duration);
 
     return {
       lineName: targetLineData.name,
       lineColor: targetLineData.color,
-      distance: targetSectionData.distance,
-      duration: targetSectionData.duration,
-      downStationName: targetSectionData.downStation.name,
-      upStationName: targetSectionData.upStation.name,
+      distance: sum(distanceArray),
+      duration: sum(durationArray),
+      downStationName,
+      upStationName,
     };
+  }
+
+  getStationNamesInTargetLine(lineName) {
+    return this.lines.find((line) => line.name === lineName).stations.map((station) => station.name);
   }
 
   editLineData({ oldLineName, newLineName, newColor }) {
@@ -75,5 +83,10 @@ export default class UserDataManager {
 
   removeLine(lineName) {
     this.lines = this.lines.filter((line) => line.name !== lineName);
+  }
+
+  updateTargetLineData(targetLineData) {
+    const targetLineIndex = this.lines.findIndex((line) => line.name === targetLineData.name);
+    this.lines.splice(targetLineIndex, 1, targetLineData);
   }
 }

@@ -28,7 +28,6 @@ class Router {
       [PATH.STATIONS]: () => getStationsTemplate(),
       [PATH.LINES]: () => getLinesTemplate(),
       [PATH.SECTIONS]: () => getSectionsTemplate(),
-      [PATH.SECTIONS]: () => getSectionsTemplate(),
       [PATH.SIGNIN]: () => getSignInTemplate(),
       [PATH.SIGNUP]: () => getSignUpTemplate(),
     };
