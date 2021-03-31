@@ -1,6 +1,4 @@
-import user from '../../../models/user.js';
-
-async function sectionsTemplate() {
+function sectionsTemplate(allLines = {}) {
   return `
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -17,7 +15,7 @@ async function sectionsTemplate() {
     <label for="line-name" class="input-label" hidden>노선 이름</label>
       <select id="line-name">
       <option value="" selected disabled hidden>노선 선택</option>
-        ${Object.values(await user.lineManager.getAllLines())
+        ${Object.values(allLines)
           .map(
             line =>
               `<option value=${line.id} data-line-color="${line.color}" class="bg-white">${line.name}</option>`
@@ -31,7 +29,7 @@ async function sectionsTemplate() {
   <div id="sections-modal" class="modal"></div>`;
 }
 
-async function sectionsModalTemplate() {
+function sectionsModalTemplate(allLines = {}, allStations = {}) {
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">
@@ -49,7 +47,7 @@ async function sectionsModalTemplate() {
           >
           <select id="line-for-section">
           <option value="" selected disabled hidden>노선 선택</option>
-          ${Object.values(await user.lineManager.getAllLines())
+          ${Object.values(allLines)
             .map(line => `<option value=${line.id}>${line.name}</option>`)
             .join('')}
           </select>
@@ -58,7 +56,7 @@ async function sectionsModalTemplate() {
           <label for="up-station" class="input-label" hidden>상행역</label>
           <select id="up-station">
             <option value="" selected disabled hidden>상행역</option>
-            ${Object.values(await user.stationManager.getAllStations())
+            ${Object.values(allStations)
               .map(
                 station =>
                   `<option value=${station.id}>${station.name}</option>`
@@ -71,7 +69,7 @@ async function sectionsModalTemplate() {
           >
           <select id="down-station">
             <option value="" selected disabled hidden>하행역</option>
-            ${Object.values(await user.stationManager.getAllStations())
+            ${Object.values(allStations)
               .map(
                 station =>
                   `<option value=${station.id}>${station.name}</option>`

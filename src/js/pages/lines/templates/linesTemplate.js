@@ -17,7 +17,7 @@ const linesTemplate = `
     
     <div id="lines-modal" class="modal"></div>`;
 
-async function linesModalTemplate() {
+function linesModalTemplate(allStations = {}) {
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">
@@ -49,7 +49,7 @@ async function linesModalTemplate() {
           <label for="up-station" class="input-label" hidden>상행역</label>
           <select id="up-station" class="mr-2">
             <option value="" selected disabled hidden>상행역</option>
-              ${Object.values(await user.stationManager.getAllStations())
+              ${Object.values(allStations)
                 .map(
                   station =>
                     `<option value=${station.id}>${station.name}</option>`
@@ -60,7 +60,7 @@ async function linesModalTemplate() {
           <label for="down-station" class="input-label" hidden>하행역</label>
           <select id="down-station">
             <option value="" selected disabled hidden>하행역</option>
-            ${Object.values(await user.stationManager.getAllStations())
+            ${Object.values(allStations)
               .map(
                 station =>
                   `<option value=${station.id}>${station.name}</option>`

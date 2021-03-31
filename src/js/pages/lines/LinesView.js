@@ -39,7 +39,9 @@ class LinesView {
   }
 
   async renderModal() {
-    $('#lines-modal').innerHTML = await linesModalTemplate();
+    const { allStations } = await user.stationManager.getAllStations();
+
+    $('#lines-modal').innerHTML = linesModalTemplate(allStations);
     this.renderLineColorSelector();
   }
 
