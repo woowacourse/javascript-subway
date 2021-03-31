@@ -26,12 +26,12 @@ export class LineManage extends Component {
     store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
   }
 
-  async updateStations(stations) {
+  updateStations(stations) {
     subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, stations);
     subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, stations);
   }
 
-  async updateLines(lines) {
+  updateLines(lines) {
     subwayView.renderLineList(lines);
   }
 

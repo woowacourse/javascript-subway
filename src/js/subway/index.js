@@ -1,6 +1,6 @@
 import { store } from '../subway/models/store';
 import { DOM, STATE_KEY } from './constants';
-import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
+import { StationManage, LineManage, UserAuth, UserJoin, SectionManage, MapDisplay } from './components';
 import { hideModal } from './utils';
 import { subwayView } from './views';
 import { Component } from '../@shared/models/Component';
@@ -19,6 +19,7 @@ export class Subway extends Component {
     new StationManage();
     new LineManage();
     new SectionManage();
+    new MapDisplay();
   }
 
   bindEvent() {

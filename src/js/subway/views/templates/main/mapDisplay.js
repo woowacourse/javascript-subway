@@ -5,7 +5,7 @@ export const lineButton = ({ id, name, color }) => `
   data-id=${id}
   data-name=${name}
   data-color=${color}
-  class="js-line-list-item d-flex items-center"
+  class="js-line-list-item d-flex items-center my-5"
 >
   <button
     type="button"

@@ -6,6 +6,7 @@ import { menuButtons } from './templates/ui/menuButtons';
 import { stationList } from './templates/main/stationManage';
 import { lineList } from './templates/main/lineManage';
 import { sectionList } from './templates/main/sectionManage';
+import { lineButtonList } from './templates/main/mapDisplay';
 
 export const subwayView = {
   renderRoot: signedUserName => {
@@ -63,12 +64,18 @@ export const subwayView = {
 
   fillLineColorBar: color => {
     const dot = DOM.SECTION.MAIN.LINE_COLOR_BAR;
+
     dot.classList.remove('hidden');
+
     if (dot.dataset.color) {
       dot.classList.remove(dot.dataset.color);
     }
 
     dot.dataset.color = color;
     dot.classList.add(color);
+  },
+
+  renderLineButtonList: (lines = []) => {
+    DOM.MAP.MAIN.LIST.innerHTML = lineButtonList(lines);
   },
 };

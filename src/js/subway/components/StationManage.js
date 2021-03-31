@@ -10,7 +10,7 @@ export class StationManage extends Component {
     store[STATE_KEY.STATIONS].subscribe(this.updateStations.bind(this));
   }
 
-  async updateStations(stations) {
+  updateStations(stations) {
     subwayView.renderStationList(stations);
   }
 

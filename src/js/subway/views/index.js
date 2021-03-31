@@ -11,6 +11,7 @@ import { mapDisplay } from './templates/main/mapDisplay';
 export { stationInfo, stationList } from './templates/main/stationManage';
 export { lineInfo, lineList } from './templates/main/lineManage';
 export { sectionInfo, sectionList } from './templates/main/sectionManage';
+export { lineButton, lineButtonList } from './templates/main/mapDisplay';
 
 import { stationModify } from './templates/modal/stationModify';
 import { lineAddModify } from './templates/modal/lineAddModify';

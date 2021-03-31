@@ -89,4 +89,9 @@ export const DOM = {
       NON_MODIFIABLE: $('.js-non-modifiable', modalElements[ROUTE.SECTIONS]),
     },
   },
+  MAP: {
+    MAIN: {
+      LIST: $('#line-button-list', mainElements[ROUTE.MAP]),
+    },
+  },
 };
