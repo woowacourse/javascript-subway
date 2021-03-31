@@ -187,6 +187,21 @@ const fetchLineRevision = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
+const fetchLineRemoval = async (url, accessToken) => {
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 //TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
@@ -199,4 +214,5 @@ export {
   fetchLineCreation,
   fetchLineRead,
   fetchLineRevision,
+  fetchLineRemoval,
 };
