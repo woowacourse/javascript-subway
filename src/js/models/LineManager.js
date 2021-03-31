@@ -82,7 +82,7 @@ class LineManager {
       delete this.lines[lineId];
     }
 
-    return response.ok;
+    return response;
   }
 
   getLine(lineId) {
@@ -112,7 +112,7 @@ class LineManager {
       this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
     }
 
-    return response.ok;
+    return response;
   }
 
   async deleteSection(lineId, stationId) {
@@ -124,7 +124,7 @@ class LineManager {
       );
     }
 
-    return response.ok;
+    return response;
   }
 
   getSectionsLength(lineId) {

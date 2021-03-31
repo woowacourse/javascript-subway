@@ -1,5 +1,7 @@
 import user from '../../models/user.js';
 import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
+import router from '../../router.js';
+import { PATH } from '../../constants/path.js';
 
 async function addStationHandler(e) {
   try {
@@ -17,6 +19,10 @@ async function addStationHandler(e) {
     switch (response.status) {
       case 400:
         alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
+        break;
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
@@ -44,6 +50,10 @@ async function saveModifyStationHandler(stationId, newStationName) {
       case 400:
         alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
         break;
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
+        break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
     }
@@ -64,6 +74,10 @@ async function deleteStationHandler(targetStationId) {
     switch (response.status) {
       case 400:
         alert(ALERT_MESSAGE.ERROR.INCLUDED_STATION);
+        break;
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);

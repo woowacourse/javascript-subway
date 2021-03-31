@@ -14,6 +14,7 @@ const MESSAGE = {
 const ALERT_MESSAGE = {
   ERROR: {
     NOT_CHECKED_EMAIL: '이메일 중복 체크를 해주세요',
+    INVALID_USER: '로그인이 만료되었습니다.',
     FAIL_TO_ADD_STATION: '지하철 역 추가에 실패했습니다.',
     FAIL_TO_MODIFY_STATION: '지하철 역 수정에 실패했습니다.',
     FAIL_TO_DELETE_STATION: '지하철 역 삭제에 실패했습니다.',

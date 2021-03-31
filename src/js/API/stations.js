@@ -14,13 +14,16 @@ async function fetchAllStations() {
 
   try {
     const response = await fetch(`${BASE_URL}/stations`, requestData);
+
     if (!response.ok) {
       throw response;
     }
 
-    return await response.json();
+    return response;
   } catch (response) {
     console.error(await response.text());
+
+    return response;
   }
 }
 

@@ -15,13 +15,22 @@ class StationManager {
   }
 
   async getAllStations() {
-    const allStations = (await fetchAllStations()) ?? [];
+    const response = await fetchAllStations();
 
-    allStations.forEach(
-      station => (this.stations[station.id] = this.createStationData(station))
-    );
+    if (response.ok) {
+      try {
+        const allStations = await response.json();
+        allStations.forEach(station => {
+          this.stations[station.id] = this.createStationData(station);
+        });
 
-    return this.stations;
+        return { allStations: this.stations, response };
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return { response };
   }
 
   async addStation(stationName) {

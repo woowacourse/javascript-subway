@@ -7,20 +7,49 @@ import {
   deleteStationHandler,
 } from './StationHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
-import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { ALERT_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
+import router from '../../router.js';
 
 class StationsController {
-  constructor(router) {
+  constructor() {
     this.stationManager = user.stationManager;
     this.stationsView = new StationsView();
-    this.router = router;
   }
 
   async init() {
-    await this.stationsView.init();
+    const allStations = await this.getAllStations();
+    if (!allStations) {
+      user.resetAuthorization();
+      router.navigate(PATH.ROOT);
+    }
+
+    this.stationsView.init(allStations);
     this.bindEvents();
 
     resetInput($('#stations-form'), $('#station-name'));
+  }
+
+  async getAllStations() {
+    try {
+      const {
+        allStations,
+        response,
+      } = await user.stationManager.getAllStations();
+
+      if (!response.ok) {
+        throw response;
+      }
+
+      return allStations;
+    } catch (response) {
+      switch (response.status) {
+        case 401:
+          alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+          break;
+        default:
+      }
+    }
   }
 
   async onStationAddBtnClick(e) {

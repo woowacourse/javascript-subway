@@ -1,5 +1,7 @@
 import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
 import user from '../../models/user.js';
+import router from '../../router.js';
 import { $, changeBackgroundColor } from '../../utils/DOM.js';
 
 async function addLineHandler(e) {
@@ -29,6 +31,10 @@ async function addLineHandler(e) {
     switch (response.status) {
       case 400:
         alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
+        break;
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
@@ -62,6 +68,10 @@ async function modifyLineHandler(e, modifiedLineId) {
       case 400:
         alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
         break;
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
+        break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
     }
@@ -72,12 +82,24 @@ async function deleteLineHandler(e) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_LINE)) return;
 
   const { lineId } = e.target.closest('li').dataset;
-  const resFlag = await user.lineManager.deleteLine(lineId);
-  if (!resFlag) {
-    alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);
-  }
 
-  return resFlag;
+  try {
+    const response = await user.lineManager.deleteLine(lineId);
+    if (!response.ok) {
+      throw response;
+    }
+
+    return response.ok;
+  } catch (response) {
+    switch (response.status) {
+      case 401:
+        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        router.navigate(PATH.ROOT);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);
+    }
+  }
 }
 
 function selectColorHandler(e) {
