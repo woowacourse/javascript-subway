@@ -79,6 +79,7 @@ class LineComponent extends Component {
     super.render(LINE_TEMPLATE);
   }
 
+  //TODO: Modal로 메서드 넣어주기
   #loadRevisionModal = button => {
     const lineId = button.dataset.id;
 

@@ -219,6 +219,25 @@ const fetchLineRemoval = async (url, accessToken) => {
   return response;
 };
 
+const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(bodyData),
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+
+  // TODO: section 에러메세지 처리
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 //TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
@@ -233,4 +252,5 @@ export {
   fetchLineListRead,
   fetchLineRevision,
   fetchLineRemoval,
+  fetchSectionCreation,
 };
