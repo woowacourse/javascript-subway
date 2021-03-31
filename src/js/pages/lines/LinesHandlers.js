@@ -1,6 +1,6 @@
 import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 import user from '../../models/user.js';
-import { $ } from '../../utils/DOM.js';
+import { $, changeBackgroundColor } from '../../utils/DOM.js';
 
 async function addLineHandler(e) {
   try {
@@ -83,7 +83,10 @@ async function deleteLineHandler(e) {
 function selectColorHandler(e) {
   if (!e.target.classList.contains('color-option')) return;
 
-  $('#line-color').value = e.target.dataset.colorOption;
+  const currentColor = e.target.dataset.colorOption;
+
+  $('#line-color').value = currentColor;
+  changeBackgroundColor($('#selected-line-color'), currentColor);
 }
 
 export {

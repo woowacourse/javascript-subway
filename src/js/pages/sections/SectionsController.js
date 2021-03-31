@@ -1,5 +1,10 @@
 import SectionsView from './SectionsView.js';
-import { $, onModalClose, onModalShow } from '../../utils/DOM.js';
+import {
+  $,
+  changeBackgroundColor,
+  onModalClose,
+  onModalShow,
+} from '../../utils/DOM.js';
 import user from '../../models/user.js';
 import { addSectionHandler, deleteSectionHandler } from './SectionHandlers.js';
 
@@ -16,6 +21,10 @@ class SectionsController {
 
   onLineSelect(e) {
     const targetLineId = e.target.value;
+    const targetLineColor =
+      e.target.options[e.target.selectedIndex].dataset.lineColor;
+
+    changeBackgroundColor($('#line-name'), targetLineColor);
 
     const sections = user.lineManager.getAllSections(targetLineId);
     this.sectionsView.renderSections(sections);

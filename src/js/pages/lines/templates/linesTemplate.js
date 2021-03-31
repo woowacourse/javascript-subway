@@ -92,23 +92,21 @@ async function linesModalTemplate() {
           />
         </div>
 
-        <div class="input-control">
-          <label for="line-color" class="input-label" hidden>색상</label>
-          <input
-            type="text"
-            id="line-color"
-            name="line-color"
-            class="input-field"
-            placeholder="색상을 아래에서 선택해주세요."
-            disabled
-            required
-          />
-        </div>
-
-        <div class="d-flex justify-around">
-          <div class="line-color-selector px-2"></div>
-          <div class="w-40">
-              <div id="selected-line-color"></div>
+        <div class="d-flex flex-col">
+          <label for="line-color" class="input-label d-flex mx-auto mb-5 text-gray-500">노선 색상을 아래에서 선택해주세요.</label>
+          <div class="d-flex justify-around">
+            <div class="line-color-selector px-2"></div>
+            <div class="w-40">
+                <div id="selected-line-color" class="d-flex">
+                <input
+                  type="text"
+                  id="line-color"
+                  name="line-color"
+                  class="input-field d-flex my-auto text-center"
+                  disabled
+                  required
+                /></div>
+            </div>
           </div>
         </div>
 
@@ -193,24 +191,23 @@ function linesModifyingModalTemplate(targetLine) {
           />
         </div>
 
-        <div class="input-control">
-          <label for="line-color" class="input-label" hidden>색상</label>
-          <input
-            type="text"
-            id="line-color"
-            name="line-color"
-            class="input-field"
-            placeholder="색상을 아래에서 선택해주세요."
-            disabled
-            value=${targetLine.color}
-            required
-          />
-        </div>
-
-        <div class="d-flex justify-around">
-          <div class="line-color-selector px-2"></div>
-          <div class="w-40">
-              <div id="selected-line-color"></div>
+        <div class="d-flex flex-col">
+          <label for="line-color" class="input-label d-flex mx-auto mb-5 text-gray-500">노선 색상을 아래에서 선택해주세요.</label>
+          <div class="d-flex justify-around">
+            <div class="line-color-selector px-2"></div>
+            <div class="w-40">
+              <div id="selected-line-color" class="d-flex">
+                <input
+                type="text"
+                id="line-color"
+                name="line-color"
+                class="input-field d-flex my-auto text-center"
+                value=${targetLine.color}
+                disabled
+                required
+                />
+              </div>
+            </div>
           </div>
         </div>
 

@@ -18,7 +18,10 @@ async function sectionsTemplate() {
       <select id="line-name">
       <option value="" selected disabled hidden>노선 선택</option>
         ${Object.values(await user.lineManager.getAllLines())
-          .map(line => `<option value=${line.id}>${line.name}</option>`)
+          .map(
+            line =>
+              `<option value=${line.id} data-line-color="${line.color}" class="bg-white">${line.name}</option>`
+          )
           .join('')}
       </select>
     </form>

@@ -15,4 +15,11 @@ function resetInput($resetTarget, $focusTarget) {
   $focusTarget.focus();
 }
 
-export { $, onModalShow, onModalClose, resetInput };
+function changeBackgroundColor($target, selectedColor) {
+  $target.classList = [...$target.classList].filter(
+    currentClass => currentClass.indexOf('bg-') === -1
+  );
+  $target.classList.add(selectedColor);
+}
+
+export { $, onModalShow, onModalClose, resetInput, changeBackgroundColor };

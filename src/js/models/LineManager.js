@@ -44,6 +44,7 @@ class LineManager {
       try {
         const newLine = await response.json();
         this.lines[newLine.id] = this.createLineData(newLine);
+
         return { newLine: this.lines[newLine.id], response };
       } catch (error) {
         console.error(error);
