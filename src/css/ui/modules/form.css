@@ -16,7 +16,7 @@ form .input-field {
   border: 2.5px solid rgba(0, 0, 0, 0);
   outline: none;
   border-radius: 2rem;
-  background: #f1f5f9;
+  background-color: #f1f5f9;
 }
 
 form .input-field:focus {

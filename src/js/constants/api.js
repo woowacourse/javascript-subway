@@ -5,6 +5,7 @@ export const API_ENDPOINT = Object.freeze({
   SIGN_UP: `${ORIGIN}/members`,
   LOGIN: `${ORIGIN}/login/token`,
   STATIONS: `${ORIGIN}/stations`,
+  LINES: `${ORIGIN}/lines`,
 });
 
 export const STATUS_CODE = {
@@ -25,6 +26,23 @@ export const STATUS_CODE = {
   STATIONS: {
     CREATE: {
       OK: 201,
+      DUPLICATED: 400,
+    },
+    READ: {
+      OK: 200,
+    },
+    UPDATE: {
+      OK: 200,
+      DUPLICATED: 400,
+    },
+    REMOVE: {
+      OK: 204,
+      REGISTERED_TO_LINE: 400,
+    },
+  },
+  LINES: {
+    CREATE: {
+      OK: 200,
       DUPLICATED: 400,
     },
     READ: {
