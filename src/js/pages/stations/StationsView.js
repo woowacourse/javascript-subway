@@ -8,13 +8,8 @@ import stationsTemplate from './templates/stationsTemplate.js';
 import { $ } from '../../utils/DOM.js';
 
 class StationsView {
-  constructor() {
-    this.stationManager = user.stationManager;
-    this.$main = $('#main');
-  }
-
   init(allStations) {
-    this.$main.innerHTML = stationsTemplate;
+    $('#main').innerHTML = stationsTemplate;
     $('#station-list').innerHTML = stationListTemplate(allStations);
   }
 

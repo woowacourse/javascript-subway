@@ -4,8 +4,6 @@ import StationManager from './StationManager.js';
 
 const user = {
   authorization: '',
-  name: '',
-  email: '',
   stationManager: new StationManager(),
   lineManager: new LineManager(),
 

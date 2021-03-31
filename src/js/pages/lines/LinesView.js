@@ -13,15 +13,10 @@ import {
 import user from '../../models/user.js';
 
 class LinesView {
-  constructor() {
-    this.lineManager = user.lineManager;
-  }
-
   async init() {
     $('#main').innerHTML = linesTemplate;
     $('#line-list').innerHTML = lineListTemplate(
-      // TODO : 순서 역순으로 보여주기
-      await this.lineManager.getAllLines()
+      await user.lineManager.getAllLines()
     );
     await this.renderModal();
   }

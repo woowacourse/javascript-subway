@@ -14,8 +14,6 @@ import user from '../../models/user.js';
 import router from '../../router.js';
 
 class LoginPage {
-  constructor() {}
-
   init() {
     this.renderView();
     this.bindEvents();

@@ -13,7 +13,6 @@ import router from '../../router.js';
 
 class StationsController {
   constructor() {
-    this.stationManager = user.stationManager;
     this.stationsView = new StationsView();
   }
 

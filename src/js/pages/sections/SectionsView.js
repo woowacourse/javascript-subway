@@ -9,12 +9,8 @@ import {
 } from './templates/sectionsListTemplate.js';
 
 class SectionsView {
-  constructor() {
-    this.$main = $('#main');
-  }
-
   async init() {
-    this.$main.innerHTML = await sectionsTemplate();
+    $('#main').innerHTML = await sectionsTemplate();
     $('#sections-modal').innerHTML = await sectionsModalTemplate();
   }
 

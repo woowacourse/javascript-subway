@@ -13,9 +13,6 @@ import LinesView from './LinesView.js';
 class LinesController {
   constructor() {
     this.linesView = new LinesView();
-    this.lineManager = user.lineManager;
-    // this.router = router;
-
     this.$modifiedLine = '';
   }
 
@@ -61,7 +58,7 @@ class LinesController {
       this.$modifiedLine = e.target.closest('li');
       const targetLineId = this.$modifiedLine.dataset.lineId;
 
-      this.linesView.renderModifyModal(this.lineManager.getLine(targetLineId));
+      this.linesView.renderModifyModal(user.lineManager.getLine(targetLineId));
 
       this.bindModalEvents('#lines-modify-form');
     }
