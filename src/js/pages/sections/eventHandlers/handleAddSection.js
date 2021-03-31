@@ -31,6 +31,7 @@ const handleAddSection = async event => {
 
   updateSectionList(getSections(lineId));
   closeModal($('#section-add-modal'));
+  $('#section-add-form').reset();
 };
 
 export default handleAddSection;

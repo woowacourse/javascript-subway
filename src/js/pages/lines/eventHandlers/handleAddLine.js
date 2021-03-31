@@ -3,7 +3,7 @@ import { addLineListItem } from '../viewController';
 import { $ } from '../../../utils/dom';
 import { closeModal } from '../../../utils/modal';
 import { STATION_AMOUNT } from '../../../constants/service';
-import { requestAddLine } from '../../../services/line';
+import { requestAddLine } from '../../../api/line';
 import { LINE } from '../../../constants/alertMessage';
 
 const handleAddLine = async event => {
