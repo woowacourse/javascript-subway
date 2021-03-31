@@ -25,7 +25,7 @@ export default class LineModal extends Observer {
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
     modal.innerHTML = this.#getModalTemplate(targetLine);
     $(`.${SELECTOR_CLASS.LINE_COLOR_PICKER}`).innerHTML = colorOptions
-      .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
+      .map((color) => this.#getSubwayLineColorOptionTemplate(color))
       .join('');
     
     this.#initEvents();
@@ -52,12 +52,12 @@ export default class LineModal extends Observer {
         <form id="${SELECTOR_ID.LINE_FORM}"
           class="${lineItem ? SELECTOR_CLASS.LINE_UPDATE_FORM : SELECTOR_CLASS.LINE_REGISTER_FORM}">
           <div class="input-control">
-            <label for="${SELECTOR_ID.LINE_NAME_INPUT}" class="input-label" hidden
+            <label for="${SELECTOR_ID.LINE_MODAL_NAME_INPUT}" class="input-label" hidden
               >노선 이름</label
             >
             <input
               type="text"
-              id="${SELECTOR_ID.LINE_NAME_INPUT}"
+              id="${SELECTOR_ID.LINE_MODAL_NAME_INPUT}"
               name="${SELECTOR_NAME.LINE_NAME}"
               class="input-field"
               placeholder="노선 이름"
@@ -68,7 +68,7 @@ export default class LineModal extends Observer {
           ${lineItem ? '' : `
             <div class="d-flex items-center input-control">
               <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="up-station" name="${SELECTOR_NAME.UP_STATION}" class="mr-2">
+              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_INPUT}" name="${SELECTOR_NAME.UP_STATION}" class="mr-2">
                 <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
                 ${this.#state
                   .get(STATE_KEY.STATION_LIST)
@@ -76,7 +76,7 @@ export default class LineModal extends Observer {
                   .join('')}
               </select>
               <label for="down-station" class="input-label" hidden>하행역</label>
-              <select id="down-station"" name="${SELECTOR_NAME.DOWN_STATION}">
+              <select id="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_INPUT}"" name="${SELECTOR_NAME.DOWN_STATION}">
                 <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
                 <${this.#state
                   .get(STATE_KEY.STATION_LIST)
@@ -85,12 +85,12 @@ export default class LineModal extends Observer {
               </select>
             </div>
             <div class="input-control">
-              <label for="distance" class="input-label" hidden
+              <label for="${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}" class="input-label" hidden
                 >상행 하행역 거리</label
               >
               <input
                 type="number"
-                id="distance"
+                id="${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}"
                 name="${SELECTOR_NAME.LINE_DISTANCE}"
                 class="input-field mr-2"
                 placeholder="상행 하행역 거리(km)"
@@ -98,12 +98,12 @@ export default class LineModal extends Observer {
                 value="${lineItem ? lineItem.distance : ''}"
                 required
               />
-              <label for="duration" class="input-label" hidden
+              <label for="${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}" class="input-label" hidden
                 >상행 하행역 시간</label
               >
               <input
                 type="number"
-                id="duration"
+                id="${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}"
                 name="${SELECTOR_NAME.LINE_DURATION}"
                 class="input-field"
                 placeholder="상행 하행역 시간(분)"
@@ -115,33 +115,35 @@ export default class LineModal extends Observer {
           `}
           
           <div class="input-control">
-            <div>
-              <label for="${SELECTOR_ID.LINE_COLOR_INDICATOR}" class="input-label" hidden
+            <div class="d-flex">
+              <label for="${SELECTOR_ID.LINE_MODAL_COLOR_INDICATOR}" class="input-label" hidden
                 >색상</label
               >
+              <div class="${SELECTOR_CLASS.LINE_COLOR_PICKER} d-flex flex-wrap px-2"></div>
               <input
                 type="text"
-                id="${SELECTOR_ID.LINE_COLOR_INDICATOR}"
+                id="${SELECTOR_ID.LINE_MODAL_COLOR_INDICATOR}"
                 name="${SELECTOR_NAME.LINE_COLOR}"
-                class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
-                placeholder="색상을 아래에서 선택해주세요."
+                class="color-input-field ${lineItem ? `${lineItem.color}` : ''}"
+                placeholder="노선 색상"
                 ${lineItem ? `data-color="${lineItem.color}"` : '' }
                 disabled
                 required
               />
             </div>
           </div>
-          <div class="${SELECTOR_CLASS.LINE_COLOR_PICKER} px-2"></div>
           <div class="d-flex justify-end mt-3">
             ${lineItem ? `<button
+              id="${SELECTOR_ID.LINE_MODAL_UPDATE_SUBMIT}"
               type="submit"
-              name="submit"
+              name="${SELECTOR_ID.LINE_MODAL_UPDATE_SUBMIT}"
               class="input-submit bg-cyan-300"
             >
               노선 수정
             </button>` : `<button
+              id="${SELECTOR_ID.LINE_MODAL_REGISTER_SUBMIT}"
               type="submit"
-              name="submit"
+              name="${SELECTOR_ID.LINE_MODAL_REGISTER_SUBMIT}"
               class="input-submit bg-cyan-300"
             >
               노선 추가
@@ -152,10 +154,7 @@ export default class LineModal extends Observer {
     `;
   }
 
-  #getSubwayLineColorOptionTemplate(color, index) {
-    const hasNewLine = (index + 1) % 7 === 0;
-    return `<button type="button" class="${SELECTOR_CLASS.COLOR_OPTION} bg-${color}" data-color="${color}"></button> ${
-      hasNewLine ? '<br/>' : ''
-    }`;
+  #getSubwayLineColorOptionTemplate(color) {
+    return `<button type="button" class="${SELECTOR_CLASS.COLOR_OPTION} bg-${color}" data-color="${color}"></button>`;
   }
 }

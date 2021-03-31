@@ -30,7 +30,7 @@ export function delegateLineModalClickEvent(event) {
 
 function onColorPickerClick(target) {
   const color = target.dataset.color;
-  const indicator = $(`#${SELECTOR_ID.LINE_COLOR_INDICATOR}`);
+  const indicator = $(`#${SELECTOR_ID.LINE_MODAL_COLOR_INDICATOR}`);
   indicator.className = 'color-input-field text-white';
   indicator.classList.add(`bg-${color}`);
   indicator.dataset.color = `bg-${color}`;
