@@ -9,15 +9,11 @@ import { headerTemplate } from './components/header.js';
 import AccessTokenManager from './stateManagers/AccessTokenManager.js';
 import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
-import request from './utils/request.js';
-import { PATH } from './constants/url.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
-import getFetchParams from './api/getFetchParams.js';
-import { ERROR_MESSAGE } from './constants/message.js';
 import Component from './core/Component.js';
 
 class App extends Component {
@@ -115,14 +111,14 @@ class App extends Component {
         return;
       }
 
-      const isLoginOrSignupRoute = [
-        UNAUTHENTICATED_LINK.LOGIN.ROUTE,
-        UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
-      ].includes(route);
+      // const isLoginOrSignupRoute = [
+      //   UNAUTHENTICATED_LINK.LOGIN.ROUTE,
+      //   UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
+      // ].includes(route);
 
-      if (!isLoginOrSignupRoute && !this.isValidAccessToken()) {
-        this.fireAccessToken();
-      }
+      // if (!isLoginOrSignupRoute && !this.isValidAccessToken()) {
+      //   this.fireAccessToken();
+      // }
 
       this.stateManagers.route.goPage(route);
     });
@@ -142,20 +138,21 @@ class App extends Component {
     this.stateManagers.accessToken.clearToken();
   }
 
-  async isValidAccessToken() {
-    try {
-      const accessToken = this.stateManagers.accessToken.getToken();
-      const params = getFetchParams({ path: PATH.MEMBERS.ME, accessToken });
-      const response = await request.get(params);
+  // async isValidAccessToken() {
+  //   try {
+  //     const accessToken = this.stateManagers.accessToken.getToken();
+  //     const params = getFetchParams({ path: PATH.MEMBERS.ME, accessToken });
+  //     const response = await request.get(params);
+  //     const response = await pb.get(params);
 
-      if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
+  //     if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
+  //   } catch (error) {
+  //     console.error(error);
+  //     return false;
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 }
 
 const stateManagers = {

@@ -1,8 +1,6 @@
-import getFetchParams from '../../api/getFetchParams.js';
-import { PATH } from '../../constants/url.js';
+import { privateApis } from '../../api/apis.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import sectionsModal from './template/modal.js';
 
 class Modal extends ModalComponent {
@@ -19,6 +17,8 @@ class Modal extends ModalComponent {
 
     $('#create-section-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // TODO: lineId 기본 설정 안하면  undefined됨
       const lineId = e.target['select-line'].value;
       const upStationId = e.target['up-station'].value;
       const downStationId = e.target['down-station'].value;
@@ -27,19 +27,19 @@ class Modal extends ModalComponent {
 
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      const params = getFetchParams({
-        path: `${PATH.LINES}/${lineId}${PATH.SECTIONS}`,
-        body: {
-          upStationId,
-          downStationId,
-          duration,
-          distance,
-        },
-        accessToken,
-      });
+      const body = {
+        upStationId,
+        downStationId,
+        duration,
+        distance,
+      };
 
       try {
-        const response = await request.post(params);
+        const response = await privateApis.Sections.post(
+          lineId,
+          accessToken,
+          body
+        );
 
         if (!response.ok) throw Error(await response.text());
 

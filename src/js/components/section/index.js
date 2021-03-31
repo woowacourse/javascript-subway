@@ -1,10 +1,7 @@
-import getSubwayState from '../../api/apis.js';
-import getFetchParams from '../../api/getFetchParams.js';
+import getSubwayState, { privateApis } from '../../api/apis.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
-import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import Modal from './modal.js';
 import { mainTemplate, sectionItem } from './template/main.js';
 
@@ -60,13 +57,12 @@ class Section extends Component {
       const stationId = target.closest('.js-section-item').dataset.stationId;
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      const params = getFetchParams({
-        path: `${PATH.LINES}/${lineId}/sections?stationId=${stationId}`,
-        accessToken,
-      });
-
       try {
-        const response = await request.delete(params);
+        const response = await privateApis.Sections.delete(
+          lineId,
+          stationId,
+          accessToken
+        );
 
         if (!response.ok) throw Error(await response.text());
 
@@ -79,7 +75,11 @@ class Section extends Component {
 
   async updateSubwayState() {
     const accessToken = this.stateManagers.accessToken.getToken();
-    const { stations, lines } = await getSubwayState(accessToken);
+
+    const [stations, lines] = await Promise.all([
+      (await privateApis.Stations.get({ accessToken })).json(),
+      (await privateApis.Lines.get({ accessToken })).json(),
+    ]);
 
     this.setState({ stations, lines });
   }

@@ -1,10 +1,7 @@
-import getSubwayState from '../../api/apis.js';
-import getFetchParams from '../../api/getFetchParams.js';
+import getSubwayState, { privateApis } from '../../api/apis.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
-import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import Modal from './modal.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
@@ -55,13 +52,12 @@ class Line extends Component {
 
         const id = target.closest('.js-line-item').dataset.id;
         const accessToken = this.stateManagers.accessToken.getToken();
-        const params = getFetchParams({
-          path: `${PATH.LINES}/${id}`,
-          accessToken,
-        });
 
         try {
-          const response = await request.delete(params);
+          const response = await privateApis.Lines.delete({
+            lineId: id,
+            accessToken,
+          });
 
           if (!response.ok) throw Error(await response.text());
           this.updateSubwayState();
@@ -73,9 +69,12 @@ class Line extends Component {
   }
 
   async updateSubwayState() {
-    const { stations, lines } = await getSubwayState(
-      this.stateManagers.accessToken.getToken()
-    );
+    const accessToken = this.stateManagers.accessToken.getToken();
+
+    const [stations, lines] = await Promise.all([
+      (await privateApis.Stations.get({ accessToken })).json(),
+      (await privateApis.Lines.get({ accessToken })).json(),
+    ]);
 
     this.setState({ stations, lines });
   }

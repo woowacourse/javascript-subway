@@ -1,14 +1,12 @@
 import { $ } from '../../utils/DOM.js';
-import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
-import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
 import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import { LENGTH } from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
-import getFetchParams from '../../api/getFetchParams.js';
+import { publicApis } from '../../api/apis.js';
 
 class Signup extends Component {
   constructor(parentNode, stateManagers) {
@@ -69,7 +67,7 @@ class Signup extends Component {
         const password = e.target['password'].value;
 
         await this.signup(name, email, password);
-        await this.loginAfterSignup(email, password);
+        await this.login(email, password);
       } catch (error) {
         console.error(error);
       }
@@ -133,13 +131,9 @@ class Signup extends Component {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
-    const query = { email };
-    const searchParams = `?${new URLSearchParams(query)}`;
+    const emailQuery = `?${new URLSearchParams(email)}`;
 
-    const params = getFetchParams({
-      path: PATH.MEMBERS.CHECK + searchParams,
-    });
-    const response = await request.get(params);
+    const response = await publicApis.CheckDuplicatedEmail({ emailQuery });
 
     if (response.status === 422) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
@@ -185,21 +179,19 @@ class Signup extends Component {
   }
 
   async signup(name, email, password) {
-    const params = getFetchParams({
-      path: PATH.MEMBERS.SIGNUP,
-      body: { name, email, password },
-    });
-    const response = await request.post(params);
+    const body = { name, email, password };
+    const response = await publicApis.signup({ body });
 
     if (!response.ok) throw Error(response.message);
   }
 
-  async loginAfterSignup(email, password) {
-    const params = getFetchParams({
-      path: PATH.MEMBERS.LOGIN,
-      body: { email, password },
-    });
-    const response = await request.post(params);
+  async login(email, password) {
+    const body = {
+      email,
+      password,
+    };
+
+    const response = await publicApis.login({ body });
 
     if (!response.ok) throw Error(response.message);
 

@@ -1,12 +1,9 @@
 import { $ } from '../../utils/DOM.js';
-import { PATH } from '../../constants/url.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { mainTemplate } from './template/main.js';
-import request from '../../utils/request.js';
 import Component from '../../core/Component.js';
-import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
-import getSubwayState from '../../api/apis.js';
+import getSubwayState, { privateApis, publicApis } from '../../api/apis.js';
 
 class Station extends Component {
   constructor(parentNode, stateManagers) {
@@ -42,8 +39,6 @@ class Station extends Component {
 
     $('.js-station-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        console.log(target);
-        console.log(target.closest('.js-station-item').dataset.id);
         this.childComponents.modal.setTargetId(
           target.closest('.js-station-item').dataset.id
         );
@@ -63,12 +58,8 @@ class Station extends Component {
 
   async createItem(name, accessToken) {
     try {
-      const params = getFetchParams({
-        path: PATH.STATIONS,
-        body: { name },
-        accessToken,
-      });
-      const response = await request.post(params);
+      const body = { name };
+      const response = await privateApis.Stations.post({ accessToken, body });
 
       if (!response.ok) throw Error(await response.text());
 
@@ -78,14 +69,12 @@ class Station extends Component {
     }
   }
 
-  async deleteItem(id, accessToken) {
+  async deleteItem(stationId, accessToken) {
     try {
-      const params = getFetchParams({
-        path: `${PATH.STATIONS}/${id}`,
+      const response = await privateApis.Stations.delete({
+        stationId,
         accessToken,
       });
-
-      const response = await request.delete(params);
 
       if (!response.ok) throw Error(await response.text());
 
@@ -96,9 +85,13 @@ class Station extends Component {
   }
 
   async updateSubwayState() {
-    const { stations, lines } = await getSubwayState(
-      this.stateManagers.accessToken.getToken()
-    );
+    const accessToken = this.stateManagers.accessToken.getToken();
+
+    const [stations, lines] = await Promise.all([
+      (await privateApis.Stations.get({ accessToken })).json(),
+      (await privateApis.Lines.get({ accessToken })).json(),
+    ]);
+
     this.setState({ stations, lines });
   }
 }

@@ -1,8 +1,6 @@
-import getFetchParams from '../../api/getFetchParams.js';
-import { PATH } from '../../constants/url.js';
+import { privateApis } from '../../api/apis.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
@@ -27,32 +25,27 @@ class Modal extends ModalComponent {
 
     $('#edit-station-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const id = this.targetId;
+      const stationId = this.targetId;
       // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
-      const newName = e.target['subway-station-name'].value;
+      const name = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      await this.updateItem(id, newName, accessToken);
+      try {
+        const response = await privateApis.Stations.put({
+          stationId,
+          accessToken,
+          body: { name },
+        });
+
+        if (!response.ok) throw Error(await response.text());
+
+        this.hide();
+        await this.updateSubwayState();
+      } catch (error) {
+        // TODO: 스낵바
+        console.error(error.message);
+      }
     });
-  }
-
-  async updateItem(id, name, accessToken) {
-    try {
-      const params = getFetchParams({
-        path: `${PATH.STATIONS}/${id}`,
-        body: { name },
-        accessToken,
-      });
-      const response = await request.put(params);
-
-      if (!response.ok) throw Error(await response.text());
-
-      this.hide();
-      await this.updateSubwayState();
-    } catch (error) {
-      // TODO: 스낵바
-      console.error(error.message);
-    }
   }
 }
 

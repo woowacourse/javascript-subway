@@ -1,9 +1,7 @@
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
 import { linesModal } from './template/modal.js';
-import request from '../../utils/request.js';
-import { PATH } from '../../constants/url.js';
-import getFetchParams from '../../api/getFetchParams.js';
+import { privateApis } from '../../api/apis.js';
 
 class Modal extends ModalComponent {
   constructor(parentNode, stateManagers) {
@@ -32,69 +30,52 @@ class Modal extends ModalComponent {
 
     $('#line-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = e.target['subway-line-name'].value;
-      const lineColor = e.target['subway-line-color'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
+      const name = e.target['subway-line-name'].value;
+      const color = e.target['subway-line-color'].value;
+      const upStationId = target['subway-line-up-station'].value;
+      const downStationId = target['subway-line-down-station'].value;
+      const distance = target['distance'].value;
+      const duration = target['duration'].value;
 
-      switch (this.submitType) {
-        case 'post':
-          this.createLine(e.target, name, lineColor, accessToken);
-          break;
+      if (this.submitType === 'post') {
+        try {
+          const response = await privateApis.Lines.post({
+            accessToken,
+            body: {
+              name,
+              color,
+              upStationId,
+              downStationId,
+              distance,
+              duration,
+            },
+          });
+          if (!response.ok) throw Error(await response.text());
 
-        case 'put':
-          this.editLine(name, lineColor, accessToken);
-          break;
+          this.updateSubwayState();
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
 
-        default:
-          break;
+      if (this.submitType === 'put') {
+        try {
+          const response = await privateApis.Lines.put({
+            accessToken,
+            body: {
+              name,
+              color,
+            },
+          });
+          if (!response.ok) throw Error(await response.text());
+
+          this.updateSubwayState();
+        } catch (error) {
+          console.error(error.message);
+        }
       }
     });
-  }
-
-  async createLine(target, name, lineColor, accessToken) {
-    const upStation = target['subway-line-up-station'].value;
-    const downStation = target['subway-line-down-station'].value;
-    const distance = target['distance'].value;
-    const duration = target['duration'].value;
-    const params = getFetchParams({
-      path: PATH.LINES,
-      body: {
-        name,
-        color: lineColor,
-        upStationId: upStation,
-        downStationId: downStation,
-        distance,
-        duration,
-      },
-      accessToken,
-    });
-
-    await this.getResponse(params);
-  }
-
-  async editLine(name, lineColor, accessToken) {
-    const params = getFetchParams({
-      path: `${PATH.LINES}/${this.targetId}`,
-      body: {
-        name,
-        color: lineColor,
-      },
-      accessToken,
-    });
-
-    await this.getResponse(params);
-  }
-
-  async getResponse(params) {
-    try {
-      const response = await request[this.submitType](params);
-
-      if (!response.ok) throw Error(await response.text());
-
-      this.updateSubwayState();
-    } catch (error) {
-      console.error(error.message);
-    }
   }
 
   fillTargetInForm() {
