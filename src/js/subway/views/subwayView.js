@@ -1,11 +1,11 @@
 import { DOM } from '../constants/dom';
-import { MENU, MESSAGE, ROUTE } from '../constants';
-import { lineList } from './templates/lineManage';
-import { stationList } from './templates/stationManage';
 import { linkButton, selectorOption } from '../../@shared/views';
+import { MENU, MESSAGE, ROUTE } from '../constants';
 import { mainElements, modalElements } from '.';
-import { menuButtons } from './templates/menuButtons';
-import { sectionList } from './templates/sectionManage';
+import { menuButtons } from './templates/ui/menuButtons';
+import { stationList } from './templates/main/stationManage';
+import { lineList } from './templates/main/lineManage';
+import { sectionList } from './templates/main/sectionManage';
 
 export const subwayView = {
   renderRoot: signedUserName => {

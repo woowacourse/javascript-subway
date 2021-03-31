@@ -1,4 +1,4 @@
-import { MENU, MESSAGE } from '../../constants/constants';
+import { MENU, MESSAGE } from '../../../constants/constants';
 
 export const signUp = `
   <div id="main-content" class="wrapper p-10 bg-white">

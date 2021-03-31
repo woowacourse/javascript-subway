@@ -1,4 +1,4 @@
-import { palette } from './palette';
+import { palette } from '../ui/palette';
 
 export const lineAddModify = `
   <div id="modal-content" class="modal-inner p-8">

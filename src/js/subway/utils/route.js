@@ -1,6 +1,5 @@
 import { store } from '../../subway/models/store';
-import { removeFromSessionStorage } from '../../@shared/utils';
-import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants';
+import { MESSAGE, ROUTE, STATE_KEY } from '../constants';
 
 export const getRedirectedPath = pathName => {
   const signedUserName = store[STATE_KEY.SIGNED_USER_NAME].get();
