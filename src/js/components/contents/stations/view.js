@@ -2,7 +2,7 @@ import onClickButton from './onClickButton.js';
 import { requestCreateStation, updateSubmitButtonState } from './create.js';
 import requestReadStation from './read.js';
 import requestUpdateStation from './update.js';
-import { dispatchFormData, show, hide } from '../../../utils/index.js';
+import { dispatchFormData } from '../../../utils/index.js';
 import { LIST_ITEM_TEMPLATE, STATIONS_TEMPLATE } from './template.js';
 
 const $wrapper = document.createElement('div');
@@ -34,33 +34,17 @@ export async function renderStations($main) {
 }
 
 export function renderEditMode($editForm) {
+  $editForm.classList.add('edit-mode');
+
   const $editInput = $editForm.querySelector('input');
-  const $editButton = $editForm.querySelector('.edit-button');
-  const $checkButton = $editForm.querySelector('.check-button');
-  const $undoButton = $editForm.querySelector('.undo-button');
-  const $removeButton = $editForm.querySelector('.remove-button');
-
   $editInput.disabled = false;
-  // TODO: 수정 가능한 input 스타일로 변경
-
-  hide($editButton);
-  show($undoButton);
-  show($checkButton);
-  show($removeButton);
+  // FIXME: 최초 focus시 커서가 제일 앞임
+  $editInput.focus();
 }
 
 export function renderNonEditMode($editForm) {
+  $editForm.classList.remove('edit-mode');
+
   const $editInput = $editForm.querySelector('input');
-  const $editButton = $editForm.querySelector('.edit-button');
-  const $checkButton = $editForm.querySelector('.check-button');
-  const $undoButton = $editForm.querySelector('.undo-button');
-  const $removeButton = $editForm.querySelector('.remove-button');
-
   $editInput.disabled = true;
-  // TODO: 수정 불가능한 input 스타일로 변경
-
-  show($editButton);
-  hide($undoButton);
-  hide($checkButton);
-  hide($removeButton);
 }
