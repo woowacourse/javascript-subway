@@ -22,10 +22,14 @@ class LineManager {
       name,
       color,
       stations: stations.map(station => this.createStationData(station)),
-      upStation: this.createStationData(sections[0].upStation),
-      downStation: this.createStationData(sections[0].downStation),
-      distance: sections[0].distance,
-      duration: sections[0].duration,
+      upStation: this.createStationData(stations[0]),
+      downStation: this.createStationData(stations[stations.length - 1]),
+      distance: sections
+        .map(({ distance }) => distance)
+        .reduce((sum, currentDistance) => sum + currentDistance, 0),
+      duration: sections
+        .map(({ duration }) => duration)
+        .reduce((sum, currentDuration) => sum + currentDuration, 0),
     };
   }
 
