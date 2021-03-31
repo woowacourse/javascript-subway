@@ -49,8 +49,3 @@ svg {
   stroke-linecap: round;
   stroke-width: 5;
 }
-
-/* TODO: 해당 부분 고치기 */
-#station-modify-form {
-  width: 350px;
-}
