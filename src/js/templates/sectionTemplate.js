@@ -51,6 +51,30 @@ const MODAL_COMPONENT = `
         <option>서초</option>
       </select>
     </div>
+    <div class="input-control">
+      <label for="${ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE}" class="input-label" hidden
+        >상행 하행역 거리</label
+      >
+      <input
+        type="number"
+        id="${ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE}"
+        name="distance"
+        class="input-field mr-2"
+        placeholder="상행 하행역 거리"
+        required
+      />
+      <label for="${ID_SELECTOR.SECTION_MODAL_FORM_DURATION}" class="input-label" hidden
+        >상행 하행역 시간</label
+      >
+      <input
+        type="number"
+        id="${ID_SELECTOR.SECTION_MODAL_FORM_DURATION}"
+        name="arrival"
+        class="input-field"
+        placeholder="상행 하행역 시간"
+        required
+      />
+    </div>
     <div class="d-flex justify-end mt-3">
       <button
         type="submit"

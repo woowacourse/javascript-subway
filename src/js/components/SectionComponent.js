@@ -4,6 +4,7 @@ import $ from '../utils/querySelector';
 import Component from './Component';
 import { fetchLineRead } from '../utils/fetch.js';
 import SectionModal from '../modals/SectionModal';
+import { closeModal } from '../utils/DOM';
 
 class SectionComponent extends Component {
   sectionModal;
@@ -62,16 +63,11 @@ class SectionComponent extends Component {
 
     try {
       const response = await fetchLineRead(url, accessToken);
-      const stations = [];
-      const { sections } = await response.json();
-      const { upStation, downStation } = sections.shift();
-
-      stations.push(upStation, downStation);
-      sections.forEach(({ downStation }) => stations.push(downStation));
-
+      const { stations } = await response.json();
       $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = stations
         .map(this.#createStationTemplate)
         .join('');
+      closeModal();
     } catch (err) {
       alert(err.message);
       return;

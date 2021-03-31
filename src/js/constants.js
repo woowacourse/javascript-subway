@@ -39,6 +39,8 @@ const ID_SELECTOR = {
   SECTION_MODAL_FORM_UP_STATION_SELECT: 'section-modal-form__up-station-select',
   SECTION_MODAL_FORM_DOWN_STATION_SELECT:
     'section-modal-form__down-station-select',
+  SECTION_MODAL_FORM_DISTANCE: 'section-modal-form__distance',
+  SECTION_MODAL_FORM_DURATION: 'section-modal-form__duration',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',

@@ -46,13 +46,17 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_UP_STATION_SELECT].value;
     const downStationId =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DOWN_STATION_SELECT].value;
+    const distance =
+      event.target[ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE].value;
+    const duration =
+      event.target[ID_SELECTOR.SECTION_MODAL_FORM_DURATION].value;
     const url = REQUEST_URL + `/lines/${modalLineId}/sections`;
     const accessToken = this.props.accessTokenState.Data;
     const bodyData = {
       upStationId,
       downStationId,
-      distance: 1,
-      duration: 1,
+      distance,
+      duration,
     };
 
     try {
@@ -74,11 +78,14 @@ class SectionCreationComponent extends Component {
 
   #loadLineSelectOption() {
     const lines = this.props.linesState.Data;
+    const pageLineId = Number($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value);
 
-    $(
-      `#${ID_SELECTOR.SECTION_MODAL_FORM_LINE_SELECT}`
-    ).innerHTML = lines
-      .map(line => this.#createOptionTemplate(line.id, line.name))
+    $(`#${ID_SELECTOR.SECTION_MODAL_FORM_LINE_SELECT}`).innerHTML = lines
+      .map(line => {
+        const isSelected = line.id === pageLineId;
+        console.log(line.id, pageLineId);
+        return this.#createOptionTemplate(line.id, line.name, isSelected);
+      })
       .join('');
   }
 
@@ -100,8 +107,10 @@ class SectionCreationComponent extends Component {
   }
 
   // TODO: util로 빼기
-  #createOptionTemplate(value, innerText) {
-    return `<option value="${value}">${innerText}</option>`;
+  #createOptionTemplate(value, innerText, isSelected) {
+    return `<option value="${value}" ${
+      isSelected ? 'selected' : ''
+    }>${innerText}</option>`;
   }
 
   render() {
