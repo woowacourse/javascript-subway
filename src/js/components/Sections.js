@@ -79,23 +79,15 @@ export default class Sections extends Component {
     );
   }
 
-  async loadPage() {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadedLines = await getLinesAPI(accessToken);
-    const loadedStations = await getStationsAPI(accessToken);
+  setData(loadedLines, loadedStations) {
     const lines = {};
-
-    if (!loadedLines.isSucceeded || !loadedStations.isSucceeded) {
-      snackbar.show("안됨 ㅜ");
-
-      return;
-    }
-
     // eslint-disable-next-line no-return-assign
     loadedLines.lines.forEach((line) => (lines[line.id] = line));
     this.lines = lines;
     this.stations = loadedStations.stations;
+  }
 
+  renderLoadedPage(loadedLines) {
     const $lineSelect = $(".js-line-select", this.innerElement);
 
     removeAllChildren($lineSelect);
@@ -107,6 +99,22 @@ export default class Sections extends Component {
     this.changeStationList(loadedLines.lines[0].id);
 
     this.render();
+  }
+
+  async loadPage() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const loadedLines = await getLinesAPI(accessToken);
+    const loadedStations = await getStationsAPI(accessToken);
+
+    if (!loadedLines.isSucceeded || !loadedStations.isSucceeded) {
+      snackbar.show(loadedLines.message);
+
+      return;
+    }
+
+    this.setData(loadedLines, loadedStations);
+    this.renderLoadedPage(loadedLines);
+
     this.sectionsModal.render();
   }
 
