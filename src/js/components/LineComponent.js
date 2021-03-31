@@ -1,8 +1,18 @@
-import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD } from '../constants.js';
+import {
+  ALERT_MESSAGE,
+  CLASS_SELECTOR,
+  CONFIRM_MESSAGE,
+  ID_SELECTOR,
+  KEYWORD,
+  REQUEST_URL,
+} from '../constants.js';
 import LineModal from '../modals/LineModal.js';
 import LINE_TEMPLATE from '../templates/lineTemplate.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
+import { fetchLineRemoval } from '../utils/fetch.js';
+import { loadLineList } from '../utils/loadByAJAX.js';
+
 class LineComponent extends Component {
   lineModal;
 
@@ -37,8 +47,17 @@ class LineComponent extends Component {
 
         return;
       }
+
+      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL)) {
+        if (!confirm(CONFIRM_MESSAGE.LINE_REMOVAL)) {
+          return;
+        }
+
+        this.#removeLine(target.dataset.id);
+      }
     });
 
+    //TODO: 콜백함수 네이밍해주기
     $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
       if (
         !target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)
@@ -107,6 +126,22 @@ class LineComponent extends Component {
     </li>
     <hr class="my-0" />`;
   }
+
+  #removeLine = async id => {
+    const url = REQUEST_URL + `/lines/${id}`;
+    const accessToken = this.props.accessTokenState.Data;
+
+    try {
+      await fetchLineRemoval(url, accessToken);
+
+      alert(ALERT_MESSAGE.LINE_REMOVAL_SUCCESS);
+
+      loadLineList(this.props.linesState, accessToken);
+    } catch (err) {
+      alert(err.message);
+      return;
+    }
+  };
 }
 
 export default LineComponent;

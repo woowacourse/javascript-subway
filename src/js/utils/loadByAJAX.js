@@ -2,7 +2,7 @@ import { REQUEST_URL } from '../constants.js';
 import { fetchStationRead, fetchLineRead } from './fetch.js';
 
 //TODO: load = fetch + state에 담기라서 네이밍 고민해보기
-const loadStationList = async (state, accessToken) => {
+const loadStationList = async (stationsState, accessToken) => {
   const url = REQUEST_URL + '/stations';
   try {
     const response = await fetchStationRead(url, accessToken);
@@ -13,14 +13,14 @@ const loadStationList = async (state, accessToken) => {
       name: station.name,
     }));
 
-    state.Data = stations;
+    stationsState.Data = stations;
   } catch (err) {
     alert(err.message);
     return;
   }
 };
 
-const loadLineList = async (state, accessToken) => {
+const loadLineList = async (linesState, accessToken) => {
   const url = REQUEST_URL + '/lines';
 
   try {
@@ -33,7 +33,7 @@ const loadLineList = async (state, accessToken) => {
       color: line.color,
     }));
 
-    state.Data = lines;
+    linesState.Data = lines;
   } catch (err) {
     alert(err.message);
     return;
