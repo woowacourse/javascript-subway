@@ -10,6 +10,8 @@ import State from './State.js';
 import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD, URL } from '../constants.js';
 import { show, hide, closeModal } from '../utils/DOM.js';
 import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
+import SectionComponent from './SectionComponent.js';
+
 class AppPage extends Page {
   constructor(props) {
     super(props);
@@ -49,6 +51,10 @@ class AppPage extends Page {
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
       [URL.MY_INFO]: new MyInfoComponent({
         accessTokenState: this.accessTokenState,
+      }),
+      [URL.SECTION]: new SectionComponent({
+        accessTokenState: this.accessTokenState,
+        linesState: this.linesState,
       }),
     };
   }
