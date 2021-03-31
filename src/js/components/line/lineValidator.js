@@ -19,8 +19,8 @@ export const checkLineValid = lineInfo => {
   }
 
   if (
-    !isInRange(parseInt(lineInfo['distance'], 10), { min: 0 }) ||
-    !isInRange(parseInt(lineInfo['arrival'], 10), { min: 0 })
+    !isInRange(Number(lineInfo['distance']), { min: 0 }) ||
+    !isInRange(Number(lineInfo['arrival']), { min: 0 })
   ) {
     return ERROR_MESSAGE.NEGATIVE_NUMBER;
   }
