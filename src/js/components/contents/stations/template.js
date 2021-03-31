@@ -13,17 +13,15 @@ export const LIST_ITEM_TEMPLATE = ({ id, name }) => `
 `;
 
 export const STATIONS_TEMPLATE = `
-<div class="wrapper bg-white p-10">
-  <div class="heading">
-    <h2 class="mt-1">🚉 역 관리</h2>
+<div class="heading">
+  <h2 class="mt-1">🚉 역 관리</h2>
+</div>
+<form class="add-form">
+  <div class="d-flex w-100">
+    <label for="add-station-name" class="input-label" hidden>역 이름</label>
+    <input type="text" id="add-station-name" class="input-field add-station-name" name="name" placeholder="역 이름" minlength="2" maxlength="20" required />
+    <button type="submit" class="submit-button input-submit bg-cyan-300 ml-2" name="submit" disabled>추가</button>
   </div>
-  <form class="add-form">
-    <div class="d-flex w-100">
-      <label for="add-station-name" class="input-label" hidden>역 이름</label>
-      <input type="text" id="add-station-name" class="input-field add-station-name" name="name" placeholder="역 이름" minlength="2" maxlength="20" required />
-      <button type="submit" class="submit-button input-submit bg-cyan-300 ml-2" name="submit" disabled>추가</button>
-    </div>
-  </form>
-  <ul class="mt-3 pl-0">
-  </ul>
-</div>`;
+</form>
+<ul class="mt-3 pl-0">
+</ul>`;

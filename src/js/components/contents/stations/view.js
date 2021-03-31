@@ -6,12 +6,12 @@ import updateSubmitButtonState from './validate.js';
 import { dispatchFormData, show, hide } from '../../../utils/index.js';
 import { LIST_ITEM_TEMPLATE, STATIONS_TEMPLATE } from './template.js';
 
-const $main = document.createElement('main');
-$main.classList.add('mt-10', 'd-flex', 'justify-center');
-$main.innerHTML = STATIONS_TEMPLATE;
+const $wrapper = document.createElement('div');
+$wrapper.classList.add('wrapper', 'bg-white', 'p-10');
+$wrapper.innerHTML = STATIONS_TEMPLATE;
 
-const $list = $main.querySelector('ul');
-const $addForm = $main.querySelector('.add-form');
+const $list = $wrapper.querySelector('ul');
+const $addForm = $wrapper.querySelector('.add-form');
 const $addInput = $addForm.elements['add-station-name'];
 
 $addForm.addEventListener('input', updateSubmitButtonState);
@@ -22,15 +22,15 @@ $list.addEventListener('click', onClickButton);
 $list.addEventListener('submit', dispatchFormData);
 $list.addEventListener('formdata', requestUpdateStation);
 
-export const renderStations = async ($currMain) => {
+export const renderStations = async ($main) => {
   const stationList = await requestReadStation();
 
   $list.innerHTML = stationList
     .map((station) => LIST_ITEM_TEMPLATE(station))
     .reverse()
     .join('');
-  $currMain.replaceWith($main);
 
+  $main.replaceChildren($wrapper);
   $addInput.focus();
 };
 
