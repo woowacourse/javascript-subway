@@ -1,5 +1,4 @@
 import { BASE_URL, HTTP } from '../constants/api.js';
-import { ALERT_MESSAGE } from '../constants/messages.js';
 import user from '../models/user.js';
 
 async function fetchAllStations() {
@@ -43,15 +42,14 @@ async function fetchAddStation(stationName) {
     const response = await fetch(`${BASE_URL}/stations`, requestData);
 
     if (!response.ok) {
-      const error = await response.text();
-      throw new Error(error);
+      throw response;
     }
 
-    const newStation = await response.json();
+    return response;
+  } catch (response) {
+    console.error(await response.text());
 
-    return newStation;
-  } catch (error) {
-    console.error(error);
+    return response;
   }
 }
 

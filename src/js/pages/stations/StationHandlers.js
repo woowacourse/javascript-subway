@@ -4,10 +4,23 @@ import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 async function addStationHandler(e) {
   try {
     const stationName = e.target.elements['station-name'].value;
+    const { newStation, response } = await user.stationManager.addStation(
+      stationName
+    );
 
-    return await user.stationManager.addStation(stationName);
-  } catch (error) {
-    alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
+    if (!response.ok) {
+      throw response;
+    }
+
+    return newStation;
+  } catch (response) {
+    switch (response.status) {
+      case 400:
+        alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
+        break;
+      default:
+        alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
+    }
   }
 }
 
@@ -41,6 +54,7 @@ async function deleteStationHandler(targetStationId) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
   try {
     const response = await user.stationManager.deleteStation(targetStationId);
+
     if (!response.ok) {
       throw response;
     }

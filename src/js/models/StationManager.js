@@ -25,11 +25,20 @@ class StationManager {
   }
 
   async addStation(stationName) {
-    // TODO : ?? null일때 왜 console.log가 안찍힐까
-    const newStation = (await fetchAddStation(stationName)) ?? null;
-    this.stations[newStation.id] = this.createStationData(newStation);
+    const response = await fetchAddStation(stationName);
 
-    return newStation;
+    if (response.ok) {
+      try {
+        const newStation = await response.json();
+        this.stations[newStation.id] = this.createStationData(newStation);
+
+        return { newStation: this.stations[newStation.id], response };
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return { response };
   }
 
   async modifyStation(id, name) {
