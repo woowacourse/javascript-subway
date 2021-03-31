@@ -74,6 +74,8 @@ const CLASS_SELECTOR = {
   LINE_COLOR_SELECTOR: 'js-line-color-selector',
   LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
+  SECTION_LIST_ITEM_REMOVAL: 'js-section-list__item-removal',
+
   MODAL_CLOSE: 'js-modal-close',
 };
 
@@ -98,11 +100,14 @@ const ALERT_MESSAGE = {
 
   // SECTION
   SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
+  SECTION_REMOVAL_SUCCESS: '해당 구간을 삭제했습니다.',
+  SECTION_REMOVAL_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
 };
 
 const CONFIRM_MESSAGE = {
   STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
   LINE_REMOVAL: '해당 노선을 삭제하시겠습니까?',
+  SECTION_REMOVAL: '해당 구간을 삭제하시겠습니까?',
 };
 
 // TODO: creation, revision을 modalType으로 분리하기

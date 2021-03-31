@@ -1,8 +1,15 @@
-import { ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
+import {
+  CLASS_SELECTOR,
+  CONFIRM_MESSAGE,
+  ID_SELECTOR,
+  KEYWORD,
+  REQUEST_URL,
+  ALERT_MESSAGE,
+} from '../constants';
 import SECTION_TEMPLATE from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
 import Component from './Component';
-import { fetchLineRead } from '../utils/fetch.js';
+import { fetchLineRead, fetchSectionRemoval } from '../utils/fetch.js';
 import SectionModal from '../modals/SectionModal';
 import { closeModal } from '../utils/DOM';
 
@@ -39,22 +46,26 @@ class SectionComponent extends Component {
         this.sectionModal.route(KEYWORD.CREATION);
       }
     );
+
+    $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener('click', event => {
+      if (
+        event.target.classList.contains(
+          CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL
+        )
+      ) {
+        if (!confirm(CONFIRM_MESSAGE.SECTION_REMOVAL)) {
+          return;
+        }
+        const stationId = event.target.dataset.id;
+        const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
+
+        this.#removeSection(stationId, lineId);
+      }
+    });
   }
 
   render() {
     super.render(SECTION_TEMPLATE);
-  }
-
-  #renderSelectOption() {
-    const lines = this.props.linesState.Data;
-
-    $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML = lines
-      .map(this.#createOptionTemplate)
-      .join('');
-  }
-
-  #createOptionTemplate(line) {
-    return `<option value="${line.id}">${line.name}</option>`;
   }
 
   renderSectionList = async lineId => {
@@ -74,6 +85,35 @@ class SectionComponent extends Component {
     }
   };
 
+  #removeSection = async (stationId, lineId) => {
+    const url =
+      REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
+    const accessToken = this.props.accessTokenState.Data;
+
+    try {
+      await fetchSectionRemoval(url, accessToken);
+
+      alert(ALERT_MESSAGE.SECTION_REMOVAL_SUCCESS);
+
+      this.renderSectionList(lineId);
+    } catch (err) {
+      alert(err.message);
+      return;
+    }
+  };
+
+  #renderSelectOption() {
+    const lines = this.props.linesState.Data;
+
+    $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML = lines
+      .map(this.#createOptionTemplate)
+      .join('');
+  }
+
+  #createOptionTemplate(line) {
+    return `<option value="${line.id}">${line.name}</option>`;
+  }
+
   #createStationTemplate(station) {
     return `
     <li class="d-flex items-center py-2 relative">
@@ -81,14 +121,7 @@ class SectionComponent extends Component {
       <button
         data-id=${station.id}
         type="button"
-        class="bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        data-id=${station.id}
-        type="button"
-        class="bg-gray-50 text-gray-500 text-sm"
+        class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
       >
         삭제
       </button>

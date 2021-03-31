@@ -238,6 +238,25 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
   return response;
 };
 
+const fetchSectionRemoval = async (url, accessToken) => {
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status === 400) {
+    throw new Error(ALERT_MESSAGE.SECTION_REMOVAL_FAIL);
+  }
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 //TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
@@ -253,4 +272,5 @@ export {
   fetchLineRevision,
   fetchLineRemoval,
   fetchSectionCreation,
+  fetchSectionRemoval,
 };
