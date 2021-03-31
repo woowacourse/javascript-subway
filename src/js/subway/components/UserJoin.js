@@ -21,7 +21,7 @@ export class UserJoin {
 
   async #handleSubmit(event) {
     event.preventDefault();
-    if (!this.isUniqueEmail) {
+    if (!this.#isUniqueEmail) {
       alert(MESSAGE.SIGNUP.OVERLAP_CHECK_REQUIRED);
 
       return;
@@ -53,7 +53,7 @@ export class UserJoin {
   }
 
   #handleEmailInput({ target: { value } }) {
-    this.isUniqueEmail = false;
+    this.#isUniqueEmail = false;
 
     if (!isValidEmail(value)) {
       DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
@@ -92,7 +92,7 @@ export class UserJoin {
 
     try {
       await userJoinAPI.checkOverlappedEmail(email);
-      this.isUniqueEmail = true;
+      this.#isUniqueEmail = true;
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.UNIQUE_EMAIL;
       DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-red', 'text-green');
     } catch (error) {

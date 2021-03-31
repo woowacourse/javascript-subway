@@ -4,6 +4,7 @@ import { DOM } from './constants/dom';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 import { subwayView } from './views';
+import { MapManage } from './components/MapManage';
 
 export class Subway {
   constructor() {
@@ -30,6 +31,7 @@ export class Subway {
     new StationManage({ cache: this.cache });
     new LineManage({ cache: this.cache });
     new SectionManage({ cache: this.cache });
+    new MapManage({ cache: this.cache });
   }
 
   #bindEvent() {

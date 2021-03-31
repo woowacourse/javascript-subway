@@ -5,6 +5,10 @@ export const SELECTOR = {
     MAIN: 'main-container',
     MODAL: 'modal-container',
   },
+  CONTENT: {
+    MAIN: 'main-content',
+    MODAL: 'modal-content',
+  },
   ROOT: {
     MAIN: {
       MSG: 'root-message-box',
@@ -81,6 +85,11 @@ export const SELECTOR = {
       SUBMIT_BUTTON: 'section-submit-button',
       MSG: 'fail-message-box',
       NON_MODIFIABLE: 'js-non-modifiable',
+    },
+  },
+  MAP: {
+    MAIN: {
+      CANVAS: 'map-display',
     },
   },
 };

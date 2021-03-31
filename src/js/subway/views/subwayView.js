@@ -71,4 +71,16 @@ export const subwayView = {
     sectionList.dataset.color = color;
     sectionList.classList.add(color);
   },
+
+  renderMapView: lines => {
+    if (DOM.MAP.MAIN.CANVAS.getContext) {
+      var ctx = DOM.MAP.MAIN.CANVAS.getContext('2d');
+
+      ctx.fillStyle = 'rgb(200, 0, 0)';
+      ctx.fillRect(10, 10, 50, 50);
+
+      ctx.fillStyle = 'rgb(0, 0, 200, 0.5)';
+      ctx.fillRect(30, 30, 50, 50);
+    }
+  },
 };

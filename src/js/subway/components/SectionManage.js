@@ -14,10 +14,10 @@ import { subwayView } from '../views';
 import { store } from '../../@shared/models/store';
 
 export class SectionManage {
-  #prop = null;
+  #props = null;
 
   constructor(props) {
-    this.props = props;
+    this.#props = props;
     this.#setup();
     this.#bindEvent();
   }
@@ -33,12 +33,16 @@ export class SectionManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (this.#props.cache.stations.length === 0) {
+        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, this.props.cache.stations);
-      subwayView.renderStationOptions(DOM.SECTION.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.props.cache.stations);
+      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, this.#props.cache.stations);
+      subwayView.renderStationOptions(
+        DOM.SECTION.MODAL.DOWN_STATION_SELECTOR,
+        DOWN_STATION,
+        this.#props.cache.stations
+      );
     } catch (error) {
       console.error(error.message);
     }
@@ -50,11 +54,11 @@ export class SectionManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (this.#props.cache.lines.length === 0) {
+        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
       }
 
-      subwayView.renderLineOptions(this.props.cache.lines);
+      subwayView.renderLineOptions(this.#props.cache.lines);
       DOM.SECTION.MAIN.LIST.classList.add('hidden');
       subwayView.renderSectionList();
     } catch (error) {
@@ -67,11 +71,11 @@ export class SectionManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
 
-      if (this.props.cache.lines.length === 0) {
-        this.props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (this.#props.cache.lines.length === 0) {
+        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
       }
 
-      const { stations, sections } = this.props.cache.lines.find(line => line.id === lineId);
+      const { stations, sections } = this.#props.cache.lines.find(line => line.id === lineId);
 
       subwayView.renderSectionList(stations, sections);
     } catch (error) {
@@ -105,7 +109,7 @@ export class SectionManage {
 
   #handleLineSelector(event) {
     const id = Number(event.target.value);
-    const { color, stations, sections } = this.props.cache.lines.find(line => line.id === id);
+    const { color, stations, sections } = this.#props.cache.lines.find(line => line.id === id);
 
     subwayView.fillLineColorBar(color);
     subwayView.renderSectionList(stations, sections);
@@ -141,7 +145,7 @@ export class SectionManage {
 
     try {
       await sectionManageAPI.addSection(accessToken, requestInfo);
-      this.props.cache.lines = [];
+      this.#props.cache.lines = [];
       await this.#updateSections();
       DOM.SECTION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -164,7 +168,7 @@ export class SectionManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await sectionManageAPI.removeSection(accessToken, requestInfo);
-      this.props.cache.lines = [];
+      this.#props.cache.lines = [];
       this.#updateSections();
     } catch (error) {
       alert(error.message);

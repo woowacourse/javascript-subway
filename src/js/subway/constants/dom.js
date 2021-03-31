@@ -88,4 +88,9 @@ export const DOM = {
       NON_MODIFIABLE: $(`.${SELECTOR.SECTION.MODAL.NON_MODIFIABLE}`, modalElements[ROUTE.SECTIONS]),
     },
   },
+  MAP: {
+    MAIN: {
+      CANVAS: $(`#${SELECTOR.MAP.MAIN.CANVAS}`, mainElements[ROUTE.MAP]),
+    },
+  },
 };

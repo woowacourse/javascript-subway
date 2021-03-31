@@ -10,6 +10,8 @@ import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
 import { lineAddModify } from './templates/lineAddModify';
 import { sectionAddModify } from './templates/sectionAddModify';
+import { mapManage } from './templates/mapDisplay';
+import { SELECTOR } from '../constants';
 
 export { menuButtons } from './templates/menuButtons';
 export { stationInfo, stationList } from './templates/stationManage';
@@ -17,18 +19,19 @@ export { lineInfo, lineList } from './templates/lineManage';
 export { sectionInfo, sectionList } from './templates/sectionManage';
 
 export const mainElements = {
-  [ROUTE.ROOT]: $('#main-content', parseToElements(root)),
-  [ROUTE.SIGNIN]: $('#main-content', parseToElements(signIn)),
-  [ROUTE.SIGNUP]: $('#main-content', parseToElements(signUp)),
-  [ROUTE.STATIONS]: $('#main-content', parseToElements(stationManage)),
-  [ROUTE.LINES]: $('#main-content', parseToElements(lineManage)),
-  [ROUTE.SECTIONS]: $('#main-content', parseToElements(sectionManage)),
+  [ROUTE.ROOT]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(root)),
+  [ROUTE.SIGNIN]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(signIn)),
+  [ROUTE.SIGNUP]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(signUp)),
+  [ROUTE.STATIONS]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(stationManage)),
+  [ROUTE.LINES]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(lineManage)),
+  [ROUTE.SECTIONS]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(sectionManage)),
+  [ROUTE.MAP]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(mapManage)),
 };
 
 export const modalElements = {
-  [ROUTE.STATIONS]: $('#modal-content', parseToElements(stationModify)),
-  [ROUTE.LINES]: $('#modal-content', parseToElements(lineAddModify)),
-  [ROUTE.SECTIONS]: $('#modal-content', parseToElements(sectionAddModify)),
+  [ROUTE.STATIONS]: $(`#${SELECTOR.CONTENT.MODAL}`, parseToElements(stationModify)),
+  [ROUTE.LINES]: $(`#${SELECTOR.CONTENT.MODAL}`, parseToElements(lineAddModify)),
+  [ROUTE.SECTIONS]: $(`#${SELECTOR.CONTENT.MODAL}`, parseToElements(sectionAddModify)),
 };
 
 export { subwayView } from './subwayView';

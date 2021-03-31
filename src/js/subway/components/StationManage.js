@@ -9,7 +9,7 @@ export class StationManage {
   #props = null;
 
   constructor(props) {
-    this.props = props;
+    this.#props = props;
     this.#setup();
     this.#bindEvent();
   }
@@ -24,11 +24,11 @@ export class StationManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.props.cache.stations.length === 0) {
-        this.props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (this.#props.cache.stations.length === 0) {
+        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
       }
 
-      subwayView.renderStationList(this.props.cache.stations);
+      subwayView.renderStationList(this.#props.cache.stations);
     } catch (error) {
       console.error(error.message);
     }
@@ -65,7 +65,7 @@ export class StationManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await stationManageAPI.addStation(accessToken, requestInfo);
-      this.props.cache.stations = [];
+      this.#props.cache.stations = [];
       await this.#updateStations(ROUTE.STATIONS);
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
@@ -98,8 +98,8 @@ export class StationManage {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
 
       DOM.STATION.MODAL.FORM.reset();
-      this.props.cache.stations = [];
-      this.props.cache.lines = [];
+      this.#props.cache.stations = [];
+      this.#props.cache.lines = [];
       await this.#updateStations(ROUTE.STATIONS);
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -134,7 +134,7 @@ export class StationManage {
 
       await stationManageAPI.removeStation(accessToken, requestInfo);
       $station.remove();
-      this.props.cache.stations = [];
+      this.#props.cache.stations = [];
     } catch (error) {
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }
