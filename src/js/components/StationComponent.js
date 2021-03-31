@@ -30,6 +30,7 @@ class StationComponent extends Component {
   }
 
   initLoad() {
+    // TODO: render로 해야하는지 load로 해야하는지 고민
     // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
     this.renderStationList(this.props.stationsState.Data);
   }

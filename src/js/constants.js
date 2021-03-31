@@ -30,6 +30,9 @@ const ID_SELECTOR = {
   LINE_MODAL_FORM_COLOR: 'line-modal-form__color',
   LINE_MODAL_FORM_SUBMIT: 'line-modal-form__submit',
 
+  SECTION_FORM: 'section-form',
+  SECTION_FORM_SELECT: 'section-form__select',
+
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
   MY_INFO_FORM_NAME: 'my-info-form__name',
@@ -103,6 +106,7 @@ const URL = {
   HOME: '/',
   STATION: '/station',
   LINE: '/line',
+  SECTION: '/section',
   LOGIN: '/login',
   SIGNUP: '/signup',
   MY_INFO: '/myInfo',
