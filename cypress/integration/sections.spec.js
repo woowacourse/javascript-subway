@@ -24,4 +24,29 @@ describe('지하철 구간 관리 테스트', () => {
     cy.wait('@getLines');
     cy.get('#sections-nav-button').click();
   });
+
+  it('새로운 구간을 등록할 수 있다.', () => {
+    const targetLine = '테스트';
+    const upStation = '역2';
+    const downStation = '역3';
+    const duration = '10';
+    const distance = '10';
+
+    cy.intercept('POST', `${requestURL}/lines`).as('addSection');
+
+    cy.get('#add-section-btn').click();
+    cy.get('.modal').should('be.visible');
+    cy.get('#subway-line-for-section').select(targetLine);
+    cy.get('#up-station').select(upStation);
+    cy.get('#down-station').select(downStation);
+    cy.get('#distance').type(distance);
+    cy.get('#duration').type(duration);
+
+    cy.get('#subway-section-form').submit();
+
+    cy.wait('@addSection');
+
+    cy.get('.modal').should('not.be.visible');
+    cy.get('.station-list-item').last().find('.station-item-name').should('have.text', downStation);
+  });
 });
