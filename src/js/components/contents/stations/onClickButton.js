@@ -31,8 +31,10 @@ function onClickEditButton($editButton) {
 function onClickCheckButton($checkButton) {
   const $editForm = $checkButton.closest('.edit-form');
 
-  // eslint-disable-next-line no-new
-  new FormData($editForm);
+  if ($editForm.reportValidity()) {
+    // eslint-disable-next-line no-new
+    new FormData($editForm);
+  }
 }
 
 function onClickRemoveButton($removeButton) {
@@ -45,6 +47,7 @@ function onClickRemoveButton($removeButton) {
   requestRemoveStation($editForm);
 }
 
+// TODO: undo 했을 때 수정된 것처럼 표시되는 문제 해결
 function onClickUndoButton($undoButton) {
   const $editForm = $undoButton.closest('.edit-form');
   renderNonEditMode($editForm);
