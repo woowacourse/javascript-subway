@@ -4,7 +4,7 @@ import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 import { API_ENDPOINT, STATUS_CODE, STATIONS_MESSAGES, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
-export default async function requestCreateStation({ formData }) {
+export async function requestCreateStation({ formData }) {
   try {
     const response = await fetchCreateStation(formData);
 
@@ -43,4 +43,10 @@ async function fetchCreateStation(formData) {
   });
 
   return response;
+}
+
+export function updateSubmitButtonState({ currentTarget }) {
+  const $button = currentTarget.submit;
+
+  $button.disabled = !currentTarget.checkValidity();
 }

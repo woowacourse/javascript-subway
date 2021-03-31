@@ -1,8 +1,7 @@
 import onClickButton from './onClickButton.js';
+import { requestCreateStation, updateSubmitButtonState } from './create.js';
 import requestReadStation from './read.js';
-import requestCreateStation from './create.js';
 import requestUpdateStation from './update.js';
-import updateSubmitButtonState from './validate.js';
 import { dispatchFormData, show, hide } from '../../../utils/index.js';
 import { LIST_ITEM_TEMPLATE, STATIONS_TEMPLATE } from './template.js';
 
@@ -22,7 +21,7 @@ $list.addEventListener('click', onClickButton);
 $list.addEventListener('submit', dispatchFormData);
 $list.addEventListener('formdata', requestUpdateStation);
 
-export const renderStations = async ($main) => {
+export async function renderStations($main) {
   const stationList = await requestReadStation();
 
   $list.innerHTML = stationList
@@ -32,7 +31,7 @@ export const renderStations = async ($main) => {
 
   $main.replaceChildren($wrapper);
   $addInput.focus();
-};
+}
 
 export function renderEditMode($editForm) {
   const $editInput = $editForm.querySelector('input');
