@@ -13,6 +13,14 @@ import { serviceAPI } from '../service/index.js';
 export default class App extends Component {
   constructor() {
     super();
+    this.router = {
+      '/': (token = '') => this.Main.load(token),
+      '/stations': (token = '') => this.Stations.load(token),
+      '/lines': (token = '') => this.Lines.load(token),
+      '/sections': (token = '') => this.Sections.load(token),
+      '/login': (token = '') => this.Login.load(token),
+      '/signup': (token = '') => this.Signup.load(token),
+    };
     this.bindEvent();
     this.changeTemplate('/');
   }
@@ -36,14 +44,6 @@ export default class App extends Component {
   }
 
   async changeTemplate(pathName) {
-    const router = {
-      '/': (token = '') => this.Main.load(token),
-      '/stations': (token = '') => this.Stations.load(token),
-      '/lines': (token = '') => this.Lines.load(token),
-      '/sections': (token = '') => this.Sections.load(token),
-      '/login': (token = '') => this.Login.load(token),
-      '/signup': (token = '') => this.Signup.load(token),
-    };
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
     const isLoggedIn = await serviceAPI.isValidToken(token);
 
@@ -51,12 +51,12 @@ export default class App extends Component {
       console.error(MESSAGE.REQUIRE_LOGIN);
       localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
       this.Navigation.render();
-      router[pathName]?.();
+      this.router[pathName]?.();
 
       return;
     }
 
     this.Navigation.render(token);
-    await router[pathName]?.(token);
+    await this.router[pathName]?.(token);
   }
 }
