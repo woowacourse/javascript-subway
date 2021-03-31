@@ -18,6 +18,11 @@ export default async function requestRemoveStation($editForm) {
       return;
     }
 
+    if (response.status === STATUS_CODE.STATIONS.REMOVE.REGISTERED_TO_LINE) {
+      showNotification(STATIONS_MESSAGES.STATION_IS_REGISTERED_TO_LINE);
+      return;
+    }
+
     if (!response.ok) {
       const errorMessage = await response.text();
       throw new Error(`[status code: ${response.status}] ${errorMessage}`);
