@@ -1,4 +1,7 @@
-import { ERROR_MESSAGE } from "../../src/js/constants/messages.js";
+import {
+  ERROR_MESSAGE,
+  CONFIRM_MESSAGE,
+} from "../../src/js/constants/messages.js";
 
 describe("역 관리 페이지", () => {
   const stations = ["배민역", "쿠팡역", "카카오역"];
@@ -105,5 +108,23 @@ describe("역 관리 페이지", () => {
     cy.get(".js-station-name").each(($stationName, index) => {
       cy.wrap($stationName).should("have.text", stations[index]);
     });
+  });
+
+  it("삭제 버튼을 선택해서 구간을 삭제할 수 있다.", () => {
+    const stub = cy.stub();
+    cy.on("window:confirm", stub);
+
+    cy.get(".js-delete-btn:last-child")
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith(
+          CONFIRM_MESSAGE.DELETE_SECTION
+        );
+      });
+
+    cy.get(".js-station-list .js-station-name:last-child").should(
+      "not.have.text",
+      stations[stations.length - 1]
+    );
   });
 });

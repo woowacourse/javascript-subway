@@ -59,4 +59,5 @@ export const SUCCESS_MESSAGE = {
 export const CONFIRM_MESSAGE = {
   DELETE_STATION: "정말 해당 역을 삭제하시겠습니까?",
   DELETE_LINE: "정말 해당 노선을 삭제하시겠습니까?",
+  DELETE_SECTION: "정말 해당 구간을 삭제하시겠습니까?",
 };
