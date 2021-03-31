@@ -160,6 +160,7 @@ context('지하철 역 관리 페이지', () => {
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
     cy.get(`.color-option.bg-green-500`).click();
+
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
       .click()
       .then(() => {
@@ -167,8 +168,28 @@ context('지하철 역 관리 페이지', () => {
           ALERT_MESSAGE.DUPLICATED_LINE_FAIL
         );
       });
+  });
 
-    //
+  it('지하철 노선 수정에 관한 테스트를 한다', () => {
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.LINE).click();
+
+    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM}`)
+      .eq(0)
+      .find(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION}`)
+      .click();
+    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
+      .click()
+      .then(() => {
+        expect(stub.getCall(1)).to.be.calledWith(
+          ALERT_MESSAGE.LINE_REVISION_SUCCESS
+        );
+      });
   });
 });
 

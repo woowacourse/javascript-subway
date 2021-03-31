@@ -69,6 +69,10 @@ svg {
   margin-bottom: 0;
 }
 
-.modal-inner.line-modal-inner {
-  height: 90%;
+.modal-inner.line-creation-modal-inner {
+  height: 80%;
+}
+
+.modal-inner.line-revision-modal-inner {
+  height: 65%;
 }
