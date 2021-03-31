@@ -27,6 +27,10 @@ export const showElementBySelector = selector => {
   $(selector).classList.remove(STYLE_CLASS.REMOVED);
 };
 
+export const resetForm = $form => {
+  $form.reset();
+}
+
 export const setHeadTagAttribute = (title, styleFilePath) => {
   $('link').setAttribute('href', styleFilePath);
   $('title').textContent = title;
@@ -46,7 +50,6 @@ export const setFadeOutAnimation = $element => {
   $element.classList.add('fade-out');
 };
 
-// TODO: modal 메소드 위치 고민
 export const openModal = () => {
   $(`.${SELECTOR_CLASS.MODAL}`).classList.add('open');
 };

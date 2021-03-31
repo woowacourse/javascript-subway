@@ -2,7 +2,7 @@ import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE 
 import { state } from '../store.js';
 import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
 import { requestStationDelete, requestStationRegistration } from '../api/station.js';
-import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation } from '../utils/dom.js';
+import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation, resetForm } from '../utils/dom.js';
 import { wait } from '../utils/utils';
 
 export function delegateStationSubmitEvent(event) {
@@ -10,10 +10,9 @@ export function delegateStationSubmitEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.STATION_FORM) {
     onStationFormSubmit(target);
+    resetForm(target);
   }
 }
-
-// TODO : 노선 포함 여부에 따라 역 삭제 처리
 
 export function delegateStationClickEvent(event) {
   const { target } = event;
@@ -61,7 +60,6 @@ function onStationItemInputOpen(target) {
   $stationInput.focus();
 }
 
-// TODO : 후에 역 이름 수정 API 삽입
 function onStationItemEdit(target) {
   const { stationId } = target.dataset;
   const stationList = state.get(STATE_KEY.STATION_LIST);
