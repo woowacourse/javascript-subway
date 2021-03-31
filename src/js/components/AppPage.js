@@ -55,6 +55,7 @@ class AppPage extends Page {
       [URL.SECTION]: new SectionComponent({
         accessTokenState: this.accessTokenState,
         linesState: this.linesState,
+        stationsState: this.stationsState,
       }),
     };
   }

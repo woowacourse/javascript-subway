@@ -1,12 +1,22 @@
-import { ID_SELECTOR, REQUEST_URL } from '../constants';
+import { ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
 import SECTION_TEMPLATE from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
 import Component from './Component';
 import { fetchLineRead } from '../utils/fetch.js';
+import SectionModal from '../modals/SectionModal';
 
 class SectionComponent extends Component {
+  sectionModal;
+
   constructor(props) {
     super(props);
+
+    this.sectionModal = new SectionModal({
+      accessTokenState: this.props.accessTokenState,
+      linesState: this.props.linesState,
+      stationsState: this.props.stationsState,
+      renderSectionList: this.renderSectionList,
+    });
   }
 
   initLoad() {
@@ -17,7 +27,16 @@ class SectionComponent extends Component {
   initEvent() {
     $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).addEventListener(
       'change',
-      this.#onSectionListRendered
+      event => {
+        this.renderSectionList(event.target.value);
+      }
+    );
+
+    $(`#${ID_SELECTOR.SECTION_CREATION_BUTTON}`).addEventListener(
+      'click',
+      () => {
+        this.sectionModal.route(KEYWORD.CREATION);
+      }
     );
   }
 
@@ -37,8 +56,7 @@ class SectionComponent extends Component {
     return `<option value="${line.id}">${line.name}</option>`;
   }
 
-  #onSectionListRendered = async event => {
-    const lineId = event.target.value;
+  renderSectionList = async lineId => {
     const url = REQUEST_URL + `/lines/${lineId}`;
     const accessToken = this.props.accessTokenState.Data;
 

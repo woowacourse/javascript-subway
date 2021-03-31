@@ -30,9 +30,15 @@ const ID_SELECTOR = {
   LINE_MODAL_FORM_COLOR: 'line-modal-form__color',
   LINE_MODAL_FORM_SUBMIT: 'line-modal-form__submit',
 
+  SECTION_CREATION_BUTTON: 'section-creation-button',
   SECTION_FORM: 'section-form',
   SECTION_FORM_SELECT: 'section-form__select',
   SECTION_LIST: 'section-list',
+  SECTION_MODAL_FORM: 'section-modal-form',
+  SECTION_MODAL_FORM_LINE_SELECT: 'section-modal-form__line-select',
+  SECTION_MODAL_FORM_UP_STATION_SELECT: 'section-modal-form__up-station-select',
+  SECTION_MODAL_FORM_DOWN_STATION_SELECT:
+    'section-modal-form__down-station-select',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
@@ -87,6 +93,9 @@ const ALERT_MESSAGE = {
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
   LINE_REVISION_SUCCESS: '노선을 수정했습니다.',
   LINE_REMOVAL_SUCCESS: '해당 노선을 삭제했습니다.',
+
+  // SECTION
+  SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
 };
 
 const CONFIRM_MESSAGE = {
