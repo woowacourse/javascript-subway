@@ -47,6 +47,7 @@ export const SELECTOR = {
   LINE_ITEM_NAME: '.line-list-item-name',
   SECTION_SELECT_FORM: 'form[name="select-section"]',
   ADD_SECTION: 'form[name="add-section"]',
+  SECTION_LIST: '#section-list',
 };
 
 export const CLASS_NAME = {
@@ -77,6 +78,7 @@ export const STORAGE = {
 };
 
 export const SNACKBAR_MESSAGE = {
+  // TODO: 성공 메시지로 이동
   LOGIN: '로그인 되었습니다 !',
   LOGOUT: '로그아웃 되었습니다 !',
   SIGNUP: '회원가입이 완료되었습니다 !',
@@ -93,6 +95,7 @@ export const SUCCESS_MESSAGE = {
   REMOVE_LINE: '노선이 제거되었습니다!',
   MODIFY_LINE: '노선이 수정되었습니다!',
   ADD_SECTION: '구간이 추가되었습니다! 🚇',
+  REMOVE_SECTION: '구간이 제거되었습니다! 🚇',
 };
 
 export const ERROR_MESSAGE = {
@@ -125,6 +128,8 @@ export const ERROR_MESSAGE = {
   NEGATIVE_NUMBER: '입력값은 음수가 될 수 없습니다.',
   REMOVE_LINE_FAILED:
     '노선을 삭제하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  REMOVE_SECTION_FAILED:
+    '구간을 삭제하는데 실패했습니다. 잠시후 다시 시도해주세요.',
 };
 
 export const CONFIRM_MESSAGE = {

@@ -1,13 +1,17 @@
 import { lineAPI } from '../../../../api/line.js';
+import { sectionAPI } from '../../../../api/section.js';
 import { stationAPI } from '../../../../api/station.js';
 import {
+  CONFIRM_MESSAGE,
   ERROR_MESSAGE,
   PAGE_TITLE,
   PATH,
   SELECTOR,
   STORAGE,
+  SUCCESS_MESSAGE,
 } from '../../constants.js';
 import { $ } from '../../utils/dom.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 import { getLocalStorageItem } from '../../utils/storage.js';
 import SectionModal from './SectionModal.js';
 import {
@@ -56,6 +60,7 @@ class Section {
       userAccessToken: this.#userAccessToken,
     });
     this.$sectionSelectForm = $(SELECTOR.SECTION_SELECT_FORM);
+    this.$sectionList = $(SELECTOR.SECTION_LIST);
     this._bindEvent();
   }
 
@@ -94,6 +99,7 @@ class Section {
   _bindEvent() {
     this._bindSelectLineEvent();
     this._bindAddSectionEvent();
+    this._bindRemoveSectionEvent();
   }
 
   _bindSelectLineEvent() {
@@ -112,12 +118,44 @@ class Section {
     });
   }
 
+  _bindRemoveSectionEvent() {
+    this.$sectionList.addEventListener('click', e => {
+      if (e.target.classList.contains('delete-button')) {
+        this._handleRemoveSection(e);
+      }
+    });
+  }
+
   _handleSelectLine({ target }) {
     this.#selectedLineId = target.value;
     const { stations, color } = this.#sections[this.#selectedLineId];
 
     target.className = color;
     $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+  }
+
+  async _handleRemoveSection(e) {
+    if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
+
+    try {
+      const { $sectionItem, id } = this._getSelectedSectionInfo(e);
+
+      await sectionAPI.deleteSection({
+        userAccessToken: this.#userAccessToken,
+        lineId: this.#selectedLineId,
+        stationId: id,
+      });
+
+      this.#sections[this.#selectedLineId].stations = this.#sections[
+        this.#selectedLineId
+      ].stations.filter(station => station.id !== Number(id));
+
+      $sectionItem.remove();
+      showSnackbar(SUCCESS_MESSAGE.REMOVE_SECTION);
+    } catch (res) {
+      const message = await res.text();
+      showSnackbar(message ? message : ERROR_MESSAGE.REMOVE_SECTION_FAILED);
+    }
   }
 
   updateSections(info) {
@@ -149,10 +187,17 @@ class Section {
     }
   }
 
-  _getSelectedSectionInfo() {
-    // const keyLine;
-    // this.#sections[keyLine]; // station들에 대한정보
+  _getSelectedSectionInfo({ target }) {
+    const $sectionItem = target.closest('[data-section-id]');
+    const id = $sectionItem.dataset.sectionId;
+
+    return { $sectionItem, id };
   }
 }
 
 export default Section;
+
+// TODO : initStation, Section, Line model.js 로 분리
+// 상수화. 특히 DOM
+// 테스트 코드 짜기
+// 시간 남으면 역과 역사이의 시간, 분 정도? (개인?)
