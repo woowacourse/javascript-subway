@@ -79,3 +79,7 @@ ul li button:hover {
   left: 46%;
   transform: translate(0%, -50%);
 }
+
+.station-name {
+  min-width: 120px;
+}

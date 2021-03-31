@@ -1,8 +1,9 @@
 import Component from '../core/Component.js';
 import Navigation from './navigation/Navigation.js';
-import Sections from './sections/Sections.js';
-import Stations from './stations/Stations.js';
-import Lines from './lines/Lines.js';
+import Sections from './section/Sections.js';
+import Stations from './station/Stations.js';
+import Lines from './line/Lines.js';
+import SubwayMap from './subwayMap/SubwayMap.js';
 import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
@@ -18,6 +19,7 @@ export default class App extends Component {
       '/stations': (token = '') => this.Stations.load(token),
       '/lines': (token = '') => this.Lines.load(token),
       '/sections': (token = '') => this.Sections.load(token),
+      '/subway-map': (token = '') => this.SubwayMap.load(token),
       '/login': (token = '') => this.Login.load(token),
       '/signup': (token = '') => this.Signup.load(token),
     };
@@ -32,6 +34,7 @@ export default class App extends Component {
     this.Stations = new Stations();
     this.Lines = new Lines();
     this.Sections = new Sections();
+    this.SubwayMap = new SubwayMap();
     this.Login = new Login({ changeTemplate: this.changeTemplate.bind(this) });
     this.Signup = new Signup({
       changeTemplate: this.changeTemplate.bind(this),

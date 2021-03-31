@@ -43,7 +43,8 @@ const request = {
     if (token) {
       option.headers.Authorization = `Bearer ${token}`;
     }
-
+    console.log(option);
+    console.log(contents);
     return _request(url, option);
   },
 
