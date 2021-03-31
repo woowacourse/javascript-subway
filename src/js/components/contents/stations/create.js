@@ -4,7 +4,7 @@ import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 import { API_ENDPOINT, STATUS_CODE, STATIONS_MESSAGES, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
-export async function requestCreateStation({ formData }) {
+export async function requestCreateStation({ formData, target }) {
   try {
     const response = await fetchCreateStation(formData);
 
@@ -27,6 +27,7 @@ export async function requestCreateStation({ formData }) {
 
     renderContent(PATHNAMES.STATIONS);
     showNotification(STATIONS_MESSAGES.STATION_HAS_BEEN_ADDED);
+    target.reset();
   } catch (error) {
     reportError({
       messageToUser: STATIONS_MESSAGES.REQUEST_HAS_BEEN_FAILED,
