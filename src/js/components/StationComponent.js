@@ -6,23 +6,32 @@ import {
   CLASS_SELECTOR,
   CONFIRM_MESSAGE,
   ID_SELECTOR,
+  KEYWORD,
   REQUEST_URL,
 } from '../constants.js';
 import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
-import StationModalComponent from './StationModalComponent.js';
+import StationModal from '../modals/StationModal.js';
 
 class StationComponent extends Component {
-  stationModalComponent;
+  stationModal;
 
   constructor(props) {
     super(props);
 
-    this.stationModalComponent = new StationModalComponent({
+    this.stationModal = new StationModal({
       accessTokenState: this.props.accessTokenState,
       stationsState: this.props.stationsState,
     });
-    this.stationModalComponent.initialize();
+  }
+
+  initStateListener() {
+    this.props.stationsState.setListener(this.renderStationList);
+  }
+
+  initLoad() {
+    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
+    this.renderStationList(this.props.stationsState.Data);
   }
 
   initEvent() {
@@ -38,7 +47,8 @@ class StationComponent extends Component {
         if (
           target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
         ) {
-          this.stationModalComponent.renderStationModal(target);
+          this.stationModal.route(KEYWORD.REVISION);
+          this.#loadRevisionModal(target);
           return;
         }
 
@@ -54,15 +64,6 @@ class StationComponent extends Component {
         }
       }
     );
-  }
-
-  initStateListener() {
-    this.props.stationsState.setListener(this.renderStationList);
-  }
-
-  initLoad() {
-    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
-    this.renderStationList(this.props.stationsState.Data);
   }
 
   renderStationList = stations => {
@@ -89,6 +90,10 @@ class StationComponent extends Component {
       return;
     }
   };
+
+  render() {
+    super.render(STATION_TEMPLATE);
+  }
 
   #onStationCreated = async event => {
     event.preventDefault();
@@ -123,6 +128,14 @@ class StationComponent extends Component {
     }
   };
 
+  #loadRevisionModal(target) {
+    const stationId = target.dataset.id;
+    const stationName = target.dataset.name;
+
+    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).value = stationName;
+    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).dataset.id = stationId;
+  }
+
   // TODO: 위치 생각해보기
   #makeStationTemplate({ id, name }) {
     return `
@@ -146,10 +159,6 @@ class StationComponent extends Component {
     </li>
     <hr class="my-0" />
     `;
-  }
-
-  render() {
-    super.render(STATION_TEMPLATE);
   }
 }
 

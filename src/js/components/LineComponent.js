@@ -1,20 +1,19 @@
-import { CLASS_SELECTOR, ID_SELECTOR } from '../constants.js';
+import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD } from '../constants.js';
+import LineModal from '../modals/LineModal.js';
 import LINE_TEMPLATE from '../templates/lineTemplate.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
-import LineModalComponent from './LineModalComponent.js';
 class LineComponent extends Component {
-  modalComponent;
+  lineModal;
 
   constructor(props) {
     super(props);
 
-    this.modalComponent = new LineModalComponent({
+    this.lineModal = new LineModal({
       accessTokenState: this.props.accessTokenState,
       stationsState: this.props.stationsState,
       linesState: this.props.linesState,
     });
-    this.modalComponent.initialize();
   }
 
   initStateListener() {
@@ -26,14 +25,16 @@ class LineComponent extends Component {
   }
 
   initEvent() {
-    $(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).addEventListener(
-      'click',
-      this.modalComponent.onCreationModalOpened
-    );
+    $(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).addEventListener('click', () => {
+      this.lineModal.route(KEYWORD.CREATION);
+    });
 
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
       if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
-        this.modalComponent.openRevisionModal(target);
+        this.lineModal.route(KEYWORD.REVISION);
+        // TODO: loadRevisionModal을 LineRevisionComponent 안에 넣어야 할지 고민
+        this.#loadRevisionModal(target);
+
         return;
       }
     });
@@ -59,9 +60,31 @@ class LineComponent extends Component {
     super.render(LINE_TEMPLATE);
   }
 
+  #loadRevisionModal = button => {
+    const lineId = button.dataset.id;
+
+    if (!lineId) {
+      console.err('button의 dataset 속성으로 lineId가 존재하지 않습니다.');
+      return;
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
+
+    const line = this.#findLineBy(lineId);
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
+  };
+
+  #findLineBy(targetId) {
+    const lines = this.props.linesState.Data;
+
+    return lines.find(line => line.id === Number(targetId));
+  }
+
   #makeLineTemplate({ name, color, id }) {
     return `
-    <li class="d-flex items-center py-2 relative">
+    <li class="${CLASS_SELECTOR.LINE_LIST_ITEM} d-flex items-center py-2 relative">
       <span class="subway-line-color-dot bg-${color}"></span>
       <span class="w-100 pl-6 subway-line-list-item-name"
         >${name}</span

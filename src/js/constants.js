@@ -56,6 +56,7 @@ const CLASS_SELECTOR = {
   STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
   STATION_LIST_ITEM_REMOVAL: 'js-station-list__item-removal',
 
+  LINE_LIST_ITEM: 'js-line-list__item',
   LINE_LIST_ITEM_REVISION: 'js-line-list__item-revision',
   LINE_LIST_ITEM_REMOVAL: 'js-line-list__item-removal',
   LINE_COLOR_SELECTOR: 'js-line-color-selector',
@@ -80,12 +81,14 @@ const ALERT_MESSAGE = {
 
   // LINE
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
+  LINE_REVISION_SUCCESS: '노선을 수정했습니다.',
 };
 
 const CONFIRM_MESSAGE = {
   STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
 };
 
+// TODO: creation, revision을 modalType으로 분리하기
 const KEYWORD = {
   LOGOUT: 'logout',
   CREATION: 'creation',
