@@ -9,6 +9,7 @@ const EMAIL = 'wnsah052@naver.com';
 const NAME = '한준모';
 const PASSWORD = '1';
 const ORIGIN_STATION_NAME = '주모바보';
+const LINE_NAME = '2호선';
 
 context('로그인 및 정보 수정', () => {
   beforeEach(() => {
@@ -132,21 +133,25 @@ context('지하철 역 관리 페이지', () => {
   });
 
   it('지하철역 삭제할 수 있다.', () => {
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
     login();
     getByHref(URL.STATION).click();
 
-    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`).click();
-    cy.on('window:confirm', () => true);
-    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
-      .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`)
-      .should('not.exist');
+    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`).eq(0).click();
+    cy.on('window:confirm', () => true).then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.STATION_REMOVAL_SUCCESS
+      );
+    });
 
     registerStation(ORIGIN_STATION_NAME);
   });
 
-  it.only('지하철 노선을 등록할 수 있다.', () => {
+  it('지하철 노선을 등록할 수 있다.', () => {
     const stub = cy.stub();
-    const LINE = '2호선';
 
     cy.on('window:alert', stub);
 
@@ -154,20 +159,12 @@ context('지하철 역 관리 페이지', () => {
 
     getByHref(URL.LINE).click();
     cy.get(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).click();
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).type(LINE);
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`).select('강남');
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`).select('잠실');
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
-    cy.get(`.color-option.bg-green-500`).click();
 
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
-      .click()
-      .then(() => {
-        expect(stub.getCall(1)).to.be.calledWith(
-          ALERT_MESSAGE.DUPLICATED_LINE_FAIL
-        );
-      });
+    registerLine().then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.DUPLICATED_LINE_FAIL
+      );
+    });
   });
 
   it('지하철 노선 수정에 관한 테스트를 한다', () => {
@@ -191,6 +188,26 @@ context('지하철 역 관리 페이지', () => {
         );
       });
   });
+
+  it('지하철 노선 삭제에 관한 테스트를 한다', () => {
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.LINE).click();
+
+    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}`).eq(0).click();
+
+    cy.on('window:confirm', () => true).then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.LINE_REMOVAL_SUCCESS
+      );
+    });
+
+    registerLine();
+  });
 });
 
 function login() {
@@ -201,8 +218,8 @@ function login() {
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
 }
 
-function registerStation(station) {
-  cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(station);
+function registerStation(stationName) {
+  cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(stationName);
   return cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`).click();
 }
 
@@ -218,4 +235,17 @@ function reviseStationName(name) {
 
 function getByHref(href, selector = '#app') {
   return cy.get(selector).find(`[href="${href}"]`);
+}
+
+function registerLine() {
+  cy.get(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).click();
+  cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).type(LINE_NAME);
+  //TODO: 역이름 상수화
+  cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`).select('강남');
+  cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`).select('잠실');
+  cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
+  cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
+  cy.get(`.color-option.bg-green-500`).click();
+
+  return cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`).click();
 }
