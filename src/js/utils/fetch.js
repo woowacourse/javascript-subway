@@ -166,6 +166,23 @@ const fetchLineRead = async (url, accessToken) => {
   return response;
 };
 
+// TODO: fetchLineRead와 url(fetchLineRead는 url/id) 빼고 다 같음
+const fetchLineListRead = async (url, accessToken) => {
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
 const fetchLineRevision = async (url, { bodyData, accessToken }) => {
   const response = await fetch(url, {
     method: 'PUT',
@@ -213,6 +230,7 @@ export {
   fetchStationRemoval,
   fetchLineCreation,
   fetchLineRead,
+  fetchLineListRead,
   fetchLineRevision,
   fetchLineRemoval,
 };

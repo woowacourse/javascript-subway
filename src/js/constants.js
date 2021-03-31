@@ -32,6 +32,7 @@ const ID_SELECTOR = {
 
   SECTION_FORM: 'section-form',
   SECTION_FORM_SELECT: 'section-form__select',
+  SECTION_LIST: 'section-list',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
