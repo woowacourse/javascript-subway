@@ -49,7 +49,7 @@ const handleSectionStatus = async event => {
   }
 
   if (event.target.classList.contains('section-delete-button')) {
-    deleteSection({ lineId, stationId: upStationId });
+    await deleteSection({ lineId, stationId: upStationId });
 
     try {
       await store.line.init();
