@@ -44,6 +44,7 @@ export default class LineModal {
     this.$lineCreationForm.addEventListener('submit', this.handleSubmit.bind(this));
     this.$modalCloseButton.addEventListener('click', this.close.bind(this));
     this.$root.addEventListener('mousedown', this.handleClickOutsideModal.bind(this));
+    document.addEventListener('keydown', this.handleESCKey.bind(this));
   }
 
   bindCreationEvents() {
@@ -245,6 +246,12 @@ export default class LineModal {
 
   close() {
     this.$root.classList.remove('open');
+  }
+
+  handleESCKey(event) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   }
 
   handleClickOutsideModal(event) {

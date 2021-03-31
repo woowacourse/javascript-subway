@@ -39,6 +39,7 @@ export default class SectionModal {
     this.$downStationSelect.addEventListener('change', this.checkValidStation.bind(this));
     this.$modalCloseButton.addEventListener('click', this.close.bind(this));
     this.$root.addEventListener('mousedown', this.handleClickOutsideModal.bind(this));
+    document.addEventListener('keydown', this.handleESCKey.bind(this));
   }
 
   open(lineID) {
@@ -100,6 +101,12 @@ export default class SectionModal {
   close() {
     this.$subwaySectionForm.reset();
     this.$root.classList.remove('open');
+  }
+
+  handleESCKey(event) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   }
 
   handleClickOutsideModal(event) {
