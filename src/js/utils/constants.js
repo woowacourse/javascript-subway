@@ -5,18 +5,28 @@ export const SNACKBAR_SHOW_TIME = 1500;
 
 export const ELEMENT = Object.freeze({
   APP: 'app',
+
+  MODAL: 'modal',
+  MODAL_STATION_OPTIONS_WRAPPER: 'modal__station-options-wrapper',
+  MODAL_LINE_OPTIONS_WRAPPER: 'modal__line-options-wrapper',
+  MODAL_SECTION_FORM: 'modal__section-form',
+  MODAL_LINE_FORM: 'modal__line-form',
+  MODAL_STATION_NAME_EDIT_INPUT: 'modal__station-name-edit-input',
+  MODAL_STATION_NAME_EDIT_FORM: 'modal__station-name-edit-form',
+  ADD_MODAL: 'add-modal',
+  EDIT_MODAL: 'edit-modal',
+
   MAIN_SCREEN: 'main-screen',
-  NAV_BAR_SIGN_IN_BUTTON: 'nav-bar__sign-in-button',
-  SIGN_UP_BUTTON: 'sign-up-button',
-  NAV_BAR: 'nav-bar',
   MAIN_MENU_ROUTER: 'main__menu-router',
-  SIGN_IN_FORM: 'sign-in-form',
-  SIGN_UP_FORM: 'signup-form',
-  SIGN_IN_EMAIL_INPUT: 'signin-form__email-input',
-  SIGN_IN_PASSWORD_INPUT: 'signin-form__password-input',
-  SIGN_IN_SUBMIT_BUTTON: 'signin-form__submit-button',
-  SIGN_IN_EMAIL_CHECK_TEXT_AREA: 'signin-form__email-check-text-area',
-  SIGN_IN_PASSWORD_CHECK_TEXT_AREA: 'signin-form__password-check-text-area',
+
+  NAV_BAR: 'nav-bar',
+  NAV_BAR_SIGN_IN_BUTTON: 'nav-bar__sign-in-button',
+
+  CREATE_LINE_BUTTON: 'create-line-button',
+  LINE_LIST_ITEM_EDIT_BUTTON: 'line-list-item__edit-button',
+  LINE_LIST_ITEM_REMOVE_BUTTON: 'line-list-item__remove-button',
+
+  SIGN_UP_BUTTON: 'sign-up-button',
   SIGN_UP_EMAIL_INPUT: 'signup-form__email-input',
   SIGN_UP_USER_NAME_INPUT: 'signup-form__user-name-input',
   SIGN_UP_PASSWORD_INPUT: 'signup-form__password-input',
@@ -26,11 +36,44 @@ export const ELEMENT = Object.freeze({
   SIGN_UP_USER_NAME_CHECK_TEXT_AREA: 'signup-form__user-name-check-text-area',
   SIGN_UP_PASSWORD_CHECK_TEXT_AREA: 'signup-form__password-check-text-area',
   SIGN_UP_PASSWORD_CONFIRM_CHECK_TEXT_AREA: 'signup-form__password-confirm-check-text-area',
+
+  STATION_FORM: 'station-form',
+  STATION_LIST_ITEM: 'station-list-item',
+  STATION_NAME: 'station-name',
+  STATION_LIST_WRAPPER: 'station-list-wrapper',
+  STATION_LIST_ITEM_EDIT_BUTTON: 'station-list-item__edit-button',
+  STATION_LIST_ITEM_REMOVE_BUTTON: 'station-list-item__remove-button',
+  SIGN_IN_FORM: 'sign-in-form',
+  SIGN_UP_FORM: 'signup-form',
+  SIGN_IN_EMAIL_INPUT: 'signin-form__email-input',
+  SIGN_IN_PASSWORD_INPUT: 'signin-form__password-input',
+  SIGN_IN_SUBMIT_BUTTON: 'signin-form__submit-button',
+  SIGN_IN_EMAIL_CHECK_TEXT_AREA: 'signin-form__email-check-text-area',
+  SIGN_IN_PASSWORD_CHECK_TEXT_AREA: 'signin-form__password-check-text-area',
+
+  INPUT_FIELD: 'input-field',
   INPUT_SUBMIT: 'input-submit',
+
   EMAIL: 'email',
   PASSWORD: 'password',
   USER_NAME: 'user-name',
   PASSWORD_CONFIRM: 'password-confirm',
+
+  LINE_LIST_WRAPPER: 'line-list-wrapper',
+  LINE_OPTIONS_WRAPPER: 'line-options-wrapper',
+  LINE_COLOR_SELECTOR: 'subway-line-color-selector',
+  SUBWAY_LINE_NAME: 'subway-line-name',
+  LINE_LIST_ITEM: 'line-list-item',
+
+  CREATE_SECTION_BUTTON: 'create-section-button',
+  SUBWAY_LINE_FOR_SECTION: 'subway-line-for-section',
+  SECTION_LIST_ITEM_REMOVE_BUTTON: 'section-list-item__remove-button',
+
+  SELECTED_COLOR: 'selected-color',
+  COLOR_OPTION: 'color-option',
+
+  UP_STATION: 'up-station',
+  DOWN_STATION: 'down-station',
 });
 
 export const PATH = Object.freeze({
@@ -100,3 +143,4 @@ export const SUCCESS_MESSAGE = Object.freeze({
 });
 
 export const SIGN_OUT_CONFIRM_MESSAGE = '로그아웃 하시겠습니까?';
+export const REMOVE_CONFIRM_MESSAGE = '정말 삭제하시겠습니까?';

@@ -3,6 +3,7 @@ import { $ } from '../utils/dom';
 import { getLineOptionsTemplate, getTargetSectionListTemplate, getStationOptionsTemplate } from '../templates/sections';
 import { openModal, closeModal } from '../utils/modal';
 import { requestAddSection, requestGetTargetLineList, requestRemoveSection } from '../requestData/requestUserData';
+import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
 
 class Sections {
   constructor() {
@@ -17,13 +18,13 @@ class Sections {
   }
 
   selectDOM() {
-    this.$listWrapper = $('.list-wrapper');
-    this.lineOptionsWrapper = $('.line-options-wrapper');
-    this.$createSectionButton = $('.create-section-button');
-    this.$modal = $('.modal');
-    this.$modalStationOptionsWrapper = $('.modal__station-options-wrapper');
-    this.$modalLineOptionsWrapper = $('.modal__line-options-wrapper');
-    this.$modalSectionForm = $('.modal__section-form');
+    this.$lineListWrapper = $(`.${ELEMENT.LINE_LIST_WRAPPER}`);
+    this.lineOptionsWrapper = $(`.${ELEMENT.LINE_OPTIONS_WRAPPER}`);
+    this.$createSectionButton = $(`.${ELEMENT.CREATE_SECTION_BUTTON}`);
+    this.$modal = $(`.${ELEMENT.MODAL}`);
+    this.$modalStationOptionsWrapper = $(`.${ELEMENT.MODAL_STATION_OPTIONS_WRAPPER}`);
+    this.$modalLineOptionsWrapper = $(`.${ELEMENT.MODAL_LINE_OPTIONS_WRAPPER}`);
+    this.$modalSectionForm = $(`.${ELEMENT.MODAL_SECTION_FORM}`);
   }
 
   bindEvent() {
@@ -36,8 +37,8 @@ class Sections {
     this.$createSectionButton.addEventListener('click', this.handleCreateSectionButton.bind(this));
     this.$modalSectionForm.addEventListener('submit', this.handleCreateSectionForm.bind(this));
 
-    this.$listWrapper.addEventListener('click', (e) => {
-      if (e.target.classList.contains('section-list-item__remove-button')) {
+    this.$lineListWrapper.addEventListener('click', (e) => {
+      if (e.target.classList.contains(ELEMENT.SECTION_LIST_ITEM_REMOVE_BUTTON)) {
         this.handleRemoveSection(e);
       }
     });
@@ -51,7 +52,7 @@ class Sections {
 
   renderStationListInTargetLine(selectedLineName) {
     const stationNamesInTargetLine = this.userDataManager.getStationNamesInTargetLine(selectedLineName);
-    this.$listWrapper.innerHTML = getTargetSectionListTemplate(stationNamesInTargetLine);
+    this.$lineListWrapper.innerHTML = getTargetSectionListTemplate(stationNamesInTargetLine);
   }
 
   renderLineColor(newColor) {
@@ -61,15 +62,20 @@ class Sections {
 
   handleCreateSectionButton() {
     this.showSectionModal();
+    this.clearModalInput();
+  }
+
+  clearModalInput() {
+    this.$modal.querySelectorAll(`.${ELEMENT.INPUT_FIELD}`).forEach((input) => (input.value = ''));
   }
 
   async handleCreateSectionForm(e) {
     e.preventDefault();
 
-    const lineName = e.target['subway-line-for-section'].value;
+    const lineName = e.target[ELEMENT.SUBWAY_LINE_FOR_SECTION].value;
     const lineId = this.userDataManager.getTargetLineId(lineName);
-    const upStationId = this.userDataManager.getTargetStationId(e.target['up-station'].value);
-    const downStationId = this.userDataManager.getTargetStationId(e.target['down-station'].value);
+    const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
+    const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
@@ -83,7 +89,7 @@ class Sections {
   }
 
   async handleRemoveSection(e) {
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    if (!window.confirm(REMOVE_CONFIRM_MESSAGE)) return;
 
     const lineName = this.lineOptionsWrapper.value;
     const lineId = this.userDataManager.getTargetLineId(lineName);

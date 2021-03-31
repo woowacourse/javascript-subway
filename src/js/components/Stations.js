@@ -9,6 +9,7 @@ import {
 import { validateName } from '../validators/validation';
 import { getStationListTemplate } from '../templates/stations';
 import UserDataManager from '../model/UserDataManager';
+import { REMOVE_CONFIRM_MESSAGE, ELEMENT } from '../utils/constants';
 
 class Stations {
   constructor(props) {
@@ -26,23 +27,23 @@ class Stations {
   }
 
   selectDom() {
-    this.$stationForm = $('.station-form');
-    this.$stationListWrapper = $('.station-list-wrapper');
-    this.$modal = $('.modal');
-    this.$modalStationNameEditInput = $('.modal__station-name-edit-input');
-    this.$modalStationNameEditForm = $('.modal__station-name-edit-form');
+    this.$stationForm = $(`.${ELEMENT.STATION_FORM}`);
+    this.$stationListWrapper = $(`.${ELEMENT.STATION_LIST_WRAPPER}`);
+    this.$modal = $(`.${ELEMENT.MODAL}`);
+    this.$modalStationNameEditInput = $(`.${ELEMENT.MODAL_STATION_NAME_EDIT_INPUT}`);
+    this.$modalStationNameEditForm = $(`.${ELEMENT.MODAL_STATION_NAME_EDIT_FORM}`);
   }
 
   bindEvent() {
     this.$stationForm.addEventListener('submit', this.handleStationForm.bind(this));
 
     this.$stationListWrapper.addEventListener('click', (e) => {
-      if (e.target.classList.contains('station-list-item__edit-button')) {
+      if (e.target.classList.contains(ELEMENT.STATION_LIST_ITEM_EDIT_BUTTON)) {
         this.handleStationNameEditButton(e);
         return;
       }
 
-      if (e.target.classList.contains('station-list-item__remove-button')) {
+      if (e.target.classList.contains(ELEMENT.STATION_LIST_ITEM_REMOVE_BUTTON)) {
         this.handleStationNameRemoveButton(e);
       }
     });
@@ -66,14 +67,14 @@ class Stations {
 
   async handleStationForm(e) {
     e.preventDefault();
-    const stationName = e.target['station-name'].value;
+    const stationName = e.target[ELEMENT.STATION_NAME].value;
 
     try {
       validateName(stationName);
       const stationData = await requestAddStation({ name: stationName });
       this.userDataManager.setStationData(stationData);
       this.renderAddedStation(stationName);
-      e.target['station-name'].value = '';
+      e.target[ELEMENT.STATION_NAME].value = '';
       this.cleanCacheStationListTemplate();
     } catch (error) {
       alert(error.message);
@@ -82,7 +83,7 @@ class Stations {
 
   handleStationNameEditButton(e) {
     openModal(this.$modal);
-    const { stationName } = e.target.closest('.station-list-item').dataset;
+    const { stationName } = e.target.closest(`.${ELEMENT.STATION_LIST_ITEM}`).dataset;
     this.stationNameInEdit = stationName;
 
     this.$modalStationNameEditInput.value = stationName;
@@ -92,7 +93,7 @@ class Stations {
   async handleStationNameEditForm(e) {
     e.preventDefault();
 
-    const newStationName = e.target['station-name'].value;
+    const newStationName = e.target[ELEMENT.STATION_NAME].value;
     const stationId = this.userDataManager.getTargetStationId(this.stationNameInEdit);
 
     try {
@@ -109,9 +110,9 @@ class Stations {
   }
 
   async handleStationNameRemoveButton(e) {
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    if (!window.confirm(REMOVE_CONFIRM_MESSAGE)) return;
 
-    const { stationName } = e.target.closest('.station-list-item').dataset;
+    const { stationName } = e.target.closest(`.${ELEMENT.STATION_LIST_ITEM}`).dataset;
     const $stationListItem = $(`[data-station-name="${stationName}"]`);
 
     try {

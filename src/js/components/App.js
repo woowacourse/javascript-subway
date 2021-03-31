@@ -14,7 +14,7 @@ import {
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
-import { isRouterButton, isSignIn } from '../validators/boolean';
+import { isRouterButton, isSignIn, isDimmed } from '../validators/boolean';
 import token from '../token/Token';
 import { closeModal } from '../utils/modal';
 
@@ -51,10 +51,7 @@ class App {
     });
 
     this.$app.addEventListener('click', (e) => {
-      if (
-        (e.target.classList.contains('modal') && e.target.classList.contains('open')) ||
-        e.target.closest('.modal-close')
-      ) {
+      if (isDimmed(e.target) || e.target.closest('.modal-close')) {
         closeModal($('.modal'));
       }
 
@@ -72,11 +69,10 @@ class App {
     const signInUser = isSignIn();
 
     this.router.route(PATH.MAIN);
-
     this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest('a').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
-    signInUser ? this.showMenuButton() : this.hideMenuButton();
+    this.$signInButton.closest('.sign-in-toggle').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
 
+    signInUser ? this.showMenuButton() : this.hideMenuButton();
     signInUser && this.setInitialUserData();
   }
 
@@ -87,6 +83,7 @@ class App {
 
   handleSelectMenu(e) {
     e.preventDefault();
+
     const path = e.target.closest('a').getAttribute('href');
 
     if (path === PATH.SIGNOUT) {
@@ -126,9 +123,7 @@ class App {
   }
 
   runSignOutProcess() {
-    if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) {
-      return;
-    }
+    if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) return;
 
     this.changeFromSignInToSignOutStatus();
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });

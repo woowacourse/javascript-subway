@@ -44,7 +44,7 @@ export const getSectionsTemplate = () => `
     <label for="subway-line" class="input-label" hidden>노선</label>
       <select id="subway-line" class="bg-gray-50 line-options-wrapper"></select>
     </form>
-    <ul class="list-wrapper mt-3 pl-0"></ul>
+    <ul class="line-list-wrapper mt-3 pl-0"></ul>
   </div>
   <div class="modal">
     <div class="modal-inner p-8">
