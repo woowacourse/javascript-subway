@@ -3,7 +3,7 @@ import { updateLineEditModal } from '../viewController';
 import { $ } from '../../../utils/dom';
 import { openModal } from '../../../utils/modal';
 import { LINE } from '../../../constants/alertMessage';
-import { requestDeleteLine } from '../../../services/line';
+import { requestDeleteLine } from '../../../api/line';
 
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;

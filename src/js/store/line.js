@@ -1,4 +1,4 @@
-import { requestLineList } from '../services/line';
+import { requestLineList } from '../api/line';
 
 const line = {
   value: new Set(),

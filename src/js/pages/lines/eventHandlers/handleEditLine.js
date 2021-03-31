@@ -4,7 +4,7 @@ import { $ } from '../../../utils/dom';
 import { closeModal } from '../../../utils/modal';
 import { STATION_AMOUNT } from '../../../constants/service';
 import { LINE } from '../../../constants/alertMessage';
-import { requestEditLine } from '../../../services/line';
+import { requestEditLine } from '../../../api/line';
 
 const handleEditLine = async event => {
   event.preventDefault();

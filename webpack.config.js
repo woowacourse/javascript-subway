@@ -7,12 +7,12 @@ module.exports = {
   output: {
     filename: '[chunkhash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clear: true,
     // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
   devServer: {
     hot: true,
     port: 9000,
+    historyApiFallback: true,
   },
   module: {
     rules: [

@@ -18,5 +18,8 @@ export const setMaxNumber = ({ distance, duration }) => {
   if (distance > 0 && duration > 0) {
     $('#section-add-form #distance').setAttribute('max', distance);
     $('#section-add-form #duration').setAttribute('max', duration);
+  } else {
+    $('#section-add-form #distance').removeAttribute('max');
+    $('#section-add-form #duration').removeAttribute('max');
   }
 };
