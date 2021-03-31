@@ -12,10 +12,10 @@ export class SectionManage extends Component {
     store[STATE_KEY.LINES].subscribe(this.updateLines.bind(this));
   }
 
-  reset(route) {
-    if (route !== ROUTE.SECTIONS) return;
+  reset() {
     const lines = store[STATE_KEY.LINES].get();
 
+    if (!lines) return;
     subwayView.renderLineOptions(lines);
     DOM.SECTION.MAIN.LINE_COLOR_BAR.classList.add('hidden');
     subwayView.renderSectionList();
