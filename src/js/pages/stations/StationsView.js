@@ -13,16 +13,12 @@ class StationsView {
     this.$main = $('#main');
   }
 
-  async init() {
+  init(allStations) {
     this.$main.innerHTML = stationsTemplate;
-    $('#station-list').innerHTML = stationListTemplate(
-      // TODO : 순서 역순으로 보여주기
-      await this.stationManager.getAllStations()
-    );
+    $('#station-list').innerHTML = stationListTemplate(allStations);
   }
 
   appendNewStation({ id, name }) {
-    // TODO : 순서 정렬해서 보여주기
     $('#station-list').insertAdjacentHTML(
       'beforeend',
       stationItemTemplate({ id, name })

@@ -6,12 +6,12 @@ import { logoutButtonTemplate } from './templates/appNavbar.js';
 import headerTemplate from './templates/header.js';
 import { $ } from '../../utils/DOM.js';
 import showSnackBar from '../../utils/snackbar.js';
+import router from '../../router.js';
 
 class MainPage {
-  constructor(router) {
+  constructor() {
     this.$appNavbar = $('#app-navbar');
     this.$navigation = $('#navigation');
-    this.router = router;
   }
 
   init() {
@@ -36,8 +36,9 @@ class MainPage {
     this.resetView();
 
     jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
+    // user.authorization = '';
     showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGOUT);
-    this.router.navigate(PATH.ROOT);
+    router.navigate(PATH.ROOT);
   }
 
   navigateHandler(e) {
@@ -45,7 +46,7 @@ class MainPage {
     if (!e.target.dataset.navPath) return;
 
     const targetPath = e.target.dataset.navPath;
-    this.router.navigate(targetPath);
+    router.navigate(targetPath);
   }
 
   bindEvents() {

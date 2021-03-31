@@ -1,6 +1,4 @@
 import { MESSAGE } from './constants/messages.js';
-import { COOKIE_KEY } from './constants/constants.js';
-import jwtToken from './jwtToken.js';
 import LoginPage from './pages/login/LoginPage.js';
 import SignupPage from './pages/signup/SignupPage.js';
 import MainPage from './pages/main/MainPage.js';
@@ -8,18 +6,23 @@ import StationsController from './pages/stations/StationsController.js';
 import LinesController from './pages/lines/LinesController.js';
 import SectionsController from './pages/sections/SectionsController.js';
 import { PATH } from './constants/path.js';
+import user from './models/user.js';
 
-class Router {
-  constructor() {
-    this.userToken = '';
+const router = {
+  userToken: '',
 
-    this.signupPage = new SignupPage(this);
-    this.loginPage = new LoginPage(this);
-    this.mainPage = new MainPage(this);
-    this.stationsPage = new StationsController(this);
-    this.linesPage = new LinesController(this);
-    this.sectionsPage = new SectionsController(this);
+  signupPage: new SignupPage(),
+  loginPage: new LoginPage(),
+  mainPage: new MainPage(),
+  stationsPage: new StationsController(),
+  linesPage: new LinesController(),
+  sectionsPage: new SectionsController(),
 
+  routes: {},
+
+  init() {
+    this.back();
+    this.navigate(PATH.ROOT);
     this.routes = {
       [PATH.ROOT]: null,
       [PATH.SIGNUP]: this.signupPage,
@@ -27,19 +30,14 @@ class Router {
       [PATH.LINES]: this.linesPage,
       [PATH.SECTIONS]: this.sectionsPage,
     };
-  }
-
-  init() {
-    this.back();
-    this.navigate(PATH.ROOT);
-  }
+  },
 
   checkMainRoute() {
     this.routes[PATH.ROOT] = this.userToken ? this.mainPage : this.loginPage;
-  }
+  },
 
   navigate(path) {
-    this.userToken = jwtToken.getToken(COOKIE_KEY.JWT_TOKEN);
+    this.userToken = user.getAuthorization();
     if (path === PATH.ROOT) {
       this.checkMainRoute();
     }
@@ -56,7 +54,7 @@ class Router {
     } catch (error) {
       console.error(error);
     }
-  }
+  },
 
   back() {
     window.addEventListener('popstate', e => {
@@ -64,7 +62,7 @@ class Router {
 
       this.navigate(e.state.path);
     });
-  }
-}
+  },
+};
 
-export default Router;
+export default router;

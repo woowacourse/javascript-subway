@@ -9,9 +9,8 @@ import user from '../../models/user.js';
 import { addSectionHandler, deleteSectionHandler } from './SectionHandlers.js';
 
 class SectionsController {
-  constructor(router) {
+  constructor() {
     this.sectionsView = new SectionsView();
-    this.router = router;
   }
 
   async init() {

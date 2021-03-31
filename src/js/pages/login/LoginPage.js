@@ -10,11 +10,11 @@ import {
   checkPasswordInputHandler,
 } from '../../authHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
+import user from '../../models/user.js';
+import router from '../../router.js';
 
 class LoginPage {
-  constructor(router) {
-    this.router = router;
-  }
+  constructor() {}
 
   init() {
     this.renderView();
@@ -22,6 +22,8 @@ class LoginPage {
   }
 
   renderView() {
+    $('#app-navbar').innerHTML = '';
+    $('#navigation').innerHTML = '';
     $('#main').innerHTML = loginTemplate;
   }
 
@@ -35,12 +37,14 @@ class LoginPage {
 
       const { accessToken } = await response.json();
       jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
+      user.setAuthorization();
+
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
     } catch (error) {
       console.error(error);
       alert(error);
     } finally {
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     }
   }
 
@@ -48,8 +52,8 @@ class LoginPage {
     e.preventDefault();
 
     const loginData = {
-      email: e.target.elements['email'].value,
-      password: e.target.elements['password'].value,
+      email: e.target.elements.email.value,
+      password: e.target.elements.password.value,
     };
 
     await this.requestLogin(loginData);
@@ -70,7 +74,7 @@ class LoginPage {
     $('#signup').addEventListener('click', e => {
       e.preventDefault();
 
-      this.router.navigate(PATH.SIGNUP);
+      router.navigate(PATH.SIGNUP);
     });
   }
 }

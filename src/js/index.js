@@ -1,5 +1,4 @@
 import '../css/index.css';
-import Router from './Router';
+import router from './router';
 
-const router = new Router();
 router.init();

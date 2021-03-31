@@ -11,10 +11,10 @@ import {
 import LinesView from './LinesView.js';
 
 class LinesController {
-  constructor(router) {
+  constructor() {
     this.linesView = new LinesView();
     this.lineManager = user.lineManager;
-    this.router = router;
+    // this.router = router;
 
     this.$modifiedLine = '';
   }

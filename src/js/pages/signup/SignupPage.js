@@ -14,10 +14,10 @@ import {
   checkPasswordInputHandler,
 } from '../../authHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
+import router from '../../router.js';
 
 class SignupPage {
-  constructor(router) {
-    this.router = router;
+  constructor() {
     this.isCheckedEmail = false;
   }
 
@@ -39,12 +39,12 @@ class SignupPage {
       }
 
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.SIGNUP);
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     } catch (error) {
       console.error(error);
       alert(error);
 
-      this.router.navigate(PATH.SIGNUP);
+      router.navigate(PATH.SIGNUP);
     }
   }
 
@@ -112,7 +112,7 @@ class SignupPage {
     $('#login').addEventListener('click', e => {
       e.preventDefault();
 
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     });
   }
 }
