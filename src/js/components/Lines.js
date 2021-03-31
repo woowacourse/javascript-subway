@@ -1,6 +1,6 @@
 import { $ } from '../utils/dom';
 import { openModal, closeModal } from '../utils/modal';
-import { getLineListTemplate, getEditLineModalTemplate, getAddLineModalTemplate } from '../templates/lines';
+import { getLineListTemplate, getLineEditModalTemplate, getLineAddModalTemplate } from '../templates/lines';
 import {
   requestAddLine,
   requestGetLineList,
@@ -26,7 +26,7 @@ class Lines {
   }
 
   selectDom() {
-    this.$createLineButton = $('.create-line-btn');
+    this.$createLineButton = $('.create-line-button');
     this.$lineListWrapper = $('.line-list-wrapper');
     this.$modal = $('.modal');
   }
@@ -95,7 +95,7 @@ class Lines {
   }
 
   showLineAddModal() {
-    this.$modal.innerHTML = getAddLineModalTemplate(this.userDataManager.stations);
+    this.$modal.innerHTML = getLineAddModalTemplate(this.userDataManager.stations);
     this.initModal();
     openModal(this.$modal);
   }
@@ -146,7 +146,7 @@ class Lines {
 
   handleLineEditButton(e) {
     const { lineName } = e.target.closest('.line-list-item').dataset;
-    const editTargetLineData = this.userDataManager.getEditTargetLineData(lineName);
+    const editTargetLineData = this.userDataManager.getTargetLineDataForEdit(lineName);
 
     this.lineNameInEdit = lineName;
     this.selectedLineColor = '';
@@ -155,7 +155,7 @@ class Lines {
   }
 
   showLineEditModal(lineData) {
-    this.$modal.innerHTML = getEditLineModalTemplate(lineData);
+    this.$modal.innerHTML = getLineEditModalTemplate(lineData);
     this.initModal();
     openModal(this.$modal);
   }

@@ -78,6 +78,7 @@ class App {
 
   setInitialUserData() {
     this.stations.setStationListTemplate();
+    this.lines.setLineListTemplate();
   }
 
   handleSelectMenu(e) {
@@ -105,6 +106,15 @@ class App {
       },
       [PATH.SIGNUP]: () => {
         this.signUp.init();
+      },
+      [PATH.STATIONS]: () => {
+        this.stations.init();
+      },
+      [PATH.LINES]: () => {
+        this.lines.init();
+      },
+      [PATH.SECTIONS]: () => {
+        this.sections.init();
       },
     };
 

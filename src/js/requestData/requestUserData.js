@@ -120,6 +120,20 @@ export const requestGetLineList = async () => {
   }
 };
 
+export const requestGetTargetLineList = async ({ id }) => {
+  try {
+    const response = await httpClient.get({ path: `/lines/${id}`, accessToken: token.accessToken });
+
+    if (!response.ok) {
+      throw await response.text();
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const requestEditLineData = async ({ id, name, color }) => {
   try {
     const response = await httpClient.put({
@@ -138,6 +152,22 @@ export const requestEditLineData = async ({ id, name, color }) => {
 export const requestRemoveLine = async ({ id }) => {
   try {
     const response = await httpClient.delete({ path: `/lines/${id}`, accessToken: token.accessToken });
+    if (!response.ok) {
+      throw await response.text();
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const requestAddSection = async ({ id, upStationId, downStationId, distance, duration }) => {
+  try {
+    const response = await httpClient.post({
+      path: `/lines/${id}/sections`,
+      body: { upStationId, downStationId, distance, duration },
+      accessToken: token.accessToken,
+    });
+
     if (!response.ok) {
       throw await response.text();
     }
