@@ -31,7 +31,7 @@ export const sectionTemplate = ({ id, name }) => {
     <span class="w-100 pl-6">${name}</span>
     <button
       type="button"
-      class="bg-gray-50 text-gray-500 text-sm"
+      class="delete-button bg-gray-50 text-gray-500 text-sm"
     >
       삭제
     </button>

@@ -31,12 +31,15 @@ export const sectionAPI = {
     );
   },
 
-  // deleteLine: async ({ userAccessToken, id }) => {
-  //   const option = {
-  //     method: REQUEST_METHOD.DELETE,
-  //     Authorization: `Bearer ${userAccessToken}`,
-  //   };
+  deleteSection: async ({ userAccessToken, lineId, stationId }) => {
+    const option = {
+      method: REQUEST_METHOD.DELETE,
+      Authorization: `Bearer ${userAccessToken}`,
+    };
 
-  //   await request(`${BASE_URL}${ACTIONS.LINES}/${id}`, option);
-  // },
+    await request(
+      `${BASE_URL}${ACTIONS.LINES}/${lineId}${ACTIONS.SECTIONS}/?stationId=${stationId}`,
+      option,
+    );
+  },
 };
