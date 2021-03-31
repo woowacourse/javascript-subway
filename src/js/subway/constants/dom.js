@@ -93,5 +93,9 @@ export const DOM = {
     MAIN: {
       LIST: $('#line-button-list', mainElements[ROUTE.MAP]),
     },
+    MODAL: {
+      NAME: $('#line-display-modal-name', modalElements[ROUTE.MAP]),
+      LIST: $('#line-display-modal-list', modalElements[ROUTE.MAP]),
+    },
   },
 };

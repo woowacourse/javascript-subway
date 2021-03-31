@@ -1,12 +1,7 @@
 import { DOM } from '../constants/dom';
 import { linkButton, selectorOption } from '../../@shared/views';
 import { MENU, MESSAGE, ROUTE } from '../constants';
-import { mainElements, modalElements } from '.';
-import { menuButtons } from './templates/ui/menuButtons';
-import { stationList } from './templates/main/stationManage';
-import { lineList } from './templates/main/lineManage';
-import { sectionList } from './templates/main/sectionManage';
-import { lineButtonList } from './templates/main/mapDisplay';
+import { mainElements, modalElements, menuButtons, stationList, lineList, sectionList, lineButtonList, map } from '.';
 
 export const subwayView = {
   renderRoot: signedUserName => {
@@ -77,5 +72,13 @@ export const subwayView = {
 
   renderLineButtonList: (lines = []) => {
     DOM.MAP.MAIN.LIST.innerHTML = lineButtonList(lines);
+  },
+
+  renderLineName: lineName => {
+    DOM.MAP.MODAL.NAME.innerText = lineName;
+  },
+
+  renderLine: (sections = []) => {
+    DOM.MAP.MODAL.LIST.innerHTML = map(sections);
   },
 };
