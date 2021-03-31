@@ -7,6 +7,7 @@ export const ACTIONS = {
   DUPLICATED_EMAIL: '/members/check-validation?email=',
   STATIONS: '/stations',
   LINES: '/lines',
+  SECTIONS: '/sections',
 };
 
 export const PATH = {
@@ -45,6 +46,7 @@ export const SELECTOR = {
   LINE_ITEM: '.line-item',
   LINE_ITEM_NAME: '.line-list-item-name',
   SECTION_SELECT_FORM: 'form[name="select-section"]',
+  ADD_SECTION: 'form[name="add-section"]',
 };
 
 export const CLASS_NAME = {
@@ -90,6 +92,7 @@ export const SUCCESS_MESSAGE = {
   ADD_LINE: '노선이 추가되었습니다! 🚇',
   REMOVE_LINE: '노선이 제거되었습니다!',
   MODIFY_LINE: '노선이 수정되었습니다!',
+  ADD_SECTION: '구간이 추가되었습니다! 🚇',
 };
 
 export const ERROR_MESSAGE = {

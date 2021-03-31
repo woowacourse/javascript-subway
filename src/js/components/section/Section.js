@@ -17,6 +17,7 @@ import {
 } from './sectionTemplate.js';
 class Section {
   #userAccessToken;
+  #selectedLineId;
   #stations;
   #sections;
   #props;
@@ -25,9 +26,12 @@ class Section {
   constructor(props) {
     this.#props = props;
     this.#userAccessToken = null;
+    this.#selectedLineId = null;
     this.#stations = {};
     this.#sections = {};
-    this.#modal = new SectionModal();
+    this.#modal = new SectionModal({
+      updateSections: this.updateSections.bind(this),
+    });
   }
 
   async init() {
@@ -41,12 +45,16 @@ class Section {
       title: PAGE_TITLE.SECTIONS,
       contents: {
         main: sectionsTemplate(this.#sections),
-        modal: modalTemplate(this.#stations),
+        modal: modalTemplate(this.#stations, this.#sections),
       },
     };
   }
 
   initDOM() {
+    this.#modal.init({
+      sections: this.#sections,
+      userAccessToken: this.#userAccessToken,
+    });
     this.$sectionSelectForm = $(SELECTOR.SECTION_SELECT_FORM);
     this._bindEvent();
   }
@@ -69,7 +77,6 @@ class Section {
       this.#sections = {};
 
       const sections = await lineAPI.getLines(this.#userAccessToken);
-
       if (Object.keys(sections).length === 0) {
         alert('관리할 노선 정보가 없습니다. 먼저 노선을 만들어주세요!');
         this.#props.switchURL(PATH.LINES);
@@ -100,17 +107,46 @@ class Section {
   _bindAddSectionEvent() {
     $('.create-section-btn').addEventListener('click', e => {
       this.#modal.handleSectionOpen({
-        sectionInfo: this._getSelectedSectionInfo(),
+        sections: this.#sections,
       });
     });
   }
 
   _handleSelectLine({ target }) {
-    const id = target.value;
-    const { stations, color } = this.#sections[id];
+    this.#selectedLineId = target.value;
+    const { stations, color } = this.#sections[this.#selectedLineId];
 
     target.className = color;
     $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+  }
+
+  updateSections(info) {
+    const {
+      ['line-select']: lineId,
+      ['prev-station']: upStationId,
+      ['next-station']: downStationId,
+    } = info;
+
+    const sectionStations = this.#sections[lineId].stations;
+    const idx = sectionStations.findIndex(
+      ({ id }) => id === Number(upStationId),
+    );
+
+    const newStation = {
+      id: Number(downStationId),
+      ...this.#stations[downStationId],
+    };
+
+    if (idx < 0) {
+      sectionStations.unshift(newStation);
+      return;
+    }
+    sectionStations.splice(idx + 1, 0, newStation);
+
+    if (lineId === this.#selectedLineId) {
+      const stations = this.#sections[this.#selectedLineId].stations;
+      $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+    }
   }
 
   _getSelectedSectionInfo() {

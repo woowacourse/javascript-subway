@@ -106,7 +106,7 @@ class Line {
 
     try {
       const { $lineItem, id } = this._getSelectedLineInfo(e);
-      console.log($lineItem, id);
+
       await lineAPI.deleteLine({
         userAccessToken: this.#userAccessToken,
         id,
