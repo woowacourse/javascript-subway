@@ -70,3 +70,29 @@ ul li button:hover {
   height: 40vh;
   overflow-y: auto;
 }
+
+.station-list-item {
+  position: relative;
+}
+
+.section-data-container {
+  height: 0px;
+}
+
+.section-data-container .chip {
+  transform: translateY(-50%);
+}
+
+#section-station-list .subway-line-color-dot:hover {
+  transform: scale(1.2);
+  transform-origin: center;
+}
+
+#section-station-list .vertical-line {
+  display: inline-block;
+  position: absolute;
+  width: 4px;
+  margin: 0 3px;
+  height: 100%;
+  transform: translateX(50%);
+}

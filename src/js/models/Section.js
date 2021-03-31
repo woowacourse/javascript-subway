@@ -5,4 +5,16 @@ export default class Section {
     this._distance = distance;
     this._duration = duration;
   }
+
+  get upStation() {
+    return this._upStation;
+  }
+
+  get distance() {
+    return this._distance;
+  }
+
+  get duration() {
+    return this._duration;
+  }
 }

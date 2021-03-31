@@ -58,8 +58,30 @@ export default class SectionManager {
 
     this.$sectionsSelect.classList.remove(prevLineColor);
     this.$sectionsSelect.classList.add(targetLine.color);
-    this.$sectionStationList.innerHTML = targetLine.stations.map((station) => station.toListItemTemplate()).join('');
-    this.$sectionStationList.querySelectorAll('[data-action="edit"]').forEach(($editButton) => $editButton.remove());
+
+    const lineRGB = window.getComputedStyle(this.$sectionsSelect).getPropertyValue('background-color');
+    this.$sectionStationList.innerHTML = targetLine.stations
+      .map((station) => station.toSectionItemTemplate(targetLine.color))
+      .join('');
+    [...$('.chip')].forEach((chip) => chip.setAttribute('style', `border: 2px solid ${lineRGB};`));
+
+    this.renderSectionData(targetLine);
+  }
+
+  renderSectionData(targetLine) {
+    $(SELECTOR.STATION_LIST_ITEM).forEach((item) => {
+      const upStationId = item.dataset.stationId;
+      const targetSection = targetLine.sections.find((section) => section.upStation.id === Number(upStationId));
+
+      if (targetSection) {
+        const { distance, duration } = targetSection;
+
+        item.nextElementSibling.querySelector(SELECTOR.DISTANCE_VALUE).textContent = distance;
+        item.nextElementSibling.querySelector(SELECTOR.DURATION_VALUE).textContent = duration;
+      } else {
+        if (item.nextElementSibling.matches(SELECTOR.SECTION_DATA_CONTAINER)) item.nextElementSibling.remove();
+      }
+    });
   }
 
   async handleDeleteButton(event) {
@@ -72,20 +94,15 @@ export default class SectionManager {
     const stationItem = event.target.closest('li');
     const stationID = stationItem.dataset.stationId;
     const stationName = stationItem.dataset.stationName;
-    const itemDivider = stationItem.nextElementSibling;
     const accessToken = this.store.userAuth.accessToken;
 
     if (!window.confirm(MESSAGES.SECTION_DELETE.CONFIRM(stationName))) return;
 
     try {
       await deleteSectionRequest(this.lineID, stationID, accessToken);
+      await this.updateSectionData();
 
-      stationItem.remove();
-      if (itemDivider.matches('hr')) {
-        itemDivider.remove();
-      }
-
-      this.updateSectionData();
+      this.renderLineData();
       popSnackbar(MESSAGES.SECTION_DELETE.SUCCESS(stationName));
     } catch (error) {
       console.error(error);

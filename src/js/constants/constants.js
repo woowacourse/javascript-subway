@@ -30,6 +30,7 @@ export const SELECTOR = {
   PASSWORD_CONFIRM_ERROR: '#password-confirm-error',
   PASSWORD_CONFIRM_CORRECT: '#password-confirm-correct',
 
+  STATION_LIST_ITEM: '.station-list-item',
   STATION_LIST: '#station-list',
   STATION_NAME_FORM: '#station-name-form',
   STATION_NAME_INPUT: '#station-name',
@@ -60,6 +61,9 @@ export const SELECTOR = {
   LINE_FOR_SECTION: '#subway-line-for-section',
   SECTION_FORM: '#subway-section-form',
   SAME_STATION_WARNING: '#same-station-warning',
+  DISTANCE_VALUE: '.distance-value',
+  DURATION_VALUE: '.duration-value',
+  SECTION_DATA_CONTAINER: '.section-data-container',
 };
 
 export const MESSAGES = {
