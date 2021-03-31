@@ -26,7 +26,6 @@ class Station extends Component {
   }
 
   renderSelf() {
-    console.log('station renderSelf');
     const stations = this.state.stations;
     this.parentNode.innerHTML = mainTemplate(stations);
   }
