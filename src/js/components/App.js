@@ -27,7 +27,7 @@ class App {
   }
 
   init() {
-    this.stations = new Stations();
+    this.stations = new Stations({ cleanLineCache: this.cleanLineCache.bind(this) });
     this.lines = new Lines();
     this.sections = new Sections();
     this.signIn = new SignIn({
@@ -62,6 +62,10 @@ class App {
         this.handleSelectMenu(e);
       }
     });
+  }
+
+  cleanLineCache() {
+    this.lines.cleanCacheLineListTemplate();
   }
 
   setMainBySignInStatus() {

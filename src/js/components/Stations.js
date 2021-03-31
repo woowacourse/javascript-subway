@@ -11,7 +11,8 @@ import { getStationListTemplate } from '../templates/stations';
 import UserDataManager from '../model/UserDataManager';
 
 class Stations {
-  constructor() {
+  constructor(props) {
+    this.props = props;
     this.stationListTemplate = '';
     this.stationNameInEdit = '';
     this.userDataManager = new UserDataManager();
@@ -100,6 +101,7 @@ class Stations {
       this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
       this.renderEditedStation(newStationName);
       this.cleanCacheStationListTemplate();
+      this.props.cleanLineCache();
       closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
