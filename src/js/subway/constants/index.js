@@ -12,3 +12,4 @@ export {
   UP_STATION,
   DOWN_STATION,
 } from './constants';
+export { SELECTOR } from './selector';

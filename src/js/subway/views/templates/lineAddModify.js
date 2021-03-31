@@ -1,3 +1,4 @@
+import { SELECTOR } from '../../constants';
 import { palette } from './palette';
 
 export const lineAddModify = `
@@ -10,13 +11,13 @@ export const lineAddModify = `
   <header>
     <h2 class="text-center">🛤️ 정보 입력</h2>
   </header>
-  <form id="line-form">
+  <form id="${SELECTOR.LINE.MODAL.FORM}">
     <div class="input-control flex-col">
       <div class="d-flex w-100">
         <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
         <input
           type="text"
-          id="line-name-input"
+          id="${SELECTOR.LINE.MODAL.NAME_INPUT}"
           name="subway-line-name"
           class="input-field"
           placeholder="노선 이름"
@@ -24,27 +25,27 @@ export const lineAddModify = `
         />
       </div>
       </div>
-    <div class="js-non-modifiable d-flex items-center input-control">
-      <label for="up-station" class="input-label" hidden>상행역</label>
-      <select id="up-station" class="mr-2">
+    <div class="${SELECTOR.LINE.MODAL.NON_MODIFIABLE} d-flex items-center input-control">
+      <label for="${SELECTOR.LINE.MODAL.UP_STATION_SELECTOR}" class="input-label" hidden>상행역</label>
+      <select id="${SELECTOR.LINE.MODAL.UP_STATION_SELECTOR}" class="mr-2">
       </select>
-      <label for="down-station" class="input-label" hidden>하행역</label>
-      <select id="down-station">
+      <label for="${SELECTOR.LINE.MODAL.DOWN_STATION_SELECTOR}" class="input-label" hidden>하행역</label>
+      <select id="${SELECTOR.LINE.MODAL.DOWN_STATION_SELECTOR}">
       </select>
     </div>
-    <div class="js-non-modifiable input-control">
-      <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
+    <div class="${SELECTOR.LINE.MODAL.NON_MODIFIABLE} input-control">
+      <label for="${SELECTOR.LINE.MODAL.DISTANCE_INPUT}" class="input-label" hidden>상행 하행역 거리</label>
       <input
         type="number"
-        id="distance"
+        id="${SELECTOR.LINE.MODAL.DISTANCE_INPUT}"
         name="distance"
         class="input-field mr-2"
         placeholder="상행 하행역 거리 (km)"
       />
-      <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
+      <label for="${SELECTOR.LINE.MODAL.DURATION_INPUT}" class="input-label" hidden>상행 하행역 시간</label>
       <input
         type="number"
-        id="duration"
+        id="${SELECTOR.LINE.MODAL.DURATION_INPUT}"
         name="duration"
         class="input-field"
         placeholder="상행 하행역 시간 (분)"
@@ -55,7 +56,7 @@ export const lineAddModify = `
         <label for="subway-line-color" class="input-label" hidden>색상</label>
         <input
           type="text"
-          id="line-color"
+          id="${SELECTOR.LINE.MODAL.COLOR_INPUT}"
           name="subway-line-color"
           class="input-field"
           value="bg-gray-900"
@@ -65,18 +66,18 @@ export const lineAddModify = `
         />
       </div>
     </div>
-    <div id="line-color-selector" class="line-color-selector px-2 d-flex justify-center">
+    <div id="${SELECTOR.LINE.MODAL.PALETTE}" class="${SELECTOR.LINE.MODAL.PALETTE} px-2 d-flex justify-center">
       <div>
         ${palette}
       </div>
     </div>
     <div
-      id="fail-message-box"
+      id="${SELECTOR.LINE.MODAL.MSG}"
       class="js-message-box message-box mt-1 text-red mb-1 text-center"
       >
     </div>
     <div class="d-flex justify-end mt-3">
-      <button id="line-submit-button" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
+      <button id="${SELECTOR.LINE.MODAL.SUBMIT_BUTTON}"} type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
     </div>
   </form>
   </div>

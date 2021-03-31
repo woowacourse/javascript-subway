@@ -1,3 +1,4 @@
+import { SELECTOR } from '../../constants';
 import { MENU, MESSAGE } from '../../constants/constants';
 
 export const signUp = `
@@ -5,20 +6,20 @@ export const signUp = `
     <div class="heading">
       <h2 class="text">${MENU.SIGNUP}</h2>
     </div>
-    <form id="signup-form" name="signup" class="form">
+    <form id="${SELECTOR.USER_JOIN.MAIN.FORM}" name="signup" class="form">
       <div class="input-control flex-col">
         <div class="d-flex w-100 items-center">
           <label for="email" class="input-label" hidden>이메일</label>
           <input
             type="email"
-            id="signup-email"
+            id="${SELECTOR.USER_JOIN.MAIN.EMAIL_INPUT}"
             name="email"
             class="input-field"
             placeholder="이메일"
             required
           />
         </div>
-        <div id="email-message-box" class="js-message-box message-box mt-1 text-red"></div>
+        <div id="${SELECTOR.USER_JOIN.MAIN.EMAIL_MSG}" class="js-message-box message-box mt-1 text-red"></div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
@@ -27,13 +28,13 @@ export const signUp = `
           >
           <input
             type="password"
-            id="signup-password"
+            id="${SELECTOR.USER_JOIN.MAIN.PASSWORD_INPUT}"
             name="password"
             class="input-field"
             placeholder="비밀번호"
           />
         </div>
-        <div id="password-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
+        <div id="${SELECTOR.USER_JOIN.MAIN.PASSWORD_MSG}" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD}</div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
@@ -42,27 +43,27 @@ export const signUp = `
           >
           <input
             type="password"
-            id="signup-password-confirm"
+            id="${SELECTOR.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT}"
             name="password-confirm"
             class="input-field"
             placeholder="비밀번호 확인"
           />
         </div>
-        <div id="password-confirm-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
+        <div id="${SELECTOR.USER_JOIN.MAIN.PASSWORD_CONFIRM_MSG}" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_PASSWORD_CONFIRM}</div>
       </div>
       <div class="input-control flex-col">
         <div class="d-flex w-100">
           <label for="name" class="input-label" hidden>이메일</label>
           <input
             type="text"
-            id="signup-name"
+            id="${SELECTOR.USER_JOIN.MAIN.NAME_INPUT}"
             name="name"
             class="input-field"
             placeholder="이름"
             required
           />
         </div>
-        <div id="name-message-box" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
+        <div id="${SELECTOR.USER_JOIN.MAIN.NAME_MSG}" class="js-message-box message-box hidden mt-1 text-red">${MESSAGE.SIGNUP.INVALID_NAME}</div>
     </div>
       <div class="input-control">
         <button

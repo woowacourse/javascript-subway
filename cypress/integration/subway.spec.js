@@ -1,4 +1,5 @@
 import { removeFromSessionStorage } from '../../src/js/@shared/utils';
+import { SELECTOR } from '../../src/js/subway/constants';
 import { NAME_LENGTH, ROUTE, SESSION_KEY } from '../../src/js/subway/constants/constants';
 import { isValidEmail, isValidName, isValidPassword } from '../../src/js/subway/utils';
 
@@ -37,10 +38,10 @@ describe('Subway test', () => {
     it('회원가입 시, 각 인풋에 대한 기준이 부합하지 않으면 에러 메시지를 렌더링한다.', () => {
       cy.get('[data-link="/signin"]').click();
       cy.get('[data-link="/signup"]').click();
-      cy.get('#signup-email').type('@gmail.com');
-      cy.get('#signup-name').type('     ');
-      cy.get('#signup-password').type('a');
-      cy.get('#signup-password-confirm').type('b');
+      cy.get(`#${SELECTOR.USER_JOIN.MAIN.EMAIL_INPUT}`).type('@gmail.com');
+      cy.get(`#${SELECTOR.USER_JOIN.MAIN.NAME_INPUT}`).type('     ');
+      cy.get(`#${SELECTOR.USER_JOIN.MAIN.PASSWORD_INPUT}`).type('a');
+      cy.get(`#${SELECTOR.USER_JOIN.MAIN.PASSWORD_CONFIRM_INPUT}`).type('b');
       cy.get('.js-message-box').each(element => cy.wrap(element).should('be.visible'));
     });
   });
@@ -53,18 +54,18 @@ describe('Subway test', () => {
 
     it('로그인 실패 시, 에러 메시지를 렌더링한다.', () => {
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type('test@gmail.com');
-      cy.get('#signin-password').type('123');
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type('test@gmail.com');
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type('123');
       cy.get('.input-submit').click();
-      cy.get('#fail-message-box').should('be.visible');
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_MSG}`).should('be.visible');
     });
 
     it('로그인 성공 시, 메뉴 버튼들과 로그아웃 버튼이 화면에 노출되고 메인 페이지로 이동한다.', () => {
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type(testMail);
-      cy.get('#signin-password').type(testPassword);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type(testMail);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type(testPassword);
       cy.get('.input-submit').click();
-      cy.get('#menu-buttons-container > .js-link').each($button => cy.wrap($button).should('be.visible'));
+      cy.get(`${SELECTOR.CONTAINER.MENU_BUTTON} > .js-link`).each($button => cy.wrap($button).should('be.visible'));
       cy.get('[data-link="/signout"]').should('be.visible');
       cy.location().should(loc => {
         expect(loc.pathname).to.eq(ROUTE.ROOT);
@@ -73,8 +74,8 @@ describe('Subway test', () => {
 
     it('로그아웃 성공 시, 로그인 버튼이 화면에 노출되고 메인 페이지로 이동한다.', () => {
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type(testMail);
-      cy.get('#signin-password').type(testPassword);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type(testMail);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type(testPassword);
       cy.get('.input-submit').click();
       cy.get('[data-link="/signout"]').click();
       cy.location().should(loc => {
@@ -88,34 +89,34 @@ describe('Subway test', () => {
       cy.visit('http://localhost:8080/');
       removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type(testMail);
-      cy.get('#signin-password').type(testPassword);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type(testMail);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type(testPassword);
       cy.get('.input-submit').click();
       cy.get('[data-link="/stations"]').click();
     });
 
     it('역 추가 시, 역이름이 2 ~ 20글자가 아니면 에러 메시지를 렌더링한다.', () => {
-      cy.get('#station-add-input').type('a');
-      cy.get('#add-fail-message-box').should('be.visible');
-      cy.get('#station-add-input').type('a'.repeat(21));
-      cy.get('#add-fail-message-box').should('be.visible');
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_INPUT}`).type('a');
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_MSG}`).should('be.visible');
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_INPUT}`).type('a'.repeat(21));
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_MSG}`).should('be.visible');
     });
 
     it('지하철 역을 등록할 수 있다.', () => {
       const randomName = Date.now().toString().slice(-4);
-      cy.get('#station-add-input').clear();
-      cy.get('#station-add-input').type(randomName);
-      cy.get('#station-add-button').click();
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_INPUT}`).clear();
+      cy.get(`#${SELECTOR.STATION.MAIN.NAME_INPUT}`).type(randomName);
+      cy.get(`#${SELECTOR.STATION.MAIN.SUBMIT_BUTTON}`).click();
       cy.get('.js-station-list-item:last > .js-station-name').should('have.text', randomName);
     });
 
     it('지하철 역 이름을 수정할 수 있다.', () => {
       const randomName = Date.now().toString().slice(-4);
       cy.get('.js-station-list-item:last > .js-modify-button').click();
-      cy.get('#station-modify-form').should('be.visible');
-      cy.get('#station-modify-input').clear();
-      cy.get('#station-modify-input').type(randomName);
-      cy.get('#station-modify-button').click();
+      cy.get(`#${SELECTOR.STATION.MODAL.FORM}`).should('be.visible');
+      cy.get(`#${SELECTOR.STATION.MODAL.NAME_INPUT}`).clear();
+      cy.get(`#${SELECTOR.STATION.MODAL.NAME_INPUT}`).type(randomName);
+      cy.get(`#${SELECTOR.STATION.MODAL.SUBMIT_BUTTON}`).click();
       cy.get('.js-station-list-item:last > .js-station-name').should('have.text', randomName);
     });
 
@@ -130,39 +131,39 @@ describe('Subway test', () => {
       cy.visit('http://localhost:8080/');
       removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type(testMail);
-      cy.get('#signin-password').type(testPassword);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type(testMail);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type(testPassword);
       cy.get('.input-submit').click();
       cy.get('[data-link="/lines"]').click();
     });
 
     it('노선 추가 시, 노선 이름이 2 ~ 10글자가 아니면 에러 메시지를 렌더링한다.', () => {
-      cy.get('#line-add-modal-button').click();
-      cy.get('#line-name-input').type('a');
-      cy.get('#fail-message-box').should('be.visible');
-      cy.get('#line-name-input').clear();
-      cy.get('#line-name-input').type('a'.repeat(11));
-      cy.get('#fail-message-box').should('be.visible');
+      cy.get(`#${SELECTOR.LINE.MAIN.ADD_MODAL_BUTTON}`).click();
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).type('a');
+      cy.get(`#${SELECTOR.LINE.MODAL.MSG}`).should('be.visible');
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).clear();
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).type('a'.repeat(11));
+      cy.get(`#${SELECTOR.LINE.MODAL.MSG}`).should('be.visible');
     });
 
     it('노선을 등록할 수 있다.', () => {
       const randomName = Date.now().toString().slice(-5);
-      cy.get('#line-name-input').clear();
-      cy.get('#line-name-input').type(`${randomName}`);
-      cy.get('#up-station').select('1340');
-      cy.get('#down-station').select('1341');
-      cy.get('#distance').type(2);
-      cy.get('#duration').type(10);
-      cy.get('#line-submit-button').click({ force: true });
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).clear();
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).type(`${randomName}`);
+      cy.get(`#${SELECTOR.LINE.MODAL.UP_STATION_SELECTOR}`).select('1340');
+      cy.get(`#${SELECTOR.LINE.MODAL.UP_STATION_SELECTOR}`).select('1341');
+      cy.get(`#${SELECTOR.LINE.MODAL.DISTANCE_INPUT}`).type(2);
+      cy.get(`#${SELECTOR.LINE.MODAL.DURATION_INPUT}`).type(10);
+      cy.get(`#${SELECTOR.LINE.MODAL.SUBMIT_BUTTON}`).click({ force: true });
       cy.get('.js-line-list-item').get('.js-line-name').last().should('have.text', randomName);
     });
 
     it('노선을 수정할 수 있다.', () => {
       cy.get('.js-modify-button:first').click();
       const randomName = Date.now().toString().slice(-5);
-      cy.get('#line-name-input').clear();
-      cy.get('#line-name-input').type(`${randomName}`);
-      cy.get('#line-submit-button').click();
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).clear();
+      cy.get(`#${SELECTOR.LINE.MODAL.NAME_INPUT}`).type(`${randomName}`);
+      cy.get(`#${SELECTOR.LINE.MODAL.SUBMIT_BUTTON}`).click();
       cy.wait(500);
       cy.get('.js-line-list-item').get('.js-line-name').first().should('have.text', randomName);
     });
@@ -178,20 +179,20 @@ describe('Subway test', () => {
       cy.visit('http://localhost:8080/');
       removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       cy.get('[data-link="/signin"]').click();
-      cy.get('#signin-email').type(testMail);
-      cy.get('#signin-password').type(testPassword);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}`).type(testMail);
+      cy.get(`#${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}`).type(testPassword);
       cy.get('.input-submit').click();
       cy.get('[data-link="/sections"]').click();
     });
 
     it('구간을 등록할 수 있다.', () => {
-      cy.get('#main-line-selector').select('439');
-      cy.get('#section-add-modal-button').click();
-      cy.get('#up-station').select('1341');
-      cy.get('#down-station').select('1647');
-      cy.get('#distance').type(5);
-      cy.get('#duration').type(5);
-      cy.get('#section-submit-button').click({ force: true });
+      cy.get(`#${SELECTOR.SECTION.MAIN.LINE_SELECTOR}`).select('439');
+      cy.get(`#${SELECTOR.SECTION.MAIN.ADD_MODAL_BUTTON}`).click();
+      cy.get(`#${SELECTOR.SECTION.MODAL.UP_STATION_SELECTOR}`).select('1341');
+      cy.get(`#${SELECTOR.SECTION.MODAL.DOWN_STATION_SELECTOR}`).select('1647');
+      cy.get(`#${SELECTOR.SECTION.MODAL.DISTANCE_INPUT}`).type(5);
+      cy.get(`#${SELECTOR.SECTION.MODAL.DURATION_INPUT}`).type(5);
+      cy.get(`#${SELECTOR.SECTION.MODAL.SUBMIT_BUTTON}`).click({ force: true });
       cy.get('.js-station-list-item').should('have.length', 3);
     });
 

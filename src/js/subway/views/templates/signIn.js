@@ -1,4 +1,5 @@
 import { linkButton } from '../../../@shared/views/templates/linkButton';
+import { SELECTOR } from '../../constants';
 import { MENU, MESSAGE, ROUTE } from '../../constants/constants';
 
 export const signIn = `
@@ -6,12 +7,12 @@ export const signIn = `
     <div class="heading">
       <h2>${MENU.SIGNIN}</h2>
     </div>
-    <form id="signin-form" name="signin" class="form flex-col items-center">
+    <form id="${SELECTOR.USER_AUTH.MAIN.FORM}" name="signin" class="form flex-col items-center">
       <div class="input-control">
         <label for="email" class="input-label" hidden>이메일</label>
         <input
           type="email"
-          id="signin-email"
+          id="${SELECTOR.USER_AUTH.MAIN.EMAIL_INPUT}"
           name="email"
           class="input-field"
           placeholder="이메일"
@@ -24,14 +25,14 @@ export const signIn = `
         >
         <input
           type="password"
-          id="signin-password"
+          id="${SELECTOR.USER_AUTH.MAIN.PASSWORD_INPUT}"
           name="password"
           class="input-field"
           placeholder="비밀번호"
         />
       </div>
       <div
-        id="fail-message-box"
+        id="${SELECTOR.USER_AUTH.MAIN.PASSWORD_MSG}"
         class="js-message-box message-box mt-1 text-red mb-1 text-center"
         >
       </div>

@@ -1,3 +1,4 @@
+import { SELECTOR } from '../../constants';
 import { MENU } from '../../constants/constants';
 
 export const lineInfo = ({ id, name, color }) => `
@@ -19,14 +20,14 @@ export const lineManage = `
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">${MENU.LINES}</h2>
       <button
-        id="line-add-modal-button"
+        id="${SELECTOR.LINE.MAIN.ADD_MODAL_BUTTON}"
         type="button"
         class="input-submit create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
       >
         노선 추가
       </button>
     </div>
-    <ul id="line-list" class="mt-3 pl-0">
+    <ul id="${SELECTOR.LINE.MAIN.LIST}" class="mt-3 pl-0">
     </ul>
   </div>
 `;

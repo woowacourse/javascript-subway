@@ -1,3 +1,4 @@
+import { SELECTOR } from '../../constants';
 import { MENU } from '../../constants/constants';
 
 export const stationInfo = ({ id, name }) => `
@@ -25,14 +26,14 @@ export const stationManage = `
     <div class="heading">
       <h2 class="mt-1">${MENU.STATIONS}</h2>
     </div>
-    <form id="station-add-form">
+    <form id="${SELECTOR.STATION.MAIN.FORM}">
       <div class="d-flex w-100">
         <label for="station-name" class="input-label" hidden>
           역 이름
         </label>
         <input
           type="text"
-          id="station-add-input"
+          id="${SELECTOR.STATION.MAIN.NAME_INPUT}"
           name="stationName"
           class="input-field"
           placeholder="역 이름"
@@ -40,7 +41,7 @@ export const stationManage = `
         />
         <button
           type="submit"
-          id="station-add-button"
+          id="${SELECTOR.STATION.MAIN.SUBMIT_BUTTON}"
           name="submit"
           class="input-submit bg-cyan-300 ml-2"
           disabled
@@ -49,12 +50,12 @@ export const stationManage = `
         </button>
       </div>
       <div
-        id="add-fail-message-box"
+        id="${SELECTOR.STATION.MAIN.NAME_MSG}"
         class="js-message-box message-box mt-1 text-red mb-1 text-center"
         >
       </div>
     </form>
-    <ul id="station-list" class="mt-3 pl-0">
+    <ul id="${SELECTOR.STATION.MAIN.LIST}" class="mt-3 pl-0">
     </ul>
   </div>
 `;

@@ -1,3 +1,4 @@
+import { SELECTOR } from '../../constants';
 import { MENU } from '../../constants/constants';
 
 export const sectionInfo = ({ id, name, distance, duration }) => `
@@ -31,7 +32,7 @@ export const sectionManage = `
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">${MENU.SECTIONS}</h2>
       <button
-        id="section-add-modal-button"
+        id="${SELECTOR.SECTION.MAIN.ADD_MODAL_BUTTON}"
         type="button"
         class="create-section-btn modal-trigger-btn bg-cyan-300 ml-2"
       >
@@ -39,10 +40,10 @@ export const sectionManage = `
       </button>
     </div>
     <form class="d-flex items-center pl-1 relative">
-      <select id="main-line-selector">
+      <select id="${SELECTOR.SECTION.MAIN.LINE_SELECTOR}">
       </select>
     </form>
-    <ul id="section-list" class="mt-3 pl-0">
+    <ul id="${SELECTOR.SECTION.MAIN.LIST}" class="mt-3 pl-0">
     </ul>
   </div>
 `;
