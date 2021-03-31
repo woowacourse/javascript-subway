@@ -9,6 +9,7 @@ import {
 } from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
 import { validateAddLine, validateEditLine } from '../validators/validation';
+import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
 
 class Lines {
   constructor() {
@@ -26,46 +27,46 @@ class Lines {
   }
 
   selectDom() {
-    this.$createLineButton = $('.create-line-button');
-    this.$lineListWrapper = $('.line-list-wrapper');
-    this.$modal = $('.modal');
+    this.$createLineButton = $(`.${ELEMENT.CREATE_LINE_BUTTON}`);
+    this.$lineListWrapper = $(`.${ELEMENT.LINE_LIST_WRAPPER}`);
+    this.$modal = $(`.${ELEMENT.MODAL}`);
   }
 
   bindEvent() {
     this.$createLineButton.addEventListener('click', this.handleCreateLineButton.bind(this));
 
     this.$lineListWrapper.addEventListener('click', (e) => {
-      if (e.target.classList.contains('line-list-item__edit-button')) {
+      if (e.target.classList.contains(ELEMENT.LINE_LIST_ITEM_EDIT_BUTTON)) {
         this.handleLineEditButton(e);
         return;
       }
 
-      if (e.target.classList.contains('line-list-item__remove-button')) {
+      if (e.target.classList.contains(ELEMENT.LINE_LIST_ITEM_REMOVE_BUTTON)) {
         this.handleLineRemoveButton(e);
       }
     });
   }
 
   selectModalDom() {
-    this.$modalLineForm = $('.modal__line-form');
-    this.$colorSelector = $('.subway-line-color-selector');
-    this.$selectedColor = $('.selected-color');
+    this.$modalLineForm = $(`.${ELEMENT.MODAL_LINE_FORM}`);
+    this.$colorSelector = $(`.${ELEMENT.LINE_COLOR_SELECTOR}`);
+    this.$selectedColor = $(`.${ELEMENT.SELECTED_COLOR}`);
   }
 
   bindModalEvent() {
     this.$modalLineForm.addEventListener('submit', (e) => {
-      if ($('.add-modal')) {
+      if ($(`.${ELEMENT.ADD_MODAL}`)) {
         this.handleCreateLineForm(e);
         return;
       }
 
-      if ($('.edit-modal')) {
+      if ($(`.${ELEMENT.EDIT_MODAL}`)) {
         this.handleEditLineForm(e);
       }
     });
 
     this.$colorSelector.addEventListener('click', (e) => {
-      if (!e.target.classList.contains('color-option')) return;
+      if (!e.target.classList.contains(ELEMENT.COLOR_OPTION)) return;
       const colorTemplate = e.target.outerHTML;
       const [lineColor] = e.target.classList;
 
@@ -108,9 +109,9 @@ class Lines {
   async handleCreateLineForm(e) {
     e.preventDefault();
 
-    const lineName = e.target['subway-line-name'].value;
-    const upStationId = this.userDataManager.getTargetStationId(e.target['up-station'].value);
-    const downStationId = this.userDataManager.getTargetStationId(e.target['down-station'].value);
+    const lineName = e.target[ELEMENT.SUBWAY_LINE_NAME].value;
+    const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
+    const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
@@ -141,11 +142,11 @@ class Lines {
   }
 
   clearModalInput() {
-    this.$modal.querySelectorAll('input').forEach((input) => (input.value = ''));
+    this.$modal.querySelectorAll(`.${ELEMENT.INPUT_FIELD}`).forEach((input) => (input.value = ''));
   }
 
   handleLineEditButton(e) {
-    const { lineName } = e.target.closest('.line-list-item').dataset;
+    const { lineName } = e.target.closest(`.${ELEMENT.LINE_LIST_ITEM}`).dataset;
     const editTargetLineData = this.userDataManager.getTargetLineDataForEdit(lineName);
 
     this.lineNameInEdit = lineName;
@@ -163,7 +164,7 @@ class Lines {
   async handleEditLineForm(e) {
     e.preventDefault();
 
-    const newLineName = e.target['subway-line-name'].value;
+    const newLineName = e.target[ELEMENT.SUBWAY_LINE_NAME].value;
     const newColor = this.selectedLineColor || this.lineColorInEdit;
     const lineIdInEdit = this.userDataManager.getTargetLineId(this.lineNameInEdit);
 
@@ -188,9 +189,9 @@ class Lines {
   }
 
   async handleLineRemoveButton(e) {
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    if (!window.confirm(REMOVE_CONFIRM_MESSAGE)) return;
 
-    const { lineName } = e.target.closest('.line-list-item').dataset;
+    const { lineName } = e.target.closest(`.${ELEMENT.LINE_LIST_ITEM}`).dataset;
     const $lineListItem = $(`[data-line-name="${lineName}"]`);
 
     try {

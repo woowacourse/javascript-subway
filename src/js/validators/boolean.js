@@ -37,3 +37,7 @@ export const isDuplicatedLineColor = (selectedColor, colorList) => {
 export const isInvalidLineNameType = (lineName) => {
   return !REG_EXP.LINE_NAME.test(lineName);
 };
+
+export const isDimmed = ($target) => {
+  return $target.classList.contains('modal') && $target.classList.contains('open');
+};
