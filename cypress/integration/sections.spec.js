@@ -49,4 +49,26 @@ describe('지하철 구간 관리 테스트', () => {
     cy.get('.modal').should('not.be.visible');
     cy.get('.station-list-item').last().find('.station-item-name').should('have.text', downStation);
   });
+
+  it('노선에서 구간을 삭제할 수 있다.', () => {
+    const confirmStub = cy.stub();
+    const targetLine = '테스트';
+    const targetStation = '역3';
+
+    cy.intercept('DELETE', `${requestURL}/lines`).as('deleteSection');
+    cy.on('window:confirm', confirmStub);
+
+    cy.get('#subway-line').select(targetLine);
+    cy.get('#section-station-list')
+      .find(`[data-station-name="${targetStation}"]`)
+      .children('[data-action="delete"]')
+      .click()
+      .then(() => {
+        expect(confirmStub.getCall(0)).to.be.calledWith(`${targetStation}역을 삭제하시겠습니까?`);
+      });
+
+    cy.wait('@deleteSection');
+    cy.get('.station-list-item').contains(targetStation).should('not.exist');
+    cy.get('.snackbar').should('have.text', `${targetStation}역이 삭제되었습니다.`);
+  });
 });
