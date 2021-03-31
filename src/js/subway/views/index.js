@@ -7,6 +7,7 @@ import { signUp } from './templates/main/signUp';
 import { stationManage } from './templates/main/stationManage';
 import { lineManage } from './templates/main/lineManage';
 import { sectionManage } from './templates/main/sectionManage';
+import { mapDisplay } from './templates/main/mapDisplay';
 export { stationInfo, stationList } from './templates/main/stationManage';
 export { lineInfo, lineList } from './templates/main/lineManage';
 export { sectionInfo, sectionList } from './templates/main/sectionManage';
@@ -24,6 +25,7 @@ export const mainElements = {
   [ROUTE.STATIONS]: $('#main-content', parseToElements(stationManage)),
   [ROUTE.LINES]: $('#main-content', parseToElements(lineManage)),
   [ROUTE.SECTIONS]: $('#main-content', parseToElements(sectionManage)),
+  [ROUTE.MAP]: $('#main-content', parseToElements(mapDisplay)),
 };
 
 export const modalElements = {

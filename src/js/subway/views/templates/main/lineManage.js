@@ -1,10 +1,12 @@
 import { MENU } from '../../../constants/constants';
 
 export const lineInfo = ({ id, name, color }) => `
-<li data-id=${id}
-    data-name=${name}
-    data-color=${color}
-    class="js-line-list-item d-flex items-center py-2 relative">
+<li
+  data-id=${id}
+  data-name=${name}
+  data-color=${color}
+  class="js-line-list-item d-flex items-center py-2 relative"
+>
   <span class="subway-line-color-dot ${color}"></span>
   <span class="js-line-name w-100 pl-6">${name}</span>
   <button type="button" class="js-modify-button bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
