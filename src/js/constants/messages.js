@@ -29,12 +29,14 @@ export const STATIONS_MESSAGES = Object.freeze({
   STATION_HAS_BEEN_ADDED: '역 정보가 추가되었습니다.',
   STATION_HAS_BEEN_UPDATED: '역 정보가 변경되었습니다.',
   STATION_HAS_BEEN_REMOVED: '선택하신 역이 삭제되었습니다.',
+  STATION_IS_REGISTERED_TO_LINE: '해당 역은 노선에 등록되어 있어 삭제할 수 없습니다.',
   ARE_YOU_SURE_TO_REMOVE: '정말 삭제하시겠습니까?',
   REQUEST_HAS_BEEN_FAILED: '요청 처리에 실패하였습니다.\n문제가 지속되면 관리자에게 문의해주세요.',
 });
 
 export const LINES_MESSAGES = Object.freeze({
   LINE_NAME_ALREADY_EXISTS: '이미 존재하는 노선 이름입니다.',
+  LINE_HAS_BEEN_ADDED: '노선 정보가 추가되었습니다.',
   LINE_HAS_BEEN_UPDATED: '노선 정보가 변경되었습니다.',
   LINE_HAS_BEEN_REMOVED: '선택하신 노선이 삭제되었습니다.',
   ARE_YOU_SURE_TO_REMOVE: '정말 삭제하시겠습니까?',
