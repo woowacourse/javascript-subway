@@ -36,18 +36,16 @@ class Stations {
 
   bindEvent() {
     this.$stationForm.addEventListener('submit', this.handleStationForm.bind(this));
-
     this.$stationListWrapper.addEventListener('click', (e) => {
       if (e.target.classList.contains(ELEMENT.STATION_LIST_ITEM_EDIT_BUTTON)) {
         this.handleStationNameEditButton(e);
+
         return;
       }
-
       if (e.target.classList.contains(ELEMENT.STATION_LIST_ITEM_REMOVE_BUTTON)) {
         this.handleStationNameRemoveButton(e);
       }
     });
-
     this.$modalStationNameEditForm.addEventListener('submit', this.handleStationNameEditForm.bind(this));
   }
 
@@ -67,6 +65,7 @@ class Stations {
 
   async handleStationForm(e) {
     e.preventDefault();
+
     const stationName = e.target[ELEMENT.STATION_NAME].value;
 
     try {
@@ -85,7 +84,6 @@ class Stations {
     openModal(this.$modal);
     const { stationName } = e.target.closest(`.${ELEMENT.STATION_LIST_ITEM}`).dataset;
     this.stationNameInEdit = stationName;
-
     this.$modalStationNameEditInput.value = stationName;
     this.$modalStationNameEditInput.focus();
   }

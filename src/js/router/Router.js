@@ -13,7 +13,7 @@ class Router {
   }
 
   route(path) {
-    history.pushState({ path }, null, path);
+    window.history.pushState({ path }, null, path);
     this.render(path);
   }
 

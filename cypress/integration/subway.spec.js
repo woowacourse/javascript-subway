@@ -13,21 +13,16 @@ describe('로그인한 유저는 지하철 노선도 관리를 할 수 있다.',
 
   it('역 관리 버튼 누르면 역 관리 페이지가 나오고, 역을 추가할 수 있다.', () => {
     cy.get(`.${ELEMENT.NAV_BAR_STATION_BUTTON}`).click();
-    cy.get(`#${ELEMENT.STATION_NAME}`).type('리뷰어님');
-    cy.get(`.${ELEMENT.STATION_FORM} .${ELEMENT.INPUT_SUBMIT}`).click();
-    cy.get(`#${ELEMENT.STATION_NAME}`).type('크리스');
-    cy.get(`.${ELEMENT.STATION_FORM} .${ELEMENT.INPUT_SUBMIT}`).click();
-    cy.get(`#${ELEMENT.STATION_NAME}`).type('제이비');
-    cy.get(`.${ELEMENT.STATION_FORM} .${ELEMENT.INPUT_SUBMIT}`).click();
-    cy.get(`#${ELEMENT.STATION_NAME}`).type('사랑해요');
-    cy.get(`.${ELEMENT.STATION_FORM} .${ELEMENT.INPUT_SUBMIT}`).click();
+    cy.get(`#${ELEMENT.STATION_NAME}`).type('리뷰어님{enter}');
+    cy.get(`#${ELEMENT.STATION_NAME}`).type('크리스{enter}');
+    cy.get(`#${ELEMENT.STATION_NAME}`).type('제이비{enter}');
+    cy.get(`#${ELEMENT.STATION_NAME}`).type('사랑해요{enter}');
     cy.get(`.${ELEMENT.STATION_LIST_ITEM}`).its('length').should('be.gte', 4);
   });
 
   it('역 이름을 수정할 수 있다.', () => {
     cy.get(`.${ELEMENT.STATION_LIST_ITEM_EDIT_BUTTON}`).eq(0).click();
-    cy.get(`.${ELEMENT.MODAL_STATION_NAME_EDIT_INPUT}`).type('천재');
-    cy.get(`.${ELEMENT.MODAL} .${ELEMENT.INPUT_SUBMIT}`).click();
+    cy.get(`.${ELEMENT.MODAL_STATION_NAME_EDIT_INPUT}`).type('천재{enter}');
     cy.wait(200);
     cy.get(`.${ELEMENT.STATION_LIST_ITEM}`).eq(0).contains('천재');
   });
@@ -79,8 +74,7 @@ describe('로그인한 유저는 지하철 노선도 관리를 할 수 있다.',
     cy.get(`#${ELEMENT.UP_STATION}`).select('제이비');
     cy.get(`#${ELEMENT.DOWN_STATION}`).select('사랑해요');
     cy.get(`.${ELEMENT.MODAL_LINE_DISTANCE}`).type('5');
-    cy.get(`.${ELEMENT.MODAL_LINE_DURATION}`).type('5');
-    cy.get(`.${ELEMENT.MODAL} .${ELEMENT.INPUT_SUBMIT}`).click();
+    cy.get(`.${ELEMENT.MODAL_LINE_DURATION}`).type('5{enter}');
     cy.wait(200);
     cy.get(`.${ELEMENT.SECTION_LIST_ITEM}`).its('length').should('be.gte', 3);
   });

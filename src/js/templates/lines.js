@@ -43,7 +43,6 @@ export const getLineAddModalTemplate = (stationData) => {
       <div class="input-control">
         <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
         <input
-          type="text"
           id="subway-line-name"
           name="subway-line-name"
           class="modal__line-name input-field"
@@ -109,7 +108,6 @@ export const getLineEditModalTemplate = (lineData) => `
       <div class="input-control">
         <label for="subway-line-name" class="input-label" hidden>노선 이름</label>
         <input
-          type="text"
           id="subway-line-name"
           name="subway-line-name"
           class="modal__line-name input-field"

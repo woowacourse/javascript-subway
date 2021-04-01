@@ -56,7 +56,7 @@ describe('회원가입 페이지에서 잘못된 입력 시 에러 메시지를 
     cy.get(`.${ELEMENT.SIGN_UP_BUTTON}`).click();
     cy.get(`.${ELEMENT.SIGN_UP_EMAIL_INPUT}`).type('1219ssm@naver.com');
     cy.get(`.${ELEMENT.SIGN_UP_USER_NAME_INPUT}`).type('김상덕123');
-    cy.get(`.${ELEMENT.SIGN_UP_USER_NAME_CHECK_TEXT_AREA}`).should('have.text', ERROR_MESSAGE.INVALID_USER_NAME_TYPE);
+    cy.get(`.${ELEMENT.SIGN_UP_USER_NAME_CHECK_TEXT_AREA}`).should('have.text', ERROR_MESSAGE.INVALID_NAME_TYPE);
   });
 
   it('8자 미만의 비밀번호 입력 시, 에러 메시지를 출력한다.', () => {

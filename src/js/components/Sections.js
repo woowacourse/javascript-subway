@@ -13,8 +13,12 @@ class Sections {
   init() {
     this.selectDOM();
     this.bindEvent();
-    this.renderLineOptionsTemplate();
-    this.renderStationListInTargetLine(this.userDataManager.lines[0].name);
+
+    const [firstLineData] = this.userDataManager.lines;
+    if (firstLineData) {
+      this.renderLineOptionsTemplate();
+      this.renderStationListInTargetLine(firstLineData.name);
+    }
   }
 
   selectDOM() {

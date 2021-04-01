@@ -1,6 +1,6 @@
 import { validateEmail, validateName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
-import { PATH, ELEMENT, SUCCESS_MESSAGE, ERROR_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
+import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { requestEmailDuplicationCheck, requestSignUpApprove } from '../requestData/requestUserData';
