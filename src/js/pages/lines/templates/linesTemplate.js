@@ -196,7 +196,7 @@ function linesModifyingModalTemplate(targetLine) {
           <div class="d-flex justify-around">
             <div class="line-color-selector px-2"></div>
             <div class="w-40">
-              <div id="selected-line-color" class="d-flex">
+              <div id="selected-line-color" class="d-flex ${targetLine.color}">
                 <input
                 type="text"
                 id="line-color"
