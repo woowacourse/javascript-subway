@@ -43,15 +43,15 @@ export default class Station extends Observer {
         <div class="heading"><h2 class="mt-1">🚉 역 관리</h2></div>
         <form id="${SELECTOR_ID.STATION_FORM}">
           <div class="d-flex w-100">
-            <label for="station-name" class="input-label" hidden> 역 이름 </label
+            <label for="${SELECTOR_ID.STATION_NAME_INPUT}" class="input-label" hidden> 역 이름 </label
             ><input
               type="text"
-              id="station-name"
+              id="${SELECTOR_ID.STATION_NAME_INPUT}"
               name="stationName"
               class="input-field"
               placeholder="역 이름"
               required
-            /><button type="submit" name="submit" class="input-submit bg-cyan-300 ml-2">확인</button>
+            /><button type="submit" name="submit" id="${SELECTOR_ID.STATION_LIST_ITEM_REGISTER}" class="input-submit bg-cyan-300 ml-2">확인</button>
           </div>
         </form>
         <ul id="${SELECTOR_ID.STATION_LIST}" class="mt-3 pl-0"></ul>
@@ -72,7 +72,7 @@ export default class Station extends Observer {
         <span class="${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2">${station.name}</span>
         <button 
           type="button" 
-          class="${SELECTOR_CLASS.STATION_LIST_ITEM_EDIT} bg-gray-50 text-gray-500 text-sm mr-1"
+          class="${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1"
           data-station-id="${station.id}"
           data-station-name="${station.name}"
         >
@@ -87,7 +87,7 @@ export default class Station extends Observer {
         >
           삭제
         </button>
-        <input data-station-id="${station.id}" class="${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}" type="text" />
+        <input data-station-id="${station.id}" class="${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}" type="text" required />
       </li>
       <hr class="my-0" />
     `;

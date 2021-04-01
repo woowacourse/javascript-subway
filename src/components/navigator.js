@@ -1,6 +1,7 @@
-import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY } from '../constants.js';
+import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY, SETTINGS } from '../constants.js';
 import delegateNavigatorClickEvent from '../delegators/navigator.js';
 import Observer from '../lib/Observer.js';
+import { state } from '../store.js';
 import { $ } from '../utils/dom.js';
 
 export default class Navigator extends Observer {
@@ -17,11 +18,21 @@ export default class Navigator extends Observer {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
+    this.#colorMenuButton();
     this.#initEvents();
   }
 
   #initEvents() {
     $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent)
+  }
+
+  #colorMenuButton() {
+    const $$navigatorButtons = $(`.${SELECTOR_CLASS.NAVIGATOR_BUTTON}`);
+    const $targetMenuButton = $(`a[href="${state.get(STATE_KEY.TARGET_MENU)}"]`);
+    $$navigatorButtons.forEach(($button) => {
+      $button.classList.remove(SETTINGS.SELECTED_MENU_COLOR);
+    });
+    $targetMenuButton && $targetMenuButton.classList.add(SETTINGS.SELECTED_MENU_COLOR);
   }
 
   // TODO : 이거 굳이 동적으로 넣는 이유가 뭔지 알아보기
@@ -50,11 +61,6 @@ export default class Navigator extends Observer {
       SELECTOR_CLASS.NAVIGATOR_BUTTON
     } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
           🗺️ 전체 보기
-        </a>
-        <a href="${PATH.SEARCH}" class="${
-      SELECTOR_CLASS.NAVIGATOR_BUTTON
-    } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
-          🔎 길 찾기
         </a>
         ${
           this.#state.get(STATE_KEY.IS_LOGGED_IN)

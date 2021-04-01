@@ -1,7 +1,7 @@
 import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE } from '../constants';
 import { state } from '../store.js';
 import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
-import { requestStationDelete, requestStationRegistration } from '../api/station.js';
+import { requestStationDelete, requestStationRegistration, requestStationUpdate } from '../api/station.js';
 import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation, resetForm } from '../utils/dom.js';
 import { wait } from '../utils/utils';
 
@@ -16,7 +16,7 @@ export function delegateStationSubmitEvent(event) {
 
 export function delegateStationClickEvent(event) {
   const { target } = event;
-  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_EDIT)) {
+  if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE)) {
     onStationItemInputOpen(target);
   }
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE) && confirm(CONFIRM_MESSAGE.DELETE)) {
@@ -27,7 +27,7 @@ export function delegateStationClickEvent(event) {
 export function delegateStationFocusOutEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_INPUT)) {
-    onStationItemEdit(target);
+    onStationItemUpdate(target);
   }
 }
 
@@ -60,13 +60,19 @@ function onStationItemInputOpen(target) {
   $stationInput.focus();
 }
 
-function onStationItemEdit(target) {
+function onStationItemUpdate(target) {
   const { stationId } = target.dataset;
   const stationList = state.get(STATE_KEY.STATION_LIST);
   const newStationName = target.value;
   const targetStationItem = stationList.find(station => station.id === Number(stationId));
-  targetStationItem.name = newStationName;
-  state.update(STATE_KEY.STATION_LIST, stationList);
+  if (targetStationItem.name === newStationName || !newStationName) {
+    state.update(STATE_KEY.STATION_LIST, stationList);
+    return;
+  }
+  requestStationUpdate(stationId, newStationName).then(() => {
+    targetStationItem.name = newStationName;
+    state.update(STATE_KEY.STATION_LIST, stationList);
+  });
 }
 
 function onStationItemDelete(target) {
@@ -84,5 +90,6 @@ function onStationItemDelete(target) {
     .catch(error => {
       cancelTurnRedAnimation(stationItem);
       console.log(error);
+      alert(ALERT_MESSAGE.STATION_INCLUDED_IN_LINE);
     });
 }

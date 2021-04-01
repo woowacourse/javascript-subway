@@ -9,6 +9,7 @@ export default class Subject {
       [STATE_KEY.IS_LOGGED_IN]: [],
       [STATE_KEY.TARGET_LINE_ID]: [],
       [STATE_KEY.TARGET_SECTION_LINE_ID]: [],
+      [STATE_KEY.TARGET_MENU]: [],
     };
   }
 

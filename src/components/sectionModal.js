@@ -58,9 +58,9 @@ export default class SectionModal extends Observer {
             </select>
           </div>
           <div class="d-flex items-center input-control">
-            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 거리(km)"/>
+            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 거리(km)" required />
             <div class="d-inline-block mx-3 text-2xl"></div>
-            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 시간(분)"/>
+            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 시간(분)" required />
           </div>
           <div class="d-flex justify-end mt-3">
             <button id="${SELECTOR_ID.SECTION_MODAL_SUBMIT}" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>

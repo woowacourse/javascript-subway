@@ -52,6 +52,7 @@ router.initRouteEvent();
 
 // 옵저버 등록
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);
+state.subscribe(STATE_KEY.TARGET_MENU, navigator);
 state.subscribe(STATE_KEY.STATION_LIST, station);
 state.subscribe(STATE_KEY.LINE_LIST, line);
 state.subscribe(STATE_KEY.LINE_LIST, section);

@@ -4,16 +4,14 @@ import { state } from '../store.js';
 import { isProperLineNameLength, isDuplicatedLineNameExist } from '../validators/line.js';
 import { requestLineRegistration, requestLineUpdate } from '../api/line.js';
 
-export function delegateLineModalSubmitEvent(event) {
+export async function delegateLineModalSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_REGISTER_FORM)) {
     onLineItemRegister(target);
-    closeModal();
   }
   if (target.classList.contains(SELECTOR_CLASS.SUBWAY_LINE_UPDATE_FORM)) {
     onLineItemUpdate(target);
-    closeModal();
   }
 }
 
@@ -45,6 +43,21 @@ function onLineItemRegister(target) {
   const color = target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color;
   const lineList = state.get(STATE_KEY.LINE_LIST);
 
+  if (!upStationId || !downStationId) {
+    alert(ALERT_MESSAGE.NO_UP_DOWN_STATION_SELECTED);
+    return;
+  }
+
+  if (!color) {
+    alert(ALERT_MESSAGE.NO_LINE_COLOR_SELECTED);
+    return;
+  }
+
+  if (upStationId === downStationId) {
+    alert(ALERT_MESSAGE.UP_STATION_EQUALS_DOWN_STATION);
+    return;
+  }
+
   if (!isProperLineNameLength(lineName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
     return;
@@ -67,6 +80,7 @@ function onLineItemRegister(target) {
   requestLineRegistration(newLine).then(line => {
     lineList.push(line);
     state.update(STATE_KEY.LINE_LIST, lineList);
+    closeModal();
   });
 }
 
@@ -75,12 +89,16 @@ function onLineItemUpdate(target) {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
     name: target[SELECTOR_NAME.SUBWAY_LINE_NAME].value, 
     color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color
-  }
+  };
+  
   requestLineUpdate(newLine)
-    .then(updateLine)
+    .then(newLine => {
+      updateLine(newLine);
+      closeModal();
+    })
     .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.LINE_UPDATE_FAILED);
+      console.error(error);
+      alert(error.message === '400' ? ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST : ALERT_MESSAGE.LINE_UPDATE_FAILED);
     });
 }
 
@@ -89,7 +107,7 @@ function updateLine(newLine) {
   lineList.forEach(line => {
     if (line.id === newLine.id) {
       line.name = newLine.name;
-      line.color = newLine.color;    
+      line.color = newLine.color;
     }
   })
   state.update(STATE_KEY.LINE_LIST, lineList);

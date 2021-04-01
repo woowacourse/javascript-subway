@@ -22,13 +22,15 @@ export function onPageMove(target) {
   if (!isAuthenticationPath(path) && !state.get(STATE_KEY.IS_LOGGED_IN)) {
     history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
     router.navigate(PATH.ROOT);
+    state.update(STATE_KEY.TARGET_MENU, PATH.ROOT);
     return;
   }
   history.pushState({ path }, null, path);
   router.navigate(path);
-}
+  state.update(STATE_KEY.TARGET_MENU, path);
+};
 
-const isAuthenticationPath = path => {
+function isAuthenticationPath(path) {
   return path === PATH.LOG_IN || path === PATH.SIGN_UP;
 };
 
@@ -37,6 +39,7 @@ function onLogOut() {
   state.update(STATE_KEY.IS_LOGGED_IN, false);
   history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
   router.navigate(PATH.ROOT);
+  state.update(STATE_KEY.TARGET_MENU, PATH.ROOT);
 }
 
 export default delegateNavigatorClickEvent;

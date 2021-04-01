@@ -14,7 +14,7 @@ export const requestSectionRegistration = async (line, section) => {
   });
 
   if (!response.ok) {
-    throw new Error('역 등록 실패');
+    throw new Error(response.status);
   }
 };
 
@@ -30,6 +30,6 @@ export const requestSectionDelete = async (lineId, stationId) => {
   });
 
   if (!response.ok) {
-    throw new Error('역 등록 실패');
+    throw new Error('구간 삭제 실패');
   }
 }

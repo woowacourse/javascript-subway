@@ -2,7 +2,7 @@ import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY } from "../consta
 import { delegateLineModalClickEvent, delegateLineModalSubmitEvent } from "../delegators/lineModal";
 import Observer from "../lib/Observer";
 import { $ } from '../utils/dom.js';
-import { colorOptions } from '../utils/mock.js';
+import { colorOptions, rotateMatrix } from '../utils/mock.js';
 
 export default class LineModal extends Observer {
   #targetSelector;
@@ -24,8 +24,10 @@ export default class LineModal extends Observer {
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
     modal.innerHTML = this.#getModalTemplate(targetLine);
-    $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = colorOptions
-      .map((color, index) => this.#getSubwayLineColorOptionTemplate(color, index))
+
+    const rotatedColorOptions = rotateMatrix(colorOptions);
+    $(`.${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER}`).innerHTML = rotatedColorOptions
+      .map((colors, index) => this.#getSubwayLineColorOptionTemplate(colors, index))
       .join('');
     
     this.#initEvents();
@@ -67,30 +69,34 @@ export default class LineModal extends Observer {
           </div>
           ${lineItem ? '' : `
             <div class="d-flex items-center input-control">
-              <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="up-station" name="${SELECTOR_NAME.SUBWAY_UP_STATION}" class="mr-2">
-                <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
+              <label for="${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}" class="input-label" hidden>상행역</label>
+              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}" name="${SELECTOR_NAME.SUBWAY_UP_STATION}" class="mr-2">
+                <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>
+                  ${lineItem ? lineItem.upStationName : '상행역'}
+                </option>
                 ${this.#state
                   .get(STATE_KEY.STATION_LIST)
                   .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
                   .join('')}
               </select>
-              <label for="down-station" class="input-label" hidden>하행역</label>
-              <select id="down-station"" name="${SELECTOR_NAME.SUBWAY_DOWN_STATION}">
-                <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
-                <${this.#state
+              <label for="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}" class="input-label" hidden>하행역</label>
+              <select id="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}" name="${SELECTOR_NAME.SUBWAY_DOWN_STATION}">
+                <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>
+                  ${lineItem ? lineItem.downStationName : '하행역'}
+                </option>
+                ${this.#state
                   .get(STATE_KEY.STATION_LIST)
                   .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
                   .join('')}
               </select>
             </div>
             <div class="input-control">
-              <label for="distance" class="input-label" hidden
+              <label for="${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}" class="input-label" hidden
                 >상행 하행역 거리</label
               >
               <input
                 type="number"
-                id="distance"
+                id="${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}"
                 name="${SELECTOR_NAME.LINE_DISTANCE}"
                 class="input-field mr-2"
                 placeholder="상행 하행역 거리(km)"
@@ -98,12 +104,12 @@ export default class LineModal extends Observer {
                 value="${lineItem ? lineItem.distance : ''}"
                 required
               />
-              <label for="duration" class="input-label" hidden
+              <label for="${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}" class="input-label" hidden
                 >상행 하행역 시간</label
               >
               <input
                 type="number"
-                id="duration"
+                id="${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}"
                 name="${SELECTOR_NAME.LINE_DURATION}"
                 class="input-field"
                 placeholder="상행 하행역 시간(분)"
@@ -152,11 +158,9 @@ export default class LineModal extends Observer {
     `;
   }
 
-  // TODO: color picker 배열 고쳐서 빈자리 없게 만들기
-  #getSubwayLineColorOptionTemplate(color, index) {
-    const hasNewLine = (index + 1) % 7 === 0;
-    return `<button type="button" class="${SELECTOR_CLASS.COLOR_OPTION} bg-${color}" data-color="${color}"></button> ${
-      hasNewLine ? '<br/>' : ''
-    }`;
+  #getSubwayLineColorOptionTemplate(colors, index) {
+    return colors.map((color, idx) => `<button type="button" class="${SELECTOR_CLASS.COLOR_OPTION} bg-${color}" data-color="${color}"></button> ${
+      !((idx + 1) % colors.length) ? '<br/>' : ''
+    }`).join('');
   }
 }

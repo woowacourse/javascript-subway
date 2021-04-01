@@ -23,7 +23,6 @@ export const requestSignUp = async (email, name, password) => {
     body: JSON.stringify({ email, name, password }),
   });
 
-  // TODO: API 개선되면 로그인 에러 분기 넣기
   if (!response.ok) {
     throw new Error('회원가입 실패');
   }

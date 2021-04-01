@@ -95,7 +95,7 @@ export const requestLineUpdate = async (newline) => {
   });
 
   if (!response.ok) {
-    throw new Error('역 수정 실패');
+    throw new Error(response.status);
   }
 
   return newline;

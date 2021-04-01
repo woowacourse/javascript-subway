@@ -6,7 +6,9 @@ import { requestLineDelete } from '../api/line.js';
 
 export function delegateLineClickEvent(event) {
   const { target } = event;
-  if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON) && confirm(CONFIRM_MESSAGE.DELETE)) {
+  if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON)) {
+    const confirmation = confirm(CONFIRM_MESSAGE.DELETE);
+    if (!confirmation) return;
     onLineItemDelete(target);
     return;
   }
@@ -17,12 +19,12 @@ export function delegateLineClickEvent(event) {
     return;
   }
 
-  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_EDIT)) {
-    onLineItemEdit(target);
+  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
+    onLineItemUpdate(target);
     openModal();
     return;
   }
-  // TODO: 리스트 아이템 클릭을 구현할 것인지 결정하기
+
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`)) {
     const targetListItem = target.closest(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`);
     onLineListItemClick(targetListItem);
@@ -53,7 +55,7 @@ function onLineModalOpen() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
 }
 
-function onLineItemEdit(target) {
+function onLineItemUpdate(target) {
   state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
 }
 
