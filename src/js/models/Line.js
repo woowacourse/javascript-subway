@@ -73,4 +73,14 @@ export default class Line {
       <hr class="my-0" />
   `;
   }
+
+  toMapTemplate() {
+    const borderColor = this._color.replace('bg', 'border');
+    return `
+      <ul data-line-id="${this._id}" data-line-name="${this._name}" class="map-line-list">
+        <span class="map-line-name ${borderColor}">${this._name}</span>
+        ${this._stations.map((station) => station.toMapItemTemplate(this._color)).join('')}
+      </ul>
+    `;
+  }
 }

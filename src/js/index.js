@@ -12,6 +12,7 @@ import {
   StationManager,
   LineManager,
   SectionManager,
+  MapManager,
   LoginForm,
   SignupForm,
 } from './components';
@@ -28,6 +29,7 @@ export default class App {
     this.stationManager = new StationManager(this.store);
     this.lineManager = new LineManager(this.store);
     this.sectionManager = new SectionManager(this.store);
+    this.mapManager = new MapManager(this.store);
 
     this.loginForm = new LoginForm(this.store);
     this.signupForm = new SignupForm(this.store);
@@ -37,6 +39,7 @@ export default class App {
       '/lines': this.lineManager,
       '/stations': this.stationManager,
       '/sections': this.sectionManager,
+      '/map': this.mapManager,
       '/login': this.loginForm,
       '/signup': this.signupForm,
     };
@@ -103,6 +106,7 @@ export default class App {
 
       this.store.stations = stations;
       this.store.lines = lines;
+      this.mapManager.checkTransferStations();
     } catch (error) {
       console.error(error);
       popSnackbar(MESSAGES.ERROR_FETCH_STATION_DATA);
