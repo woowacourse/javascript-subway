@@ -102,7 +102,7 @@ ul li button:hover {
   padding: 0.75rem 1.25rem;
 }
 
-#subway-list {
+#line-list {
   list-style-type: none;
   padding: 0;
 }
@@ -121,4 +121,18 @@ ul li button:hover {
 
 hr:last-child {
   display: none;
+}
+
+#search-option {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+#search-option select.selected {
+  border-color: rgb(129, 222, 234) !important;
+}
+
+.station-list li:last-child .vertical-line {
+  height: 50%;
+  transform: translate(50%, -50%);
 }

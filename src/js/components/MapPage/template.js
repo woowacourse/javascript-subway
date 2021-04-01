@@ -1,19 +1,29 @@
 export const contentTemplate = `
   <div class="wrapper bg-white p-10">
   <div class="heading">
-    <h2 class="mt-1">전체 보기</h2>
+    <h2 class="mt-1">🗺️ 전체 보기</h2>
   </div>
 
-  <form class="d-flex items-center pl-1">
-    <label for="subway-line" class="input-label" hidden>노선</label>
-    <select id="line-select" class="border-4 border-color-gray-100 bg-white">
-      <option selected>전체 보기</option>
-    </select>
-  </form>
+  <div id="search-option">
+    <form class="d-flex items-center pl-1 flex-col justify-center">
+      <label for="line-select" class="input-label mb-1">노선으로 찾기</label>
+      <select id="line-select" class="border-4 border-color-gray-100 bg-white border-solid">
+        <option value="" selected>전체 보기</option>
+      </select>
+    </form>
+    <span class="text-center">또는</span>
+    <form class="d-flex items-center pl-1 flex-col">
+      <label for="station-select" class="input-label mb-1">역 이름으로 찾기</label>
+      <select id="station-select" class="border-4 border-color-gray-100 bg-white border-solid">
+        <option value="" selected>전체 보기</option>
+      </select>
+    </form>
+  </div>
 
-  <ul id="subway-list">
+  <hr class="my-5">
+
+  <ul id="line-list">
   </ul>
-`;
 
-// TODO: 각 노선 별 역 전체 보기
-// TODO: 검색기능 만들기
+  <p id="no-line-warning" class="d-none">검색 조건에 해당하는 노선이 없습니다.</p>
+`;

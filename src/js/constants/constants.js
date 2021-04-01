@@ -45,6 +45,7 @@ export const SELECTOR = {
   SUBWAY_LINE_COLOR_SELECTOR: '.subway-line-color-selector',
 
   LINE_LIST: '#line-list',
+  LINE_LIST_ITEM: '.line-list-item',
 
   LINE_CREATION_FORM: '#subway-line-form',
   LINE_NAME_INPUT: '#subway-line-name',
@@ -65,6 +66,9 @@ export const SELECTOR = {
   DISTANCE_VALUE: '.distance-value',
   DURATION_VALUE: '.duration-value',
   SECTION_DATA_CONTAINER: '.section-data-container',
+
+  LINE_SELECT: '#line-select',
+  STATION_SELECT: '#station-select',
 };
 
 export const MESSAGES = {
