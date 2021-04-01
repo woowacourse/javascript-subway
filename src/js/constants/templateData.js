@@ -16,10 +16,6 @@ export const NAV_ITEMS = [
   },
   {
     title: "🗺️ 전체 보기",
-    href: PAGE_URLS[PAGE_KEYS.MAP],
-  },
-  {
-    title: "🔎 길 찾기",
-    href: PAGE_URLS[PAGE_KEYS.SEARCH],
+    href: PAGE_URLS[PAGE_KEYS.STATION_MAP],
   },
 ];

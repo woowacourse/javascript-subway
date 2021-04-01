@@ -39,3 +39,22 @@ export const createStationListItem = (station, displayModifyBtn = true) => {
       </li>
     `;
 };
+
+const createStationDot = (station, borderColorClass) => {
+  return `
+    <li class="map-item-station-dot ${borderColorClass}" data-station-name="${station.name}"></li>
+  `;
+};
+
+export const createMap = (line) => {
+  const borderColorClass = line.color.replace("bg", "border");
+
+  return `
+    <ul class="map-item ${borderColorClass}">
+      <li class="map-item-line ${line.color}">${line.name}</li>
+      ${line.stations.reduce((template, station) => {
+        return `${template}${createStationDot(station, borderColorClass)}`;
+      }, "")}
+    </ul>
+  `;
+};
