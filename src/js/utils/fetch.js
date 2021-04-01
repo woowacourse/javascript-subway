@@ -121,6 +121,11 @@ const fetchStationRemoval = async (url, accessToken) => {
     },
   });
 
+  //TODO: 400 상수화 하기
+  if (response.status === 400) {
+    throw new Error(ALERT_MESSAGE.STATION_REMOVAL_FAIL);
+  }
+
   if (!response.ok) {
     throw new Error(response.status);
   }

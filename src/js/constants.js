@@ -92,6 +92,7 @@ const ALERT_MESSAGE = {
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
   STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
   STATION_REMOVAL_SUCCESS: '해당 역을 삭제했습니다.',
+  STATION_REMOVAL_FAIL: '노선에 등록된 역은 삭제할 수 없습니다.',
 
   // LINE
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
