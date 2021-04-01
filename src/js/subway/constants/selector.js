@@ -89,7 +89,7 @@ export const SELECTOR = {
   },
   MAP: {
     MAIN: {
-      CANVAS: 'map-display',
+      TOTAL_LINE_LIST: 'total-line-list',
     },
   },
 };

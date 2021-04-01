@@ -1,11 +1,12 @@
 import { DOM } from '../constants/dom';
-import { MENU, MESSAGE, ROUTE, UP_STATION } from '../constants/constants';
+import { MENU, MESSAGE, ROUTE } from '../constants/constants';
 import { lineList } from './templates/lineManage';
 import { stationList } from './templates/stationManage';
 import { linkButton, selectorOption } from '../../@shared/views';
 import { mainElements, modalElements } from '.';
 import { menuButtons } from './templates/menuButtons';
 import { sectionList } from './templates/sectionManage';
+import { mapList } from './templates/mapManage';
 
 export const subwayView = {
   renderRoot: signedUserName => {
@@ -73,14 +74,6 @@ export const subwayView = {
   },
 
   renderMapView: lines => {
-    if (DOM.MAP.MAIN.CANVAS.getContext) {
-      var ctx = DOM.MAP.MAIN.CANVAS.getContext('2d');
-
-      ctx.fillStyle = 'rgb(200, 0, 0)';
-      ctx.fillRect(10, 10, 50, 50);
-
-      ctx.fillStyle = 'rgb(0, 0, 200, 0.5)';
-      ctx.fillRect(30, 30, 50, 50);
-    }
+    DOM.MAP.MAIN.TOTAL_LINE_LIST.innerHTML = mapList(lines);
   },
 };

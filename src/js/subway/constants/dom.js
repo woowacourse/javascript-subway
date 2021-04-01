@@ -90,7 +90,7 @@ export const DOM = {
   },
   MAP: {
     MAIN: {
-      CANVAS: $(`#${SELECTOR.MAP.MAIN.CANVAS}`, mainElements[ROUTE.MAP]),
+      TOTAL_LINE_LIST: $(`#${SELECTOR.MAP.MAIN.TOTAL_LINE_LIST}`, mainElements[ROUTE.MAP]),
     },
   },
 };

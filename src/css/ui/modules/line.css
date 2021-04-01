@@ -10,7 +10,16 @@
   width: 0px;
 }
 
-#section-list > .js-station-list-item {
+#map-list {
+  margin-left: 5%;
+
+  padding-left: 4px;
+
+  width: 0px;
+}
+
+#section-list > .js-station-list-item,
+#map-list > .js-station-list-item {
   position: relative;
   left: 1em;
   height: 2em;
@@ -18,7 +27,8 @@
   font: bold 14px arial;
 }
 
-#section-list > .js-station-list-item::before {
+#section-list > .js-station-list-item::before,
+#map-list > .js-station-list-item::before {
   content: '';
   position: absolute;
   top: 0.75em;

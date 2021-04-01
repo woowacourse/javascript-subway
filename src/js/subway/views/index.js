@@ -10,7 +10,7 @@ import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
 import { lineAddModify } from './templates/lineAddModify';
 import { sectionAddModify } from './templates/sectionAddModify';
-import { mapManage } from './templates/mapDisplay';
+import { mapManage } from './templates/mapManage';
 import { SELECTOR } from '../constants';
 
 export { menuButtons } from './templates/menuButtons';
