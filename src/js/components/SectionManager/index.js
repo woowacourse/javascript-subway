@@ -107,6 +107,11 @@ export default class SectionManager {
       popSnackbar(MESSAGES.SECTION_DELETE.SUCCESS(stationName));
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(error.message || MESSAGES.SECTION_DELETE.FAIL);
     }
   }
@@ -135,6 +140,11 @@ export default class SectionManager {
       this.store.lines = updatedLines;
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(MESSAGES.ERROR_FETCH_SECTION_DATA);
     }
   }

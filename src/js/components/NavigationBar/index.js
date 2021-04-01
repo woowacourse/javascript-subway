@@ -28,6 +28,7 @@ export default class NavigationBar {
       this.selectButton();
     } else {
       this.navigation.classList.add('d-none');
+      this.logout();
     }
   }
 
@@ -60,8 +61,8 @@ export default class NavigationBar {
     });
   }
 
-  logout(event) {
-    event.preventDefault();
+  logout(event = '') {
+    event && event.preventDefault();
 
     this.store.updateLoggedIn(false);
     routeTo(getAvailablePath('/login', this.store.isLoggedIn));

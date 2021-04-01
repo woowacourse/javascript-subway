@@ -94,6 +94,11 @@ export default class SectionModal {
       this.$root.dispatchEvent(new CustomEvent('addSection', { detail: this.state.lineId }));
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(error.message || MESSAGES.SECTION_ADD.FAIL);
     }
   }

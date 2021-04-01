@@ -2,6 +2,10 @@ export const HOST = 'https://www.boorownie.com';
 
 export const SESSION_EXPIRE_DAYS = 1;
 
+export const ERROR_CODE = {
+  UNAUTHORIZED: 401,
+};
+
 export const SELECTOR = {
   NAVIGATION: '#navigation',
   NAV_BUTTON: '.nav-btn',
@@ -13,8 +17,6 @@ export const SELECTOR = {
   CONTENT: '#content',
   MODAL: '.modal',
   MODAL_CLOSE: '.modal-close',
-
-  ENTRY_DESCRIPTION: '#app-description',
 
   LOGIN_INPUT_FORM: '#login-form',
   LOGIN_ERROR_WARNING: '#login-error-warning',
@@ -77,11 +79,12 @@ export const MESSAGES = {
   LOGIN_FAIL: '아이디, 패스워드를 확인하세요.',
 
   ENTRY_DESCRIPTION_LOGGED_IN: '상단 탭을 클릭해주세요. 🦕',
-  ENTRY_DESCRIPTION_LOGGED_OUT: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
 
   ERROR_FETCH_USER_INFO: '사용자 정보를 가져오는 과정에서 문제가 발생했습니다.',
   ERROR_FETCH_STATION_DATA: '지하철 데이터를 가져오는 과정에서 문제가 발생했습니다.',
   ERROR_FETCH_SECTION_DATA: '구간 데이터를 가져오는 과정에서 문제가 발생했습니다',
+
+  ERROR_UNAUTHORIZED: '다시 로그인 해 주세요.',
 
   STATION_ADD: {
     FAIL: '해당 역을 등록할 수 없습니다.',

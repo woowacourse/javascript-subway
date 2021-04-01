@@ -87,6 +87,11 @@ export default class StationManager {
       this.$stationNameInput.value = '';
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(MESSAGES.STATION_ADD.FAIL);
     }
   }
@@ -137,6 +142,11 @@ export default class StationManager {
       popSnackbar(MESSAGES.STATION_DELETE.SUCCESS(stationName));
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(error.message || MESSAGES.STATION_DELETE.FAIL);
     }
   }

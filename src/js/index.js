@@ -5,7 +5,7 @@ import { userInfoRequest, stationListRequest, lineListRequest } from './request.
 import { getCookie } from './utils/cookie.js';
 import getAvailablePath from './utils/path.js';
 import popSnackbar from './utils/snackbar.js';
-import { SELECTOR, MESSAGES } from './constants/constants.js';
+import { SELECTOR, MESSAGES, ERROR_CODE } from './constants/constants.js';
 import {
   NavigationBar,
   EntryPage,
@@ -14,11 +14,11 @@ import {
   SectionManager,
   LoginForm,
   SignupForm,
+  MapPage,
 } from './components';
 import Station from './models/Station.js';
 import Line from './models/Line.js';
 import { $, show, hide } from './utils/dom.js';
-import MapPage from './components/MapPage/index.js';
 
 export default class App {
   constructor() {
@@ -108,6 +108,11 @@ export default class App {
       this.store.lines = lines;
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       popSnackbar(MESSAGES.ERROR_FETCH_STATION_DATA);
     }
   }

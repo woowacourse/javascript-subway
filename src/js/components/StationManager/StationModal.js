@@ -68,6 +68,11 @@ export default class StationModal {
       );
     } catch (error) {
       console.error(error);
+      if (error.message === ERROR_CODE.UNAUTHORIZED) {
+        this.store.updateLoggedIn(false);
+        alert(MESSAGES.ERROR_UNAUTHORIZED);
+        return;
+      }
       this.handleRequestError(error);
     }
   }
