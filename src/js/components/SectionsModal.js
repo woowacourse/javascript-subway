@@ -10,10 +10,10 @@ const prevStationOption = `<option value="" selected disabled hidden>이전역</
 const nextStationOption = `<option value="" selected disabled hidden>다음역</option>`;
 export default class SectionsModal extends Modal {
   // eslint-disable-next-line no-useless-constructor
-  constructor({ loadPage }) {
+  constructor({ addSection }) {
     super();
     this.lineId = "";
-    this.loadPage = loadPage;
+    this.addSection = addSection;
 
     this.initContent();
   }
@@ -103,7 +103,7 @@ export default class SectionsModal extends Modal {
       snackbar.show(message);
       target.reset();
       this.close();
-      this.loadPage(this.lineId);
+      this.addSection(this.lineId);
 
       return;
     }

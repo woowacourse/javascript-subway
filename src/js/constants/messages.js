@@ -33,6 +33,7 @@ export const ERROR_MESSAGE = {
   INVALID_DISTANCE: "기존 구간의 거리보다 긴 거리로 구간을 추가할 수 없습니다.",
   INVALID_DURATION:
     "기존 구간의 시간보다 긴 시간으로 구간을 추가할 수 없습니다.",
+  MIN_SECTION_LENGTH: "하나의 노선은 1개의 구간을 가져야 합니다.",
   FETCH_STATION_FAILURE: "Fail to fetch stations",
   DELETE_STATION: "Fail to delete station",
   FETCH_LINE_FAILURE: "Fail to fetch lines",
@@ -54,6 +55,7 @@ export const SUCCESS_MESSAGE = {
   MODIFY_LINE: "지하철역 노선을 수정했습니다.",
   DELETE_STATION: "지하철역을 삭제했습니다.",
   DELETE_LINE: "지하철 노선을 삭제했습니다.",
+  DELETE_SECTION: "지하철 구간을 삭제했습니다.",
 };
 
 export const CONFIRM_MESSAGE = {

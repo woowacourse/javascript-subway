@@ -1,6 +1,10 @@
 import Component from "./common/Component.js";
 import SectionsModal from "./SectionsModal.js";
-import { getLinesAPI, getStationsAPI } from "../APIs/subwayAPI.js";
+import {
+  deleteSectionAPI,
+  getLinesAPI,
+  getStationsAPI,
+} from "../APIs/subwayAPI.js";
 
 import { $, removeAllChildren } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
@@ -8,6 +12,7 @@ import snackbar from "../utils/snackbar.js";
 
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { createStationListItem } from "../constants/template.js";
+import { CONFIRM_MESSAGE } from "../constants/messages.js";
 
 const createLineSelectOption = (lineData) => {
   const { id, name } = lineData;
@@ -21,14 +26,12 @@ export default class Sections extends Component {
   constructor({ $parent }) {
     super($parent);
     this.sectionsModal = new SectionsModal({
-      loadPage: this.loadPage.bind(this),
+      addSection: this.addSection.bind(this),
     });
     this.lines = {};
     this.stations = [];
 
     this.initContent();
-
-    this.$stationList = $(".js-station-list", this.innerElement);
   }
 
   initContent() {
@@ -63,6 +66,10 @@ export default class Sections extends Component {
       "change",
       this.onChangeSelectedLine.bind(this)
     );
+    $(".js-station-list", this.innerElement).addEventListener(
+      "click",
+      this.onClickStationList.bind(this)
+    );
   }
 
   onOpenSectionModal() {
@@ -79,38 +86,77 @@ export default class Sections extends Component {
   onChangeSelectedLine({ target }) {
     // eslint-disable-next-line no-param-reassign
     target.className = `js-line-select ${this.lines[target.value].color}`;
-    this.changeStationList(target.value);
+    this.updateStationListDOM(target.value);
 
     this.render();
   }
 
-  changeStationList(lineId) {
-    this.$stationList.insertAdjacentHTML(
-      "beforeend",
-      this.lines[lineId].stations
-        .map((station) => createStationListItem(station, false))
-        .join("")
-    );
+  onClickStationList({ target }) {
+    if (!target.classList.contains("js-delete-btn")) {
+      return;
+    }
+
+    if (window.confirm(CONFIRM_MESSAGE.DELETE_SECTION)) {
+      this.deleteSection({
+        lineId: $(".js-line-select", this.innerElement).value,
+        stationId: target.closest("li").dataset.stationId,
+      });
+    }
   }
 
-  setData(loadedLines, loadedStations) {
+  async addSection(lineId) {
+    await this.setData();
+    this.updateStationListDOM(lineId);
+    this.render();
+  }
+
+  async deleteSection({ lineId, stationId }) {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const { isSucceeded, message } = await deleteSectionAPI(
+      lineId,
+      stationId,
+      accessToken
+    );
+
+    snackbar.show(message);
+
+    if (!isSucceeded) {
+      return;
+    }
+
+    await this.setData();
+    this.updateStationListDOM(lineId);
+    this.render();
+  }
+
+  async setData() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const loadedLines = await getLinesAPI(accessToken);
+    const loadedStations = await getStationsAPI(accessToken);
+
+    if (!loadedLines.isSucceeded || !loadedStations.isSucceeded) {
+      snackbar.show(loadedLines.message);
+
+      return;
+    }
+
     const lines = {};
     // eslint-disable-next-line no-return-assign
     loadedLines.lines.forEach((line) => (lines[line.id] = line));
+
     this.lines = lines;
     this.stations = loadedStations.stations;
   }
 
-  resetPage() {
+  resetLineSelectDOM() {
     const $lineSelect = $(".js-line-select", this.innerElement);
 
     removeAllChildren($lineSelect);
-    removeAllChildren(this.$stationList);
     $lineSelect.className = "js-line-select";
   }
 
-  renderLoadedPage(selectedLine) {
-    this.resetPage();
+  updateLineSelectDOM(selectedLine) {
+    this.resetLineSelectDOM();
 
     if (!selectedLine) {
       this.render();
@@ -123,31 +169,28 @@ export default class Sections extends Component {
       "beforeend",
       Object.values(this.lines).map(createLineSelectOption).join("")
     );
-    this.changeStationList(selectedLine.id);
     $lineSelect.className = `js-line-select ${selectedLine.color}`;
-
-    this.render();
   }
 
-  async loadPage(selectedLineId = "") {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadedLines = await getLinesAPI(accessToken);
-    const loadedStations = await getStationsAPI(accessToken);
+  updateStationListDOM(lineId) {
+    const $stationList = $(".js-station-list", this.innerElement);
+    removeAllChildren($stationList);
 
-    if (!loadedLines.isSucceeded || !loadedStations.isSucceeded) {
-      snackbar.show(loadedLines.message);
+    $stationList.insertAdjacentHTML(
+      "beforeend",
+      this.lines[lineId].stations
+        .map((station) => createStationListItem(station, false))
+        .join("")
+    );
+  }
 
-      return;
-    }
+  async loadPage() {
+    await this.setData();
 
-    this.setData(loadedLines, loadedStations);
+    this.updateLineSelectDOM(Object.values(this.lines)[0]);
+    this.updateStationListDOM(Object.keys(this.lines)[0]);
 
-    const selectedLine =
-      selectedLineId === ""
-        ? Object.values(this.lines)[0]
-        : this.lines[selectedLineId];
-    this.renderLoadedPage(selectedLine);
-
+    this.render();
     this.sectionsModal.render();
   }
 

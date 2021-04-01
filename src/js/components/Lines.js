@@ -21,7 +21,7 @@ const createLineListItem = (line) => {
       data-line-color="${line.color}"
       class="js-line-list-item py-2 relative border-b-gray"
       >
-      <div class="d-flex items-center">x
+      <div class="d-flex items-center">
         <span class="js-line-color-dot subway-line-color-dot ${line.color}"></span>
         <span class="js-line-name w-100 pl-6 subway-line-list-item-name">${line.name}</span>
         <button
