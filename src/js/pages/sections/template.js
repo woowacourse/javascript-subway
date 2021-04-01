@@ -65,16 +65,16 @@ const sectionListItem = ({ upStation = {}, downStation = {}, distance = -1, dura
     data-duration="${duration}"
   >
     <span class="w-100 pl-6">${upStation.name ?? ''}</span>
-   ${
-     isDeletable
-       ? `<button
+    ${
+      isDeletable
+        ? `<button
             type="button"
             class="list-button js-section-status-button js-section-delete-button section-delete-button"
           >
             ❌
           </button>`
-       : ''
-   }
+        : ''
+    }
     <div class="section-detail">
       ${duration > -1 ? `<div class="section-duration">${duration}</div>` : ''}
       ${distance > -1 ? `<div class="section-distance">${distance}</div>` : ''}

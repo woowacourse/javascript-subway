@@ -1,6 +1,7 @@
 @import './shared/index.css';
 @import './ui/index.css';
 @import './pages/lines.css';
+@import './pages/map.css';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
 html,
@@ -155,8 +156,8 @@ hr {
   content: 'km';
 }
 
-.section-duration,
-.section-distance {
+.list-item .section-duration,
+.list-item .section-distance {
   margin-right: 1em;
   padding: 0.4em 0.8em;
   font-size: 0.7em;
