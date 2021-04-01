@@ -5,6 +5,7 @@ import MainController from './pages/main/MainController.js';
 import StationsController from './pages/stations/StationsController.js';
 import LinesController from './pages/lines/LinesController.js';
 import SectionsController from './pages/sections/SectionsController.js';
+import LookupLinesController from './pages/lookupLines/LookupLinesController.js';
 import { PATH } from './constants/path.js';
 import jwtToken from './jwtToken.js';
 import { COOKIE_KEY } from './constants/constants.js';
@@ -16,6 +17,7 @@ const router = {
   stationsPage: new StationsController(),
   linesPage: new LinesController(),
   sectionsPage: new SectionsController(),
+  lookupLinesPage: new LookupLinesController(),
 
   routes: {},
 
@@ -28,6 +30,7 @@ const router = {
       [PATH.STATIONS]: this.stationsPage,
       [PATH.LINES]: this.linesPage,
       [PATH.SECTIONS]: this.sectionsPage,
+      [PATH.LOOKUPLINES]: this.lookupLinesPage,
     };
   },
 

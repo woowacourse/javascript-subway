@@ -1,0 +1,17 @@
+#line-info #station-name-wrapper {
+  min-width: 100px;
+  height: 40px;
+  border-radius: 16px;
+  font-size: 18px;
+}
+
+.section-item {
+  font-size: 14px;
+  color: #808080;
+  height: 32px;
+  vertical-align: middle;
+}
+
+#line-info #duration {
+  border-left: 1px dotted #808080;
+}

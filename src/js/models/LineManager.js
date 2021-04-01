@@ -21,6 +21,7 @@ class LineManager {
       id,
       name,
       color,
+      sections,
       stations: stations.map(station => this.createStationData(station)),
       upStation: this.createStationData(stations[0]),
       downStation: this.createStationData(stations[stations.length - 1]),
@@ -100,15 +101,32 @@ class LineManager {
     return this.lines[lineId];
   }
 
-  getAllSections(lineId) {
+  getAllStationsInLine(lineId) {
     return this.lines[lineId].stations;
+  }
+
+  getSection(lineId, upStationId) {
+    return this.lines[lineId].sections.filter(
+      section => section.upStation.id === upStationId
+    )[0];
+  }
+
+  getAllSections(lineId) {
+    this.lines[lineId].sections;
+    const sortedSections = this.lines[lineId].stations.map(({ id }) =>
+      this.getSection(lineId, id)
+    );
+    this.lines[lineId].sections = sortedSections.filter(
+      section => section !== undefined
+    );
+
+    return this.lines[lineId].sections;
   }
 
   async addSection(newSectionInfo, lineId) {
     const response = await fetchAddSection(newSectionInfo, lineId);
 
     if (response.ok) {
-      console.log(this.lines[lineId].stations);
       const upStationIndex = this.lines[lineId].stations.findIndex(
         ({ id }) => id === newSectionInfo.upStationId
       );

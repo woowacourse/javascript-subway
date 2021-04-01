@@ -52,7 +52,7 @@ ul {
 }
 
 ul li a button {
-  width: 100px;
+  min-width: 100px;
   line-height: inherit;
   cursor: pointer;
   height: 36px;

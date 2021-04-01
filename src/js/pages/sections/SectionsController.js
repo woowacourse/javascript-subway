@@ -25,7 +25,7 @@ class SectionsController {
 
     changeBackgroundColor($('#line-name'), targetLineColor);
 
-    const sections = user.lineManager.getAllSections(targetLineId);
+    const sections = user.lineManager.getAllStationsInLine(targetLineId);
     this.sectionsView.renderSections(sections);
   }
 
@@ -36,7 +36,9 @@ class SectionsController {
     const $selectedLine = e.target.elements['line-for-section'];
 
     if (resFlag && $('#line-name').value === $selectedLine.value) {
-      const sections = user.lineManager.getAllSections($selectedLine.value);
+      const sections = user.lineManager.getAllStationsInLine(
+        $selectedLine.value
+      );
       this.sectionsView.renderSections(sections);
     }
 

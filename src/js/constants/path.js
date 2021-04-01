@@ -4,6 +4,7 @@ const PATH = {
   STATIONS: '/stations',
   SECTIONS: '/sections',
   LINES: '/lines',
+  LOOKUPLINES: '/lookup-lines',
 };
 
 export { PATH };
