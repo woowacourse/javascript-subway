@@ -75,6 +75,12 @@ class SectionComponent extends Component {
   }
 
   renderSectionList = async lineId => {
+    if (lineId === KEYWORD.NONE) {
+      $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = '';
+      $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = '';
+      return;
+    }
+
     const url = REQUEST_URL + `/lines/${lineId}`;
     const accessToken = this.props.accessTokenState.Data;
 
