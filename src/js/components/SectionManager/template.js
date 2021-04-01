@@ -12,11 +12,11 @@ export const contentTemplate = `
     </div>
     <form class="d-flex items-center pl-1">
       <label for="subway-line" class="input-label" hidden>노선</label>
-      <select id="subway-line" class="bg-blue-400">
+      <select id="subway-line" class="border-4 border-color-gray-100 bg-white mb-0">
         <option value="" selected disabled hidden>구간 선택</option>
       </select>
     </form>
-    <ul id="section-station-list" class="mt-3 pl-0">
+    <ul id="section-station-list" class="mt-0 pl-0">
     </ul>
   </div>
 `;

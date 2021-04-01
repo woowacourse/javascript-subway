@@ -54,16 +54,17 @@ export default class SectionManager {
 
   renderLineData() {
     const targetLine = this.store.lines.find((line) => line.id === Number(this.lineID));
-    const prevLineColor = [...this.$sectionsSelect.classList].find((className) => className.startsWith('bg-'));
+    const prevLineBorderColor = [...this.$sectionsSelect.classList].find((className) =>
+      className.startsWith('border-color-')
+    );
 
-    this.$sectionsSelect.classList.remove(prevLineColor);
-    this.$sectionsSelect.classList.add(targetLine.color);
+    const extractedColor = targetLine ? targetLine.color.replace(/bg-/, '') : 'gray-100';
+    this.$sectionsSelect.classList.remove(prevLineBorderColor);
+    this.$sectionsSelect.classList.add(`border-color-${extractedColor}`);
 
-    const lineRGB = window.getComputedStyle(this.$sectionsSelect).getPropertyValue('background-color');
     this.$sectionStationList.innerHTML = targetLine.stations
-      .map((station) => station.toSectionItemTemplate(targetLine.color))
+      .map((station) => station.toSectionItemTemplate(extractedColor))
       .join('');
-    [...$('.chip')].forEach((chip) => chip.setAttribute('style', `border: 2px solid ${lineRGB};`));
 
     this.renderSectionData(targetLine);
   }
