@@ -5,22 +5,35 @@ import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 import { $, removeAllChildren } from "../utils/DOM.js";
 
-const createSectionTemplate = (section, index) => {
+const createSectionTemplate = (section, index, color) => {
   return `
-    ${index === 0 ? `<li>${section.upStation.name}</li>` : ""}
-    <li>시간 : ${section.duration} / 거리 : ${section.distance}</li>
-    <li>${section.downStation.name}</li>
+    ${
+      index === 0
+        ? `<li class="map-station"><span class="${color}"></span>${section.upStation.name}</li>`
+        : ""
+    }
+    <li class="map-section-info">
+      시간 : ${section.duration} / 거리 : ${section.distance}
+    </li>
+    <li class="map-station">
+      <span class="${color}"></span>
+      ${section.downStation.name}
+    </li>
   `;
 };
 
 const createLineTemplate = (line) => {
   return `
-    <div>
-      <div class="map-line-name">${line.name}</div>
+    <section class="js-map-line-wrapper">
+      <h3 class="map-line-name mt-3">
+        ${line.name}
+      </h3>
       <ol class="map-line-list">
-        ${line.sections.map(createSectionTemplate).join("")}
+        ${line.sections
+          .map((v, i) => createSectionTemplate(v, i, line.color))
+          .join("")}
       </ol>
-    </div>
+    </section>
   `;
 };
 
@@ -39,7 +52,7 @@ export default class Map extends Component {
         <div class="heading d-flex">
           <h2 class="mt-1 w-100">🗺 전체 보기</h2>
         </div>
-        <div class="js-map-wrapper"><div>
+        <div class="js-map-wrapper map-wrapper ml-5"><div>
       </div>
     `;
 
