@@ -177,9 +177,9 @@ class Section {
 
     if (idx < 0) {
       sectionStations.unshift(newStation);
-      return;
+    } else {
+      sectionStations.splice(idx + 1, 0, newStation);
     }
-    sectionStations.splice(idx + 1, 0, newStation);
 
     if (lineId === this.#selectedLineId) {
       const stations = this.#sections[this.#selectedLineId].stations;
