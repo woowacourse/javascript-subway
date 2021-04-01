@@ -1,4 +1,4 @@
-import { LENGTH } from './standard.js';
+import { LENGTH } from './standard';
 
 const VALID_MESSAGE = {
   NAME: '사용 가능한 이름입니다.',

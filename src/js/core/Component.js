@@ -1,15 +1,14 @@
 class Component {
-  constructor(parentNode, stateManagers, childComponents = {}, state = {}) {
+  constructor({ parentNode, childComponents = {}, state = {} }) {
     this.parentNode = parentNode;
-    this.stateManagers = stateManagers;
     this.childComponents = childComponents;
     this.state = state;
   }
 
   setState(state) {
     this.state = state;
-    this.setChildState();
     this.render();
+    this.setChildState();
   }
 
   render() {

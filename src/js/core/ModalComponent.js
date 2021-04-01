@@ -1,20 +1,19 @@
-import { $ } from '../utils/DOM.js';
-import Component from './Component.js';
-
+import { $ } from '../utils/DOM';
+import Component from './Component';
 class ModalComponent extends Component {
-  constructor(parentNode, stateManagers) {
-    super(parentNode, stateManagers);
-
+  constructor({ parentNode, modalKey }) {
+    super({ parentNode });
+    this.modalKey = modalKey;
     this.targetId = '';
     // TODO: 이중 추상화 이벤트 리스너 등록
   }
 
   show() {
-    $('.modal').classList.add('open');
+    $(`.modal-${this.modalKey}`).classList.add('open');
   }
 
   hide() {
-    $('.modal').classList.remove('open');
+    $(`.modal-${this.modalKey}`).classList.remove('open');
   }
 
   setTargetId(id) {
@@ -23,6 +22,12 @@ class ModalComponent extends Component {
   }
 
   fillTargetInForm() {}
+
+  addEventListeners() {
+    $(`.modal-${this.modalKey} .modal-close`).addEventListener('click', () => {
+      this.hide();
+    });
+  }
 }
 
 export default ModalComponent;
