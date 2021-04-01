@@ -16,6 +16,10 @@
   opacity: 1;
   visibility: visible;
 }
+.modal .input-field:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
 
 .modal-inner {
   transition: top 0.25s ease;
@@ -25,6 +29,10 @@
   background: #fff;
   border-radius: 5px;
   position: relative;
+}
+
+.modal-inner.line {
+  height: 80vh;
 }
 
 .modal-close {
@@ -53,7 +61,6 @@ svg {
 @media screen and (max-width: 768px) {
   .modal-inner {
     width: 90%;
-    height: 90%;
     box-sizing: border-box;
   }
 }
