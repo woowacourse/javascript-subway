@@ -129,10 +129,6 @@ describe('지하철 노선 관리', () => {
     cy.get('.js-line-list-item[data-name="로이드호선호"] .js-line-name').should('have.text', '로이드호선호');
   });
 
-  // TODO: 지하철 노선 수정 코드
-  // TODO: 지하철 구간 테스트 코드 작성
-  // TODO: after() 에 테스트를 위해 등록한 노선, 구간, 역 모두 삭제 처리
-
   it('지하철 노선을 수정할 수 있다.', () => {
     editLine({ targetName: '로이드호선호', name: '로이드포코', color: 'bg-purple-300' });
 
@@ -182,10 +178,10 @@ describe('지하철 구간 관리', () => {
   });
 
   it('지하철 구간을 최상단에 추가할 수 있다.', () => {
-    cy.get('.js-section-add-button').eq(0).click();
+    cy.get('.js-section-add-button').eq(0).click({ force: true });
 
-    addSection({ downStation: '브라운밥사주세요역', distance: 10, duration: 10 });
-    cy.get('.js-section-list-item').eq(1).contains('브라운감사해요역');
+    addSection({ upStation: '브라운밥사주세요역', distance: 10, duration: 10 });
+    cy.wait(500).get('.js-section-list-item').eq(1).should('contain', '브라운밥사주세요역');
   });
 
   it('지하철 구간을 최하단에 추가할 수 있다.', () => {
@@ -196,25 +192,21 @@ describe('지하철 구간 관리', () => {
   });
 
   it('지하철 구간을 삭제할 수 있다.', () => {
-    deleteSection('브라운사랑해요역');
-    cy.wait(500).get('.js-section-list-item').should('not.contain', '브라운사랑해요역');
+    deleteSection('브라운커피사주세요역');
+    cy.wait(500).get('.js-section-list-item').should('not.contain', '브라운커피사주세요역');
   });
 
   after(() => {
-    // 노선 관리 페이지로 이동한다
     cy.get('#lines-nav-link').click({ force: true });
-
-    // 노선 관리 페이지의 모든 삭제 버튼을 each로 순회하여 모든 노선을 삭제한다.
     cy.get('.js-line-delete-button').each($element => {
       $element.click();
     });
 
-    // 역 관리 페이지로 이동한다.
-    cy.get('#stations-nav-link').click({ force: true });
+    cy.wait(500);
 
-    // 역 관리 페이지의 모든 삭제 버튼을 each로 순회하여 모든 노선을 삭제한다.
+    cy.get('#stations-nav-link').click({ force: true });
     cy.get('.js-station-delete-button').each($element => {
-      $element.click({ force: true });
+      $element.click();
     });
   });
 });
