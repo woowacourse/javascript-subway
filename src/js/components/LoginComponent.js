@@ -14,7 +14,7 @@ class LoginComponent extends Component {
     super(props);
 
     if (!this.props?.accessTokenState.Data) {
-      alert('not exist accessToken');
+      console.error('accessToken이 존재하지 않습니다.');
     }
   }
 

@@ -37,7 +37,7 @@ class SignupComponent extends Component {
     const bodyData = { email, name, password };
 
     try {
-      const response = await fetchSignup(url, bodyData);
+      await fetchSignup(url, bodyData);
     } catch (err) {
       alert(err.message);
       return;

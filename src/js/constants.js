@@ -89,6 +89,7 @@ const ALERT_MESSAGE = {
   LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
 
   // STATION
+  STATION_CREATION_SUCCESS: '새로운 역을 추가했습니다.',
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
   STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
   STATION_NAME_REVISION_FAIL: '같은 역 이름으로 수정할 수 없습니다.',
@@ -96,6 +97,7 @@ const ALERT_MESSAGE = {
   STATION_REMOVAL_FAIL: '노선에 등록된 역은 삭제할 수 없습니다.',
 
   // LINE
+  LINE_CREATION_SUCCESS: '새로운 노선을 추가했습니다.',
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
   STATIONS_SETTING_OF_LINE_FAIL:
     '상행역과 하행역이 같은 노선은 생성할 수 없습니다.',
