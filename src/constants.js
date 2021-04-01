@@ -26,6 +26,7 @@ export const SELECTOR_ID = Object.freeze({
   SUBWAY_LINE_FORM: 'subway-line-form',
   SUBWAY_LINE_NAME: 'subway-line-name',
   SUBWAY_SECTION_FORM: 'subway-section-form',
+  SUBWAY_MAP_CONTAINER: 'subway-map-container',
   LOG_IN_FORM: 'login-form',
   LOG_IN_BUTTON: 'login-button',
   LOG_IN_EMAIL_INPUT: 'login-email-input',
@@ -42,9 +43,8 @@ export const SELECTOR_ID = Object.freeze({
   BACKDROP: 'backdrop',
 });
 
-// TODO : BEM 일괄 적용
 export const SELECTOR_CLASS = Object.freeze({
-  NAVIGATOR_BUTTON: 'js-navigator__button',
+  NAVIGATOR_BUTTON: 'navigator__button',
   STATION_LIST_ITEM: 'station-list__item',
   STATION_LIST_ITEM_NAME: 'station-list__item-name',
   STATION_LIST_ITEM_INPUT: 'station-list__item-input',

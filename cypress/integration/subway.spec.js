@@ -10,13 +10,14 @@ const TEST_STATION_DEFAULT_1 = '사당역_테스트';
 const TEST_STATION_DEFAULT_2 = '혜화역_테스트';
 const TEST_STATION_1 = '역_테스트';
 const TEST_STATION_2 = '역_테스트_2';
+const TEST_STATION_3 = '역_테스트_3';
 const TEST_STATION_UPDATED = '역_테스트_수정';
 const TEST_NAME_UNDER_MIN = '역';
 const TEST_STATION_OVER_MAX = '역이름을일일이생각해내기가너무어렵네요테스';
 const TEST_LINE_OVER_MAX = '역이름을일일이생각해내';
 const TEST_LINE_DEFAULT = '1호선_테스트';
-const TEST_LINE_DEFAULT_DISTANCE = '10';
-const TEST_LINE_DEFAULT_DURATION = '5';
+const TEST_DEFAULT_DISTANCE = '10';
+const TEST_DEFAULT_DURATION = '5';
 const TEST_LINE_DEFAULT_COLOR = 'bg-teal-400';
 const TEST_LINE = '노선_테스트';
 const TEST_LINE_UPDATED = '노선_테스트_수정';
@@ -194,11 +195,11 @@ context('노선 관리', () => {
   });
 
   after(() => {
-    deleteDefaultStation();
     deleteDefaultLine();
+    deleteDefaultStation();
   })
 
-  it.only('노선의 이름은 2글자 이상이어야 한다', () => {
+  it('노선의 이름은 2글자 이상이어야 한다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
 
@@ -207,8 +208,8 @@ context('노선 관리', () => {
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_NAME_UNDER_MIN);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
@@ -216,7 +217,7 @@ context('노선 관리', () => {
     click(`.${SELECTOR_CLASS.MODAL_CLOSE}`);
   });
   
-  it.only('노선의 이름은 10글자 이하여야 한다', () => {
+  it('노선의 이름은 10글자 이하여야 한다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
     
@@ -225,8 +226,8 @@ context('노선 관리', () => {
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_OVER_MAX);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
@@ -234,7 +235,7 @@ context('노선 관리', () => {
     click(`.${SELECTOR_CLASS.MODAL_CLOSE}`);
   });
   
-  it.only('노선의 이름은 중복될 수 없다', () => {
+  it('노선의 이름은 중복될 수 없다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
     
@@ -243,8 +244,8 @@ context('노선 관리', () => {
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_DEFAULT);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
@@ -252,15 +253,15 @@ context('노선 관리', () => {
     click(`.${SELECTOR_CLASS.MODAL_CLOSE}`);
   });
 
-  it.only('상행역과 하행역을 지정하지 않으면 지하철 노선을 등록할 수 없다', () => {
+  it('상행역과 하행역을 지정하지 않으면 지하철 노선을 등록할 수 없다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
 
     click(`a[href="${PATH.LINES}"]`);
     click(`.${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN}`);
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_FOR_ERROR);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.NO_UP_DOWN_STATION_SELECTED);
@@ -269,7 +270,7 @@ context('노선 관리', () => {
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE_FOR_ERROR).should('not.exist');
   });
 
-  it.only('상행역과 하행역이 같은 지하철 노선을 등록할 수 없다', () => {
+  it('상행역과 하행역이 같은 지하철 노선을 등록할 수 없다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
 
@@ -278,8 +279,8 @@ context('노선 관리', () => {
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_FOR_ERROR);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.UP_STATION_EQUALS_DOWN_STATION);
@@ -288,7 +289,7 @@ context('노선 관리', () => {
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE_FOR_ERROR).should('not.exist');
   });
   
-  it.only('노선 색깔을 지정하지 않으면 지하철 노선을 등록할 수 없다', () => {
+  it('노선 색깔을 지정하지 않으면 지하철 노선을 등록할 수 없다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
 
@@ -297,8 +298,8 @@ context('노선 관리', () => {
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_FOR_ERROR);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`).then(() => {
       expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.NO_LINE_COLOR_SELECTED);
     });
@@ -306,20 +307,20 @@ context('노선 관리', () => {
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE_FOR_ERROR).should('not.exist');
   });
   
-  it.only('지하철 노선을 등록할 수 있다', () => {
+  it('지하철 노선을 등록할 수 있다', () => {
     click(`a[href="${PATH.LINES}"]`);
     click(`.${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN}`);
     type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
     cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+    type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
     click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
     click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`);
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE).should('exist');
   });
 
-  it.only('지하철 노선명 수정 시, 중복된 이름으로 수정할 수 없다', () => {
+  it('지하철 노선명 수정 시, 중복된 이름으로 수정할 수 없다', () => {
     const alertStub = cy.stub();
     cy.on('window:alert', alertStub);
 
@@ -335,7 +336,7 @@ context('노선 관리', () => {
     click(`.${SELECTOR_CLASS.MODAL_CLOSE}`);
   });
 
-  it.only('지하철 노선을 수정할 수 있다', () => {
+  it('지하철 노선을 수정할 수 있다', () => {
     click(`a[href="${PATH.LINES}"]`);
     cy.get(`#${SELECTOR_ID.LINE_LIST}`)
       .find(`li .${SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE}[data-line-name="${TEST_LINE}"]`)
@@ -346,12 +347,94 @@ context('노선 관리', () => {
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE_UPDATED).should('exist');
   });
 
-  it.only('지하철 노선을 삭제할 수 있다', () => {
+  it('지하철 노선을 삭제할 수 있다', () => {
     click(`a[href="${PATH.LINES}"]`);
     cy.get(`#${SELECTOR_ID.LINE_LIST}`)
       .find(`li .${SELECTOR_CLASS.LINE_DELETE_BUTTON}[data-line-name="${TEST_LINE_UPDATED}"]`)
       .click();
     cy.contains(`#${SELECTOR_ID.LINE_LIST}`, TEST_LINE_UPDATED).should('not.exist');
+  });
+});
+
+context('구간 관리', () => {
+  before(() => {
+    cy.visit(HOST_URL, {
+      onBeforeLoad(win) {
+        win.sessionStorage.clear();
+      },
+    });
+    login();
+    addDefaultStation();
+    addDefaultLine();
+  });
+
+  after(() => {
+    deleteDefaultLine();
+    deleteDefaultStation();
+    click(`a[href="${PATH.STATIONS}"]`);
+    cy.get(`#${SELECTOR_ID.STATION_LIST}`)
+      .find(`li .${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE}[data-station-name="${TEST_STATION_3}"]`)
+      .click();
+    cy.wait(SHORT_SECONDS_TO_WAIT);
+    cy.get(`#${SELECTOR_ID.STATION_LIST}`)
+      .find(`li .${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE}[data-station-name="${TEST_STATION_2}"]`)
+      .click();
+    cy.wait(SHORT_SECONDS_TO_WAIT);
+    cy.get(`#${SELECTOR_ID.STATION_LIST}`)
+      .find(`li .${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE}[data-station-name="${TEST_STATION_1}"]`)
+      .click();
+    cy.wait(SHORT_SECONDS_TO_WAIT);
+  });
+
+  it.only('지하철 구간을 등록할 수 있다', () => {
+    click(`a[href="${PATH.STATIONS}"]`);
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, TEST_STATION_3);
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, '{enter}');
+
+    cy.visit(HOST_URL);
+    cy.wait(SECONDS_TO_WAIT);
+
+    click(`a[href="${PATH.SECTIONS}"]`);
+    click(`#${SELECTOR_ID.SECTION_MODAL_OPEN}`);
+    cy.get(`#${SELECTOR_ID.SECTION_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
+    cy.get(`#${SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_3);
+    type(`#${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
+    click(`#${SELECTOR_ID.SECTION_MODAL_SUBMIT}`);
+    cy.contains(`#${SELECTOR_ID.SECTION_STATION_LIST}`, TEST_STATION_3).should('exist');
+  });
+
+  it.only('현재 노선에 등록된 역과 이어진 구간만 등록할 수 있다', () => {
+    const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
+
+    click(`a[href="${PATH.STATIONS}"]`);
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, TEST_STATION_1);
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, '{enter}');
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, TEST_STATION_2);
+    type(`#${SELECTOR_ID.STATION_NAME_INPUT}`, '{enter}');
+
+    cy.visit(HOST_URL);
+    cy.wait(SECONDS_TO_WAIT);
+
+    click(`a[href="${PATH.SECTIONS}"]`);
+    click(`#${SELECTOR_ID.SECTION_MODAL_OPEN}`);
+    cy.get(`#${SELECTOR_ID.SECTION_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_1);
+    cy.get(`#${SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_2);
+    type(`#${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+    type(`#${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
+    click(`#${SELECTOR_ID.SECTION_MODAL_SUBMIT}`).then(() => {
+      expect(alertStub.getCall(0)).to.be.calledWith(ALERT_MESSAGE.SECTION_MUST_INCLUDED_IN_LINE);
+    });
+    click(`.${SELECTOR_CLASS.MODAL_CLOSE}`);
+  });
+
+  it.only('지하철 구간을 삭제할 수 있다', () => {
+    click(`a[href="${PATH.SECTIONS}"]`);
+    cy.get(`#${SELECTOR_ID.SECTION_STATION_LIST}`)
+      .find(`li .${SELECTOR_CLASS.SECTION_DELETE_BUTTON}[data-station-name="${TEST_STATION_3}"]`)
+      .click();
+    cy.contains(`#${SELECTOR_ID.SECTION_STATION_LIST}`, TEST_STATION_3).should('not.exist');
   });
 });
 
@@ -382,8 +465,8 @@ function addDefaultLine() {
   type(`#${SELECTOR_ID.SUBWAY_LINE_NAME}`, TEST_LINE_DEFAULT);
   cy.get(`#${SELECTOR_ID.LINE_MODAL_UP_STATION_SELECT}`).select(TEST_STATION_DEFAULT_1);
   cy.get(`#${SELECTOR_ID.LINE_MODAL_DOWN_STATION_SELECT}`).select(TEST_STATION_DEFAULT_2);
-  type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_LINE_DEFAULT_DISTANCE);
-  type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_LINE_DEFAULT_DURATION);
+  type(`#${SELECTOR_ID.LINE_MODAL_DISTANCE_INPUT}`, TEST_DEFAULT_DISTANCE);
+  type(`#${SELECTOR_ID.LINE_MODAL_DURATION_INPUT}`, TEST_DEFAULT_DURATION);
   click(`.${SELECTOR_CLASS.COLOR_OPTION}.${TEST_LINE_DEFAULT_COLOR}`);
   click(`.${SELECTOR_CLASS.INPUT_SUBMIT}`);
 }

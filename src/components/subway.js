@@ -28,7 +28,12 @@ export default class Subway extends Observer {
   // TODO: fade-in 적용하기
   #getWrapperTemplate() {
     return `
-      전체 보기
+      <div class="wrapper bg-white p-10 fade-in">
+        <div class="heading d-flex">
+          <h2 class="mt-1 w-100">🗺️ 전체 보기</h2>
+        </div>
+        <div id="${SELECTOR_ID.SUBWAY_MAP_CONTAINER}"></div>
+      </div>
     `;
   }
 
