@@ -31,7 +31,6 @@ class StationComponent extends Component {
 
   initLoad() {
     // TODO: render로 해야하는지 load로 해야하는지 고민
-    // TODO: 03-27 해야할 곳, 너무 긴 인자들을 정리해야함
     this.renderStationList(this.props.stationsState.Data);
   }
 
@@ -113,8 +112,7 @@ class StationComponent extends Component {
         accessToken,
       });
 
-      //TODO:스낵바로 확인
-      alert('역 추가 완료');
+      alert(ALERT_MESSAGE.STATION_CREATION_SUCCESS);
 
       const { id, name } = await response.json();
       const stations = this.props.stationsState.Data;

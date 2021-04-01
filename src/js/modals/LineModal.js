@@ -116,8 +116,7 @@ class LineCreationComponent extends Component {
         accessToken,
       });
 
-      //TODO:스낵바로 확인
-      alert('노선 추가 완료');
+      alert(ALERT_MESSAGE.LINE_CREATION_SUCCESS);
 
       const { id, name, color } = await response.json();
       const lines = this.props.linesState.Data;
@@ -177,7 +176,6 @@ class LineRevisionComponent extends Component {
         accessToken,
       });
 
-      //TODO:스낵바로 확인
       alert(ALERT_MESSAGE.LINE_REVISION_SUCCESS);
 
       loadLineList(this.props.linesState, this.props.accessTokenState.Data);
