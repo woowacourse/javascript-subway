@@ -57,23 +57,6 @@ export default class MapPage {
     this.$stationSelect.addEventListener('change', this.renderByStation.bind(this));
   }
 
-  handleLineSelect(event) {
-    this.lineID = event.target.value;
-
-    this.renderLineData();
-  }
-
-  renderLineData() {
-    const targetLine = this.store.lines.find((line) => line.id === Number(this.lineID));
-    const prevLineBorderColor = [...this.$lineSelect.classList].find((className) =>
-      className.startsWith('border-color-')
-    );
-
-    const extractedColor = targetLine ? targetLine.color.replace(/bg-/, '') : 'gray-100';
-    this.$lineSelect.classList.remove(prevLineBorderColor);
-    this.$lineSelect.classList.add(`border-color-${extractedColor}`);
-  }
-
   renderByLine(event) {
     const targetLineId = event.target.value;
 
@@ -82,6 +65,8 @@ export default class MapPage {
       event.target.classList.remove('selected');
       return;
     }
+
+    hide($('#no-line-warning'));
 
     event.target.classList.add('selected');
     this.$stationSelect.selectedIndex = 0;
