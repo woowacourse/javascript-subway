@@ -1,5 +1,9 @@
-import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
+import { ALERT_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
+import jwtToken from '../../jwtToken.js';
 import user from '../../models/user.js';
+import router from '../../router.js';
 import { $, onModalClose, onModalShow, resetInput } from '../../utils/DOM.js';
 import showSnackBar from '../../utils/snackbar.js';
 import {
@@ -17,8 +21,35 @@ class LinesController {
   }
 
   async init() {
-    await this.linesView.init();
+    const allLines = await this.getAllLines();
+    console.log(allLines);
+    if (!allLines) {
+      jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
+      router.navigate(PATH.ROOT);
+      return;
+    }
+
+    await this.linesView.init(allLines);
     this.bindEvents();
+  }
+
+  async getAllLines() {
+    try {
+      const { allLines, response } = await user.lineManager.getAllLines();
+
+      if (!response.ok) {
+        throw response;
+      }
+
+      return allLines;
+    } catch (response) {
+      switch (response.status) {
+        case 401:
+          alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+          break;
+        default:
+      }
+    }
   }
 
   async onLineAddBtnClick(e) {

@@ -13,11 +13,9 @@ import {
 import user from '../../models/user.js';
 
 class LinesView {
-  async init() {
+  async init(allLines) {
     $('#main').innerHTML = linesTemplate;
-    $('#line-list').innerHTML = lineListTemplate(
-      await user.lineManager.getAllLines()
-    );
+    $('#line-list').innerHTML = lineListTemplate(allLines);
     await this.renderModal();
   }
 

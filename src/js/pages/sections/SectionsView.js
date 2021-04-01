@@ -9,7 +9,7 @@ import user from '../../models/user.js';
 class SectionsView {
   async init() {
     const { allStations } = await user.stationManager.getAllStations();
-    const allLines = await user.lineManager.getAllLines();
+    const { allLines } = await user.lineManager.getAllLines();
 
     $('#main').innerHTML = sectionsTemplate(allLines);
     $('#sections-modal').innerHTML = sectionsModalTemplate(

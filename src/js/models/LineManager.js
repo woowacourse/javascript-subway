@@ -34,11 +34,22 @@ class LineManager {
   }
 
   async getAllLines() {
-    const allLines = (await fetchAllLines()) ?? [];
+    const response = await fetchAllLines();
 
-    allLines.forEach(line => (this.lines[line.id] = this.createLineData(line)));
+    if (response.ok) {
+      try {
+        const allLines = await response.json();
+        allLines.forEach(
+          line => (this.lines[line.id] = this.createLineData(line))
+        );
 
-    return this.lines;
+        return { allLines: this.lines, response };
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return { response };
   }
 
   async addLine(newLineInfo) {
