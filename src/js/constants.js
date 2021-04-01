@@ -104,6 +104,8 @@ const ALERT_MESSAGE = {
 
   // SECTION
   SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
+  STATIONS_SETTING_OF_SECTION_FAIL:
+    '상행역과 하행역이 같은 구간은 생성할 수 없습니다.',
   SECTION_REMOVAL_SUCCESS: '해당 구간을 삭제했습니다.',
   SECTION_REMOVAL_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
   NOT_SELECTED_LINE: '노선을 선택해주세요.',

@@ -46,6 +46,12 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_UP_STATION_SELECT].value;
     const downStationId =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DOWN_STATION_SELECT].value;
+
+    if (upStationId === downStationId) {
+      alert(ALERT_MESSAGE.STATIONS_SETTING_OF_SECTION_FAIL);
+      return;
+    }
+
     const distance =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE].value;
     const duration =
