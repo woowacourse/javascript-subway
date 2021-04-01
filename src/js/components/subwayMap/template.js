@@ -1,32 +1,32 @@
-const stationTemplate = (lineColor, station) => {
+const stationColorTemplate = (lineColor, stationName) => {
   return `
-    <div class="d-flex items-center relative">
-      <div class="d-flex justify-center align-center">
-        <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
-        <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+    <div class="d-flex items-center">
+      <div class="d-flex flex-col justify-center items-center">
+        <div class="station-name font-semibold text-center d-flex justify-center items-center">${stationName}</div>
+        <div class="d-flex justify-center items-center">
+          <span class="subway-line-color-dot"></span>
+          <div class="horizontal-line-bar" style="background-color: ${lineColor}"></div>
+        </div>
       </div>
-      <div class="station-name ml-2 mr-2">${station.name}</div>
     </div>
     `;
 };
 
 const lineListTemplate = (line) => {
   return `
-    <li class="section-list-item list-style-none">
-        <div class="d-flex flex-col justify-center align-center">
-            ${line.stations.map((station) => stationTemplate(line.color, station)).join('')}
-        </div>
+    <li class="line-list-item list-style-none d-flex items-center relative">
+      <div class="line-name font-semibold" style="border-color: ${line.color}">${line.name}</div>
+      <div class="station-container d-flex justify-center items-center">
+        ${line.stations.map((station) => stationColorTemplate(line.color, station.name)).join('')}
+      </div>
     </li>
   `;
 };
 
 export const subwayMapTemplate = (lineList) => {
-  console.log(lineList);
   return `
-  <div class="subway-map-container container wrapper p-10">
-    <ul id="subway-map-list-container" class="d-flex justify-center">
+    <ul class="subway-map-container d-flex flex-col justify-start bg-white">
       ${lineList.map((line) => lineListTemplate(line)).join('')}
     </ul>
-  </div>
   `;
 };

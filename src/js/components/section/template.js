@@ -2,7 +2,7 @@ export const sectionListTemplate = (lineColor, { name, id, duration, distance })
   return `
   <li class="section-list-item list-style-none">
     <div class="d-flex items-center relative">
-      <div class="d-flex justify-center align-center">
+      <div class="d-flex justify-center items-center">
         <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
         <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
       </div>
