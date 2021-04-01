@@ -4,17 +4,17 @@ import user from '../../models/user.js';
 import router from '../../router.js';
 import { PATH } from '../../constants/path.js';
 
-async function addSectionHandler(e) {
+async function addSectionHandler({ target }) {
   const newSectionInfo = {
-    upStationId: Number(e.target.elements['up-station'].value),
-    downStationId: Number(e.target.elements['down-station'].value),
-    distance: Number(e.target.elements.distance.value),
-    duration: Number(e.target.elements.duration.value),
+    upStationId: Number(target.elements['up-station'].value),
+    downStationId: Number(target.elements['down-station'].value),
+    distance: Number(target.elements.distance.value),
+    duration: Number(target.elements.duration.value),
   };
   try {
     const response = await user.lineManager.addSection(
       newSectionInfo,
-      e.target.elements['line-for-section'].value
+      target.elements['line-for-section'].value
     );
     if (!response.ok) {
       throw response;

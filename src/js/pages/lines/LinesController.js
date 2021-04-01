@@ -22,7 +22,7 @@ class LinesController {
 
   async init() {
     const allLines = await this.getAllLines();
-    console.log(allLines);
+
     if (!allLines) {
       jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
       router.navigate(PATH.ROOT);

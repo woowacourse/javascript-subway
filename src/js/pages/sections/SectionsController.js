@@ -18,10 +18,10 @@ class SectionsController {
     this.bindEvents();
   }
 
-  onLineSelect(e) {
-    const targetLineId = e.target.value;
+  onLineSelect({ target }) {
+    const targetLineId = target.value;
     const targetLineColor =
-      e.target.options[e.target.selectedIndex].dataset.lineColor;
+      target.options[target.selectedIndex].dataset.lineColor;
 
     changeBackgroundColor($('#line-name'), targetLineColor);
 
@@ -40,6 +40,7 @@ class SectionsController {
       this.sectionsView.renderSections(sections);
     }
 
+    $('#sections-form').reset();
     onModalClose();
   }
 

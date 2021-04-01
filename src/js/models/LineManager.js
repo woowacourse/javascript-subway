@@ -108,19 +108,29 @@ class LineManager {
     const response = await fetchAddSection(newSectionInfo, lineId);
 
     if (response.ok) {
+      console.log(this.lines[lineId].stations);
       const upStationIndex = this.lines[lineId].stations.findIndex(
         ({ id }) => id === newSectionInfo.upStationId
       );
-      const newSectionId =
-        upStationIndex === -1
-          ? newSectionInfo.upStationId
-          : newSectionInfo.downStationId;
-
-      const newSection = this.createStationData(
-        user.stationManager.getStation(newSectionId)
+      const downStationIndex = this.lines[lineId].stations.findIndex(
+        ({ id }) => id === newSectionInfo.downStationId
       );
 
-      this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
+      if (upStationIndex === -1) {
+        const newSectionId = newSectionInfo.upStationId;
+        const newSection = this.createStationData(
+          user.stationManager.getStation(newSectionId)
+        );
+
+        this.lines[lineId].stations.splice(downStationIndex, 0, newSection);
+      } else {
+        const newSectionId = newSectionInfo.downStationId;
+        const newSection = this.createStationData(
+          user.stationManager.getStation(newSectionId)
+        );
+
+        this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);
+      }
     }
 
     return response;
