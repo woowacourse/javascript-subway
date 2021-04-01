@@ -31,6 +31,10 @@ class LineCreationComponent extends Component {
     super(props);
   }
 
+  initLoad() {
+    this.#loadRevisionModal();
+  }
+
   initEvent() {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener('submit', event => {
       event.preventDefault();
@@ -47,6 +51,31 @@ class LineCreationComponent extends Component {
     this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`);
   }
 
+  #loadRevisionModal() {
+    const lineId = $(`#${ID_SELECTOR.MODAL}`).dataset.lineId;
+
+    if (!lineId) {
+      console.error(
+        `#${ID_SELECTOR.MODAL}l의 dataset 속성으로 lineId가 존재하지 않습니다.`
+      );
+      return;
+    }
+
+    // TODO: 여기 지워야함
+    //$(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
+
+    const line = this.#findLineBy(lineId);
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
+  }
+
+  #findLineBy(targetId) {
+    const lines = this.props.linesState.Data;
+
+    return lines.find(line => line.id === Number(targetId));
+  }
+
   #loadSelectOption(selector) {
     $(selector).innerHTML = this.props.stationsState.Data.map(
       ({ id, name }) => `<option value="${id}">${name}</option>`
@@ -59,6 +88,12 @@ class LineCreationComponent extends Component {
       event.target[ID_SELECTOR.LINE_MODAL_FORM_UP_STATION].value;
     const downStationId =
       event.target[ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION].value;
+
+    if (upStationId === downStationId) {
+      alert(ALERT_MESSAGE.STATIONS_SETTING_OF_LINE_FAIL);
+      return;
+    }
+
     const distance = event.target[ID_SELECTOR.LINE_MODAL_FORM_DISTANCE].value;
     const duration = event.target[ID_SELECTOR.LINE_MODAL_FORM_DURATION].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
