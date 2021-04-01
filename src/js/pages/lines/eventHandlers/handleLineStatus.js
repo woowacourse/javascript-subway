@@ -9,7 +9,7 @@ const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;
 
   const $targetLine = target.closest('.js-line-list-item');
-  const lineID = $targetLine.dataset.id;
+  const lineID = Number($targetLine.dataset.id);
 
   const result = await requestDeleteLine(lineID);
   if (!result.success) {
