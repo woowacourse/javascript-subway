@@ -102,6 +102,7 @@ const ALERT_MESSAGE = {
   SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
   SECTION_REMOVAL_SUCCESS: '해당 구간을 삭제했습니다.',
   SECTION_REMOVAL_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
+  NOT_SELECTED_LINE: '노선을 선택해주세요.',
 };
 
 const CONFIRM_MESSAGE = {
@@ -115,6 +116,7 @@ const KEYWORD = {
   LOGOUT: 'logout',
   CREATION: 'creation',
   REVISION: 'revision',
+  NONE: 'none',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';
