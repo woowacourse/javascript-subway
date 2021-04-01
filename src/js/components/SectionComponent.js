@@ -43,6 +43,11 @@ class SectionComponent extends Component {
     $(`#${ID_SELECTOR.SECTION_CREATION_BUTTON}`).addEventListener(
       'click',
       () => {
+        if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
+          alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
+          return;
+        }
+
         this.sectionModal.route(KEYWORD.CREATION);
       }
     );
@@ -105,10 +110,10 @@ class SectionComponent extends Component {
 
   #renderSelectOption() {
     const lines = this.props.linesState.Data;
+    const initialTemplate = `<option selected value="${KEYWORD.NONE}">노선을 선택해주세요</option>`;
 
-    $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML = lines
-      .map(this.#createOptionTemplate)
-      .join('');
+    $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML =
+      initialTemplate + lines.map(this.#createOptionTemplate).join('');
   }
 
   #createOptionTemplate(line) {
