@@ -1,11 +1,7 @@
 import _ from '/src/css/index.css';
 import routeTo from './router.js';
 import Store from './store.js';
-import {
-  userInfoRequest,
-  stationListRequest,
-  lineListRequest,
-} from './request.js';
+import { userInfoRequest, stationListRequest, lineListRequest } from './request.js';
 import { getCookie } from './utils/cookie.js';
 import getAvailablePath from './utils/path.js';
 import popSnackbar from './utils/snackbar.js';
@@ -63,6 +59,7 @@ export default class App {
 
     await this.checkIsLoggedIn();
     await this.update();
+    this.mapManager.checkTransferStations();
 
     const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
 
@@ -106,9 +103,7 @@ export default class App {
     try {
       const stationListResponse = await stationListRequest(accessToken);
 
-      const stations = stationListResponse.map(
-        (station) => new Station(station)
-      );
+      const stations = stationListResponse.map((station) => new Station(station));
 
       this.store.stations = stations;
 
@@ -116,7 +111,6 @@ export default class App {
       const lines = lineListResponse.map((line) => new Line(line));
 
       this.store.lines = lines;
-      this.mapManager.checkTransferStations();
     } catch (error) {
       console.error(error);
       popSnackbar(MESSAGES.ERROR_FETCH_STATION_DATA);

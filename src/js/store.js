@@ -28,9 +28,7 @@ export default class Store {
   }
 
   get stations() {
-    const sortedStations = this._state.stations.sort(
-      (a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate)
-    );
+    const sortedStations = this._state.stations.sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate));
 
     return sortedStations;
   }
