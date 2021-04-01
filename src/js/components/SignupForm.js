@@ -85,7 +85,7 @@ export default class SignupForm extends Component {
             <button
               type="submit"
               name="submit"
-              class="input-submit w-30 bg-cyan-300"
+              class="input-submit w-100 bg-cyan-300"
             >
               확인
             </button>

@@ -13,7 +13,18 @@ import snackbar from "../utils/snackbar.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 const createLineListItem = (line) => {
-  const { upStation, downStation, distance, duration } = line.sections[0];
+  const upStation = line.sections[0].upStation.name;
+  const downStation = line.sections[line.sections.length - 1].downStation.name;
+  const duration = line.sections.reduce(
+    // eslint-disable-next-line no-return-assign
+    (sum, station) => (sum += station.duration),
+    0
+  );
+  const distance = line.sections.reduce(
+    // eslint-disable-next-line no-return-assign
+    (sum, station) => (sum += station.distance),
+    0
+  );
 
   return `
     <li 
@@ -39,8 +50,8 @@ const createLineListItem = (line) => {
         </button>
       </div>
 
-      <div class="js-line-info d-flex d-none">
-        <p>${upStation.name} ➡️ 거리: ${distance}, 소요시간: ${duration} ➡️ ${downStation.name}</p>
+      <div class="js-line-info d-flex d-none pl-3">
+        <p>${upStation} ➡️ 거리: ${distance}, 소요시간: ${duration} ➡️ ${downStation}</p>
       </div>
     </li>
   `;
