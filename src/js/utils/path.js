@@ -1,4 +1,4 @@
-const paths = ['/', '/login', '/signup', '/stations', '/lines', '/sections'];
+const paths = ['/', '/login', '/signup', '/stations', '/lines', '/sections', '/map'];
 
 const getAvailablePath = (path, isLoggedIn) => {
   if (!paths.includes(path)) return '/';

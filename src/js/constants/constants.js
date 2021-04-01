@@ -64,14 +64,17 @@ export const SELECTOR = {
   DISTANCE_VALUE: '.distance-value',
   DURATION_VALUE: '.duration-value',
   SECTION_DATA_CONTAINER: '.section-data-container',
+
+  TRANSFER_DOT: '.transfer-dot',
 };
 
 export const MESSAGES = {
   SIGNUP_SUCCESS: '회원가입에 성공했습니다.',
   LOGIN_FAIL: '아이디, 패스워드를 확인하세요.',
 
-  ENTRY_DESCRIPTION_LOGGED_IN: '상단 탭을 클릭해주세요. 🦕',
-  ENTRY_DESCRIPTION_LOGGED_OUT: '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.',
+  ENTRY_DESCRIPTION_LOGGED_IN: '상단 탭을 클릭해주세요. <div class="dinosaur dinosaur-big">🦕</div>',
+  ENTRY_DESCRIPTION_LOGGED_OUT:
+    '지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다. <div class="dinosaur dinosaur-big">🦕</div>',
 
   ERROR_FETCH_USER_INFO: '사용자 정보를 가져오는 과정에서 문제가 발생했습니다.',
   ERROR_FETCH_STATION_DATA: '지하철 데이터를 가져오는 과정에서 문제가 발생했습니다.',

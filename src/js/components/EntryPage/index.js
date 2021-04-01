@@ -27,9 +27,9 @@ export default class EntryPage {
 
   renderPage() {
     if (this.store.isLoggedIn) {
-      this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_IN;
+      this.$description.innerHTML = MESSAGES.ENTRY_DESCRIPTION_LOGGED_IN;
     } else {
-      this.$description.textContent = MESSAGES.ENTRY_DESCRIPTION_LOGGED_OUT;
+      this.$description.innerHTML = MESSAGES.ENTRY_DESCRIPTION_LOGGED_OUT;
     }
   }
 }

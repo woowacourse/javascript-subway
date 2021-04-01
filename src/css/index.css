@@ -67,8 +67,8 @@ ul li button:hover {
   color: #ffffff;
 }
 
-#station-list {
-  height: 40vh;
+#station-list, #section-station-list {
+  height: 50vh;
   overflow-y: auto;
 }
 
@@ -96,4 +96,120 @@ ul li button:hover {
   margin: 0 3px;
   height: 100%;
   transform: translateX(50%);
+}
+
+#subway-map {
+  width: 100%;
+}
+
+.map-line-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-line-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.map-line-list > li {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0 12px;
+}
+
+.map-line-list > .map-line-name {
+  align-self: flex-end;
+  height: 100%;
+  text-align: center;
+  transform: translate(2px, 15%);
+  z-index: 1;
+  padding: 2px 6px;
+  width: 56px;
+  height: 24px;
+  line-height: 24px;
+  background-color: #ffffff;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 100px;
+}
+
+.map-station-list {
+  position: relative;
+  height: 3rem;
+  margin-top: 10px;
+}
+
+.map-station-list .subway-line-color-dot {
+  background-color: #ffffff;
+  border: 0.15rem solid #000000;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-station-list .transfer-dot {
+  background-color: #ffffff;
+  border: 0.05rem solid #000000;
+  border-radius: 100%;
+  width: 7px;
+  height: 7px;
+  cursor: pointer;
+}
+
+.map-station-list .horizontal-line {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 10px;
+}
+
+.map-station-list:last-child .horizontal-line {
+  border-radius: 0 10px 10px 0;
+}
+
+.map-station-list .transfer-pop-over {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 4px 4px 8px;
+  min-width: 64px;
+  min-height: 48px;
+  list-style: none;
+  background-color: #ffffff;
+  border: 0.15rem solid #000000;
+  border-radius: 8px;
+  top: 75%;
+  left: 60%;
+  z-index: 1;
+}
+
+.transfer-pop-over .pop-over-color-dot {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+
+.dinosaur {
+  display: inline-block;
+  cursor: default;
+  transition: transform 1s;
+  transform: rotate(-90deg);
+}
+
+.dinosaur-big {
+  display: block;
+  font-size: 4rem;
+}
+
+.dinosaur:hover {
+  transform: rotate(0deg);
 }

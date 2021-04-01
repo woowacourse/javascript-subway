@@ -4,6 +4,7 @@ export default class Station {
     this._name = name;
     this._createdDate = createdDate;
     this._modifiedDate = modifiedDate;
+    this._belongingLines = [];
   }
 
   get id() {
@@ -24,6 +25,22 @@ export default class Station {
 
   set modifiedDate(date) {
     this._modifiedDate = date;
+  }
+
+  set belongingLines(lines) {
+    this._belongingLines = lines;
+  }
+
+  get belongingLines() {
+    return this._belongingLines;
+  }
+
+  addBelongingLines(lineId) {
+    this._belongingLines.push(lineId);
+  }
+
+  isTransferStation() {
+    return this._belongingLines.length > 1;
   }
 
   toListItemTemplate() {
@@ -69,5 +86,31 @@ export default class Station {
       </div>
       <hr class="my-0" />
       `;
+  }
+
+  toMapItemTemplate(lineColor) {
+    return `
+      <li class="map-station-list">
+        <div class="text-center">${this._name}</div>
+        <div class="map-line-connector">
+          <span class="horizontal-line ${lineColor}"></span>
+          <div class="subway-line-color-dot">
+            <div data-station-id="${this._id}" class="transfer-dot ${!this.isTransferStation() && 'd-none'}"></div>
+          </div>
+        </div>
+        <ul data-popover-id="${this._id}" class="transfer-pop-over d-none">
+          ${this._belongingLines
+            .map(
+              (line) => `
+                <li>
+                  <span class="pop-over-color-dot ${line.color}"></span>
+                  <span>&nbsp${line.name}</span>
+                </li>
+              `
+            )
+            .join('')}
+        </ul>
+      </li>
+    `;
   }
 }
