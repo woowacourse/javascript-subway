@@ -6,11 +6,10 @@ import StationsController from './pages/stations/StationsController.js';
 import LinesController from './pages/lines/LinesController.js';
 import SectionsController from './pages/sections/SectionsController.js';
 import { PATH } from './constants/path.js';
-import user from './models/user.js';
+import jwtToken from './jwtToken.js';
+import { COOKIE_KEY } from './constants/constants.js';
 
 const router = {
-  userToken: '',
-
   signupPage: new SignupPage(),
   loginPage: new LoginPage(),
   mainPage: new MainPage(),
@@ -33,11 +32,12 @@ const router = {
   },
 
   checkMainRoute() {
-    this.routes[PATH.ROOT] = this.userToken ? this.mainPage : this.loginPage;
+    this.routes[PATH.ROOT] = jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+      ? this.mainPage
+      : this.loginPage;
   },
 
   navigate(path) {
-    this.userToken = user.getAuthorization();
     if (path === PATH.ROOT) {
       this.checkMainRoute();
     }

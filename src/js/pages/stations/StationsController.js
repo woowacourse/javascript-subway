@@ -10,6 +10,8 @@ import showSnackBar from '../../utils/snackbar.js';
 import { ALERT_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import { PATH } from '../../constants/path.js';
 import router from '../../router.js';
+import jwtToken from '../../jwtToken.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
 
 class StationsController {
   constructor() {
@@ -19,8 +21,9 @@ class StationsController {
   async init() {
     const allStations = await this.getAllStations();
     if (!allStations) {
-      user.resetAuthorization();
+      jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
       router.navigate(PATH.ROOT);
+      return;
     }
 
     this.stationsView.init(allStations);

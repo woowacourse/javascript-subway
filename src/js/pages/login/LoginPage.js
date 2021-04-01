@@ -10,7 +10,6 @@ import {
   checkPasswordInputHandler,
 } from '../../authHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
-import user from '../../models/user.js';
 import router from '../../router.js';
 
 class LoginPage {
@@ -35,7 +34,6 @@ class LoginPage {
 
       const { accessToken } = await response.json();
       jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
-      user.setAuthorization();
 
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
     } catch (error) {

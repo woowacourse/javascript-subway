@@ -36,7 +36,6 @@ class MainPage {
     this.resetView();
 
     jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
-    // user.authorization = '';
     showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGOUT);
     router.navigate(PATH.ROOT);
   }
