@@ -83,15 +83,4 @@ const stationsPageTemplate = (stationList = []) => `
   ${stationNameEditModalTemplate}
 `;
 
-{
-  /*  station list item template
-
-    <li class="station-list-item d-flex items-center py-2">
-        <span class="w-100 pl-2">사당</span>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1">수정</button>
-        <button type="button" class="bg-gray-50 text-gray-500 text-sm">삭제</button>
-      </li>
-      <hr class="my-0" /> */
-}
-
 export default stationsPageTemplate;

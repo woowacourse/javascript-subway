@@ -1,13 +1,4 @@
-import {
-  mountError,
-  mountLines,
-  mountLogin,
-  mountMap,
-  mountSearch,
-  mountSections,
-  mountSignup,
-  mountStations,
-} from '../pages';
+import { mountError, mountLines, mountLogin, mountMap, mountSections, mountSignup, mountStations } from '../pages';
 import { authenticatedRoute, unauthenticatedRoute } from './utils';
 import { routeTo } from '../utils/history';
 
@@ -17,7 +8,6 @@ const routeHandler = {
   '/login': () => unauthenticatedRoute(mountLogin),
   '/signup': () => unauthenticatedRoute(mountSignup),
 
-  '/search': () => authenticatedRoute(mountSearch),
   '/sections': () => authenticatedRoute(mountSections),
   '/stations': () => authenticatedRoute(mountStations),
   '/map': () => authenticatedRoute(mountMap),
