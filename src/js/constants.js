@@ -40,20 +40,31 @@ export const SELECTOR = {
   PASSWORD_CONFIRM: '#password-confirm',
   STATION_LIST: '#station-list',
   STATION_ITEM_NAME: '.station-list-item-name',
+  CREATE_LINE_BUTTON: '.create-line-btn',
   LINE_MODAL_TITLE: '#line-modal-title',
   LINE_FORM: 'form[name="modify-line"]',
   LINE_LIST: '#line-list',
   LINE_ITEM: '.line-item',
   LINE_ITEM_NAME: '.line-list-item-name',
+  SUBWAY_LINE_NAME: '#subway-line-name',
+  SUBWAY_LINE_COLOR: '#subway-line-color',
+  SUBWAY_LINE_COLOR_SELECTOR: '.subway-line-color-selector',
   SECTION_SELECT_FORM: 'form[name="select-section"]',
   ADD_SECTION: 'form[name="add-section"]',
   SECTION_LIST: '#section-list',
+  CREATE_SECTION_BUTTON: '.create-section-btn',
+  OPTIONAL: '.optional',
+  LINE_ITEM_INFO: '.line-item-info',
 };
 
 export const CLASS_NAME = {
   SHOW: 'show',
+  HIDE: 'hide',
   SIGNUP_LINK: 'signup-link',
   VALID: 'valid',
+  MODIFY_BUTTON: 'modify-button',
+  DELETE_BUTTON: 'delete-button',
+  COLOR_OPTION: 'color-option',
 };
 
 export const FORM = {
@@ -67,26 +78,25 @@ export const FORM = {
   STATION: {
     ADD_INPUT: 'station-add-input',
   },
-};
 
-export const SNACK_BAR = {
-  VISIBLE_TIME: 2000,
+  SECTION: {
+    LINE_SELECT: 'line-select',
+    PREV_STATION: 'prev-station',
+    NEXT_STATION: 'next-station',
+  },
 };
 
 export const STORAGE = {
   USER_ACCESS_TOKEN: 'userAccessToken',
 };
 
-export const SNACKBAR_MESSAGE = {
-  // TODO: 성공 메시지로 이동
+export const SUCCESS_MESSAGE = {
   LOGIN: '로그인 되었습니다 !',
   LOGOUT: '로그아웃 되었습니다 !',
   SIGNUP: '회원가입이 완료되었습니다 !',
-};
-
-export const SUCCESS_MESSAGE = {
   NAME: '좋은 이름이네요! 😁',
   EMAIL: '올바른 이메일 입니다.',
+  PASSWORD: '올바른 비밀번호 입니다.',
   PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
   ADD_STATION: '역이 추가되었습니다! 🚇',
   REMOVE_STATION: '역이 제거되었습니다!',
@@ -143,6 +153,10 @@ export const REQUEST_METHOD = {
   PUT: 'PUT',
 };
 
+export const REQUEST_HEADER = {
+  CONTENT_TYPE_JSON: 'application/json; charset=UTF-8',
+};
+
 export const PAGE_TITLE = {
   HOME: '🚇 지하철 APP',
   STATIONS: '🚇 역 관리',
@@ -184,8 +198,18 @@ export const STATION_ERROR = {
   },
 };
 
-export const STATION_DELETE_ERROR = {};
-
 export const REGEXP = {
   EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+};
+
+export const TIME = {
+  SNACK_BAR: 2000,
+  DEBOUNCE: 500,
+};
+
+export const LINE_MODAL_STATE = {
+  ADD: 'ADD',
+  MODIFY: 'MODIFY',
+  ADD_TITLE: '🛤️ 노선 추가',
+  MODIFY_TITLE: '🛤️ 노선 수정',
 };

@@ -10,12 +10,14 @@ import { showSnackbar } from '../../utils/snackbar.js';
 import { stationAPI } from '../../../../api/station.js';
 
 class StationModal {
+  #props;
+  #stationInfo;
   #userAccessToken;
 
-  constructor({ updateStations }) {
-    this.stationInfo = null;
+  constructor(props) {
+    this.#props = props;
+    this.#stationInfo = null;
     this.#userAccessToken = null;
-    this.updateStations = updateStations;
   }
 
   init(userAccessToken) {
@@ -40,22 +42,21 @@ class StationModal {
 
   handleModifyStationOpen(stationInfo) {
     onModalShow();
-    this.stationInfo = stationInfo;
-    $('#station-modify-input').value = this.stationInfo.name;
+    this.#stationInfo = stationInfo;
+    $('#station-modify-input').value = this.#stationInfo.name;
     $('#station-modify-input').select();
   }
 
   async _handleModifyStationClose(e) {
     e.preventDefault();
 
-    const newName = $('#station-modify-input').value;
-    const { $stationItem, id, name } = this.stationInfo;
-    if (newName === name) {
+    const name = $('#station-modify-input').value;
+    if (name === this.#stationInfo.name) {
       onModalClose();
       return;
     }
 
-    const message = checkStationValid(newName);
+    const message = checkStationValid(name);
     if (message) {
       alert(message);
       return;
@@ -64,12 +65,11 @@ class StationModal {
     try {
       await stationAPI.modifyStation({
         userAccessToken: this.#userAccessToken,
-        id,
-        name: newName,
+        id: this.#stationInfo.id,
+        name,
       });
-      $(SELECTOR.STATION_ITEM_NAME, $stationItem).innerHTML = newName;
 
-      this.updateStations(id, newName);
+      this.#props.modifyStation(this.#stationInfo, name);
       onModalClose();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (res) {

@@ -8,9 +8,8 @@ import Station from './components/station/Station.js';
 import Line from './components/line/Line.js';
 import Section from './components/section/Section.js';
 
-import { getLocalStorageItem } from './utils/storage.js';
-import { request } from './utils/api.js';
-import { ACTIONS, BASE_URL, PATH, STORAGE } from './constants.js';
+import { PATH, STORAGE } from './constants.js';
+import { authAPI } from '../../api/auth.js';
 
 class App {
   #isLoggedIn;
@@ -24,23 +23,6 @@ class App {
     this._mountComponent();
     this._registerRouterComponent();
     this.switchURL(path);
-  }
-
-  async _isValidUserAccessToken() {
-    const userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
-    if (!userAccessToken) return false;
-
-    try {
-      const option = {
-        Authorization: `Bearer ${userAccessToken}`,
-        Accept: 'application/json',
-      };
-      await request(`${BASE_URL}${ACTIONS.USER}`, option);
-
-      return true;
-    } catch {
-      return false;
-    }
   }
 
   _initRouter() {
@@ -59,7 +41,7 @@ class App {
       switchURL: this.switchURL.bind(this),
     });
     this.stations = new Station();
-    this.sections = new Section({ switchURL: this.switchURL.bind(this) });
+    this.sections = new Section();
     this.lines = new Line();
   }
 
@@ -75,15 +57,17 @@ class App {
   }
 
   async switchURL(href) {
-    this.#isLoggedIn = await this._isValidUserAccessToken();
-    this.header.init(this.#isLoggedIn);
+    this.#isLoggedIn = await authAPI.isValidUserAccessToken(
+      STORAGE.USER_ACCESS_TOKEN,
+    );
 
+    this.header.init(this.#isLoggedIn);
     const component = this.components[href];
     const state = { isLoggedIn: this.#isLoggedIn };
 
-    await component.init(state);
+    component.init && (await component.init(state));
     this.router.renderPage(href, component.getPageInfo());
-    component.initDOM();
+    component.initDOM && component.initDOM();
   }
 }
 

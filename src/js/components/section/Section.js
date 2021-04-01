@@ -1,47 +1,48 @@
-import { lineAPI } from '../../../../api/line.js';
-import { sectionAPI } from '../../../../api/section.js';
-import { stationAPI } from '../../../../api/station.js';
-import {
-  CONFIRM_MESSAGE,
-  ERROR_MESSAGE,
-  PAGE_TITLE,
-  PATH,
-  SELECTOR,
-  STORAGE,
-  SUCCESS_MESSAGE,
-} from '../../constants.js';
-import { $ } from '../../utils/dom.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
 import SectionModal from './SectionModal.js';
 import {
   sectionsTemplate,
   sectionTemplate,
   modalTemplate,
 } from './sectionTemplate.js';
+
+import { initSections, initStations } from '../../models/model.js';
+
+import { sectionAPI } from '../../../../api/section.js';
+import { $ } from '../../utils/dom.js';
+import { showSnackbar } from '../../utils/snackbar.js';
+import { getLocalStorageItem } from '../../utils/storage.js';
+import {
+  CLASS_NAME,
+  CONFIRM_MESSAGE,
+  ERROR_MESSAGE,
+  FORM,
+  PAGE_TITLE,
+  SELECTOR,
+  STORAGE,
+  SUCCESS_MESSAGE,
+} from '../../constants.js';
+
 class Section {
   #userAccessToken;
   #selectedLineId;
   #stations;
   #sections;
-  #props;
   #modal;
 
-  constructor(props) {
-    this.#props = props;
+  constructor() {
     this.#userAccessToken = null;
     this.#selectedLineId = null;
     this.#stations = {};
     this.#sections = {};
     this.#modal = new SectionModal({
-      updateSections: this.updateSections.bind(this),
+      modifySection: this.modifySection.bind(this),
     });
   }
 
   async init() {
     this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
-    await this._initStations();
-    await this._initSections();
+    this.#stations = await initStations(this.#userAccessToken);
+    this.#sections = await initSections(this.#userAccessToken);
   }
 
   getPageInfo() {
@@ -64,38 +65,6 @@ class Section {
     this._bindEvent();
   }
 
-  async _initStations() {
-    try {
-      this.#stations = {};
-
-      const stations = await stationAPI.getStations(this.#userAccessToken);
-      stations.forEach(({ id, ...rest }) => {
-        this.#stations[id] = rest;
-      });
-    } catch {
-      alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
-    }
-  }
-
-  async _initSections() {
-    try {
-      this.#sections = {};
-
-      const sections = await lineAPI.getLines(this.#userAccessToken);
-      if (Object.keys(sections).length === 0) {
-        alert('관리할 노선 정보가 없습니다. 먼저 노선을 만들어주세요!');
-        this.#props.switchURL(PATH.LINES);
-        return;
-      }
-
-      sections.forEach(({ id, name, color, stations }) => {
-        this.#sections[id] = { name, color, stations };
-      });
-    } catch {
-      alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
-    }
-  }
-
   _bindEvent() {
     this._bindSelectLineEvent();
     this._bindAddSectionEvent();
@@ -111,7 +80,7 @@ class Section {
   }
 
   _bindAddSectionEvent() {
-    $('.create-section-btn').addEventListener('click', e => {
+    $(SELECTOR.CREATE_SECTION_BUTTON).addEventListener('click', e => {
       this.#modal.handleSectionOpen({
         sections: this.#sections,
       });
@@ -120,7 +89,7 @@ class Section {
 
   _bindRemoveSectionEvent() {
     this.$sectionList.addEventListener('click', e => {
-      if (e.target.classList.contains('delete-button')) {
+      if (e.target.classList.contains(CLASS_NAME.DELETE_BUTTON)) {
         this._handleRemoveSection(e);
       }
     });
@@ -131,26 +100,22 @@ class Section {
     const { stations, color } = this.#sections[this.#selectedLineId];
 
     target.className = color;
-    $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+    $(SELECTOR.SECTION_LIST).innerHTML = stations.map(sectionTemplate).join('');
   }
 
   async _handleRemoveSection(e) {
     if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
 
     try {
-      const { $sectionItem, id } = this._getSelectedSectionInfo(e);
+      const sectionInfo = this._getSelectedSectionInfo(e);
 
       await sectionAPI.deleteSection({
         userAccessToken: this.#userAccessToken,
         lineId: this.#selectedLineId,
-        stationId: id,
+        stationId: sectionInfo.id,
       });
 
-      this.#sections[this.#selectedLineId].stations = this.#sections[
-        this.#selectedLineId
-      ].stations.filter(station => station.id !== Number(id));
-
-      $sectionItem.remove();
+      this._removeSection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.REMOVE_SECTION);
     } catch (res) {
       const message = await res.text();
@@ -158,11 +123,18 @@ class Section {
     }
   }
 
-  updateSections(info) {
+  _getSelectedSectionInfo({ target }) {
+    const $sectionItem = target.closest('[data-section-id]');
+    const id = $sectionItem.dataset.sectionId;
+
+    return { $sectionItem, id };
+  }
+
+  modifySection(info) {
     const {
-      ['line-select']: lineId,
-      ['prev-station']: upStationId,
-      ['next-station']: downStationId,
+      [FORM.SECTION.LINE_SELECT]: lineId,
+      [FORM.SECTION.PREV_STATION]: upStationId,
+      [FORM.SECTION.NEXT_STATION]: downStationId,
     } = info;
 
     const sectionStations = this.#sections[lineId].stations;
@@ -187,11 +159,11 @@ class Section {
     }
   }
 
-  _getSelectedSectionInfo({ target }) {
-    const $sectionItem = target.closest('[data-section-id]');
-    const id = $sectionItem.dataset.sectionId;
-
-    return { $sectionItem, id };
+  _removeSection({ id, $sectionItem }) {
+    this.#sections[this.#selectedLineId].stations = this.#sections[
+      this.#selectedLineId
+    ].stations.filter(station => station.id !== Number(id));
+    $sectionItem.remove();
   }
 }
 

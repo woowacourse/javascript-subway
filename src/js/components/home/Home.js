@@ -20,8 +20,6 @@ class Home {
       },
     };
   }
-
-  initDOM() {}
 }
 
 export default Home;

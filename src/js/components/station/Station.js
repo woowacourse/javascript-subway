@@ -1,3 +1,16 @@
+import StationModal from './StationModal.js';
+import { checkStationValid } from './stationValidator.js';
+import {
+  modalTemplate,
+  stationsTemplate,
+  stationTemplate,
+} from './stationTemplate.js';
+
+import { initStations } from '../../models/model.js';
+
+import { $, clearForm } from '../../utils/dom.js';
+import { showSnackbar } from '../../utils/snackbar.js';
+import { getLocalStorageItem } from '../../utils/storage.js';
 import { stationAPI } from '../../../../api/station.js';
 import {
   PAGE_TITLE,
@@ -8,18 +21,8 @@ import {
   SUCCESS_MESSAGE,
   FORM,
   CONFIRM_MESSAGE,
+  CLASS_NAME,
 } from '../../constants.js';
-import { $, clearForm } from '../../utils/dom.js';
-
-import { showSnackbar } from '../../utils/snackbar.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
-import StationModal from './StationModal.js';
-import {
-  modalTemplate,
-  stationsTemplate,
-  stationTemplate,
-} from './stationTemplate.js';
-import { checkStationValid } from './stationValidator.js';
 
 class Station {
   #userAccessToken;
@@ -30,13 +33,13 @@ class Station {
     this.#userAccessToken = null;
     this.#stations = {};
     this.#modal = new StationModal({
-      updateStations: this.updateStations.bind(this),
+      modifyStation: this.modifyStation.bind(this),
     });
   }
 
   async init() {
     this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
-    await this._initStations();
+    this.#stations = await initStations(this.#userAccessToken);
   }
 
   getPageInfo() {
@@ -56,19 +59,6 @@ class Station {
     this._bindEvent();
   }
 
-  async _initStations() {
-    try {
-      this.#stations = {};
-
-      const stations = await stationAPI.getStations(this.#userAccessToken);
-      stations.forEach(({ id, ...rest }) => {
-        this.#stations[id] = rest;
-      });
-    } catch {
-      alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
-    }
-  }
-
   _bindEvent() {
     this._bindAddStationEvent();
     this._bindUpdateStationEvent();
@@ -82,12 +72,13 @@ class Station {
 
   _bindUpdateStationEvent() {
     this.$stationList.addEventListener('click', e => {
-      if (e.target.classList.contains('modify-button')) {
-        this.#modal.handleModifyStationOpen(this._getSelectedStationInfo(e));
+      if (e.target.classList.contains(CLASS_NAME.MODIFY_BUTTON)) {
+        const stationInfo = this._getSelectedStationInfo(e);
+        this.#modal.handleModifyStationOpen(stationInfo);
         return;
       }
 
-      if (e.target.classList.contains('delete-button')) {
+      if (e.target.classList.contains(CLASS_NAME.DELETE_BUTTON)) {
         this._handleRemoveStation(e);
         return;
       }
@@ -105,17 +96,12 @@ class Station {
     }
 
     try {
-      const { id, ...rest } = await stationAPI.addStations({
+      const newStation = await stationAPI.addStations({
         userAccessToken: this.#userAccessToken,
         name: stationName,
       });
 
-      this.#stations[id] = rest;
-      this.$stationList.insertAdjacentHTML(
-        'beforeend',
-        stationTemplate(id, { name: this.#stations[id].name }),
-      );
-
+      this._addStation(newStation);
       clearForm(this.$addStationForm);
       showSnackbar(SUCCESS_MESSAGE.ADD_STATION);
     } catch ({ status }) {
@@ -129,15 +115,14 @@ class Station {
     if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
 
     try {
-      const { $stationItem, id } = this._getSelectedStationInfo(e);
+      const stationInfo = this._getSelectedStationInfo(e);
 
       await stationAPI.deleteStations({
         userAccessToken: this.#userAccessToken,
-        id,
+        id: stationInfo.id,
       });
 
-      delete this.#stations[id];
-      $stationItem.remove();
+      this._removeStation(stationInfo);
       showSnackbar(SUCCESS_MESSAGE.REMOVE_STATION);
     } catch ({ status }) {
       showSnackbar(
@@ -154,8 +139,22 @@ class Station {
     return { $stationItem, id, name };
   }
 
-  updateStations(id, name) {
-    this.#stations[id].name = name;
+  _addStation({ id, ...station }) {
+    this.#stations[id] = station;
+    this.$stationList.insertAdjacentHTML(
+      'beforeend',
+      stationTemplate(id, { name: this.#stations[id].name }),
+    );
+  }
+
+  modifyStation({ id, $stationItem }, newName) {
+    this.#stations[id].name = newName;
+    $(SELECTOR.STATION_ITEM_NAME, $stationItem).textContent = newName;
+  }
+
+  _removeStation({ id, $stationItem }) {
+    delete this.#stations[id];
+    $stationItem.remove();
   }
 }
 

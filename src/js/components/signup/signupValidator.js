@@ -1,10 +1,5 @@
-import {
-  ACTIONS,
-  BASE_URL,
-  ERROR_MESSAGE,
-  SUCCESS_MESSAGE,
-} from '../../constants';
-import { request } from '../../utils/api';
+import { authAPI } from '../../../../api/auth';
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../constants';
 import { isEmptyString, isValidEmailFormat } from '../../utils/validation';
 
 export const checkNameValid = name => {
@@ -20,7 +15,8 @@ export const checkEmailValid = async email => {
     if (!isValidEmailFormat(email)) {
       return { isValid: false, message: ERROR_MESSAGE.WRONG_EMAIL_FORMAT };
     }
-    await request(`${BASE_URL}${ACTIONS.DUPLICATED_EMAIL}${email}`, {});
+
+    await authAPI.checkDuplicatedEmail(email);
 
     return { isValid: true, message: SUCCESS_MESSAGE.EMAIL };
   } catch {
@@ -33,7 +29,7 @@ export const checkPasswordValid = password => {
     return { isValid: false, message: ERROR_MESSAGE.EMPTY_PASSWORD };
   }
 
-  return { isValid: true, message: '올바른 비밀번호 입니다.' };
+  return { isValid: true, message: SUCCESS_MESSAGE.PASSWORD };
 };
 
 export const checkPasswordConfirmValid = (password, passwordConfirm) => {
