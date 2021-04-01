@@ -8,11 +8,11 @@ Cypress.Commands.add("login", () => {
 });
 
 Cypress.Commands.add("addLine", (line) => {
-  cy.get("input[name='subway-line-name']").clear().type(line.name);
-  cy.get("#up-station").select(line.upStation);
-  cy.get("#down-station").select(line.downStation);
-  cy.get("#distance").clear().type(line.distance);
-  cy.get("#duration").clear().type(line.duration);
+  cy.get(".js-modal input[name='subway-line-name']").clear().type(line.name);
+  cy.get(".js-modal #up-station").select(line.upStation);
+  cy.get(".js-modal #down-station").select(line.downStation);
+  cy.get(".js-modal #distance").clear().type(line.distance);
+  cy.get(".js-modal #duration").clear().type(line.duration);
   cy.get(`.js-modal .${line.color}`).click();
   cy.get(".js-modal button[type='submit']").click();
 });

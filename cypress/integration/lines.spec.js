@@ -10,7 +10,7 @@ describe("역 관리 페이지", () => {
     downStation: stations[1],
     distance: 10,
     duration: 5,
-    color: "bg-red-600",
+    color: "bg-red-300",
   };
 
   before(() => {
@@ -57,16 +57,15 @@ describe("역 관리 페이지", () => {
   });
 
   it("노선을 등록하면 지하철 노선 목록에 추가된다.", () => {
-    cy.intercept("POST", "/lines/").as("addLine");
-
+    cy.intercept("POST", "/lines").as("addLine");
     cy.addLine(line);
-    cy.wait("@addLine").then(() => {
-      cy.get(".js-modal").should("not.have.class", "open");
-      cy.get(".js-line-list .js-line-name:last-child").should(
-        "have.text",
-        line.name
-      );
-    });
+    cy.wait("@addLine");
+
+    cy.get(".js-modal").should("not.have.class", "open");
+    cy.get(".js-line-list .js-line-name:last-child").should(
+      "have.text",
+      line.name
+    );
   });
 
   it("지하철 노선을 클릭하면 상행역, 하행역, 거리, 시간을 확인할 수 있다.", () => {
