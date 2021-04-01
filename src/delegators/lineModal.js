@@ -88,8 +88,17 @@ function updateLine(newLine) {
   const lineList = state.get(STATE_KEY.LINE_LIST);
   lineList.forEach(line => {
     if (line.id === newLine.id) {
+      if (!isProperLineNameLength(lineName)) {
+        alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
+        return;
+      }
+    
+      if (isDuplicatedLineNameExist(lineName, lineList)) {
+        alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
+        return;
+      }
       line.name = newLine.name;
-      line.color = newLine.color;    
+      line.color = newLine.color;
     }
   })
   state.update(STATE_KEY.LINE_LIST, lineList);

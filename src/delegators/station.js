@@ -34,15 +34,17 @@ export function delegateStationFocusOutEvent(event) {
 }
 
 function onStationFormSubmit(target) {
-  const { [SELECTOR_NAME.STATION_NAME]: stationNameInput } = target;
-  const targetStationName = stationNameInput.value
+  const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
+  const targetStationName = $stationNameInput.value
   const stationList = state.get(STATE_KEY.STATION_LIST);
   if (!isProperStationNameLength(targetStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
+    $stationNameInput.value = '';
     return;
   }
   if (isDuplicatedStationExist({name: targetStationName}, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
+    $stationNameInput.value = '';
     return;
   }
   requestStationRegistration(targetStationName)
@@ -53,7 +55,7 @@ function onStationFormSubmit(target) {
       console.log(error);
       alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
     }).finally(() => {
-      stationNameInput.value = '';
+      $stationNameInput.value = '';
     });
 }
 

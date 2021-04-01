@@ -68,7 +68,7 @@ export default class LineModal extends Observer {
           ${lineItem ? '' : `
             <div class="d-flex items-center input-control">
               <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_INPUT}" name="${SELECTOR_NAME.UP_STATION}" class="mr-2">
+              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_INPUT}" name="${SELECTOR_NAME.UP_STATION}" class="mr-2" required>
                 <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
                 ${this.#state
                   .get(STATE_KEY.STATION_LIST)
@@ -76,7 +76,7 @@ export default class LineModal extends Observer {
                   .join('')}
               </select>
               <label for="down-station" class="input-label" hidden>하행역</label>
-              <select id="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_INPUT}"" name="${SELECTOR_NAME.DOWN_STATION}">
+              <select id="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_INPUT}"" name="${SELECTOR_NAME.DOWN_STATION}" required>
                 <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
                 <${this.#state
                   .get(STATE_KEY.STATION_LIST)
