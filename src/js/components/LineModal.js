@@ -308,8 +308,4 @@ export default class LineAddModal extends Modal {
     $(".js-line-modal-error-message", this.innerElement).textContent = "";
     super.close();
   }
-
-  render() {
-    super.render();
-  }
 }

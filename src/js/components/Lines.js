@@ -193,8 +193,4 @@ export default class Lines extends Component {
     this.render();
     this.lineModal.render();
   }
-
-  render() {
-    super.render();
-  }
 }

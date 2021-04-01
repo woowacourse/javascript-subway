@@ -16,6 +16,5 @@ export const PAGE_URLS = {
   [PAGE_KEYS.STATIONS]: "/stations",
   [PAGE_KEYS.LINES]: "/lines",
   [PAGE_KEYS.SECTIONS]: "/sections",
-  [PAGE_KEYS.MAP]: "/sections",
-  [PAGE_KEYS.SEARCH]: "/search",
+  [PAGE_KEYS.MAP]: "/map",
 };

@@ -6,6 +6,7 @@ import SignupForm from "./SignupForm.js";
 import Stations from "./Stations.js";
 import Lines from "./Lines.js";
 import Sections from "./Sections.js";
+import Map from "./Map.js";
 
 import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
@@ -50,26 +51,19 @@ export default class App {
         $parent: staticElements.$main,
         setPageState: this.setPageState.bind(this),
       }),
+      [PAGE_KEYS.MAP]: new Map({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
     };
   }
 
   registerRoutes() {
     Object.keys(this.pages).forEach((key) => {
-      if (
-        key === PAGE_KEYS.STATIONS ||
-        key === PAGE_KEYS.LINES ||
-        key === PAGE_KEYS.SECTIONS
-      ) {
-        this.pageRouter.registerRoute({
-          path: PAGE_URLS[key],
-          handler: this.pages[key].loadPage.bind(this.pages[key]),
-        });
-      } else {
-        this.pageRouter.registerRoute({
-          path: PAGE_URLS[key],
-          handler: this.pages[key].render.bind(this.pages[key]),
-        });
-      }
+      this.pageRouter.registerRoute({
+        path: PAGE_URLS[key],
+        handler: this.pages[key].loadPage.bind(this.pages[key]),
+      });
     });
   }
 

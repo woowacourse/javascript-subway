@@ -77,8 +77,4 @@ export default class Navigation extends Component {
       this.onLogout.bind(this)
     );
   }
-
-  render() {
-    super.render();
-  }
 }
