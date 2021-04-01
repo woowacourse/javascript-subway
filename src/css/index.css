@@ -178,6 +178,7 @@ ul li button:hover {
   flex-direction: column;
   padding: 4px 4px 4px 8px;
   min-width: 64px;
+  width: auto;
   min-height: 48px;
   list-style: none;
   background-color: #ffffff;
@@ -186,6 +187,11 @@ ul li button:hover {
   top: 75%;
   left: 60%;
   z-index: 1;
+}
+
+.transfer-pop-over li {
+  max-height: 24px;
+  width: max-content;
 }
 
 .transfer-pop-over .pop-over-color-dot {
