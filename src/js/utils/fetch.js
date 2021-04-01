@@ -236,6 +236,10 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
 
   // TODO: section 에러메세지 처리
 
+  if (response.status === 400) {
+    throw new Error(ALERT_MESSAGE.DISTANCE_CONDITION_OF_SECTION_CREATION_FAIL);
+  }
+
   if (!response.ok) {
     throw new Error(response.status);
   }
