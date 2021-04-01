@@ -4,9 +4,7 @@ import user from '../../models/user.js';
 import { lineTemplate } from './templates/lineTemplate.js';
 
 class LookupLinesView {
-  async init() {
-    const { allLines } = await user.lineManager.getAllLines();
-
+  async init(allLines) {
     $('#main').innerHTML = lookupLinesTemplate(allLines);
   }
 

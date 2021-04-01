@@ -18,7 +18,6 @@ function stationItemTemplate({ id, name }, color) {
 
 function lineTemplate(stations, sections, color) {
   const line = Array.from({ length: sections.length }, (_, index) => {
-    console.log('index', index, Object.values(stations)[index]);
     return (
       stationItemTemplate(Object.values(stations)[index], color) +
       sectionItemTemplate(sections[index])

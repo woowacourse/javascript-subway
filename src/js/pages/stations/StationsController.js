@@ -20,6 +20,7 @@ class StationsController {
 
   async init() {
     const allStations = await this.getAllStations();
+
     if (!allStations) {
       jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
       router.navigate(PATH.ROOT);
