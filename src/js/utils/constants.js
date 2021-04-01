@@ -11,8 +11,12 @@ export const ELEMENT = Object.freeze({
   MODAL_LINE_OPTIONS_WRAPPER: 'modal__line-options-wrapper',
   MODAL_SECTION_FORM: 'modal__section-form',
   MODAL_LINE_FORM: 'modal__line-form',
+  MODAL_LINE_NAME: 'modal__line-name',
   MODAL_STATION_NAME_EDIT_INPUT: 'modal__station-name-edit-input',
   MODAL_STATION_NAME_EDIT_FORM: 'modal__station-name-edit-form',
+  MODAL_LINE_DISTANCE: 'modal_line-distance',
+  MODAL_LINE_DURATION: 'modal_line-duration',
+  MODAL_LINE_SUBMIT_BUTTON: 'modal__line-submit-button',
   ADD_MODAL: 'add-modal',
   EDIT_MODAL: 'edit-modal',
 
@@ -21,6 +25,10 @@ export const ELEMENT = Object.freeze({
 
   NAV_BAR: 'nav-bar',
   NAV_BAR_SIGN_IN_BUTTON: 'nav-bar__sign-in-button',
+  NAV_BAR_STATION_BUTTON: 'nav-bar__station-button',
+  NAV_BAR_LINE_BUTTON: 'nav-bar__line-button',
+  NAV_BAR_SECTION_BUTTON: 'nav-bar__section-button',
+  NAV_BAR_MAP_BUTTON: 'nav-bar__map-button',
 
   CREATE_LINE_BUTTON: 'create-line-button',
   LINE_LIST_ITEM_EDIT_BUTTON: 'line-list-item__edit-button',
@@ -67,6 +75,7 @@ export const ELEMENT = Object.freeze({
 
   CREATE_SECTION_BUTTON: 'create-section-button',
   SUBWAY_LINE_FOR_SECTION: 'subway-line-for-section',
+  SECTION_LIST_ITEM: 'section-list-item',
   SECTION_LIST_ITEM_REMOVE_BUTTON: 'section-list-item__remove-button',
 
   SELECTED_COLOR: 'selected-color',
