@@ -97,6 +97,8 @@ const ALERT_MESSAGE = {
 
   // LINE
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
+  STATIONS_SETTING_OF_LINE_FAIL:
+    '상행역과 하행역이 같은 노선은 생성할 수 없습니다.',
   LINE_REVISION_SUCCESS: '노선을 수정했습니다.',
   LINE_REMOVAL_SUCCESS: '해당 노선을 삭제했습니다.',
 

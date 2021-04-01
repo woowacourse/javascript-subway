@@ -42,8 +42,7 @@ class LineComponent extends Component {
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
       if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
         this.lineModal.route(KEYWORD.REVISION);
-        // TODO: loadRevisionModal을 LineRevisionComponent 안에 넣어야 할지 고민
-        this.#loadRevisionModal(target);
+        $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
 
         return;
       }
@@ -77,29 +76,6 @@ class LineComponent extends Component {
 
   render() {
     super.render(LINE_TEMPLATE);
-  }
-
-  //TODO: Modal로 메서드 넣어주기
-  #loadRevisionModal = button => {
-    const lineId = button.dataset.id;
-
-    if (!lineId) {
-      console.err('button의 dataset 속성으로 lineId가 존재하지 않습니다.');
-      return;
-    }
-
-    $(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
-
-    const line = this.#findLineBy(lineId);
-
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
-  };
-
-  #findLineBy(targetId) {
-    const lines = this.props.linesState.Data;
-
-    return lines.find(line => line.id === Number(targetId));
   }
 
   #makeLineTemplate({ name, color, id }) {
