@@ -47,9 +47,10 @@ class StationComponent extends Component {
         if (
           target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
         ) {
-          this.stationModal.route(KEYWORD.REVISION);
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
+          this.stationModal.route(KEYWORD.REVISION);
+
           return;
         }
 

@@ -31,10 +31,6 @@ class LineCreationComponent extends Component {
     super(props);
   }
 
-  initLoad() {
-    this.#loadRevisionModal();
-  }
-
   initEvent() {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener('submit', event => {
       event.preventDefault();
@@ -49,31 +45,6 @@ class LineCreationComponent extends Component {
 
     this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`);
     this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`);
-  }
-
-  #loadRevisionModal() {
-    const lineId = $(`#${ID_SELECTOR.MODAL}`).dataset.lineId;
-
-    if (!lineId) {
-      console.error(
-        `#${ID_SELECTOR.MODAL}l의 dataset 속성으로 lineId가 존재하지 않습니다.`
-      );
-      return;
-    }
-
-    // TODO: 여기 지워야함
-    //$(`#${ID_SELECTOR.MODAL}`).dataset.id = lineId;
-
-    const line = this.#findLineBy(lineId);
-
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
-    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
-  }
-
-  #findLineBy(targetId) {
-    const lines = this.props.linesState.Data;
-
-    return lines.find(line => line.id === Number(targetId));
   }
 
   #loadSelectOption(selector) {
@@ -144,6 +115,10 @@ class LineRevisionComponent extends Component {
     super(props);
   }
 
+  initLoad() {
+    this.#loadRevisionModal();
+  }
+
   initEvent() {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener('submit', event => {
       event.preventDefault();
@@ -151,9 +126,32 @@ class LineRevisionComponent extends Component {
       this.#revisionLine(event);
     });
   }
+
   render() {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML =
       LINE_TEMPLATE.REVISION_MODAL_COMPONENT;
+  }
+
+  #loadRevisionModal() {
+    const lineId = $(`#${ID_SELECTOR.MODAL}`).dataset.lineId;
+
+    if (!lineId) {
+      console.error(
+        `#${ID_SELECTOR.MODAL}l의 dataset 속성으로 lineId가 존재하지 않습니다.`
+      );
+      return;
+    }
+
+    const line = this.#findLineBy(lineId);
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).value = line.name;
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = line.color;
+  }
+
+  #findLineBy(targetId) {
+    const lines = this.props.linesState.Data;
+
+    return lines.find(line => line.id === Number(targetId));
   }
 
   #revisionLine = async event => {
