@@ -83,16 +83,42 @@ ul li button:hover {
   transform: translateY(-50%);
 }
 
-#section-station-list .subway-line-color-dot:hover {
+.subway-line-color-dot:hover {
   transform: scale(1.2);
   transform-origin: center;
 }
 
-#section-station-list .vertical-line {
+.vertical-line {
   display: inline-block;
   position: absolute;
   width: 4px;
   margin: 0 3px;
   height: 100%;
   transform: translateX(50%);
+}
+
+.subway-line-name {
+  border-radius: 100px;
+  padding: 0.75rem 1.25rem;
+}
+
+#subway-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#line-select {
+  border-style: solid;
+}
+
+#subway-line {
+  border-style: solid;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+hr:last-child {
+  display: none;
 }
