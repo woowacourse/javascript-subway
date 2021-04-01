@@ -49,7 +49,8 @@ class StationComponent extends Component {
           target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
         ) {
           this.stationModal.route(KEYWORD.REVISION);
-          this.#loadRevisionModal(target);
+          $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
+          $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
           return;
         }
 
@@ -128,14 +129,6 @@ class StationComponent extends Component {
       return;
     }
   };
-
-  #loadRevisionModal(target) {
-    const stationId = target.dataset.id;
-    const stationName = target.dataset.name;
-
-    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).value = stationName;
-    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).dataset.id = stationId;
-  }
 
   // TODO: 위치 생각해보기
   #makeStationTemplate({ id, name }) {
