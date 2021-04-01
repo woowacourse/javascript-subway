@@ -96,6 +96,7 @@ export default class LineAddModal extends Modal {
               name="subway-line-name"
               class="input-field"
               placeholder="노선 이름"
+              maxlength="${LINE_NAME_MAX_LENGTH}"
               required
             />
           </div>
