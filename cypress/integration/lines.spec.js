@@ -18,7 +18,7 @@ describe("역 관리 페이지", () => {
 
     sessionStorage.clear();
 
-    cy.intercept("POST", `${END_POINT}/login/token`).as("login");
+    cy.intercept("POST", "/login/token").as("login");
     cy.login();
     cy.wait("@login").then(() => {
       stations.forEach((stationName) => {
@@ -32,9 +32,7 @@ describe("역 관리 페이지", () => {
   });
 
   it("로그인 후 지하철 노선 관리 페이지로 이동한다.", () => {
-    cy.intercept("GET", `${END_POINT}${PAGE_URLS[PAGE_KEYS.LINES]}`).as(
-      "visitLines"
-    );
+    cy.intercept("GET", "/lines").as("visitLines");
     cy.get(`.js-page-link[href="${PAGE_URLS[PAGE_KEYS.LINES]}"]`).click();
     cy.url().should("include", `${PAGE_URLS[PAGE_KEYS.LINES]}`);
     cy.wait("@visitLines");
@@ -47,20 +45,28 @@ describe("역 관리 페이지", () => {
 
   it("2자 미만의 지하철 노선 이름을 입력한 경우 노선을 추가할 수 없다.", () => {
     cy.addLine({ ...line, name: "브" });
-    cy.get("[name='subway-line-name']").children().should("have.length", 0);
+    cy.get(".js-line-list-item").should("have.length", 0);
   });
 
-  it("20자 초과의 지하철 노선 이름을 입력할 수 없다..", () => {
-    cy.addLine({ ...line, name: "브".repeat(30) });
-    cy.get("[name='subway-line-name']").should("have.value", "브".repeat(20));
+  it("10자 초과의 지하철 노선 이름을 입력할 수 없다..", () => {
+    cy.get("[name='subway-line-name']").clear().type("브".repeat(20));
+    cy.get("input[name='subway-line-name']").should(
+      "have.value",
+      "브".repeat(10)
+    );
   });
 
   it("노선을 등록하면 지하철 노선 목록에 추가된다.", () => {
+    cy.intercept("POST", "/lines/").as("addLine");
+
     cy.addLine(line);
-    cy.get(".js-modal").should("not.have.class", "open");
-    cy.get(
-      ".js-line-list > li:last-child > .subway-line-list-item-name"
-    ).should("have.text", line.name);
+    cy.wait("@addLine").then(() => {
+      cy.get(".js-modal").should("not.have.class", "open");
+      cy.get(".js-line-list .js-line-name:last-child").should(
+        "have.text",
+        line.name
+      );
+    });
   });
 
   it("지하철 노선을 클릭하면 상행역, 하행역, 거리, 시간을 확인할 수 있다.", () => {
