@@ -83,7 +83,6 @@ class SectionCreationComponent extends Component {
     $(`#${ID_SELECTOR.SECTION_MODAL_FORM_LINE_SELECT}`).innerHTML = lines
       .map(line => {
         const isSelected = line.id === pageLineId;
-        console.log(line.id, pageLineId);
         return this.#createOptionTemplate(line.id, line.name, isSelected);
       })
       .join('');

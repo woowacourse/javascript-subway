@@ -115,14 +115,6 @@ class AppPage extends Page {
     this.route(URL.HOME);
   };
 
-  #onLogout = () => {
-    this.state.setData({
-      loginResponse: {
-        accessToken: KEYWORD.LOGOUT,
-      },
-    });
-  };
-
   #renderUserNavBar() {
     show(`#${ID_SELECTOR.NAV_LINE}`);
     show(`#${ID_SELECTOR.NAV_STATION}`);
