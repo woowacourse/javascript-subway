@@ -13,6 +13,7 @@ import snackbar from "../utils/snackbar.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { createStationListItem } from "../constants/template.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 const createLineSelectOption = (lineData) => {
   const { id, name } = lineData;
@@ -23,8 +24,9 @@ const createLineSelectOption = (lineData) => {
 };
 
 export default class Sections extends Component {
-  constructor({ $parent }) {
+  constructor({ $parent, setPageState }) {
     super($parent);
+    this.setPageState = setPageState;
     this.sectionsModal = new SectionsModal({
       addSection: this.addSection.bind(this),
     });
@@ -133,12 +135,15 @@ export default class Sections extends Component {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const loadedLines = await getLinesAPI(accessToken);
     const loadedStations = await getStationsAPI(accessToken);
+    const isLoadSucceeded =
+      loadedLines.isSucceeded && loadedStations.isSucceeded;
 
-    if (!loadedLines.isSucceeded || !loadedStations.isSucceeded) {
-      snackbar.show(loadedLines.message);
-
-      return;
-    }
+    this.setPageState({
+      isLoggedIn: isLoadSucceeded,
+      pageURL: isLoadSucceeded
+        ? PAGE_URLS[PAGE_KEYS.SECTIONS]
+        : PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
 
     const lines = {};
     // eslint-disable-next-line no-return-assign

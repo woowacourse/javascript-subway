@@ -13,9 +13,9 @@ import {
 } from "../constants/general.js";
 
 export default class LoginForm extends Component {
-  constructor({ $parent, setIsLoggedIn, pageRouter }) {
+  constructor({ $parent, setPageState, pageRouter }) {
     super($parent);
-    this.setIsLoggedIn = setIsLoggedIn;
+    this.setPageState = setPageState;
     this.pageRouter = pageRouter;
 
     this.initContent();
@@ -112,7 +112,10 @@ export default class LoginForm extends Component {
 
     setSessionStorageItem(TOKEN_STORAGE_KEY, loginResult.accessToken);
 
-    this.setIsLoggedIn(true);
+    this.setPageState({
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.STATIONS],
+    });
     snackbar.show(loginResult.message);
   }
 

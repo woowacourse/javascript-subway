@@ -157,7 +157,7 @@ export default class SignupForm extends Component {
       return;
     }
 
-    this.pageRouter.movePage(PAGE_URLS.LOGIN);
+    this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
     snackbar.show(signupResult.message);
   }
 

@@ -15,20 +15,23 @@ import { getMemberInfo } from "../APIs/subwayAPI.js";
 
 export default class App {
   constructor() {
-    this.isLoggedIn = false;
+    this.pageState = {
+      isLoggedIn: false,
+      pageURL: "",
+    };
     this.userName = "";
     this.pageRouter = new PageRouter();
 
     this.navigation = new Navigation({
       $parent: staticElements.$nav,
-      setIsLoggedIn: this.setIsLoggedIn.bind(this),
+      setPageState: this.setPageState.bind(this),
       pageRouter: this.pageRouter,
     });
 
     this.pages = {
       [PAGE_KEYS.LOGIN]: new LoginForm({
         $parent: staticElements.$main,
-        setIsLoggedIn: this.setIsLoggedIn.bind(this),
+        setPageState: this.setPageState.bind(this),
         pageRouter: this.pageRouter,
       }),
       [PAGE_KEYS.SIGNUP]: new SignupForm({
@@ -37,13 +40,16 @@ export default class App {
       }),
       [PAGE_KEYS.STATIONS]: new Stations({
         $parent: staticElements.$main,
-        setIsLoggedIn: this.setIsLoggedIn.bind(this),
+        setPageState: this.setPageState.bind(this),
       }),
       [PAGE_KEYS.LINES]: new Lines({
         $parent: staticElements.$main,
-        setIsLoggedIn: this.setIsLoggedIn.bind(this),
+        setPageState: this.setPageState.bind(this),
       }),
-      [PAGE_KEYS.SECTIONS]: new Sections({ $parent: staticElements.$main }),
+      [PAGE_KEYS.SECTIONS]: new Sections({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
     };
   }
 
@@ -67,43 +73,54 @@ export default class App {
     });
   }
 
-  setIsLoggedIn(isLoggedIn) {
-    if (this.isLoggedIn === isLoggedIn) {
+  setPageState({ isLoggedIn, pageURL }) {
+    if (
+      this.pageState.isLoggedIn === isLoggedIn &&
+      this.pageState.pageURL === pageURL
+    ) {
       return;
     }
 
-    this.isLoggedIn = isLoggedIn;
+    this.pageState.isLoggedIn = isLoggedIn;
+    this.pageState.pageURL = pageURL;
     this.render();
   }
 
   render() {
-    if (this.isLoggedIn) {
+    if (this.pageState.isLoggedIn) {
       this.navigation.show();
-      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.STATIONS]);
     } else {
       this.navigation.hide();
-      this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
     }
+
+    this.pageRouter.movePage(this.pageState.pageURL);
   }
 
   async initUserState() {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
 
     if (accessToken === "") {
-      this.isLoggedIn = false;
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
 
       return;
     }
 
     const { isSucceeded, memberInfo } = await getMemberInfo(accessToken);
 
-    this.isLoggedIn = isSucceeded;
+    this.setPageState({
+      isLoggedIn: isSucceeded,
+      pageURL: isSucceeded
+        ? PAGE_URLS[PAGE_KEYS.STATIONS]
+        : PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
     this.userName = memberInfo?.name ?? "";
   }
 
-  async init() {
-    await this.initUserState();
+  init() {
     this.registerRoutes();
-    this.render();
+    this.initUserState();
   }
 }

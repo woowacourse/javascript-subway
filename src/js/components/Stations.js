@@ -20,11 +20,12 @@ import {
 import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 export default class Stations extends Component {
-  constructor({ $parent, setIsLoggedIn }) {
+  constructor({ $parent, setPageState }) {
     super($parent);
-    this.setIsLoggedIn = setIsLoggedIn;
+    this.setPageState = setPageState;
     this.stationModifyModal = new StationModifyModal({
       modifyStationName: this.modifyStationName.bind(this),
     });
@@ -194,7 +195,12 @@ export default class Stations extends Component {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const loadResult = await getStationsAPI(accessToken);
 
-    this.setIsLoggedIn(loadResult.isSucceeded);
+    this.setPageState({
+      isLoggedIn: loadResult.isSucceeded,
+      pageURL: loadResult.isSucceeded
+        ? PAGE_URLS[PAGE_KEYS.STATIONS]
+        : PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
     this.$stationList.innerHTML = loadResult.stations.reduce(
       (stationListHTML, station) =>
         `${stationListHTML}\n${createStationListItem(station)}`,

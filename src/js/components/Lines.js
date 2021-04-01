@@ -10,6 +10,7 @@ import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import { $ } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 const createLineListItem = (line) => {
   const { upStation, downStation, distance, duration } = line.sections[0];
@@ -46,9 +47,9 @@ const createLineListItem = (line) => {
 };
 
 export default class Lines extends Component {
-  constructor({ $parent, setIsLoggedIn }) {
+  constructor({ $parent, setPageState }) {
     super($parent);
-    this.setIsLoggedIn = setIsLoggedIn;
+    this.setPageState = setPageState;
     this.lineModal = new LineModal({
       addLine: this.addLine.bind(this),
       modifyLine: this.modifyLine.bind(this),
@@ -163,8 +164,15 @@ export default class Lines extends Component {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const loadedLines = await getLinesAPI(accessToken);
     const loadedStations = await getStationsAPI(accessToken);
+    const isLoadSucceeded =
+      loadedLines.isSucceeded && loadedStations.isSucceeded;
 
-    this.setIsLoggedIn(loadedLines.isSucceeded && loadedStations.isSucceeded);
+    this.setPageState({
+      isLoggedIn: isLoadSucceeded,
+      pageURL: isLoadSucceeded
+        ? PAGE_URLS[PAGE_KEYS.LINES]
+        : PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
     this.$lineList.innerHTML = loadedLines.lines.reduce(
       (lineListHTML, line) => `${lineListHTML}\n${createLineListItem(line)}`,
       ""
