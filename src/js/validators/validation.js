@@ -15,7 +15,7 @@ export const validateEmail = (email) => {
 
 export const validateName = (userName) => {
   if (isInvalidNameType(userName)) {
-    throw new Error(ERROR_MESSAGE.INVALID_USER_NAME_TYPE);
+    throw new Error(ERROR_MESSAGE.INVALID_NAME_TYPE);
   }
 };
 

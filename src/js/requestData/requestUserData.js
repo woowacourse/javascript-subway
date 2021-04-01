@@ -1,9 +1,10 @@
 import { ERROR_MESSAGE } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
+import token from '../token/Token';
 
 export const requestEmailDuplicationCheck = async (email) => {
   try {
-    const response = await httpClient.get(`/members/check-validation?email=${email}`);
+    const response = await httpClient.get({ path: `/members/check-validation?email=${email}` });
 
     if (!response.ok) {
       throw new Error();
@@ -15,7 +16,7 @@ export const requestEmailDuplicationCheck = async (email) => {
 
 export const requestGetToken = async ({ email, password }) => {
   try {
-    const response = await httpClient.post('/login/token', { email, password });
+    const response = await httpClient.post({ path: '/login/token', body: { email, password } });
     if (!response.ok) {
       throw await response.text();
     }
@@ -46,7 +47,6 @@ export const requestAddStation = async ({ name }) => {
     if (!response.ok) {
       throw await response.text();
     }
-
     return await response.json();
   } catch (error) {
     throw new Error(error);

@@ -7,7 +7,7 @@ export const isInvalidEmailFormat = (email) => {
 };
 
 export const isInvalidNameType = (userName) => {
-  return !REG_EXP.USER_NAME.test(userName);
+  return !REG_EXP.NAME.test(userName);
 };
 
 export const isUnderPasswordMinLength = (password) => {
