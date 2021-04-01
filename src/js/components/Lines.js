@@ -51,7 +51,7 @@ const createLineListItem = (line) => {
       </div>
 
       <div class="js-line-info d-flex d-none pl-3">
-        <p>${upStation} ➡️ 거리: ${distance}, 소요시간: ${duration} ➡️ ${downStation}</p>
+        <p>${upStation} ➡️ 거리: ${distance} / 소요시간: ${duration} ➡️ ${downStation}</p>
       </div>
     </li>
   `;
