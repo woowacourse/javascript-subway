@@ -11,48 +11,23 @@ import {
 } from '../../authHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
 import router from '../../router.js';
+import LoginView from './LoginView.js';
+import { loginHandler } from './LoginHandlers.js';
 
-class LoginPage {
+class LoginController {
+  constructor() {
+    this.loginView = new LoginView();
+  }
+
   init() {
-    this.renderView();
+    this.loginView.init();
     this.bindEvents();
   }
 
-  renderView() {
-    $('#app-navbar').innerHTML = '';
-    $('#navigation').innerHTML = '';
-    $('#main').innerHTML = loginTemplate;
-  }
-
-  async requestLogin(request) {
-    try {
-      const response = await fetchLogin(request);
-
-      if (!response.ok) {
-        throw MESSAGE.ERROR.CHECK_EMAIL_AND_PASSWORD;
-      }
-
-      const { accessToken } = await response.json();
-      jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
-
-      showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
-    } catch (error) {
-      console.error(error);
-      alert(error);
-    } finally {
-      router.navigate(PATH.ROOT);
-    }
-  }
-
-  async loginHandler(e) {
+  async onLoginBtnClick(e) {
     e.preventDefault();
 
-    const loginData = {
-      email: e.target.elements.email.value,
-      password: e.target.elements.password.value,
-    };
-
-    await this.requestLogin(loginData);
+    await loginHandler(e);
   }
 
   bindCheckInputEvents() {
@@ -66,7 +41,10 @@ class LoginPage {
   bindEvents() {
     this.bindCheckInputEvents();
 
-    $('#login-form').addEventListener('submit', this.loginHandler.bind(this));
+    $('#login-form').addEventListener(
+      'submit',
+      this.onLoginBtnClick.bind(this)
+    );
     $('#signup').addEventListener('click', e => {
       e.preventDefault();
 
@@ -75,4 +53,4 @@ class LoginPage {
   }
 }
 
-export default LoginPage;
+export default LoginController;

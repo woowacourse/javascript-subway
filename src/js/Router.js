@@ -1,7 +1,7 @@
 import { MESSAGE } from './constants/messages.js';
-import LoginPage from './pages/login/LoginPage.js';
-import SignupPage from './pages/signup/SignupPage.js';
-import MainPage from './pages/main/MainPage.js';
+import LoginController from './pages/login/LoginController.js';
+import SignupController from './pages/signup/SignupController.js';
+import MainController from './pages/main/MainController.js';
 import StationsController from './pages/stations/StationsController.js';
 import LinesController from './pages/lines/LinesController.js';
 import SectionsController from './pages/sections/SectionsController.js';
@@ -10,9 +10,9 @@ import jwtToken from './jwtToken.js';
 import { COOKIE_KEY } from './constants/constants.js';
 
 const router = {
-  signupPage: new SignupPage(),
-  loginPage: new LoginPage(),
-  mainPage: new MainPage(),
+  signupPage: new SignupController(),
+  loginPage: new LoginController(),
+  mainPage: new MainController(),
   stationsPage: new StationsController(),
   linesPage: new LinesController(),
   sectionsPage: new SectionsController(),
