@@ -44,6 +44,8 @@ export const LINES_MESSAGES = Object.freeze({
 
 export const SECTIONS_MESSAGES = Object.freeze({
   SECTION_HAS_BEEN_ADDED: '구간 정보가 추가되었습니다.',
+  SECTION_NEEDS_TO_BE_SHORTER: '역과 역 사이 거리, 시간보다 작은 값을 입력해주세요.',
   SECTION_HAS_BEEN_REMOVED: '선택하신 구간이 삭제되었습니다.',
+  THERE_IS_NO_SECTION_TO_REMOVE: '삭제가능한 구간이 없습니다.',
   ARE_YOU_SURE_TO_REMOVE: '정말 삭제하시겠습니까?',
 });

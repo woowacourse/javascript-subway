@@ -56,6 +56,16 @@ export const STATUS_CODE = {
       OK: 204,
     },
   },
+  SECTIONS: {
+    CREATE: {
+      OK: 200,
+      INVALID_FORM_DATA: 400,
+    },
+    REMOVE: {
+      OK: 200,
+      ONLY_ONE_SECTION: 400,
+    },
+  },
 };
 
 export const HEADERS = {
