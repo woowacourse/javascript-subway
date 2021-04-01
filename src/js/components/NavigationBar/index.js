@@ -25,6 +25,7 @@ export default class NavigationBar {
   update() {
     if (this.store.isLoggedIn) {
       this.navigation.classList.remove('d-none');
+      this.selectButton();
     } else {
       this.navigation.classList.add('d-none');
     }

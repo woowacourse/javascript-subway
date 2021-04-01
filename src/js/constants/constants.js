@@ -69,6 +69,7 @@ export const SELECTOR = {
 
   LINE_SELECT: '#line-select',
   STATION_SELECT: '#station-select',
+  NO_LINE_WARNING: '#no-line-warning',
 };
 
 export const MESSAGES = {

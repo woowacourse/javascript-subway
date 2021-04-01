@@ -16,9 +16,17 @@ export default class MapPage {
 
   render() {
     this.$content.innerHTML = contentTemplate;
+    this.setOptions();
+    this.renderLineList();
+    this.renderStationList();
+  }
+
+  setOptions() {
     $('#line-select').append(...this.store.lines.map((line) => new Option(line.name, line.id)));
     $('#station-select').append(...this.store.stations.map((station) => new Option(station.name, station.id)));
+  }
 
+  renderLineList() {
     $(SELECTOR.LINE_LIST).innerHTML = this.store.lines
       .map(
         (line) =>
@@ -29,7 +37,9 @@ export default class MapPage {
           </li>`
       )
       .join('');
+  }
 
+  renderStationList() {
     $('.station-list').forEach(($line) => {
       $line.innerHTML = this.store.lines
         .find((line) => line.id === Number($line.dataset.lineId))
@@ -50,6 +60,7 @@ export default class MapPage {
     this.$lineSelect = $(SELECTOR.LINE_SELECT);
     this.$stationSelect = $(SELECTOR.STATION_SELECT);
     this.$lineListItem = $(SELECTOR.LINE_LIST_ITEM);
+    this.$noLineWarning = $(SELECTOR.NO_LINE_WARNING);
   }
 
   bindEvents() {
@@ -59,18 +70,15 @@ export default class MapPage {
 
   renderByLine(event) {
     const targetLineId = event.target.value;
+    this.initStationSelect();
+    hide(this.$noLineWarning);
 
-    if (!targetLineId) {
+    if (targetLineId === 'all') {
       this.showAllLineList();
       event.target.classList.remove('selected');
       return;
     }
-
-    hide($('#no-line-warning'));
-
     event.target.classList.add('selected');
-    this.$stationSelect.selectedIndex = 0;
-    this.$stationSelect.classList.remove('selected');
 
     this.$lineListItem.forEach(($line) => {
       if (targetLineId === $line.dataset.lineId) {
@@ -83,29 +91,26 @@ export default class MapPage {
 
   renderByStation(event) {
     const stationId = event.target.value;
+    this.initLineSelect();
 
-    if (!stationId) {
+    if (stationId === 'all') {
       this.showAllLineList();
       event.target.classList.remove('selected');
       return;
     }
-
     event.target.classList.add('selected');
-    this.$lineSelect.selectedIndex = 0;
-    this.$lineSelect.classList.remove('selected');
 
-    const targetLines = this.store.lines.filter((line) =>
-      line.stations.find((station) => station.id === Number(stationId))
-    );
+    const targetLinesId = this.store.lines
+      .filter((line) => line.stations.find((station) => station.id === Number(stationId)))
+      .map((line) => line.id);
 
-    if (!targetLines.length) {
+    if (!targetLinesId.length) {
       this.hideAllLineList();
-      show($('#no-line-warning'));
+      show(this.$noLineWarning);
+
       return;
     }
-    hide($('#no-line-warning'));
-
-    const targetLinesId = targetLines.map((line) => line.id);
+    hide(this.$noLineWarning);
 
     this.$lineListItem.forEach(($line) => {
       if (targetLinesId.includes(Number($line.dataset.lineId))) {
@@ -114,6 +119,16 @@ export default class MapPage {
         hide($line);
       }
     });
+  }
+
+  initStationSelect() {
+    this.$stationSelect.selectedIndex = 0;
+    this.$stationSelect.classList.remove('selected');
+  }
+
+  initLineSelect() {
+    this.$lineSelect.selectedIndex = 0;
+    this.$lineSelect.classList.remove('selected');
   }
 
   showAllLineList() {
