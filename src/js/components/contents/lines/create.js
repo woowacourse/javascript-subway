@@ -21,8 +21,8 @@ export async function requestCreateLine({ formData, target }) {
     }
 
     if (!response.ok) {
-      const body = await response.json();
-      throw new Error(`[status code: ${response.status}] ${body}`);
+      const errorMessage = await response.text();
+      throw new Error(`[status code: ${response.status}] ${errorMessage}`);
     }
 
     renderContent(PATHNAMES.LINES);
