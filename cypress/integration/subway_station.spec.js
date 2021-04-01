@@ -5,6 +5,7 @@ describe('subway-station-ui', () => {
     cy.get('#email').type('test99@test.com');
     cy.get('#password').type('test99');
     cy.get('.input-submit').click();
+    cy.wait(1000);
     cy.get('.menu button').first().click();
   });
 
@@ -22,17 +23,15 @@ describe('subway-station-ui', () => {
   it('모달창에 빈칸에 새로운 역명을 작성후 확인 버튼을 누르면, 해당 역명이 변경된다.', () => {
     cy.get('#station-modify-input').type('홍대');
     cy.get('#station-modify-button').click();
-    cy.get('.station-list-item span').last().should('have.text', '신촌홍대');
+    cy.get('.station-list-item span').last().should('have.text', '홍대');
   });
 
   it("역의 '삭제' 버튼을 누르면 confirm창 나오고 확인을 누르면 해당 역이 삭제된다.", () => {
-    cy.window().then(window => cy.stub(window, 'confirm').as('confirm'));
-    cy.get('.station-list-item').then(items => {
-      const itemsLength = items.attr('length');
-      cy.get('.delete-button').last().click();
-      cy.get('@confirm').should('be.calledWith', '정말로 삭제하시겠습니까 ?');
-      cy.get('.station-list-item span').last().should('not.have.text', '홍대');
-      cy.get('.station-list-item').should('have.length', itemsLength - 1);
+    cy.get('.delete-button').last().click();
+    cy.on('window:confirm', str => {
+      expect(str).to.eq('정말로 삭제하시겠습니까 ?');
+      return true;
     });
+    cy.get('.station-list-item').should('not.exist');
   });
 });
