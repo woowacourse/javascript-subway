@@ -16,7 +16,7 @@ export const getRedirectedPath = pathName => {
     [ROUTE.SEARCH]: signedUserName ? ROUTE.SEARCH : ROUTE.ROOT,
   };
 
-  return redirectedPath[pathName];
+  return redirectedPath[pathName] || ROUTE.ROOT;
 };
 
 export const routeTo = (pathName = ROUTE.ROOT) => {
