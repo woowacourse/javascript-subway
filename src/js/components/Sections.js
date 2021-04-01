@@ -11,14 +11,10 @@ class Sections {
   }
 
   init() {
+    const [firstLineData] = this.userDataManager.lines;
     this.selectDOM();
     this.bindEvent();
-
-    const [firstLineData] = this.userDataManager.lines;
-    if (firstLineData) {
-      this.renderLineOptionsTemplate();
-      this.renderStationListInTargetLine(firstLineData.name);
-    }
+    firstLineData && this.renderFirstScreen(firstLineData);
   }
 
   selectDOM() {
@@ -48,9 +44,14 @@ class Sections {
     });
   }
 
-  renderLineOptionsTemplate() {
+  renderFirstScreen(firstLineData) {
+    this.renderLineOptionsTemplate(firstLineData.color);
+    this.renderStationListInTargetLine(firstLineData.name);
+  }
+
+  renderLineOptionsTemplate(firstLineColor) {
     const lineData = this.userDataManager.lines;
-    this.renderLineColor(lineData[0].color);
+    this.renderLineColor(firstLineColor);
     this.lineOptionsWrapper.innerHTML = getLineOptionsTemplate(lineData);
   }
 
