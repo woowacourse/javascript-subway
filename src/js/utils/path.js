@@ -10,7 +10,7 @@ const getAvailablePath = (path, isLoggedIn) => {
   } else {
     if (path === '/login' || path === '/signup') return path;
 
-    return '/';
+    return '/login';
   }
 };
 

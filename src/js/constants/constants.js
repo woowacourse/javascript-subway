@@ -5,9 +5,10 @@ export const SESSION_EXPIRE_DAYS = 1;
 export const SELECTOR = {
   NAVIGATION: '#navigation',
   NAV_BUTTON: '.nav-btn',
-  NAV_LOG_BUTTON: '#login-nav-button',
-  USER_GREET_MESSAGE: '#user-greet-message',
-  USER_GREET_NAME: '#user-name',
+
+  USER_AREA: '#user-area',
+  USER_NAME: '#user-name',
+  LOGOUT_BUTTON: '#logout',
 
   CONTENT: '#content',
   MODAL: '.modal',

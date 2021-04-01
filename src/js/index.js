@@ -68,11 +68,11 @@ export default class App {
   async update() {
     if (this.store.isLoggedIn) {
       await this.getPersonalSubwayData();
-      show($(SELECTOR.USER_GREET_MESSAGE));
-      $(SELECTOR.USER_GREET_NAME).textContent = this.store.userAuth.name;
+      show($(SELECTOR.USER_AREA));
+      $(SELECTOR.USER_NAME).textContent = this.store.userAuth.name;
       return;
     }
-    hide($(SELECTOR.USER_GREET_MESSAGE));
+    hide($(SELECTOR.USER_AREA));
   }
 
   async checkIsLoggedIn() {

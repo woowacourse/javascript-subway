@@ -15,32 +15,24 @@ export default class NavigationBar {
     this.selectDOM();
     this.selectButton();
     this.bindEvents();
-    this.setLogButton();
   }
 
   selectDOM() {
     this.navigation = $(SELECTOR.NAVIGATION);
     this.navButtons = $(SELECTOR.NAV_BUTTON);
-    this.logButton = $(SELECTOR.NAV_LOG_BUTTON);
   }
 
   update() {
-    this.setLogButton();
+    if (this.store.isLoggedIn) {
+      this.navigation.classList.remove('d-none');
+    } else {
+      this.navigation.classList.add('d-none');
+    }
   }
 
   bindEvents() {
     this.navigation.addEventListener('click', this.handleNavigation.bind(this));
-  }
-
-  setLogButton() {
-    const isLoggedIn = this.store.isLoggedIn;
-
-    this.logButton.textContent = isLoggedIn ? BUTTON_NAME.LOGOUT : BUTTON_NAME.LOGIN;
-    this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
-
-    if (isLoggedIn) {
-      this.logButton.classList.remove('selected');
-    }
+    $(SELECTOR.LOGOUT_BUTTON).addEventListener('click', this.logout.bind(this));
   }
 
   async handleNavigation(event) {
@@ -49,10 +41,6 @@ export default class NavigationBar {
     if (!event.target.matches(`${SELECTOR.NAVIGATION} button`)) return;
 
     const path = event.target.closest('a').getAttribute('href');
-
-    if (event.target.dataset.action === 'logout') {
-      this.logout();
-    }
 
     routeTo(getAvailablePath(path, this.store.isLoggedIn));
 
@@ -71,8 +59,11 @@ export default class NavigationBar {
     });
   }
 
-  logout() {
+  logout(event) {
+    event.preventDefault();
+
     this.store.updateLoggedIn(false);
+    routeTo(getAvailablePath('/login', this.store.isLoggedIn));
     removeCookie('token');
   }
 }

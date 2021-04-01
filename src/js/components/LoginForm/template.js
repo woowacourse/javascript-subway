@@ -1,7 +1,17 @@
+import subwayEmoji from '../../../images/subway_emoji.png';
+
 export default `
   <div class="wrapper p-10 bg-white">
     <div class="heading">
-      <h2>👋 로그인</h2>
+      <h2 class="text-center">👋 로그인</h2>
+      <p id="app-description" class="mt-0 text-center">
+      지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
+      </p>
+      <div>
+        <div class="d-flex justify-center">
+          <img src="${subwayEmoji}" alt="subway-emoji" width="200" />
+        </div>
+      </div>
     </div>
     <form id="login-form" name="login" class="form">
       <div class="input-control">
