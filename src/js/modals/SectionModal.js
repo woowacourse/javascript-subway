@@ -37,6 +37,10 @@ class SectionCreationComponent extends Component {
     this.#loadStationSelectOption();
   }
 
+  render() {
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML = SECTION_TEMPLATE.MODAL;
+  }
+
   #onSectionCreated = async event => {
     event.preventDefault();
 
@@ -48,7 +52,7 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DOWN_STATION_SELECT].value;
 
     if (upStationId === downStationId) {
-      alert(ALERT_MESSAGE.STATIONS_SETTING_OF_SECTION_FAIL);
+      alert(ALERT_MESSAGE.STATIONS_SETTING_OF_SECTION_CREATION_FAIL);
       return;
     }
 
@@ -116,10 +120,6 @@ class SectionCreationComponent extends Component {
     return `<option value="${value}" ${
       isSelected ? 'selected' : ''
     }>${innerText}</option>`;
-  }
-
-  render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = SECTION_TEMPLATE.MODAL;
   }
 }
 

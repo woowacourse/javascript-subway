@@ -68,15 +68,15 @@ class LineComponent extends Component {
     });
   }
 
+  render() {
+    super.render(LINE_TEMPLATE);
+  }
+
   renderLineList = lines => {
     const template = lines.map(this.#makeLineTemplate).join('');
 
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
-
-  render() {
-    super.render(LINE_TEMPLATE);
-  }
 
   #makeLineTemplate({ name, color, id }) {
     return `
