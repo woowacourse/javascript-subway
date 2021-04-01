@@ -25,9 +25,9 @@ export const contentTemplate = `
           id="station-name-submit"
           type="submit"
           name="submit"
-          class="input-submit bg-cyan-300 ml-2"
+          class="input-submit bg-cyan-300 ml-2 flex-1 text-white font-semibold"
         >
-          확인
+          추가
         </button>
       </div>
       <p 

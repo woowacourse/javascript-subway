@@ -4,7 +4,7 @@ export const contentTemplate = `
       <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
       <button
         type="button"
-        class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2"
+        class="create-line-btn modal-trigger-btn bg-cyan-300 ml-2 text-white font-semibold"
       >
         노선 추가
       </button>
@@ -49,7 +49,8 @@ export const modalTemplate = `
       <div id="updown-data-container"></div>
 
       <div class="input-control">
-        <div>
+        <span id="selected-line-color" class="mr-2"></span> 
+        <div class="flex-0">
           <label for="subway-line-color" class="input-label" hidden
             >색상</label
           >
@@ -57,14 +58,17 @@ export const modalTemplate = `
             type="text"
             id="subway-line-color"
             name="subway-line-color"
-            class="input-field"
+            class="input-field pl-3"
             placeholder="색상을 아래에서 선택해주세요."
             disabled
             required
           />
         </div>
       </div>
-      <div class="subway-line-color-selector px-2"></div>
+    
+      <div class="subway-line-color-selector px-2">
+      </div>
+
       <div class="d-flex justify-end mt-3">
         <button
           type="submit"

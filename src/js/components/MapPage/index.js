@@ -35,7 +35,7 @@ export default class MapPage {
         .find((line) => line.id === Number($line.dataset.lineId))
         .stations.map(
           (station) => `
-            <li data-station-id="${station.id}" data-station-name="${station.name}" class="station-list-item d-flex items-center py-3">
+            <li data-station-id="${station.id}" data-station-name="${station.name}" class="station-list-item d-flex items-center py-3 relative">
               <san class="vertical-line ${$line.dataset.lineColor}"></san>
               <span class="subway-line-color-dot ${$line.dataset.lineColor}"></span>
               <span class="station-item-name w-100 pl-6">${station.name}</span>

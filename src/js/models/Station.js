@@ -28,7 +28,7 @@ export default class Station {
 
   toListItemTemplate() {
     return `
-      <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-2">
+      <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-3 relative">
         <span class="station-item-name w-100 pl-2">${this._name}</span>
         <button
           type="button"
@@ -51,7 +51,7 @@ export default class Station {
 
   toSectionItemTemplate(colorCode) {
     return `
-      <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-3 px-5">
+      <li data-station-id="${this._id}" data-station-name="${this._name}" class="station-list-item d-flex items-center py-6 px-5 relative">
         <span class="vertical-line bg-${colorCode}"></span>
         <span class="subway-line-color-dot bg-${colorCode}"></span>
         <span class="station-item-name w-100 pl-6">${this._name}</span>

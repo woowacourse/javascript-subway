@@ -38,6 +38,10 @@ hr {
   background-color: lightgray;
 }
 
+hr:last-child {
+  display: none;
+}
+
 ul li button {
   width: 60px;
   line-height: inherit;
@@ -52,18 +56,16 @@ ul li button:hover {
   background-color: rgb(229, 231, 235);
 }
 
-.duplicate-check-btn {
-  width: 8rem !important;
-}
-
-#navigation button:enabled:hover {
-  background-color: #2ac1bc;
-  color: #ffffff;
-}
-
+#navigation button:hover,
 #navigation button.selected {
-  background-color: #2ac1bc;
+  background-color: rgb(0, 188, 212);
   color: #ffffff;
+  font-weight: 600;
+}
+
+.create-line-btn:hover,
+.create-section-btn:hover {
+  background-color: rgb(0, 188, 212);
 }
 
 #station-list {
@@ -71,8 +73,9 @@ ul li button:hover {
   overflow-y: auto;
 }
 
-.station-list-item {
-  position: relative;
+.station-list li:last-child .vertical-line {
+  height: 50%;
+  transform: translate(50%, -50%);
 }
 
 .section-data-container {
@@ -83,44 +86,9 @@ ul li button:hover {
   transform: translateY(-50%);
 }
 
-.subway-line-color-dot:hover {
-  transform: scale(1.2);
-  transform-origin: center;
-}
-
-.vertical-line {
-  display: inline-block;
-  position: absolute;
-  width: 4px;
-  margin: 0 3px;
-  height: 100%;
-  transform: translateX(50%);
-}
-
-.subway-line-name {
-  border-radius: 100px;
-  padding: 0.75rem 1.25rem;
-}
-
 #line-list {
   list-style-type: none;
   padding: 0;
-}
-
-#line-select {
-  border-style: solid;
-}
-
-#subway-line {
-  border-style: solid;
-}
-
-.border-solid {
-  border-style: solid;
-}
-
-hr:last-child {
-  display: none;
 }
 
 #search-option {
@@ -132,7 +100,12 @@ hr:last-child {
   border-color: rgb(129, 222, 234) !important;
 }
 
-.station-list li:last-child .vertical-line {
-  height: 50%;
-  transform: translate(50%, -50%);
+#logout {
+  font-size: 14px;
+  padding: 0.2rem 1rem;
+  border-radius: 100px;
+}
+
+#logout:hover {
+  background-color: rgb(0, 188, 212);
 }

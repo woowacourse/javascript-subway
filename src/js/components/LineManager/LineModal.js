@@ -164,8 +164,14 @@ export default class LineModal {
   handleColorSelect(event) {
     if (event.target.type !== 'button') return;
 
+    event.target.blur();
+
     const color = [...event.target.classList].find((className) => className.startsWith('bg-'));
+    const prevColor = [...$('#selected-line-color').classList].find((className) => className.startsWith('bg-'));
+
     $(SELECTOR.LINE_COLOR_INPUT).setAttribute('value', color);
+    $('#selected-line-color').classList.remove(prevColor);
+    $('#selected-line-color').classList.add(color);
 
     $(SELECTOR.COLOR_OPTION).forEach((option) => {
       if (option.classList.contains(color)) {

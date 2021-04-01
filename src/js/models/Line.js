@@ -50,7 +50,7 @@ export default class Line {
 
   toListItemTemplate() {
     return `
-      <li data-line-id="${this._id}" data-line-name="${this._name}" class="line-list-item d-flex items-center py-2 relative">
+      <li data-line-id="${this._id}" data-line-name="${this._name}" class="line-list-item d-flex items-center py-3 relative">
         <span class="subway-line-color-dot ${this._color}"></span>
         <span class="w-100 pl-6 subway-line-list-item-name"
           >${this._name}</span

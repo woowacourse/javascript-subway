@@ -5,14 +5,14 @@ export const contentTemplate = `
       <button
         id="add-section-btn"
         type="button"
-        class="create-section-btn modal-trigger-btn bg-cyan-300 ml-2"
+        class="create-section-btn modal-trigger-btn bg-cyan-300 ml-2 text-white font-semibold"
       >
         구간 추가
       </button>
     </div>
     <form class="d-flex items-center pl-1">
       <label for="subway-line" class="input-label" hidden>노선</label>
-      <select id="subway-line" class="border-4 border-color-gray-100 bg-white mb-0">
+      <select id="subway-line" class="border-4 border-color-gray-100 border-solid bg-white mb-0">
         <option value="" selected disabled hidden>구간 선택</option>
       </select>
     </form>
