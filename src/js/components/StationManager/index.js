@@ -73,7 +73,7 @@ export default class StationManager {
       const accessToken = this.store.userAuth.accessToken;
       const name = event.target.elements.stationName.value;
 
-      if (stations.find((station) => station.name === name)) {
+      if (this.stations.find((station) => station.name === name)) {
         show($(SELECTOR.STATION_DUPLICATED_WARNING));
         return;
       }

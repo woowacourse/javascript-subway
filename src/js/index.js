@@ -18,6 +18,7 @@ import {
 import Station from './models/Station.js';
 import Line from './models/Line.js';
 import { $, show, hide } from './utils/dom.js';
+import MapPage from './components/MapPage/index.js';
 
 export default class App {
   constructor() {
@@ -28,6 +29,7 @@ export default class App {
     this.stationManager = new StationManager(this.store);
     this.lineManager = new LineManager(this.store);
     this.sectionManager = new SectionManager(this.store);
+    this.mapPage = new MapPage(this.store);
 
     this.loginForm = new LoginForm(this.store);
     this.signupForm = new SignupForm(this.store);
@@ -39,6 +41,7 @@ export default class App {
       '/sections': this.sectionManager,
       '/login': this.loginForm,
       '/signup': this.signupForm,
+      '/map': this.mapPage,
     };
 
     this.bindEvents();
