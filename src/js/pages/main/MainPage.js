@@ -7,7 +7,7 @@ import headerTemplate from './templates/header.js';
 import { $ } from '../../utils/DOM.js';
 import showSnackBar from '../../utils/snackbar.js';
 import router from '../../router.js';
-
+import subway_emoji from '../../../images/subway_emoji.png';
 class MainPage {
   constructor() {
     this.$appNavbar = $('#app-navbar');
@@ -22,7 +22,7 @@ class MainPage {
   renderView() {
     this.$appNavbar.innerHTML = logoutButtonTemplate;
     this.$navigation.innerHTML = headerTemplate;
-    $('#main').innerHTML = '';
+    $('#main').innerHTML = `<img src="${subway_emoji}" alt="subway-img">`;
   }
 
   resetView() {
