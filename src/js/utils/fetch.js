@@ -41,7 +41,6 @@ const fetchLogin = async (url, bodyData) => {
 
 const fetchMyInfo = async (url, accessToken) => {
   const response = await fetch(url, {
-    method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
@@ -78,7 +77,6 @@ const fetchStationCreation = async (url, { bodyData, accessToken }) => {
 
 const fetchStationRead = async (url, accessToken) => {
   const response = await fetch(url, {
-    method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -157,7 +155,6 @@ const fetchLineCreation = async (url, { bodyData, accessToken }) => {
 
 const fetchLineRead = async (url, accessToken) => {
   const response = await fetch(url, {
-    method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
@@ -174,7 +171,6 @@ const fetchLineRead = async (url, accessToken) => {
 // TODO: fetchLineRead와 url(fetchLineRead는 url/id) 빼고 다 같음
 const fetchLineListRead = async (url, accessToken) => {
   const response = await fetch(url, {
-    method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
