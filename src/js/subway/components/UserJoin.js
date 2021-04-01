@@ -88,7 +88,12 @@ export class UserJoin {
   }
 
   async #handleEmailFocusOut({ target: { value: email } }) {
-    if (!isValidEmail(email)) return;
+    if (!isValidEmail(email)) {
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.INVALID_EMAIL;
+
+      return;
+    }
 
     try {
       await userJoinAPI.checkOverlappedEmail(email);
