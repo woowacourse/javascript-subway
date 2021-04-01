@@ -5,6 +5,7 @@ import { getLinesTemplate } from '../templates/lines';
 import { getSectionsTemplate } from '../templates/sections';
 import { getSignInTemplate } from '../templates/signIn';
 import { getSignUpTemplate } from '../templates/signUp';
+import { getMapTemplate } from '../templates/map';
 import { isSignIn } from '../validators/boolean';
 
 class Router {
@@ -30,6 +31,7 @@ class Router {
       [PATH.SECTIONS]: () => getSectionsTemplate(),
       [PATH.SIGNIN]: () => getSignInTemplate(),
       [PATH.SIGNUP]: () => getSignUpTemplate(),
+      [PATH.MAP]: () => getMapTemplate(),
     };
 
     return pathActions[path]?.();

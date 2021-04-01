@@ -3,6 +3,7 @@ import Lines from './Lines';
 import Sections from './Sections';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Map from './Map';
 import Router from '../router/Router';
 import {
   ELEMENT,
@@ -33,7 +34,7 @@ class App {
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
-
+    this.map = new Map();
     this.setMainBySignInStatus();
   }
 
@@ -115,6 +116,9 @@ class App {
       },
       [PATH.SECTIONS]: () => {
         this.sections.init();
+      },
+      [PATH.MAP]: () => {
+        this.map.init();
       },
     };
 

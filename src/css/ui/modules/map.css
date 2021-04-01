@@ -1,0 +1,65 @@
+.map-wrapper {
+  z-index: 1;
+  background-color: rgb(255, 255, 255);
+  padding: 5rem;
+}
+
+.map-wrapper ul {
+  display: flex;
+  align-items: center;
+  padding-left: 0px;
+  margin-bottom: 3rem;
+}
+
+.map-wrapper .map-line-name {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-right: 2rem;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 20px;
+}
+
+.station-list .map-station-name {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: black;
+  width: max-content;
+  text-decoration: none;
+}
+
+.station-list .section-info {
+  font-size: 11px;
+  position: absolute;
+  width: max-content;
+  top: 1rem;
+  left: 1rem;
+}
+
+.station-list {
+  position: relative;
+  text-decoration: none;
+  list-style-type: none;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgb(0, 0, 0);
+  background-color: white;
+  border-radius: 100%;
+}
+
+.station-list .section-line {
+  position: absolute;
+  height: 10px;
+  left: calc(-2rem);
+  z-index: -1;
+}
+
+.station-list:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.station-list:nth-last-child(2) .section-line {
+  width: calc(5rem - 6px);
+}
