@@ -1,4 +1,6 @@
 import { sum } from '../utils/calculate';
+import { getStationListTemplate } from '../templates/stations';
+import { getLineListTemplate } from '../templates/lines';
 
 export default class UserDataManager {
   static instance;
@@ -8,6 +10,8 @@ export default class UserDataManager {
 
     this.stations = [];
     this.lines = [];
+    this.stationListTemplate = '';
+    this.lineListTemplate = '';
 
     UserDataManager.instance = this;
   }
@@ -88,5 +92,23 @@ export default class UserDataManager {
   updateTargetLineData(targetLineData) {
     const targetLineIndex = this.lines.findIndex((line) => line.name === targetLineData.name);
     this.lines.splice(targetLineIndex, 1, targetLineData);
+  }
+
+  cacheStationListTemplate() {
+    this.stationListTemplate = this.stations.map((station) => getStationListTemplate(station.name)).join('');
+  }
+
+  cleanCacheStationListTemplate() {
+    this.stationListTemplate = '';
+  }
+
+  cacheLineListTemplate() {
+    this.lineListTemplate = this.lines
+      .map((line) => getLineListTemplate({ lineName: line.name, lineColor: line.color }))
+      .join('');
+  }
+
+  cleanCacheLineListTemplate() {
+    this.lineListTemplate = '';
   }
 }

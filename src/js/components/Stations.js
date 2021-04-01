@@ -12,9 +12,7 @@ import UserDataManager from '../model/UserDataManager';
 import { REMOVE_CONFIRM_MESSAGE, ELEMENT } from '../utils/constants';
 
 class Stations {
-  constructor(props) {
-    this.props = props;
-    this.stationListTemplate = '';
+  constructor() {
     this.stationNameInEdit = '';
     this.userDataManager = new UserDataManager();
   }
@@ -22,7 +20,7 @@ class Stations {
   async init() {
     this.selectDom();
     this.bindEvent();
-    !this.stationListTemplate && (await this.setStationListTemplate());
+    !this.userDataManager.stationListTemplate && (await this.setStationListTemplate());
     this.renderStationList();
   }
 
@@ -53,14 +51,14 @@ class Stations {
     try {
       const stationData = await requestGetStationList();
       this.userDataManager.setStationData(stationData);
-      this.cacheStationListTemplate();
+      this.userDataManager.cacheStationListTemplate();
     } catch (error) {
       alert(error.message);
     }
   }
 
   renderStationList() {
-    this.$stationListWrapper.innerHTML = this.stationListTemplate;
+    this.$stationListWrapper.innerHTML = this.userDataManager.stationListTemplate;
   }
 
   async handleStationForm(e) {
@@ -74,7 +72,7 @@ class Stations {
       this.userDataManager.setStationData(stationData);
       this.renderAddedStation(stationName);
       e.target[ELEMENT.STATION_NAME].value = '';
-      this.cleanCacheStationListTemplate();
+      this.userDataManager.cleanCacheStationListTemplate();
     } catch (error) {
       alert(error.message);
     }
@@ -99,8 +97,8 @@ class Stations {
       await requestEditStationName({ id: stationId, name: newStationName });
       this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
       this.renderEditedStation(newStationName);
-      this.cleanCacheStationListTemplate();
-      this.props.cleanLineCache();
+      this.userDataManager.cleanCacheStationListTemplate();
+      this.userDataManager.cleanCacheLineListTemplate();
       closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
@@ -117,20 +115,10 @@ class Stations {
       await requestRemoveStation({ id: this.userDataManager.getTargetStationId(stationName) });
       $stationListItem.remove();
       this.userDataManager.removeStation(stationName);
-      this.cleanCacheStationListTemplate();
+      this.userDataManager.cleanCacheStationListTemplate();
     } catch (error) {
       alert(error.message);
     }
-  }
-
-  cacheStationListTemplate() {
-    this.stationListTemplate = this.userDataManager.stations
-      .map((station) => getStationListTemplate(station.name))
-      .join('');
-  }
-
-  cleanCacheStationListTemplate() {
-    this.stationListTemplate = '';
   }
 
   renderAddedStation(stationName) {

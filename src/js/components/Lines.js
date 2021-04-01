@@ -14,7 +14,6 @@ import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
 class Lines {
   constructor() {
     this.selectedLineColor = '';
-    this.lineListTemplate = '';
     this.lineNameInEdit = '';
     this.userDataManager = new UserDataManager();
   }
@@ -22,7 +21,7 @@ class Lines {
   async init() {
     this.selectDom();
     this.bindEvent();
-    !this.lineListTemplate && (await this.setLineListTemplate());
+    !this.userDataManager.lineListTemplate && (await this.setLineListTemplate());
     this.renderLineList();
   }
 
@@ -83,14 +82,14 @@ class Lines {
       const lineData = await requestGetLineList();
 
       this.userDataManager.setLineData(lineData);
-      this.cacheLineListTemplate();
+      this.userDataManager.cacheLineListTemplate();
     } catch (error) {
       alert(error.message);
     }
   }
 
   renderLineList() {
-    this.$lineListWrapper.innerHTML = this.lineListTemplate;
+    this.$lineListWrapper.innerHTML = this.userDataManager.lineListTemplate;
   }
 
   handleCreateLineButton() {
@@ -138,7 +137,7 @@ class Lines {
 
       this.userDataManager.setLineData(lineData);
       this.renderAddedLine(lineName);
-      this.cleanCacheLineListTemplate();
+      this.userDataManager.cleanCacheLineListTemplate();
 
       closeModal(this.$modal);
     } catch (error) {
@@ -189,7 +188,7 @@ class Lines {
       });
 
       this.renderEditedLine(newLineName, newColor);
-      this.cleanCacheLineListTemplate();
+      this.userDataManager.cleanCacheLineListTemplate();
       closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
@@ -206,20 +205,10 @@ class Lines {
       await requestRemoveLine({ id: this.userDataManager.getTargetLineId(lineName) });
       $lineListItem.remove();
       this.userDataManager.removeLine(lineName);
-      this.cleanCacheLineListTemplate();
+      this.userDataManager.cleanCacheLineListTemplate();
     } catch (error) {
       alert(error.message);
     }
-  }
-
-  cacheLineListTemplate() {
-    this.lineListTemplate = this.userDataManager.lines
-      .map((line) => getLineListTemplate({ lineName: line.name, lineColor: line.color }))
-      .join('');
-  }
-
-  cleanCacheLineListTemplate() {
-    this.lineListTemplate = '';
   }
 
   renderAddedLine(lineName) {
