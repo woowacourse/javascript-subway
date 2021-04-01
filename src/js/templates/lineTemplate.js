@@ -79,6 +79,7 @@ const MODAL_COMPONENT = `
       name="distance"
       class="input-field mr-2"
       placeholder="상행 하행역 거리"
+      min="1"
       required
     />
     <label for="${
@@ -92,6 +93,7 @@ const MODAL_COMPONENT = `
       name="arrival"
       class="input-field"
       placeholder="상행 하행역 시간"
+      min="1"
       required
     />
   </div>
