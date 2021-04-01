@@ -41,8 +41,8 @@ class LineComponent extends Component {
 
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
       if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
-        this.lineModal.route(KEYWORD.REVISION);
         $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
+        this.lineModal.route(KEYWORD.REVISION);
 
         return;
       }
