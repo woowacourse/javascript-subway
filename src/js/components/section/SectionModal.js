@@ -1,20 +1,23 @@
+import { checkSectionValid } from './sectionValidator';
+import { sectionStationTemplate } from './sectionTemplate';
+
+import { FORM, SELECTOR, SUCCESS_MESSAGE } from '../../constants';
+import { sectionAPI } from '../../../../api/section';
+import { $, clearForm, getFormData } from '../../utils/dom';
+import { showSnackbar } from '../../utils/snackbar';
 import {
   bindModalCloseEvent,
   onModalClose,
   onModalShow,
 } from '../../utils/modal';
-import { SELECTOR, SUCCESS_MESSAGE } from '../../constants';
-import { sectionStationTemplate } from './sectionTemplate';
-import { $, clearForm, getFormData } from '../../utils/dom';
-import { checkSectionValid } from './sectionValidator';
-import { sectionAPI } from '../../../../api/section';
-import { showSnackbar } from '../../utils/snackbar';
+
 class SectionModal {
+  #props;
   #sections;
   #userAccessToken;
 
-  constructor({ updateSections }) {
-    this.updateSections = updateSections;
+  constructor(props) {
+    this.#props = props;
   }
 
   init({ sections, userAccessToken }) {
@@ -25,6 +28,8 @@ class SectionModal {
 
   _initDOM() {
     this.$addSectionForm = $(SELECTOR.ADD_SECTION);
+    this.$prevStationSelect = $(`select[name=${FORM.SECTION.PREV_STATION}]`);
+    this.$lineSelect = $(`select[name='${FORM.SECTION.LINE_SELECT}']`);
     this._bindEvent();
   }
 
@@ -38,7 +43,7 @@ class SectionModal {
     this.$addSectionForm.addEventListener('change', e => {
       if (e.target.tagName !== 'SELECT') return;
 
-      if (e.target.name === 'line-select') {
+      if (e.target.name === FORM.SECTION.LINE_SELECT) {
         this._handleSelectLine(e);
       }
     });
@@ -60,13 +65,12 @@ class SectionModal {
     const { stations, color } = this.#sections[id];
 
     target.className = color;
-    $('select[name="prev-station"]').innerHTML = sectionStationTemplate(
-      stations,
-    );
+    this.$prevStationSelect.innerHTML = sectionStationTemplate(stations);
   }
 
   async _handleAddSectionClose(e) {
     e.preventDefault();
+
     const sectionInfo = getFormData(e.target.elements);
     const message = checkSectionValid(sectionInfo);
     if (message) {
@@ -81,8 +85,9 @@ class SectionModal {
       });
 
       clearForm(this.$addSectionForm);
-      $("select[name='line-select']").className = '';
-      this.updateSections(sectionInfo); // TODO : 다른 모든 update 메서드에서도 모델과 뷰 바꿔주게끔 리팩토링
+      this.$lineSelect.className = '';
+
+      this.#props.modifySection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.ADD_SECTION);
       onModalClose();
     } catch (res) {

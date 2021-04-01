@@ -1,19 +1,22 @@
 import LineModal from './LineModal.js';
-import { linesTemplate, modalTemplate } from './lineTemplate.js';
+import { linesTemplate, lineTemplate, modalTemplate } from './lineTemplate.js';
 
+import { initLines, initStations } from '../../models/model.js';
+
+import { lineAPI } from '../../../../api/line.js';
+import { $ } from '../../utils/dom.js';
+import { getLocalStorageItem } from '../../utils/storage.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 import {
+  CLASS_NAME,
   CONFIRM_MESSAGE,
   ERROR_MESSAGE,
+  LINE_MODAL_STATE,
   PAGE_TITLE,
   SELECTOR,
   STORAGE,
   SUCCESS_MESSAGE,
 } from '../../constants.js';
-import { $ } from '../../utils/dom.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
-import { stationAPI } from '../../../../api/station.js';
-import { lineAPI } from '../../../../api/line.js';
-import { showSnackbar } from '../../utils/snackbar.js';
 
 class Line {
   #userAccessToken;
@@ -25,13 +28,16 @@ class Line {
     this.#userAccessToken = null;
     this.#stations = {};
     this.#lines = {};
-    this.#modal = new LineModal({ updateLines: this.updateLines.bind(this) });
+    this.#modal = new LineModal({
+      modifyLine: this.modifyLine.bind(this),
+      addLine: this.addLine.bind(this),
+    });
   }
 
   async init() {
     this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
-    await this._initStations();
-    await this._initLines();
+    this.#stations = await initStations(this.#userAccessToken);
+    this.#lines = await initLines(this.#userAccessToken);
   }
 
   getPageInfo() {
@@ -45,35 +51,10 @@ class Line {
   }
 
   initDOM() {
-    this.$lineList = $(SELECTOR.LINE_LIST);
     this.#modal.init(this.#userAccessToken);
+    this.$lineList = $(SELECTOR.LINE_LIST);
+    this.$createLineButton = $(SELECTOR.CREATE_LINE_BUTTON);
     this._bindEvent();
-  }
-
-  async _initStations() {
-    try {
-      this.#stations = {};
-
-      const stations = await stationAPI.getStations(this.#userAccessToken);
-      stations.forEach(({ id, ...rest }) => {
-        this.#stations[id] = rest;
-      });
-    } catch {
-      alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
-    }
-  }
-
-  async _initLines() {
-    try {
-      this.#lines = {};
-
-      const lines = await lineAPI.getLines(this.#userAccessToken);
-      lines.forEach(({ id, name, color }) => {
-        this.#lines[id] = { name, color };
-      });
-    } catch {
-      alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
-    }
   }
 
   _bindEvent() {
@@ -82,20 +63,20 @@ class Line {
   }
 
   _bindAddLineEvent() {
-    $('.create-line-btn').addEventListener('click', () => {
-      this.#modal.handleLineOpen({ state: 'add' });
+    this.$createLineButton.addEventListener('click', () => {
+      this.#modal.handleLineOpen({ state: LINE_MODAL_STATE.ADD });
     });
   }
 
   _bindUpdateLineEvent() {
     this.$lineList.addEventListener('click', e => {
-      if (e.target.classList.contains('modify-button')) {
+      if (e.target.classList.contains(CLASS_NAME.MODIFY_BUTTON)) {
         this.#modal.handleLineOpen({
-          state: 'modify',
+          state: LINE_MODAL_STATE.MODIFY,
           lineInfo: this._getSelectedLineInfo(e),
         });
       }
-      if (e.target.classList.contains('delete-button')) {
+      if (e.target.classList.contains(CLASS_NAME.DELETE_BUTTON)) {
         this._handleRemoveLine(e);
       }
     });
@@ -105,15 +86,14 @@ class Line {
     if (!confirm(CONFIRM_MESSAGE.REMOVE)) return;
 
     try {
-      const { $lineItem, id } = this._getSelectedLineInfo(e);
+      const lineInfo = this._getSelectedLineInfo(e);
 
       await lineAPI.deleteLine({
         userAccessToken: this.#userAccessToken,
-        id,
+        id: lineInfo.id,
       });
 
-      delete this.#lines[id];
-      $lineItem.remove();
+      this._removeLines(lineInfo);
       showSnackbar(SUCCESS_MESSAGE.REMOVE_LINE);
     } catch {
       showSnackbar(ERROR_MESSAGE.REMOVE_LINE_FAILED);
@@ -128,8 +108,21 @@ class Line {
     return { $lineItem, id, name, color };
   }
 
-  updateLines(id, value) {
+  addLine({ id, name, color }) {
+    this.modifyLine(id, { name, color });
+    this.$lineList.insertAdjacentHTML(
+      'beforeend',
+      lineTemplate(id, { name, color }),
+    );
+  }
+
+  modifyLine(id, value) {
     this.#lines[id] = value;
+  }
+
+  _removeLines({ id, $lineItem }) {
+    delete this.#lines[id];
+    $lineItem.remove();
   }
 }
 

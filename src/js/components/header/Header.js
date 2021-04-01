@@ -2,7 +2,7 @@ import { removeLocalStorageItem } from '../../utils/storage.js';
 import { headerTemplate } from './headerTemplate.js';
 import { $ } from '../../utils/dom.js';
 import { showSnackbar } from '../../utils/snackbar.js';
-import { SELECTOR, PATH, STORAGE, SNACKBAR_MESSAGE } from '../../constants.js';
+import { SELECTOR, PATH, STORAGE, SUCCESS_MESSAGE } from '../../constants.js';
 
 class Header {
   #props;
@@ -31,25 +31,26 @@ class Header {
 
   _bindMenuEvent() {
     this.$menu.addEventListener('click', e => {
-      e.preventDefault();
       if (e.target.tagName !== 'BUTTON') return;
-      this._changeMenu(e);
+      this._handleChangeMenu(e);
     });
   }
 
-  _changeMenu({ target }) {
-    const href = target.closest(SELECTOR.MENU_LINK).getAttribute('href');
+  _handleChangeMenu(e) {
+    e.preventDefault();
+
+    const href = e.target.closest(SELECTOR.MENU_LINK).getAttribute('href');
     if (href === PATH.LOGOUT) {
-      this._handleLogout();
+      this._logout();
       return;
     }
     this.#props.switchURL(href);
   }
 
-  _handleLogout() {
+  _logout() {
     removeLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
     this.#props.switchURL(PATH.HOME);
-    showSnackbar(SNACKBAR_MESSAGE.LOGOUT);
+    showSnackbar(SUCCESS_MESSAGE.LOGOUT);
   }
 }
 

@@ -1,13 +1,19 @@
-import { REQUEST_METHOD } from '../constants';
+import { REQUEST_HEADER, REQUEST_METHOD } from '../constants';
 
 export const request = async (
   url,
-  { method = REQUEST_METHOD.GET, body = null, Accept = '', Authorization = '' },
+  {
+    method = REQUEST_METHOD.GET,
+    contentType = REQUEST_HEADER.CONTENT_TYPE_JSON,
+    Authorization = '',
+    Accept = '',
+    body = null,
+  },
 ) => {
   const response = await fetch(url, {
     method,
     headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': contentType,
       Authorization,
       Accept,
     },

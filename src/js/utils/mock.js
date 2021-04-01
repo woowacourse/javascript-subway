@@ -1,4 +1,3 @@
-// TODO(2단계) : 상수화
 export const colorOptions = [
   'gray-300',
   'gray-400',
