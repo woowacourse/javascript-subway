@@ -1,4 +1,4 @@
-import { SELECTOR, MESSAGES } from '../../constants/constants.js';
+import { SELECTOR, MESSAGES, ERROR_CODE } from '../../constants/constants.js';
 import { $, hide, show } from '../../utils/dom.js';
 import { colorOptions } from '../../utils/mock.js';
 import popSnackbar from '../../utils/snackbar.js';
@@ -227,7 +227,7 @@ export default class LineModal {
         alert(MESSAGES.ERROR_UNAUTHORIZED);
         return;
       }
-      popSnackbar(MESSAGES.LINE_CREATE.FAIL);
+      popSnackbar(error.message || MESSAGES.LINE_CREATE.FAIL);
     }
   }
 

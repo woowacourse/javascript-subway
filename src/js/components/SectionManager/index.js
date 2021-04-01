@@ -1,6 +1,6 @@
 import { $ } from '../../utils/dom.js';
 import popSnackbar from '../../utils/snackbar.js';
-import { SELECTOR, MESSAGES } from '../../constants/constants.js';
+import { SELECTOR, MESSAGES, ERROR_CODE } from '../../constants/constants.js';
 import { deleteSectionRequest, getLineByIdRequest } from '../../request.js';
 import Line from '../../models/Line.js';
 import { contentTemplate } from './template.js';
