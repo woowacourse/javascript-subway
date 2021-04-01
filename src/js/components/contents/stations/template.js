@@ -19,11 +19,11 @@ export const STATIONS_TEMPLATE = `
   <h2 class="mt-1">🚉 역 관리</h2>
 </div>
 <form class="add-form">
-  <div class="d-flex w-100">
+  <div class="d-flex">
     <label for="add-station-name" class="input-label" hidden>역 이름</label>
     <input type="text" id="add-station-name" class="station-add-input-field add-station-name" name="name" placeholder="역 이름" minlength="2" maxlength="20" required />
-    <button type="submit" class="submit-button station-add-button bg-cyan-300 ml-2" name="submit" disabled>추가</button>
+    <button type="submit" class="submit-button station-add-button bg-cyan-300 ml-3" name="submit" disabled>추가</button>
   </div>
 </form>
-<ul class="d-flex flex-col mt-3 pl-0">
+<ul class="d-flex flex-col mt-6 pl-0">
 </ul>`;
