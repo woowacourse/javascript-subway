@@ -16,8 +16,6 @@ context('로그인 및 정보 수정', () => {
     cy.visit('http://127.0.0.1:5500/');
   });
 
-  it('test', () => {});
-
   // TODO: cypress 첫 번째 테스트일 경우 alert를 감지하지 못하는 문제
   it('회원 가입 시 `email`, `name`, `password`에 대한 예외 처리가 작동했을 때, 에러를 출력한다.', () => {
     const stub = cy.stub();
