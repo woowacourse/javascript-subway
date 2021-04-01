@@ -2,6 +2,8 @@ import {
   ERROR_MESSAGE,
   CONFIRM_MESSAGE,
 } from "../../src/js/constants/messages.js";
+import { PAGE_KEYS, PAGE_URLS } from "../../src/js/constants/pages.js";
+import { END_POINT } from "../constants/general.js";
 
 describe("역 관리 페이지", () => {
   const stations = ["배민역", "쿠팡역", "카카오역"];
