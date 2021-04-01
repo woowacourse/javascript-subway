@@ -13,7 +13,7 @@ const MAIN_COMPONENT = `
     </button>
   </div>
   <form id="${ID_SELECTOR.SECTION_FORM}" class="d-flex items-center pl-1">
-    <select id="${ID_SELECTOR.SECTION_FORM_SELECT}" class="bg-blue-400">
+    <select id="${ID_SELECTOR.SECTION_FORM_SELECT}" >
     </select>
   </form>
   <ul id="${ID_SELECTOR.SECTION_LIST}"class="mt-3 pl-0">
