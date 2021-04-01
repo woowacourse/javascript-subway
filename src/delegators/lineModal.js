@@ -1,7 +1,7 @@
 import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, ALERT_MESSAGE } from "../constants.js";
 import { $, closeModal } from "../utils/dom.js";
 import { state } from '../store.js';
-import { isProperLineNameLength, isDuplicatedLineNameExist } from '../validators/line.js';
+import { isProperLineNameLength, isDuplicatedLineExist } from '../validators/line.js';
 import { requestLineRegistration, requestLineUpdate } from '../api/line.js';
 
 export function delegateLineModalSubmitEvent(event) {
@@ -50,7 +50,7 @@ function onLineItemRegister(target) {
     return;
   }
 
-  if (isDuplicatedLineNameExist(lineName, lineList)) {
+  if (isDuplicatedLineExist(lineName, lineList)) {
     alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
     return;
   }
@@ -76,30 +76,34 @@ function onLineItemUpdate(target) {
     name: target[SELECTOR_NAME.LINE_NAME].value, 
     color: target[SELECTOR_NAME.LINE_COLOR].dataset.color
   }
+  const lineList = state.get(STATE_KEY.LINE_LIST);
+  console.log(newLine);
+  console.log(lineList);
+  const isNewLineApplied = tryApplyingNewLine(newLine, lineList);
+  if (!isNewLineApplied) return;
+  
   requestLineUpdate(newLine)
-    .then(updateLine)
+    .then(() => {
+      state.update(STATE_KEY.LINE_LIST, lineList);
+    })
     .catch(error => {
       console.log(error);
       alert(ALERT_MESSAGE.LINE_UPDATE_FAILED);
     });
 }
 
-function updateLine(newLine) {
-  const lineList = state.get(STATE_KEY.LINE_LIST);
-  lineList.forEach(line => {
-    if (line.id === newLine.id) {
-      if (!isProperLineNameLength(lineName)) {
-        alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
-        return;
-      }
-    
-      if (isDuplicatedLineNameExist(lineName, lineList)) {
-        alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
-        return;
-      }
-      line.name = newLine.name;
-      line.color = newLine.color;
-    }
-  })
-  state.update(STATE_KEY.LINE_LIST, lineList);
+function tryApplyingNewLine(newLine, lineList) {
+  const targetLine = lineList.find(line => line.id === newLine.id);
+  if (!isProperLineNameLength(newLine.name)) {
+    alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
+    return false;
+  }
+  if (isDuplicatedLineExist({lineId: targetLine.id, lineName: newLine.name}, lineList)) {
+    alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
+    return false;
+  }
+  targetLine.name = newLine.name;
+  targetLine.color = newLine.color;
+
+  return true;
 }
