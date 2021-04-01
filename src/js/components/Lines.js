@@ -38,6 +38,7 @@ class Lines {
     this.$lineListWrapper.addEventListener('click', (e) => {
       if (e.target.classList.contains(ELEMENT.LINE_LIST_ITEM_EDIT_BUTTON)) {
         this.handleLineEditButton(e);
+
         return;
       }
 
