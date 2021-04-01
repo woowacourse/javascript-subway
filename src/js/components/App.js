@@ -23,7 +23,6 @@ class App {
     this.selectDom();
     this.bindEvent();
     this.router = new Router(this.$mainScreen);
-    this.userDataManager = new UserDataManager();
   }
 
   init() {
@@ -51,8 +50,8 @@ class App {
     });
 
     this.$app.addEventListener('click', (e) => {
-      if (isDimmed(e.target) || e.target.closest('.modal-close')) {
-        closeModal($('.modal'));
+      if (isDimmed(e.target) || e.target.closest(`.${ELEMENT.MODAL_CLOSE}`)) {
+        closeModal($(`.${ELEMENT.MODAL}`));
       }
 
       if (isRouterButton(e.target)) {
@@ -70,7 +69,7 @@ class App {
 
     this.router.route(PATH.MAIN);
     this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest('.sign-in-toggle').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
+    this.$signInButton.closest(`.${ELEMENT.SIGN_IN_TOGGLE}`).href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
 
     signInUser ? this.showMenuButton() : this.hideMenuButton();
     signInUser && this.setInitialUserData();
@@ -84,7 +83,7 @@ class App {
   handleSelectMenu(e) {
     e.preventDefault();
 
-    const path = e.target.closest('a').getAttribute('href');
+    const path = e.target.closest(`.${ELEMENT.MENU_LINK}`).getAttribute('href');
 
     if (path === PATH.SIGNOUT) {
       this.runSignOutProcess();

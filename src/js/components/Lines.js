@@ -57,6 +57,7 @@ class Lines {
     this.$modalLineForm.addEventListener('submit', (e) => {
       if ($(`.${ELEMENT.ADD_MODAL}`)) {
         this.handleCreateLineForm(e);
+
         return;
       }
 
@@ -67,10 +68,11 @@ class Lines {
 
     this.$colorSelector.addEventListener('click', (e) => {
       if (!e.target.classList.contains(ELEMENT.COLOR_OPTION)) return;
+
       const colorTemplate = e.target.outerHTML;
       const [lineColor] = e.target.classList;
 
-      this.$selectedColor.querySelector('button').remove();
+      this.$selectedColor.querySelector(`.${ELEMENT.COLOR_OPTION}`).remove();
       this.$selectedColor.insertAdjacentHTML('afterbegin', colorTemplate);
       this.selectedLineColor = lineColor;
     });
@@ -79,6 +81,7 @@ class Lines {
   async setLineListTemplate() {
     try {
       const lineData = await requestGetLineList();
+
       this.userDataManager.setLineData(lineData);
       this.cacheLineListTemplate();
     } catch (error) {
@@ -132,9 +135,11 @@ class Lines {
         distance,
         duration,
       });
+
       this.userDataManager.setLineData(lineData);
       this.renderAddedLine(lineName);
       this.cleanCacheLineListTemplate();
+
       closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
@@ -174,12 +179,15 @@ class Lines {
         selectedLineColor: this.selectedLineColor,
         lineColorList: this.userDataManager.getLineColors(),
       });
+
       await requestEditLineData({ id: lineIdInEdit, name: newLineName, color: newColor });
+
       this.userDataManager.editLineData({
         oldLineName: this.lineNameInEdit,
         newLineName,
         newColor,
       });
+
       this.renderEditedLine(newLineName, newColor);
       this.cleanCacheLineListTemplate();
       closeModal(this.$modal);

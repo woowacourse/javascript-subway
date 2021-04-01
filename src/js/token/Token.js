@@ -3,10 +3,6 @@ import { getCookie, setCookie, removeCookie } from '../utils/cookie';
 
 class Token {
   constructor() {
-    this.initState();
-  }
-
-  initState() {
     this.accessToken = this.getToken() ?? '';
   }
 

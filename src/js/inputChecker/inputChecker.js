@@ -9,8 +9,8 @@ const toggleSubmitActivation = (isAllInputSuccess) => {
 
 export const renderCheckingArea = ({ $textArea, $input, errorMessage }) => {
   $textArea.innerText = errorMessage ?? '';
-  $input.classList.remove('success', 'fail');
-  $input.classList.add(`${errorMessage ? 'fail' : 'success'}`);
+  $input.classList.remove(ELEMENT.SUCCESS, ELEMENT.FAIL);
+  $input.classList.add(`${errorMessage ? ELEMENT.FAIL : ELEMENT.SUCCESS}`);
 };
 
 const checkInputInRealTime = ({ callback, $textArea, $input }, isAllInputSuccess) => {
