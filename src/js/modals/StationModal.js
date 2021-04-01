@@ -25,6 +25,10 @@ class StationRevisionComponent extends Component {
     super(props);
   }
 
+  initLoad() {
+    this.#loadRevisionModal();
+  }
+
   initEvent() {
     $(`#${ID_SELECTOR.STATION_MODAL_FORM}`).addEventListener(
       'submit',
@@ -36,11 +40,27 @@ class StationRevisionComponent extends Component {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = STATION_TEMPLATE.MODAL;
   }
 
+  #loadRevisionModal() {
+    const stationId = $(`#${ID_SELECTOR.MODAL}`).dataset.stationId;
+    const stationName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
+
+    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).value = stationName;
+    $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).dataset.id = stationId;
+  }
+
   #onRevisionSubmit = async event => {
     event.preventDefault();
 
     const $input = event.target[ID_SELECTOR.STATION_MODAL_FORM_INPUT];
     const revisionName = $input.value;
+    //TODO: modal에 dataset 넣는거 생각해보기
+    const originalName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
+
+    if (revisionName === originalName) {
+      alert(ALERT_MESSAGE.STATION_NAME_REVISION_FAIL);
+      return;
+    }
+
     const revisionId = $input.dataset.id;
     const url = REQUEST_URL + `/stations/${revisionId}`;
     const bodyData = {
