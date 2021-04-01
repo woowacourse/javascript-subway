@@ -28,6 +28,7 @@ class Component {
 
   _onAnchorClicked = event => {
     event.preventDefault();
+
     const anchor = event.target.closest('a');
 
     if (!anchor) {

@@ -45,6 +45,7 @@ class SectionComponent extends Component {
       () => {
         if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
           alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
+
           return;
         }
 
@@ -80,6 +81,7 @@ class SectionComponent extends Component {
     try {
       const response = await fetchLineRead(url, accessToken);
       const { color, stations } = await response.json();
+
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
       $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = stations
         .map(this.#createStationTemplate)

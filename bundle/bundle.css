@@ -4083,6 +4083,25 @@ svg {
   }
 }
 
+.modal-inner.station-modal-inner {
+  height: 30%;
+  width: 90%;
+  max-width: 700px;
+  box-sizing: border-box;
+}
+
+.modal-inner.station-modal-inner .input-control {
+  margin-bottom: 0;
+}
+
+.modal-inner.line-creation-modal-inner {
+  height: 80%;
+}
+
+.modal-inner.line-revision-modal-inner {
+  height: 65%;
+}
+
 .chip {
   padding: 0 12px;
   background-color: #efefef;
@@ -4155,6 +4174,61 @@ form select {
     calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
+}
+
+
+
+form .input-submit {
+  width: 100%;
+}
+
+main .wrapper {
+  width: 300px;
+}
+
+.create-line-btn {
+  font-size: 1rem;
+  width: 130px;
+  line-height: inherit;
+  cursor: pointer;
+  height: 42px;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+}
+
+.subway-line-color-dot {
+  display: inline-block;
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+
+.create-section-btn {
+  font-size: 1rem;
+  width: 130px;
+  line-height: inherit;
+  cursor: pointer;
+  height: 42px;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+}
+
+.modal-inner {
+  width: 600px;
 }
 
 

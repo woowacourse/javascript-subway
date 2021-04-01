@@ -97,7 +97,6 @@ class LineCreationComponent extends Component {
     const distance = event.target[ID_SELECTOR.LINE_MODAL_FORM_DISTANCE].value;
     const duration = event.target[ID_SELECTOR.LINE_MODAL_FORM_DURATION].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-
     const url = REQUEST_URL + '/lines';
     const bodyData = {
       name: lineName,
@@ -161,7 +160,6 @@ class LineRevisionComponent extends Component {
     const id = $(`.${ID_SELECTOR.MODAL}`).dataset.id;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-
     const url = REQUEST_URL + `/lines/${id}`;
     const bodyData = {
       name: lineName,

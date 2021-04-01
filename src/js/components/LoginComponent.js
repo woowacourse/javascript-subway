@@ -37,7 +37,6 @@ class LoginComponent extends Component {
 
     const email = event.target[ID_SELECTOR.LOGIN_FORM_EMAIL].value;
     const password = event.target[ID_SELECTOR.LOGIN_FORM_PASSWORD].value;
-
     const url = REQUEST_URL + '/login/token';
     const bodyData = { email, password };
 
@@ -47,6 +46,7 @@ class LoginComponent extends Component {
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
       const { accessToken } = await response.json();
+
       this.props.accessTokenState.Data = accessToken;
     } catch (err) {
       alert(err.message);

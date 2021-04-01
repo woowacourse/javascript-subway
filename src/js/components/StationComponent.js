@@ -67,6 +67,10 @@ class StationComponent extends Component {
     );
   }
 
+  render() {
+    super.render(STATION_TEMPLATE);
+  }
+
   renderStationList = stations => {
     const template = stations.map(this.#makeStationTemplate).join('');
 
@@ -92,10 +96,6 @@ class StationComponent extends Component {
     }
   };
 
-  render() {
-    super.render(STATION_TEMPLATE);
-  }
-
   #onStationCreated = async event => {
     event.preventDefault();
 
@@ -116,6 +116,7 @@ class StationComponent extends Component {
 
       const { id, name } = await response.json();
       const stations = this.props.stationsState.Data;
+
       // TODO: State 클래스에 pushData 만들기
       stations.push({ id, name });
       this.props.stationsState.Data = stations;

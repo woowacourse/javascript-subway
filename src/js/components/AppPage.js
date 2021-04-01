@@ -63,6 +63,7 @@ class AppPage extends Page {
   initEvent() {
     window.addEventListener('popstate', e => {
       const path = e.state.path.replace(/.+\/\/[^\/]+/g, '');
+
       this.route(path, false);
     });
 
@@ -77,15 +78,12 @@ class AppPage extends Page {
     });
   }
 
-  #onLogout = () => {
-    this.accessTokenState.Data = KEYWORD.LOGOUT;
-  };
-
   handleUserDataToInit = accessToken => {
     const isLogout = accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
       this.initStateListener();
+
       return;
     }
 
@@ -98,6 +96,7 @@ class AppPage extends Page {
 
     if (isLogout) {
       this.#renderGuestNavBar();
+
       return;
     }
 
@@ -109,10 +108,15 @@ class AppPage extends Page {
 
     if (isLogout) {
       this.route(URL.LOGIN);
+
       return;
     }
 
     this.route(URL.HOME);
+  };
+
+  #onLogout = () => {
+    this.accessTokenState.Data = KEYWORD.LOGOUT;
   };
 
   #renderUserNavBar() {
