@@ -43,10 +43,13 @@ export default class App extends Component {
   }
 
   bindEvent() {
-    window.addEventListener('popstate', this.changeTemplate.bind(this));
+    window.addEventListener('popstate', this.changeTemplate.bind(this, window.location.pathname));
   }
 
-  async changeTemplate(pathName) {
+  async changeTemplate(pathName = '') {
+    if (!pathName) {
+      pathName = window.location.pathname;
+    }
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
     const isLoggedIn = await serviceAPI.isValidToken(token);
 
