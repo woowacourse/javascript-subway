@@ -11,7 +11,7 @@ const deleteSection = async ({ lineId, stationId }) => {
 
   const result = await requestDeleteSection({ lineId, stationId });
   try {
-    store.line.init();
+    await store.line.init();
     updateSectionList(getSections(lineId));
   } catch (error) {
     alert(STORE.DATA_LOAD_FAILED);
