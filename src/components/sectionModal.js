@@ -20,7 +20,8 @@ export default class SectionModal extends Observer {
   renderComponent() {
     const modal = $(this.#parentSelector);
     if (!modal) return;
-    modal.innerHTML = this.#getModalTemplate();
+    const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
+    modal.innerHTML = this.#getModalTemplate(targetSectionLineId);
     this.#initEvents();
   }
 
@@ -29,7 +30,7 @@ export default class SectionModal extends Observer {
     $(this.#targetSelector).addEventListener('submit', delegateSectionModalSubmitEvent);
   }
 
-  #getModalTemplate() {
+  #getModalTemplate(targetSectionLineId) {
     return `
       <div class="${SELECTOR_CLASS.MODAL_INNER} wrapper p-8">
         <button class="${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE} modal-close">
@@ -43,7 +44,7 @@ export default class SectionModal extends Observer {
         <form id="${SELECTOR_ID.SECTION_FORM}">
           <div class="input-control">
             <select id="${SELECTOR_ID.SECTION_MODAL_LINE_SELECT}" required>
-              ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option value="${lineItem.id}">${lineItem.name}</option>`).join('')}
+              ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option value="${lineItem.id}" ${lineItem.id === targetSectionLineId ? 'selected' : ''}>${lineItem.name}</option>`).join('')}
             </select>
           </div>
           <div class="d-flex items-center input-control">

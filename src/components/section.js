@@ -30,16 +30,16 @@ export default class Section extends Observer {
   renderComponent() {
     const lineListContainer = $(this.#lineListSelector);
     const stationListContainer = $(this.#stationListSelector);
-    const targetLineId = Number(this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
+    const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     
-    if (!lineListContainer || !stationListContainer || targetLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
+    if (!lineListContainer || !stationListContainer || targetSectionLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
-    const targetLine = lineList.find(line => line.id === targetLineId);
+    const targetLine = lineList.find(line => line.id === targetSectionLineId);
     lineListContainer.innerHTML = `
       <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
       <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
         ${lineList.map(line => {
-          const isSelected = line.id === targetLineId;
+          const isSelected = line.id === targetSectionLineId;
           return this.#getLineTemplate(line, isSelected);
         }).join("")}
       </select>
