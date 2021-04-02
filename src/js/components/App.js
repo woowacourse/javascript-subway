@@ -6,6 +6,7 @@ import Lines from './lines/Lines.js';
 import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
+import SubwayMap from './SubwayMap/SubwayMap.js';
 import { LOCAL_STORAGE_KEY, MESSAGE } from '../constants/index.js';
 import { getLocalStorageItem } from '../utils/index.js';
 import { serviceAPI } from '../service/index.js';
@@ -18,6 +19,7 @@ export default class App extends Component {
       '/stations': (token = '') => this.Stations.load(token),
       '/lines': (token = '') => this.Lines.load(token),
       '/sections': (token = '') => this.Sections.load(token),
+      '/map': (token = '') => this.SubwayMap.load(token),
       '/login': (token = '') => this.Login.load(token),
       '/signup': (token = '') => this.Signup.load(token),
     };
@@ -32,6 +34,7 @@ export default class App extends Component {
     this.Stations = new Stations();
     this.Lines = new Lines();
     this.Sections = new Sections();
+    this.SubwayMap = new SubwayMap();
     this.Login = new Login({ changeTemplate: this.changeTemplate.bind(this) });
     this.Signup = new Signup({
       changeTemplate: this.changeTemplate.bind(this),
