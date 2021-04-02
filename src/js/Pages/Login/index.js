@@ -4,7 +4,7 @@ import mainTemplate from './template';
 import { AUTHENTICATED_LINK } from '../../constants/link';
 import ValidationError from '../../error/ValidationError';
 import { publicApis } from '../../api';
-import localStorageKey from '../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 
 class Login extends Component {
   constructor({ parentNode, props: { goPage, setIsLogin } }) {
@@ -28,7 +28,7 @@ class Login extends Component {
       try {
         const accessToken = await publicApis.login(email, password);
 
-        localStorage.setItem(localStorageKey.ACCESSTOKEN, accessToken);
+        localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
 
         this.goPage(AUTHENTICATED_LINK.STATION.PATH);

@@ -1,23 +1,17 @@
-const sectionTemplate = ({ color, sections, stations }) => {
+const sectionTemplate = ({ color, stations }) => {
   return `
-    <div class="d-flex flex-col">
-      <div>${sections
-        .map(({ distance }) => `<span>거리: ${distance}</span>`)
-        .join('')}
-      </div>
-      <div>${sections
-        .map(({ duration }) => `<span>시간: ${duration}</span>`)
-        .join('')}
-      </div>
-      <div class="d-flex">
+    <div class="map-stations">
+      <div class="d-flex flex-row">
         ${stations
           .map(({ name }) => {
             return `
               <div class="d-flex flex-col justify-center items-center">
-                <div class="map-stations" data-bg-color=${color}>
-                  <div class="map-stations__station-circle"></div>
+                <div class="map-stations__line" data-bg-color=${color}>
+                  <div class="map-stations__station-circle border-color=${color}"></div>
                 </div>
-                <span class="map-stations__name-circle">${name}</span>
+                <div class="map-stations__name-circle-wrapper">
+                  <span class="map-stations__name-circle">${name}</span>
+                </div>
               </div>
             `;
           })
@@ -30,7 +24,7 @@ const sectionTemplate = ({ color, sections, stations }) => {
 const lineTemplate = (line) => {
   return `
     <ul class="map">
-      <span>${line.name}</span>
+      <h2 class="map__line-title">${line.name}</h2>
       <li>
         ${sectionTemplate(line)}
       </li>

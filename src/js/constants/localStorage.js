@@ -1,5 +1,5 @@
-const localStorageKey = {
+const LOCAL_STORAGE_KEY = {
   ACCESSTOKEN: 'accessToken',
 };
 
-export default localStorageKey;
+export default LOCAL_STORAGE_KEY;

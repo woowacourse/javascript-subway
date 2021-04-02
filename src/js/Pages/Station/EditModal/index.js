@@ -1,6 +1,6 @@
 import { privateApis } from '../../../api';
 import { UNAUTHENTICATED_LINK } from '../../../constants/link';
-import localStorageKey from '../../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
 import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import { stationModal } from './template';
@@ -43,8 +43,7 @@ class EditModal extends ModalComponent {
         const stationId = this.targetId;
         // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
         const name = e.target['subway-station-name'].value;
-        const accessToken =
-          localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
         try {
           await privateApis.stations.put({

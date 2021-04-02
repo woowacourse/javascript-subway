@@ -1,7 +1,7 @@
 import { privateApis } from '../../api';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
-import localStorageKey from '../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { CONFIRM_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
@@ -64,8 +64,7 @@ class Line extends Component {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
         const id = target.closest('.js-line-item').dataset.id;
-        const accessToken =
-          localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
         try {
           await privateApis.lines.delete({

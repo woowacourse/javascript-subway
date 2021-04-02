@@ -10,7 +10,7 @@ import {
   isValidNameFormat,
   isValidEmailFormat,
 } from '../../utils/validateFormat';
-import localStorageKey from '../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 
 class Signup extends Component {
   constructor({ parentNode, props: { goPage, setIsLogin } }) {
@@ -51,7 +51,7 @@ class Signup extends Component {
         await publicApis.signup(name, email, password);
 
         const accessToken = await publicApis.login(email, password);
-        localStorage.setItem(localStorageKey.ACCESSTOKEN, accessToken);
+        localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
 
         this.goPage(AUTHENTICATED_LINK.STATION.PATH);

@@ -4,7 +4,7 @@ import { mainTemplate } from './template';
 import Component from '../../core/Component';
 import EditModal from './EditModal';
 import { privateApis } from '../../api';
-import localStorageKey from '../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
@@ -41,8 +41,7 @@ class Station extends Component {
       e.preventDefault();
 
       const name = e.target['station-name'].value;
-      const accessToken =
-        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
       await this.createItem(name, accessToken);
     });
@@ -59,8 +58,7 @@ class Station extends Component {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
         const { id } = target.closest('.js-station-item').dataset;
-        const accessToken =
-          localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
         await this.deleteItem(id, accessToken);
       }

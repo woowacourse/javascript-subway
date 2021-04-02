@@ -1,6 +1,6 @@
 import { privateApis } from '../../../api';
 import { UNAUTHENTICATED_LINK } from '../../../constants/link';
-import localStorageKey from '../../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
 import ModalComponent from '../../../core/ModalComponent';
 import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
@@ -39,8 +39,7 @@ class AddModal extends ModalComponent {
       const duration = e.target['duration'].value;
       const distance = e.target['distance'].value;
 
-      const accessToken =
-        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
       const body = {
         upStationId,

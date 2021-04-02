@@ -1,7 +1,7 @@
 import { privateApis } from '../../api';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
-import localStorageKey from '../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
@@ -61,8 +61,7 @@ class Section extends Component {
 
       const lineId = target.closest('.js-section-list').dataset.lineId;
       const stationId = target.closest('.js-section-item').dataset.stationId;
-      const accessToken =
-        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
       try {
         await privateApis.sections.delete({ lineId, stationId, accessToken });

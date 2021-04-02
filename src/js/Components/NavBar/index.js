@@ -1,4 +1,5 @@
 import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from '../../constants/link';
+import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import Component from '../../core/Component';
 import template from './template';
 
@@ -25,6 +26,7 @@ class NavBar extends Component {
 
       const path = anchor.getAttribute('href');
       if (path === AUTHENTICATED_LINK.LOGOUT.PATH) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
         this.setIsLogin(false);
         this.goPage(UNAUTHENTICATED_LINK.LOGIN.PATH);
 

@@ -5,7 +5,6 @@ import {
   UNAUTHENTICATED_LINK,
   HOME_LINK,
 } from './constants/link';
-import template from './Components/NavBar/template';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Section from './Pages/Section';
@@ -16,6 +15,7 @@ import { publicApis } from './api';
 import NavBar from './Components/NavBar';
 import Map from './Pages/Map';
 import ExpiredTokenError from './error/ExpiredTokenError';
+import LOCAL_STORAGE_KEY from './constants/localStorage';
 
 class App extends Component {
   constructor({ parentNode, state }) {
@@ -176,7 +176,7 @@ class App extends Component {
   }
 
   async isValidAccessToken() {
-    const accessToken = localStorage.getItem('accessToken') || '';
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
     try {
       await publicApis.me(accessToken);
     } catch (error) {

@@ -2,7 +2,7 @@ import ModalComponent from '../../../core/ModalComponent';
 import { $ } from '../../../utils/DOM';
 import modal from './template';
 import { privateApis } from '../../../api';
-import localStorageKey from '../../../constants/localStorage';
+import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
 import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { UNAUTHENTICATED_LINK } from '../../../constants/link';
 
@@ -45,8 +45,7 @@ class AddModal extends ModalComponent {
 
     $(`#${this.modalKey}-line-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
-      const accessToken =
-        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
       const name = e.target['subway-line-name'].value;
       const color = e.target['subway-line-color'].value;
       const upStationId = e.target['subway-line-up-station'].value;
