@@ -16,7 +16,11 @@ class Preview {
   async init() {
     this.#userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
     const sections = await initSections(this.#userAccessToken);
-    this.#sections = Object.values(sections)[0].sections;
+
+    this.#sections =
+      Object.keys(sections).length > 0
+        ? Object.values(sections)[0].sections
+        : {};
   }
 
   getPageInfo() {
