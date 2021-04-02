@@ -30,20 +30,13 @@ export default class Section extends Observer {
   renderComponent() {
     const lineListContainer = $(this.#lineListSelector);
     const stationListContainer = $(this.#stationListSelector);
-    const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
+    if (!lineListContainer || !stationListContainer) return;
     
-    if (!lineListContainer || !stationListContainer || targetSectionLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
+    const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
-    const targetLine = lineList.find(line => line.id === targetSectionLineId);
-    lineListContainer.innerHTML = `
-      <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
-      <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
-        ${lineList.map(line => {
-          const isSelected = line.id === targetSectionLineId;
-          return this.#getLineTemplate(line, isSelected);
-        }).join("")}
-      </select>
-    `;
+    const initialTargetLine = lineList.find(line => line.id === targetSectionLineId);
+    const [targetLine] = initialTargetLine ? [initialTargetLine] : lineList
+    lineListContainer.innerHTML = this.#getLineSelectTemplate(lineList, targetLine);
     stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
     this.#initEvents();
   }
@@ -75,7 +68,24 @@ export default class Section extends Observer {
     `;
   }
 
-  #getLineTemplate(line, isSelected) {
+  #getLineSelectTemplate(lineList, targetLine) {
+    return `
+      <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
+      ${targetLine ? 
+        `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
+          ${lineList.map(line => {
+            const isSelected = line.id === targetLine.id;
+            return this.#getLineOptionsTemplate(line, isSelected);
+          }).join("")}
+        </select>` : 
+        `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" disabled>
+          <option>현재 생성된 노선이 없습니다</option>
+        </select>`}
+      
+    `
+  }
+
+  #getLineOptionsTemplate(line, isSelected) {
     return `
       <option value="${line.id}" ${isSelected ? 'selected="selected"' : ''}>${line.name}</option>
     `;
