@@ -31,7 +31,12 @@ class Header {
 
   _bindMenuEvent() {
     this.$menu.addEventListener('click', e => {
-      if (e.target.tagName !== 'BUTTON') return;
+      if (
+        e.target.tagName !== 'BUTTON' &&
+        e.target.closest('a').pathname === window.location.pathname
+      )
+        return;
+
       this._handleChangeMenu(e);
     });
   }
