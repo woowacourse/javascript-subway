@@ -2,6 +2,9 @@
 .env
 cypress/integration/examples/
 src/router/routerClass.js
+.firebase/
+.firebaserc
+.firebase.json
 
 # Logs
 logs

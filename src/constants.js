@@ -63,6 +63,7 @@ export const SELECTOR_CLASS = Object.freeze({
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
   SUBWAY_LINE_REGISTER_FORM: 'subway-line-register-form',
   SUBWAY_LINE_UPDATE_FORM: 'subway-line-update-form',
+  SUBWAY_MAP_LINE: 'subway-map-line',
   MODAL_INNER: 'modal-inner',
   MODAL_CLOSE: 'modal-close',
   MODAL: 'modal',
