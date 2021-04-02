@@ -25,3 +25,8 @@
   outline: none;
   border-radius: 2rem;
 }
+
+.btn:focus,
+.btn:hover {
+  opacity: 0.7;
+}

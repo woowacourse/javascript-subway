@@ -18,6 +18,7 @@ const initAppEvent = () => {
 
 const init = async () => {
   await initStore();
+
   initAppEvent();
   initRouter();
 };

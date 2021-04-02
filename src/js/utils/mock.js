@@ -70,3 +70,4 @@ export const colorOptions = Object.freeze([
   'pink-800',
   'pink-900',
 ]);
+
