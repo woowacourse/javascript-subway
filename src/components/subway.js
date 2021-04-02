@@ -1,4 +1,4 @@
-import { SELECTOR_ID } from '../constants.js';
+import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY } from '../constants.js';
 import Observer from '../lib/Observer.js';
 import { $ } from '../utils/dom.js';
 
@@ -7,8 +7,7 @@ export default class Subway extends Observer {
   #parentSelector;
   #state;
 
-  // TODO: targetSelector 기본값 만들어주기
-  constructor(state, targetSelector, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
+  constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_MAP_CONTAINER}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
@@ -20,9 +19,10 @@ export default class Subway extends Observer {
   }
 
   renderComponent() {
-    // const targetContainer = $(this.#targetSelector);
-    // if (!targetContainer) return;
-    // targetContainer.innerHTML = this.#getTemplate();
+    const targetContainer = $(this.#targetSelector);
+    if (!targetContainer) return;
+    const lineList = this.#state.get(STATE_KEY.LINE_LIST);
+    targetContainer.innerHTML = lineList.map(line => this.#getTemplate(line.name, line.stations)).join('');
   }
 
   // TODO: fade-in 적용하기
@@ -37,9 +37,18 @@ export default class Subway extends Observer {
     `;
   }
 
-  // #getTemplate() {
-  //   return `
-  //     <option>${lineName}</option>
-  //   `;
-  // }
+  #getTemplate(lineName, stations) {
+    return `
+      <ul class="${SELECTOR_CLASS.SUBWAY_MAP_LINE}">
+        <li data-marker="lineName">${lineName}</li>
+        ${stations.map(station => `
+          <li class="subway-map-stations">
+            <span data-marker="station-line"></span>
+            <span data-marker="station"></span>
+            <span data-marker="station-name">${station.name}</span>
+          </li>
+        `).join('')}
+      </ul>
+    `;
+  }
 }

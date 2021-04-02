@@ -27,7 +27,7 @@ const section = new Section(
   `#${SELECTOR_ID.MAIN_CONTAINER}`
 );
 const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SUBWAY_SECTION_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
-const subway = new Subway(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const subway = new Subway(state, `#${SELECTOR_ID.SUBWAY_MAP_CONTAINER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
@@ -48,6 +48,7 @@ state.subscribe(STATE_KEY.TARGET_MENU, navigator);
 state.subscribe(STATE_KEY.STATION_LIST, station);
 state.subscribe(STATE_KEY.LINE_LIST, line);
 state.subscribe(STATE_KEY.LINE_LIST, section);
+state.subscribe(STATE_KEY.LINE_LIST, subway);
 state.subscribe(STATE_KEY.STATION_LIST, section);
 state.subscribe(STATE_KEY.TARGET_LINE_ID, lineModal);
 state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, sectionModal);
