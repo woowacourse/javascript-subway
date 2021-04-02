@@ -114,7 +114,6 @@ class LineModal {
       showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
       onModalClose();
     } catch (res) {
-      console.log(res);
       const message = await res.text();
       showSnackbar(message);
     }

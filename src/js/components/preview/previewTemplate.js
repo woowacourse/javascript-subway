@@ -33,7 +33,6 @@ export const previewLineTemplate = ({ color, stations, sections }) => {
     <ul id="preview-section-list">
     ${sections
       .map(section => {
-        console.log(section);
         return ` 
         <li class="preview-section-item">
           <span>거리 : ${section.distance}</span>

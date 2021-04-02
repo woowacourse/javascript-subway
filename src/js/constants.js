@@ -56,6 +56,9 @@ export const SELECTOR = {
   CREATE_SECTION_BUTTON: '.create-section-btn',
   OPTIONAL: '.optional',
   LINE_ITEM_INFO: '.line-item-info',
+  PREVIEW_FORM: "form[name='preview']",
+  PREVIEW_LIST: '#preview-list',
+  PREVIEW_LIST_LINE: '#preview-list .preview-line-item:first-child .line',
 };
 
 export const CLASS_NAME = {

@@ -34,3 +34,7 @@ export const clearForm = $form => {
     }
   });
 };
+
+export const setStyleAttribute = (style, $dom) => {
+  $dom.setAttribute('style', style);
+};

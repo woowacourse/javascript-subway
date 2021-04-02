@@ -1,6 +1,6 @@
-import { PAGE_TITLE, STORAGE } from '../../constants';
+import { PAGE_TITLE, SELECTOR, STORAGE } from '../../constants';
 import { initSections } from '../../models/model';
-import { $, $$ } from '../../utils/dom';
+import { $, $$, setStyleAttribute } from '../../utils/dom';
 import { getLocalStorageItem } from '../../utils/storage';
 import { previewLineTemplate, previewTemplate } from './previewTemplate';
 
@@ -20,7 +20,6 @@ class Preview {
   }
 
   getPageInfo() {
-    console.log(this.#sections);
     return {
       title: PAGE_TITLE.MAP,
       contents: {
@@ -30,6 +29,8 @@ class Preview {
   }
 
   initDOM() {
+    this.$previewForm = $(SELECTOR.PREVIEW_FORM);
+    this.$previewList = $(SELECTOR.PREVIEW_LIST);
     this._bindEvent();
   }
 
@@ -38,22 +39,21 @@ class Preview {
   }
 
   _bindSelectPreviewEvent() {
-    $("form[name='preview']").addEventListener('change', e => {
+    this.$previewForm.addEventListener('change', e => {
       this._selectPreviewLine(e);
     });
   }
 
-  _selectPreviewLine(e) {
-    const id = e.target.value;
-    $('#preview-list').innerHTML = previewLineTemplate(this.#sections[id]);
-    console.log();
-    const color = getComputedStyle(
-      $('#preview-list .preview-line-item:first-child .line'),
-    )['background-color'];
+  _selectPreviewLine({ target }) {
+    const id = target.value;
+    this.$previewList.innerHTML = previewLineTemplate(this.#sections[id]);
 
-    e.target.setAttribute('style', `border-color:${color}`);
+    const color = getComputedStyle($(SELECTOR.PREVIEW_LIST_LINE))[
+      'background-color'
+    ];
+    setStyleAttribute(`border-color:${color}`, target);
     $$('#preview-list .preview-line-item .line span').forEach($span => {
-      $span.setAttribute('style', `border-color:${color}`);
+      setStyleAttribute(`border-color:${color}`, $span);
     });
   }
 }

@@ -60,8 +60,6 @@ class App {
   }
 
   async switchURL(href) {
-    if (href !== '/' && href === window.location.pathname) return;
-
     this.#isLoggedIn = await authAPI.isValidUserAccessToken(
       STORAGE.USER_ACCESS_TOKEN,
     );
