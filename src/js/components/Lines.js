@@ -1,10 +1,10 @@
 import Component from "./common/Component.js";
 import LineModal from "./LineModal.js";
 import {
+  getStationsAPI,
   getLinesAPI,
   deleteLineAPI,
-  getStationsAPI,
-} from "../APIs/subwayAPI.js";
+} from "../APIs/subway/index.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";

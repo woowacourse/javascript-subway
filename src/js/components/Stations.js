@@ -15,7 +15,7 @@ import {
   addStationAPI,
   deleteStationAPI,
   getStationsAPI,
-} from "../APIs/subwayAPI.js";
+} from "../APIs/subway/index.js";
 
 import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";

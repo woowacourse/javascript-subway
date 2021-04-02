@@ -1,4 +1,4 @@
-import { getLinesAPI } from "../APIs/subwayAPI";
+import { getLinesAPI } from "../APIs/subway/index.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages";
 import { createMap } from "../constants/template";

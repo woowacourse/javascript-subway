@@ -11,7 +11,7 @@ import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import { getMemberInfo } from "../APIs/subwayAPI.js";
+import { getMemberInfoAPI } from "../APIs/subway/index.js";
 
 export default class App {
   constructor() {
@@ -108,7 +108,7 @@ export default class App {
       return;
     }
 
-    const { isSucceeded, memberInfo } = await getMemberInfo(accessToken);
+    const { isSucceeded, memberInfo } = await getMemberInfoAPI(accessToken);
 
     this.setPageState({
       isLoggedIn: isSucceeded,

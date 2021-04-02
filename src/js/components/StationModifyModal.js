@@ -6,7 +6,7 @@ import {
   TOKEN_STORAGE_KEY,
 } from "../constants/general.js";
 import { $ } from "../utils/DOM.js";
-import { modifyStationNameAPI } from "../APIs/subwayAPI.js";
+import { modifyStationNameAPI } from "../APIs/subway/index.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";

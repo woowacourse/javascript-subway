@@ -4,7 +4,7 @@ import {
   deleteSectionAPI,
   getLinesAPI,
   getStationsAPI,
-} from "../APIs/subwayAPI.js";
+} from "../APIs/subway/index.js";
 
 import { $, removeAllChildren } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
