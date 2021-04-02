@@ -14,7 +14,7 @@ const checkResponseAndThrowErrorIfNotOk = async (response) => {
 };
 
 const privateApis = {
-  Stations: {
+  stations: {
     get: async ({ accessToken }) => {
       const response = await request.get({
         url: BASE_URL + PATH.STATIONS,
@@ -76,7 +76,7 @@ const privateApis = {
     },
   },
 
-  Lines: {
+  lines: {
     get: async ({ accessToken }) => {
       const response = await request.get({
         url: BASE_URL + PATH.LINES,
@@ -138,7 +138,7 @@ const privateApis = {
     },
   },
 
-  Sections: {
+  sections: {
     post: async ({ lineId, accessToken, body }) => {
       const response = await request.post({
         url: `${BASE_URL}${PATH.LINES}/${lineId}${PATH.SECTIONS}`,

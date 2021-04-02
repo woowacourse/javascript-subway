@@ -15,15 +15,10 @@ const AUTHENTICATED_LINK = {
     PATH: '/section',
     NAME: '🔁 구간 관리',
   },
-  // TODO: 3단계 요구사항
-  // MAP: {
-  //   PATH: '/map',
-  //   NAME: '🗺️ 전체 보기',
-  // },
-  // SEARCH: {
-  //   PATH: '/search',
-  //   NAME: '🔎 길 찾기',
-  // },
+  MAP: {
+    PATH: '/map',
+    NAME: '🗺️ 전체 보기',
+  },
   LOGOUT: {
     PATH: '/logout',
     NAME: '👤 로그아웃',

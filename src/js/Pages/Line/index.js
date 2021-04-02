@@ -68,7 +68,7 @@ class Line extends Component {
           localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
         try {
-          await privateApis.Lines.delete({
+          await privateApis.lines.delete({
             lineId: id,
             accessToken,
           });

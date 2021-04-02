@@ -51,7 +51,7 @@ class EditModal extends ModalComponent {
       const color = e.target['subway-line-color'].value;
 
       try {
-        await privateApis.Lines.put({
+        await privateApis.lines.put({
           lineId: this.targetId,
           accessToken,
           body: {

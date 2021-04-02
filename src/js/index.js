@@ -14,6 +14,8 @@ import Station from './Pages/Station';
 import Component from './core/Component';
 import { publicApis } from './api';
 import NavBar from './Components/NavBar';
+import Map from './Pages/Map';
+import ExpiredTokenError from './error/ExpiredTokenError';
 
 class App extends Component {
   constructor({ parentNode, state }) {
@@ -57,6 +59,10 @@ class App extends Component {
           setIsLogin: this.setIsLogin.bind(this),
         },
       }),
+      Map: new Map({
+        parentNode: $('.js-main'),
+        state,
+      }),
     };
 
     this.router = {
@@ -72,9 +78,9 @@ class App extends Component {
       [AUTHENTICATED_LINK.SECTION.PATH]: () => {
         return this.privateRoute(this.pageComponents.Section);
       },
-      // TODO: 3단계 요구사항
-      // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
-      // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
+      [AUTHENTICATED_LINK.MAP.PATH]: () => {
+        return this.privateRoute(this.pageComponents.Map);
+      },
       [UNAUTHENTICATED_LINK.LOGIN.PATH]: () => {
         return this.publicRoute(this.pageComponents.Login);
       },
@@ -137,7 +143,15 @@ class App extends Component {
 
     // 탭을 빠르게 전환시 데이터 응답 이후 기존탭을 그리는 현상이 나타남
     component.render();
-    await component.updateSubwayState?.();
+    try {
+      await component.updateSubwayState?.();
+    } catch (error) {
+      if (error instanceof ExpiredTokenError) {
+        this.setIsLogin(false);
+        this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+      }
+      console.error(error.message);
+    }
   }
 
   async goPage(path) {

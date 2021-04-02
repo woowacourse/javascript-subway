@@ -47,7 +47,7 @@ class EditModal extends ModalComponent {
           localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
         try {
-          await privateApis.Stations.put({
+          await privateApis.stations.put({
             stationId,
             accessToken,
             body: { name },

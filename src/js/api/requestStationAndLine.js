@@ -5,8 +5,8 @@ const requestStationAndLine = async () => {
   const accessToken = localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
   const [stations, lines] = await Promise.all([
-    privateApis.Stations.get({ accessToken }),
-    privateApis.Lines.get({ accessToken }),
+    privateApis.stations.get({ accessToken }),
+    privateApis.lines.get({ accessToken }),
   ]);
 
   return { stations, lines };

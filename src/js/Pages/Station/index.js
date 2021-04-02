@@ -70,7 +70,7 @@ class Station extends Component {
   async createItem(name, accessToken) {
     const body = { name };
     try {
-      await privateApis.Stations.post({ accessToken, body });
+      await privateApis.stations.post({ accessToken, body });
       this.updateSubwayState();
     } catch (error) {
       if (error instanceof ExpiredTokenError) {
@@ -84,7 +84,7 @@ class Station extends Component {
 
   async deleteItem(stationId, accessToken) {
     try {
-      await privateApis.Stations.delete({
+      await privateApis.stations.delete({
         stationId,
         accessToken,
       });

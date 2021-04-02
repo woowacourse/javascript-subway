@@ -50,7 +50,7 @@ class AddModal extends ModalComponent {
       };
 
       try {
-        await privateApis.Sections.post({ lineId, accessToken, body });
+        await privateApis.sections.post({ lineId, accessToken, body });
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof ExpiredTokenError) {

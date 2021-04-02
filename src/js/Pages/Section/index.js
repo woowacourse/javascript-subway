@@ -19,7 +19,7 @@ class Section extends Component {
     this.childComponents = {
       addModal: new AddModal({
         parentNode,
-        modalkey: 'section-add',
+        modalKey: 'section-add',
         props: {
           goPage,
           setIsLogin,
@@ -65,7 +65,7 @@ class Section extends Component {
         localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
       try {
-        await privateApis.Sections.delete({ lineId, stationId, accessToken });
+        await privateApis.sections.delete({ lineId, stationId, accessToken });
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof ExpiredTokenError) {

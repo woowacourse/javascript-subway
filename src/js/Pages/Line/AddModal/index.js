@@ -55,7 +55,7 @@ class AddModal extends ModalComponent {
       const duration = e.target['duration'].value;
 
       try {
-        await privateApis.Lines.post({
+        await privateApis.lines.post({
           accessToken,
           body: {
             name,
