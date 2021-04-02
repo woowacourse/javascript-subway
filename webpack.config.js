@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development',
   entry: './src/js/index.js',
   output: {
-    filename: '[chunkhash].bundle.js',
+    filename: '[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
