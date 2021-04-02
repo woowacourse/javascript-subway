@@ -25,10 +25,11 @@ export default class State extends Subject {
   }
 
   updateAll(data = []) {
+
     this.#state = { ...this.#state, data };
     this.notifyAll();
   }
-
+  
   get(key) {
     if (!key) return;
     if (Array.isArray(this.#state[key])) {
@@ -39,7 +40,7 @@ export default class State extends Subject {
     }
     return this.#state[key];
   }
-
+  
   getAll() {
     return Object.assign({}, this.#state);
   }

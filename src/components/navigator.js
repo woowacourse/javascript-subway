@@ -35,7 +35,6 @@ export default class Navigator extends Observer {
     $targetMenuButton && $targetMenuButton.classList.add(SETTINGS.SELECTED_MENU_COLOR);
   }
 
-  // TODO : 이거 굳이 동적으로 넣는 이유가 뭔지 알아보기
   #getTemplate() {
     return `
       <a href="${PATH.ROOT}" class="text-black">

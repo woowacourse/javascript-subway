@@ -1,10 +1,23 @@
 # custom
 .env
 cypress/integration/examples/
-src/router/routerClass.js
+cypress/fixtures
+cypress/plugins
+cypress/support
 .firebase/
-.firebaserc
+.vscode/
 firebase.json
+.firebaserc
+pages/lines-modal.html
+pages/lines.html
+pages/login.html
+pages/main.html
+pages/search.html
+pages/sections-modal.html
+pages/sections.html
+pages/signup.html
+pages/stations.html
+pages/subway.html
 
 # Logs
 logs
