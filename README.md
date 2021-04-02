@@ -13,9 +13,23 @@
 
 # 🔥 Projects!
 
-<p align="middle">
-  <img src="./src/images/readme/subway_app_preview.png">
-</p>
+## [🌎 데모사이트](https://yungo1846-subway.netlify.app/)
+
+![지하철 step3](https://user-images.githubusercontent.com/59409762/113444588-23cddd80-942f-11eb-9ba6-6a0c3c697af2.gif)
+
+## 테스터 아이디
+
+미리 데이터가 등록되어 있는 아이디를 사용하시면 회원가입을 하지 않으셔도 됩니다. 👍
+
+### 데모사이트 용
+
+ID: gonnie@naver.com
+PW: 123
+
+### cypress 테스트용
+
+ID: test@email.com
+PW: 123
 
 ## 🎯 step1
 
