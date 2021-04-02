@@ -3,8 +3,8 @@ export const sectionListTemplate = (lineColor, { name, id, duration, distance })
   <li class="section-list-item list-style-none">
     <div class="d-flex items-center relative">
       <div class="d-flex justify-center align-center">
-        <span class="subway-line-color-dot" style="background-color: ${lineColor}"></span>
-        <div class="vertical-line-bar" style="background-color: ${lineColor}"></div>
+        <span class="subway-line-color-dot ${lineColor}" style="background-color: ${lineColor}"></span>
+        <div class="vertical-line-bar ${lineColor}" style="background-color: ${lineColor}"></div>
       </div>
       <span class="w-100 pl-6 section-name">${name}</span>
       <button
