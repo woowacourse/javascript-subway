@@ -1,5 +1,6 @@
 import { requestCheckLogin } from '../api/auth';
 import { STORE } from '../constants/alertMessage';
+import snackbar from '../utils/snackbar';
 import accessToken from './accessToken';
 import line from './line';
 import station from './station';
@@ -29,7 +30,7 @@ export const initPrivateStore = async () => {
     await station.init();
     await line.init();
   } catch (error) {
-    alert(STORE.DATA_LOAD_FAILED);
+    snackbar.open(STORE.DATA_LOAD_FAILED);
   }
 };
 

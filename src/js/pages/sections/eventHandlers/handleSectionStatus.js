@@ -5,6 +5,7 @@ import { SECTION, STORE } from '../../../constants/alertMessage';
 import { updateDownStationAddModal, updateSectionList, updateUpStationAddModal } from '../viewController';
 import { requestDeleteSection } from '../../../api/section';
 import store from '../../../store';
+import snackbar from '../../../utils/snackbar';
 
 const deleteSection = async ({ lineId, stationId }) => {
   if (!window.confirm(SECTION.DELETE_SECTION_CONFIRM)) return;
@@ -14,14 +15,16 @@ const deleteSection = async ({ lineId, stationId }) => {
     await store.line.init();
     updateSectionList(getSections(lineId));
   } catch (error) {
-    alert(STORE.DATA_LOAD_FAILED);
+    snackbar.open(STORE.DATA_LOAD_FAILED);
     return;
   }
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
+
+  snackbar.open(SECTION.DELETE_SECTION_SUCCESS);
 };
 
 const handleSectionStatus = async event => {
@@ -41,7 +44,7 @@ const handleSectionStatus = async event => {
     const availableStations = getAvailableStations(lineId);
 
     if (availableStations.length <= 0) {
-      alert(SECTION.NO_AVAILABLE_STATION);
+      snackbar.open(SECTION.NO_AVAILABLE_STATION);
       return;
     }
 
@@ -60,7 +63,7 @@ const handleSectionStatus = async event => {
     try {
       await store.line.init();
     } catch (error) {
-      alert(STORE.DATA_LOAD_FAILED);
+      snackbar.open(STORE.DATA_LOAD_FAILED);
       return;
     }
     updateSectionList(getSections(lineId));

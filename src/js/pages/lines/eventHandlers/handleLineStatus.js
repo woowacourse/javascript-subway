@@ -4,6 +4,7 @@ import { $ } from '../../../utils/dom';
 import { openModal } from '../../../utils/modal';
 import { LINE } from '../../../constants/alertMessage';
 import { requestDeleteLine } from '../../../api/line';
+import snackbar from '../../../utils/snackbar';
 
 const deleteLine = async target => {
   if (!window.confirm(LINE.DELETE_LINE_CONFIRM)) return;
@@ -13,13 +14,13 @@ const deleteLine = async target => {
 
   const result = await requestDeleteLine(lineID);
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
   store.line.delete(lineID);
   $targetLine.remove();
 
-  alert(LINE.DELETE_LINE_SUCCESS);
+  snackbar.open(LINE.DELETE_LINE_SUCCESS);
 };
 
 export const handleLineStatus = async ({ target }) => {

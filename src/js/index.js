@@ -5,6 +5,7 @@ import initRouter from './routes';
 import { initStore } from './store';
 import handleRoute from './eventHandlers/handleRoute';
 import handleLogout from './eventHandlers/handleLogout';
+import snackbar from './utils/snackbar';
 
 const initAppEvent = () => {
   $('#header').addEventListener('click', handleRoute);
@@ -23,3 +24,4 @@ const init = async () => {
 };
 
 init();
+snackbar.init();

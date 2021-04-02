@@ -3,6 +3,7 @@ import { STATION } from '../../../constants/alertMessage';
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { closeModal } from '../../../utils/modal';
+import snackbar from '../../../utils/snackbar';
 import { updateStationListItem } from '../viewController';
 
 const handleEditStation = async event => {
@@ -17,20 +18,22 @@ const handleEditStation = async event => {
   }
 
   if (store.station.includes(newStationName)) {
-    alert(STATION.DUPLICATED_STATION_NAME);
+    snackbar.open(STATION.DUPLICATED_STATION_NAME);
     return;
   }
 
   const result = await requestEditStation({ id: stationId, name: newStationName });
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
 
   store.station.editName(newStationName, Number(stationId));
   closeModal($('.modal'));
   updateStationListItem({ id: stationId, name: newStationName });
+
+  snackbar.open(STATION.EDIT_STATION_SUCCESS);
 };
 
 export default handleEditStation;

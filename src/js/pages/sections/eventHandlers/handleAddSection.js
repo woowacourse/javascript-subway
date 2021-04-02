@@ -1,9 +1,10 @@
 import { requestAddSection } from '../../../api/section';
-import { STORE } from '../../../constants/alertMessage';
+import { SECTION, STORE } from '../../../constants/alertMessage';
 import { getSections } from '../../../services/section';
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { closeModal } from '../../../utils/modal';
+import snackbar from '../../../utils/snackbar';
 import { updateSectionList } from '../viewController';
 
 const handleAddSection = async event => {
@@ -18,20 +19,22 @@ const handleAddSection = async event => {
   const result = await requestAddSection({ lineId, upStationId, downStationId, distance, duration });
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
 
   try {
     await store.line.init();
   } catch (error) {
-    alert(STORE.DATA_LOAD_FAILED);
+    snackbar.open(STORE.DATA_LOAD_FAILED);
     return;
   }
 
   updateSectionList(getSections(lineId));
   closeModal($('#section-add-modal'));
   $('#section-add-form').reset();
+
+  snackbar.open(SECTION.ADD_SECTION_SUCCESS);
 };
 
 export default handleAddSection;

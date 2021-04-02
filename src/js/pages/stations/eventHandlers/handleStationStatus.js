@@ -5,6 +5,7 @@ import { openModal } from '../../../utils/modal';
 import { $ } from '../../../utils/dom';
 import { requestDeleteStation } from '../../../api/station';
 import { isStationInLines } from '../../../services/station';
+import snackbar from '../../../utils/snackbar';
 
 const deleteStation = async target => {
   if (!window.confirm(STATION.DELETE_STATION_CONFIRM)) return;
@@ -13,19 +14,19 @@ const deleteStation = async target => {
   const stationId = Number($targetStation.dataset.id);
 
   if (isStationInLines(stationId)) {
-    alert('역을 삭제할 수 없습니다. 이미 노선에 등록된 역입니다.');
+    snackbar.open('역을 삭제할 수 없습니다. 이미 노선에 등록된 역입니다.');
     return;
   }
 
   const result = await requestDeleteStation(stationId);
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
   store.station.delete(stationId);
   $targetStation.remove();
 
-  alert(STATION.DELETE_STATION_SUCCESS);
+  snackbar.open(STATION.DELETE_STATION_SUCCESS);
 };
 
 const handleStationStatus = async ({ target }) => {

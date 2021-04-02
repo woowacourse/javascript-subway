@@ -13,9 +13,11 @@ export const STATION = Object.freeze({
   GET_STATION_LIST_FAILED: '역 목록을 가져오지 못했습니다.',
   DUPLICATED_STATION_NAME: '이미 존재하는 역 이름입니다.',
   DELETE_STATION_FAILED: '역 삭제에 실패했습니다.',
-  DELETE_STATION_SUCCESS: '역을 삭제했습니다.',
   DELETE_STATION_CONFIRM: '역을 삭제하시겠습니까?',
   EDIT_STATION_FAILED: '역 이름 수정에 실패했습니다',
+  ADD_STATION_SUCCESS: '역을 등록했습니다.',
+  EDIT_STATION_SUCCESS: '역 이름을 수정했습니다.',
+  DELETE_STATION_SUCCESS: '역을 삭제했습니다.',
 });
 
 export const LINE = Object.freeze({
@@ -24,9 +26,11 @@ export const LINE = Object.freeze({
   ADD_LINE_FAILED: '노선 등록에 실패했습니다.',
   TOO_FEW_STATION: `노선을 만들기 위해서는 ${STATION_AMOUNT.MIN}개 이상의 역이 필요합니다.`,
   DELETE_LINE_FAILED: '노선 삭제에 실패했습니다.',
-  DELETE_LINE_SUCCESS: '노선을 삭제했습니다.',
   DELETE_LINE_CONFIRM: '노선을 삭제하시겠습니까?',
   EDIT_LINE_FAILED: '노선 수정에 실패했습니다',
+  ADD_LINE_SUCCESS: '노선을 추가했습니다',
+  EDIT_LINE_SUCCESS: '노선을 수정했습니다',
+  DELETE_LINE_SUCCESS: '노선을 삭제했습니다.',
 });
 
 export const SECTION = Object.freeze({
@@ -36,6 +40,9 @@ export const SECTION = Object.freeze({
   DELETE_SECTION_FAILED: '구간 삭제에 실패했습니다.',
   GET_SECTION_FAILED: '구간 조회에 실패했습니다.',
   DELETE_SECTION_CONFIRM: '구간을 삭제하시겠습니까?',
+  ADD_SECTION_SUCCESS: '구간을 추가했습니다',
+  EDIT_SECTION_SUCCESS: '구간을 수정했습니다',
+  DELETE_SECTION_SUCCESS: '구간을 삭제했습니다',
 });
 
 export const STORE = Object.freeze({

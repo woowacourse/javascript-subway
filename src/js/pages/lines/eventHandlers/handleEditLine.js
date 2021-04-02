@@ -5,12 +5,13 @@ import { closeModal } from '../../../utils/modal';
 import { STATION_AMOUNT } from '../../../constants/service';
 import { LINE } from '../../../constants/alertMessage';
 import { requestEditLine } from '../../../api/line';
+import snackbar from '../../../utils/snackbar';
 
 const handleEditLine = async event => {
   event.preventDefault();
 
   if (store.station.length < STATION_AMOUNT.MIN) {
-    alert(LINE.TOO_FEW_STATION);
+    snackbar.open(LINE.TOO_FEW_STATION);
     return;
   }
 
@@ -23,7 +24,7 @@ const handleEditLine = async event => {
   });
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
 
@@ -31,6 +32,8 @@ const handleEditLine = async event => {
   updateLineListItem({ id, name: name.value, color: color.value });
   closeModal($('#line-edit-modal'));
   event.target.reset();
+
+  snackbar.open(LINE.EDIT_LINE_SUCCESS);
 };
 
 export default handleEditLine;

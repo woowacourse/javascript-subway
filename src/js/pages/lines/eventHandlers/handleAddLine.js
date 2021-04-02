@@ -5,12 +5,13 @@ import { closeModal } from '../../../utils/modal';
 import { STATION_AMOUNT } from '../../../constants/service';
 import { requestAddLine } from '../../../api/line';
 import { LINE } from '../../../constants/alertMessage';
+import snackbar from '../../../utils/snackbar';
 
 const handleAddLine = async event => {
   event.preventDefault();
 
   if (store.station.length < STATION_AMOUNT.MIN) {
-    alert(LINE.TOO_FEW_STATION);
+    snackbar.open(LINE.TOO_FEW_STATION);
     return;
   }
 
@@ -33,7 +34,7 @@ const handleAddLine = async event => {
   });
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
 
@@ -41,6 +42,8 @@ const handleAddLine = async event => {
   addLineListItem(result.data);
   closeModal($('#line-add-modal'));
   event.target.reset();
+
+  snackbar.open(LINE.ADD_LINE_SUCCESS);
 };
 
 export default handleAddLine;

@@ -3,6 +3,7 @@ import { initPrivateStore } from '../../../store';
 import { AUTH } from '../../../constants/alertMessage';
 import { $, showElement } from '../../../utils/dom';
 import { login } from '../../../services/auth';
+import snackbar from '../../../utils/snackbar';
 
 const handleLogin = async event => {
   event.preventDefault();
@@ -12,7 +13,7 @@ const handleLogin = async event => {
   const isSuccess = await login(email.value, password.value, { keepLogin: keepLogin.checked });
 
   if (!isSuccess) {
-    alert(AUTH.LOGIN_FAILED);
+    snackbar.open(AUTH.LOGIN_FAILED);
     return;
   }
 
@@ -21,7 +22,7 @@ const handleLogin = async event => {
     routeTo('/');
     showElement($('#nav'));
   } catch (error) {
-    alert(error.message);
+    snackbar.open(error.message);
     routeTo('/login');
   }
 };

@@ -4,6 +4,7 @@ import { requestAddStation } from '../../../api/station';
 import store from '../../../store';
 import { isInRange } from '../../../utils/validation';
 import { addStationListItem } from '../viewController';
+import snackbar from '../../../utils/snackbar';
 
 const validateInput = value => {
   if (!isInRange(value.length, { min: STATION_NAME.MIN_LENGTH, max: STATION_NAME.MAX_LENGTH })) {
@@ -33,20 +34,22 @@ const handleAddStation = async event => {
   const validationResult = validateInput(inputValue);
 
   if (!validationResult.success) {
-    alert(validationResult.errorMessage);
+    snackbar.open(validationResult.errorMessage);
     return;
   }
 
   const result = await requestAddStation(inputValue);
 
   if (!result.success) {
-    alert(result.message);
+    snackbar.open(result.message);
     return;
   }
 
   store.station.add(result.data);
   addStationListItem(result.data);
   event.target.reset();
+
+  snackbar.open(STATION.ADD_STATION_SUCCESS);
 };
 
 export default handleAddStation;

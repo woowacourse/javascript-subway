@@ -3,6 +3,7 @@ import { requestSignup } from '../../../api/auth';
 import { $, showElement } from '../../../utils/dom';
 import { routeTo } from '../../../utils/history';
 import { login } from '../../../services/auth';
+import snackbar from '../../../utils/snackbar';
 
 const handleSignup = async event => {
   event.preventDefault();
@@ -18,11 +19,11 @@ const handleSignup = async event => {
   const response = await requestSignup(user);
 
   if (!response.success) {
-    alert(response.message);
+    snackbar.open(response.message);
     return;
   }
 
-  alert(AUTH.SIGNUP_SUCCESS);
+  snackbar.open(AUTH.SIGNUP_SUCCESS);
 
   const isSuccess = await login(email.value, password.value, { keepLogin: false });
 
