@@ -32,6 +32,11 @@
   border: 2px solid rgb(78, 207, 224);
 }
 
+#line-select:focus:invalid,
+#station-select:focus:invalid {
+  border-color: #666;
+}
+
 /* 구간 목록 표시 List */
 .section-list {
   height: 100%;
@@ -127,5 +132,5 @@
 
 .section-add-form .distance:focus:invalid,
 .section-add-form .duration:focus:invalid {
-  border-color: #ff5252;
+  border-color: #666;
 }

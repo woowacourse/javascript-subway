@@ -27,7 +27,7 @@
 }
 
 .auth-input-field:focus:invalid {
-  border-color: #ff5252;
+  border-color: #666;
 }
 
 /* 유효성 검사 메세지 */

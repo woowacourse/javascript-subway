@@ -69,7 +69,7 @@ export const LINES_TEMPLATE = `
     <label for="add-line-color" id="add-line-color-label" class="input-label">#000000</label>
   </div>
 
-  <button type="submit" class="submit-button input-submit bg-cyan-300" name="submit" disabled>추가</button>
+  <button type="submit" class="submit-button line-add-button bg-cyan-300" name="submit" disabled>추가</button>
 </form>
 
 <ul class="mt-3 pl-0"></ul>
