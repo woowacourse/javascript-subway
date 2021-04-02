@@ -198,8 +198,4 @@ export default class Sections extends Component {
     this.render();
     this.sectionsModal.render();
   }
-
-  render() {
-    super.render();
-  }
 }

@@ -29,8 +29,4 @@ export default class Modal extends Component {
   close() {
     this.$modal.classList.remove("open");
   }
-
-  render() {
-    super.render();
-  }
 }

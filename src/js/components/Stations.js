@@ -210,8 +210,4 @@ export default class Stations extends Component {
     this.render();
     this.stationModifyModal.render();
   }
-
-  render() {
-    super.render();
-  }
 }

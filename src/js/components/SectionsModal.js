@@ -151,8 +151,4 @@ export default class SectionsModal extends Modal {
 
     super.close();
   }
-
-  render() {
-    super.render();
-  }
 }

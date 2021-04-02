@@ -125,8 +125,4 @@ export class StationModifyModal extends Modal {
 
     super.open();
   }
-
-  render() {
-    super.render();
-  }
 }
