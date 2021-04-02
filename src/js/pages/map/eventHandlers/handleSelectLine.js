@@ -1,6 +1,8 @@
+import { getSections } from '../../../services/section';
 import store from '../../../store';
 import { $ } from '../../../utils/dom';
 import { setSelectElementColor } from '../../../utils/style';
+import { setMapLineColor, updateMapList } from '../viewController';
 
 const handleSelectLine = event => {
   const $lineSelect = event.currentTarget;
@@ -10,8 +12,9 @@ const handleSelectLine = event => {
 
   setSelectElementColor($lineSelect, color);
 
-  const $mapList = $('.js-map-list');
-  $mapList.dataset.lineId = id;
+  updateMapList(getSections(id, { isContainsStartSection: false }));
+  setMapLineColor(color);
+  $('.js-map-list').dataset.lineId = id;
 };
 
 export default handleSelectLine;

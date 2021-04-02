@@ -1,9 +1,23 @@
 import { optionTemplate } from '../../templates/option';
 
-const mapListItemTemplate = ({ stationName, duration, distance }) => `
+const transferLineTemplate = transferLines => `
+  <div class="js-transfer-lines ml-3">
+    ${transferLines.map(
+      line => `
+        <button class="btn">${line.name}</button>
+      `
+    )}
+  </div>
+`;
+
+const mapListItemTemplate = ({ stationName, duration, distance, transferLines = [] }) => `
   <li class="js-map-list-item map-list-item">
     <div class="d-flex flex-col pl-3">
-      <span class="station-name">${stationName}</span>
+      <div class="d-flex items-center">
+        <div class="js-map-list-item-circle map-list-item-circle"></div>
+        <span class="station-name">${stationName}</span>
+        ${transferLines.length > 0 ? transferLineTemplate(transferLines) : ''}
+      </div>
       ${
         duration && distance
           ? `
@@ -17,6 +31,14 @@ const mapListItemTemplate = ({ stationName, duration, distance }) => `
     </div>
   </li>
 `;
+
+export const mapListItems = sections => {
+  return sections
+    .map(({ upStation, distance, duration, transferLines }) =>
+      mapListItemTemplate({ stationName: upStation.name, distance, duration, transferLines })
+    )
+    .join('');
+};
 
 const mapPageTemplate = (lines = []) => `
   <div class="d-flex justify-center mt-5 w-100">
@@ -33,11 +55,7 @@ const mapPageTemplate = (lines = []) => `
               ${lines.map(({ id, name }) => optionTemplate(id, name)).join('')}
             </select>
           </form>
-          <ul class="js-map-list map-list mt-3" data-line-id="">
-            ${[{ stationName: '테스트1', duration: 10, distance: 10 }, { stationName: '테스트2' }]
-              .map(item => mapListItemTemplate(item))
-              .join('')}
-          </ul>
+          <ul class="js-map-list map-list mt-3" data-line-id=""></ul>
         </div>
       </main>
     </div>

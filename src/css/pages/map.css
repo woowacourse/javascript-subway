@@ -30,26 +30,30 @@
   position: relative;
 }
 
-.map-list-item::before {
-  position: relative;
-  display: block;
-  left: 0;
-  content: '';
+.map-list-item .map-list-item-circle {
   width: var(--station-circle-size);
   height: var(--station-circle-size);
   border: var(--line-width) solid black;
   border-radius: 50%;
   background-color: white;
+  position: relative;
+  left: -12px;
+}
+
+.map-list-item .map-list-item-circle.transfer-available {
+  cursor: pointer;
+  background-image: url(../../images/transfer.png);
+  background-position: center center;
+  background-size: 110%;
 }
 
 .map-list-item .station-name {
   display: block;
-  flex: 1;
 }
 
 .map-list-item .section-info {
   margin-top: calc(var(--map-list-item-blank-length) * 2);
-  padding-left: 1rem;
+  padding-left: 2rem;
 }
 
 .map-list-item .section-info::before {

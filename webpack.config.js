@@ -29,6 +29,10 @@ module.exports = {
         include: [path.resolve(__dirname, 'src/css')],
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [

@@ -7,7 +7,7 @@ export const getAvailableStations = lineId => {
   return stations.filter(station => !lineStations.find(lineStation => lineStation.id === station.id));
 };
 
-export const getSections = lineId => {
+export const getSections = (lineId, { isContainsStartSection } = { isContainsStartSection: true }) => {
   const stations = store.line.getLineStations(lineId);
   const sections = store.line.getLineSections(lineId);
 
@@ -23,5 +23,5 @@ export const getSections = lineId => {
     index === stations.length - 1 ? endSection : sections.find(({ upStation }) => upStation.id === station.id)
   );
 
-  return [startSection, ...restSections];
+  return isContainsStartSection ? [startSection, ...restSections] : [...restSections];
 };
