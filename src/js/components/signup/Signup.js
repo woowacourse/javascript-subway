@@ -1,14 +1,13 @@
 import Component from '../../core/Component.js';
 import { signupTemplate } from './template.js';
-import { $, showSnackbar, setFontColorGreen, setFontColorRed } from '../../utils/index.js';
+import { $, showSnackbar, setFontColorGreen, setFontColorRed, routeTo } from '../../utils/index.js';
 import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 import { serviceAPI } from '../../service/index.js';
 
 export default class Signup extends Component {
-  constructor({ changeTemplate }) {
+  constructor() {
     super();
-    this.changeTemplate = changeTemplate;
     this.isDuplicateChecked;
     this.verifiedEmail = '';
   }
@@ -87,7 +86,7 @@ export default class Signup extends Component {
     }
 
     showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
-    this.changeTemplate('/login');
+    routeTo('/login');
     history.pushState({ pathName: '/login' }, null, '/login');
     Navigation.changeSelectedButtonColor();
     this.isDuplicateChecked = false;

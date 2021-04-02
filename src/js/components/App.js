@@ -8,7 +8,7 @@ import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
 import { LOCAL_STORAGE_KEY, MESSAGE } from '../constants/index.js';
-import { getLocalStorageItem } from '../utils/index.js';
+import { getLocalStorageItem, routeTo } from '../utils/index.js';
 import { serviceAPI } from '../service/index.js';
 
 export default class App extends Component {
@@ -24,32 +24,26 @@ export default class App extends Component {
       '/signup': (token = '') => this.Signup.load(token),
     };
     this.bindEvent();
-    this.changeTemplate('/');
+    routeTo('/');
   }
 
   mountComponent() {
-    this.Navigation = new Navigation({
-      changeTemplate: this.changeTemplate.bind(this),
-    });
+    this.Navigation = new Navigation();
     this.Stations = new Stations();
     this.Lines = new Lines();
     this.Sections = new Sections();
     this.SubwayMap = new SubwayMap();
-    this.Login = new Login({ changeTemplate: this.changeTemplate.bind(this) });
-    this.Signup = new Signup({
-      changeTemplate: this.changeTemplate.bind(this),
-    });
+    this.Login = new Login();
+    this.Signup = new Signup();
     this.Main = new Main();
   }
 
   bindEvent() {
-    window.addEventListener('popstate', this.changeTemplate.bind(this, window.location.pathname));
+    window.addEventListener('popstate', this.changeTemplate.bind(this));
   }
 
-  async changeTemplate(pathName = '') {
-    if (!pathName) {
-      pathName = window.location.pathname;
-    }
+  async changeTemplate() {
+    const pathName = window.location.pathname;
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
     const isLoggedIn = await serviceAPI.isValidToken(token);
 

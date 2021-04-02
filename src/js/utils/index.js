@@ -5,3 +5,4 @@ export { getLocalStorageItem, setLocalStorageItem } from './localStorage.js';
 export { showElement, hideElement, setFontColorGreen, setFontColorRed } from './setAttribute.js';
 export { customConfirm } from './customConfirm.js';
 export { colorOptions } from './colorOptions.js';
+export { routeTo } from './route.js';

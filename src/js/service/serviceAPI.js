@@ -6,7 +6,6 @@ export const serviceAPI = {
   isValidToken: async (token) => {
     try {
       await API.getUserInfo(token);
-
       return true;
     } catch (err) {
       console.error(err);

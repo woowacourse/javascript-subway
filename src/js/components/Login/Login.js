@@ -1,14 +1,13 @@
 import Component from '../../core/Component.js';
-import { $, showSnackbar, setLocalStorageItem } from '../../utils/index.js';
+import { $, showSnackbar, setLocalStorageItem, routeTo } from '../../utils/index.js';
 import { loginTemplate } from './template.js';
 import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
 import { serviceAPI } from '../../service/index.js';
 
 export default class Login extends Component {
-  constructor({ changeTemplate }) {
+  constructor() {
     super();
-    this.changeTemplate = changeTemplate;
   }
 
   bindEvent() {
@@ -35,7 +34,7 @@ export default class Login extends Component {
       item: accessToken,
     });
 
-    this.changeTemplate('/');
+    routeTo('/');
     history.pushState({ pathName: '/' }, null, '/');
     Navigation.changeSelectedButtonColor();
   }
@@ -44,7 +43,7 @@ export default class Login extends Component {
     e.preventDefault();
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
-    this.changeTemplate(pathName);
+    routeTo(pathName);
     history.pushState({ pathName }, null, pathName);
   }
 
