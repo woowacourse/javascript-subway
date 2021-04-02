@@ -32,9 +32,11 @@ export default class Section extends Observer {
     const stationListContainer = $(this.#stationListSelector);
     const targetLineId = Number(this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
     if (!lineListContainer || !stationListContainer || targetLineId === SETTINGS.NOT_INITIATED_NUMBER) return;
-
+    
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const targetLine = lineList.find(line => line.id === targetLineId);
+    if (!targetLine) return;
+
     lineListContainer.innerHTML = `
       <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
       <select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">

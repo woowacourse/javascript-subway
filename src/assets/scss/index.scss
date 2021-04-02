@@ -106,18 +106,21 @@ li span[data-marker='station-name'] {
 
 li span[data-marker='station'] {
   display: inline-block;
+  position: absolute;
   width: 8px;
   height: 8px;
   border: 2px solid red;
   background-color: white;
   border-radius: 50%;
-  transform: translate(-10px, 6%);
+  transform: translate(-13px, 7px);
+  z-index: 10;
 }
 
 li span[data-marker='station-line'] {
   display: inline-block;
   background-color: red;
-  width: 40px;
+  width: 50px;
   height: 5px;
-  transform: translate(-10px, -60%);
+  transform: translate(-10px, -3px);
+  z-index: 9;
 }

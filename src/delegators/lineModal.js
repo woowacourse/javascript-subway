@@ -79,7 +79,9 @@ function onLineItemRegister(target) {
 
   requestLineRegistration(newLine).then(line => {
     lineList.push(line);
+    const [ firstLine ] = lineList;
     state.update(STATE_KEY.LINE_LIST, lineList);
+    state.update(STATE_KEY.TARGET_SECTION_LINE_ID, firstLine.id);
     closeModal();
   });
 }
