@@ -2,14 +2,17 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
   before(() => {
     cy.visit('http://localhost:5500/');
     cy.get('#navigation-login-button').click();
-    cy.get('#login-email').type('yujo@a.a');
-    cy.get('#login-password').type('asd{enter}');
+    cy.get('#login-email').type('test@email.com');
+    cy.get('#login-password').type('123{enter}');
 
     // 테스트에 사용할 역을 2개 추가한다.
     cy.get('#navigation-stations-button').click();
     cy.get('#station-name-input').type('상행역{enter}');
+    cy.get('#station-name-input').clear();
     cy.get('#station-name-input').type('중간역{enter}');
+    cy.get('#station-name-input').clear();
     cy.get('#station-name-input').type('하행역{enter}');
+    cy.get('#station-name-input').clear();
 
     // 테스트에 사용할 노선을 등록한다.
     cy.get('#navigation-lines-button').click();
@@ -29,8 +32,8 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
   after(() => {
     cy.get('#navigation-logout-button').click();
     cy.get('#navigation-login-button').click();
-    cy.get('#login-email').type('yujo@a.a');
-    cy.get('#login-password').type('asd{enter}');
+    cy.get('#login-email').type('test@email.com');
+    cy.get('#login-password').type('123{enter}');
 
     cy.get('#navigation-lines-button').click();
     cy.get('.line-delete-button').eq(-1).click();

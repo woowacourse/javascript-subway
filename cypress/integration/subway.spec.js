@@ -28,8 +28,8 @@ describe('지하철 노선도 테스트', () => {
     cy.visit(MAIN_URL);
     cy.get('#navigation-login-button').click();
 
-    cy.get('#login-email').type('yujo@a.a');
-    cy.get('#login-password').type('asd{enter}');
+    cy.get('#login-email').type('test@email.com');
+    cy.get('#login-password').type('123{enter}');
     cy.get('.snackbar').should('have.text', SNACKBAR_MESSAGE.LOGIN_SUCCESS);
     cy.url().should('eq', MAIN_URL);
     cy.get('#navigation-logout-button').should('be.visible');
