@@ -58,22 +58,21 @@ export default class App {
     this.navigationBar.init();
 
     await this.checkIsLoggedIn();
-    await this.update();
-    this.mapManager.checkTransferStations();
-
-    const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
-
-    routeTo(path);
   }
 
   async update() {
     if (this.store.isLoggedIn) {
       await this.getPersonalSubwayData();
+      this.mapManager.checkTransferStations();
+
       show($(SELECTOR.USER_GREET_MESSAGE));
       $(SELECTOR.USER_GREET_NAME).textContent = this.store.userAuth.name;
-      return;
+    } else {
+      hide($(SELECTOR.USER_GREET_MESSAGE));
     }
-    hide($(SELECTOR.USER_GREET_MESSAGE));
+
+    const path = getAvailablePath(location.pathname, this.store.isLoggedIn);
+    routeTo(path);
   }
 
   async checkIsLoggedIn() {
@@ -102,7 +101,6 @@ export default class App {
 
     try {
       const stationListResponse = await stationListRequest(accessToken);
-
       const stations = stationListResponse.map((station) => new Station(station));
 
       this.store.stations = stations;
