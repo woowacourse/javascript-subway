@@ -25,3 +25,20 @@ export const getSections = (lineId, { isContainsStartSection } = { isContainsSta
 
   return isContainsStartSection ? [startSection, ...restSections] : [...restSections];
 };
+
+export const getTransferLines = (stationId, currentLineId) => {
+  const lines = store.line.get();
+  let transferLines = [];
+
+  lines.forEach(line => {
+    if (line.id !== currentLineId) {
+      const stations = store.line.getLineStations(line.id);
+
+      if (stations.find(station => station.id === stationId)) {
+        transferLines = [...transferLines, line];
+      }
+    }
+  });
+
+  return transferLines;
+};

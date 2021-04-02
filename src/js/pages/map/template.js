@@ -1,23 +1,28 @@
 import { optionTemplate } from '../../templates/option';
 
-const transferLineTemplate = transferLines => `
-  <div class="js-transfer-lines ml-3">
-    ${transferLines.map(
+export const transferLinesTemplate = transferLines => `
+  ${transferLines
+    .map(
       line => `
-        <button class="btn">${line.name}</button>
+        <button
+          class="btn d-inline-flex items-center js-transfer-line-button transfer-line-button"
+          data-line-id="${line.id}">
+          <span class="subway-line-color-dot ${line.color}"></span>
+          <span class="pl-6">${line.name}</span>
+        </button>
       `
-    )}
-  </div>
+    )
+    .join('')}
 `;
 
-const mapListItemTemplate = ({ stationName, duration, distance, transferLines = [] }) => `
-  <li class="js-map-list-item map-list-item">
+const mapListItemTemplate = ({ stationId, stationName, duration, distance }) => `
+  <li class="js-map-list-item map-list-item" data-station-id=${stationId}>
     <div class="d-flex flex-col pl-3">
       <div class="d-flex items-center">
         <div class="js-map-list-item-circle map-list-item-circle"></div>
         <span class="station-name">${stationName}</span>
-        ${transferLines.length > 0 ? transferLineTemplate(transferLines) : ''}
       </div>
+      <div class="js-transfer-lines transfer-lines ml-8 mt-4"></div>
       ${
         duration && distance
           ? `
@@ -35,7 +40,7 @@ const mapListItemTemplate = ({ stationName, duration, distance, transferLines = 
 export const mapListItems = sections => {
   return sections
     .map(({ upStation, distance, duration, transferLines }) =>
-      mapListItemTemplate({ stationName: upStation.name, distance, duration, transferLines })
+      mapListItemTemplate({ stationId: upStation.id, stationName: upStation.name, distance, duration, transferLines })
     )
     .join('');
 };
