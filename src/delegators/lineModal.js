@@ -77,8 +77,6 @@ function onLineItemUpdate(target) {
     color: target[SELECTOR_NAME.LINE_COLOR].dataset.color
   }
   const lineList = state.get(STATE_KEY.LINE_LIST);
-  console.log(newLine);
-  console.log(lineList);
   const isNewLineApplied = tryApplyingNewLine(newLine, lineList);
   if (!isNewLineApplied) return;
   

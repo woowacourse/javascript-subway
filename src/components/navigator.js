@@ -50,11 +50,6 @@ export default class Navigator extends Observer {
     } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
           🗺️ 전체 보기
         </a>
-        <a href="${PATH.SEARCH}" class="${
-      SELECTOR_CLASS.NAVIGATOR_BUTTON
-    } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
-          🔎 길 찾기
-        </a>
         ${
           this.#state.get(STATE_KEY.IS_LOGGED_IN)
             ? `<a id="${SELECTOR_ID.LOG_OUT_BUTTON}" href="${PATH.ROOT}" class="${SELECTOR_CLASS.NAVIGATOR_BUTTON} btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">

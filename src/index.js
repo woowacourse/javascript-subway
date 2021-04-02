@@ -5,7 +5,6 @@ import Line from './components/line.js';
 import Login from './components/login.js';
 import SignUp from './components/signup.js';
 import Section from './components/section';
-import Search from './components/search';
 import Subway from './components/subway';
 import Main from './components/main.js';
 import { SELECTOR_ID, PATH, STATE_KEY, SELECTOR_CLASS } from './constants.js';
@@ -31,8 +30,7 @@ const section = new Section(
   `#${SELECTOR_ID.MAIN_CONTAINER}`
 );
 const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SECTION_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
-const search = new Search(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const subway = new Subway(state, '', `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const subway = new Subway(state, `#${SELECTOR_ID.SUBWAY_MAP}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
@@ -43,7 +41,6 @@ router.register(PATH.LINES, line);
 router.register(PATH.LINES, lineModal);
 router.register(PATH.SECTIONS, section);
 router.register(PATH.SECTIONS, sectionModal);
-router.register(PATH.SEARCH, search);
 router.register(PATH.SUBWAY, subway);
 router.register(PATH.LOG_IN, login);
 router.register(PATH.SIGN_UP, signUp);

@@ -42,6 +42,7 @@ export const SELECTOR_ID = Object.freeze({
   SIGN_UP_NAME_INPUT: 'signup-name-input',
   GUIDE_WRAPPER: 'guide-wrapper',
   BACKDROP: 'backdrop',
+  SUBWAY_MAP: 'subway-map'
 });
 
 // TODO : BEM 일괄 적용
@@ -143,6 +144,7 @@ export const FILE_PATH = Object.freeze({
   STATIONS_CSS: '/stations.css',
   LINES_CSS: '/lines.css',
   SECTIONS_CSS: '/sections.css',
+  SUBWAY_MAP_CSS: '/subwayMap.css',
 });
 
 export const PAGE_TITLE = Object.freeze({
