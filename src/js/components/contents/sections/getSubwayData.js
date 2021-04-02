@@ -5,13 +5,19 @@ const NO_DISTANCE = 0;
 const NO_DURATION = 0;
 
 export default async function getSubwayData(selectedLineId) {
-  const totalLineList = await requestReadLine();
-  const totalStationList = await requestReadStation();
-  const lineId = selectedLineId ?? totalLineList[0].id;
-  const sectionListOfLine = getSectionList(totalLineList, lineId);
-  const stationOptionList = getStationOptionList(totalStationList, sectionListOfLine);
+  try {
+    const totalLineList = await requestReadLine();
+    const totalStationList = await requestReadStation();
+    const lineId = selectedLineId ?? totalLineList[0].id;
+    const sectionListOfLine = getSectionList(totalLineList, lineId);
+    const stationOptionList = getStationOptionList(totalStationList, sectionListOfLine);
 
-  return { totalLineList, sectionListOfLine, stationOptionList, lineId };
+    return { totalLineList, sectionListOfLine, stationOptionList, lineId };
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    return { totalLineList: [], sectionListOfLine: [], stationOptionList: [] };
+  }
 }
 
 /*
