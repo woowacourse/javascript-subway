@@ -2,11 +2,21 @@ import ModalComponent from '../../../core/ModalComponent';
 import { $ } from '../../../utils/DOM';
 import modal from './template';
 import { privateApis } from '../../../api';
-import { ERROR_MESSAGE } from '../../../constants/message';
+import localStorageKey from '../../../constants/localStorage';
+import ExpiredTokenError from '../../../error/ExpiredTokenError';
+import { UNAUTHENTICATED_LINK } from '../../../constants/link';
 
 class AddModal extends ModalComponent {
-  constructor(parentNode, modalKey) {
-    super(parentNode, modalKey);
+  constructor({
+    parentNode,
+    modalKey,
+    props: { goPage, setIsLogin, updateSubwayState },
+  }) {
+    super({ parentNode, modalKey });
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
@@ -35,60 +45,35 @@ class AddModal extends ModalComponent {
 
     $(`#${this.modalKey}-line-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
-      const accessToken = localStorage.getItem('accessToken') || '';
+      const accessToken =
+        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
       const name = e.target['subway-line-name'].value;
       const color = e.target['subway-line-color'].value;
-      const upStationId = target['subway-line-up-station'].value;
-      const downStationId = target['subway-line-down-station'].value;
-      const distance = target['distance'].value;
-      const duration = target['duration'].value;
+      const upStationId = e.target['subway-line-up-station'].value;
+      const downStationId = e.target['subway-line-down-station'].value;
+      const distance = e.target['distance'].value;
+      const duration = e.target['duration'].value;
 
-      if (this.submitType === 'post') {
-        try {
-          const response = await privateApis.Lines.post({
-            accessToken,
-            body: {
-              name,
-              color,
-              upStationId,
-              downStationId,
-              distance,
-              duration,
-            },
-          });
+      try {
+        await privateApis.Lines.post({
+          accessToken,
+          body: {
+            name,
+            color,
+            upStationId,
+            downStationId,
+            distance,
+            duration,
+          },
+        });
 
-          if (response.status === 401) {
-            throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-          }
-
-          if (!response.ok) throw Error(await response.text());
-
-          this.updateSubwayState();
-        } catch (error) {
-          console.error(error.message);
+        this.updateSubwayState();
+      } catch (error) {
+        if (error instanceof ExpiredTokenError) {
+          this.setIsLogin(false);
+          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
-      }
-
-      if (this.submitType === 'put') {
-        try {
-          const response = await privateApis.Lines.put({
-            accessToken,
-            body: {
-              name,
-              color,
-            },
-          });
-
-          if (response.status === 401) {
-            throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-          }
-
-          if (!response.ok) throw Error(await response.text());
-
-          this.updateSubwayState();
-        } catch (error) {
-          console.error(error.message);
-        }
+        console.error(error.message);
       }
     });
   }

@@ -1,13 +1,22 @@
 import { privateApis } from '../../../api';
-import { ERROR_MESSAGE } from '../../../constants/message';
-import ModalComponent from '../../../core/ModalComponent';
+import { UNAUTHENTICATED_LINK } from '../../../constants/link';
+import localStorageKey from '../../../constants/localStorage';
+import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import { stationModal } from './template';
+import ModalComponent from '../../../core/ModalComponent';
 
 class EditModal extends ModalComponent {
-  // 파라미터가 너무 많아서 분리가 필요해보임
-  constructor({ parentNode, modalKey }) {
+  constructor({
+    parentNode,
+    modalKey,
+    props: { goPage, setIsLogin, updateSubwayState },
+  }) {
     super({ parentNode, modalKey });
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
@@ -34,24 +43,26 @@ class EditModal extends ModalComponent {
         const stationId = this.targetId;
         // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
         const name = e.target['subway-station-name'].value;
-        const accessToken = localStorage.getItem('accessToken') || '';
+        const accessToken =
+          localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
         try {
-          const response = await privateApis.Stations.put({
+          await privateApis.Stations.put({
             stationId,
             accessToken,
             body: { name },
           });
 
-          if (response.status === 401) {
-            throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-          }
-
-          if (!response.ok) throw Error(await response.text());
-
           this.hide();
+          console.log(this);
+          console.log(this.updateSubwayState);
           await this.updateSubwayState();
         } catch (error) {
+          if (error instanceof ExpiredTokenError) {
+            this.setIsLogin(false);
+            this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          }
+
           // TODO: 스낵바
           console.error(error.message);
         }

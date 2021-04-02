@@ -3,12 +3,15 @@ import Component from '../../core/Component';
 import mainTemplate from './template';
 import { AUTHENTICATED_LINK } from '../../constants/link';
 import ValidationError from '../../error/ValidationError';
-import { INVALID_MESSAGE } from '../../constants/message';
 import { publicApis } from '../../api';
+import localStorageKey from '../../constants/localStorage';
 
 class Login extends Component {
-  constructor({ parentNode }) {
+  constructor({ parentNode, props: { goPage, setIsLogin } }) {
     super({ parentNode });
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -23,24 +26,17 @@ class Login extends Component {
       const password = e.target['password'].value;
 
       try {
-        const response = await publicApis.login({ body: { email, password } });
+        const accessToken = await publicApis.login(email, password);
 
-        if (response.status === 400) {
-          throw new ValidationError(INVALID_MESSAGE.LOGIN.FAILED);
-        }
-
-        if (!response.ok) throw Error(response.message);
-
-        const { accessToken } = await response.json();
-
-        // this.states.accessToken.setToken(accessToken);
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem(localStorageKey.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
-        this.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+
+        this.goPage(AUTHENTICATED_LINK.STATION.PATH);
       } catch (error) {
         if (error instanceof ValidationError) {
           $('.js-login-check').innerText = error.message;
         }
+
         console.error(error);
       }
     });

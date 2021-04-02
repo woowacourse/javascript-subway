@@ -16,7 +16,7 @@ class ModalComponent extends Component {
     $(`.modal-${this.modalKey}`).classList.remove('open');
   }
 
-  setTargetId(id) {
+  setTarget(id) {
     this.targetId = id;
     this.fillTargetInForm();
   }

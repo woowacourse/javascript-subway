@@ -5,7 +5,7 @@ import {
   UNAUTHENTICATED_LINK,
   HOME_LINK,
 } from './constants/link';
-import template from './template';
+import template from './Components/NavBar/template';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Section from './Pages/Section';
@@ -13,42 +13,87 @@ import Line from './Pages/Line';
 import Station from './Pages/Station';
 import Component from './core/Component';
 import { publicApis } from './api';
-import { ERROR_MESSAGE } from './constants/message';
+import NavBar from './Components/NavBar';
 
 class App extends Component {
-  constructor(parentNode, childComponents, state) {
-    super(parentNode, childComponents, state);
-    this.routeComponents = {
-      [HOME_LINK.ROUTE]: () => {
-        return this.privateRouter(this.childComponents.Station);
+  constructor({ parentNode, state }) {
+    super({ parentNode, state });
+    this.pageComponents = {
+      Login: new Login({
+        parentNode: $('.js-main'),
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Signup: new Signup({
+        parentNode: $('.js-main'),
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Station: new Station({
+        parentNode: $('.js-main'),
+        state,
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Line: new Line({
+        parentNode: $('.js-main'),
+        state,
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Section: new Section({
+        parentNode: $('.js-main'),
+        state,
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+    };
+
+    this.router = {
+      [HOME_LINK.PATH]: () => {
+        return this.privateRoute(this.pageComponents.Station);
       },
-      [AUTHENTICATED_LINK.STATION.ROUTE]: () => {
-        return this.privateRouter(this.childComponents.Station);
+      [AUTHENTICATED_LINK.STATION.PATH]: () => {
+        return this.privateRoute(this.pageComponents.Station);
       },
-      [AUTHENTICATED_LINK.LINE.ROUTE]: () => {
-        return this.privateRouter(this.childComponents.Line);
+      [AUTHENTICATED_LINK.LINE.PATH]: () => {
+        return this.privateRoute(this.pageComponents.Line);
       },
-      [AUTHENTICATED_LINK.SECTION.ROUTE]: () => {
-        return this.privateRouter(this.childComponents.Section);
+      [AUTHENTICATED_LINK.SECTION.PATH]: () => {
+        return this.privateRoute(this.pageComponents.Section);
       },
       // TODO: 3단계 요구사항
       // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
       // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
-      [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => {
-        return this.publicRouter(this.childComponents.Login);
+      [UNAUTHENTICATED_LINK.LOGIN.PATH]: () => {
+        return this.publicRoute(this.pageComponents.Login);
       },
-      [UNAUTHENTICATED_LINK.SIGNUP.ROUTE]: () => {
-        return this.publicRouter(this.childComponents.Signup);
+      [UNAUTHENTICATED_LINK.SIGNUP.PATH]: () => {
+        return this.publicRoute(this.pageComponents.Signup);
       },
     };
 
-    this.checkLogin();
+    this.childComponents = {
+      navBar: new NavBar({
+        parentNode: $('.js-header'),
+        props: {
+          goPage: this.goPage.bind(this),
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+    };
 
-    this.setChildProps('Login', {
-      goPage: this.goPage.bind(this),
-      setIsLogin: this.setIsLogin.bind(this),
-    });
-    this.setChildProps('Signup', { goPage: this.goPage.bind(this) });
+    this.checkLogin();
   }
 
   async checkLogin() {
@@ -59,90 +104,55 @@ class App extends Component {
     this.setState({ ...this.state, isLogin });
   }
 
-  renderSelf() {
-    $('.js-header').innerHTML = template(
-      this.state.isLogin ? AUTHENTICATED_LINK : UNAUTHENTICATED_LINK
-    );
-  }
-
-  privateRouter(Component) {
+  privateRoute(Component) {
     if (this.state.isLogin) {
       return Component;
     }
 
     history.replaceState(
-      { route: UNAUTHENTICATED_LINK.LOGIN.ROUTE },
+      { path: UNAUTHENTICATED_LINK.LOGIN.PATH },
       null,
-      UNAUTHENTICATED_LINK.LOGIN.ROUTE
+      UNAUTHENTICATED_LINK.LOGIN.PATH
     );
 
     return this.childComponents.Login;
   }
 
-  publicRouter(Component) {
+  publicRoute(Component) {
     if (!this.state.isLogin) {
       return Component;
     }
 
     history.replaceState(
-      { route: AUTHENTICATED_LINK.STATION.ROUTE },
+      { path: AUTHENTICATED_LINK.STATION.PATH },
       null,
-      AUTHENTICATED_LINK.STATION.ROUTE
+      AUTHENTICATED_LINK.STATION.PATH
     );
 
     return this.childComponents.Station;
   }
 
-  // Login 하지 않으면 updateSubwayState가 필요없어서 나머지는 render
   async renderComponent(path = location.pathname) {
-    const component = this.routeComponents[path]();
+    const component = this.router[path]();
 
     // 탭을 빠르게 전환시 데이터 응답 이후 기존탭을 그리는 현상이 나타남
     component.render();
-    if (this.state.isLogin) {
-      await component.updateSubwayState();
-    }
+    await component.updateSubwayState?.();
   }
 
-  async goPage(route) {
-    history.pushState({ route }, null, route);
-    this.renderComponent(route);
+  async goPage(path) {
+    history.pushState({ path }, null, path);
+    this.renderComponent(path);
   }
 
   addEventListeners() {
     window.addEventListener('popstate', (e) => {
-      this.renderComponent(e.state.route);
-    });
-
-    $('#app').addEventListener('click', (e) => {
-      const anchor = e.target.closest('.js-link');
-      if (!anchor) return;
-
-      e.preventDefault();
-
-      const route = anchor.getAttribute('href');
-      if (route === AUTHENTICATED_LINK.LOGOUT.ROUTE) {
-        this.setState({ ...this.state, isLogin: false });
-        this.goPage(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
-
-        return;
-      }
-
-      // const isLoginOrSignupRoute = [
-      //   UNAUTHENTICATED_LINK.LOGIN.ROUTE,
-      //   UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
-      // ].includes(route);
-
-      // if (!isLoginOrSignupRoute && !this.isValidAccessToken()) {
-      //   this.fireAccessToken();
-      // }
-
-      this.goPage(route);
+      this.renderComponent(e.state.path);
     });
 
     window.addEventListener('load', () => {
       history.replaceState(
-        { route: location.pathname },
+        { path: location.pathname },
         null,
         location.pathname
       );
@@ -152,11 +162,9 @@ class App extends Component {
   }
 
   async isValidAccessToken() {
+    const accessToken = localStorage.getItem('accessToken') || '';
     try {
-      const accessToken = localStorage.getItem('accessToken') || '';
-      const response = await publicApis.me({ accessToken });
-
-      if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
+      await publicApis.me(accessToken);
     } catch (error) {
       console.error(error);
       return false;
@@ -172,35 +180,7 @@ const initalState = {
   isLogin: false,
 };
 
-/* 00. 앱이 실행됨.
-  실행되면서 각 페이지가 한 번씩 생성됨.
-  이 페이지들은 나중에 render를 통해 새로운 데이터로 페이지를 그려줌
- */
-const app = new App({
+new App({
   parentNode: $('#app'),
-  childComponents: {
-    Login: new Login({
-      parentNode: $('.js-main'),
-      state: { ...initalState.stations, ...initalState.lines },
-    }),
-    Signup: new Signup({
-      parentNode: $('.js-main'),
-      state: { ...initalState.stations, ...initalState.lines },
-    }),
-    Station: new Station({
-      parentNode: $('.js-main'),
-      state: { ...initalState.stations, ...initalState.lines },
-    }),
-    Line: new Line({
-      parentNode: $('.js-main'),
-      state: { ...initalState.stations, ...initalState.lines },
-    }),
-    Section: new Section({
-      parentNode: $('.js-main'),
-      state: { ...initalState.stations, ...initalState.lines },
-    }),
-  },
   state: initalState,
 });
-
-app.render();

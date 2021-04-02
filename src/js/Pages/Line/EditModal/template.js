@@ -52,7 +52,7 @@ const modal = ({ modalKey }) => {
           </div>
           <div class="color-preview mt-3">
             색상을 아래에서 선택해주세요.
-            <div id="${modalKey}-subway-line-color-preview"></div>
+            <div id="${modalKey}-subway-line-color-preview" class="subway-line-color-preview"></div>
           </div>
           <div class="${modalKey}-js-subway-line-color-selector user-select-none px-2 text-center">
             ${colorOptions.map(subwayLineColorOptionTemplate).join('')}

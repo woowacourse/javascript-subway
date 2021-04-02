@@ -1,12 +1,22 @@
 import { privateApis } from '../../../api';
-import { ERROR_MESSAGE } from '../../../constants/message';
+import { UNAUTHENTICATED_LINK } from '../../../constants/link';
+import localStorageKey from '../../../constants/localStorage';
 import ModalComponent from '../../../core/ModalComponent';
+import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import modal from './template';
 
 class AddModal extends ModalComponent {
-  constructor({ parentNode, modalkey }) {
-    super({ parentNode, modalkey });
+  constructor({
+    parentNode,
+    modalKey,
+    props: { goPage, setIsLogin, updateSubwayState },
+  }) {
+    super({ parentNode, modalKey });
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
@@ -29,7 +39,8 @@ class AddModal extends ModalComponent {
       const duration = e.target['duration'].value;
       const distance = e.target['distance'].value;
 
-      const accessToken = localStorage.getItem('accessToken') || '';
+      const accessToken =
+        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
       const body = {
         upStationId,
@@ -39,20 +50,13 @@ class AddModal extends ModalComponent {
       };
 
       try {
-        const response = await privateApis.Sections.post(
-          lineId,
-          accessToken,
-          body
-        );
-
-        if (response.status === 401) {
-          throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-        }
-
-        if (!response.ok) throw Error(await response.text());
-
+        await privateApis.Sections.post({ lineId, accessToken, body });
         await this.updateSubwayState();
       } catch (error) {
+        if (error instanceof ExpiredTokenError) {
+          this.setIsLogin(false);
+          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+        }
         console.error(error.message);
       }
     });

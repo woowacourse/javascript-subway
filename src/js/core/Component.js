@@ -1,8 +1,8 @@
 class Component {
-  constructor({ parentNode, childComponents = {}, state = {} }) {
+  constructor({ parentNode, state = {} }) {
     this.parentNode = parentNode;
-    this.childComponents = childComponents;
     this.state = state;
+    this.childComponents = {};
   }
 
   setState(state) {
@@ -25,12 +25,6 @@ class Component {
   renderSelf() {}
 
   addEventListeners() {}
-
-  setChildProps(name, props) {
-    Object.entries(props).forEach(([key, value]) => {
-      this.childComponents[name][key] = value;
-    });
-  }
 
   clear() {
     this.parentNode.innerHTML = '';

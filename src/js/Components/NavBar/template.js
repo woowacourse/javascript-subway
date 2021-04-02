@@ -1,3 +1,10 @@
+const getNavButtonTemplate = ({ PATH, NAME }) => {
+  return `
+    <a href="${PATH}" class="js-link my-1">
+      <button class="btn bg-white shadow mx-1">${NAME}</button>
+    </a>`;
+};
+
 const template = (navigation) => {
   return `
     <a href="/" class="js-link text-black">
@@ -7,13 +14,6 @@ const template = (navigation) => {
       ${Object.values(navigation).map(getNavButtonTemplate).join('')}
     </nav>
   `;
-};
-
-const getNavButtonTemplate = ({ ROUTE, NAME }) => {
-  return `
-    <a href="${ROUTE}" class="js-link my-1">
-      <button class="btn bg-white shadow mx-1">${NAME}</button>
-    </a>`;
 };
 
 export default template;

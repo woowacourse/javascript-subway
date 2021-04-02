@@ -1,71 +1,83 @@
 import { privateApis } from '../../api';
+import requestStationAndLine from '../../api/requestStationAndLine';
+import { UNAUTHENTICATED_LINK } from '../../constants/link';
+import localStorageKey from '../../constants/localStorage';
 import { CONFIRM_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
+import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 import mainTemplate from './template';
 
 class Line extends Component {
-  constructor({ parentNode, state }) {
+  constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
     super({
       parentNode,
-      childComponents: {
-        addmodal: new AddModal({
-          parentNode,
-          modalKey: 'line-add',
-        }),
-        editmodal: new EditModal({
-          parentNode,
-          modalKey: 'line-edit',
-        }),
-      },
       state,
     });
 
-    this.setChildProps('addmodal', {
-      updateSubwayState: this.updateSubwayState.bind(this),
-    });
+    this.childComponents = {
+      addModal: new AddModal({
+        parentNode,
+        modalKey: 'line-add',
+        props: {
+          goPage,
+          setIsLogin,
+          updateSubwayState: this.updateSubwayState.bind(this),
+        },
+      }),
+      editModal: new EditModal({
+        parentNode,
+        modalKey: 'line-edit',
+        props: {
+          goPage,
+          setIsLogin,
+          updateSubwayState: this.updateSubwayState.bind(this),
+        },
+      }),
+    };
 
-    this.setChildProps('editmodal', {
-      updateSubwayState: this.updateSubwayState.bind(this),
-    });
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
-    console.log(this.state);
     this.parentNode.innerHTML = mainTemplate({ state: this.state });
   }
 
   addEventListeners() {
     $('.js-line-item__create').addEventListener('click', () => {
-      this.childComponents.addmodal.show();
-      this.childComponents.addmodal.clearForm();
+      this.childComponents.addModal.show();
+      this.childComponents.addModal.clearForm();
     });
 
     $('.js-line-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-line-item__edit')) {
-        this.childComponents.editmodal.show();
+        this.childComponents.editModal.show();
 
         const id = target.closest('.js-line-item').dataset.id;
-        this.childComponents.editmodal.setTargetId(id);
+        this.childComponents.editModal.setTarget(id);
       }
 
       if (target.classList.contains('js-line-item__delete')) {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
         const id = target.closest('.js-line-item').dataset.id;
-        const accessToken = localStorage.getItem('accessToken') || '';
+        const accessToken =
+          localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
         try {
-          const response = await privateApis.Lines.delete({
+          await privateApis.Lines.delete({
             lineId: id,
             accessToken,
           });
-
-          if (!response.ok) throw Error(await response.text());
-          this.updateSubwayState();
+          await this.updateSubwayState();
         } catch (error) {
+          if (error instanceof ExpiredTokenError) {
+            this.setIsLogin(false);
+            this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          }
           console.error(error.message);
         }
       }
@@ -73,14 +85,7 @@ class Line extends Component {
   }
 
   async updateSubwayState() {
-    const accessToken = localStorage.getItem('accessToken') || '';
-
-    const [stations, lines] = await Promise.all([
-      (await privateApis.Stations.get({ accessToken })).json(),
-      (await privateApis.Lines.get({ accessToken })).json(),
-    ]);
-
-    this.setState({ stations, lines });
+    this.setState(await requestStationAndLine());
   }
 }
 //생성을 하는 순간 private tab들은 App들은 access Token이 없음. 그래서 요청이 불가.

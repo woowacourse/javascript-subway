@@ -1,22 +1,35 @@
 import { privateApis } from '../../api';
+import requestStationAndLine from '../../api/requestStationAndLine';
+import { UNAUTHENTICATED_LINK } from '../../constants/link';
+import localStorageKey from '../../constants/localStorage';
 import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
+import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
 import AddModal from './AddModal';
 import { mainTemplate, sectionItem } from './template';
 
 class Section extends Component {
-  constructor({ parentNode, state }) {
+  constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
     super({
       parentNode,
-      childComponents: {
-        addmodal: new AddModal({
-          parentNode,
-          modalkey: 'section-add',
-        }),
-      },
       state,
     });
+
+    this.childComponents = {
+      addModal: new AddModal({
+        parentNode,
+        modalkey: 'section-add',
+        props: {
+          goPage,
+          setIsLogin,
+          updateSubwayState: this.updateSubwayState.bind(this),
+        },
+      }),
+    };
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -25,8 +38,7 @@ class Section extends Component {
 
   addEventListeners() {
     $('.js-section-item__create').addEventListener('click', () => {
-      // create 로쥑
-      this.childComponents.addmodal.show();
+      this.childComponents.addModal.show();
     });
 
     $('.js-section-form__select').addEventListener('change', ({ target }) => {
@@ -34,7 +46,6 @@ class Section extends Component {
       const { color, stations } = this.state.lines.find(
         (line) => line.id === Number(lineId)
       );
-      console.log(stations);
 
       $('.js-section-list').innerHTML = stations
         .map((station) => sectionItem(station))
@@ -50,37 +61,25 @@ class Section extends Component {
 
       const lineId = target.closest('.js-section-list').dataset.lineId;
       const stationId = target.closest('.js-section-item').dataset.stationId;
-      const accessToken = localStorage.getItem('accessToken') || '';
+      const accessToken =
+        localStorage.getItem(localStorageKey.ACCESSTOKEN) || '';
 
       try {
-        const response = await privateApis.Sections.delete(
-          lineId,
-          stationId,
-          accessToken
-        );
-
-        if (response.status === 401) {
-          throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-        }
-
-        if (!response.ok) throw Error(await response.text());
-
+        await privateApis.Sections.delete({ lineId, stationId, accessToken });
         await this.updateSubwayState();
       } catch (error) {
+        if (error instanceof ExpiredTokenError) {
+          this.setIsLogin(false);
+          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+        }
+
         console.error(error.message);
       }
     });
   }
 
   async updateSubwayState() {
-    const accessToken = localStorage.getItem('accessToken') || '';
-
-    const [stations, lines] = await Promise.all([
-      (await privateApis.Stations.get({ accessToken })).json(),
-      (await privateApis.Lines.get({ accessToken })).json(),
-    ]);
-
-    this.setState({ stations, lines });
+    this.setState(await requestStationAndLine());
   }
 }
 

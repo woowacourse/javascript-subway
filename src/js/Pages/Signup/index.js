@@ -3,15 +3,22 @@ import Component from '../../core/Component';
 import mainTemplate from './template';
 import ValidationError from '../../error/ValidationError';
 import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message';
-import REGEX from '../../constants/regex';
 import { LENGTH } from '../../constants/standard';
 import { AUTHENTICATED_LINK } from '../../constants/link';
-import { publicApis } from '../../api';
+import publicApis from '../../api/publicApis';
+import {
+  isValidNameFormat,
+  isValidEmailFormat,
+} from '../../utils/validateFormat';
+import localStorageKey from '../../constants/localStorage';
 
 class Signup extends Component {
-  constructor({ parentNode }) {
+  constructor({ parentNode, props: { goPage, setIsLogin } }) {
     super({ parentNode });
     this.formValidationFlag = { name: false, email: false, password: false };
+
+    this.goPage = goPage;
+    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -21,32 +28,7 @@ class Signup extends Component {
   addEventListeners() {
     $('#signup-form').addEventListener(
       'focusout',
-      async ({ target, currentTarget }) => {
-        if (currentTarget['submit'] === target) return;
-
-        if (currentTarget['name'] === target) {
-          const name = target.value;
-          this.validateNameAndNotify(name);
-
-          return;
-        }
-
-        if (currentTarget['email'] === target) {
-          const email = target.value;
-          await this.validateEmailAndNotify(email);
-
-          return;
-        }
-
-        if (
-          currentTarget['password'] === target ||
-          currentTarget['password-confirm'] === target
-        ) {
-          const password = currentTarget['password'].value;
-          const passwordConfirm = currentTarget['password-confirm'].value;
-          this.validatePasswordAndNotify(password, passwordConfirm);
-        }
-      }
+      this.validateInput.bind(this)
     );
 
     $('#signup-form').addEventListener('submit', async (e) => {
@@ -66,27 +48,56 @@ class Signup extends Component {
         const email = e.target['email'].value;
         const password = e.target['password'].value;
 
-        await this.signup(name, email, password);
-        await this.login(email, password);
+        await publicApis.signup(name, email, password);
+
+        const accessToken = await publicApis.login(email, password);
+        localStorage.setItem(localStorageKey.ACCESSTOKEN, accessToken);
+        this.setIsLogin(true);
+
+        this.goPage(AUTHENTICATED_LINK.STATION.PATH);
       } catch (error) {
         console.error(error);
       }
     });
   }
 
-  validateNameAndNotify(name) {
-    const $nameCheck = $('.js-name-check');
+  async validateInput({ target, currentTarget }) {
+    if (currentTarget['submit'] === target) return;
+
+    if (currentTarget['name'] === target) {
+      this.validateAndNotify(this.validateName.bind(this), target);
+      return;
+    }
+
+    if (currentTarget['email'] === target) {
+      await this.validateAndNotify(this.validateEmail.bind(this), target);
+      return;
+    }
+
+    if (
+      currentTarget['password'] === target ||
+      currentTarget['password-confirm'] === target
+    ) {
+      const password = currentTarget['password'].value;
+      const passwordConfirm = currentTarget['password-confirm'].value;
+      this.validatePasswordAndNotify(password, passwordConfirm);
+    }
+  }
+
+  async validateAndNotify(validate, target) {
+    const name = target.name;
+    const $check = $(`.js-${name}-check`);
 
     try {
-      this.validateName(name);
-      $nameCheck.classList.add('correct');
-      $nameCheck.innerText = VALID_MESSAGE.NAME;
-      this.formValidationFlag.name = true;
+      await validate(target.value);
+      $check.classList.add('correct');
+      $check.innerText = VALID_MESSAGE[name.toUpperCase()];
+      this.formValidationFlag[name] = true;
     } catch (error) {
       if (error instanceof ValidationError) {
-        $nameCheck.classList.remove('correct');
-        $nameCheck.innerText = error.message;
-        this.formValidationFlag.name = false;
+        $check.classList.remove('correct');
+        $check.innerText = error.message;
+        this.formValidationFlag[name] = false;
       }
 
       console.error(error);
@@ -94,7 +105,7 @@ class Signup extends Component {
   }
 
   validateName(name) {
-    if (!this.isValidNameFormat(name)) {
+    if (!isValidNameFormat(name)) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.NAME.FORMAT);
     }
 
@@ -103,41 +114,14 @@ class Signup extends Component {
     }
   }
 
-  isValidNameFormat(name) {
-    return REGEX.NAME_FORMAT.test(name);
-  }
-
-  async validateEmailAndNotify(email) {
-    const $emailCheck = $('.js-email-check');
-
-    try {
-      await this.validateEmail(email);
-      $emailCheck.classList.add('correct');
-      $emailCheck.innerText = VALID_MESSAGE.EMAIL;
-      this.formValidationFlag.email = true;
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        $emailCheck.classList.remove('correct');
-        $emailCheck.innerText = error.message;
-        this.formValidationFlag.email = false;
-      }
-
-      console.error(error);
-    }
-  }
-
   async validateEmail(email) {
-    if (!this.isValidEmailFormat(email)) {
+    if (!isValidEmailFormat(email)) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
     const emailQuery = `?${new URLSearchParams(email)}`;
 
-    const response = await publicApis.CheckDuplicatedEmail({ emailQuery });
-
-    if (response.status === 422) {
-      throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
-    }
+    await publicApis.checkDuplicatedEmail(emailQuery);
   }
 
   validatePasswordAndNotify(password, passwordConfirm) {
@@ -159,10 +143,6 @@ class Signup extends Component {
     }
   }
 
-  isValidEmailFormat(email) {
-    return REGEX.EMAIL_FORMAT.test(email.toLowerCase());
-  }
-
   validatePassword(password, passwordConfirm) {
     if (
       password.length < LENGTH.PASSWORD.MIN ||
@@ -176,31 +156,6 @@ class Signup extends Component {
     if (!isSamePassword) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
-  }
-
-  async signup(name, email, password) {
-    const body = { name, email, password };
-    const response = await publicApis.signup({ body });
-
-    if (!response.ok) throw Error(response.message);
-  }
-
-  async login(email, password) {
-    const body = {
-      email,
-      password,
-    };
-
-    const response = await publicApis.login({ body });
-
-    if (!response.ok) throw Error(response.message);
-
-    const { accessToken } = await response.json();
-
-    localStorage.setItem('accessToken', accessToken);
-    this.setIsLogin(true);
-
-    this.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 
