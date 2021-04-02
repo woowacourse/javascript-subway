@@ -93,6 +93,7 @@ export default class Sections extends Component {
 
   handleModalOpen() {
     this.$modal.classList.add('open');
+    $(`#modal-line-select > option[value="${this.#lineId}"]`).selected = true;
   }
 
   handleModalClose() {
