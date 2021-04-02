@@ -1,0 +1,22 @@
+.map__wrapper {
+  display: block;
+  text-align: center;
+}
+
+.map__station-name {
+  font-size: 0.9rem;
+}
+
+.map__between-stations-line {
+  height: 40px;
+  width: 5px;
+  margin-left: 48%;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.line-name-wrapper {
+  color: white;
+  border-radius: 60%;
+  padding: 5px 20px 5px 20px;
+  box-shadow: 2px 2px 2px lightgrey;
+}

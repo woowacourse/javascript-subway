@@ -151,6 +151,7 @@ export const ELEMENT = Object.freeze({
   SUBWAY_LINE_FOR_SECTION: 'subway-line-for-section',
   SECTION_LIST_ITEM: 'section-list-item',
   SECTION_LIST_ITEM_REMOVE_BUTTON: 'section-list-item__remove-button',
+  SUBWAY_MAP: 'subway-map',
 
   SELECTED_COLOR: 'selected-color',
   COLOR_OPTION: 'color-option',

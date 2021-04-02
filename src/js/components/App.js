@@ -1,6 +1,7 @@
 import Stations from './Stations';
 import Lines from './Lines';
 import Sections from './Sections';
+import Map from './Map';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Router from '../router/Router';
@@ -29,11 +30,11 @@ class App {
     this.stations = new Stations({ cleanLineCache: this.cleanLineCache.bind(this) });
     this.lines = new Lines();
     this.sections = new Sections();
+    this.map = new Map();
     this.signIn = new SignIn({
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
-
     this.setMainBySignInStatus();
   }
 
@@ -115,6 +116,9 @@ class App {
       },
       [PATH.SECTIONS]: () => {
         this.sections.init();
+      },
+      [PATH.MAP]: () => {
+        this.map.init();
       },
     };
 

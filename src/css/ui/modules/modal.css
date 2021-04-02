@@ -16,6 +16,7 @@
   opacity: 1;
   visibility: visible;
 }
+
 .modal .input-field:disabled {
   background: #ccc;
   cursor: not-allowed;
