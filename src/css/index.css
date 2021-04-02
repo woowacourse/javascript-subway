@@ -50,3 +50,7 @@ ul li button {
 ul li button:hover {
   background-color: rgb(229, 231, 235);
 }
+
+.menu button:hover {
+  background-color: rgb(229, 231, 235);
+}
