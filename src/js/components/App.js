@@ -66,10 +66,11 @@ export default class App {
   }
 
   setPageState({ isLoggedIn, pageURL }) {
-    if (
+    const isSameAsBefore =
       this.pageState.isLoggedIn === isLoggedIn &&
-      this.pageState.pageURL === pageURL
-    ) {
+      this.pageState.pageURL === pageURL;
+
+    if (isSameAsBefore) {
       return;
     }
 
