@@ -8,9 +8,13 @@
   z-index: 1;
 }
 
-.map-nav-bar .finding-route {
-  background-color: rgb(255, 255, 255);
-  color: rgb(19, 19, 19);
+.map-nav-bar .line-selector {
+  height: 36px;
+  min-width: 64px;
+  padding: 0 8px;
+  border-radius: 4px;
+  border-style: none;
+  align-items: center;
 }
 
 .map-wrapper {

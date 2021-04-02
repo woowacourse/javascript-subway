@@ -84,7 +84,12 @@ export const getFindingRouteOptionsTemplate = (stationData) => {
 export const getMapTemplate = () => `
   <section class="map-section">
     <nav class="map-nav-bar d-flex justify-center items-center flex-wrap">
-      <button class="finding-route btn shadow mx-1">🔎 경로 조회</button>
+      <button class="finding-route bg-white btn shadow mx-1">🔎 경로 조회</button>
+      <button class="view-all-map bg-white btn shadow mx-1">🗺️ 전체 보기</button>
+      <label for="view-selected-line" class="input-label" hidden>👀 라인별 보기</label>
+      <select id="view-selected-line" class="line-selector bg-white shadow mx-1">
+        <option value="" selected disabled hidden>👀 라인별 보기</option>
+      </select>
     </nav>
     <div class="map-wrapper"></div>
     <div class="modal">

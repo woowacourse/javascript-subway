@@ -155,7 +155,7 @@ class Lines {
 
     this.lineNameInEdit = lineName;
     this.selectedLineColor = '';
-    this.lineColorInEdit = this.userDataManager.getTargetLineColor(lineName);
+    this.lineColorInEdit = this.userDataManager.getTargetLineData(lineName).color;
     this.showLineEditModal(editTargetLineData);
   }
 
@@ -170,7 +170,7 @@ class Lines {
 
     const newLineName = e.target[ELEMENT.SUBWAY_LINE_NAME].value;
     const newColor = this.selectedLineColor || this.lineColorInEdit;
-    const lineIdInEdit = this.userDataManager.getTargetLineId(this.lineNameInEdit);
+    const lineIdInEdit = this.userDataManager.getTargetLineData(this.lineNameInEdit).id;
 
     try {
       validateEditLine({
@@ -202,7 +202,7 @@ class Lines {
     const $lineListItem = $(`[data-line-name="${lineName}"]`);
 
     try {
-      await requestRemoveLine({ id: this.userDataManager.getTargetLineId(lineName) });
+      await requestRemoveLine({ id: this.userDataManager.getTargetLineData(lineName).id });
       $lineListItem.remove();
       this.userDataManager.removeLine(lineName);
       this.userDataManager.cleanCacheLineListTemplate();

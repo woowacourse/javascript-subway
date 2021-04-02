@@ -30,7 +30,7 @@ class Sections {
   bindEvent() {
     this.lineOptionsWrapper.addEventListener('change', (e) => {
       const selectedLineName = e.target.value;
-      this.renderLineColor(this.userDataManager.getTargetLineColor(selectedLineName));
+      this.renderLineColor(this.userDataManager.getTargetLineData(selectedLineName).color);
       this.renderStationListInTargetLine(selectedLineName);
     });
 
@@ -78,7 +78,7 @@ class Sections {
     e.preventDefault();
 
     const lineName = e.target[ELEMENT.SUBWAY_LINE_FOR_SECTION].value;
-    const lineId = this.userDataManager.getTargetLineId(lineName);
+    const lineId = this.userDataManager.getTargetLineData(lineName).id;
     const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
     const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const distance = e.target.distance.valueAsNumber;
@@ -97,7 +97,7 @@ class Sections {
     if (!window.confirm(REMOVE_CONFIRM_MESSAGE)) return;
 
     const lineName = this.lineOptionsWrapper.value;
-    const lineId = this.userDataManager.getTargetLineId(lineName);
+    const lineId = this.userDataManager.getTargetLineData(lineName).id;
     const removeTargetStation = e.target.dataset.stationName;
     const removeTargetStationId = this.userDataManager.getTargetStationId(removeTargetStation);
 

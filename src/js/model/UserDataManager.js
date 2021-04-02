@@ -50,12 +50,8 @@ export default class UserDataManager {
     return this.lines.map((line) => line.color);
   }
 
-  getTargetLineColor(lineName) {
-    return this.lines.find((line) => line.name === lineName).color;
-  }
-
-  getTargetLineId(lineName) {
-    return this.lines.find((line) => line.name === lineName).id;
+  getTargetLineData(lineName) {
+    return this.lines.find((line) => line.name === lineName);
   }
 
   getTargetLineDataForEdit(lineName) {
