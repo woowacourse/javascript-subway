@@ -3,6 +3,7 @@
 @import './pages/index.css';
 @import './pages/station.css';
 @import './pages/lines.css';
+@import './pages/preview.css';
 
 html,
 body {

@@ -1,0 +1,90 @@
+form[name='preview'] select {
+  border: 1px solid #e1e1e1;
+}
+
+#preview-list {
+  position: relative;
+  min-width: 540px;
+}
+
+#preview-list > li {
+  height: 50px;
+  border-bottom: 1px solid #e1e1e1;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+#preview-list .line {
+  position: relative;
+  margin: 0 20px;
+  width: 4px;
+  height: 100%;
+  padding: 1px 0;
+}
+
+#preview-list .line span {
+  position: absolute;
+  top: 19px;
+  left: -6px;
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+#preview-list .preview-line-item:first-child .line {
+  margin-top: 25px;
+  height: 50%;
+}
+
+#preview-list .preview-line-item:first-child .line span {
+  top: -6px;
+}
+
+#preview-list .preview-line-item:last-of-type .line {
+  margin-bottom: 25px;
+  height: 50%;
+}
+
+#preview-list .station-name {
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+#preview-section-list {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  font-size: 0.8rem;
+  list-style: none;
+  padding: calc((49px - 0.6rem));
+  box-sizing: border-box;
+}
+
+#preview-section-list .preview-section-item {
+  margin: 0 auto;
+  margin-bottom: calc(43px - 1rem);
+  width: 50%;
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  padding: 1px 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#preview-section-list .preview-section-item span {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#preview-section-list .preview-section-item .divide {
+  width: 1px;
+  height: 20px;
+  background-color: #e1e1e1;
+}

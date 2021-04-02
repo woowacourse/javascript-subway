@@ -7,6 +7,7 @@ import Header from './components/header/Header.js';
 import Station from './components/station/Station.js';
 import Line from './components/line/Line.js';
 import Section from './components/section/Section.js';
+import Preview from './components/preview/Preview.js';
 
 import { PATH, STORAGE } from './constants.js';
 import { authAPI } from '../../api/auth.js';
@@ -43,6 +44,7 @@ class App {
     this.stations = new Station();
     this.sections = new Section();
     this.lines = new Line();
+    this.preview = new Preview();
   }
 
   _registerRouterComponent() {
@@ -53,6 +55,7 @@ class App {
       [PATH.STATIONS]: this.stations,
       [PATH.SECTIONS]: this.sections,
       [PATH.LINES]: this.lines,
+      [PATH.MAP]: this.preview,
     };
   }
 

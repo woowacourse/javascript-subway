@@ -37,7 +37,7 @@ export const initSections = async userAccessToken => {
     const sections = await lineAPI.getLines(userAccessToken);
 
     sections.forEach(({ id, name, color, stations }) => {
-      newSections[id] = { name, color, stations };
+      newSections[id] = { name, color, stations, sections };
     });
 
     return newSections;
