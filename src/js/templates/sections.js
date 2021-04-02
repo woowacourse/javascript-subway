@@ -1,5 +1,5 @@
 export const getLineOptionsTemplate = (lineData) => {
-  return lineData.map((line) => `<option value=${line.name} class="bg-white">${line.name}</option>`).join('');
+  return lineData.map((line) => `<option value=${line.name} class="bg-white">🛤️ ${line.name}</option>`).join('');
 };
 
 const getSectionListItemTemplate = (stationName) => `

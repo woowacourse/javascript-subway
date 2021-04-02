@@ -90,6 +90,9 @@ export const ELEMENT = Object.freeze({
   MODAL_LINE_DISTANCE: 'modal_line-distance',
   MODAL_LINE_DURATION: 'modal_line-duration',
   MODAL_LINE_SUBMIT_BUTTON: 'modal__line-submit-button',
+  MODAL_FINDING_ROUTE_OPTION_WRAPPER: 'modal__finding-route-option-wrapper',
+  MODAL_FINDING_ROUTE_FORM: 'modal__finding-route-form',
+
   ADD_MODAL: 'add-modal',
   EDIT_MODAL: 'edit-modal',
 
@@ -147,17 +150,28 @@ export const ELEMENT = Object.freeze({
   LINE_COLOR_SELECTOR: 'subway-line-color-selector',
   SUBWAY_LINE_NAME: 'subway-line-name',
   LINE_LIST_ITEM: 'line-list-item',
+  LINE_SELECTOR: 'line-selector',
 
   CREATE_SECTION_BUTTON: 'create-section-button',
   SUBWAY_LINE_FOR_SECTION: 'subway-line-for-section',
+  SECTION_LINE: 'section-line',
   SECTION_LIST_ITEM: 'section-list-item',
   SECTION_LIST_ITEM_REMOVE_BUTTON: 'section-list-item__remove-button',
+
+  MAP_WRAPPER: 'map-wrapper',
+  MAP_NAV_BAR: 'map-nav-bar',
+  MAP_STATION_NAME: 'map-station-name',
+  MAP_LINE_NAME: 'map-line-name',
 
   SELECTED_COLOR: 'selected-color',
   COLOR_OPTION: 'color-option',
 
   UP_STATION: 'up-station',
   DOWN_STATION: 'down-station',
+
+  FINDING_ROUTE: 'finding-route',
+  FINDING_STANDARD: 'finding-standard',
+  VIEW_ALL_MAP: 'view-all-map',
 
   SUCCESS: 'success',
   FAIL: 'fail',

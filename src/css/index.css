@@ -1,6 +1,7 @@
 @import './pages/index.css';
 @import './shared/index.css';
 @import './ui/index.css';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
 html,
 body {
@@ -9,6 +10,7 @@ body {
   font-weight: normal;
   line-height: 1.5;
   background-color: #f1f5f9;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 #app {
@@ -48,4 +50,9 @@ ul li button {
 
 ul li button:hover {
   background-color: rgb(229, 231, 235);
+}
+
+button,
+select {
+  font-family: inherit;
 }

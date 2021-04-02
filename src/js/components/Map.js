@@ -4,11 +4,12 @@ import { getLineOptionsTemplate } from '../templates/sections';
 import UserDataManager from '../model/UserDataManager';
 import { requestGetLineList, requestGetSubwayRouteList } from '../requestData/requestUserData';
 import { closeModal, openModal } from '../utils/modal';
-import { ELEMENT, ERROR_MESSAGE } from '../utils/constants';
+import { ELEMENT, ERROR_MESSAGE, PATH } from '../utils/constants';
 
 class Map {
-  constructor() {
+  constructor(props) {
     this.userDataManager = new UserDataManager();
+    this.props = props;
   }
 
   async init() {
@@ -19,23 +20,23 @@ class Map {
   }
 
   selectDom() {
-    this.$mapWrapper = $('.map-wrapper');
-    this.$mapNavBar = $('.map-nav-bar');
-    this.$lineSelector = $('.line-selector');
-    this.$modal = $('.modal');
-    this.$modalFindingRouteOptionWrapper = $('.modal__finding-route-option-wrapper');
-    this.$modalFindingRouteForm = $('.modal__finding-route-form');
+    this.$mapWrapper = $(`.${ELEMENT.MAP_WRAPPER}`);
+    this.$mapNavBar = $(`.${ELEMENT.MAP_NAV_BAR}`);
+    this.$lineSelector = $(`.${ELEMENT.LINE_SELECTOR}`);
+    this.$modal = $(`.${ELEMENT.MODAL}`);
+    this.$modalFindingRouteOptionWrapper = $(`.${ELEMENT.MODAL_FINDING_ROUTE_OPTION_WRAPPER}`);
+    this.$modalFindingRouteForm = $(`.${ELEMENT.MODAL_FINDING_ROUTE_FORM}`);
   }
 
   bindEvent() {
     this.$mapNavBar.addEventListener('click', (e) => {
-      if (e.target.classList.contains('finding-route')) {
+      if (e.target.classList.contains(ELEMENT.FINDING_ROUTE)) {
         this.handleFindingRouteButton();
         return;
       }
 
-      if (e.target.classList.contains('view-all-map')) {
-        this.renderMapList(this.userDataManager.lines);
+      if (e.target.classList.contains(ELEMENT.VIEW_ALL_MAP)) {
+        this.props.initializeRoutedPage(PATH.MAP);
       }
     });
 
@@ -65,12 +66,14 @@ class Map {
   }
 
   setStationListStyle() {
-    $$('.station-list').forEach(($stationList) => {
-      if ($stationList.nextElementSibling.classList.contains('map-line-name')) return;
+    $$(`.${ELEMENT.STATION_LIST_ITEM}`).forEach(($stationList) => {
+      if ($stationList.nextElementSibling.classList.contains(ELEMENT.MAP_LINE_NAME)) return;
 
-      const suitableWidth = $stationList.querySelector('.map-station-name').offsetWidth + 20;
+      const suitableWidth = $stationList.querySelector(`.${ELEMENT.MAP_STATION_NAME}`).offsetWidth + 20;
+      const $sectionConnectLine = $stationList.querySelector(`.${ELEMENT.SECTION_LINE}`);
+
       $stationList.style.marginRight = `${suitableWidth}px`;
-      $stationList.querySelector('.section-line').style.width = `${suitableWidth + $stationList.offsetWidth}px`;
+      $sectionConnectLine.style.width = `${suitableWidth + $stationList.offsetWidth}px`;
     });
   }
 
@@ -84,14 +87,14 @@ class Map {
 
     const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
     const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
-    const standard = e.target['finding-standard'].value;
+    const standard = e.target[ELEMENT.FINDING_STANDARD].value;
 
     try {
       const subwayRouteList = await requestGetSubwayRouteList({ upStationId, downStationId, standard });
       this.renderFindingRouteTemplate(subwayRouteList);
       closeModal(this.$modal);
     } catch (error) {
-      error.name === 'TypeError' ? alert(ERROR_MESSAGE.IMPOSSIBLE_ROUTE) : alert(error.message);
+      alert(ERROR_MESSAGE.IMPOSSIBLE_ROUTE);
     }
   }
 

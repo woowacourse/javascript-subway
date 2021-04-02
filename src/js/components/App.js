@@ -34,7 +34,7 @@ class App {
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
-    this.map = new Map();
+    this.map = new Map({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
     this.setMainBySignInStatus();
   }
 

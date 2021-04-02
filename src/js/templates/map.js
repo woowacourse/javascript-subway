@@ -13,7 +13,7 @@ const getMapStationTemplate = (stationData, lineColor, sectionData) => {
   return stationData
     .map(
       (station, i) =>
-        `<li class="station-list">
+        `<li class="station-list-item">
           ${getDistanceAndDurationTemplate(distanceAndDuration[i])}
           <span class="map-station-name">${station.name}</span>
           <div class="section-line ${lineColor}"></div>
@@ -40,9 +40,9 @@ export const getFindingRouteMapTemplate = ({ stationNameList, lineColorList, dis
   const sectionListTemplate = stationNameList
     .map(
       (stationName, i) =>
-        `<li class="station-list">
+        `<li class="station-list-item">
           <span class="map-station-name">${stationName}</span>
-          <div class="section-line finding-line ${lineColorList[i] ? lineColorList[i] : ''}"></div>
+          <div class="section-line finding-line ${lineColorList[i] ?? ''}"></div>
         </li>`,
     )
     .join('');
@@ -84,11 +84,11 @@ export const getFindingRouteOptionsTemplate = (stationData) => {
 export const getMapTemplate = () => `
   <section class="map-section">
     <nav class="map-nav-bar d-flex justify-center items-center flex-wrap">
-      <button class="finding-route bg-white btn shadow mx-1">🔎 경로 조회</button>
-      <button class="view-all-map bg-white btn shadow mx-1">🗺️ 전체 보기</button>
-      <label for="view-selected-line" class="input-label" hidden>👀 라인별 보기</label>
-      <select id="view-selected-line" class="line-selector bg-white shadow mx-1">
-        <option value="" selected disabled hidden>👀 라인별 보기</option>
+      <button class="finding-route bg-white btn mx-3">🔎 경로 조회</button>
+      <button class="view-all-map bg-white btn mx-3">🗺️ 전체 보기</button>
+      <label for="view-selected-line" class="input-label" hidden>👀 노선 조회</label>
+      <select id="view-selected-line" class="line-selector bg-white mx-3">
+        <option value="" selected disabled hidden>👀 노선 조회</option>
       </select>
     </nav>
     <div class="map-wrapper"></div>

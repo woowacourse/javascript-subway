@@ -198,10 +198,6 @@ export const requestGetSubwayRouteList = async ({ upStationId, downStationId, st
       accessToken: token.accessToken,
     });
 
-    if (response.status === 500) {
-      throw ERROR_MESSAGE.IMPOSSIBLE_ROUTE;
-    }
-
     if (!response.ok) {
       throw await response.text();
     }
