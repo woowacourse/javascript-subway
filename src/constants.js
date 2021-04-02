@@ -27,6 +27,7 @@ export const SELECTOR_ID = Object.freeze({
   SUBWAY_LINE_NAME: 'subway-line-name',
   SUBWAY_SECTION_FORM: 'subway-section-form',
   SUBWAY_MAP_CONTAINER: 'subway-map-container',
+  SUBWAY_MAP_WRAPPER: 'subway-map-wrapper',
   LOG_IN_FORM: 'login-form',
   LOG_IN_BUTTON: 'login-button',
   LOG_IN_EMAIL_INPUT: 'login-email-input',

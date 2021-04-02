@@ -90,7 +90,7 @@ function onLineItemUpdate(target) {
   const newLine = {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
     name: target[SELECTOR_NAME.SUBWAY_LINE_NAME].value, 
-    color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color
+    color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color,
   };
   
   requestLineUpdate(newLine)
