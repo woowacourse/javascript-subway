@@ -93,7 +93,7 @@ export default class Section extends Observer {
 
   #getStationTemplate(station) {
     return `
-      <li class="d-flex items-center py-2 relative">
+      <li class="${SELECTOR_CLASS.SECTION_ITEM} d-flex items-center py-2 relative">
         <span class="w-100 pl-6">${station.name}</span>
         <button
           type="button"
