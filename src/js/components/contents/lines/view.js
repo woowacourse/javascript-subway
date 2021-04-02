@@ -3,7 +3,7 @@ import requestReadLine from './read.js';
 import requestReadStation from '../stations/read.js';
 import requestUpdateLine from './update.js';
 import { requestCreateLine, updateSubmitButtonState } from './create.js';
-import { dispatchFormData, hide, show } from '../../../utils/index.js';
+import { dispatchFormData } from '../../../utils/index.js';
 import { LIST_ITEM_TEMPLATE, LINES_TEMPLATE, OPTION_TEMPLATE } from './template.js';
 
 const [UP_STATION, DOWN_STATION] = ['상행역', '하행역'];
@@ -14,13 +14,15 @@ $wrapper.innerHTML = LINES_TEMPLATE;
 const $list = $wrapper.querySelector('ul');
 const $addForm = $wrapper.querySelector('.add-form');
 const $addInput = $addForm.elements['add-line-name'];
-
+const $addLineColorInput = $addForm.querySelector('#add-line-color');
+const $addLineColorText = $addForm.querySelector('#add-line-color-label');
 const $addUpStationSelect = $addForm.elements['add-up-station'];
 const $addDownStationSelect = $addForm.elements['add-down-station'];
 
 $addForm.addEventListener('input', updateSubmitButtonState);
 $addForm.addEventListener('submit', dispatchFormData);
 $addForm.addEventListener('formdata', requestCreateLine);
+$addLineColorInput.addEventListener('change', renderColorText);
 
 $list.addEventListener('click', onClickButton);
 $list.addEventListener('submit', dispatchFormData);
@@ -50,37 +52,28 @@ async function renderLineList() {
 }
 
 export function renderEditMode($editForm) {
+  $editForm.classList.add('edit-mode');
+
   const $nameInput = $editForm.querySelector('input[type="text"]');
   const $colorInput = $editForm.querySelector('input[type="color"]');
-  const $editButton = $editForm.querySelector('.edit-button');
-  const $checkButton = $editForm.querySelector('.check-button');
-  const $undoButton = $editForm.querySelector('.undo-button');
-  const $removeButton = $editForm.querySelector('.remove-button');
 
   $nameInput.disabled = false;
   $colorInput.disabled = false;
-  // TODO: 수정 가능한 input 스타일로 변경
 
-  hide($editButton);
-  show($undoButton);
-  show($checkButton);
-  show($removeButton);
+  $nameInput.focus();
 }
 
 export function renderNonEditMode($editForm) {
+  $editForm.classList.remove('edit-mode');
+
   const $nameInput = $editForm.querySelector('input[type="text"]');
   const $colorInput = $editForm.querySelector('input[type="color"]');
-  const $editButton = $editForm.querySelector('.edit-button');
-  const $checkButton = $editForm.querySelector('.check-button');
-  const $undoButton = $editForm.querySelector('.undo-button');
-  const $removeButton = $editForm.querySelector('.remove-button');
 
   $nameInput.disabled = true;
   $colorInput.disabled = true;
-  // TODO: 수정 불가능한 input 스타일로 변경
+}
 
-  show($editButton);
-  hide($undoButton);
-  hide($checkButton);
-  hide($removeButton);
+function renderColorText(event) {
+  const colorCode = event.target.value;
+  $addLineColorText.innerText = colorCode;
 }
