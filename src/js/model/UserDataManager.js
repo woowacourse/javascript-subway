@@ -75,6 +75,29 @@ export default class UserDataManager {
     };
   }
 
+  getLineColorListForFindingRoute(stationNameList) {
+    const lineColorList = [];
+    for (let i = 0; i < stationNameList.length - 1; i += 1) {
+      const lineData = this.lines.find((line) =>
+        this.findTargetSection({
+          sections: line.sections,
+          upStationName: stationNameList[i],
+          downStationName: stationNameList[i + 1],
+        }),
+      );
+
+      lineColorList.push(lineData.color);
+    }
+
+    return lineColorList;
+  }
+
+  findTargetSection({ sections, upStationName, downStationName }) {
+    return sections.find(
+      (section) => section.upStation.name === upStationName && section.downStation.name === downStationName,
+    );
+  }
+
   getStationNamesInTargetLine(lineName) {
     return this.lines.find((line) => line.name === lineName).stations.map((station) => station.name);
   }

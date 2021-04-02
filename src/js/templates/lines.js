@@ -8,7 +8,9 @@ export const selectedColorTemplate = () => `
   `;
 
 export const getStationOptionsTemplate = (stationData) => {
-  const stationOptionsTemplate = stationData.map((station) => `<option>${station.name}</option>`).join('');
+  const stationOptionsTemplate = stationData
+    .map((station) => `<option value=${station.name}>${station.name}</option>`)
+    .join('');
   return `
     <label for="up-station" class="input-label" hidden>상행역</label>
     <select id="up-station" class="up-station-selector mr-2" required>

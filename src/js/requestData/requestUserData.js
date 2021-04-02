@@ -190,3 +190,24 @@ export const requestRemoveSection = async ({ lineId, stationId }) => {
     throw new Error(error);
   }
 };
+
+export const requestGetSubwayRouteList = async ({ upStationId, downStationId, standard }) => {
+  try {
+    const response = await httpClient.get({
+      path: `/paths?source=${upStationId}&target=${downStationId}&type=${standard}`,
+      accessToken: token.accessToken,
+    });
+
+    if (response.status === 500) {
+      throw ERROR_MESSAGE.IMPOSSIBLE_ROUTE;
+    }
+
+    if (!response.ok) {
+      throw await response.text();
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error(error);
+  }
+};

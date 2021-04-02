@@ -17,7 +17,9 @@ export const getTargetSectionListTemplate = (stationNames) => {
 };
 
 export const getStationOptionsTemplate = (stationData) => {
-  const stationOptionsTemplate = stationData.map((station) => `<option>${station.name}</option>`).join('');
+  const stationOptionsTemplate = stationData
+    .map((station) => `<option value=${station.name}>${station.name}</option>`)
+    .join('');
 
   return `
     <label for="up-station" class="input-label" hidden>상행역</label>

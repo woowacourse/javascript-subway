@@ -63,6 +63,7 @@ export const ERROR_MESSAGE = Object.freeze({
   NEED_DIFFERENT_UP_DOWN_STATION: '상행역과 하행역은 동일하게 설정할 수 없습니다.',
   NEED_SELECT_COLOR: '색을 선택해주세요.',
   DUPLICATED_LINE_COLOR: '이미 같은 색의 노선이 존재합니다.',
+  IMPOSSIBLE_ROUTE: '해당 경로를 찾을 수 없습니다.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({
