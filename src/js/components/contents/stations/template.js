@@ -1,7 +1,7 @@
 export const LIST_ITEM_TEMPLATE = ({ id, name }) => `
 <li class="station-list-item">
   <form class="edit-form d-flex items-center" data-station-id="${id}" data-station-name="${name}">
-    <label for="edit-station-name-${id}" class="input-label" hidden>역 이름</label>
+    <label for="edit-station-name-${id}" class="input-label sr-only">역 이름</label>
     <input type="text" id="edit-station-name-${id}" class="station-edit-input-field pl-2" name="name" value="${name}" minlength="2" maxlength="20" required disabled />
     <div class="edit-buttons d-flex justify-center items-center ml-2">
       <i class="remove-button far fa-trash-alt d-none"></i>
@@ -20,7 +20,7 @@ export const STATIONS_TEMPLATE = `
 </div>
 <form class="add-form">
   <div class="d-flex">
-    <label for="add-station-name" class="input-label" hidden>역 이름</label>
+    <label for="add-station-name" class="input-label sr-only">역 이름</label>
     <input type="text" id="add-station-name" class="station-add-input-field add-station-name" name="name" placeholder="역 이름" minlength="2" maxlength="20" required />
     <button type="submit" class="submit-button station-add-button bg-cyan-300 ml-3" name="submit" disabled>추가</button>
   </div>

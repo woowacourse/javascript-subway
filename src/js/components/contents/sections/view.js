@@ -6,7 +6,7 @@ import { dispatchFormData } from '../../../utils/index.js';
 import {
   STATION_OPTION_TEMPLATE,
   LINE_OPTION_TEMPLATE,
-  STATION_OF_LINE_TEMPLATE,
+  SECTION_OF_LINE_TEMPLATE,
   SECTIONS_TEMPLATE,
 } from './template.js';
 
@@ -53,7 +53,7 @@ function renderLineSelect(totalLineList) {
 }
 
 function renderSectionListOfLine(sectionListOfLine, lineId) {
-  $list.innerHTML = sectionListOfLine.map((station) => STATION_OF_LINE_TEMPLATE(station, lineId)).join('');
+  $list.innerHTML = sectionListOfLine.map((station) => SECTION_OF_LINE_TEMPLATE(station, lineId)).join('');
 }
 
 function renderAddForm(stationOptionList, lineId) {
