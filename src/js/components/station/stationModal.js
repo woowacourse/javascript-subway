@@ -5,7 +5,7 @@ import {
 } from '../../utils/modal.js';
 import { $ } from '../../utils/dom.js';
 import { checkStationValid } from './stationValidator.js';
-import { SELECTOR, SUCCESS_MESSAGE } from '../../constants.js';
+import { SUCCESS_MESSAGE } from '../../constants.js';
 import { showSnackbar } from '../../utils/snackbar.js';
 import { stationAPI } from '../../../../api/station.js';
 
