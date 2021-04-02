@@ -105,7 +105,6 @@ export default class Sections extends Component {
     const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
     const stationList = line.stations;
     const sectionList = line.sections;
-    const lineColor = line.color;
     const sortedSectionList = [];
 
     stationList.forEach((station, index) => {
@@ -119,6 +118,7 @@ export default class Sections extends Component {
           sortedSectionList.push({
             name: station.name,
             id: station.id,
+            color: line.color,
             duration: section.duration,
             distance: section.distance,
           });
@@ -128,9 +128,7 @@ export default class Sections extends Component {
       });
     });
 
-    this.$sectionListContainer.innerHTML = sortedSectionList
-      .map((section) => sectionListTemplate(lineColor, section))
-      .join('');
+    this.$sectionListContainer.innerHTML = sortedSectionList.map((section) => sectionListTemplate(section)).join('');
   }
 
   render(token, stationList, lineList) {
