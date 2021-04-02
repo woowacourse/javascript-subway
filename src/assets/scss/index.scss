@@ -79,6 +79,8 @@ a:visited {
 
 .subway-map-line {
   list-style: none;
+  padding: 0;
+  margin: 100px 0px 100px 0px;
 }
 
 .subway-map-line li {
@@ -88,6 +90,8 @@ a:visited {
 li[data-marker='lineName'] {
   font-size: 0.9rem;
   border: 4px solid red;
+  background-color: red;
+  color: white;
   padding: 0px 10px 0px 10px;
   border-radius: 20px;
 }
@@ -102,16 +106,18 @@ li span[data-marker='station-name'] {
 
 li span[data-marker='station'] {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border: 2px solid red;
+  background-color: white;
   border-radius: 50%;
+  transform: translate(-10px, 6%);
 }
 
 li span[data-marker='station-line'] {
   display: inline-block;
   background-color: red;
-  width: 50px;
+  width: 40px;
   height: 5px;
-  transform: translateY(-100%);
+  transform: translate(-10px, -60%);
 }

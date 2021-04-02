@@ -2,6 +2,7 @@ import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, CONFIRM_MESSAGE 
 import { state } from '../store.js';
 import { isDuplicatedStationNameExist, isProperStationNameLength } from '../validators/station.js';
 import { requestStationDelete, requestStationRegistration, requestStationUpdate } from '../api/station.js';
+import { requestLineList } from '../api/line.js';
 import { $, setTurnRedAnimation, setFadeOutAnimation, showElement, cancelTurnRedAnimation, resetForm } from '../utils/dom.js';
 import { wait } from '../utils/utils';
 
@@ -69,9 +70,19 @@ function onStationItemUpdate(target) {
     state.update(STATE_KEY.STATION_LIST, stationList);
     return;
   }
-  requestStationUpdate(stationId, newStationName).then(() => {
+  requestStationUpdate(stationId, newStationName).then(async () => {
     targetStationItem.name = newStationName;
     state.update(STATE_KEY.STATION_LIST, stationList);
+    const lineList = await requestLineList();
+    lineList.map(lineItem => ({
+      id: lineItem.id,
+      name: lineItem.name,
+      color: lineItem.color,
+      stations: lineItem.stations,
+      sections: lineItem.sections,
+    }));
+    if (lineList.length === 0) return;
+    state.update(STATE_KEY.LINE_LIST, lineList);
   });
 }
 
