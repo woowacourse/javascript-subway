@@ -237,12 +237,12 @@ export default class SignupForm extends Component {
     this.pageRouter.movePage(path);
   }
 
-  render() {
+  loadPage() {
     $("form", this.innerElement).reset();
     $$(".js-message", this.innerElement).forEach(($ele) => {
       // eslint-disable-next-line no-param-reassign
       $ele.textContent = "";
     });
-    super.render();
+    this.render();
   }
 }

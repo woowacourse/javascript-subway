@@ -7,27 +7,26 @@ import Sections from "./Sections.js";
 import StationMap from "./StationMap.js";
 import PageRouter from "../models/PageRouter.js";
 
+import { getMemberInfoAPI } from "../APIs/subway/index.js";
+
 import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import { getMemberInfoAPI } from "../APIs/subway/index.js";
 
 export default class App {
   constructor() {
+    this.userName = "";
     this.pageState = {
       isLoggedIn: false,
       pageURL: "",
     };
-    this.userName = "";
     this.pageRouter = new PageRouter();
-
     this.navigation = new Navigation({
       $parent: staticElements.$nav,
       setPageState: this.setPageState.bind(this),
       pageRouter: this.pageRouter,
     });
-
     this.pages = {
       [PAGE_KEYS.LOGIN]: new LoginForm({
         $parent: staticElements.$main,
@@ -59,17 +58,10 @@ export default class App {
 
   registerRoutes() {
     Object.keys(this.pages).forEach((key) => {
-      if (key === PAGE_KEYS.LOGIN || key === PAGE_KEYS.SIGNUP) {
-        this.pageRouter.registerRoute({
-          path: PAGE_URLS[key],
-          handler: this.pages[key].render.bind(this.pages[key]),
-        });
-      } else {
-        this.pageRouter.registerRoute({
-          path: PAGE_URLS[key],
-          handler: this.pages[key].loadPage.bind(this.pages[key]),
-        });
-      }
+      this.pageRouter.registerRoute({
+        path: PAGE_URLS[key],
+        handler: this.pages[key].loadPage.bind(this.pages[key]),
+      });
     });
   }
 

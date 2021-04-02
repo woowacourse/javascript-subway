@@ -143,10 +143,10 @@ export default class LoginForm extends Component {
     this.pageRouter.movePage(path);
   }
 
-  render() {
+  loadPage() {
     $("form", this.innerElement).reset();
     $(".js-login-error", this.innerElement).textContent = "";
 
-    super.render();
+    this.render();
   }
 }
