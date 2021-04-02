@@ -124,14 +124,21 @@ export const deleteStationAPI = async (stationId, accessToken) => {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(ERROR_MESSAGE.DELETE_STATION);
+    if (response.ok) {
+      return {
+        isSucceeded: true,
+        message: SUCCESS_MESSAGE.DELETE_STATION,
+      };
     }
 
-    return {
-      isSucceeded: true,
-      message: SUCCESS_MESSAGE.DELETE_STATION,
-    };
+    if (response.status === STATUS.STATIONS.USED) {
+      return {
+        isSucceeded: false,
+        message: ERROR_MESSAGE.USED_STATION,
+      };
+    }
+
+    throw new Error(ERROR_MESSAGE.DELETE_STATION);
   } catch (e) {
     console.error(e);
 
