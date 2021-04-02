@@ -170,3 +170,8 @@ hr {
 .list-item:last-child .section-edit {
   transform: translateX(50%);
 }
+
+.map-line-name {
+  padding: 0 24px;
+  border-right: 1px solid #dddddd;
+}
