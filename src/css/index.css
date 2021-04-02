@@ -71,7 +71,7 @@ ul li button:hover {
 }
 
 .horizontal-line-bar {
-  width: 90px;
+  width: 100%;
   height: 10px;
 }
 
@@ -83,11 +83,8 @@ ul li button:hover {
 
 .subway-map-container {
   overflow: auto;
-  overflow-x: auto;
-  overflow-y: auto;
-  padding: 100px 30px;
-  min-width: 600px;
-  width: 1000px;
+  padding: 100px 60px;
+  width: 800px;
   min-height: 100px;
   max-height: 1000px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -95,19 +92,28 @@ ul li button:hover {
 }
 
 .subway-map-container .line-list-item {
-  margin: 20px 0px;
+  margin: 10px 0px;
 }
 
 .subway-map-container .station-container {
   padding-right: 30px;
 }
 
+.subway-map-container .station-item-container {
+  max-width: 180px;
+}
+
 .subway-map-container .station-name {
-  position: absolute;
-  top: -55px;
-  padding: 0 5px;
-  width: 80px;
-  height: 80px;
+}
+
+.subway-map-container .station-item-container:first-child .horizontal-line-bar {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.subway-map-container .station-item-container:last-child .horizontal-line-bar {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .subway-map-container .line-name {

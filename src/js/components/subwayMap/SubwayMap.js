@@ -8,6 +8,7 @@ export default class SubwayMap extends Component {
   #token;
   constructor() {
     super();
+    this.#token;
   }
 
   selectDOM() {}
@@ -23,10 +24,5 @@ export default class SubwayMap extends Component {
 
     this.#token = token;
     this.render(token, lineList);
-
-    if (token) {
-      this.selectDOM();
-      this.bindEvent();
-    }
   }
 }
