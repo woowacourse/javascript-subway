@@ -102,7 +102,6 @@ export default class Section extends Observer {
     stationName.textContent = station.name;
     stationItem.appendChild(stationName);
     
-    const horizontalLine = document.createElement("hr");
     if (index < this.#targetLine.sections.length) {
       const sectionContainer = document.createElement("div");
       sectionContainer.setAttribute("class", SELECTOR_CLASS.SECTION_CONTAINER);
@@ -134,12 +133,10 @@ export default class Section extends Observer {
       sectionContainer.appendChild(sectionDistance);
       sectionContainer.appendChild(sectionDuration);
       stationItem.appendChild(sectionContainer);
-
-      horizontalLine.setAttribute("class", SELECTOR_CLASS.SECTION_HORIZONTAL_LINE);
-      horizontalLine.setAttribute("style", `border-color: ${targetLineColor};`);
-    } else {
-      horizontalLine.setAttribute("class", "my-0");
     }
+
+    const horizontalLine = document.createElement("hr");
+    horizontalLine.setAttribute("class", "my-0");
 
     const stationDeleteButton = document.createElement("button");
     stationDeleteButton.setAttribute("type", "button");
