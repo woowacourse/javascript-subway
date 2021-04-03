@@ -40,6 +40,7 @@ context('계정', () => {
         });
       });
     });
+
     it('이용자는 로그인을 할 수 있다', () => {
       checkAccessTokenExist(false);
       click(`a[href="${PATH.LOG_IN}"]`);
@@ -50,6 +51,7 @@ context('계정', () => {
       checkAccessTokenExist(true);
     });
   });
+
   describe('로그인 되어 있을 때', () => {
     it('이용자는 로그아웃을 할 수 있다', () => {
       checkAccessTokenExist(true);
@@ -73,6 +75,7 @@ context('역 관리', () => {
       click(`#${SELECTOR_ID.STATION_FORM_SUBMIT}`);
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM}`).should('have.length', 1);
     });
+
     it('엔터키로 역 추가', () => {
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, station2);
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '{enter}');
@@ -83,8 +86,8 @@ context('역 관리', () => {
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, station4);
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '{enter}');
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM}`).should('have.length', 4);
-
     });
+
     it('중복된 역은 추가할 수 없다', () => {
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, station2);
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '{enter}');
@@ -93,6 +96,7 @@ context('역 관리', () => {
       });
       cy.get(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`).should('have.value', '');
     });
+
     it(`추가되는 역은 ${VALIDATION.MIN_STATION_NAME_LENGTH} 글자 이상 ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하이어야 한다`, () => {
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '역');
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '{enter}');
@@ -107,6 +111,7 @@ context('역 관리', () => {
       });
       cy.get(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`).should('have.value', '');
     });
+
   });
 
   describe('역 수정', () => {
@@ -115,6 +120,7 @@ context('역 관리', () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE}`).eq(0).click();
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`).eq(0).should('be.visible');
     });
+    
     it('역 수정', () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`).eq(0).focus().clear();
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`).eq(0).type(updatedStation1);
@@ -122,6 +128,7 @@ context('역 관리', () => {
       cy.wait(1000);
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_NAME}`).eq(0).should('have.text', updatedStation1);
     });
+
     it('역의 이름은 중복되는 이름으로 수정할 수 없다', () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE}`).eq(0).click();
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, station2);
@@ -131,6 +138,7 @@ context('역 관리', () => {
       });
       cy.get(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`).should('have.value', '');
     });
+
     it(`수정된 역은 ${VALIDATION.MIN_STATION_NAME_LENGTH} 글자 이상 ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하이어야 한다`, () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE}`).eq(0).click();
       type(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`, '역');
@@ -150,6 +158,7 @@ context('역 관리', () => {
       });
       cy.get(`#${SELECTOR_ID.STATION_FORM_NAME_INPUT}`).should('have.value', '');
     });
+
     after(() => {
       click(`a[href="${PATH.LINES}"]`);
       click(`.${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN}`);
@@ -175,6 +184,7 @@ context('역 관리', () => {
       });
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM}`).should('have.length', 4);
     });
+
     it('삭제 confirm 취소 시 역 삭제 X', () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE}`).eq(3).click();
       cy.on('window:confirm', str => {
@@ -183,6 +193,7 @@ context('역 관리', () => {
       });
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM}`).should('have.length', 4);
     });
+
     it('삭제 confirm 시 역 삭제', () => {
       cy.get(`.${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE}`).eq(3).click();
       cy.on('window:confirm', str => {
@@ -223,6 +234,7 @@ context('노선 관리', () => {
       cy.get(`#${SELECTOR_ID.LINE_LIST}`).contains(line2);
       cy.get(`#${SELECTOR_ID.LINE_LIST}`).contains(line3);
     });
+
     it(`중복된 노선 이름이 등록될 수 없다`, () => {
       click(`.${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN}`);
       registerLine({
@@ -238,6 +250,7 @@ context('노선 관리', () => {
         expect(message).to.equal(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
       });
     });
+
     it(`등록되는 노선의 이름은${VALIDATION.MIN_STATION_NAME_LENGTH}글자 이상, ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하이어야 한다`, () => {
       click(`.${SELECTOR_CLASS.LINE_LIST_MODAL_OPEN}`);
       registerLine({
@@ -281,6 +294,7 @@ context('노선 관리', () => {
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`).eq(0).contains(updatedLine1);
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`).should('have.length', 3);
     })
+
     it(`중복된 노선 이름으로 수정될 수 없다`, () => {
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE}`).eq(0).click();
       updateLine({
@@ -293,6 +307,7 @@ context('노선 관리', () => {
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`).eq(0).contains(updatedLine1)
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`).should('have.length', 3);
     })
+
     it(`수정되는 노선의 이름은${VALIDATION.MIN_STATION_NAME_LENGTH}글자 이상, ${VALIDATION.MAX_STATION_NAME_LENGTH}자 이하이어야 한다`, () => {
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE}`).eq(0).click();
       updateLine({
@@ -327,6 +342,7 @@ context('노선 관리', () => {
       cy.get(`.${SELECTOR_CLASS.LINE_LIST_ITEM}`).should('have.length', 2);
       cy.wait(1000)
     })
+
     it('노선 삭제 confirm 취소', () => {
       cy.get(`.${SELECTOR_CLASS.LINE_DELETE_BUTTON}`).eq(0).click();
       cy.on('window:confirm', str => {
@@ -367,6 +383,7 @@ context('구간 관리', () => {
       });
       cy.get(`.${SELECTOR_CLASS.SECTION_ITEM}`).should('have.length', 3);
     })
+    
     it(`구간 삭제 confirm`, () => {
       cy.get(`.${SELECTOR_CLASS.SECTION_DELETE_BUTTON}`).eq(2).click();
       cy.on('window:confirm', str => {
