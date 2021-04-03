@@ -115,7 +115,7 @@ export class SectionManage extends Component {
       await sectionManageAPI.removeSection(accessToken, requestInfo);
       store[STATE_KEY.LINES].update();
     } catch (error) {
-      alert(error.message);
+      alert(error.message === '400' ? MESSAGE.SECTION_MANAGE.STATION_MIN_COUNT : MESSAGE.RETRY);
     }
   }
 }

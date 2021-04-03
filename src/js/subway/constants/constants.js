@@ -74,6 +74,7 @@ export const MESSAGE = {
   SECTION_MANAGE: {
     LINE_DEFAULT_OPTION: '노선 선택',
     LINE_SELECT_REQUIRED: '노선을 선택해 주세요',
+    STATION_MIN_COUNT: '더이상 구간을 삭제할 수 없습니다.',
   },
   CONFIRM: {
     STATION_REMOVE: '해당 역을 삭제하시겠습니까?',

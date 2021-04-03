@@ -36,7 +36,9 @@ const removeSection = async (accessToken, { lineId, stationId }) => {
   };
 
   try {
-    await request(url, option);
+    const response = await request(url, option);
+
+    if (!response.ok) throw new Error(response.status);
   } catch (error) {
     throw new Error(error.message);
   }

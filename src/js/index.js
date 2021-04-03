@@ -34,6 +34,6 @@ window.addEventListener('load', async () => {
   const userName = accessToken ? await userAuthAPI.getUserName(accessToken) : null;
 
   new App();
-  updateUserInfo(userName);
+  await updateUserInfo(userName);
   routeTo(location.pathname);
 });
