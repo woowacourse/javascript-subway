@@ -42,6 +42,8 @@ const ID_SELECTOR = {
   SECTION_MODAL_FORM_DISTANCE: 'section-modal-form__distance',
   SECTION_MODAL_FORM_DURATION: 'section-modal-form__duration',
 
+  FULL_MAP_LINE_LIST: 'full-map-line-list',
+
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
   MY_INFO_FORM_NAME: 'my-info-form__name',
@@ -75,6 +77,9 @@ const CLASS_SELECTOR = {
   LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
   SECTION_LIST_ITEM_REMOVAL: 'js-section-list__item-removal',
+
+  FULL_MAP_LINE: 'js-full-map-line',
+  FULL_MAP_LINE_STATION: 'js-full-map-line__station',
 
   MODAL_CLOSE: 'js-modal-close',
 };
@@ -138,6 +143,7 @@ const URL = {
   LOGIN: '/login',
   SIGNUP: '/signup',
   MY_INFO: '/myInfo',
+  FULL_MAP: '/fullMap',
 };
 
 const THRESHOLD = {
