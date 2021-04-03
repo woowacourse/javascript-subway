@@ -1,7 +1,7 @@
 import { PATH } from '../constants';
 
 export default class Router {
-  #registration = {};
+  #reRenderComponentRegistration  = {};
 
   initRouteEvent() {
     window.addEventListener('popstate', e => {
@@ -12,15 +12,15 @@ export default class Router {
   }
 
   register(path, component) {
-    if (!this.#registration[path]) {
-      this.#registration[path] = [component];
+    if (!this.#reRenderComponentRegistration [path]) {
+      this.#reRenderComponentRegistration [path] = [component];
       return;
     }
-    this.#registration[path].push(component);
+    this.#reRenderComponentRegistration [path].push(component);
   }
 
   async navigate(path) {
-    this.#registration[path].forEach(component => {
+    this.#reRenderComponentRegistration [path].forEach(component => {
       component.renderPage();
       component.renderComponent();
     });
