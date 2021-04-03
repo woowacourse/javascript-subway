@@ -33,11 +33,10 @@ class SignupComponent extends Component {
       return;
     }
 
-    const url = REQUEST_URL + '/members';
     const bodyData = { email, name, password };
 
     try {
-      await fetchSignup(url, bodyData);
+      await fetchSignup(bodyData);
     } catch (err) {
       alert(err.message);
       return;

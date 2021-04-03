@@ -61,8 +61,7 @@ class StationRevisionComponent extends Component {
       return;
     }
 
-    const revisionId = $input.dataset.id;
-    const url = REQUEST_URL + `/stations/${revisionId}`;
+    const stationId = $input.dataset.id;
     const bodyData = {
       name: revisionName,
     };
@@ -70,7 +69,7 @@ class StationRevisionComponent extends Component {
 
     try {
       // TODO: fetchStationNameRevision 이름 변경하기
-      await fetchStationNameRevision(url, { bodyData, accessToken });
+      await fetchStationNameRevision({ accessToken, bodyData, stationId });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
       loadStationList(

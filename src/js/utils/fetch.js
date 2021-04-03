@@ -1,6 +1,7 @@
-import { ALERT_MESSAGE } from '../constants.js';
+import { ALERT_MESSAGE, REQUEST_URL } from '../constants.js';
 
-const fetchSignup = async (url, bodyData) => {
+const fetchSignup = async bodyData => {
+  const url = REQUEST_URL + '/members';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -20,7 +21,8 @@ const fetchSignup = async (url, bodyData) => {
 };
 
 //TODO: fetch... 함수들의 인자 형태를 객체로 통일할지 고민
-const fetchLogin = async (url, bodyData) => {
+const fetchLogin = async bodyData => {
+  const url = REQUEST_URL + '/login/token';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -39,7 +41,8 @@ const fetchLogin = async (url, bodyData) => {
   return response;
 };
 
-const fetchMyInfo = async (url, accessToken) => {
+const fetchMyInfo = async accessToken => {
+  const url = REQUEST_URL + '/members/me';
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -54,7 +57,8 @@ const fetchMyInfo = async (url, accessToken) => {
   return response;
 };
 
-const fetchStationCreation = async (url, { bodyData, accessToken }) => {
+const fetchStationCreation = async (bodyData, accessToken) => {
+  const url = REQUEST_URL + '/stations';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -75,7 +79,8 @@ const fetchStationCreation = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchStationRead = async (url, accessToken) => {
+const fetchStationRead = async accessToken => {
+  const url = REQUEST_URL + '/stations';
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -90,7 +95,12 @@ const fetchStationRead = async (url, accessToken) => {
 };
 
 //TODO: fetchStationCreation랑 기능이 완전히 똑같음
-const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
+const fetchStationNameRevision = async ({
+  accessToken,
+  bodyData,
+  stationId,
+}) => {
+  const url = REQUEST_URL + `/stations/${stationId}`;
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -111,7 +121,8 @@ const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchStationRemoval = async (url, accessToken) => {
+const fetchStationRemoval = async (stationId, accessToken) => {
+  const url = REQUEST_URL + `/stations/${stationId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -131,8 +142,9 @@ const fetchStationRemoval = async (url, accessToken) => {
   return response;
 };
 
-const fetchLineCreation = async (url, { bodyData, accessToken }) => {
+const fetchLineCreation = async (bodyData, accessToken) => {
   //TODO : data, accessToken 인자 유효성 검사
+  const url = REQUEST_URL + '/lines';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -153,7 +165,8 @@ const fetchLineCreation = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchLineRead = async (url, accessToken) => {
+const fetchLineRead = async (lineId, accessToken) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -169,7 +182,8 @@ const fetchLineRead = async (url, accessToken) => {
 };
 
 // TODO: fetchLineRead와 url(fetchLineRead는 url/id) 빼고 다 같음
-const fetchLineListRead = async (url, accessToken) => {
+const fetchLineListRead = async accessToken => {
+  const url = REQUEST_URL + '/lines';
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -184,7 +198,8 @@ const fetchLineListRead = async (url, accessToken) => {
   return response;
 };
 
-const fetchLineRevision = async (url, { bodyData, accessToken }) => {
+const fetchLineRevision = async (bodyData, accessToken) => {
+  const url = REQUEST_URL + `/lines/${id}`;
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -205,7 +220,8 @@ const fetchLineRevision = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchLineRemoval = async (url, accessToken) => {
+const fetchLineRemoval = async (lineId, accessToken) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -220,7 +236,8 @@ const fetchLineRemoval = async (url, accessToken) => {
   return response;
 };
 
-const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
+const fetchSectionCreation = async (accessToken, bodyData) => {
+  const url = REQUEST_URL + `/lines/${modalLineId}/sections`;
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -243,7 +260,8 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
   return response;
 };
 
-const fetchSectionRemoval = async (url, accessToken) => {
+const fetchSectionRemoval = async ({ accessToken, stationId, lineId }) => {
+  const url = REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {

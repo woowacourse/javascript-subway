@@ -60,7 +60,6 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE].value;
     const duration =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DURATION].value;
-    const url = REQUEST_URL + `/lines/${modalLineId}/sections`;
     const accessToken = this.props.accessTokenState.Data;
     const bodyData = {
       upStationId,
@@ -70,7 +69,7 @@ class SectionCreationComponent extends Component {
     };
 
     try {
-      await fetchSectionCreation(url, { accessToken, bodyData });
+      await fetchSectionCreation(accessToken, bodyData);
 
       alert(ALERT_MESSAGE.SECTION_CREATION_SUCCESS);
 

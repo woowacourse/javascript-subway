@@ -62,7 +62,6 @@ class StationComponent extends Component {
   };
 
   #onStationRevised = ({ target }) => {
-    //TODO: contains 문 hasClassName으로 바꾸기
     if (!hasClassName(target, CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)) {
       return;
     }
@@ -84,12 +83,11 @@ class StationComponent extends Component {
     this.#removeStation(target.dataset.id);
   };
 
-  #removeStation = async id => {
-    const url = REQUEST_URL + `/stations/${id}`;
+  #removeStation = async stationId => {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationRemoval(url, accessToken);
+      await fetchStationRemoval(stationId, accessToken);
 
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
 
@@ -108,16 +106,12 @@ class StationComponent extends Component {
 
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
-    const url = REQUEST_URL + '/stations';
     const bodyData = { name: inputName };
     const accessToken = this.props.accessTokenState.Data;
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      const response = await fetchStationCreation(url, {
-        bodyData,
-        accessToken,
-      });
+      const response = await fetchStationCreation(bodyData, accessToken);
 
       alert(ALERT_MESSAGE.STATION_CREATION_SUCCESS);
 

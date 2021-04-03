@@ -15,11 +15,10 @@ class MyInfoComponent extends Component {
   }
 
   async #renderMyInfo() {
-    const url = REQUEST_URL + '/members/me';
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      const response = await fetchMyInfo(url, accessToken);
+      const response = await fetchMyInfo(accessToken);
       const { email, name } = await response.json();
 
       $(`#${ID_SELECTOR.MY_INFO_FORM_EMAIL}`).value = email;

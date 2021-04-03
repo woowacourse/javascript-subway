@@ -121,12 +121,11 @@ class LineComponent extends Component {
     <hr class="my-0" />`;
   }
 
-  #removeLine = async id => {
-    const url = REQUEST_URL + `/lines/${id}`;
+  #removeLine = async lineId => {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchLineRemoval(url, accessToken);
+      await fetchLineRemoval(lineId, accessToken);
 
       alert(ALERT_MESSAGE.LINE_REMOVAL_SUCCESS);
 

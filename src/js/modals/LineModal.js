@@ -68,7 +68,6 @@ class LineCreationComponent extends Component {
     const distance = event.target[ID_SELECTOR.LINE_MODAL_FORM_DISTANCE].value;
     const duration = event.target[ID_SELECTOR.LINE_MODAL_FORM_DURATION].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-    const url = REQUEST_URL + '/lines';
     const bodyData = {
       name: lineName,
       color,
@@ -81,10 +80,7 @@ class LineCreationComponent extends Component {
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      const response = await fetchLineCreation(url, {
-        bodyData,
-        accessToken,
-      });
+      const response = await fetchLineCreation(bodyData, accessToken);
 
       alert(ALERT_MESSAGE.LINE_CREATION_SUCCESS);
 
@@ -158,7 +154,6 @@ class LineRevisionComponent extends Component {
     const id = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-    const url = REQUEST_URL + `/lines/${id}`;
     const bodyData = {
       name: lineName,
       color,
@@ -167,10 +162,7 @@ class LineRevisionComponent extends Component {
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      await fetchLineRevision(url, {
-        bodyData,
-        accessToken,
-      });
+      await fetchLineRevision(bodyData, accessToken);
 
       alert(ALERT_MESSAGE.LINE_REVISION_SUCCESS);
 

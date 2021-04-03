@@ -62,11 +62,10 @@ class SectionComponent extends Component {
       return;
     }
 
-    const url = REQUEST_URL + `/lines/${lineId}`;
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      const response = await fetchLineRead(url, accessToken);
+      const response = await fetchLineRead(lineId, accessToken);
       const { color, stations } = await response.json();
 
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
@@ -106,12 +105,10 @@ class SectionComponent extends Component {
   };
 
   #removeSection = async (stationId, lineId) => {
-    const url =
-      REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchSectionRemoval(url, accessToken);
+      await fetchSectionRemoval({ accessToken, stationId, lineId });
 
       alert(ALERT_MESSAGE.SECTION_REMOVAL_SUCCESS);
 
