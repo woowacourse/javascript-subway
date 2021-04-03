@@ -1,12 +1,11 @@
 import { store } from '../../subway/models/store';
-import { getFromSessionStorage, hide, show } from '../../@shared/utils';
+import { hide, show } from '../../@shared/utils';
 import {
   DOM,
   DOWN_STATION,
   MESSAGE,
   MIN_STATION_COUNT,
   NAME_LENGTH,
-  SESSION_KEY,
   STATE_KEY,
   SUBMIT_TYPE,
   UP_STATION,
@@ -87,16 +86,15 @@ export class LineManage extends Component {
 
   handleLineSubmit(event) {
     event.preventDefault();
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
     if (this.submitType === SUBMIT_TYPE.ADD) {
-      this.handleAddSubmit(accessToken);
+      this.handleAddSubmit();
     } else if (this.submitType === SUBMIT_TYPE.MODIFY) {
-      this.handleModifySubmit(accessToken);
+      this.handleModifySubmit();
     }
   }
 
-  async handleAddSubmit(accessToken) {
+  async handleAddSubmit() {
     const requestInfo = {
       id: DOM.LINE.MODAL.FORM.dataset.lineId,
       name: DOM.LINE.MODAL.NAME_INPUT.value,
@@ -120,7 +118,7 @@ export class LineManage extends Component {
     }
 
     try {
-      await lineManageAPI.addLine(accessToken, requestInfo);
+      await lineManageAPI.addLine(requestInfo);
       store[STATE_KEY.LINES].update();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -139,7 +137,7 @@ export class LineManage extends Component {
     if (!isValidName(requestInfo.name, NAME_LENGTH.LINE_MIN, NAME_LENGTH.LINE_MAX)) return;
 
     try {
-      await lineManageAPI.modifyLine(accessToken, requestInfo);
+      await lineManageAPI.modifyLine(requestInfo);
       store[STATE_KEY.LINES].update();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -158,9 +156,7 @@ export class LineManage extends Component {
     if (!confirm(MESSAGE.CONFIRM.LINE_REMOVE)) return;
 
     try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      await lineManageAPI.removeLine(accessToken, requestInfo);
+      await lineManageAPI.removeLine(requestInfo);
       store[STATE_KEY.LINES].update();
     } catch (error) {
       console.error(error.message);

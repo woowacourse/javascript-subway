@@ -1,6 +1,6 @@
 import { store } from '../../subway/models/store';
-import { getFromSessionStorage, $ } from '../../@shared/utils';
-import { DOM, MESSAGE, NAME_LENGTH, SESSION_KEY, STATE_KEY } from '../constants';
+import { $ } from '../../@shared/utils';
+import { DOM, MESSAGE, NAME_LENGTH, STATE_KEY } from '../constants';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
 import { subwayView } from '../views';
 import { Component } from '../../@shared/models/Component';
@@ -42,9 +42,7 @@ export class StationManage extends Component {
     };
 
     try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      await stationManageAPI.addStation(accessToken, requestInfo);
+      await stationManageAPI.addStation(requestInfo);
       store[STATE_KEY.STATIONS].update();
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
@@ -67,14 +65,13 @@ export class StationManage extends Component {
 
   async handleModifySubmit(event) {
     event.preventDefault();
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     const requestInfo = {
       id: DOM.STATION.MODAL.NAME_INPUT.dataset.stationId,
       name: DOM.STATION.MODAL.NAME_INPUT.value,
     };
 
     try {
-      await stationManageAPI.modifyStation(accessToken, requestInfo);
+      await stationManageAPI.modifyStation(requestInfo);
       store[STATE_KEY.STATIONS].update();
       DOM.STATION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -106,9 +103,7 @@ export class StationManage extends Component {
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
 
     try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      await stationManageAPI.removeStation(accessToken, requestInfo);
+      await stationManageAPI.removeStation(requestInfo);
       store[STATE_KEY.STATIONS].update();
     } catch (error) {
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);

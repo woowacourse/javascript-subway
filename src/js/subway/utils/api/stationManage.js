@@ -1,7 +1,8 @@
-import { request } from '../../../@shared/utils';
-import { BASE_URL } from '../../constants';
+import { getFromSessionStorage, request } from '../../../@shared/utils';
+import { BASE_URL, SESSION_KEY } from '../../constants';
 
-const getStations = async accessToken => {
+const getStations = async () => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   if (!accessToken) return [];
   const url = `${BASE_URL}/stations`;
   const option = {
@@ -25,7 +26,8 @@ const getStations = async accessToken => {
   }
 };
 
-const addStation = async (accessToken, { name }) => {
+const addStation = async ({ name }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/stations`;
   const option = {
     method: 'POST',
@@ -49,7 +51,8 @@ const addStation = async (accessToken, { name }) => {
   }
 };
 
-const modifyStation = async (accessToken, { id, name }) => {
+const modifyStation = async ({ id, name }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/stations/${id}`;
   const option = {
     method: 'PUT',
@@ -70,7 +73,8 @@ const modifyStation = async (accessToken, { id, name }) => {
   }
 };
 
-const removeStation = async (accessToken, { id }) => {
+const removeStation = async ({ id }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/stations/${id}`;
   const option = {
     method: 'DELETE',

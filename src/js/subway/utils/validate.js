@@ -22,6 +22,6 @@ export const findInValidInput = $$input => {
   }
 };
 
-export const isValidDistance = value => Number(value) > 0;
+export const isValidDistance = distance => Number(distance) > 0;
 
-export const isValidDuration = value => Number(value) > 0;
+export const isValidDuration = duration => Number(duration) > 0;

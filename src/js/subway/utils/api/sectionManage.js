@@ -1,7 +1,8 @@
-import { request } from '../../../@shared/utils';
-import { BASE_URL } from '../../constants';
+import { getFromSessionStorage, request } from '../../../@shared/utils';
+import { BASE_URL, SESSION_KEY } from '../../constants';
 
-const addSection = async (accessToken, { id, upStationId, downStationId, distance, duration }) => {
+const addSection = async ({ id, upStationId, downStationId, distance, duration }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/lines/${id}/sections`;
   const option = {
     method: 'POST',
@@ -26,7 +27,8 @@ const addSection = async (accessToken, { id, upStationId, downStationId, distanc
   }
 };
 
-const removeSection = async (accessToken, { lineId, stationId }) => {
+const removeSection = async ({ lineId, stationId }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/lines/${lineId}/sections?stationId=${stationId}`;
   const option = {
     method: 'DELETE',

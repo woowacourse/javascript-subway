@@ -1,5 +1,5 @@
-import { getFromSessionStorage, show, $, $$ } from '../../@shared/utils';
-import { DOM, SESSION_KEY, STATE_KEY, UP_STATION, DOWN_STATION, MESSAGE, ROUTE } from '../constants';
+import { show, $ } from '../../@shared/utils';
+import { DOM, STATE_KEY, UP_STATION, DOWN_STATION, MESSAGE, ROUTE } from '../constants';
 import { hideModal, isValidDistance, isValidDuration, sectionManageAPI, showModal } from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../subway/models/store';
@@ -69,7 +69,6 @@ export class SectionManage extends Component {
 
   async handleAddSubmit(event) {
     event.preventDefault();
-    const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     const requestInfo = {
       id: DOM.SECTION.MODAL.FORM.dataset.lineId,
       upStationId: DOM.SECTION.MODAL.UP_STATION_SELECTOR.value,
@@ -90,7 +89,7 @@ export class SectionManage extends Component {
     }
 
     try {
-      await sectionManageAPI.addSection(accessToken, requestInfo);
+      await sectionManageAPI.addSection(requestInfo);
       store[STATE_KEY.LINES].update();
       DOM.SECTION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -110,9 +109,7 @@ export class SectionManage extends Component {
     if (!confirm(MESSAGE.CONFIRM.STATION_REMOVE)) return;
 
     try {
-      const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-
-      await sectionManageAPI.removeSection(accessToken, requestInfo);
+      await sectionManageAPI.removeSection(requestInfo);
       store[STATE_KEY.LINES].update();
     } catch (error) {
       alert(error.message === '400' ? MESSAGE.SECTION_MANAGE.STATION_MIN_COUNT : MESSAGE.RETRY);

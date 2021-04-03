@@ -1,19 +1,11 @@
 export class Component {
-  #methods = ['setup', 'mountChildComponents', 'bindEvent'];
-
   constructor() {
     this.mount();
   }
 
   mount() {
-    this.#methods.forEach(method => {
-      if (this.isMethod(method)) {
-        this[method]();
-      }
-    });
-  }
+    const methods = ['setup', 'mountChildComponents', 'bindEvent'];
 
-  isMethod(method) {
-    return method in this && typeof this[method] === 'function';
+    methods.forEach(method => this[method]?.());
   }
 }

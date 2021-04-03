@@ -1,11 +1,11 @@
 import '../css/index.css';
 import '../images/subway_emoji.png';
-import { getFromSessionStorage } from './@shared/utils';
 import { updateUserInfo } from './subway/models/store';
 import { Subway } from './subway';
 import { userAuthAPI, routeTo } from './subway/utils';
 import { DOM, SESSION_KEY } from './subway/constants';
 import { Component } from './@shared/models/Component';
+import { getFromSessionStorage } from './@shared/utils';
 
 class App extends Component {
   mountChildComponents() {
@@ -31,7 +31,7 @@ window.addEventListener('popstate', event => {
 
 window.addEventListener('load', async () => {
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-  const userName = accessToken ? await userAuthAPI.getUserName(accessToken) : null;
+  const userName = await userAuthAPI.getUserName(accessToken);
 
   new App();
   await updateUserInfo(userName);

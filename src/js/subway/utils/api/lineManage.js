@@ -1,7 +1,8 @@
-import { request } from '../../../@shared/utils';
-import { BASE_URL } from '../../constants';
+import { getFromSessionStorage, request } from '../../../@shared/utils';
+import { BASE_URL, SESSION_KEY } from '../../constants';
 
-const getLines = async accessToken => {
+const getLines = async () => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   if (!accessToken) return [];
   const url = `${BASE_URL}/lines`;
   const option = {
@@ -25,7 +26,8 @@ const getLines = async accessToken => {
   }
 };
 
-const addLine = async (accessToken, { name, color, upStationId, downStationId, distance, duration }) => {
+const addLine = async ({ name, color, upStationId, downStationId, distance, duration }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/lines`;
   const option = {
     method: 'POST',
@@ -54,7 +56,8 @@ const addLine = async (accessToken, { name, color, upStationId, downStationId, d
   }
 };
 
-const modifyLine = async (accessToken, { id, name, color, upStationId, downStationId, distance, duration }) => {
+const modifyLine = async ({ id, name, color, upStationId, downStationId, distance, duration }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/lines/${id}`;
   const option = {
     method: 'PUT',
@@ -81,7 +84,8 @@ const modifyLine = async (accessToken, { id, name, color, upStationId, downStati
   }
 };
 
-const removeLine = async (accessToken, { id }) => {
+const removeLine = async ({ id }) => {
+  const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const url = `${BASE_URL}/lines/${id}`;
   const option = {
     method: 'DELETE',

@@ -24,6 +24,7 @@ const signIn = async ({ $email, $password }) => {
 };
 
 export const getUserName = async accessToken => {
+  if (!accessToken) return null;
   const url = `${BASE_URL}/members/me`;
   const option = {
     method: 'GET',
