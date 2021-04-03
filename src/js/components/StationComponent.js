@@ -116,12 +116,8 @@ class StationComponent extends Component {
       alert(ALERT_MESSAGE.STATION_CREATION_SUCCESS);
 
       const { id, name } = await response.json();
-      const stations = this.props.stationsState.Data;
 
-      // TODO: State 클래스에 pushData 만들기
-      stations.push({ id, name });
-      this.props.stationsState.Data = stations;
-
+      this.props.stationsState.pushData({ id, name });
       $input.value = '';
     } catch (err) {
       alert(err.message);
