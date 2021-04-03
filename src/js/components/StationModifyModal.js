@@ -81,7 +81,7 @@ export class StationModifyModal extends Modal {
       newStationName.length < STATION_NAME_MIN_LENGTH ||
       newStationName.length > STATION_NAME_MAX_LENGTH
     ) {
-      snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
+      snackbar.show(ERROR_MESSAGE.STATIONS.STATION_NAME_LENGTH);
       target.reset();
 
       return;

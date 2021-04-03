@@ -77,7 +77,7 @@ describe("역 관리 페이지", () => {
     cy.addLine(line);
     cy.get(".js-add-line-message").should(
       "have.text",
-      ERROR_MESSAGE.DUPLICATED_LINE
+      ERROR_MESSAGE.LINES.DUPLICATED_LINE
     );
   });
 

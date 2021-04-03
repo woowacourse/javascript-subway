@@ -101,7 +101,7 @@ describe("역 관리 페이지", () => {
       .type("{enter}");
     cy.get(".js-modify-station-message")
       .should("be.visible")
-      .should("have.text", ERROR_MESSAGE.DUPLICATED_STATION);
+      .should("have.text", ERROR_MESSAGE.STATIONS.DUPLICATED_STATION);
   });
 
   const modifiedStationName = "우아한썬콜역";

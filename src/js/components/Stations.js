@@ -99,7 +99,7 @@ export default class Stations extends Component {
       stationName.length <= STATION_NAME_MAX_LENGTH;
 
     if (!isValidNameLength) {
-      snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
+      snackbar.show(ERROR_MESSAGE.STATIONS.STATION_NAME_LENGTH);
       target.reset();
 
       return;
@@ -125,7 +125,7 @@ export default class Stations extends Component {
       return;
     }
 
-    if (message === ERROR_MESSAGE.DUPLICATED_STATION) {
+    if (message === ERROR_MESSAGE.STATIONS.DUPLICATED_STATION) {
       const $stationListItems = $$("li", $stationList);
       const duplicatedStationIndex = Array.from($stationListItems).findIndex(
         ($li) => $(".js-station-name", $li).textContent === stationName

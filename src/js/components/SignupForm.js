@@ -129,19 +129,19 @@ export default class SignupForm extends Component {
 
   getFormValidationMessage($form) {
     if (!this.inputValidation.isValidEmail) {
-      return ERROR_MESSAGE.INVALID_EMAIL;
+      return ERROR_MESSAGE.MEMBER.INVALID_EMAIL;
     }
 
     if (!this.inputValidation.isPasswordConfirmed) {
-      return ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
+      return ERROR_MESSAGE.MEMBER.PASSWORD_CONFIRM;
     }
 
     if ($form.name === "") {
-      return ERROR_MESSAGE.EMPTY_NAME;
+      return ERROR_MESSAGE.MEMBER.EMPTY_NAME;
     }
 
     if ($form.password.length < PASSWORD_MIN_LENGTH) {
-      return ERROR_MESSAGE.INVALID_PASSWORD;
+      return ERROR_MESSAGE.MEMBER.INVALID_PASSWORD;
     }
 
     return "";
@@ -209,7 +209,7 @@ export default class SignupForm extends Component {
       this.checkEmail(emailInput);
     } else {
       changeCheckMessageColor($checkEmailMessage, false);
-      $checkEmailMessage.textContent = ERROR_MESSAGE.INVALID_EMAIL_FORM;
+      $checkEmailMessage.textContent = ERROR_MESSAGE.MEMBER.INVALID_EMAIL_FORM;
       this.inputValidation.isValidEmail = false;
     }
   }
@@ -221,8 +221,8 @@ export default class SignupForm extends Component {
       $form.elements["password-confirm"].value === $form.password.value;
 
     $messageArea.innerText = isSamePassword
-      ? SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS
-      : ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE;
+      ? SUCCESS_MESSAGE.MEMBER.PASSWORD_CONFIRM
+      : ERROR_MESSAGE.MEMBER.PASSWORD_CONFIRM;
     changeCheckMessageColor($messageArea, isSamePassword);
     this.inputValidation.isPasswordConfirmed = isSamePassword;
   }

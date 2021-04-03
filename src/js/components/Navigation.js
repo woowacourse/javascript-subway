@@ -67,7 +67,7 @@ export default class Navigation extends Component {
       isLoggedIn: false,
       pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
     });
-    snackbar.show(SUCCESS_MESSAGE.LOGOUT_SUCCESS);
+    snackbar.show(SUCCESS_MESSAGE.MEMBER.LOGOUT);
   }
 
   attachEvents() {

@@ -37,31 +37,31 @@ const getInputsErrorMessage = (lineData) => {
     name.length >= LINE_NAME_MIN_LENGTH && name.length <= LINE_NAME_MAX_LENGTH;
 
   if (!isValidNameLength) {
-    return ERROR_MESSAGE.LINE_NAME_LENGTH;
+    return ERROR_MESSAGE.LINES.LINE_NAME_LENGTH;
   }
 
   if (upStationId && upStationId === "") {
-    return ERROR_MESSAGE.EMPTY_UP_STATION;
+    return ERROR_MESSAGE.LINES.EMPTY_UP_STATION;
   }
 
   if (downStationId && downStationId === "") {
-    return ERROR_MESSAGE.EMPTY_DOWN_STATION;
+    return ERROR_MESSAGE.LINES.EMPTY_DOWN_STATION;
   }
 
   if (upStationId && upStationId === downStationId) {
-    return ERROR_MESSAGE.SAME_UP_DOWN_STATION;
+    return ERROR_MESSAGE.LINES.SAME_UP_DOWN_STATION;
   }
 
   if (distance && distance < 1) {
-    return ERROR_MESSAGE.INVALID_LINE_DISTANCE;
+    return ERROR_MESSAGE.LINES.INVALID_LINE_DISTANCE;
   }
 
   if (duration && duration < 1) {
-    return ERROR_MESSAGE.INVALID_LINE_DURATION;
+    return ERROR_MESSAGE.LINES.INVALID_LINE_DURATION;
   }
 
   if (!color || color === "") {
-    return ERROR_MESSAGE.EMPTY_LINE_COLOR;
+    return ERROR_MESSAGE.LINES.EMPTY_LINE_COLOR;
   }
 
   return "";

@@ -55,7 +55,7 @@ describe("사용자 로그인 및 회원가입", () => {
     cy.get("#email").type("abc").blur();
     cy.get(".js-check-email-message").should(
       "have.text",
-      ERROR_MESSAGE.INVALID_EMAIL_FORM
+      ERROR_MESSAGE.MEMBER.INVALID_EMAIL_FORM
     );
   });
 
@@ -63,7 +63,7 @@ describe("사용자 로그인 및 회원가입", () => {
     cy.get("#email").clear().type(TEST_EMAIL).blur();
     cy.get(".js-check-email-message").should(
       "have.text",
-      ERROR_MESSAGE.DUPLICATED_EMAIL
+      ERROR_MESSAGE.MEMBER.DUPLICATED_EMAIL
     );
   });
 
@@ -74,7 +74,7 @@ describe("사용자 로그인 및 회원가입", () => {
       .blur();
     cy.get(".js-check-email-message").should(
       "have.text",
-      SUCCESS_MESSAGE.VALID_EMAIL
+      SUCCESS_MESSAGE.MEMBER.VALID_EMAIL
     );
   });
 
@@ -83,7 +83,7 @@ describe("사용자 로그인 및 회원가입", () => {
     cy.get("#password-confirm").type(TEST_PW + FAIL_TOKEN);
     cy.get(".js-pw-confirm-message").should(
       "have.text",
-      ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE
+      ERROR_MESSAGE.MEMBER.PASSWORD_CONFIRM
     );
 
     cy.get("#password-confirm").clear().type(TEST_PW);
@@ -92,7 +92,7 @@ describe("사용자 로그인 및 회원가입", () => {
       .type(TEST_PW + FAIL_TOKEN);
     cy.get(".js-pw-confirm-message").should(
       "have.text",
-      ERROR_MESSAGE.PASSWORD_CONFIRM_FAILURE
+      ERROR_MESSAGE.MEMBER.PASSWORD_CONFIRM
     );
   });
 
@@ -101,14 +101,14 @@ describe("사용자 로그인 및 회원가입", () => {
     cy.get("#password-confirm").clear().type(TEST_PW);
     cy.get(".js-pw-confirm-message").should(
       "have.text",
-      SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS
+      SUCCESS_MESSAGE.MEMBER.PASSWORD_CONFIRM
     );
 
     cy.get("#password-confirm").clear().type(TEST_PW);
     cy.get("#password").clear().type(TEST_PW);
     cy.get(".js-pw-confirm-message").should(
       "have.text",
-      SUCCESS_MESSAGE.PASSWORD_CONFIRM_SUCCESS
+      SUCCESS_MESSAGE.MEMBER.PASSWORD_CONFIRM
     );
   });
 

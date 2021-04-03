@@ -105,7 +105,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
     if (response.status === STATUS.EMAIL.VALID) {
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.VALID_EMAIL,
+        message: SUCCESS_MESSAGE.MEMBER.VALID_EMAIL,
       };
     }
 
@@ -113,17 +113,17 @@ export const checkDuplicatedEmailAPI = async (email) => {
     if (response.status === STATUS.EMAIL.DUPLICATED) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.DUPLICATED_EMAIL,
+        message: ERROR_MESSAGE.MEMBER.DUPLICATED_EMAIL,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -138,7 +138,7 @@ export const signupAPI = async (memberInfo) => {
     if (!response.ok) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.SIGNUP_FAILURE,
+        message: ERROR_MESSAGE.MEMBER.SIGNUP,
       };
     }
 
@@ -151,7 +151,7 @@ export const signupAPI = async (memberInfo) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -166,7 +166,7 @@ export const loginAPI = async (loginInfo) => {
     if (!response.ok) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.LOGIN_FAILURE,
+        message: ERROR_MESSAGE.MEMBER.LOGIN,
       };
     }
 
@@ -174,7 +174,7 @@ export const loginAPI = async (loginInfo) => {
 
     return {
       isSucceeded: true,
-      message: SUCCESS_MESSAGE.LOGIN_SUCCESS,
+      message: SUCCESS_MESSAGE.MEMBER.LOGIN,
       accessToken: result.accessToken,
     };
   } catch (e) {
@@ -182,7 +182,7 @@ export const loginAPI = async (loginInfo) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -214,7 +214,7 @@ export const getMemberInfo = async (accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -229,7 +229,7 @@ export const getStationsAPI = async (accessToken) => {
     });
 
     if (!response.ok) {
-      throw new Error(ERROR_MESSAGE.FETCH_STATION_FAILURE);
+      throw new Error(ERROR_MESSAGE.STATIONS.FETCH_STATION);
     }
 
     const stations = await response.json();
@@ -243,7 +243,7 @@ export const getStationsAPI = async (accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -265,7 +265,7 @@ export const addStationAPI = async (stationName, accessToken) => {
 
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.ADD_STATION,
+        message: SUCCESS_MESSAGE.STATIONS.ADD,
         station,
       };
     }
@@ -273,17 +273,17 @@ export const addStationAPI = async (stationName, accessToken) => {
     if (response.status === STATUS.STATIONS.DUPLICATED) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.DUPLICATED_STATION,
+        message: ERROR_MESSAGE.STATIONS.DUPLICATED_STATION,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -307,24 +307,24 @@ export const modifyStationNameAPI = async (
     if (response.ok) {
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.MODIFY_STATION,
+        message: SUCCESS_MESSAGE.STATIONS.MODIFY,
       };
     }
 
     if (response.status === STATUS.STATIONS.DUPLICATED) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.DUPLICATED_STATION,
+        message: ERROR_MESSAGE.STATIONS.DUPLICATED_STATION,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -339,19 +339,19 @@ export const deleteStationAPI = async (stationId, accessToken) => {
     });
 
     if (!response.ok) {
-      throw new Error(ERROR_MESSAGE.DELETE_STATION);
+      throw new Error(ERROR_MESSAGE.STATIONS.DELETE_STATION);
     }
 
     return {
       isSucceeded: true,
-      message: SUCCESS_MESSAGE.DELETE_STATION,
+      message: SUCCESS_MESSAGE.STATIONS.DELETE,
     };
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -366,7 +366,7 @@ export const getLinesAPI = async (accessToken, lineId = "") => {
     });
 
     if (!response.ok) {
-      throw new Error(ERROR_MESSAGE.FETCH_LINE_FAILURE);
+      throw new Error(ERROR_MESSAGE.LINES.FETCH_LINE);
     }
 
     const lines = await response.json();
@@ -380,7 +380,7 @@ export const getLinesAPI = async (accessToken, lineId = "") => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -400,7 +400,7 @@ export const addLineAPI = async (lineData, accessToken) => {
 
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.ADD_LINE,
+        message: SUCCESS_MESSAGE.LINES.ADD,
         line,
       };
     }
@@ -408,17 +408,17 @@ export const addLineAPI = async (lineData, accessToken) => {
     if (response.status === STATUS.LINES.DUPLICATED) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.DUPLICATED_LINE,
+        message: ERROR_MESSAGE.LINES.DUPLICATED_LINE,
       };
     }
 
-    throw Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -439,24 +439,24 @@ export const modifyLineAPI = async (lineData, accessToken) => {
     if (response.ok) {
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.MODIFY_LINE,
+        message: SUCCESS_MESSAGE.LINES.MODIFY,
       };
     }
 
     if (response.status === STATUS.LINES.DUPLICATED) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.DUPLICATED_LINE,
+        message: ERROR_MESSAGE.LINES.DUPLICATED_LINE,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -471,19 +471,19 @@ export const deleteLineAPI = async (lineId, accessToken) => {
     });
 
     if (!response.ok) {
-      throw new Error(ERROR_MESSAGE.DELETE_LINE);
+      throw new Error(ERROR_MESSAGE.LINES.DELETE_LINE);
     }
 
     return {
       isSucceeded: true,
-      message: SUCCESS_MESSAGE.DELETE_LINE,
+      message: SUCCESS_MESSAGE.LINES.DELETE,
     };
   } catch (e) {
     console.error(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -501,7 +501,7 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
     if (response.ok) {
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.ADD_SECTION,
+        message: SUCCESS_MESSAGE.SECTIONS.ADD,
       };
     }
 
@@ -514,13 +514,13 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.log(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };
@@ -540,24 +540,24 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
     if (response.ok) {
       return {
         isSucceeded: true,
-        message: SUCCESS_MESSAGE.DELETE_SECTION,
+        message: SUCCESS_MESSAGE.SECTIONS.DELETE,
       };
     }
 
     if (response.status === STATUS.SECTIONS.INVALID) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.MIN_SECTION_LENGTH,
+        message: ERROR_MESSAGE.SECTIONS.MIN_SECTION_LENGTH,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.UNKNOWN_API_STATUS);
+    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
   } catch (e) {
     console.log(e);
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.API_CALL_FAILURE,
+      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
     };
   }
 };

@@ -66,7 +66,7 @@ describe("역 관리 페이지", () => {
 
     cy.get(".js-section-modal-error-message").should(
       "have.text",
-      ERROR_MESSAGE.DUPLICATED_SECTION
+      ERROR_MESSAGE.SECTION.DUPLICATED_SECTION
     );
   });
 
@@ -80,7 +80,7 @@ describe("역 관리 페이지", () => {
 
     cy.get(".js-section-modal-error-message").should(
       "have.text",
-      ERROR_MESSAGE.INVALID_DISTANCE
+      ERROR_MESSAGE.SECTION.INVALID_DISTANCE
     );
   });
 
@@ -94,7 +94,7 @@ describe("역 관리 페이지", () => {
 
     cy.get(".js-section-modal-error-message").should(
       "have.text",
-      ERROR_MESSAGE.INVALID_DURATION
+      ERROR_MESSAGE.SECTION.INVALID_DURATION
     );
   });
 
