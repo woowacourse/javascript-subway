@@ -11,10 +11,10 @@ import modal from './template';
 class AddModal extends ModalComponent {
   constructor({
     parentNode,
-    modalKey,
+    modalName,
     props: { goPage, setIsLogin, updateSubwayState },
   }) {
-    super({ parentNode, modalKey });
+    super({ parentNode, modalName });
 
     this.goPage = goPage;
     this.setIsLogin = setIsLogin;
@@ -24,7 +24,7 @@ class AddModal extends ModalComponent {
   renderSelf() {
     this.parentNode.insertAdjacentHTML(
       'beforeend',
-      modal({ state: this.state, modalKey: this.modalKey })
+      modal({ state: this.state, modalName: this.modalName })
     );
   }
 

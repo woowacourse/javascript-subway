@@ -1,18 +1,18 @@
 import { $ } from '../utils/DOM';
 import Component from './Component';
 class ModalComponent extends Component {
-  constructor({ parentNode, modalKey }) {
+  constructor({ parentNode, modalName }) {
     super({ parentNode });
-    this.modalKey = modalKey;
+    this.modalName = modalName;
     this.targetId = '';
   }
 
   show() {
-    $(`.${this.modalKey}-modal`).classList.add('open');
+    $(`.${this.modalName}-modal`).classList.add('open');
   }
 
   hide() {
-    $(`.${this.modalKey}-modal`).classList.remove('open');
+    $(`.${this.modalName}-modal`).classList.remove('open');
   }
 
   setTarget(id) {
@@ -23,7 +23,7 @@ class ModalComponent extends Component {
   fillTargetInForm() {}
 
   addEventListeners() {
-    $(`.${this.modalKey}-modal .modal-close`).addEventListener('click', () => {
+    $(`.${this.modalName}-modal .modal-close`).addEventListener('click', () => {
       this.hide();
     });
   }

@@ -21,7 +21,7 @@ class Line extends Component {
     this.childComponents = {
       addModal: new AddModal({
         parentNode,
-        modalKey: 'line-add',
+        modalName: 'line-add',
         props: {
           goPage,
           setIsLogin,
@@ -30,7 +30,7 @@ class Line extends Component {
       }),
       editModal: new EditModal({
         parentNode,
-        modalKey: 'line-edit',
+        modalName: 'line-edit',
         props: {
           goPage,
           setIsLogin,

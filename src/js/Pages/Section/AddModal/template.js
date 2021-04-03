@@ -1,6 +1,6 @@
-const modal = ({ state: { stations, lines }, modalKey }) => {
+const modal = ({ state: { stations, lines }, modalName }) => {
   return `
-    <div class="modal ${modalKey}-modal">
+    <div class="modal ${modalName}-modal">
       <div class="modal-inner p-8">
         <button class="modal-close">
           <svg viewbox="0 0 40 40">

@@ -7,9 +7,9 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
-const modal = ({ modalKey }) => {
+const modal = ({ modalName }) => {
   return `
-    <div class="modal ${modalKey}-modal">
+    <div class="modal ${modalName}-modal">
       <div class="modal-inner p-8">
         <button class="modal-close">
           <svg viewbox="0 0 40 40">
@@ -19,14 +19,14 @@ const modal = ({ modalKey }) => {
         <header>
           <h2 class="text-center">🛤️ 노선 수정</h2>
         </header>
-        <form id="${modalKey}-line-form">
+        <form id="${modalName}-line-form">
           <div class="input-control">
             <label for="name" class="input-label" hidden
               >노선 이름</label
             >
             <input
               type="text"
-              id="${modalKey}-name"
+              id="${modalName}-name"
               name="name"
               class="input-field"
               placeholder="노선 이름"
@@ -35,12 +35,12 @@ const modal = ({ modalKey }) => {
           </div>
           <div class="input-control">
             <div>
-              <label for="${modalKey}-color" class="input-label" hidden
+              <label for="${modalName}-color" class="input-label" hidden
                 >색상</label
               >
               <input
                 type="hidden"
-                id="${modalKey}-color"
+                id="${modalName}-color"
                 name="subway-line-color"
                 class="input-field"
                 disabled
@@ -50,9 +50,9 @@ const modal = ({ modalKey }) => {
           </div>
           <div class="color-preview mt-3">
             색상을 아래에서 선택해주세요.
-            <div id="${modalKey}-color-preview" class="subway-line-color-preview"></div>
+            <div id="${modalName}-color-preview" class="subway-line-color-preview"></div>
           </div>
-          <div class="${modalKey}-js-color-selector user-select-none px-2 text-center">
+          <div class="${modalName}-js-color-selector user-select-none px-2 text-center">
             ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
           </div>
           <div class="d-flex justify-end mt-3">

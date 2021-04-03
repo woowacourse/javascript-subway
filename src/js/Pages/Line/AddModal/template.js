@@ -7,9 +7,9 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
-const modal = ({ state: { stations }, modalKey }) => {
+const modal = ({ state: { stations }, modalName }) => {
   return `
-    <div class="modal ${modalKey}-modal">
+    <div class="modal ${modalName}-modal">
       <div class="modal-inner p-8">
         <button class="modal-close">
           <svg viewbox="0 0 40 40">
@@ -19,14 +19,14 @@ const modal = ({ state: { stations }, modalKey }) => {
         <header>
           <h2 class="text-center">🛤️ 노선 추가</h2>
         </header>
-        <form id="${modalKey}-line-form">
+        <form id="${modalName}-line-form">
           <div class="input-control">
             <label for="name" class="input-label" hidden
               >노선 이름</label
             >
             <input
               type="text"
-              id="${modalKey}-name"
+              id="${modalName}-name"
               name="name"
               class="input-field"
               placeholder="노선 이름"
@@ -35,8 +35,8 @@ const modal = ({ state: { stations }, modalKey }) => {
           </div>
           <div class="js-line-form__detail">
             <div class="d-flex items-center input-control">
-              <label for="${modalKey}-up-station" class="input-label" hidden>상행역</label>
-              <select id="${modalKey}-up-station" name="subway-line-up-station" class="mr-2">
+              <label for="${modalName}-up-station" class="input-label" hidden>상행역</label>
+              <select id="${modalName}-up-station" name="subway-line-up-station" class="mr-2">
                 <option value="" selected disabled hidden>상행역</option>
                 ${stations
                   .map(({ id, name }) => `<option value=${id}>${name}</option>`)
@@ -45,7 +45,7 @@ const modal = ({ state: { stations }, modalKey }) => {
               <label for="down-station" class="input-label" hidden
                 >하행역</label
               >
-              <select id="${modalKey}-down-station" name="subway-line-down-station">
+              <select id="${modalName}-down-station" name="subway-line-down-station">
                 <option value="" selected disabled hidden>하행역</option>
                 ${stations
                   .map(({ id, name }) => `<option value=${id}>${name}</option>`)
@@ -57,7 +57,7 @@ const modal = ({ state: { stations }, modalKey }) => {
                 >상행 하행역 거리</label>
               <input
                 type="number"
-                id="${modalKey}-distance"
+                id="${modalName}-distance"
                 name="distance"
                 class="input-field mr-2"
                 placeholder="상행 하행역 거리"
@@ -68,7 +68,7 @@ const modal = ({ state: { stations }, modalKey }) => {
               >
               <input
                 type="number"
-                id="${modalKey}-duration"
+                id="${modalName}-duration"
                 name="duration"
                 class="input-field"
                 placeholder="상행 하행역 시간"
@@ -83,7 +83,7 @@ const modal = ({ state: { stations }, modalKey }) => {
               >
               <input
                 type="hidden"
-                id="${modalKey}-color"
+                id="${modalName}-color"
                 name="subway-line-color"
                 class="input-field"
                 disabled
@@ -93,9 +93,9 @@ const modal = ({ state: { stations }, modalKey }) => {
           </div>
           <div class="color-preview mt-3">
             색상을 아래에서 선택해주세요.
-            <div id="${modalKey}-color-preview" class="subway-line-color-preview"></div>
+            <div id="${modalName}-color-preview" class="subway-line-color-preview"></div>
           </div>
-          <div class="${modalKey}-js-color-selector user-select-none px-2 text-center">
+          <div class="${modalName}-js-color-selector user-select-none px-2 text-center">
             ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
           </div>
           <div class="d-flex justify-end mt-3">

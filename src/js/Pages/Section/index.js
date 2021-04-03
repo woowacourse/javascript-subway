@@ -24,7 +24,7 @@ class Section extends Component {
     this.childComponents = {
       addModal: new AddModal({
         parentNode,
-        modalKey: 'section-add',
+        modalName: 'section-add',
         props: {
           goPage,
           setIsLogin,

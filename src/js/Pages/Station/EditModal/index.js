@@ -11,10 +11,10 @@ import { SNACKBAR_MESSAGE } from '../../../constants/message';
 class EditModal extends ModalComponent {
   constructor({
     parentNode,
-    modalKey,
+    modalName,
     props: { goPage, setIsLogin, updateSubwayState },
   }) {
-    super({ parentNode, modalKey });
+    super({ parentNode, modalName });
 
     this.goPage = goPage;
     this.setIsLogin = setIsLogin;
@@ -24,7 +24,7 @@ class EditModal extends ModalComponent {
   renderSelf() {
     this.parentNode.insertAdjacentHTML(
       'beforeend',
-      stationModal({ state: this.state, modalKey: this.modalKey })
+      stationModal({ state: this.state, modalName: this.modalName })
     );
   }
 
@@ -32,13 +32,13 @@ class EditModal extends ModalComponent {
     const { name } = this.state.stations.find(
       ({ id }) => id === Number(this.targetId)
     );
-    $(`#${this.modalKey}-name`).value = name;
+    $(`#${this.modalName}-name`).value = name;
   }
 
   addEventListeners() {
     super.addEventListeners();
 
-    $(`#${this.modalKey}-form`).addEventListener('submit', async (e) => {
+    $(`#${this.modalName}-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
       const stationId = this.targetId;
       const name = e.target['name'].value;

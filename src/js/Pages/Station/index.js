@@ -20,7 +20,7 @@ class Station extends Component {
     this.childComponents = {
       editModal: new EditModal({
         parentNode,
-        modalKey: 'station-edit',
+        modalName: 'station-edit',
         props: {
           goPage,
           setIsLogin,

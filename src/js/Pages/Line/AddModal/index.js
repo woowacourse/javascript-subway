@@ -11,10 +11,10 @@ import { SNACKBAR_MESSAGE } from '../../../constants/message';
 class AddModal extends ModalComponent {
   constructor({
     parentNode,
-    modalKey,
+    modalName,
     props: { goPage, setIsLogin, updateSubwayState },
   }) {
-    super({ parentNode, modalKey });
+    super({ parentNode, modalName });
 
     this.goPage = goPage;
     this.setIsLogin = setIsLogin;
@@ -24,28 +24,28 @@ class AddModal extends ModalComponent {
   renderSelf() {
     this.parentNode.insertAdjacentHTML(
       'beforeend',
-      modal({ state: this.state, modalKey: this.modalKey })
+      modal({ state: this.state, modalName: this.modalName })
     );
   }
 
   addEventListeners() {
     super.addEventListeners();
 
-    $(`.${this.modalKey}-js-color-selector`).addEventListener(
+    $(`.${this.modalName}-js-color-selector`).addEventListener(
       'click',
       ({ target }) => {
         if (!target.classList.contains('color-option')) return;
 
         const { bgColor } = target.dataset;
-        $(`#${this.modalKey}-color`).value = bgColor;
-        $(`#${this.modalKey}-color-preview`).setAttribute(
+        $(`#${this.modalName}-color`).value = bgColor;
+        $(`#${this.modalName}-color-preview`).setAttribute(
           'data-bg-color',
           bgColor
         );
       }
     );
 
-    $(`#${this.modalKey}-line-form`).addEventListener('submit', async (e) => {
+    $(`#${this.modalName}-line-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
       const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
       const name = e.target['name'].value;
@@ -86,14 +86,14 @@ class AddModal extends ModalComponent {
       (line) => line.id === Number(this.targetId)
     );
 
-    $(`#${this.modalKey}-name`).value = name;
-    $(`#${this.modalKey}-color`).value = color;
-    $(`#${this.modalKey}-color-preview`).setAttribute('data-bg-color', color);
+    $(`#${this.modalName}-name`).value = name;
+    $(`#${this.modalName}-color`).value = color;
+    $(`#${this.modalName}-color-preview`).setAttribute('data-bg-color', color);
   }
 
   clearForm() {
-    $(`#${this.modalKey}-line-form`).reset();
-    $(`#${this.modalKey}-color-preview`).setAttribute('data-bg-color', '');
+    $(`#${this.modalName}-line-form`).reset();
+    $(`#${this.modalName}-color-preview`).setAttribute('data-bg-color', '');
   }
 }
 
