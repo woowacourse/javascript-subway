@@ -20,6 +20,7 @@ const accessToken = {
   get() {
     return this.value;
   },
+  verify() {},
 };
 
 export default accessToken;
