@@ -10,7 +10,7 @@ export const updateTransferLine = (sections, currentLineId) => {
   sections.forEach(({ upStation }) => {
     const transferLines = getTransferLines(upStation.id, currentLineId);
 
-    if (transferLines.length > 1) {
+    if (transferLines.length > 0) {
       $(`.js-map-list-item[data-station-id="${upStation.id}"] .js-transfer-lines`).innerHTML = transferLinesTemplate(
         transferLines
       );
