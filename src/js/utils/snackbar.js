@@ -1,6 +1,6 @@
-import { CLASS_NAME, SELECTOR, SNACK_BAR } from '../constants';
+import { CLASS_NAME, SELECTOR, TIME } from '../constants';
 
-export const showSnackbar = () => {
+export const showSnackbar = (() => {
   let throttle = null;
   const $snackBar = document.querySelector(SELECTOR.SNACK_BAR);
 
@@ -12,7 +12,7 @@ export const showSnackbar = () => {
       throttle = setTimeout(() => {
         throttle = null;
         $snackBar.classList.toggle(CLASS_NAME.SHOW);
-      }, SNACK_BAR.VISIBLE_TIME);
+      }, TIME.SNACK_BAR);
     }
   };
-};
+})();

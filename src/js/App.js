@@ -8,48 +8,21 @@ import Station from './components/station/Station.js';
 import Line from './components/line/Line.js';
 import Section from './components/section/Section.js';
 
-import { showSnackbar } from './utils/snackbar.js';
-import { getLocalStorageItem } from './utils/storage.js';
-import { request } from './utils/api.js';
-import {
-  ACTIONS,
-  BASE_URL,
-  PATH,
-  REQUEST_HEADER_HOST,
-  STORAGE,
-} from './constants.js';
+import { PATH, STORAGE } from './constants.js';
+import { authAPI } from '../../api/auth.js';
 
 class App {
   #isLoggedIn;
-  #showSnackbar;
 
   constructor() {
     this.#isLoggedIn = false;
-    this.#showSnackbar = showSnackbar();
   }
 
-  init() {
+  init(path) {
     this._initRouter();
     this._mountComponent();
     this._registerRouterComponent();
-    this.switchURL(PATH.HOME);
-  }
-
-  async _isValidUserAccessToken() {
-    const userAccessToken = getLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
-    if (!userAccessToken) return false;
-
-    try {
-      const option = {
-        Authorization: `Bearer ${userAccessToken}`,
-        Accept: 'application/json',
-      };
-      await request(BASE_URL + ACTIONS.USER, option);
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    this.switchURL(path);
   }
 
   _initRouter() {
@@ -59,16 +32,13 @@ class App {
   _mountComponent() {
     this.header = new Header({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.#showSnackbar.bind(this),
     });
     this.home = new Home();
     this.login = new Login({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.#showSnackbar.bind(this),
     });
     this.signup = new SignUp({
       switchURL: this.switchURL.bind(this),
-      showSnackbar: this.#showSnackbar.bind(this),
     });
     this.stations = new Station();
     this.sections = new Section();
@@ -87,15 +57,17 @@ class App {
   }
 
   async switchURL(href) {
-    this.#isLoggedIn = await this._isValidUserAccessToken();
-    this.header.init(this.#isLoggedIn);
+    this.#isLoggedIn = await authAPI.isValidUserAccessToken(
+      STORAGE.USER_ACCESS_TOKEN,
+    );
 
+    this.header.init(this.#isLoggedIn);
     const component = this.components[href];
     const state = { isLoggedIn: this.#isLoggedIn };
 
-    component.init(state);
+    component.init && (await component.init(state));
     this.router.renderPage(href, component.getPageInfo());
-    component.initDOM();
+    component.initDOM && component.initDOM();
   }
 }
 
