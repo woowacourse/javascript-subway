@@ -1,4 +1,4 @@
-import AppPage from './components/AppPage.js';
+import AppPage from './Pages/AppPage.js';
 import { URL } from './constants.js';
 import '../css/index.css';
 

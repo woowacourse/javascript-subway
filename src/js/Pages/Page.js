@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component from '../components/Component.js';
 
 class Page extends Component {
   _router;

@@ -1,16 +1,16 @@
 import $ from '../utils/querySelector.js';
-import HomeComponent from './HomeComponent.js';
-import StationComponent from './StationComponent.js';
-import LineComponent from './LineComponent.js';
-import LoginComponent from './LoginComponent.js';
-import SignupComponent from './SignupComponent.js';
-import MyInfoComponent from './MyInfoComponent.js';
+import HomeComponent from '../components/HomeComponent.js';
+import StationComponent from '../components/StationComponent.js';
+import LineComponent from '../components/LineComponent.js';
+import LoginComponent from '../components/LoginComponent.js';
+import SignupComponent from '../components/SignupComponent.js';
+import MyInfoComponent from '../components/MyInfoComponent.js';
 import Page from './Page.js';
-import State from './State.js';
+import State from '../State.js';
 import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD, URL } from '../constants.js';
 import { show, hide, closeModal } from '../utils/DOM.js';
 import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
-import SectionComponent from './SectionComponent.js';
+import SectionComponent from '../components/SectionComponent.js';
 
 class AppPage extends Page {
   constructor(props) {
