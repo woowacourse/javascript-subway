@@ -3,15 +3,14 @@ import { BASE_URL, PATH } from '../../src/js/constants/url';
 describe('지하철 노선도 로그인, 로그아웃 기능 테스트', () => {
   before(() => {
     cy.visit('/');
-    localStorage.clear();
   });
 
   it('이메일과 비밀번호를 입력하여 로그인한다.', () => {
     cy.intercept({ url: BASE_URL + PATH.MEMBERS.LOGIN }).as('login');
     cy.get('.js-link[href="/login"]').click();
 
-    cy.get('#email').type('grooming@woowahan.com');
-    cy.get('#password').type('123123');
+    cy.get('#email').type('test1212@test1212.com');
+    cy.get('#password').type('121212');
 
     cy.get('button[name="submit"]').click();
     cy.wait('@login').its('response.body.accessToken').should('exist');
