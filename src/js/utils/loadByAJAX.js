@@ -1,7 +1,5 @@
-import { REQUEST_URL } from '../constants.js';
 import { fetchStationRead, fetchLineListRead } from './fetch.js';
 
-//TODO: load = fetch + state에 담기라서 네이밍 고민해보기
 const loadStationList = async (stationsState, accessToken) => {
   try {
     const response = await fetchStationRead(accessToken);

@@ -39,7 +39,8 @@ class SectionCreationComponent extends Component {
   }
 
   render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = SECTION_TEMPLATE.MODAL;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML =
+      SECTION_TEMPLATE.DEFAULT_MODAL_COMPONENT;
   }
 
   #onSectionCreated = async event => {

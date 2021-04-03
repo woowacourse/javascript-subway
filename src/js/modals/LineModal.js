@@ -40,7 +40,8 @@ class LineCreationComponent extends Component {
   }
 
   render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.MODAL;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML =
+      LINE_TEMPLATE.DEFAULT_MODAL_COMPONENT;
 
     this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`);
     this.#loadSelectOption(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`);
@@ -156,7 +157,6 @@ class LineRevisionComponent extends Component {
     };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       await fetchLineRevision({ accessToken, bodyData, lineId });
 

@@ -121,7 +121,6 @@ const CONFIRM_MESSAGE = {
   SECTION_REMOVAL: '해당 구간을 삭제하시겠습니까?',
 };
 
-// TODO: creation, revision을 modalType으로 분리하기
 const KEYWORD = {
   LOGOUT: 'logout',
   CREATION: 'creation',
@@ -149,6 +148,10 @@ const THRESHOLD = {
   LINE_NAME_MAX_LENGTH: 20,
 };
 
+const HTTP_RESPONSE_STATUS = {
+  FOUR_ZERO_ZERO: 400,
+};
+
 export {
   ID_SELECTOR,
   CLASS_SELECTOR,
@@ -158,4 +161,5 @@ export {
   REQUEST_URL,
   URL,
   THRESHOLD,
+  HTTP_RESPONSE_STATUS,
 };

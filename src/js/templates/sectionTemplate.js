@@ -21,7 +21,7 @@ const MAIN_COMPONENT = `
 </div>
 `;
 
-const MODAL_COMPONENT = `
+const DEFAULT_MODAL_COMPONENT = `
 <div class="modal-inner p-8">
   <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close">
     <svg viewbox="0 0 40 40">
@@ -108,7 +108,7 @@ const createStationTemplate = station => {
 const SECTION_TEMPLATE = {
   TITLE: '🚇 구간 관리',
   MAIN: MAIN_COMPONENT,
-  MODAL: MODAL_COMPONENT,
+  DEFAULT_MODAL_COMPONENT,
   createStationTemplate,
 };
 

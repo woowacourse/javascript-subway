@@ -1,4 +1,8 @@
-import { ALERT_MESSAGE, REQUEST_URL } from '../constants.js';
+import {
+  ALERT_MESSAGE,
+  REQUEST_URL,
+  HTTP_RESPONSE_STATUS,
+} from '../constants.js';
 
 const fetchSignup = async bodyData => {
   const url = REQUEST_URL + '/members';
@@ -9,7 +13,7 @@ const fetchSignup = async bodyData => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_EMAIL_FAIL);
   }
 
@@ -20,7 +24,6 @@ const fetchSignup = async bodyData => {
   return response;
 };
 
-//TODO: fetch... 함수들의 인자 형태를 객체로 통일할지 고민
 const fetchLogin = async bodyData => {
   const url = REQUEST_URL + '/login/token';
   const response = await fetch(url, {
@@ -30,7 +33,7 @@ const fetchLogin = async bodyData => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.LOGIN_FAIL);
   }
 
@@ -68,7 +71,7 @@ const fetchStationCreation = async (bodyData, accessToken) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_STATION_FAIL);
   }
 
@@ -94,7 +97,6 @@ const fetchStationRead = async accessToken => {
   return response;
 };
 
-//TODO: fetchStationCreation랑 기능이 완전히 똑같음
 const fetchStationNameRevision = async ({
   accessToken,
   bodyData,
@@ -110,7 +112,7 @@ const fetchStationNameRevision = async ({
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_STATION_FAIL);
   }
 
@@ -130,8 +132,7 @@ const fetchStationRemoval = async (stationId, accessToken) => {
     },
   });
 
-  //TODO: 400 상수화 하기
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.STATION_REMOVAL_FAIL);
   }
 
@@ -143,7 +144,6 @@ const fetchStationRemoval = async (stationId, accessToken) => {
 };
 
 const fetchLineCreation = async (bodyData, accessToken) => {
-  //TODO : data, accessToken 인자 유효성 검사
   const url = REQUEST_URL + '/lines';
   const response = await fetch(url, {
     method: 'POST',
@@ -154,7 +154,7 @@ const fetchLineCreation = async (bodyData, accessToken) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_LINE_FAIL);
   }
 
@@ -181,7 +181,6 @@ const fetchLineRead = async (lineId, accessToken) => {
   return response;
 };
 
-// TODO: fetchLineRead와 url(fetchLineRead는 url/id) 빼고 다 같음
 const fetchLineListRead = async accessToken => {
   const url = REQUEST_URL + '/lines';
   const response = await fetch(url, {
@@ -209,7 +208,7 @@ const fetchLineRevision = async ({ accessToken, bodyData, lineId }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_LINE_FAIL);
   }
 
@@ -247,9 +246,7 @@ const fetchSectionCreation = async (accessToken, bodyData) => {
     },
   });
 
-  // TODO: section 에러메세지 처리
-
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DISTANCE_CONDITION_OF_SECTION_CREATION_FAIL);
   }
 
@@ -269,7 +266,7 @@ const fetchSectionRemoval = async ({ accessToken, stationId, lineId }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.SECTION_REMOVAL_FAIL);
   }
 
@@ -280,7 +277,6 @@ const fetchSectionRemoval = async ({ accessToken, stationId, lineId }) => {
   return response;
 };
 
-//TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
   fetchLogin,

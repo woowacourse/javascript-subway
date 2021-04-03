@@ -37,7 +37,8 @@ class StationRevisionComponent extends Component {
   }
 
   render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = STATION_TEMPLATE.MODAL;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML =
+      STATION_TEMPLATE.DEFAULT_MODAL_COMPONENT;
   }
 
   #loadRevisionModal() {
@@ -53,7 +54,6 @@ class StationRevisionComponent extends Component {
 
     const $input = event.target[ID_SELECTOR.STATION_MODAL_FORM_INPUT];
     const revisionName = $input.value;
-    //TODO: modal에 dataset 넣는거 생각해보기
     const originalName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
 
     if (revisionName === originalName) {
@@ -68,7 +68,6 @@ class StationRevisionComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      // TODO: fetchStationNameRevision 이름 변경하기
       await fetchStationNameRevision({ accessToken, bodyData, stationId });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();

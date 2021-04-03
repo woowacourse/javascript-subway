@@ -19,7 +19,7 @@ const MAIN_COMPONENT = `
   </div>
   </main>`;
 
-const MODAL_COMPONENT = `
+const DEFAULT_MODAL_COMPONENT = `
 <div class="modal-inner line-creation-modal-inner p-8">
 <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close"}>
   <svg viewbox="0 0 40 40">
@@ -226,8 +226,7 @@ function subwayLineColorOptionTemplate(colorOption) {
 const LINE_TEMPLATE = {
   TITLE: `🚇 노선 관리`,
   MAIN: MAIN_COMPONENT,
-  //TODO: DEFAULT_MODAL로 이름바꾸기
-  MODAL: MODAL_COMPONENT,
+  DEFAULT_MODAL_COMPONENT,
   REVISION_MODAL_COMPONENT,
   makeLineTemplate,
 };
