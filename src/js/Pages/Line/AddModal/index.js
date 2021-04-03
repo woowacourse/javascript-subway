@@ -76,7 +76,7 @@ class AddModal extends ModalComponent {
           this.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
         console.error(error.message);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.CREATE.SUCCESS);
+        showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.CREATE.FAIL);
       }
     });
   }

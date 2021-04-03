@@ -40,8 +40,9 @@ const publicApis = {
     }
 
     if (!response.ok) {
-      const data = await response.text();
-      throw Error(data.message);
+      const message = await response.text();
+
+      throw Error(message);
     }
 
     const data = await response.json();

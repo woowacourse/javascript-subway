@@ -45,9 +45,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.json();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
 
     put: async ({ stationId, accessToken, body }) => {
@@ -66,9 +66,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.text();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
 
     delete: async ({ stationId, accessToken }) => {
@@ -86,9 +86,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.text();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
   },
 
@@ -172,9 +172,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.json();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
   },
 
@@ -195,9 +195,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.text();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
 
     delete: async ({ lineId, stationId, accessToken }) => {
@@ -215,9 +215,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.text();
+      const message = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(message);
     },
   },
 };
