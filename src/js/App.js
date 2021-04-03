@@ -1,5 +1,5 @@
 import { $ } from './utils/DOM';
-import { UNAUTHENTICATED_LINK } from './constants/link';
+import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from './constants/link';
 import Component from './core/Component';
 import { publicApis } from './api';
 import NavBar from './Components/NavBar';
@@ -68,6 +68,40 @@ class App extends Component {
     }
 
     return true;
+  }
+
+  addStaticEventListeners() {
+    window.addEventListener('popstate', (e) => {
+      this.renderComponent(e.state.path);
+    });
+
+    window.addEventListener('load', () => {
+      history.replaceState(
+        { path: location.pathname },
+        null,
+        location.pathname
+      );
+
+      this.renderComponent(location.pathname);
+    });
+
+    $('.js-header').addEventListener('click', (e) => {
+      const anchor = e.target.closest('.js-link');
+      if (!anchor) return;
+
+      e.preventDefault();
+
+      const path = anchor.getAttribute('href');
+      if (path === AUTHENTICATED_LINK.LOGOUT.PATH) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
+        this.setIsLogin(false);
+        this.goPage(UNAUTHENTICATED_LINK.LOGIN.PATH);
+
+        return;
+      }
+
+      this.goPage(path);
+    });
   }
 }
 
