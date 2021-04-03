@@ -235,8 +235,8 @@ const fetchLineRemoval = async (lineId, accessToken) => {
   return response;
 };
 
-const fetchSectionCreation = async (accessToken, bodyData) => {
-  const url = REQUEST_URL + `/lines/${modalLineId}/sections`;
+const fetchSectionCreation = async ({ accessToken, bodyData, lineId }) => {
+  const url = REQUEST_URL + `/lines/${lineId}/sections`;
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),

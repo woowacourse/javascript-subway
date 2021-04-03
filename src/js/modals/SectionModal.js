@@ -71,7 +71,11 @@ class SectionCreationComponent extends Component {
     };
 
     try {
-      await fetchSectionCreation(accessToken, bodyData);
+      await fetchSectionCreation({
+        accessToken,
+        bodyData,
+        lineId: modalLineId,
+      });
 
       alert(ALERT_MESSAGE.SECTION_CREATION_SUCCESS);
 
