@@ -52,6 +52,8 @@ export const SELECTOR_CLASS = Object.freeze({
   STATION_LIST_ITEM_UPDATE: 'station-list__item-update',
   STATION_LIST_ITEM_UPDATE_COMPLETE: 'station-list__item-update-complete',
   STATION_LIST_ITEM_DELETE: 'station-list__item-delete',
+  STATION_LIST_INCLUDED_LINE: 'station-list__included-line',
+  STATION_LIST_INCLUDED_LINES: 'station-list__included-lines',
   LINE_LIST_ITEM: 'line-list__item',
   LINE_LIST_ITEM_UPDATE: 'line-list__item-update',
   LINE_DELETE_BUTTON: 'line-list__delete-button',

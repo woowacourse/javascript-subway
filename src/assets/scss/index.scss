@@ -26,12 +26,6 @@ main .wrapper {
   border-radius: 4px;
 }
 
-main #subway-map-wrapper {
-  width: 60vw;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
 hr {
   border: 0;
   height: 1px;
@@ -76,64 +70,4 @@ a:visited {
 
 #signup-button {
   color: blue;
-}
-
-.subway-map-line {
-  list-style: none;
-  padding: 0;
-  margin: 50px 0px 50px 0px;
-}
-
-.subway-map-line li {
-  display: inline-block;
-  margin: 50px 0px 50px 0px;
-}
-
-li[data-marker='lineName'] {
-  font-size: 0.9rem;
-  font-weight: bold;
-  padding: 0px 10px 0px 10px;
-  border-radius: 20px;
-}
-
-li span[data-marker='station-name'] {
-  display: inline-block;
-  position: absolute;
-  transform-origin: 0%;
-  font-size: 0.8rem;
-  transform: rotate(-45deg) translate(0px, -15px);
-}
-
-li span[data-marker='station'] {
-  display: inline-block;
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  transform: translate(-13px, 7px);
-  z-index: 10;
-}
-
-li span[data-marker='station-line'] {
-  display: inline-block;
-  width: 50px;
-  height: 5px;
-  transform: translate(-10px, -3px);
-  z-index: 9;
-}
-
-li span[data-marker='station-included-line'] {
-  display: inline-block;
-  position: relative;
-  font-size: 0.2rem;
-  transform: translate(15px, -3px);
-  background-color: aquamarine;
-  width: auto;
-  padding: 2px 5px 2px 5px;
-  border-radius: 10px;
-}
-
-form #section-line-select {
-  font-weight: bold;
-  color: white;
 }

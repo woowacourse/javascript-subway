@@ -27,7 +27,7 @@ export default class Station extends Observer {
   renderComponent() {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
-    targetContainer.innerHTML = this.#getStationListTemplate();
+    this.#state.get(STATE_KEY.STATION_LIST).forEach(station => this.#createStations(station));
     this.#initEvents();
   }
 
@@ -59,37 +59,63 @@ export default class Station extends Observer {
     `;
   }
 
-  #getStationListTemplate() {
-    return this.#state
-      .get(STATE_KEY.STATION_LIST)
-      .map(station => this.#getStationTemplate(station))
-      .join('');
-  }
+  #createStations(station) {
+    const stationItem = document.createElement("li");
+    stationItem.setAttribute("data-station-id", station.id);
+    stationItem.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2`);
 
-  #getStationTemplate(station) {
-    return `
-      <li data-station-id="${station.id}" class="${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2">
-        <span class="${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2">${station.name}</span>
-        <button 
-          type="button" 
-          class="${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1"
-          data-station-id="${station.id}"
-          data-station-name="${station.name}"
-        >
-          수정
-        </button>
-        <button 
-          type="button" 
-          class="${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} 
-          bg-gray-50 text-gray-500 text-sm"
-          data-station-id="${station.id}"
-          data-station-name="${station.name}"
-        >
-          삭제
-        </button>
-        <input data-station-id="${station.id}" class="${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}" type="text" required />
-      </li>
-      <hr class="my-0" />
-    `;
+    const stationName = document.createElement("span");
+    stationName.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2`);
+    stationName.textContent = station.name;
+    stationItem.appendChild(stationName);    
+
+    const lineList = this.#state.get(STATE_KEY.LINE_LIST);
+    const includedLines = document.createElement("span");
+    lineList.forEach(line => {
+      includedLines.setAttribute("class", SELECTOR_CLASS.STATION_LIST_INCLUDED_LINES);
+      if (line.stations.find(currentStation => currentStation.id === station.id)) {
+        const tempColorElement = document.createElement("div");
+        tempColorElement.setAttribute("class", line.color);
+        $(this.#targetSelector).appendChild(tempColorElement);
+        const lineColor = window.getComputedStyle(tempColorElement).getPropertyValue("background-color");
+
+        const includedLine = document.createElement("span");
+        includedLine.setAttribute("class", SELECTOR_CLASS.STATION_LIST_INCLUDED_LINE);
+        includedLine.setAttribute("style", `background-color: ${lineColor};`);
+        includedLine.textContent = line.name;
+
+        tempColorElement.remove();
+        includedLines.appendChild(includedLine);
+      }
+    });
+    stationName.appendChild(includedLines);
+
+    const stationUpdateButton = document.createElement("button");
+    stationUpdateButton.setAttribute("type", "button");
+    stationUpdateButton.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1`);
+    stationUpdateButton.setAttribute("data-station-id", station.id);
+    stationUpdateButton.setAttribute("data-station-name", station.name);
+    stationUpdateButton.textContent = "수정";
+    stationItem.appendChild(stationUpdateButton);
+
+    const stationDeleteButton = document.createElement("button");
+    stationDeleteButton.setAttribute("type", "button");
+    stationDeleteButton.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} bg-gray-50 text-gray-500 text-sm`);
+    stationDeleteButton.setAttribute("data-station-id", station.id);
+    stationDeleteButton.setAttribute("data-station-name", station.name);
+    stationDeleteButton.textContent = "삭제";
+    stationItem.appendChild(stationDeleteButton);
+
+    const stationUpdateInput = document.createElement("input");
+    stationUpdateInput.setAttribute("data-station-id", station.id);
+    stationUpdateInput.setAttribute("class", `${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`);
+    stationUpdateInput.setAttribute("type", "text");
+    stationUpdateInput.setAttribute("required", "required");
+    stationItem.appendChild(stationUpdateInput);
+
+    $(this.#targetSelector).appendChild(stationItem);
+    const horizontalLine = document.createElement("hr");
+    horizontalLine.setAttribute("class", "my-0");
+    $(this.#targetSelector).appendChild(horizontalLine);
   }
 }
