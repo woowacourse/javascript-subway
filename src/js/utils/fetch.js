@@ -198,8 +198,8 @@ const fetchLineListRead = async accessToken => {
   return response;
 };
 
-const fetchLineRevision = async (bodyData, accessToken) => {
-  const url = REQUEST_URL + `/lines/${id}`;
+const fetchLineRevision = async ({ accessToken, bodyData, lineId }) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),

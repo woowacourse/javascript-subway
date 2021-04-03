@@ -61,7 +61,7 @@ class LineComponent extends Component {
   }
 
   renderLineList = lines => {
-    const template = lines.map(this.#makeLineTemplate).join('');
+    const template = lines.map(LINE_TEMPLATE.makeLineTemplate).join('');
 
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
@@ -94,32 +94,6 @@ class LineComponent extends Component {
 
     $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
   };
-
-  #makeLineTemplate({ name, color, id }) {
-    return `
-    <li class="${CLASS_SELECTOR.LINE_LIST_ITEM} d-flex items-center py-2 relative">
-      <span class="subway-line-color-dot bg-${color}"></span>
-      <span class="w-100 pl-6 subway-line-list-item-name"
-        >${name}</span
-      >
-      <button
-        type="button"
-        data-id="${id}"
-        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        data-id="${id}"
-        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}"
-        class="bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-    <hr class="my-0" />`;
-  }
 
   #removeLine = async lineId => {
     const accessToken = this.props.accessTokenState.Data;

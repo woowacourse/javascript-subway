@@ -151,7 +151,7 @@ class LineRevisionComponent extends Component {
   }
 
   #revisionLine = async event => {
-    const id = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
+    const lineId = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
     const bodyData = {
@@ -162,7 +162,7 @@ class LineRevisionComponent extends Component {
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      await fetchLineRevision(bodyData, accessToken);
+      await fetchLineRevision({ accessToken, bodyData, lineId });
 
       alert(ALERT_MESSAGE.LINE_REVISION_SUCCESS);
 

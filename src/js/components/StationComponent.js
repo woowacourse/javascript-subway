@@ -56,7 +56,9 @@ class StationComponent extends Component {
   }
 
   renderStationList = stations => {
-    const template = stations.map(this.#makeStationTemplate).join('');
+    const template = stations
+      .map(STATION_TEMPLATE.makeStationTemplate)
+      .join('');
 
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };
@@ -81,24 +83,6 @@ class StationComponent extends Component {
     }
 
     this.#removeStation(target.dataset.id);
-  };
-
-  #removeStation = async stationId => {
-    const accessToken = this.props.accessTokenState.Data;
-
-    try {
-      await fetchStationRemoval(stationId, accessToken);
-
-      alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
-
-      loadStationList(
-        this.props.stationsState,
-        this.props.accessTokenState.Data
-      );
-    } catch (err) {
-      alert(err.message);
-      return;
-    }
   };
 
   #onStationCreated = async event => {
@@ -126,30 +110,23 @@ class StationComponent extends Component {
     }
   };
 
-  // TODO: 위치 생각해보기
-  #makeStationTemplate({ id, name }) {
-    return `
-    <li class="${CLASS_SELECTOR.STATION_LIST_ITEM} d-flex items-center py-2">
-      <span class="w-100 pl-2">${name}</span>
-      <button
-        data-name="${name}"
-        data-id="${id}"
-        type="button"
-        class="${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        data-id="${id}"
-        class="${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-    <hr class="my-0" />
-    `;
-  }
+  #removeStation = async stationId => {
+    const accessToken = this.props.accessTokenState.Data;
+
+    try {
+      await fetchStationRemoval(stationId, accessToken);
+
+      alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
+
+      loadStationList(
+        this.props.stationsState,
+        this.props.accessTokenState.Data
+      );
+    } catch (err) {
+      alert(err.message);
+      return;
+    }
+  };
 }
 
 export default StationComponent;

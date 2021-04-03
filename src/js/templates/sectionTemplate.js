@@ -90,10 +90,26 @@ const MODAL_COMPONENT = `
 </div>
 `;
 
+const createStationTemplate = station => {
+  return `
+  <li class="d-flex items-center py-2 relative">
+    <span class="w-100 pl-6">${station.name}</span>
+    <button
+      data-id=${station.id}
+      type="button"
+      class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  <hr class="my-0" />`;
+};
+
 const SECTION_TEMPLATE = {
   TITLE: '🚇 구간 관리',
   MAIN: MAIN_COMPONENT,
   MODAL: MODAL_COMPONENT,
+  createStationTemplate,
 };
 
 export default SECTION_TEMPLATE;

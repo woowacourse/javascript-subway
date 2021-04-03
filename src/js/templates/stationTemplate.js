@@ -73,10 +73,35 @@ const MODAL_COMPONENT = `
 </div>
 `;
 
+const makeStationTemplate = ({ id, name }) => {
+  return `
+  <li class="${CLASS_SELECTOR.STATION_LIST_ITEM} d-flex items-center py-2">
+    <span class="w-100 pl-2">${name}</span>
+    <button
+      data-name="${name}"
+      data-id="${id}"
+      type="button"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      data-id="${id}"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  <hr class="my-0" />
+  `;
+};
+
 const STATION_TEMPLATE = {
   TITLE: `🚉 역 관리`,
   MAIN: MAIN_COMPONENT,
   MODAL: MODAL_COMPONENT,
+  makeStationTemplate,
 };
 
 export default STATION_TEMPLATE;

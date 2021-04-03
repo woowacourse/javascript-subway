@@ -70,7 +70,7 @@ class SectionComponent extends Component {
 
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
       $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = stations
-        .map(this.#createStationTemplate)
+        .map(SECTION_TEMPLATE.createStationTemplate)
         .join('');
       closeModal();
     } catch (err) {
@@ -129,21 +129,6 @@ class SectionComponent extends Component {
 
   #createOptionTemplate(line) {
     return `<option value="${line.id}">${line.name}</option>`;
-  }
-
-  #createStationTemplate(station) {
-    return `
-    <li class="d-flex items-center py-2 relative">
-      <span class="w-100 pl-6">${station.name}</span>
-      <button
-        data-id=${station.id}
-        type="button"
-        class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-    <hr class="my-0" />`;
   }
 }
 
