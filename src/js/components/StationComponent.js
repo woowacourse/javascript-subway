@@ -31,7 +31,6 @@ class StationComponent extends Component {
   }
 
   initLoad() {
-    // TODO: render로 해야하는지 load로 해야하는지 고민
     this.renderStationList(this.props.stationsState.Data);
   }
 
@@ -41,7 +40,6 @@ class StationComponent extends Component {
       this.#onStationCreated
     );
 
-    //TODO: if문 내부 리펙토링 하기
     $(`#${ID_SELECTOR.STATION_LIST}`).addEventListener(
       'click',
       this.#onStationRevised

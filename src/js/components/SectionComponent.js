@@ -29,7 +29,6 @@ class SectionComponent extends Component {
   }
 
   initLoad() {
-    // TODO: render prefix 고민해보기
     this.#renderSelectOption();
   }
 
