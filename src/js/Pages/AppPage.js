@@ -128,7 +128,6 @@ class AppPage extends Page {
     show(`#${ID_SELECTOR.NAV_STATION}`);
     show(`#${ID_SELECTOR.NAV_SECTION}`);
     show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
-    show(`#${ID_SELECTOR.NAV_SEARCH}`);
     show(`#${ID_SELECTOR.NAV_MY_INFO}`);
     show(`#${ID_SELECTOR.NAV_LOGOUT}`);
 
@@ -140,7 +139,6 @@ class AppPage extends Page {
     hide(`#${ID_SELECTOR.NAV_STATION}`);
     hide(`#${ID_SELECTOR.NAV_SECTION}`);
     hide(`#${ID_SELECTOR.NAV_FULL_MAP}`);
-    hide(`#${ID_SELECTOR.NAV_SEARCH}`);
     hide(`#${ID_SELECTOR.NAV_MY_INFO}`);
     hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
 
