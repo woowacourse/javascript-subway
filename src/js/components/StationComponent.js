@@ -93,7 +93,6 @@ class StationComponent extends Component {
     const bodyData = { name: inputName };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchStationCreation(bodyData, accessToken);
 

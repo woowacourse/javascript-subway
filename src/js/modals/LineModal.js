@@ -78,7 +78,6 @@ class LineCreationComponent extends Component {
     };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchLineCreation(bodyData, accessToken);
 
@@ -116,7 +115,7 @@ class LineRevisionComponent extends Component {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener('submit', event => {
       event.preventDefault();
 
-      this.#revisionLine(event);
+      this.#reviseLine(event);
     });
   }
 
@@ -147,7 +146,7 @@ class LineRevisionComponent extends Component {
     return lines.find(line => line.id === Number(targetId));
   }
 
-  #revisionLine = async event => {
+  #reviseLine = async event => {
     const lineId = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
