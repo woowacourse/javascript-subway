@@ -155,7 +155,7 @@ class LineRevisionComponent extends Component {
   }
 
   #revisionLine = async event => {
-    const id = $(`.${ID_SELECTOR.MODAL}`).dataset.id;
+    const id = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
     const url = REQUEST_URL + `/lines/${id}`;
