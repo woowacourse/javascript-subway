@@ -60,6 +60,7 @@ const modal = ({ state: { stations }, modalName }) => {
                 id="${modalName}-distance"
                 name="distance"
                 class="input-field mr-2"
+                min=1
                 placeholder="상행 하행역 거리"
                 required
               />
@@ -71,6 +72,7 @@ const modal = ({ state: { stations }, modalName }) => {
                 id="${modalName}-duration"
                 name="duration"
                 class="input-field"
+                min=1
                 placeholder="상행 하행역 시간"
                 required
               />
