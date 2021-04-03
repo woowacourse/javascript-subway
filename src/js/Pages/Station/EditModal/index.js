@@ -5,6 +5,8 @@ import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import { stationModal } from './template';
 import ModalComponent from '../../../core/ModalComponent';
+import { showSnackbar } from '../../../utils/snackbar';
+import { SNACKBAR_MESSAGE } from '../../../constants/message';
 
 class EditModal extends ModalComponent {
   constructor({
@@ -30,43 +32,38 @@ class EditModal extends ModalComponent {
     const { name } = this.state.stations.find(
       ({ id }) => id === Number(this.targetId)
     );
-    $(`#${this.modalKey}-subway-station-name`).value = name;
+    $(`#${this.modalKey}-name`).value = name;
   }
 
   addEventListeners() {
-    $('.modal-close').addEventListener('click', () => this.hide());
+    super.addEventListeners();
 
-    $(`#${this.modalKey}-edit-station-form`).addEventListener(
-      'submit',
-      async (e) => {
-        e.preventDefault();
-        const stationId = this.targetId;
-        // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
-        const name = e.target['subway-station-name'].value;
-        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
+    $(`#${this.modalKey}-form`).addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const stationId = this.targetId;
+      const name = e.target['name'].value;
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
-        try {
-          await privateApis.stations.put({
-            stationId,
-            accessToken,
-            body: { name },
-          });
+      try {
+        await privateApis.stations.put({
+          stationId,
+          accessToken,
+          body: { name },
+        });
 
-          this.hide();
-          console.log(this);
-          console.log(this.updateSubwayState);
-          await this.updateSubwayState();
-        } catch (error) {
-          if (error instanceof ExpiredTokenError) {
-            this.setIsLogin(false);
-            this.goPage(UNAUTHENTICATED_LINK.LOGIN);
-          }
-
-          // TODO: 스낵바
-          console.error(error.message);
+        this.hide();
+        await this.updateSubwayState();
+        showSnackbar(SNACKBAR_MESSAGE.STATION.UPDATE.SUCCESS);
+      } catch (error) {
+        if (error instanceof ExpiredTokenError) {
+          this.setIsLogin(false);
+          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
+
+        showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.UPDATE.FAIL);
+        console.error(error.message);
       }
-    );
+    });
   }
 }
 

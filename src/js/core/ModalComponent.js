@@ -5,15 +5,14 @@ class ModalComponent extends Component {
     super({ parentNode });
     this.modalKey = modalKey;
     this.targetId = '';
-    // TODO: 이중 추상화 이벤트 리스너 등록
   }
 
   show() {
-    $(`.modal-${this.modalKey}`).classList.add('open');
+    $(`.${this.modalKey}-modal`).classList.add('open');
   }
 
   hide() {
-    $(`.modal-${this.modalKey}`).classList.remove('open');
+    $(`.${this.modalKey}-modal`).classList.remove('open');
   }
 
   setTarget(id) {
@@ -24,7 +23,7 @@ class ModalComponent extends Component {
   fillTargetInForm() {}
 
   addEventListeners() {
-    $(`.modal-${this.modalKey} .modal-close`).addEventListener('click', () => {
+    $(`.${this.modalKey}-modal .modal-close`).addEventListener('click', () => {
       this.hide();
     });
   }

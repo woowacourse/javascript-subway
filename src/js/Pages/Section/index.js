@@ -2,10 +2,15 @@ import { privateApis } from '../../api';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
-import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message';
+import {
+  CONFIRM_MESSAGE,
+  ERROR_MESSAGE,
+  SNACKBAR_MESSAGE,
+} from '../../constants/message';
 import Component from '../../core/Component';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
+import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import { mainTemplate, sectionItem } from './template';
 
@@ -65,6 +70,7 @@ class Section extends Component {
 
       try {
         await privateApis.sections.delete({ lineId, stationId, accessToken });
+        showSnackbar(SNACKBAR_MESSAGE.SECTION.DELETE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
@@ -73,6 +79,7 @@ class Section extends Component {
         }
 
         console.error(error.message);
+        showSnackbar(error.message || SNACKBAR_MESSAGE.SECTION.DELETE.FAIL);
       }
     });
   }

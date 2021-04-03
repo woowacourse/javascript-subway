@@ -27,9 +27,11 @@ const mainTemplate = ({ state: { lines } }) => {
       <form class="input-control">
         <select class="js-section-form__select">
           <option value="" selected disabled hidden>노선을 선택해 주세요.</option>
-          ${lines.map((line) => {
-            return `<option value="${line.id}">${line.name}</option>`;
-          })}
+          ${lines
+            .map((line) => {
+              return `<option value="${line.id}">${line.name}</option>`;
+            })
+            .join('')}
         </select>
       </form>
       <ul class="js-section-list mt-3 pl-0"></ul>

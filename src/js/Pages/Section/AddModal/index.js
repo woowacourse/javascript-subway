@@ -1,9 +1,11 @@
 import { privateApis } from '../../../api';
 import { UNAUTHENTICATED_LINK } from '../../../constants/link';
 import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
+import { SNACKBAR_MESSAGE } from '../../../constants/message';
 import ModalComponent from '../../../core/ModalComponent';
 import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
+import { showSnackbar } from '../../../utils/snackbar';
 import modal from './template';
 
 class AddModal extends ModalComponent {
@@ -32,7 +34,6 @@ class AddModal extends ModalComponent {
     $('#create-section-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // TODO: lineId 기본 설정 안하면  undefined됨
       const lineId = e.target['select-line'].value;
       const upStationId = e.target['up-station'].value;
       const downStationId = e.target['down-station'].value;
@@ -50,6 +51,7 @@ class AddModal extends ModalComponent {
 
       try {
         await privateApis.sections.post({ lineId, accessToken, body });
+        showSnackbar(SNACKBAR_MESSAGE.SECTION.CREATE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
@@ -57,6 +59,7 @@ class AddModal extends ModalComponent {
           this.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
         console.error(error.message);
+        showSnackbar(error.message || SNACKBAR_MESSAGE.SECTION.CREATE.FAIL);
       }
     });
   }

@@ -37,4 +37,67 @@ const CONFIRM_MESSAGE = {
   DELETE: '삭제하시겠습니까?',
 };
 
-export { VALID_MESSAGE, INVALID_MESSAGE, ERROR_MESSAGE, CONFIRM_MESSAGE };
+const SNACKBAR_MESSAGE = {
+  LOGIN: {
+    SUCCESS: '로그인을 성공했습니다.',
+    FAIL: '로그인을 실패했습니다.',
+  },
+  SIGNUP: {
+    SUCCESS: '회원가입을 성공했습니다.',
+    FAIL: '회원가입을 실패했습니다.',
+  },
+  STATION: {
+    CREATE: {
+      SUCCESS: '역 생성을 성공했습니다.',
+      FAIL: '역 생성을 실패했습니다.',
+    },
+    READ: {
+      SUCCESS: '역 조회를 성공했습니다.',
+      FAIL: '역 조회를 실패했습니다.',
+    },
+    UPDATE: {
+      SUCCESS: '역 수정을 성공했습니다.',
+      FAIL: '역 수정을 실패했습니다.',
+    },
+    DELETE: {
+      SUCCESS: '역 삭제를 성공했습니다.',
+      FAIL: '역 삭제를 실패했습니다.',
+    },
+  },
+  LINE: {
+    CREATE: {
+      SUCCESS: '노선 생성을 성공했습니다.',
+      FAIL: '노선 생성을 실패했습니다.',
+    },
+    READ: {
+      SUCCESS: '노선 조회를 성공했습니다.',
+      FAIL: '노선 조회를 실패했습니다.',
+    },
+    UPDATE: {
+      SUCCESS: '노선 수정을 성공했습니다.',
+      FAIL: '노선 수정을 실패했습니다.',
+    },
+    DELETE: {
+      SUCCESS: '노선 삭제를 성공했습니다.',
+      FAIL: '노선 삭제를 실패했습니다.',
+    },
+  },
+  SECTION: {
+    CREATE: {
+      SUCCESS: '구간 생성을 성공했습니다.',
+      FAIL: '구간 생성을 실패했습니다.',
+    },
+    DELETE: {
+      SUCCESS: '구간 삭제를 성공했습니다.',
+      FAIL: '구간 삭제를 실패했습니다.',
+    },
+  },
+};
+
+export {
+  VALID_MESSAGE,
+  INVALID_MESSAGE,
+  ERROR_MESSAGE,
+  CONFIRM_MESSAGE,
+  SNACKBAR_MESSAGE,
+};

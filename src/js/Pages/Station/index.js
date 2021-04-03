@@ -8,7 +8,8 @@ import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
-
+import { SNACKBAR_MESSAGE } from '../../constants/message';
+import { showSnackbar } from '../../utils/snackbar';
 class Station extends Component {
   constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
     super({
@@ -69,7 +70,9 @@ class Station extends Component {
     const body = { name };
     try {
       await privateApis.stations.post({ accessToken, body });
-      this.updateSubwayState();
+
+      await this.updateSubwayState();
+      showSnackbar(SNACKBAR_MESSAGE.STATION.CREATE.SUCCESS);
     } catch (error) {
       if (error instanceof ExpiredTokenError) {
         this.setIsLogin(false);
@@ -77,6 +80,7 @@ class Station extends Component {
       }
 
       console.error(error.message);
+      showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.CREATE.FAIL);
     }
   }
 
@@ -87,7 +91,8 @@ class Station extends Component {
         accessToken,
       });
 
-      this.updateSubwayState();
+      showSnackbar(SNACKBAR_MESSAGE.STATION.DELETE.SUCCESS);
+      await this.updateSubwayState();
     } catch (error) {
       if (error instanceof ExpiredTokenError) {
         this.setIsLogin(false);
@@ -95,6 +100,7 @@ class Station extends Component {
       }
 
       console.error(error.message);
+      showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.DELETE.FAIL);
     }
   }
 

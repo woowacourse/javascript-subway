@@ -2,10 +2,11 @@ import { privateApis } from '../../api';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
-import { CONFIRM_MESSAGE } from '../../constants/message';
+import { CONFIRM_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
+import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 import mainTemplate from './template';
@@ -71,6 +72,7 @@ class Line extends Component {
             lineId: id,
             accessToken,
           });
+          showSnackbar(SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
           await this.updateSubwayState();
         } catch (error) {
           if (error instanceof ExpiredTokenError) {
@@ -78,6 +80,7 @@ class Line extends Component {
             this.goPage(UNAUTHENTICATED_LINK.LOGIN);
           }
           console.error(error.message);
+          showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
         }
       }
     });
@@ -87,6 +90,5 @@ class Line extends Component {
     this.setState(await requestStationAndLine());
   }
 }
-//생성을 하는 순간 private tab들은 App들은 access Token이 없음. 그래서 요청이 불가.
 
 export default Line;

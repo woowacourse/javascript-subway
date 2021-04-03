@@ -2,7 +2,11 @@ import { $ } from '../../utils/DOM';
 import Component from '../../core/Component';
 import mainTemplate from './template';
 import ValidationError from '../../error/ValidationError';
-import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message';
+import {
+  VALID_MESSAGE,
+  INVALID_MESSAGE,
+  SNACKBAR_MESSAGE,
+} from '../../constants/message';
 import { LENGTH } from '../../constants/standard';
 import { AUTHENTICATED_LINK } from '../../constants/link';
 import publicApis from '../../api/publicApis';
@@ -11,6 +15,7 @@ import {
   isValidEmailFormat,
 } from '../../utils/validateFormat';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
+import { showSnackbar } from '../../utils/snackbar';
 
 class Signup extends Component {
   constructor({ parentNode, props: { goPage, setIsLogin } }) {
@@ -55,8 +60,10 @@ class Signup extends Component {
         this.setIsLogin(true);
 
         this.goPage(AUTHENTICATED_LINK.STATION.PATH);
+        showSnackbar(SNACKBAR_MESSAGE.SIGNUP.SUCCESS);
       } catch (error) {
         console.error(error);
+        showSnackbar(error.message || SNACKBAR_MESSAGE.SIGNUP.FAIL);
       }
     });
   }
@@ -119,8 +126,7 @@ class Signup extends Component {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
-    const emailQuery = `?${new URLSearchParams(email)}`;
-
+    const emailQuery = `?${new URLSearchParams({ email })}`;
     await publicApis.checkDuplicatedEmail(emailQuery);
   }
 

@@ -5,6 +5,8 @@ import { privateApis } from '../../../api';
 import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
 import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { UNAUTHENTICATED_LINK } from '../../../constants/link';
+import { showSnackbar } from '../../../utils/snackbar';
+import { SNACKBAR_MESSAGE } from '../../../constants/message';
 
 class AddModal extends ModalComponent {
   constructor({
@@ -29,14 +31,14 @@ class AddModal extends ModalComponent {
   addEventListeners() {
     super.addEventListeners();
 
-    $(`.${this.modalKey}-js-subway-line-color-selector`).addEventListener(
+    $(`.${this.modalKey}-js-color-selector`).addEventListener(
       'click',
       ({ target }) => {
         if (!target.classList.contains('color-option')) return;
 
         const { bgColor } = target.dataset;
-        $(`#${this.modalKey}-subway-line-color`).value = bgColor;
-        $(`#${this.modalKey}-subway-line-color-preview`).setAttribute(
+        $(`#${this.modalKey}-color`).value = bgColor;
+        $(`#${this.modalKey}-color-preview`).setAttribute(
           'data-bg-color',
           bgColor
         );
@@ -46,7 +48,7 @@ class AddModal extends ModalComponent {
     $(`#${this.modalKey}-line-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
       const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
-      const name = e.target['subway-line-name'].value;
+      const name = e.target['name'].value;
       const color = e.target['subway-line-color'].value;
       const upStationId = e.target['subway-line-up-station'].value;
       const downStationId = e.target['subway-line-down-station'].value;
@@ -66,13 +68,15 @@ class AddModal extends ModalComponent {
           },
         });
 
-        this.updateSubwayState();
+        showSnackbar(SNACKBAR_MESSAGE.LINE.CREATE.SUCCESS);
+        await this.updateSubwayState();
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
           this.setIsLogin(false);
           this.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
         console.error(error.message);
+        showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.CREATE.SUCCESS);
       }
     });
   }
@@ -82,20 +86,14 @@ class AddModal extends ModalComponent {
       (line) => line.id === Number(this.targetId)
     );
 
-    $(`#${this.modalKey}-subway-line-name`).value = name;
-    $(`#${this.modalKey}-subway-line-color`).value = color;
-    $(`#${this.modalKey}-subway-line-color-preview`).setAttribute(
-      'data-bg-color',
-      color
-    );
+    $(`#${this.modalKey}-name`).value = name;
+    $(`#${this.modalKey}-color`).value = color;
+    $(`#${this.modalKey}-color-preview`).setAttribute('data-bg-color', color);
   }
 
   clearForm() {
     $(`#${this.modalKey}-line-form`).reset();
-    $(`#${this.modalKey}-subway-line-color-preview`).setAttribute(
-      'data-bg-color',
-      ''
-    );
+    $(`#${this.modalKey}-color-preview`).setAttribute('data-bg-color', '');
   }
 }
 

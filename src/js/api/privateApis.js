@@ -5,14 +5,6 @@ import { BASE_URL } from '../constants/url';
 import { ERROR_MESSAGE } from '../constants/message';
 import ExpiredTokenError from '../error/ExpiredTokenError';
 
-const checkResponseAndThrowErrorIfNotOk = async (response) => {
-  if (response.status === 401) {
-    throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
-  }
-
-  if (!response.ok) throw Error(await response.text());
-};
-
 const privateApis = {
   stations: {
     get: async ({ accessToken }) => {
@@ -26,9 +18,15 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
 
-      return await response.json();
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
+
+      return data;
     },
 
     post: async ({ accessToken, body }) => {
@@ -43,7 +41,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
     },
 
     put: async ({ stationId, accessToken, body }) => {
@@ -58,7 +62,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.text();
+
+      if (!response.ok) throw Error(data.message);
     },
 
     delete: async ({ stationId, accessToken }) => {
@@ -72,7 +82,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.text();
+
+      if (!response.ok) throw Error(data.message);
     },
   },
 
@@ -88,9 +104,15 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
 
-      return await response.json();
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
+
+      return data;
     },
 
     post: async ({ accessToken, body }) => {
@@ -105,7 +127,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
     },
 
     put: async ({ lineId, accessToken, body }) => {
@@ -120,7 +148,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
     },
 
     delete: async ({ lineId, accessToken }) => {
@@ -134,7 +168,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) throw Error(data.message);
     },
   },
 
@@ -151,7 +191,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.text();
+
+      if (!response.ok) throw Error(data.message);
     },
 
     delete: async ({ lineId, stationId, accessToken }) => {
@@ -165,7 +211,13 @@ const privateApis = {
         },
       });
 
-      await checkResponseAndThrowErrorIfNotOk(response);
+      if (response.status === 401) {
+        throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
+      }
+
+      const data = await response.text();
+
+      if (!response.ok) throw Error(data.message);
     },
   },
 };

@@ -39,9 +39,13 @@ const publicApis = {
       throw new ValidationError(INVALID_MESSAGE.LOGIN.FAILED);
     }
 
-    if (!response.ok) throw Error(response.message);
+    if (!response.ok) {
+      const data = await response.text();
+      throw Error(data.message);
+    }
 
-    const { accessToken } = await response.json();
+    const data = await response.json();
+    const { accessToken } = data;
 
     return accessToken;
   },
@@ -58,7 +62,9 @@ const publicApis = {
       },
     });
 
-    if (!response.ok) throw Error(response.message);
+    const data = await response.json();
+
+    if (!response.ok) throw Error(data.message);
   },
 
   checkDuplicatedEmail: async (emailQuery) => {
@@ -75,7 +81,9 @@ const publicApis = {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
     }
 
-    if (!response.ok) throw Error(response.message);
+    const data = await response.json();
+
+    if (!response.ok) throw Error(data.message);
   },
 };
 

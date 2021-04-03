@@ -1,5 +1,5 @@
 export const stationModal = ({ modalKey }) => `
-  <div class="modal modal-${modalKey}">
+  <div class="modal ${modalKey}-modal">
     <div class="modal-inner p-8">
       <button class="modal-close">
         <svg viewbox="0 0 40 40">
@@ -9,15 +9,15 @@ export const stationModal = ({ modalKey }) => `
       <header>
         <h2 class="text-center">🛤️ 역 수정</h2>
       </header>
-      <form id="${modalKey}-edit-station-form">
+      <form id="${modalKey}-form">
         <div class="input-control">
-          <label for="${modalKey}-subway-station-name" class="input-label" hidden
+          <label for="${modalKey}-name" class="input-label" hidden
             >역 이름</label
           >
           <input
             type="text"
-            id="${modalKey}-subway-station-name"
-            name="subway-station-name"
+            id="${modalKey}-name"
+            name="name"
             class="input-field"
             placeholder="역 이름"
             required

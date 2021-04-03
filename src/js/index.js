@@ -141,7 +141,6 @@ class App extends Component {
   async renderComponent(path = location.pathname) {
     const component = this.router[path]();
 
-    // 탭을 빠르게 전환시 데이터 응답 이후 기존탭을 그리는 현상이 나타남
     component.render();
     try {
       await component.updateSubwayState?.();
