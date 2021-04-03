@@ -5,6 +5,7 @@ import { closeModal } from '../utils/DOM';
 import { fetchLineCreation, fetchLineRevision } from '../utils/fetch';
 import { loadLineList } from '../utils/loadByAJAX';
 import $ from '../utils/querySelector';
+import { createOptionTemplate } from '../utils/template';
 import Modal from './Modal';
 
 class LineModal extends Modal {
@@ -12,7 +13,6 @@ class LineModal extends Modal {
     super(props);
 
     this._router = {
-      // TODO: constant에서 KEYWORD -> MODAL_TYPE으로 바꾸기
       [KEYWORD.CREATION]: new LineCreationComponent({
         accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
@@ -39,7 +39,6 @@ class LineCreationComponent extends Component {
     });
   }
 
-  // TODO: render와 initEvent를 protected로 바꿀 것인가
   render() {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.MODAL;
 
@@ -48,8 +47,8 @@ class LineCreationComponent extends Component {
   }
 
   #loadSelectOption(selector) {
-    $(selector).innerHTML = this.props.stationsState.Data.map(
-      ({ id, name }) => `<option value="${id}">${name}</option>`
+    $(selector).innerHTML = this.props.stationsState.Data.map(({ id, name }) =>
+      createOptionTemplate(id, name)
     ).join('');
   }
 
@@ -85,11 +84,8 @@ class LineCreationComponent extends Component {
       alert(ALERT_MESSAGE.LINE_CREATION_SUCCESS);
 
       const { id, name, color } = await response.json();
-      const lines = this.props.linesState.Data;
 
-      // TODO: State 클래스에 pushData 만들기
-      lines.push({ id, name, color });
-      this.props.linesState.Data = lines;
+      this.props.linesState.pushData({ id, name, color });
       closeModal();
       this.#clearModalInput();
     } catch (err) {

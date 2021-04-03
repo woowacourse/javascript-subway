@@ -50,10 +50,6 @@ const MODAL_COMPONENT = `
       ID_SELECTOR.LINE_MODAL_FORM_UP_STATION
     }" class="input-label" hidden>상행역</label>
     <select id="${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}" class="mr-2">
-      <option value="" selected disabled hidden>상행역</option>
-      <option>사당</option>
-      <option>방배</option>
-      <option>서초</option>
     </select>
     <label for="${
       ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION
@@ -61,10 +57,6 @@ const MODAL_COMPONENT = `
       >하행역</label
     >
     <select id="${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}">
-      <option value="" selected disabled hidden>하행역</option>
-      <option>사당</option>
-      <option>방배</option>
-      <option>서초</option>
     </select>
   </div>
   <div class="input-control">

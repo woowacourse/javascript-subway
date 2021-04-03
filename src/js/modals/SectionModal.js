@@ -3,6 +3,7 @@ import { KEYWORD, ID_SELECTOR, REQUEST_URL, ALERT_MESSAGE } from '../constants';
 import SECTION_TEMPLATE from '../templates/sectionTemplate';
 import { fetchSectionCreation } from '../utils/fetch';
 import $ from '../utils/querySelector';
+import { createOptionTemplate } from '../utils/template';
 import Modal from './Modal';
 
 class SectionModal extends Modal {
@@ -73,7 +74,6 @@ class SectionCreationComponent extends Component {
 
       alert(ALERT_MESSAGE.SECTION_CREATION_SUCCESS);
 
-      //TODO: section load(갱신)하기
       const pageLineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
 
       if (modalLineId === pageLineId) {
@@ -92,7 +92,7 @@ class SectionCreationComponent extends Component {
     $(`#${ID_SELECTOR.SECTION_MODAL_FORM_LINE_SELECT}`).innerHTML = lines
       .map(line => {
         const isSelected = line.id === pageLineId;
-        return this.#createOptionTemplate(line.id, line.name, isSelected);
+        return createOptionTemplate(line.id, line.name, isSelected);
       })
       .join('');
   }
@@ -100,25 +100,17 @@ class SectionCreationComponent extends Component {
   #loadStationSelectOption() {
     const stations = this.props.stationsState.Data;
 
-    //TODO: line에 이미 포함된 역 제외하기
     $(
       `#${ID_SELECTOR.SECTION_MODAL_FORM_UP_STATION_SELECT}`
     ).innerHTML = stations.map(station =>
-      this.#createOptionTemplate(station.id, station.name)
+      createOptionTemplate(station.id, station.name)
     );
 
     $(
       `#${ID_SELECTOR.SECTION_MODAL_FORM_DOWN_STATION_SELECT}`
     ).innerHTML = stations.map(station =>
-      this.#createOptionTemplate(station.id, station.name)
+      createOptionTemplate(station.id, station.name)
     );
-  }
-
-  // TODO: util로 빼기
-  #createOptionTemplate(value, innerText, isSelected) {
-    return `<option value="${value}" ${
-      isSelected ? 'selected' : ''
-    }>${innerText}</option>`;
   }
 }
 
