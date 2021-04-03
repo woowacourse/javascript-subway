@@ -27,7 +27,7 @@ export default class Station extends Observer {
   renderComponent() {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
-    this.#state.get(STATE_KEY.STATION_LIST).forEach(station => this.#createStations(station));
+    this.#state.get(STATE_KEY.STATION_LIST).forEach(station => this.#createStation(station));
     this.#initEvents();
   }
 
@@ -59,7 +59,7 @@ export default class Station extends Observer {
     `;
   }
 
-  #createStations(station) {
+  #createStation(station) {
     const stationItem = document.createElement("li");
     stationItem.setAttribute("data-station-id", station.id);
     stationItem.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2`);

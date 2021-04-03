@@ -8,6 +8,7 @@ export default class Section extends Observer {
   #stationListSelector;
   #parentSelector;
   #state;
+  #targetLine;
 
   constructor(
     state,
@@ -20,6 +21,7 @@ export default class Section extends Observer {
     this.#lineListSelector = lineListSelector;
     this.#stationListSelector = stationListSelector;
     this.#parentSelector = parentSelector;
+    this.#targetLine = null;
   }
 
   renderPage() {
@@ -35,6 +37,7 @@ export default class Section extends Observer {
     
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const targetLine = lineList.find(line => line.id === targetLineId);
+    this.#targetLine = targetLine;
     if (!targetLine) return;
 
     lineListContainer.innerHTML = `
@@ -46,7 +49,9 @@ export default class Section extends Observer {
         }).join("")}
       </select>
     `;
-    stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
+
+    $(this.#stationListSelector).innerHTML = '';
+    targetLine.stations.forEach((station, index) => this.#createStation(station, index));
     this.#initEvents();
   }
 
@@ -83,20 +88,69 @@ export default class Section extends Observer {
     `;
   }
 
-  #getStationTemplate(station) {
-    return `
-      <li class="d-flex items-center py-2 relative">
-        <span class="w-100 pl-6">${station.name}</span>
-        <button
-          type="button"
-          class="${SELECTOR_CLASS.SECTION_DELETE_BUTTON} bg-gray-50 text-gray-500 text-sm"
-          data-station-id="${station.id}"
-          data-station-name="${station.name}"
-        >
-          삭제
-        </button>
-      </li>
-      <hr class="my-0" />
-    `;
+  #createStation(station, index) {
+    const tempColorElement = document.createElement("div");
+    tempColorElement.setAttribute("class", this.#targetLine.color);
+    $(this.#stationListSelector).appendChild(tempColorElement);
+    const targetLineColor = window.getComputedStyle(tempColorElement).getPropertyValue('background-color');
+
+    const stationItem = document.createElement("li");
+    stationItem.setAttribute("class", "d-flex items-center py-2 relative");
+    
+    const stationName = document.createElement("span");
+    stationName.setAttribute("class", `w-100 pl-6`);
+    stationName.textContent = station.name;
+    stationItem.appendChild(stationName);
+    
+    const horizontalLine = document.createElement("hr");
+    if (index < this.#targetLine.sections.length) {
+      const sectionContainer = document.createElement("div");
+      sectionContainer.setAttribute("class", SELECTOR_CLASS.SECTION_CONTAINER);
+      const targetSection = this.#targetLine.sections[index];
+
+      const sectionDistance = document.createElement("span");
+      sectionDistance.setAttribute("class", SELECTOR_CLASS.SECTION_DISTANCE);
+      sectionDistance.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      sectionDistance.textContent = `${targetSection.distance}km`;
+      
+      const sectionDuration = document.createElement("span");
+      sectionDuration.setAttribute("class", SELECTOR_CLASS.SECTION_DURATION);
+      sectionDuration.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      sectionDuration.textContent = `${targetSection.duration}분`;
+
+      const upStationPoint = document.createElement("span");
+      upStationPoint.setAttribute("class", SELECTOR_CLASS.UP_STATION_POINT);
+      upStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      const stationConnection = document.createElement("span");
+      stationConnection.setAttribute("class", SELECTOR_CLASS.STATION_CONNECTION);
+      stationConnection.setAttribute("style", `background-color: ${targetLineColor};`);
+      const downStationPoint = document.createElement("span");
+      downStationPoint.setAttribute("class", SELECTOR_CLASS.DOWN_STATION_POINT);
+      downStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+
+      sectionContainer.appendChild(upStationPoint);
+      sectionContainer.appendChild(stationConnection);
+      sectionContainer.appendChild(downStationPoint);
+      sectionContainer.appendChild(sectionDistance);
+      sectionContainer.appendChild(sectionDuration);
+      stationItem.appendChild(sectionContainer);
+
+      horizontalLine.setAttribute("class", SELECTOR_CLASS.SECTION_HORIZONTAL_LINE);
+      horizontalLine.setAttribute("style", `border-color: ${targetLineColor};`);
+    } else {
+      horizontalLine.setAttribute("class", "my-0");
+    }
+
+    const stationDeleteButton = document.createElement("button");
+    stationDeleteButton.setAttribute("type", "button");
+    stationDeleteButton.setAttribute("class", `${SELECTOR_CLASS.SECTION_DELETE_BUTTON} bg-gray-50 text-gray-500 text-sm`);
+    stationDeleteButton.setAttribute("data-station-id", station.id);
+    stationDeleteButton.setAttribute("data-station-name", station.name);
+    stationDeleteButton.textContent = "삭제";
+
+    stationItem.appendChild(stationDeleteButton);
+
+    $(this.#stationListSelector).appendChild(stationItem);
+    $(this.#stationListSelector).appendChild(horizontalLine);
   }
 }

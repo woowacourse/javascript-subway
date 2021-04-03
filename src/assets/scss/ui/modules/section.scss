@@ -2,3 +2,58 @@ form #section-line-select {
   font-weight: bold;
   color: white;
 }
+
+.section-container {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transform: translateY(90%);
+}
+
+.section-distance,
+.section-duration {
+  display: inline-block;
+  border-radius: 20px;
+  margin: 0px 8px 0px 8px;
+  padding: 2px 10px 2px 10px;
+  font-size: 0.8rem;
+  background-color: white;
+}
+
+.section-horizontal-line {
+  border: 0;
+  margin: 0;
+  border-style: dashed;
+  border-width: 2px 0px 0px 0px;
+  background: none;
+}
+
+.up-station-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+  transform: translate(-16rem, -1.5rem);
+  z-index: 10;
+}
+
+.down-station-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+  transform: translate(-16rem, 1.3rem);
+  z-index: 10;
+}
+
+.station-connection {
+  position: absolute;
+  width: 4px;
+  height: 40px;
+  transform: translateX(-16rem);
+  z-index: 9;
+}

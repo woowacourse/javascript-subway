@@ -10,6 +10,7 @@ export default class State extends Subject {
   constructor() {
     super();
     this.#state = {
+      [STATE_KEY.USER_NAME]: SETTINGS.NOT_INITIATED_NAME,
       [STATE_KEY.STATION_LIST]: [],
       [STATE_KEY.LINE_LIST]: [],
       [STATE_KEY.IS_LOGGED_IN]: false,
@@ -56,7 +57,8 @@ export default class State extends Subject {
         console.log(error);
         alert(ALERT_MESSAGE.STATION_GET_FAILED);
       });
-    this.#fetchLineList()
+    
+      this.#fetchLineList()
       .then(lineList => {
         if (lineList.length === 0) return;
         this.#state[STATE_KEY.LINE_LIST] = lineList;

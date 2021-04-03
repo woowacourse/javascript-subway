@@ -63,6 +63,13 @@ export const SELECTOR_CLASS = Object.freeze({
   SECTION_ITEM_ADD: 'section__item-add',
   SECTION_MODAL_CLOSE: 'section__modal-close',
   SECTION_DELETE_BUTTON: 'section-delete-button',
+  SECTION_CONTAINER: 'section-container',
+  SECTION_DISTANCE: 'section-distance',
+  SECTION_DURATION: 'section-duration',
+  SECTION_HORIZONTAL_LINE: 'section-horizontal-line',
+  UP_STATION_POINT: 'up-station-point',
+  DOWN_STATION_POINT: 'down-station-point',
+  STATION_CONNECTION: 'station-connection',
   SUBWAY_LINE_COLOR_PICKER: 'subway-line-color-picker',
   SUBWAY_LINE_REGISTER_FORM: 'subway-line-register-form',
   SUBWAY_LINE_UPDATE_FORM: 'subway-line-update-form',
@@ -108,6 +115,7 @@ export const SESSION_STORAGE_KEY = Object.freeze({
 
 export const STATE_KEY = Object.freeze({
   IS_LOGGED_IN: 'isLoggedIn',
+  USER_NAME: 'userName',
   LINE_LIST: 'lineList',
   STATION_LIST: 'stationList',
   TARGET_LINE_ID: 'targetLineId',
@@ -141,6 +149,7 @@ export const ALERT_MESSAGE = Object.freeze({
   NO_LINE_COLOR_SELECTED: '노선 색깔을 선택해주세요',
   UP_STATION_EQUALS_DOWN_STATION: '상행역과 하행역은 동일할 수 없습니다',
   SECTION_MUST_INCLUDED_IN_LINE: '대상 노선과 이어진 구간만을 추가할 수 있습니다',
+  USER_UNDEFINED: '유저 정보를 불러올 수 없습니다',
 });
 
 export const CONFIRM_MESSAGE = Object.freeze({
@@ -166,5 +175,6 @@ export const PAGE_TITLE = Object.freeze({
 export const SETTINGS = Object.freeze({
   NOT_INITIATED_NUMBER: -1,
   NOT_INITIATED_MENU: '/ROOT',
+  NOT_INITIATED_NAME: '',
   SELECTED_MENU_COLOR: 'bg-cyan-200',
 });
