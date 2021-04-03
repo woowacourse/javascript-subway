@@ -22,6 +22,7 @@ class LoginComponent extends Component {
     const signupAnchor = $(`#${ID_SELECTOR.MAIN} .${CLASS_SELECTOR.ANCHOR}`);
 
     signupAnchor.addEventListener('click', this._onAnchorClicked);
+
     $(`#${ID_SELECTOR.LOGIN_FORM}`).addEventListener(
       'submit',
       this.#onLoginSubmit

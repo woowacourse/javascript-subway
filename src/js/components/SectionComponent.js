@@ -12,6 +12,7 @@ import Component from './Component';
 import { fetchLineRead, fetchSectionRemoval } from '../utils/fetch.js';
 import SectionModal from '../modals/SectionModal';
 import { closeModal } from '../utils/DOM';
+import { hasClassName } from '../utils/validation';
 
 class SectionComponent extends Component {
   sectionModal;
@@ -42,32 +43,13 @@ class SectionComponent extends Component {
 
     $(`#${ID_SELECTOR.SECTION_CREATION_BUTTON}`).addEventListener(
       'click',
-      () => {
-        if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
-          alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
-
-          return;
-        }
-
-        this.sectionModal.route(KEYWORD.CREATION);
-      }
+      this.#onCreationModalRendered
     );
 
-    $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener('click', event => {
-      if (
-        event.target.classList.contains(
-          CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL
-        )
-      ) {
-        if (!confirm(CONFIRM_MESSAGE.SECTION_REMOVAL)) {
-          return;
-        }
-        const stationId = event.target.dataset.id;
-        const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
-
-        this.#removeSection(stationId, lineId);
-      }
-    });
+    $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener(
+      'click',
+      this.#onSectionDeleted
+    );
   }
 
   render() {
@@ -97,6 +79,31 @@ class SectionComponent extends Component {
       alert(err.message);
       return;
     }
+  };
+
+  #onSectionDeleted = event => {
+    if (!hasClassName(event.target, CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.SECTION_REMOVAL)) {
+      return;
+    }
+
+    const stationId = event.target.dataset.id;
+    const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
+
+    this.#removeSection(stationId, lineId);
+  };
+
+  #onCreationModalRendered = () => {
+    if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
+      alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
+
+      return;
+    }
+
+    this.sectionModal.route(KEYWORD.CREATION);
   };
 
   #removeSection = async (stationId, lineId) => {

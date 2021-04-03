@@ -12,6 +12,7 @@ import $ from '../utils/querySelector.js';
 import Component from './Component.js';
 import { fetchLineRemoval } from '../utils/fetch.js';
 import { loadLineList } from '../utils/loadByAJAX.js';
+import { hasClassName } from '../utils/validation.js';
 
 class LineComponent extends Component {
   lineModal;
@@ -39,33 +40,20 @@ class LineComponent extends Component {
       this.lineModal.route(KEYWORD.CREATION);
     });
 
-    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
-        $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
-        this.lineModal.route(KEYWORD.REVISION);
+    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener(
+      'click',
+      this.#onLineRevised
+    );
 
-        return;
-      }
+    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener(
+      'click',
+      this.#onLineRemoved
+    );
 
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL)) {
-        if (!confirm(CONFIRM_MESSAGE.LINE_REMOVAL)) {
-          return;
-        }
-
-        this.#removeLine(target.dataset.id);
-      }
-    });
-
-    //TODO: 콜백함수 네이밍해주기
-    $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
-      if (
-        !target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)
-      ) {
-        return;
-      }
-
-      $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
-    });
+    $(`#${ID_SELECTOR.MODAL}`).addEventListener(
+      'click',
+      this.#onLineColorSelected
+    );
   }
 
   render() {
@@ -76,6 +64,35 @@ class LineComponent extends Component {
     const template = lines.map(this.#makeLineTemplate).join('');
 
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
+  };
+
+  #onLineRevised = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
+    this.lineModal.route(KEYWORD.REVISION);
+  };
+
+  #onLineRemoved = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.LINE_REMOVAL)) {
+      return;
+    }
+
+    this.#removeLine(target.dataset.id);
+  };
+
+  #onLineColorSelected = ({ target }) => {
+    if (!target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
   };
 
   #makeLineTemplate({ name, color, id }) {

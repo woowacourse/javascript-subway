@@ -12,6 +12,7 @@ import {
 import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
 import StationModal from '../modals/StationModal.js';
+import { hasClassName } from '../utils/validation.js';
 
 class StationComponent extends Component {
   stationModal;
@@ -43,28 +44,12 @@ class StationComponent extends Component {
     //TODO: if문 내부 리펙토링 하기
     $(`#${ID_SELECTOR.STATION_LIST}`).addEventListener(
       'click',
-      ({ target }) => {
-        if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
-        ) {
-          $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
-          $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
-          this.stationModal.route(KEYWORD.REVISION);
+      this.#onStationRevised
+    );
 
-          return;
-        }
-
-        if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL)
-        ) {
-          if (!confirm(CONFIRM_MESSAGE.STATION_REMOVAL)) {
-            return;
-          }
-
-          this.#removeStation(target.dataset.id);
-          return;
-        }
-      }
+    $(`#${ID_SELECTOR.STATION_LIST}`).addEventListener(
+      'click',
+      this.#onStationRemoved
     );
   }
 
@@ -76,6 +61,29 @@ class StationComponent extends Component {
     const template = stations.map(this.#makeStationTemplate).join('');
 
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
+  };
+
+  #onStationRevised = ({ target }) => {
+    //TODO: contains 문 hasClassName으로 바꾸기
+    if (!hasClassName(target, CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
+    $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
+    this.stationModal.route(KEYWORD.REVISION);
+  };
+
+  #onStationRemoved = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.STATION_REMOVAL)) {
+      return;
+    }
+
+    this.#removeStation(target.dataset.id);
   };
 
   #removeStation = async id => {
