@@ -28,6 +28,7 @@ context('지하철 노선도', () => {
         });
       });
     });
+    
     it('이용자는 로그인을 할 수 있다', () => {
       checkAccessTokenExist(false);
       click(`a[href="${PATH.LOG_IN}"]`);
