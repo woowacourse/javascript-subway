@@ -1,11 +1,11 @@
 import { PATH, SELECTOR_CLASS, SELECTOR_ID, SESSION_STORAGE_KEY } from '../../src/constants.js';
+import { click, type } from './utils.spec.js';
 
 const HOST_URL = 'http://localhost:5500/';
 const TEST_USER_EMAIL = 'test@naver.com';
 const TEST_USER_PASSWORD = 'test123';
 const WAIT_SECONDS = 2000;
 
-// TODO: accessToken을 state에 직접 저장하지 말고 isloggedIn으로 바꾸기
 context('지하철 노선도', () => {
   before(() => {
     cy.visit(HOST_URL, {
@@ -28,7 +28,7 @@ context('지하철 노선도', () => {
         });
       });
     });
-    
+
     it('이용자는 로그인을 할 수 있다', () => {
       checkAccessTokenExist(false);
       click(`a[href="${PATH.LOG_IN}"]`);
@@ -49,15 +49,7 @@ context('지하철 노선도', () => {
   });
 });
 
-function click(selector) {
-  cy.get(selector).click();
-}
-
-function type(selector, text) {
-  cy.get(selector).type(text);
-}
-
-function checkAccessTokenExist(isExist) {
+export function checkAccessTokenExist(isExist) {
   cy.window().then(win => {
     const accessToken = win.sessionStorage.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
     if (isExist) {
