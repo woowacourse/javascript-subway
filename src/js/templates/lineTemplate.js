@@ -192,6 +192,7 @@ const REVISION_MODAL_COMPONENT = `
 </form>
 </div>
 `;
+
 function makeSubwayLineColorOption() {
   return colorOptionMatrix
     .map(colorOptions =>
@@ -200,7 +201,15 @@ function makeSubwayLineColorOption() {
     .join('<br/>');
 }
 
+// TODO: 버튼 CSS 조정 필요
 function subwayLineColorOptionTemplate(colorOption) {
+  if (colorOption.startsWith('line')) {
+    return `<button data-color="${colorOption}" type="button" class="${
+      CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION
+    } line-color-option bg-${colorOption} ml-1">${colorOption.slice(
+      -1
+    )}호선</button>`;
+  }
   return `<button data-color="${colorOption}" type="button" class="${CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION} color-option bg-${colorOption} mr-1"></button>`;
 }
 
