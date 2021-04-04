@@ -21,7 +21,6 @@ const getOption = (method, token, bodyContent) => {
     option.headers.Authorization = `Bearer ${token}`;
   }
   if (bodyContent) {
-    console.log(bodyContent)
     option.body = typeof bodyContent === 'string' ? bodyContent : JSON.stringify(bodyContent);
   }
   return option;
@@ -36,13 +35,10 @@ const request = {
   },
   async post({url, token = null, bodyContent = {}}) {
     const option = getOption('POST', token, bodyContent);
-    console.log('url', url);
-    console.log(option);
     try {
       const response = await fetchAPI(url, option);
       return response;
     } catch (status) {
-      console.log(status);
       throw status;
     }
   },
