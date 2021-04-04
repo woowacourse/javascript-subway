@@ -12,11 +12,9 @@ const PATH = {
 
 const STATUS = {
   EMAIL: {
-    VALID: 200,
     DUPLICATED: 422,
   },
   STATIONS: {
-    VALID: 201,
     DUPLICATED: 400,
   },
   LINES: {
@@ -102,7 +100,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
     });
 
     // 사용 가능한 이메일
-    if (response.status === STATUS.EMAIL.VALID) {
+    if (response.ok {
       return {
         isSucceeded: true,
         message: SUCCESS_MESSAGE.MEMBER.VALID_EMAIL,
@@ -260,7 +258,7 @@ export const addStationAPI = async (stationName, accessToken) => {
       },
     });
 
-    if (response.status === STATUS.STATIONS.VALID) {
+    if (response.ok) {
       const station = await response.json();
 
       return {
