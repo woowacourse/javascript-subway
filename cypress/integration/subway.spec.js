@@ -8,6 +8,7 @@ import {
   VALIDATION,
 } from '../../src/constants.js';
 import { colorOptions } from '../../src/utils/mock.js'
+import { click, select, type } from './utils.spec.js';
 
 const HOST_URL = 'http://localhost:5500/';
 const TEST_USER_EMAIL = 'chrisTest@gmail.com';
@@ -395,14 +396,6 @@ context('구간 관리', () => {
   })
 });
 
-function click(selector) {
-  cy.get(selector).click();
-}
-
-function type(selector, text) {
-  cy.get(selector).type(text);
-}
-
 function checkAccessTokenExist(isExist) {
   cy.window().then(win => {
     const accessToken = win.sessionStorage.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
@@ -434,10 +427,6 @@ function tryLogout() {
       cy.wrap($logoutButton).click();
     }
   });
-}
-
-function select(selector, option) {
-  cy.get(selector).select(option);
 }
 
 function registerLine({ lineName, upStation, downStation, duration, distance, color }) {

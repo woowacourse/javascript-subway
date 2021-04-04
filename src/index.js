@@ -13,8 +13,6 @@ import { state } from './store.js';
 import LineModal from './components/lineModal';
 import SectionModal from './components/sectionModal';
 
-// TODO: CSS 늦게 로드되는 거 고치기
-// TODO: 항목 생성 시 애니메이션 추가
 // 앱 상태 초기화
 state.initState();
 
@@ -56,9 +54,5 @@ state.subscribe(STATE_KEY.STATION_LIST, section);
 state.subscribe(STATE_KEY.TARGET_LINE_ID, lineModal);
 state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, sectionModal);
 state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, section);
-// targetSectionLineId 어떻게 운영할 지 고민
-// section modal이 length of undefined로 안 열림
-// line API 구조 수정(API로 날아오는 데이터 구조가 바뀜)
 
-// 네비게이터 렌더링
 navigator.renderComponent();
