@@ -31,11 +31,6 @@ export const resetForm = $form => {
   $form.reset();
 }
 
-export const setHeadTagAttribute = (title, styleFilePath) => {
-  $('link').setAttribute('href', styleFilePath);
-  $('title').textContent = title;
-};
-
 export const setTurnRedAnimation = $element => {
   $element.classList.add('turn-red');
   $element.classList.remove('cancel-red');

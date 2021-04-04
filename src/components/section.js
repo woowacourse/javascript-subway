@@ -25,7 +25,6 @@ export default class Section extends Observer {
   }
 
   renderPage() {
-    setHeadTagAttribute(PAGE_TITLE.SECTIONS, FILE_PATH.SECTIONS_CSS);
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }
 

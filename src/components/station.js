@@ -20,7 +20,6 @@ export default class Station extends Observer {
   }
 
   renderPage() {
-    setHeadTagAttribute(PAGE_TITLE.STATIONS, FILE_PATH.STATIONS_CSS);
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }
 

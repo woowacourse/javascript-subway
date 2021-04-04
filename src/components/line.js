@@ -16,7 +16,6 @@ export default class Line extends Observer {
   }
 
   renderPage() {
-    setHeadTagAttribute(PAGE_TITLE.LINES, FILE_PATH.LINES_CSS);
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }
 
