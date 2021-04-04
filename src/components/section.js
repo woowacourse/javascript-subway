@@ -24,6 +24,10 @@ export default class Section extends Observer {
     this.#targetLine = null;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }

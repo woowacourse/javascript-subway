@@ -11,6 +11,10 @@ export default class Login {
     this.#parentSelector = parentSelector;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }

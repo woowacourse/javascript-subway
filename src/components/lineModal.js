@@ -18,6 +18,10 @@ export default class LineModal extends Observer {
 
   renderPage() {}
 
+  update() {
+    this.renderComponent();
+  }
+
   renderComponent() {
     const modal = $(this.#parentSelector);
     if (!modal) return;

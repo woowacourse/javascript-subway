@@ -19,6 +19,10 @@ export default class Station extends Observer {
     this.#state = state;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }

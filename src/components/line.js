@@ -15,6 +15,10 @@ export default class Line extends Observer {
     this.#state = state;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {
     $(this.#parentSelector).innerHTML = this.#getWrapperTemplate();
   }

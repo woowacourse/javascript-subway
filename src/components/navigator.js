@@ -14,6 +14,10 @@ export default class Navigator extends Observer {
     this.#state = state;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {}
 
   renderComponent() {

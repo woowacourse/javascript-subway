@@ -1,19 +1,13 @@
-import { STATE_KEY } from "../constants";
-
 export default class Subject {
   constructor() {
-    this.observers = {
-      [STATE_KEY.STATION_LIST]: [],
-      [STATE_KEY.LINE_LIST]: [],
-      [STATE_KEY.IS_LOGGED_IN]: [],
-      [STATE_KEY.TARGET_LINE_ID]: [],
-      [STATE_KEY.TARGET_SECTION_LINE_ID]: [],
-      [STATE_KEY.TARGET_MENU]: [],
-    };
+    this.observers = {};
   }
 
   subscribe(key, observer) {
     const newObservers = Object.assign({}, this.observers);
+    if (!newObservers[key]) {
+      newObservers[key] = [];
+    }
     newObservers[key] = [...newObservers[key], observer];
 
     this.observers = newObservers;
@@ -28,14 +22,14 @@ export default class Subject {
 
   notify(key) {
     if (this.observers[key].length > 0) {
-      this.observers[key].forEach(observer => observer.renderComponent());
+      this.observers[key].forEach(observer => observer.update());
     }
   }
 
   notifyAll() {
     Object.keys(this.observers).forEach(key => {
       if (this.observers[key].length > 0) {
-        this.observers[key].forEach(observer => observer.renderComponent());
+        this.observers[key].forEach(observer => observer.update());
       }
     });
   }

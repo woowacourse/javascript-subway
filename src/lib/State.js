@@ -7,7 +7,7 @@ import Subject from './Subject.js';
 export default class State extends Subject {
   #state;
 
-  constructor() {
+  constructor(observers) {
     super();
     this.#state = {
       [STATE_KEY.USER_NAME]: SETTINGS.NOT_INITIATED_NAME,

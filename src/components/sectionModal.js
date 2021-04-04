@@ -15,6 +15,10 @@ export default class SectionModal extends Observer {
     this.#parentSelector = parentSelector;
   }
 
+  update() {
+    this.renderComponent();
+  }
+
   renderPage() {}
 
   renderComponent() {
