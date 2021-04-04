@@ -3,11 +3,10 @@ import delegateSignUpSubmitEvent from '../delegators/signup.js';
 import { $ } from '../utils/dom.js';
 
 export default class SignUp {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`;
   #parentSelector;
 
-  constructor(targetSelector = `#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
-    this.#targetSelector = targetSelector;
+  constructor(parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     this.#parentSelector = parentSelector;
   }
 

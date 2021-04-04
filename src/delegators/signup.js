@@ -11,7 +11,7 @@ function delegateSignUpSubmitEvent(event) {
 
 function onSignUpFormSubmit(target) {
   const { email, name, password, confirm } = target;
-  if (!isPasswordCheckMatched(password.value, confirm.value)) {
+  if (!checkpasswordMatched(password.value, confirm.value)) {
     alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
     return;
   }
@@ -25,7 +25,7 @@ function onSignUpFormSubmit(target) {
     });
 }
 
-function isPasswordCheckMatched(password, passwordConfirm) {
+function checkpasswordMatched(password, passwordConfirm) {
   return password === passwordConfirm;
 }
 

@@ -1,6 +1,6 @@
 import { PATH } from '../constants';
 
-const registration = {}
+const pageComponents = {}
 
 const router = {
   initRouteEvent() {
@@ -12,16 +12,18 @@ const router = {
   },
 
   register(path, component) {
-    if (!registration[path]) {
-      registration[path] = [component];
+    if (!pageComponents[path]) {
+      pageComponents[path] = [component];
       return;
     }
-    registration[path].push(component);
+    pageComponents[path].push(component);
   },
 
   navigate(path) {
-    registration[path].forEach(component => {
-      component.renderPage();
+    pageComponents[path].forEach(component => {
+      if (component.renderPage) {
+        component.renderPage();
+      }
       component.renderComponent();
     });
   }

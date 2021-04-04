@@ -17,21 +17,19 @@ import SectionModal from './components/sectionModal';
 state.initState();
 
 // 앱 컴포넌트 생성
-const main = new Main(state, `#${SELECTOR_ID.GUIDE_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const station = new Station(state, `#${SELECTOR_ID.STATION_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const line = new Line(state, `#${SELECTOR_ID.LINE_LIST}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const lineModal = new LineModal(state, `#${SELECTOR_ID.LINE_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
+const main = new Main(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const station = new Station(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const line = new Line(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const lineModal = new LineModal(state, `.${SELECTOR_CLASS.MODAL}`);
 const section = new Section(
   state,
-  `#${SELECTOR_ID.SECTION_LINE}`,
-  `#${SELECTOR_ID.SECTION_STATION_LIST}`,
   `#${SELECTOR_ID.MAIN_CONTAINER}`
 );
-const sectionModal = new SectionModal(state, `#${SELECTOR_ID.SECTION_FORM}`, `.${SELECTOR_CLASS.MODAL}`);
-const subway = new Subway(state, `#${SELECTOR_ID.SUBWAY_MAP}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
-const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const sectionModal = new SectionModal(state, `.${SELECTOR_CLASS.MODAL}`);
+const subway = new Subway(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
+const login = new Login(`#${SELECTOR_ID.MAIN_CONTAINER}`);
+const signUp = new SignUp(`#${SELECTOR_ID.MAIN_CONTAINER}`);
+const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`);
 
 // 라우팅 등록
 router.register(PATH.STATIONS, station);

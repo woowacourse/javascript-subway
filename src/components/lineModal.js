@@ -5,18 +5,15 @@ import { $ } from '../utils/dom.js';
 import { colorOptions } from '../utils/mock.js';
 
 export default class LineModal extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.LINE_FORM}`;
   #parentSelector;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.LINE_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
+  constructor(state, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();
     this.#parentSelector = parentSelector;
-    this.#targetSelector = targetSelector;
     this.#state = state;
   }
-
-  renderPage() {}
 
   renderComponent() {
     const modal = $(this.#parentSelector);

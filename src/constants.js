@@ -47,7 +47,7 @@ export const SELECTOR_ID = Object.freeze({
 
 // TODO : BEM 일괄 적용
 export const SELECTOR_CLASS = Object.freeze({
-  NAVIGATOR_BUTTON: 'js-navigator__button',
+  NAVIGATOR_BUTTON: 'navigator__button',
   STATION_LIST_ITEM: 'station-list__item',
   STATION_LIST_ITEM_NAME: 'station-list__item-name',
   STATION_LIST_ITEM_INPUT: 'station-list__item-input',
