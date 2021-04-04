@@ -120,9 +120,11 @@ export default class Section extends Observer {
       const upStationPoint = document.createElement("span");
       upStationPoint.setAttribute("class", SELECTOR_CLASS.UP_STATION_POINT);
       upStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+
       const stationConnection = document.createElement("span");
       stationConnection.setAttribute("class", SELECTOR_CLASS.STATION_CONNECTION);
       stationConnection.setAttribute("style", `background-color: ${targetLineColor};`);
+      
       const downStationPoint = document.createElement("span");
       downStationPoint.setAttribute("class", SELECTOR_CLASS.DOWN_STATION_POINT);
       downStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);

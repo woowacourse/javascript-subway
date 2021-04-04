@@ -1,8 +1,8 @@
-import { SESSION_STORAGE_KEY } from "../constants";
+import { SESSION_STORAGE_KEY, URL } from "../constants";
 import { sessionStore } from "../utils/utils";
 
 export const requestLoginToken = async (email, password) => {
-  const response = await fetch(`${API_END_POINT}/login/token`, {
+  const response = await fetch(`${URL.BASE_URL}/login/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -18,7 +18,7 @@ export const requestLoginToken = async (email, password) => {
 };
 
 export const requestSignUp = async (email, name, password) => {
-  const response = await fetch(`${API_END_POINT}/members`, {
+  const response = await fetch(`${URL.BASE_URL}/members`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -34,7 +34,7 @@ export const requestSignUp = async (email, name, password) => {
 export const requestUserName = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/members/me`, {
+  const response = await fetch(`${URL.BASE_URL}/members/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,

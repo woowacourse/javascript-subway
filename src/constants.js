@@ -180,3 +180,7 @@ export const SETTINGS = Object.freeze({
   NOT_INITIATED_NAME: '',
   SELECTED_MENU_COLOR: 'bg-cyan-200',
 });
+
+export const URL = Object.freeze({
+  BASE_URL: 'https://www.boorownie.com',
+});

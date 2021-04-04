@@ -1,10 +1,10 @@
 import { sessionStore } from '../utils/utils.js';
-import { SESSION_STORAGE_KEY } from '../constants.js';
+import { SESSION_STORAGE_KEY, URL } from '../constants.js';
 
 export const requestStationRegistration = async stationName => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/stations`, {
+  const response = await fetch(`${URL.BASE_URL}/stations`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -25,7 +25,7 @@ export const requestStationRegistration = async stationName => {
 export const requestStationList = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/stations`, {
+  const response = await fetch(`${URL.BASE_URL}/stations`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -43,7 +43,7 @@ export const requestStationList = async () => {
 export const requestStationDelete = async stationId => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/stations/${stationId}`, {
+  const response = await fetch(`${URL.BASE_URL}/stations/${stationId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -58,7 +58,7 @@ export const requestStationDelete = async stationId => {
 export const requestStationUpdate = async (stationId, stationName) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/stations/${stationId}`, {
+  const response = await fetch(`${URL.BASE_URL}/stations/${stationId}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,

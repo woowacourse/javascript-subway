@@ -1,4 +1,4 @@
-import { SELECTOR_CLASS, SELECTOR_ID, PAGE_TITLE, FILE_PATH, STATE_KEY, SELECTOR_NAME, CONFIRM_MESSAGE, STYLE_CLASS } from '../constants.js';
+import { SELECTOR_CLASS, SELECTOR_ID, PAGE_TITLE, FILE_PATH, STATE_KEY, STYLE_CLASS } from '../constants.js';
 import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
 import { delegateLineClickEvent } from '../delegators/line.js';
@@ -47,7 +47,6 @@ export default class Line extends Observer {
     return this.#state.get(STATE_KEY.LINE_LIST).map(this.#getLineTemplate).join('');
   }
 
-  // TODO : line, lineItem, lineListItem, subwayLine 중 네이밍 통일
   #getLineTemplate(line) {
     return `
       <li data-line-id="${line.id}" class="${SELECTOR_CLASS.LINE_LIST_ITEM} ${STYLE_CLASS.HOVER} d-flex items-center py-2 relative">

@@ -1,5 +1,4 @@
 import { STATE_KEY } from "../constants";
-import { $ } from '../utils/dom.js';
 
 export default class Subject {
   constructor() {

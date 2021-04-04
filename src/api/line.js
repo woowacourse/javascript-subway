@@ -1,10 +1,10 @@
-import { SESSION_STORAGE_KEY } from '../constants.js';
+import { SESSION_STORAGE_KEY, URL } from '../constants.js';
 import { sessionStore } from '../utils/utils.js';
 
 export const requestLineRegistration = async line => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines`, {
+  const response = await fetch(`${URL.BASE_URL}/lines`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -39,7 +39,7 @@ export const requestLineRegistration = async line => {
 export const requestLineList = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines`, {
+  const response = await fetch(`${URL.BASE_URL}/lines`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -67,7 +67,7 @@ export const requestLineList = async () => {
 export const requestLineDelete = async lineId => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${lineId}`, {
+  const response = await fetch(`${URL.BASE_URL}/lines/${lineId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -82,7 +82,7 @@ export const requestLineDelete = async lineId => {
 export const requestLineUpdate = async (newline) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${newline.id}`, {
+  const response = await fetch(`${URL.BASE_URL}/lines/${newline.id}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,

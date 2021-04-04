@@ -1,10 +1,10 @@
-import { SESSION_STORAGE_KEY } from '../constants.js';
+import { SESSION_STORAGE_KEY, URL } from '../constants.js';
 import { sessionStore } from '../utils/utils.js';
 
 export const requestSectionRegistration = async (line, section) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${line.id}/sections`, {
+  const response = await fetch(`${URL.BASE_URL}/lines/${line.id}/sections`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -21,7 +21,7 @@ export const requestSectionRegistration = async (line, section) => {
 export const requestSectionDelete = async (lineId, stationId) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${lineId}/sections?stationId=${stationId}`, {
+  const response = await fetch(`${URL.BASE_URL}/lines/${lineId}/sections?stationId=${stationId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,

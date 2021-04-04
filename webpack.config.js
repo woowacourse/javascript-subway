@@ -6,7 +6,7 @@ const path = require('path');
 dotenv.config();
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     path: path.join(__dirname, 'dist'),
