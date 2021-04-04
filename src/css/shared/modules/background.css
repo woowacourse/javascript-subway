@@ -1,10 +1,15 @@
 /* Background Color */
 #subway-line-color-preview {
-  height: 50px;
-  width: 100%;
-  border-radius: 0.3rem;
-  margin: 0 0 1rem 0;
+  height: 30px;
+  width: 50%;
+  border-radius: 2rem;
+  margin: 0.5rem auto;
   border: 1px solid lightgray;
+}
+
+.color-preview {
+  text-align: center;
+  margin: 0 0.25rem;
 }
 
 [data-bg-color='transparent'],

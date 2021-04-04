@@ -1,6 +1,6 @@
 const lineListItem = ({ id, color, name }) => {
   return `
-    <li class="js-line-item d-flex items-center py-2 relative" data-id="${id}">
+    <li class="js-line-item line-item d-flex items-center py-2 relative" data-id="${id}">
       <span class="subway-line-color-dot bg-${color}"></span>
       <span class="w-100 pl-6 subway-line-list-item-name">${name}</span>
       <button
@@ -21,10 +21,10 @@ const mainTemplate = (lines) => {
         <button
           type="button"
           class="js-line-item__create create-line-btn bg-cyan-300 ml-2"
-        >노선 추가</button>
+        ><i class="fa fa-plus"></i></button>
       </div>
       <ul class="js-line-list mt-3 pl-0">
-        ${lines.map(lineListItem).join('')}
+        ${lines.map(lineListItem).reverse().join('')}
       </ul>
     </div>
   `;

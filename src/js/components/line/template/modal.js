@@ -11,7 +11,7 @@ const subwayLineColorOptionTemplate = (color, index) => {
 
 const lineFormDetail = (stations) => `
   <div class="js-line-form__detail">
-    <div class="d-flex items-center input-control">
+    <div class="d-flex items-center input-control mb-2">
       <label for="up-station" class="input-label" hidden>상행역</label>
       <select id="up-station" name="subway-line-up-station" class="mr-2">
         <option value="" selected disabled hidden>상행역</option>
@@ -29,7 +29,7 @@ const lineFormDetail = (stations) => `
           .join('')}
       </select>
     </div>
-    <div class="input-control">
+    <div class="input-control mb-2">
       <label for="distance" class="input-label" hidden
         >상행 하행역 거리</label>
       <input
@@ -68,7 +68,7 @@ const linesModal = () => {
           <h2 class="text-center" id="line-title">🛤️ 노선 추가</h2>
         </header>
         <form id="line-form">
-          <div class="input-control">
+          <div class="input-control mb-2">
             <label for="subway-line-name" class="input-label" hidden
               >노선 이름</label
             >
@@ -82,7 +82,7 @@ const linesModal = () => {
             />
           </div>
           <div class="js-line-detail-container"></div>
-          <div class="input-control">
+          <div class="input-control mb-2">
             <div>
               <label for="subway-line-color" class="input-label" hidden
                 >색상</label
@@ -97,7 +97,7 @@ const linesModal = () => {
               />
             </div>
           </div>
-          <div class="color-preview mt-3">
+          <div class="color-preview">
             색상을 아래에서 선택해주세요.
             <div id="subway-line-color-preview"></div>
           </div>
