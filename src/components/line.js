@@ -4,13 +4,12 @@ import { $, setHeadTagAttribute } from '../utils/dom.js';
 import { delegateLineClickEvent } from '../delegators/line.js';
 
 export default class Line extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.LINE_LIST}`;
   #parentSelector;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.LINE_LIST}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
+  constructor(state, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
     this.#state = state;
   }

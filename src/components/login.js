@@ -3,11 +3,10 @@ import { delegateLoginClickEvent, delegateLoginSubmitEvent } from '../delegators
 import { $ } from '../utils/dom.js';
 
 export default class Login {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.LOG_IN_FORM}`;
   #parentSelector;
 
-  constructor(targetSelector = `#${SELECTOR_ID.LOG_IN_FORM}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
-    this.#targetSelector = targetSelector;
+  constructor(parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     this.#parentSelector = parentSelector;
   }
 

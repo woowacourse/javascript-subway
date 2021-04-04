@@ -4,21 +4,14 @@ import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
 
 export default class Section extends Observer {
-  #lineListSelector;
-  #stationListSelector;
+  #lineListSelector = `#${SELECTOR_ID.SECTION_LINE}`;
+  #stationListSelector = `#${SELECTOR_ID.SECTION_STATION_LIST}`;
   #parentSelector;
   #state;
 
-  constructor(
-    state,
-    lineListSelector = `#${SELECTOR_ID.SECTION_LINE}`,
-    stationListSelector = `#${SELECTOR_ID.SECTION_STATION_LIST}`,
-    parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
-  ) {
+  constructor(state, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
     this.#state = state;
-    this.#lineListSelector = lineListSelector;
-    this.#stationListSelector = stationListSelector;
     this.#parentSelector = parentSelector;
   }
 
@@ -31,11 +24,11 @@ export default class Section extends Observer {
     const lineListContainer = $(this.#lineListSelector);
     const stationListContainer = $(this.#stationListSelector);
     if (!lineListContainer || !stationListContainer) return;
-    
+
     const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const initialTargetLine = lineList.find(line => line.id === targetSectionLineId);
-    const [targetLine] = initialTargetLine ? [initialTargetLine] : lineList
+    const [targetLine] = initialTargetLine ? [initialTargetLine] : lineList;
     lineListContainer.innerHTML = this.#getLineSelectTemplate(lineList, targetLine);
     stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
     this.#initEvents();
@@ -46,7 +39,7 @@ export default class Section extends Observer {
     const $lineSelect = $(`#${SELECTOR_ID.SECTION_LINE_SELECT}`);
     $lineSelect.addEventListener('change', () => {
       this.#state.update(STATE_KEY.TARGET_SECTION_LINE_ID, Number($lineSelect.value));
-    })
+    });
   }
 
   #getWrapperTemplate() {
@@ -71,18 +64,22 @@ export default class Section extends Observer {
   #getLineSelectTemplate(lineList, targetLine) {
     return `
       <label for="${SELECTOR_ID.SECTION_LINE_SELECT}" class="input-label" hidden>노선</label>
-      ${targetLine ? 
-        `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
-          ${lineList.map(line => {
-            const isSelected = line.id === targetLine.id;
-            return this.#getLineOptionsTemplate(line, isSelected);
-          }).join("")}
-        </select>` : 
-        `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" disabled>
+      ${
+        targetLine
+          ? `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" class="${targetLine.color}">
+          ${lineList
+            .map(line => {
+              const isSelected = line.id === targetLine.id;
+              return this.#getLineOptionsTemplate(line, isSelected);
+            })
+            .join('')}
+        </select>`
+          : `<select id="${SELECTOR_ID.SECTION_LINE_SELECT}" disabled>
           <option>현재 생성된 노선이 없습니다</option>
-        </select>`}
+        </select>`
+      }
       
-    `
+    `;
   }
 
   #getLineOptionsTemplate(line, isSelected) {

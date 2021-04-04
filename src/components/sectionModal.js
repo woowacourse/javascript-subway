@@ -4,18 +4,15 @@ import Observer from "../lib/Observer";
 import { $ } from '../utils/dom.js';
 
 export default class SectionModal extends Observer {
-  #targetSelector;
-  #parentSelector;
+  #parentSelector
+  #targetSelector = `#${SELECTOR_ID.SECTION_FORM}`;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.SECTION_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
+  constructor(state, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();
     this.#state = state;
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
   }
-
-  renderPage() {}
 
   renderComponent() {
     const modal = $(this.#parentSelector);

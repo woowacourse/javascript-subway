@@ -13,8 +13,6 @@ export default class Navigator extends Observer {
     this.#state = state;
   }
 
-  renderPage() {}
-
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
     this.#initEvents();

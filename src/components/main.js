@@ -3,17 +3,15 @@ import Observer from '../lib/Observer.js';
 import { $ } from '../utils/dom.js';
 
 export default class Main extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.GUIDE_WRAPPER}`;
   #parentSelector;
   #state;
 
   constructor(
     state,
-    targetSelector = `#${SELECTOR_ID.GUIDE_WRAPPER}`,
     parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
   ) {
     super();
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
     this.#state = state;
   }

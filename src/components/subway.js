@@ -3,13 +3,12 @@ import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
 
 export default class Subway extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.SUBWAY_MAP}`;
   #parentSelector;
   #state;
 
-  constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_MAP}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
+  constructor(state, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
     this.#state = state;
   }

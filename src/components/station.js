@@ -1,20 +1,27 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, STYLE_CLASS } from '../constants';
+import {
+  FILE_PATH,
+  PAGE_TITLE,
+  SELECTOR_CLASS,
+  SELECTOR_ID,
+  SELECTOR_NAME,
+  STATE_KEY,
+  STYLE_CLASS,
+} from '../constants';
 import Observer from '../lib/Observer';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
-import { delegateStationClickEvent, delegateStationFocusOutEvent, delegateStationSubmitEvent } from '../delegators/station.js';
+import {
+  delegateStationClickEvent,
+  delegateStationFocusOutEvent,
+  delegateStationSubmitEvent,
+} from '../delegators/station.js';
 
 export default class Station extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.STATION_LIST}`;
   #parentSelector;
   #state;
 
-  constructor(
-    state,
-    targetSelector = `#${SELECTOR_ID.STATION_LIST}`,
-    parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
-  ) {
+  constructor(state, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
     this.#state = state;
   }
