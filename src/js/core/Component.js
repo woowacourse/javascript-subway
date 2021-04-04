@@ -4,6 +4,7 @@ class Component {
     this.stateManagers = stateManagers;
     this.childComponents = childComponents;
     this.state = state;
+    this.requestType = '';
   }
 
   setState(state) {
@@ -33,9 +34,7 @@ class Component {
     });
   }
 
-  clear() {
-    this.parentNode.innerHTML = '';
-  }
+  fetchState() {}
 }
 
 export default Component;

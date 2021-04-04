@@ -1,55 +1,68 @@
 import getSubwayState from '../../api/apis.js';
 import getFetchParams from '../../api/getFetchParams.js';
-import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
-import { $ } from '../../utils/DOM.js';
 import request from '../../utils/request.js';
-import Modal from './modal.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
+import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import Modal from './modal.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
     super(
       parentNode,
       stateManagers,
       { modal: new Modal($('.js-modal'), stateManagers) },
-      {
-        stations: [],
-        lines: [],
-      }
+      { stations: [], lines: [] }
     );
-
     this.setChildProps('modal', {
       updateSubwayState: this.updateSubwayState.bind(this),
     });
   }
 
   renderSelf() {
-    const lines = this.state.lines;
-    this.parentNode.innerHTML = mainTemplate(lines);
+    this.parentNode.innerHTML = mainTemplate(this.state.lines);
   }
 
   addEventListeners() {
+    this.createLineEvent();
+    this.editOrDeleteLineEvent();
+  }
+
+  createLineEvent() {
     $('.js-line-item__create').addEventListener('click', () => {
       this.childComponents.modal.show();
       this.childComponents.modal.clearForm();
-      this.childComponents.modal.submitType = 'post';
+      this.childComponents.modal.requestType = 'post';
       $('.js-line-detail-container').innerHTML = lineFormDetail(
         this.state.stations
       );
     });
+  }
+
+  editOrDeleteLineEvent() {
+    // edit이라는 독자적인 행위인데 create에 영향을 받음.
+    // create도 마찬가지 .
+    // 지우고 그려줘야 한다. -> 이상하네.
+    // 이걸 해결해야 함.
+    // 이게 해결되지 못한다면 모달을 두개 나눠야 하는 편이 좋다.
+    // 이걸 가장 간단하게 해결하는 방법이 모달 2개로 만드는 것.
+    // 하나로 해도 해결을 할 수는 있겠지만 .. ㅎㅎㅎ
+    // Template 안에서 해결할 수 있는 편이 좋다.
 
     $('.js-line-list').addEventListener('click', async ({ target }) => {
+      // 노선 관리 -- Edit
       if (target.classList.contains('js-line-item__edit')) {
         this.childComponents.modal.show();
-        this.childComponents.modal.submitType = 'put';
+        this.childComponents.modal.requestType = 'put';
         $('.js-line-form__detail')?.remove();
 
         const id = target.closest('.js-line-item').dataset.id;
         this.childComponents.modal.setTargetId(id);
       }
 
+      // 노선 관리 -- Delete
       if (target.classList.contains('js-line-item__delete')) {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
@@ -59,7 +72,6 @@ class Line extends Component {
           path: `${PATH.LINES}/${id}`,
           accessToken,
         });
-
         try {
           const response = await request.delete(params);
 

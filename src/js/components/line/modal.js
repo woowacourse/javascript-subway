@@ -1,14 +1,14 @@
-import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
+import { PATH } from '../../constants/url.js';
 import { linesModal } from './template/modal.js';
 import request from '../../utils/request.js';
-import { PATH } from '../../constants/url.js';
 import getFetchParams from '../../api/getFetchParams.js';
+import ModalComponent from '../../core/ModalComponent.js';
 
 class Modal extends ModalComponent {
   constructor(parentNode, stateManagers) {
     super(parentNode, stateManagers);
-    this.submitType = 'post';
+    this.requestType = 'post';
   }
 
   renderSelf() {
@@ -36,7 +36,7 @@ class Modal extends ModalComponent {
       const lineColor = e.target['subway-line-color'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      switch (this.submitType) {
+      switch (this.requestType) {
         case 'post':
           this.createLine(e.target, name, lineColor, accessToken);
           break;
@@ -66,6 +66,7 @@ class Modal extends ModalComponent {
         distance,
         duration,
       },
+
       accessToken,
     });
 
@@ -87,7 +88,7 @@ class Modal extends ModalComponent {
 
   async getResponse(params) {
     try {
-      const response = await request[this.submitType](params);
+      const response = await request[this.requestType](params);
 
       if (!response.ok) throw Error(await response.text());
 
