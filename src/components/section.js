@@ -4,10 +4,10 @@ import Observer from '../lib/Observer.js';
 import { $, setHeadTagAttribute } from '../utils/dom.js';
 
 export default class Section extends Observer {
+  #state;
   #lineListSelector;
   #stationListSelector;
   #parentSelector;
-  #state;
   #targetLine;
 
   constructor(

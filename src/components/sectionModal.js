@@ -4,9 +4,9 @@ import Observer from "../lib/Observer";
 import { $ } from '../utils/dom.js';
 
 export default class SectionModal extends Observer {
+  #state;
   #targetSelector;
   #parentSelector;
-  #state;
 
   constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_SECTION_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();

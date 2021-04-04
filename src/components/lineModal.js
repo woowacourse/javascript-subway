@@ -5,15 +5,15 @@ import { $ } from '../utils/dom.js';
 import { colorOptions, rotateMatrix } from '../utils/mock.js';
 
 export default class LineModal extends Observer {
+  #state;
   #targetSelector;
   #parentSelector;
-  #state;
 
   constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_LINE_FORM}`, parentSelector = `.${SELECTOR_CLASS.MODAL}`) {
     super();
-    this.#parentSelector = parentSelector;
-    this.#targetSelector = targetSelector;
     this.#state = state;
+    this.#targetSelector = targetSelector;
+    this.#parentSelector = parentSelector;
   }
 
   renderPage() {}
