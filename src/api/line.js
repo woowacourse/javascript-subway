@@ -1,23 +1,21 @@
 import { SESSION_STORAGE_KEY } from '../constants.js';
 import { sessionStore } from '../utils/utils.js';
+import request from './request.js'
 
 export const requestLineRegistration = async line => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-    body: JSON.stringify({
+  const response = await request.post({
+    url: `${API_END_POINT}/lines`,
+    token: accessToken,
+    bodyContent: {
       name: line.name,
       color: line.color,
       upStationId: Number(line.upStationId),
       downStationId: Number(line.downStationId),
       distance: Number(line.distance),
       duration: Number(line.duration),
-    }),
+    }
   });
 
   const newLine = await response.json();
@@ -39,12 +37,9 @@ export const requestLineRegistration = async line => {
 export const requestLineList = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
+  const response = await request.get({
+    url: `${API_END_POINT}/lines`,
+    token: accessToken
   });
 
   const newLineList = await response.json();
@@ -53,25 +48,21 @@ export const requestLineList = async () => {
     throw new Error('역 등록 실패');
   }
 
-  return newLineList.map(line => {
-    return {
-      id: Number(line.id),
-      name: line.name,
-      color: line.color,
-      stations: line.stations,
-      sections: line.sections,    
-    };
-  });
+  return newLineList.map(line => ({
+    id: Number(line.id),
+    name: line.name,
+    color: line.color,
+    stations: line.stations,
+    sections: line.sections,    
+  }));
 };
 
 export const requestLineDelete = async lineId => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${lineId}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  const response = await request.delete({
+    url: `${API_END_POINT}/lines/${lineId}`,
+    token: accessToken
   });
 
   if (!response.ok) {
@@ -82,18 +73,14 @@ export const requestLineDelete = async lineId => {
 export const requestLineUpdate = async (newline) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
-  const response = await fetch(`${API_END_POINT}/lines/${newline.id}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-    body: JSON.stringify({
+  const response = await request.put({
+    url: `${API_END_POINT}/lines/${newline.id}`,
+    token: accessToken,
+    bodyContent: {
       name: newline.name,
       color: newline.color,
-    }),
+    }
   });
-
   if (!response.ok) {
     throw new Error('역 수정 실패');
   }
