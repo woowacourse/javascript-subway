@@ -12,7 +12,7 @@ import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
-import { getMemberInfo } from "../APIs/subwayAPI.js";
+import { getMemberInfo } from "../APIs/index.js";
 
 export default class App {
   constructor() {

@@ -1,5 +1,5 @@
 import Component from "./common/Component.js";
-import { loginAPI } from "../APIs/subwayAPI.js";
+import { loginAPI } from "../APIs/index.js";
 
 import { $, $$ } from "../utils/DOM.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";

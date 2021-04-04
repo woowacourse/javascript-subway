@@ -1,4 +1,4 @@
-import { addLineAPI, modifyLineAPI } from "../APIs/subwayAPI.js";
+import { addLineAPI, modifyLineAPI } from "../APIs/index.js";
 import {
   TOKEN_STORAGE_KEY,
   SPACE_REG_EXP,

@@ -1,6 +1,6 @@
 import Component from "./common/Component.js";
 
-import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
+import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/index.js";
 
 import { $, $$, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";

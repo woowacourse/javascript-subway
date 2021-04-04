@@ -4,24 +4,19 @@ import {
   deleteSectionAPI,
   getLinesAPI,
   getStationsAPI,
-} from "../APIs/subwayAPI.js";
+} from "../APIs/index.js";
 
 import { $, removeAllChildren } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
-import { createStationListItem } from "../constants/template.js";
+import {
+  createStationListItem,
+  createLineSelectOption,
+} from "../constants/template.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
-
-const createLineSelectOption = (lineData) => {
-  const { id, name } = lineData;
-
-  return `
-    <option value="${id}">${name}</option>
-  `;
-};
 
 export default class Sections extends Component {
   constructor({ $parent, setPageState }) {

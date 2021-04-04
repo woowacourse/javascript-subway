@@ -10,17 +10,17 @@ import {
 } from "../constants/general.js";
 import { CONFIRM_MESSAGE, ERROR_MESSAGE } from "../constants/messages.js";
 import { createStationListItem } from "../constants/template.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 import {
   addStationAPI,
   deleteStationAPI,
   getStationsAPI,
-} from "../APIs/subwayAPI.js";
+} from "../APIs/index.js";
 
 import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
-import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 
 export default class Stations extends Component {
   constructor({ $parent, setPageState }) {

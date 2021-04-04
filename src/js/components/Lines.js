@@ -1,61 +1,15 @@
 import Component from "./common/Component.js";
 import LineModal from "./LineModal.js";
-import {
-  getLinesAPI,
-  deleteLineAPI,
-  getStationsAPI,
-} from "../APIs/subwayAPI.js";
+import { getLinesAPI, deleteLineAPI, getStationsAPI } from "../APIs/index.js";
+
 import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
+import { createLineListItemTemplate } from "../constants/template.js";
+
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import { $ } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
-import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
-
-const createLineListItem = (line) => {
-  const upStation = line.sections[0].upStation.name;
-  const downStation = line.sections[line.sections.length - 1].downStation.name;
-  const duration = line.sections.reduce(
-    // eslint-disable-next-line no-return-assign
-    (sum, station) => (sum += station.duration),
-    0
-  );
-  const distance = line.sections.reduce(
-    // eslint-disable-next-line no-return-assign
-    (sum, station) => (sum += station.distance),
-    0
-  );
-
-  return `
-    <li 
-      data-line-id="${line.id}"
-      data-line-name="${line.name}"
-      data-line-color="${line.color}"
-      class="js-line-list-item py-2 relative border-b-gray"
-      >
-      <div class="d-flex items-center">
-        <span class="js-line-color-dot subway-line-color-dot ${line.color}"></span>
-        <span class="js-line-name w-100 pl-6 subway-line-list-item-name">${line.name}</span>
-        <button
-          type="button"
-          class="js-modify-line-btn bg-gray-50 text-gray-500 text-sm mr-1"
-        >
-          수정
-        </button>
-        <button
-          type="button"
-          class="js-delete-line-btn bg-gray-50 text-gray-500 text-sm"
-        >
-          삭제
-        </button>
-      </div>
-
-      <div class="js-line-info d-flex d-none pl-3">
-        <p>${upStation} ➡️ 거리: ${distance} / 소요시간: ${duration} ➡️ ${downStation}</p>
-      </div>
-    </li>
-  `;
-};
 
 export default class Lines extends Component {
   constructor({ $parent, setPageState }) {
@@ -116,7 +70,7 @@ export default class Lines extends Component {
   addLine(lineData) {
     this.$lineList.insertAdjacentHTML(
       "beforeend",
-      createLineListItem(lineData)
+      createLineListItemTemplate(lineData)
     );
     this.render();
   }
@@ -185,7 +139,8 @@ export default class Lines extends Component {
         : PAGE_URLS[PAGE_KEYS.LOGIN],
     });
     this.$lineList.innerHTML = loadedLines.lines.reduce(
-      (lineListHTML, line) => `${lineListHTML}\n${createLineListItem(line)}`,
+      (lineListHTML, line) =>
+        `${lineListHTML}\n${createLineListItemTemplate(line)}`,
       ""
     );
     this.lineModal.renderSelectOption(loadedStations.stations);

@@ -1,5 +1,5 @@
 import Modal from "./common/Modal.js";
-import { addSectionAPI } from "../APIs/subwayAPI.js";
+import { addSectionAPI } from "../APIs/index.js";
 import { $, $$, removeAllChildren } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
