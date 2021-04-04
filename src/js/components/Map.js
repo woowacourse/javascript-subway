@@ -5,32 +5,33 @@ import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 import { $, removeAllChildren } from "../utils/DOM.js";
 
-const createSectionTemplate = (section, index, color) => {
+const createSectionTemplate = (station, section = {}, color) => {
   return `
+    <li class="map-station"><span class="${color}"></span>${station.name}</li>
     ${
-      index === 0
-        ? `<li class="map-station"><span class="${color}"></span>${section.upStation.name}</li>`
+      section.distance
+        ? `<li class="map-section-info">
+      시간 : ${section.duration} / 거리 : ${section.distance}
+    </li>`
         : ""
     }
-    <li class="map-section-info">
-      시간 : ${section.duration} / 거리 : ${section.distance}
-    </li>
-    <li class="map-station">
-      <span class="${color}"></span>
-      ${section.downStation.name}
-    </li>
   `;
 };
 
 const createLineTemplate = (line) => {
+  const sections = {};
+  line.sections.forEach((section) => {
+    sections[section.upStation.name] = section;
+  });
+
   return `
     <section class="js-map-line-wrapper">
       <h3 class="map-line-name mt-3">
         ${line.name}
       </h3>
       <ol class="map-line-list">
-        ${line.sections
-          .map((v, i) => createSectionTemplate(v, i, line.color))
+        ${line.stations
+          .map((v) => createSectionTemplate(v, sections[v.name], line.color))
           .join("")}
       </ol>
     </section>
