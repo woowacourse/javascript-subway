@@ -5,13 +5,13 @@ import { state } from '../store.js';
 import { $ } from '../utils/dom.js';
 
 export default class Navigator extends Observer {
-  #targetSelector;
   #state;
+  #targetSelector;
 
   constructor(state, targetSelector = `#${SELECTOR_ID.NAVIGATOR}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#state = state;
+    this.#targetSelector = targetSelector;
   }
 
   update() {

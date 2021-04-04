@@ -4,9 +4,9 @@ import { $, setHeadTagAttribute } from '../utils/dom.js';
 import { delegateStationClickEvent, delegateStationFocusOutEvent, delegateStationSubmitEvent } from '../delegators/station.js';
 
 export default class Station extends Observer {
+  #state;
   #targetSelector;
   #parentSelector;
-  #state;
 
   constructor(
     state,
@@ -14,9 +14,9 @@ export default class Station extends Observer {
     parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
   ) {
     super();
+    this.#state = state;
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
-    this.#state = state;
   }
 
   update() {

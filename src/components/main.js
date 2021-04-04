@@ -4,9 +4,9 @@ import { requestUserName } from '../api/member.js';
 import { $ } from '../utils/dom.js';
 
 export default class Main extends Observer {
+  #state;
   #targetSelector;
   #parentSelector;
-  #state;
 
   constructor(
     state,
@@ -14,9 +14,9 @@ export default class Main extends Observer {
     parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
   ) {
     super();
+    this.#state = state;
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
-    this.#state = state;
   }
 
   update() {

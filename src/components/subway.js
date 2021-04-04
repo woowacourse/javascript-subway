@@ -3,15 +3,15 @@ import Observer from '../lib/Observer.js';
 import { $ } from '../utils/dom.js';
 
 export default class Subway extends Observer {
+  #state;
   #targetSelector;
   #parentSelector;
-  #state;
 
   constructor(state, targetSelector = `#${SELECTOR_ID.SUBWAY_MAP_CONTAINER}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
+    this.#state = state;
     this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
-    this.#state = state;
   }
 
   update() {

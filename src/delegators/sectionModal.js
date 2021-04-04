@@ -25,7 +25,7 @@ async function onSectionItemRegister(target) {
   const downStationId = Number(target[SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT].value);
   const distance = Number(target[SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT].value);
   const duration = Number(target[SELECTOR_ID.SECTION_MODAL_DURATION_INPUT].value);
-  const targetLine = state.get(STATE_KEY.LINE_LIST).find(line => line.id === lineId);
+  const targetLine = state.get(STATE_KEY.LINE_LIST).find(line => line.id === lineId); // targetLine이 이상함.
   const section = { upStationId, downStationId, distance, duration };
 
   if (!upStationId || !downStationId) {
@@ -38,6 +38,9 @@ async function onSectionItemRegister(target) {
     return;
   }
 
+  console.log(state.get(STATE_KEY.LINE_LIST));
+  console.log(state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
+  console.log(targetLine);
   await requestSectionRegistration(targetLine, section).then(() => {
     closeModal();
   }).catch((error) => {
