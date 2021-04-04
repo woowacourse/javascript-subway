@@ -152,9 +152,9 @@ const privateApis = {
         throw ExpiredTokenError(ERROR_MESSAGE.INVALID_TOKEN);
       }
 
-      const data = await response.json();
+      const data = await response.text();
 
-      if (!response.ok) throw Error(data.message);
+      if (!response.ok) throw Error(data);
     },
 
     delete: async ({ lineId, accessToken }) => {
