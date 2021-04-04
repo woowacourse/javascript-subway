@@ -63,9 +63,9 @@ const publicApis = {
       },
     });
 
-    const data = await response.json();
+    const data = await response.text();
 
-    if (!response.ok) throw Error(data.message);
+    if (!response.ok) throw Error(data);
   },
 
   checkDuplicatedEmail: async (emailQuery) => {
@@ -82,9 +82,9 @@ const publicApis = {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
     }
 
-    const data = await response.json();
+    const data = await response.text();
 
-    if (!response.ok) throw Error(data.message);
+    if (!response.ok) throw Error(data);
   },
 };
 
