@@ -9,35 +9,40 @@
   <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
   <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
   <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
-</p>
+</p>s
 
 # 🔥 Projects!
 
 <p align="middle">
-  <img src="./src/images/readme/subway_app_preview.png">
+  <img src="./images/readme/subway_app_preview.png">
 </p>
 
 ## 🎯 step1
 
 ### Webpack을 통한 번들링
 
-- [ ] Webpack에서 babel을 설정한다.
-- [ ] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
+- [x] Webpack에서 babel을 설정한다.
+- [x] 기타 플러그인 및 설정은 본인이 필요에 따라 추가한다.
 
 ### 라우팅 기능
 
-- [ ] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] Browser History Api를 이용하여 SPA처럼 라우팅을 적용한다.
+- [x] 라우팅에 따라 컴포넌트가 렌더링되도록 한다.
+
+<br><br>
+<img src="./images/readme/subway_routing.png">
 
 ### 회원 기능
 
-- [ ] 유저는 회원 가입을 할 수 있다,
-  - [ ] 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
-- [ ] 유저는 로그인 할 수 있다.
-  - [ ] 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
-  - [ ] 로그인한 유저만, 정보의 수정이 가능하다.
-  - [ ] 로그인하지 않은 유저에게는 로그인 외 다른 버튼은 보이지 않는다.
-- [ ] 유저는 로그아웃할 수 있다.
-  - [ ] 로그아웃하면 `/` 루트 페이지로 돌아온다.
+- [x] 유저는 회원 가입을 할 수 있다.
+  - 회원 가입시 받는 정보는 `email`, `name`, `password`이다.
+- [x] 유저는 로그인 할 수 있다.
+  - 로그인하고 나면 로그인 버튼은 로그아웃 버튼으로 변경되어야 한다.
+  - 로그인한 유저만, 정보의 수정이 가능하다.
+  - 로그인하지 않은 유저는 정보를 읽는 것만 가능하다.
+  - 비밀번호와 비밀번호 확인이 일치하는지를 확인한다. 
+- [x] 유저는 로그아웃할 수 있다.
+  - 로그아웃하면 `/` 루트 페이지로 돌아온다.
 
 ## 🎯🎯 step2
 
@@ -60,11 +65,13 @@
   - [ ] 지하철 노선의 이름은 2글자 이상이어야 한다.
   - [ ] 중복된 지하철 노선 이름이 등록될 수 없다.
   - [ ] 지하철 노선의 이름은 최대 10자 이하이다.
-  - [ ] 지하철 노선 생성시 필요한 값은 색상, 상행역, 하행역, (최초 상행역과 하행역 구간의)거리, 시간이다.
 - [ ] 지하철 노선을 수정 수 있다.
-  - [ ] 지하철 노선의 이름, 상행역, 하행역, 거리, 시간, 색상을 수정할 수 있다.
+  - [ ] 지하철 노선의 이름, 첫차 시간, 막차 시간, 간격, 색상을 수정할 수 있다.
 - [ ] 지하철 노선을 삭제할 수 있다.
   - [ ] 삭제 시 confirm을 이용하여 한 번 더 유저가 확인할 수 있어야 한다.
+- [ ] 지하철 노선을 조회 할 수 있다.
+  - [ ] 지하철 노선을 클릭하면 modal로 첫차 시간, 막차 시간, 간격을 확인할 수 있다.
+  - [ ] 해당 UI는 스스로 구현한다.
 
 ### 지하철 구간 관리 기능
 
