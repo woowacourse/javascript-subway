@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'none',
+  mode: 'development',
 
   entry: './src/js/index.js',
 
@@ -55,6 +55,7 @@ module.exports = {
               '@babel/plugin-proposal-object-rest-spread',
               '@babel/plugin-proposal-class-properties',
               '@babel/plugin-transform-runtime',
+              '@babel/plugin-proposal-optional-chaining',
             ],
           },
         },

@@ -1,70 +1,45 @@
-import { STATE_KEY, ROUTE, BASE_URL, SESSION_KEY } from '../constants/constants';
-import { contentElements } from '../views';
-import { stateManager } from '../../@shared/models/StateManager';
-import { $, encrypt, request, setToSessionStorage } from '../../@shared/utils';
-import { routeTo, getUserName } from '../utils';
+import { DOM, STATE_KEY, ROUTE, SESSION_KEY } from '../constants';
+import { store, updateUserInfo } from '../../subway/models/store';
+import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
+import { routeTo, userAuthAPI } from '../utils';
+import { Component } from '../../@shared/models/Component';
 
-export class UserAuth {
-  constructor() {
-    this.$target = contentElements[ROUTE.SIGNIN];
-    this.selectDOM();
-    this.bindEvent();
+export class UserAuth extends Component {
+  setup() {
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.signOut.bind(this));
   }
 
-  selectDOM() {
-    this.$signInForm = $('#signin-form', this.$target);
-    this.$$input = {
-      $email: $('#signin-email', this.$target),
-      $password: $('#signin-password', this.$target),
-    };
-    this.$failMessage = $('#fail-message-box', this.$target);
+  signOut() {
+    if (store[STATE_KEY.SIGNED_USER_NAME].get()) return;
+    removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
+    store[STATE_KEY.STATIONS].clear();
+    store[STATE_KEY.LINES].clear();
   }
 
   bindEvent() {
-    this.$signInForm.addEventListener('submit', this.handleSubmit.bind(this));
+    DOM.USER_AUTH.MAIN.FORM.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-    try {
-      const { accessToken } = await this.signIn();
-      const userName = await getUserName(accessToken);
-
-      setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
-      this.clearInputs();
-      this.$failMessage.classList.add('hidden');
-      stateManager[STATE_KEY.SIGNED_USER].set(userName);
-      routeTo(ROUTE.ROOT);
-    } catch (error) {
-      console.error(error.message);
-      this.$failMessage.classList.remove('hidden');
-      this.$$input.$password.value = '';
-      this.$$input.$password.focus();
-    }
-  }
-
-  async signIn() {
-    const url = `${BASE_URL}/login/token`;
-    const option = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: this.$$input.$email.value,
-        password: encrypt(this.$$input.$password.value),
-      }),
+    const $$input = {
+      $email: DOM.USER_AUTH.MAIN.EMAIL_INPUT,
+      $password: DOM.USER_AUTH.MAIN.PASSWORD_INPUT,
     };
 
     try {
-      const response = await request(url, option);
+      const { accessToken } = await userAuthAPI.signIn($$input);
+      const userName = await userAuthAPI.getUserName(accessToken);
 
-      return await response.json();
+      setToSessionStorage(SESSION_KEY.ACCESS_TOKEN, accessToken);
+      DOM.USER_AUTH.MAIN.FORM.reset();
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.innerText = '';
+      updateUserInfo(userName);
+      routeTo(ROUTE.ROOT);
     } catch (error) {
-      throw new Error(error.message);
+      DOM.USER_AUTH.MAIN.PASSWORD_MSG.innerText = error.message;
+      DOM.USER_AUTH.MAIN.PASSWORD_INPUT.value = '';
+      DOM.USER_AUTH.MAIN.PASSWORD_INPUT.focus();
     }
-  }
-
-  clearInputs() {
-    this.$$input.$email.value = '';
-    this.$$input.$password.value = '';
   }
 }
