@@ -8,7 +8,7 @@ export const getSessionStorageItem = (key, defaultValue = "") => {
 
 export const setSessionStorageItem = (key, value) => {
   try {
-    if (!typeof value === "string") {
+    if (typeof value !== "string") {
       throw new Error(ERROR_MESSAGE.GENERAL.TYPE_REQUIRED_STRING);
     }
 
