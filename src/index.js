@@ -13,7 +13,6 @@ import { state } from './store.js';
 import LineModal from './components/lineModal';
 import SectionModal from './components/sectionModal';
 
-// TODO: CSS 늦게 로드되는 거 고치기
 state.initState();
 
 const main = new Main(state, `#${SELECTOR_ID.GUIDE_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
@@ -32,15 +31,21 @@ const login = new Login(`#${SELECTOR_ID.LOG_IN_FORM}`, `#${SELECTOR_ID.MAIN_CONT
 const signUp = new SignUp(`#${SELECTOR_ID.SIGN_UP_FORM_WRAPPER}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const navigator = new Navigator(state, `#${SELECTOR_ID.NAVIGATOR}`, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 
-router.register(PATH.STATIONS, station);
-router.register(PATH.LINES, line);
-router.register(PATH.LINES, lineModal);
-router.register(PATH.SECTIONS, section);
-router.register(PATH.SECTIONS, sectionModal);
-router.register(PATH.SUBWAY, subway);
-router.register(PATH.LOG_IN, login);
-router.register(PATH.SIGN_UP, signUp);
-router.register(PATH.ROOT, main);
+const connections = [
+  { path: [PATH.STATIONS], component: station, },
+  { path: [PATH.LINES], component: line, },
+  { path: [PATH.LINES], component: lineModal, },
+  { path: [PATH.SECTIONS], component: section, },
+  { path: [PATH.SECTIONS], component: sectionModal, },
+  { path: [PATH.SUBWAY], component: subway, },
+  { path: [PATH.LOG_IN], component: login, },
+  { path: [PATH.SIGN_UP], component: signUp, },
+  { path: [PATH.ROOT], component: main, },
+];
+
+connections.forEach(connection => {
+  router.register(connection.path, connection.component);
+});
 router.initRouteEvent();
 
 state.subscribe(STATE_KEY.IS_LOGGED_IN, navigator);

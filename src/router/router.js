@@ -1,6 +1,6 @@
-import { PATH } from '../constants';
+import { PATH } from '../constants.js';
 
-const registration = {}
+const registration = {};
 
 const router = {
   initRouteEvent() {
