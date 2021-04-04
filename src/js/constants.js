@@ -40,6 +40,7 @@ const ID_SELECTOR = {
     'section-modal-form__down-station-select',
   SECTION_MODAL_FORM_DISTANCE: 'section-modal-form__distance',
   SECTION_MODAL_FORM_DURATION: 'section-modal-form__duration',
+  SECTION_MODAL_FORM_SUBMIT: 'section-modal-form__submit',
 
   FULL_MAP_LINE_LIST: 'full-map-line-list',
 

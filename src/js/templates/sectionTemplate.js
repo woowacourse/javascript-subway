@@ -81,6 +81,7 @@ const DEFAULT_MODAL_COMPONENT = `
       <button
         type="submit"
         name="submit"
+        id="${ID_SELECTOR.SECTION_MODAL_FORM_SUBMIT}"
         class="input-submit bg-cyan-300"
       >
         확인

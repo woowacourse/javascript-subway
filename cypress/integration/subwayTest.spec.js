@@ -10,13 +10,13 @@ const NAME = '한준모';
 const PASSWORD = '1';
 const ORIGIN_STATION_NAME = '주모바보';
 const LINE_NAME = '2호선';
+const waitTimeForAJAX = 2000;
 
 context('로그인 및 정보 수정', () => {
   beforeEach(() => {
     cy.visit('http://127.0.0.1:5500/');
   });
 
-  // TODO: cypress 첫 번째 테스트일 경우 alert를 감지하지 못하는 문제
   it('회원 가입 시 `email`, `name`, `password`에 대한 예외 처리가 작동했을 때, 에러를 출력한다.', () => {
     const stub = cy.stub();
     cy.on('window:alert', stub);
@@ -31,6 +31,7 @@ context('로그인 및 정보 수정', () => {
 
     cy.get(`#${ID_SELECTOR.SIGNUP_FORM_SUBMIT}`)
       .click()
+      .wait(waitTimeForAJAX)
       .then(() => {
         expect(stub.getCall(0)).to.be.calledWith(
           ALERT_MESSAGE.DUPLICATED_EMAIL_FAIL
@@ -62,7 +63,6 @@ context('로그인 및 정보 수정', () => {
     cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_SECTION}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_FULL_MAP}`).should('not.be.visible');
-    cy.get(`#${ID_SELECTOR.NAV_SEARCH}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('be.visible');
 
     login();
@@ -71,7 +71,6 @@ context('로그인 및 정보 수정', () => {
     cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_SECTION}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_FULL_MAP}`).should('be.visible');
-    cy.get(`#${ID_SELECTOR.NAV_SEARCH}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGOUT}`).should('be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LOGIN}`).should('not.be.visible');
   });
@@ -99,15 +98,14 @@ context('지하철 역 관리 페이지', () => {
   });
 
   it('지하철역을 등록할 수 있다.', () => {
-    const station = '사당';
+    login();
+
     const stub = cy.stub();
 
     cy.on('window:alert', stub);
 
-    login();
-
     getByHref(URL.STATION).click();
-    registerStation(station).then(() => {
+    registerStation(ORIGIN_STATION_NAME).then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
         ALERT_MESSAGE.DUPLICATED_STATION_FAIL
       );
@@ -121,7 +119,6 @@ context('지하철 역 관리 페이지', () => {
     getByHref(URL.STATION).click();
 
     reviseStationName(REVISION_NAME);
-    cy.wait(1000);
     cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
       .eq(0)
       .find('span')
@@ -130,7 +127,8 @@ context('지하철 역 관리 페이지', () => {
     reviseStationName(ORIGIN_STATION_NAME);
   });
 
-  it('지하철역 삭제할 수 있다.', () => {
+  it('지하철역을 삭제할 수 있다.', () => {
+    const station = '사당';
     const stub = cy.stub();
 
     cy.on('window:alert', stub);
@@ -138,14 +136,19 @@ context('지하철 역 관리 페이지', () => {
     login();
     getByHref(URL.STATION).click();
 
-    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`).eq(0).click();
-    cy.on('window:confirm', () => true).then(() => {
-      expect(stub.getCall(1)).to.be.calledWith(
+    registerStation(station);
+
+    deleteLastStation().then(() => {
+      expect(stub.getCall(2)).to.be.calledWith(
         ALERT_MESSAGE.STATION_REMOVAL_SUCCESS
       );
     });
+  });
+});
 
-    registerStation(ORIGIN_STATION_NAME);
+context('지하철 노선 관리 페이지', () => {
+  beforeEach(() => {
+    cy.visit('http://127.0.0.1:5500/');
   });
 
   it('지하철 노선을 등록할 수 있다.', () => {
@@ -156,7 +159,6 @@ context('지하철 역 관리 페이지', () => {
     login();
 
     getByHref(URL.LINE).click();
-    cy.get(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).click();
 
     registerLine().then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
@@ -174,17 +176,11 @@ context('지하철 역 관리 페이지', () => {
 
     getByHref(URL.LINE).click();
 
-    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM}`)
-      .eq(0)
-      .find(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION}`)
-      .click();
-    cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
-      .click()
-      .then(() => {
-        expect(stub.getCall(1)).to.be.calledWith(
-          ALERT_MESSAGE.LINE_REVISION_SUCCESS
-        );
-      });
+    reviseLine().then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.LINE_REVISION_SUCCESS
+      );
+    });
   });
 
   it('지하철 노선 삭제에 관한 테스트를 한다', () => {
@@ -196,9 +192,7 @@ context('지하철 역 관리 페이지', () => {
 
     getByHref(URL.LINE).click();
 
-    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}`).eq(0).click();
-
-    cy.on('window:confirm', () => true).then(() => {
+    deleteLine().then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
         ALERT_MESSAGE.LINE_REMOVAL_SUCCESS
       );
@@ -208,17 +202,47 @@ context('지하철 역 관리 페이지', () => {
   });
 });
 
+context('지하철 구간 관리 페이지', () => {
+  beforeEach(() => {
+    cy.visit('http://127.0.0.1:5500/');
+  });
+
+  it('지하철 구간 추가에 대한 테스트를 한다.', () => {
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.SECTION).click();
+
+    registerSection().then(() => {
+      expect(stub.getCall(1)).to.be.calledWith(
+        ALERT_MESSAGE.SECTION_CREATION_SUCCESS
+      );
+    });
+
+    deleteMiddleSection();
+  });
+});
+
 function login() {
   getByHref(URL.LOGIN).click();
 
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_EMAIL}`).type(EMAIL);
   cy.get(`#${ID_SELECTOR.LOGIN_FORM_PASSWORD}`).type(PASSWORD);
-  cy.get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`).click();
+  return cy
+    .get(`#${ID_SELECTOR.LOGIN_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
 }
 
 function registerStation(stationName) {
   cy.get(`#${ID_SELECTOR.STATION_FORM_NAME}`).type(stationName);
-  return cy.get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`).click();
+  return cy
+    .get(`#${ID_SELECTOR.STATION_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
 }
 
 function reviseStationName(name) {
@@ -228,7 +252,17 @@ function reviseStationName(name) {
     .click();
   cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).clear();
   cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).type(name);
-  cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_SUBMIT}`).click();
+  cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
+}
+
+function deleteLastStation() {
+  return cy
+    .get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`)
+    .last()
+    .click()
+    .wait(waitTimeForAJAX);
 }
 
 function getByHref(href, selector = '#app') {
@@ -245,5 +279,52 @@ function registerLine() {
   cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DURATION}`).type(10);
   cy.get(`.color-option.bg-green-500`).click();
 
-  return cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`).click();
+  return cy
+    .get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
+}
+
+function reviseLine() {
+  cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM}`)
+    .eq(0)
+    .find(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION}`)
+    .click();
+
+  return cy
+    .get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
+}
+
+function deleteLine() {
+  return cy
+    .get(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}`)
+    .eq(0)
+    .click()
+    .wait(waitTimeForAJAX);
+}
+
+function registerSection() {
+  cy.get(`#${ID_SELECTOR.SECTION_FORM_SELECT}`)
+    .select('2호선')
+    .wait(waitTimeForAJAX);
+  cy.get(`#${ID_SELECTOR.SECTION_CREATION_BUTTON}`).click();
+  cy.get(`#${ID_SELECTOR.SECTION_MODAL_FORM_UP_STATION_SELECT}`).select('강남');
+  cy.get(`#${ID_SELECTOR.SECTION_MODAL_FORM_DOWN_STATION_SELECT}`).select(
+    '주모바보'
+  );
+  cy.get(`#${ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE}`).type(1);
+  cy.get(`#${ID_SELECTOR.SECTION_MODAL_FORM_DURATION}`).type(1);
+  return cy
+    .get(`#${ID_SELECTOR.SECTION_MODAL_FORM_SUBMIT}`)
+    .click()
+    .wait(waitTimeForAJAX);
+}
+
+function deleteMiddleSection() {
+  cy.get(`.${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL}`)
+    .eq(1)
+    .click()
+    .wait(waitTimeForAJAX);
 }
