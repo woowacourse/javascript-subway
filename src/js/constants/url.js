@@ -1,5 +1,4 @@
-// const BASE_URL = 'https://www.boorownie.com';
-const BASE_URL = 'http://3.35.213.149';
+const BASE_URL = 'https://www.boorownie.com';
 const PATH = {
   MEMBERS: {
     SIGNUP: '/members',

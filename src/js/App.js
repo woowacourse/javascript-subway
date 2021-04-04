@@ -85,7 +85,7 @@ class App extends Component {
       this.renderComponent(location.pathname);
     });
 
-    $('.js-header').addEventListener('click', (e) => {
+    window.addEventListener('click', (e) => {
       const anchor = e.target.closest('.js-link');
       if (!anchor) return;
 
