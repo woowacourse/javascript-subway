@@ -1,4 +1,4 @@
-import { ID_SELECTOR } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
 
 const MAIN_COMPONENT = `
 <main class="mt-10 d-flex justify-center">
@@ -14,7 +14,7 @@ const MAIN_COMPONENT = `
 
 const makeLineTemplate = (lineName, stations) => {
   const stationsTemplate = `
-  <ul class="full-map-line">
+  <ul class="${CLASS_SELECTOR.FULL_MAP_LINE} full-map-line">
   ${stations.map(station => makeStationTemplate(station.name)).join('')}
   </ul>
   `;
@@ -30,7 +30,7 @@ const makeLineTemplate = (lineName, stations) => {
 };
 
 const makeStationTemplate = stationName => {
-  return `<li class="full-map-line__station">${stationName}</li>`;
+  return `<li class="${CLASS_SELECTOR.FULL_MAP_LINE_STATION} full-map-line__station">${stationName}</li>`;
 };
 
 const FULL_MAP_TEMPLATE = {

@@ -226,6 +226,24 @@ context('지하철 구간 관리 페이지', () => {
   });
 });
 
+context('지하철 전체 보기 페이지', () => {
+  beforeEach(() => {
+    cy.visit('http://127.0.0.1:5500/');
+  });
+
+  it('전체 노선과 역 목록 조회에 관한 테스트를 한다', () => {
+    const stub = cy.stub();
+
+    cy.on('window:alert', stub);
+
+    login();
+
+    getByHref(URL.FULL_MAP).click();
+
+    cy.get(`.${CLASS_SELECTOR.FULL_MAP_LINE}`).should('to.exist');
+  });
+});
+
 function login() {
   getByHref(URL.LOGIN).click();
 
