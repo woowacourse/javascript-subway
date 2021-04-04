@@ -120,24 +120,26 @@ export default class LineModal extends Observer {
             </div>
           `}
           
-          <div class="input-control">
-            <div>
-              <label for="subway-line-color" class="input-label" hidden
-                >색상</label
-              >
-              <input
-                type="text"
-                id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}"
-                name="subway-line-color"
-                class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
-                placeholder="색상을 아래에서 선택해주세요."
-                ${lineItem ? `data-color="${lineItem.color}"` : '' }
-                disabled
-                required
-              />
+          <div id="${SELECTOR_ID.COLOR_PICKER_CONTAINER}">
+            <div class="input-control">
+              <div id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR_CONTAINER}">
+                <label for="subway-line-color" class="input-label" hidden
+                  >색상</label
+                >
+                <input
+                  type="text"
+                  id="${SELECTOR_ID.SUBWAY_LINE_COLOR_INDICATOR}"
+                  name="subway-line-color"
+                  class="${lineItem ? `color-input-field ${lineItem.color}` : 'input-field'}"
+                  placeholder="색상을 아래에서 선택해주세요."
+                  ${lineItem ? `data-color="${lineItem.color}"` : '' }
+                  disabled
+                  required
+                />
+              </div>
             </div>
+            <div class="${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER} px-2"></div>
           </div>
-          <div class="${SELECTOR_CLASS.SUBWAY_LINE_COLOR_PICKER} px-2"></div>
           <div class="d-flex justify-end mt-3">
             ${lineItem ? `<button
               type="submit"

@@ -27,6 +27,7 @@ export default class Station extends Observer {
   renderComponent() {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
+    targetContainer.innerHTML = '';
     this.#state.get(STATE_KEY.STATION_LIST).forEach(station => this.#createStation(station));
     this.#initEvents();
   }

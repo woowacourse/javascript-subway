@@ -12,6 +12,7 @@
     "test": "cypress open",
     "deploy": "yarn run build & firebase deploy"
   },
+  "homepage": "https://iborymagic-subway-map.netlify.app/",
   "dependencies": {
     "babel-polyfill": "^6.26.0"
   },

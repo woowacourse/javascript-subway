@@ -23,6 +23,7 @@ export const SELECTOR_ID = Object.freeze({
   SECTION_MODAL_DURATION_INPUT: 'section-modal__duration-input',
   LINES: 'lines',
   SUBWAY_LINE_COLOR_INDICATOR: 'subway-line-color-indicator',
+  SUBWAY_LINE_COLOR_INDICATOR_CONTAINER: 'subway-line-color-indicator-container',
   SUBWAY_LINE_FORM: 'subway-line-form',
   SUBWAY_LINE_NAME: 'subway-line-name',
   SUBWAY_SECTION_FORM: 'subway-section-form',
@@ -42,6 +43,7 @@ export const SELECTOR_ID = Object.freeze({
   SIGN_UP_NAME_INPUT: 'signup-name-input',
   GUIDE_WRAPPER: 'guide-wrapper',
   BACKDROP: 'backdrop',
+  COLOR_PICKER_CONTAINER: 'color-picker-container',
 });
 
 export const SELECTOR_CLASS = Object.freeze({
