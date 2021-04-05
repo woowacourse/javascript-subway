@@ -1,3 +1,5 @@
+const regExpForHexCode = /(#[0-9a-fA-F]{6})|(#[0-9a-fA-F]{3})/;
+
 export const OPTION_TEMPLATE = (stationList, headOptionText) => {
   const headOption = `<option value="" selected hidden>${headOptionText}</option>`;
   const bodyOptions = stationList.map(({ id, name }) => `<option value="${id}">${name}</option>`).join('');
@@ -8,6 +10,7 @@ export const OPTION_TEMPLATE = (stationList, headOptionText) => {
 export const LIST_ITEM_TEMPLATE = ({ id, name, color, stations }) => {
   const upStation = stations[0];
   const downStation = stations[stations.length - 1];
+  const colorTested = regExpForHexCode.test(color) ? color : '#000000';
 
   return `
   <li class="line-list-item d-flex flex-col relative">
@@ -15,7 +18,7 @@ export const LIST_ITEM_TEMPLATE = ({ id, name, color, stations }) => {
       <div class="d-flex justify-between">
         <div class="d-flex items-center">
           <label for="edit-line-color-${id}" class="input-label sr-only">색상</label>
-          <input type="color" id="edit-line-color-${id}" class="line-color-input" name="color" placeholder="색상" value="${color}" disabled required />
+          <input type="color" id="edit-line-color-${id}" class="line-color-input" name="color" placeholder="색상" value="${colorTested}" disabled required />
 
           <label for="edit-line-name-${id}" class="input-label sr-only">노선 이름</label>
           <input type="text" id="edit-line-name-${id}" class="pl-3 edit-line-name station-add-input-field" name="name" minlength="2" maxlength="10" value="${name}" disabled required />
