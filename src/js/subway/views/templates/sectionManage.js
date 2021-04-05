@@ -28,7 +28,7 @@ export const sectionList = (stations, sections) => {
 };
 
 export const sectionManage = `
-  <div id="main-content" class="manage wrapper bg-white p-10">
+  <div id="main-content" class="manage bg-white p-10">
     <div class="heading d-flex">
       <h2 class="mt-1 w-100">${MENU.SECTIONS}</h2>
       <button

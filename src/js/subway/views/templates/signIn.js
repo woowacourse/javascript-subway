@@ -3,7 +3,7 @@ import { SELECTOR } from '../../constants';
 import { MENU, MESSAGE, ROUTE } from '../../constants/constants';
 
 export const signIn = `
-  <div id="main-content" class="wrapper p-10 bg-white">
+  <div id="main-content" class="p-10 bg-white">
     <div class="heading">
       <h2>${MENU.SIGNIN}</h2>
     </div>

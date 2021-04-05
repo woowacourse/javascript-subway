@@ -22,7 +22,7 @@ export const stationInfo = ({ id, name }) => `
 export const stationList = stations => stations.map(stationInfo).join('');
 
 export const stationManage = `
-  <div id="main-content" class="manage wrapper bg-white p-10">
+  <div id="main-content" class="manage bg-white p-10">
     <div class="heading">
       <h2 class="mt-1">${MENU.STATIONS}</h2>
     </div>

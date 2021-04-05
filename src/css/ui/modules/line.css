@@ -7,7 +7,7 @@
   padding-left: 4px;
   padding-top: 2em;
   padding-bottom: 2em;
-  width: 0px;
+  width: 0;
 }
 
 #map-list {
@@ -15,7 +15,7 @@
 
   padding-left: 4px;
 
-  width: 0px;
+  width: 0;
 }
 
 #section-list > .js-station-list-item,
@@ -40,7 +40,7 @@
   border-radius: 16px;
   background: linear-gradient(45deg, orange, yellow, skyblue, mintcream);
   background-size: 400%;
-  animation: gradient 3s ease infinite;
+  animation: movingBackground 3s ease infinite;
   cursor: pointer;
 }
 
@@ -48,7 +48,7 @@
   transform: scale(1.2);
 }
 
-@keyframes gradient {
+@keyframes movingBackground {
   0% {
     background-position: 0%;
   }
