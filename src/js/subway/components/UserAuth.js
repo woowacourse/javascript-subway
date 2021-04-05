@@ -3,6 +3,7 @@ import { STATE_KEY, ROUTE, SESSION_KEY } from '../constants/constants';
 import { store } from '../../@shared/models/store';
 import { setToSessionStorage, removeFromSessionStorage } from '../../@shared/utils';
 import { routeTo, userAuthAPI } from '../utils';
+import { cache } from '..';
 
 export class UserAuth {
   #props = null;
@@ -20,8 +21,8 @@ export class UserAuth {
   #signOut() {
     if (store[STATE_KEY.SIGNED_USER_NAME].get()) return;
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
-    this.#props.cache.stations = [];
-    this.#props.cache.lines = [];
+    cache.stations.clear();
+    cache.lines.clear();
   }
 
   #bindEvent() {

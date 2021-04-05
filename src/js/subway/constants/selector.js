@@ -42,6 +42,8 @@ export const SELECTOR = {
       SUBMIT_BUTTON: 'station-add-button',
       NAME_MSG: 'add-fail-message-box',
       LIST: 'station-list',
+      NAME: 'js-station-name',
+      LIST_ITEM: 'js-station-list-item',
     },
     MODAL: {
       FORM: 'station-modify-form',
@@ -54,6 +56,7 @@ export const SELECTOR = {
     MAIN: {
       ADD_MODAL_BUTTON: 'line-add-modal-button',
       LIST: 'line-list',
+      LIST_ITEM: 'js-line-list-item',
     },
     MODAL: {
       FORM: 'line-form',
@@ -91,5 +94,11 @@ export const SELECTOR = {
     MAIN: {
       TOTAL_LINE_LIST: 'total-line-list',
     },
+  },
+
+  COMMON: {
+    REMOVE_BUTTON: 'js-remove-button',
+    MODIFY_BUTTON: 'js-modify-button',
+    LINK_BUTTON: 'js-link-button',
   },
 };

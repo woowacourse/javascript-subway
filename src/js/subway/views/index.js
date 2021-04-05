@@ -10,7 +10,7 @@ import { $, parseToElements } from '../../@shared/utils';
 import { stationModify } from './templates/stationModify';
 import { lineAddModify } from './templates/lineAddModify';
 import { sectionAddModify } from './templates/sectionAddModify';
-import { mapManage } from './templates/mapManage';
+import { MapDisplay } from './templates/mapDIsplay';
 import { SELECTOR } from '../constants';
 
 export { menuButtons } from './templates/menuButtons';
@@ -25,7 +25,7 @@ export const mainElements = {
   [ROUTE.STATIONS]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(stationManage)),
   [ROUTE.LINES]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(lineManage)),
   [ROUTE.SECTIONS]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(sectionManage)),
-  [ROUTE.MAP]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(mapManage)),
+  [ROUTE.MAP]: $(`#${SELECTOR.CONTENT.MAIN}`, parseToElements(MapDisplay)),
 };
 
 export const modalElements = {

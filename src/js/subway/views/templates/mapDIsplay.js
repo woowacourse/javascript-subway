@@ -26,7 +26,7 @@ export const mapList = lines => {
     .join('');
 };
 
-export const mapManage = `
+export const MapDisplay = `
     <div id="main-content" class="manage bg-white p-10">
         <div class="heading d-flex">
             <h2 class="mt-1 w-100">${MENU.MAP}</h2>

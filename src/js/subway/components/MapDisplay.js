@@ -1,14 +1,12 @@
+import { cache } from '..';
 import { store } from '../../@shared/models/store';
 import { getFromSessionStorage } from '../../@shared/utils';
 import { ROUTE, SESSION_KEY, STATE_KEY } from '../constants';
 import { lineManageAPI } from '../utils';
 import { subwayView } from '../views';
 
-export class MapManage {
-  #props = null;
-
-  constructor(props) {
-    this.#props = props;
+export class MapDisplay {
+  constructor() {
     this.#setup();
   }
 
@@ -22,11 +20,11 @@ export class MapManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.lines.length === 0) {
-        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (cache.lines.getValue().length === 0) {
+        cache.lines.setValue(await lineManageAPI.getLines(accessToken));
       }
 
-      subwayView.renderMapView(this.#props.cache.lines);
+      subwayView.renderMapDisplay(cache.lines.getValue());
     } catch (error) {
       console.error(error.message);
     }

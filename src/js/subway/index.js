@@ -4,15 +4,16 @@ import { DOM } from './constants/dom';
 import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
 import { hideModal } from './utils';
 import { subwayView } from './views';
-import { MapManage } from './components/MapManage';
+import { MapDisplay } from './components/MapDisplay';
+import { Cache } from '../@shared/models/Cache';
+
+export const cache = {
+  stations: new Cache([]),
+  lines: new Cache([]),
+};
 
 export class Subway {
   constructor() {
-    this.cache = {
-      stations: [],
-      lines: [],
-    };
-
     this.#setup();
     this.#mountChildComponents();
     this.#bindEvent();
@@ -27,11 +28,11 @@ export class Subway {
 
   #mountChildComponents() {
     new UserJoin();
-    new UserAuth({ cache: this.cache });
-    new StationManage({ cache: this.cache });
-    new LineManage({ cache: this.cache });
-    new SectionManage({ cache: this.cache });
-    new MapManage({ cache: this.cache });
+    new UserAuth();
+    new StationManage();
+    new LineManage();
+    new SectionManage();
+    new MapDisplay();
   }
 
   #bindEvent() {

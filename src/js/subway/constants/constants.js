@@ -83,7 +83,7 @@ export const MESSAGE = {
 };
 
 export const REG_EXP = {
-  EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/,
   NAME: (minLength, maxLength) => new RegExp(`^[가-힣|a-z|A-Z|0-9|]{${minLength},${maxLength}}$`),
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$~!@#$%^&*()-+?])[A-Za-z\d$~!@#$%^&*()-+?]{6,20}$/,
 };
@@ -97,3 +97,8 @@ export const SESSION_KEY = {
 export const MIN_STATION_COUNT = 2;
 export const UP_STATION = '상행역';
 export const DOWN_STATION = '하행역';
+
+export const TEXT_COLOR_CLASS = {
+  RED: 'text-red',
+  GREEN: 'text-green',
+};

@@ -1,5 +1,7 @@
+import { cache } from '..';
 import { store } from '../../@shared/models/store';
 import { getFromSessionStorage, $ } from '../../@shared/utils';
+import { SELECTOR } from '../constants';
 import { MESSAGE, NAME_LENGTH, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 import { DOM } from '../constants/dom';
 import { hideModal, isValidName, showModal, stationManageAPI } from '../utils';
@@ -24,11 +26,11 @@ export class StationManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.stations.length === 0) {
-        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (cache.stations.getValue().length === 0) {
+        cache.stations.setValue(await stationManageAPI.getStations(accessToken));
       }
 
-      subwayView.renderStationList(this.#props.cache.stations);
+      subwayView.renderStationList(cache.stations.getValue());
     } catch (error) {
       console.error(error.message);
     }
@@ -65,7 +67,7 @@ export class StationManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await stationManageAPI.addStation(accessToken, requestInfo);
-      this.#props.cache.stations = [];
+      cache.stations.clear();
       await this.#updateStations(ROUTE.STATIONS);
       DOM.STATION.MAIN.FORM.reset();
     } catch (error) {
@@ -75,11 +77,11 @@ export class StationManage {
   }
 
   #handleModifyButton({ target }) {
-    if (!target.classList.contains('js-modify-button')) return;
+    if (!target.classList.contains(SELECTOR.COMMON.MODIFY_BUTTON)) return;
 
-    const $station = target.closest('.js-station-list-item');
+    const $station = target.closest(`.${SELECTOR.STATION.MAIN.LIST_ITEM}`);
     const stationId = $station.dataset.stationId;
-    const stationName = $('.js-station-name', $station).innerText;
+    const stationName = $(`.${SELECTOR.STATION.MAIN.NAME}`, $station).innerText;
 
     DOM.STATION.MODAL.NAME_INPUT.value = stationName;
     DOM.STATION.MODAL.NAME_INPUT.dataset.stationId = stationId;
@@ -98,8 +100,8 @@ export class StationManage {
       await stationManageAPI.modifyStation(accessToken, requestInfo);
 
       DOM.STATION.MODAL.FORM.reset();
-      this.#props.cache.stations = [];
-      this.#props.cache.lines = [];
+      cache.stations.clear();
+      cache.lines.clear();
       await this.#updateStations(ROUTE.STATIONS);
       hideModal(DOM.CONTAINER.MODAL);
     } catch (error) {
@@ -121,8 +123,8 @@ export class StationManage {
   }
 
   async #handleRemoveButton({ target }) {
-    if (!target.classList.contains('js-remove-button')) return;
-    const $station = target.closest('.js-station-list-item');
+    if (!target.classList.contains(SELECTOR.COMMON.REMOVE_BUTTON)) return;
+    const $station = target.closest(`.${SELECTOR.STATION.MAIN.LIST_ITEM}`);
     const requestInfo = {
       id: $station.dataset.stationId,
     };
@@ -134,7 +136,7 @@ export class StationManage {
 
       await stationManageAPI.removeStation(accessToken, requestInfo);
       $station.remove();
-      this.#props.cache.stations = [];
+      cache.stations.clear();
     } catch (error) {
       alert(error.message === '400' ? MESSAGE.STATION_MANAGE.ADDED_STATION : MESSAGE.RETRY);
     }

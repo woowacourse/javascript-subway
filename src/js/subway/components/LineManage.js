@@ -22,13 +22,13 @@ import {
   stationManageAPI,
 } from '../utils';
 import { subwayView } from '../views';
+import { SELECTOR } from '../constants';
+import { cache } from '..';
 
 export class LineManage {
-  #props = null;
   #submitType = null;
 
-  constructor(props) {
-    this.#props = props;
+  constructor() {
     this.#submitType = null;
     this.#setup();
     this.#bindEvent();
@@ -45,12 +45,12 @@ export class LineManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.stations.length === 0) {
-        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (cache.stations.getValue().length === 0) {
+        cache.stations.setValue(await stationManageAPI.getStations(accessToken));
       }
 
-      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, this.#props.cache.stations);
-      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, this.#props.cache.stations);
+      subwayView.renderStationOptions(DOM.LINE.MODAL.UP_STATION_SELECTOR, UP_STATION, cache.stations.getValue());
+      subwayView.renderStationOptions(DOM.LINE.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, cache.stations.getValue());
     } catch (error) {
       console.error(error.message);
     }
@@ -60,11 +60,11 @@ export class LineManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.lines.length === 0) {
-        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (cache.lines.getValue().length === 0) {
+        cache.lines.setValue(await lineManageAPI.getLines(accessToken));
       }
 
-      subwayView.renderLineList(this.#props.cache.lines);
+      subwayView.renderLineList(cache.lines.getValue());
     } catch (error) {
       console.error(error.message);
     }
@@ -80,7 +80,7 @@ export class LineManage {
   }
 
   #handleAddButton() {
-    if (this.#props.cache.stations.length < MIN_STATION_COUNT) {
+    if (cache.stations.getValue().length < MIN_STATION_COUNT) {
       alert(MESSAGE.LINE_MANAGE.STAION_ADD_REQUIRED);
 
       return;
@@ -92,8 +92,8 @@ export class LineManage {
   }
 
   #handleModifyButton({ target }) {
-    if (!target.classList.contains('js-modify-button')) return;
-    const line = target.closest('.js-line-list-item');
+    if (!target.classList.contains(SELECTOR.COMMON.MODIFY_BUTTON)) return;
+    const line = target.closest(SELECTOR.LINE.MAIN.LIST_ITEM);
 
     this.#submitType = SUBMIT_TYPE.MODIFY;
     DOM.LINE.MODAL.MSG.innerText = '';
@@ -155,7 +155,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.addLine(accessToken, requestInfo);
-      this.#props.cache.lines = [];
+      cache.lines.clear();
       await this.#updateLines(ROUTE.LINE);
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -175,7 +175,7 @@ export class LineManage {
 
     try {
       await lineManageAPI.modifyLine(accessToken, requestInfo);
-      this.#props.cache.lines = [];
+      cache.lines.clear();
       await this.#updateLines();
       DOM.LINE.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -185,8 +185,8 @@ export class LineManage {
   }
 
   async #handleRemoveButton({ target }) {
-    if (!target.classList.contains('js-remove-button')) return;
-    const $line = target.closest('.js-line-list-item');
+    if (!target.classList.contains(SELECTOR.COMMON.REMOVE_BUTTON)) return;
+    const $line = target.closest(`.${SELECTOR.LINE.MAIN.LIST_ITEM}`);
     const requestInfo = {
       id: $line.dataset.id,
     };
@@ -196,7 +196,7 @@ export class LineManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       await lineManageAPI.removeLine(accessToken, requestInfo);
       $line.remove();
-      this.#props.cache.lines = [];
+      cache.lines.clear();
     } catch (error) {
       console.error(error.message);
     }

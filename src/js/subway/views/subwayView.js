@@ -6,7 +6,7 @@ import { linkButton, selectorOption } from '../../@shared/views';
 import { mainElements, modalElements } from '.';
 import { menuButtons } from './templates/menuButtons';
 import { sectionList } from './templates/sectionManage';
-import { mapList } from './templates/mapManage';
+import { mapList } from './templates/mapDIsplay';
 
 export const subwayView = {
   renderRoot: signedUserName => {
@@ -73,7 +73,7 @@ export const subwayView = {
     sectionList.classList.add(color);
   },
 
-  renderMapView: lines => {
+  renderMapDisplay: lines => {
     DOM.MAP.MAIN.TOTAL_LINE_LIST.innerHTML = mapList(lines);
   },
 };

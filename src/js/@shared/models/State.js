@@ -4,7 +4,7 @@ export class State {
 
   constructor(value) {
     this.#value = value;
-    this.#subscribers;
+    this.#subscribers = [];
   }
 
   get() {

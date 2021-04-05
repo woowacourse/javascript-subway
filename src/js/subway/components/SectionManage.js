@@ -12,12 +12,11 @@ import {
 } from '../utils';
 import { subwayView } from '../views';
 import { store } from '../../@shared/models/store';
+import { SELECTOR } from '../constants';
+import { cache } from '..';
 
 export class SectionManage {
-  #props = null;
-
-  constructor(props) {
-    this.#props = props;
+  constructor() {
     this.#setup();
     this.#bindEvent();
   }
@@ -33,16 +32,12 @@ export class SectionManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.stations.length === 0) {
-        this.#props.cache.stations = await stationManageAPI.getStations(accessToken);
+      if (cache.stations.getValue().length === 0) {
+        cache.stations.setValue(await stationManageAPI.getStations(accessToken));
       }
 
-      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, this.#props.cache.stations);
-      subwayView.renderStationOptions(
-        DOM.SECTION.MODAL.DOWN_STATION_SELECTOR,
-        DOWN_STATION,
-        this.#props.cache.stations
-      );
+      subwayView.renderStationOptions(DOM.SECTION.MODAL.UP_STATION_SELECTOR, UP_STATION, cache.stations.getValue());
+      subwayView.renderStationOptions(DOM.SECTION.MODAL.DOWN_STATION_SELECTOR, DOWN_STATION, cache.stations.getValue());
     } catch (error) {
       console.error(error.message);
     }
@@ -54,11 +49,11 @@ export class SectionManage {
     try {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
-      if (this.#props.cache.lines.length === 0) {
-        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (cache.lines.getValue().length === 0) {
+        cache.lines.setValue(lineManageAPI.getLines(accessToken));
       }
 
-      subwayView.renderLineOptions(this.#props.cache.lines);
+      subwayView.renderLineOptions(cache.lines.getValue());
       DOM.SECTION.MAIN.LIST.classList.add('hidden');
       subwayView.renderSectionList();
     } catch (error) {
@@ -71,11 +66,11 @@ export class SectionManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
       const lineId = Number(DOM.SECTION.MAIN.LINE_SELECTOR.value);
 
-      if (this.#props.cache.lines.length === 0) {
-        this.#props.cache.lines = await lineManageAPI.getLines(accessToken);
+      if (cache.lines.getValue().length === 0) {
+        cache.lines.setValue(await lineManageAPI.getLines(accessToken));
       }
 
-      const { stations, sections } = this.#props.cache.lines.find(line => line.id === lineId);
+      const { stations, sections } = cache.lines.getValue().find(line => line.id === lineId);
 
       subwayView.renderSectionList(stations, sections);
     } catch (error) {
@@ -109,7 +104,7 @@ export class SectionManage {
 
   #handleLineSelector(event) {
     const id = Number(event.target.value);
-    const { color, stations, sections } = this.#props.cache.lines.find(line => line.id === id);
+    const { color, stations, sections } = cache.lines.getValue().find(line => line.id === id);
 
     subwayView.fillLineColorBar(color);
     subwayView.renderSectionList(stations, sections);
@@ -145,7 +140,7 @@ export class SectionManage {
 
     try {
       await sectionManageAPI.addSection(accessToken, requestInfo);
-      this.#props.cache.lines = [];
+      cache.lines.clear();
       await this.#updateSections();
       DOM.SECTION.MODAL.FORM.reset();
       hideModal(DOM.CONTAINER.MODAL);
@@ -155,8 +150,8 @@ export class SectionManage {
   }
 
   async #handleRemoveButton({ target }) {
-    if (!target.classList.contains('js-remove-button')) return;
-    const $station = target.closest('.js-station-list-item');
+    if (!target.classList.contains(SELECTOR.COMMON.REMOVE_BUTTON)) return;
+    const $station = target.closest(`.${SELECTOR.STATION.MAIN.LIST_ITEM}`);
     const requestInfo = {
       lineId: DOM.SECTION.MAIN.LINE_SELECTOR.value,
       stationId: $station.dataset.stationId,
@@ -168,7 +163,7 @@ export class SectionManage {
       const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
 
       await sectionManageAPI.removeSection(accessToken, requestInfo);
-      this.#props.cache.lines = [];
+      cache.lines.clear();
       this.#updateSections();
     } catch (error) {
       alert(error.message);

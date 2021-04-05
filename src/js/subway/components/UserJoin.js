@@ -1,5 +1,5 @@
 import { DOM } from '../constants/dom';
-import { MESSAGE, NAME_LENGTH, ROUTE } from '../constants/constants';
+import { MESSAGE, NAME_LENGTH, ROUTE, TEXT_COLOR_CLASS } from '../constants/constants';
 import { routeTo, isValidEmail, isValidName, isValidPassword, findInValidInput, userJoinAPI } from '../utils';
 
 export class UserJoin {
@@ -56,7 +56,7 @@ export class UserJoin {
     this.#isUniqueEmail = false;
 
     if (!isValidEmail(value)) {
-      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace(TEXT_COLOR_CLASS.GREEN, TEXT_COLOR_CLASS.RED);
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.INVALID_EMAIL;
 
       return;
@@ -89,7 +89,7 @@ export class UserJoin {
 
   async #handleEmailFocusOut({ target: { value: email } }) {
     if (!isValidEmail(email)) {
-      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace(TEXT_COLOR_CLASS.GREEN, TEXT_COLOR_CLASS.RED);
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.INVALID_EMAIL;
 
       return;
@@ -99,11 +99,11 @@ export class UserJoin {
       await userJoinAPI.checkOverlappedEmail(email);
       this.#isUniqueEmail = true;
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText = MESSAGE.SIGNUP.UNIQUE_EMAIL;
-      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-red', 'text-green');
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace(TEXT_COLOR_CLASS.RED, TEXT_COLOR_CLASS.GREEN);
     } catch (error) {
       DOM.USER_JOIN.MAIN.EMAIL_MSG.innerText =
         error.message === '422' ? MESSAGE.SIGNUP.OVERLAPPED_EMAIL : MESSAGE.RETRY;
-      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace('text-green', 'text-red');
+      DOM.USER_JOIN.MAIN.EMAIL_MSG.classList.replace(TEXT_COLOR_CLASS.GREEN, TEXT_COLOR_CLASS.RED);
     }
   }
 }
