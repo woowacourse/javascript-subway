@@ -21,7 +21,7 @@ const requestLogin = async ({ formData }) => {
 
     login(accessToken);
     showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_COMPLETED);
-    goTo(PATHNAMES.STATIONS);
+    goTo(PATHNAMES.OVERVIEW);
   } catch (error) {
     reportError({
       messageToUser: AUTH_MESSAGES.LOGIN_HAS_BEEN_FAILED,

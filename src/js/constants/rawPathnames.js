@@ -1,5 +1,6 @@
 const RAW_PATHNAMES = {
   HOME: '/',
+  OVERVIEW: '/overview',
   STATIONS: '/stations',
   LINES: '/lines',
   SECTIONS: '/sections',

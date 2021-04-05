@@ -1,5 +1,6 @@
 import debounce from './debounce.js';
 import reportError from './reportError.js';
+import { regExpForHexCode } from './regExp.js';
 import { $, $$, show, hide } from './DOM.js';
 import { showSnackbar, showNotification } from './notify.js';
 import { dispatchFormData, toStringFromFormData } from './form.js';
@@ -21,6 +22,7 @@ export {
   dispatchFormData,
   hasPropertyValue,
   hide,
+  regExpForHexCode,
   reportError,
   show,
   showSnackbar,

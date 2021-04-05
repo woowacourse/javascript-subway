@@ -1,4 +1,4 @@
-const regExpForHexCode = /(#[0-9a-fA-F]{6})|(#[0-9a-fA-F]{3})/;
+import { regExpForHexCode } from '../../../utils/index.js';
 
 export const OPTION_TEMPLATE = (stationList, headOptionText) => {
   const headOption = `<option value="" selected hidden>${headOptionText}</option>`;
