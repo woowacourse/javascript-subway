@@ -113,6 +113,7 @@
 
 .section-add-form .distance,
 .section-add-form .duration {
+  font-family: monospace;
   font-size: 1rem;
   font-weight: 400;
   line-height: inherit;

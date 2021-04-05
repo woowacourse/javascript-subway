@@ -7,3 +7,12 @@
   border-style: none;
   cursor: pointer;
 }
+
+.btn:hover {
+  background-color: rgb(179, 234, 242);
+}
+
+.btn.checked,
+.btn.checked:hover {
+  background-image: linear-gradient(to bottom right, rgb(179, 234, 242), rgb(129, 222, 234));
+}

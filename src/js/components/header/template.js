@@ -1,10 +1,13 @@
-import { PATHNAMES } from '../../../constants/index.js';
+import { PATHNAMES } from '../../constants/index.js';
 
 const HEADER_TEMPLATE = `
 <a href="${PATHNAMES.HOME}">
   <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
 </a>
 <nav class="d-flex justify-center flex-wrap">
+  <a href="${PATHNAMES.OVERVIEW}" class="my-1">
+    <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+  </a>
   <a href="${PATHNAMES.STATIONS}" class="my-1">
     <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
   </a>
