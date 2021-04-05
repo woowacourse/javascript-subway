@@ -3,26 +3,26 @@ import '../images/subway_emoji.png';
 import { $, getFromSessionStorage } from './@shared/utils/index';
 import { store } from './@shared/models/store';
 import { Subway } from './subway';
-import { ROUTE, SESSION_KEY, STATE_KEY } from './subway/constants/constants';
-import { getRedirectedPath, getUserName } from './subway/utils';
+import { SESSION_KEY, STATE_KEY } from './subway/constants/constants';
 import { routeTo } from './subway/utils';
+import { getUserName } from './subway/utils/api/userAuth';
 
 class App {
   constructor() {
-    this.selectDOM();
-    this.mountChildComponents();
-    this.bindEvents();
+    this.#selectDOM();
+    this.#mountChildComponents();
+    this.#bindEvent();
   }
 
-  selectDOM() {
+  #selectDOM() {
     this.$app = $('#app');
   }
 
-  mountChildComponents() {
+  #mountChildComponents() {
     new Subway();
   }
 
-  bindEvents() {
+  #bindEvent() {
     this.$app.addEventListener('click', event => {
       if (!event.target.classList.contains('js-link')) return;
       event.preventDefault();
@@ -36,15 +36,14 @@ class App {
 window.addEventListener('popstate', event => {
   const pathName = event.state.path;
 
-  store[STATE_KEY.ROUTE].set(pathName);
+  routeTo(pathName);
 });
 
 window.addEventListener('load', async () => {
-  const pathName = getRedirectedPath(location.pathname);
   const accessToken = getFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
   const signedUserName = accessToken ? await getUserName(accessToken) : '';
 
   new App();
   store[STATE_KEY.SIGNED_USER_NAME].set(signedUserName);
-  routeTo(pathName);
+  routeTo(location.pathname);
 });

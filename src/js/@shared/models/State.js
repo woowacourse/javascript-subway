@@ -4,6 +4,7 @@ export class State {
 
   constructor(value) {
     this.#value = value;
+    this.#subscribers = [];
   }
 
   get() {
@@ -13,7 +14,7 @@ export class State {
   set(newValue) {
     if (this.#value === newValue) return;
     this.#value = newValue;
-    this.notify();
+    this.#notify();
   }
 
   subscribe(handler) {
@@ -25,7 +26,7 @@ export class State {
     this.#subscribers.push(handler);
   }
 
-  notify() {
+  #notify() {
     this.#subscribers.forEach(subscriber => subscriber(this.#value));
   }
 }

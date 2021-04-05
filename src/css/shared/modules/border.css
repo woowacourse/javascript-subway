@@ -463,3 +463,9 @@ rounded {
 .border-black {
   border-color: black;
 }
+
+/* Border color */
+
+.border-bottom {
+  border-bottom: 1px solid gray;
+}

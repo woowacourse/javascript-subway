@@ -108,3 +108,4 @@ node_modules
 cypress/fixtures
 cypress/plugins
 cypress/support
+cypress/accounts.json

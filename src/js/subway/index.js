@@ -1,49 +1,51 @@
-import { menuButtons, contentElements } from './views';
-import { $ } from '../@shared/utils';
 import { store } from '../@shared/models/store';
-import { linkButton } from '../@shared/views/templates/linkButton';
-import { MENU, MESSAGE, ROUTE, STATE_KEY } from './constants/constants';
-import { UserAuth, UserJoin } from './components';
+import { STATE_KEY } from './constants/constants';
+import { DOM } from './constants/dom';
+import { StationManage, LineManage, UserAuth, UserJoin, SectionManage } from './components';
+import { hideModal } from './utils';
+import { subwayView } from './views';
+import { MapDisplay } from './components/MapDisplay';
+import { Cache } from '../@shared/models/Cache';
+
+export const cache = {
+  stations: new Cache([]),
+  lines: new Cache([]),
+};
 
 export class Subway {
   constructor() {
-    this.setup();
-    this.selectDOM();
-    this.mountChildComponents();
+    this.#setup();
+    this.#mountChildComponents();
+    this.#bindEvent();
   }
 
-  setup() {
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderRoot.bind(this));
-    store[STATE_KEY.SIGNED_USER_NAME].subscribe(this.renderNavButtons.bind(this));
-    store[STATE_KEY.ROUTE].subscribe(this.renderContent.bind(this));
+  #setup() {
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderRoot.bind(subwayView));
+    store[STATE_KEY.SIGNED_USER_NAME].subscribe(subwayView.renderNavButtons.bind(subwayView));
+    store[STATE_KEY.ROUTE].subscribe(subwayView.renderMain.bind(subwayView));
+    store[STATE_KEY.ROUTE].subscribe(subwayView.renderModal.bind(subwayView));
   }
 
-  selectDOM() {
-    this.$menuContainer = $('#menu-buttons-container');
-    this.$signContainer = $('#sign-button-container');
-    this.$mainContainer = $('#main-container');
-  }
-
-  renderRoot(signedUserName) {
-    $('#root-message-box', contentElements[ROUTE.ROOT]).innerHTML = signedUserName
-      ? MESSAGE.ROOT_GREETING(signedUserName)
-      : MESSAGE.SIGNIN.REQUIRED;
-  }
-
-  renderNavButtons(signedUserName) {
-    this.$menuContainer.innerHTML = signedUserName ? menuButtons : '';
-    this.$signContainer.innerHTML = signedUserName
-      ? linkButton({ link: ROUTE.SIGNOUT, text: MENU.SIGNOUT })
-      : linkButton({ link: ROUTE.SIGNIN, text: MENU.SIGNIN });
-  }
-
-  renderContent(route) {
-    this.$mainContainer.innerHTML = '';
-    this.$mainContainer.appendChild(contentElements[route]);
-  }
-
-  mountChildComponents() {
+  #mountChildComponents() {
     new UserJoin();
     new UserAuth();
+    new StationManage();
+    new LineManage();
+    new SectionManage();
+    new MapDisplay();
+  }
+
+  #bindEvent() {
+    DOM.CONTAINER.MODAL.addEventListener('mousedown', this.#handleModalCloseButton.bind(this));
+  }
+
+  #handleModalCloseButton({ target }) {
+    if (
+      target === DOM.CONTAINER.MODAL ||
+      target.parentNode.classList.contains('modal-close') ||
+      target.classList.contains('close-x')
+    ) {
+      hideModal(DOM.CONTAINER.MODAL);
+    }
   }
 }

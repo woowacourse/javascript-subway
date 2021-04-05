@@ -10,6 +10,9 @@
   border-radius: 2rem;
 }
 
-.modal-inner {
-  width: 600px;
+.section-hr {
+  width: 80%;
+  height: 10px;
+  border-radius: 2rem;
+  margin-top: 20px;
 }

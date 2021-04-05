@@ -1,6 +1,6 @@
 import { store } from '../../@shared/models/store';
 import { removeFromSessionStorage } from '../../@shared/utils';
-import { ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
+import { MESSAGE, ROUTE, SESSION_KEY, STATE_KEY } from '../constants/constants';
 
 export const getRedirectedPath = pathName => {
   const signedUserName = store[STATE_KEY.SIGNED_USER_NAME].get();
@@ -16,16 +16,20 @@ export const getRedirectedPath = pathName => {
     [ROUTE.SEARCH]: signedUserName ? ROUTE.SEARCH : ROUTE.ROOT,
   };
 
-  return redirectedPath[pathName];
+  return redirectedPath[pathName] || ROUTE.ROOT;
 };
 
 export const routeTo = (pathName = ROUTE.ROOT) => {
-  if (pathName === ROUTE.SIGNOUT) {
+  if (
+    pathName === ROUTE.SIGNOUT && //
+    store[STATE_KEY.SIGNED_USER_NAME].get() &&
+    confirm(MESSAGE.CONFIRM.SIGNOUT)
+  ) {
     removeFromSessionStorage(SESSION_KEY.ACCESS_TOKEN);
     store[STATE_KEY.SIGNED_USER_NAME].set('');
     pathName = getRedirectedPath(pathName);
   }
-
+  pathName = getRedirectedPath(pathName);
   history.pushState({ path: pathName }, null, pathName);
   store[STATE_KEY.ROUTE].set(pathName);
 };
