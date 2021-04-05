@@ -4,14 +4,16 @@
 
 html,
 body {
-  margin: 0;
+  margin: 0 auto;
   height: 100vh;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.5;
   background-color: #f1f5f9;
-  background: url('https://media1.giphy.com/media/5SzCNbcYNPSWngBJlx/giphy.gif');
+  background: url('https://media1.giphy.com/media/5SzCNbcYNPSWngBJlx/giphy.gif') no-repeat center;
   background-size: cover;
+  background-color: #000;
+  transition: background 1.5s linear;
 }
 
 #app {
