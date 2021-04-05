@@ -11,7 +11,7 @@ export const LIST_ITEM_TEMPLATE = ({ id, name, color, stations }) => {
 
   return `
   <li class="line-list-item d-flex flex-col relative">
-    <form class="edit-form" data-line-id="${id}" data-line-name="${name}">
+    <form class="edit-form" data-line-id="${id}" data-line-name="${name}" data-line-color="${color}">
       <div class="d-flex justify-between">
         <div class="d-flex items-center">
           <label for="edit-line-color-${id}" class="input-label sr-only">색상</label>

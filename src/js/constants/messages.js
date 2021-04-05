@@ -35,6 +35,7 @@ export const STATIONS_MESSAGES = Object.freeze({
 });
 
 export const LINES_MESSAGES = Object.freeze({
+  PLEASE_MAKE_ANY_CHANGE: '노선 정보를 변경해 주세요.',
   LINE_NAME_ALREADY_EXISTS: '이미 존재하는 노선 이름입니다.',
   LINE_HAS_BEEN_ADDED: '노선 정보가 추가되었습니다.',
   LINE_HAS_BEEN_UPDATED: '노선 정보가 변경되었습니다.',

@@ -6,11 +6,12 @@ import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 
 export default async function requestUpdateLine({ target: $editForm, formData }) {
-  const { lineId, lineName } = $editForm.dataset;
+  const { lineId, lineName, lineColor } = $editForm.dataset;
   const newLineName = formData.get('name');
+  const newLineColor = formData.get('color');
 
-  if (lineName === newLineName) {
-    showNotification(LINES_MESSAGES.LINE_NAME_ALREADY_EXISTS);
+  if (lineName === newLineName && lineColor === newLineColor) {
+    showNotification(LINES_MESSAGES.PLEASE_MAKE_ANY_CHANGE);
     return;
   }
 
