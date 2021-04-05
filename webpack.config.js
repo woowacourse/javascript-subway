@@ -57,6 +57,7 @@ module.exports = {
               '@babel/plugin-transform-runtime',
               '@babel/plugin-proposal-optional-chaining',
               '@babel/plugin-proposal-private-methods',
+              '@babel/plugin-syntax-class-properties',
             ],
           },
         },
