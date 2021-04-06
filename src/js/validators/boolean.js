@@ -23,11 +23,11 @@ export const isSignIn = () => {
 };
 
 export const isAllSignUpInputSuccess = () => {
-  return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_UP_FORM_INPUT_COUNT;
+  return $$(`.${ELEMENT.INPUT_FIELD}.${ELEMENT.SUCCESS}`).length === STANDARD_NUMBER.SIGN_UP_FORM_INPUT_COUNT;
 };
 
 export const isAllSignInInputSuccess = () => {
-  return $$('.input-field.success').length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
+  return $$(`.${ELEMENT.INPUT_FIELD}.${ELEMENT.SUCCESS}`).length === STANDARD_NUMBER.SIGN_IN_FORM_INPUT_COUNT;
 };
 
 export const isDuplicatedLineColor = (selectedColor, colorList) => {
@@ -39,5 +39,5 @@ export const isInvalidLineNameType = (lineName) => {
 };
 
 export const isDimmed = ($target) => {
-  return $target.classList.contains('modal') && $target.classList.contains('open');
+  return $target.classList.contains(ELEMENT.MODAL) && $target.classList.contains(ELEMENT.OPEN);
 };

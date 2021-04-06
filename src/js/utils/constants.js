@@ -178,4 +178,5 @@ export const ELEMENT = Object.freeze({
 
   SUCCESS: 'success',
   FAIL: 'fail',
+  OPEN: 'open',
 });
