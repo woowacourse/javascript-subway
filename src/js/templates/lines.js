@@ -1,7 +1,7 @@
 import { colorOptions } from '../utils/mock';
 
 export const selectedColorTemplate = () => `
-  <button type="button" class="color-option"></button>
+  <button type="button" class="bg-gray-300 color-option"></button>
     <div class="ml-2">
       색을 아래에서 선택해주세요.
     </div>

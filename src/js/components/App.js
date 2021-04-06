@@ -1,9 +1,9 @@
-import Stations from './Stations';
-import Lines from './Lines';
-import Sections from './Sections';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Map from './Map';
+import Stations from './station/Stations';
+import Lines from './line/Lines';
+import Sections from './section/Sections';
+import SignIn from './signIn/SignIn';
+import SignUp from './signUp/SignUp';
+import SubwayMap from './subwayMap/SubwayMap';
 import Router from '../router/Router';
 import {
   ELEMENT,
@@ -34,7 +34,7 @@ class App {
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
-    this.map = new Map({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
+    this.map = new SubwayMap({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
     this.setMainBySignInStatus();
   }
 
