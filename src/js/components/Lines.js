@@ -1,15 +1,10 @@
 import { $ } from '../utils/dom';
 import { openModal, closeModal } from '../utils/modal';
 import { getLineListTemplate, getLineEditModalTemplate, getLineAddModalTemplate } from '../templates/lines';
-import {
-  requestAddLine,
-  requestGetLineList,
-  requestEditLineData,
-  requestRemoveLine,
-} from '../requestData/requestUserData';
 import UserDataManager from '../model/UserDataManager';
 import { validateAddLine, validateEditLine } from '../validators/validation';
 import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
+import { httpClient } from '../api/httpClient';
 
 class Lines {
   constructor() {
@@ -78,14 +73,11 @@ class Lines {
   }
 
   async setLineListTemplate() {
-    try {
-      const lineData = await requestGetLineList();
+    const lineData = await httpClient.get({ path: `/lines`, returnType: 'json' });
+    if (!lineData) return;
 
-      this.userDataManager.setLineData(lineData);
-      this.userDataManager.cacheLineListTemplate();
-    } catch (error) {
-      alert(error.message);
-    }
+    this.userDataManager.setLineData(lineData);
+    this.userDataManager.cacheLineListTemplate();
   }
 
   renderLineList() {
@@ -125,24 +117,22 @@ class Lines {
         selectedLineColor: this.selectedLineColor,
         lineColorList: this.userDataManager.getLineColors(),
       });
-
-      const lineData = await requestAddLine({
-        name: lineName,
-        color: this.selectedLineColor,
-        upStationId,
-        downStationId,
-        distance,
-        duration,
-      });
-
-      this.userDataManager.setLineData(lineData);
-      this.renderAddedLine(lineName);
-      this.userDataManager.cleanCacheLineListTemplate();
-
-      closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
+      return;
     }
+
+    const lineData = await httpClient.post({
+      path: '/lines',
+      body: { name: lineName, color: this.selectedLineColor, upStationId, downStationId, distance, duration },
+      returnType: 'json',
+    });
+    if (!lineData) return;
+
+    this.userDataManager.setLineData(lineData);
+    this.renderAddedLine(lineName);
+    this.userDataManager.cleanCacheLineListTemplate();
+    closeModal(this.$modal);
   }
 
   clearModalInput() {
@@ -178,21 +168,21 @@ class Lines {
         selectedLineColor: this.selectedLineColor,
         lineColorList: this.userDataManager.getLineColors(),
       });
-
-      await requestEditLineData({ id: lineIdInEdit, name: newLineName, color: newColor });
-
-      this.userDataManager.editLineData({
-        oldLineName: this.lineNameInEdit,
-        newLineName,
-        newColor,
-      });
-
-      this.renderEditedLine(newLineName, newColor);
-      this.userDataManager.cleanCacheLineListTemplate();
-      closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
+      return;
     }
+
+    const nameEditSuccess = await httpClient.put({
+      path: `/lines/${lineIdInEdit}`,
+      body: { name: newLineName, color: newColor },
+    });
+    if (!nameEditSuccess) return;
+
+    this.userDataManager.editLineData({ oldLineName: this.lineNameInEdit, newLineName, newColor });
+    this.renderEditedLine(newLineName, newColor);
+    this.userDataManager.cleanCacheLineListTemplate();
+    closeModal(this.$modal);
   }
 
   async handleLineRemoveButton(e) {
@@ -200,15 +190,14 @@ class Lines {
 
     const { lineName } = e.target.closest(`.${ELEMENT.LINE_LIST_ITEM}`).dataset;
     const $lineListItem = $(`[data-line-name="${lineName}"]`);
+    const lineId = this.userDataManager.getTargetLineData(lineName).id;
 
-    try {
-      await requestRemoveLine({ id: this.userDataManager.getTargetLineData(lineName).id });
-      $lineListItem.remove();
-      this.userDataManager.removeLine(lineName);
-      this.userDataManager.cleanCacheLineListTemplate();
-    } catch (error) {
-      alert(error.message);
-    }
+    const removeSuccess = await httpClient.delete({ path: `/lines/${lineId}` });
+    if (!removeSuccess) return;
+
+    $lineListItem.remove();
+    this.userDataManager.removeLine(lineName);
+    this.userDataManager.cleanCacheLineListTemplate();
   }
 
   renderAddedLine(lineName) {

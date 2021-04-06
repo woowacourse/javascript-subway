@@ -2,9 +2,10 @@ import { $, $$ } from '../utils/dom';
 import { getFindingRouteMapTemplate, getFindingRouteOptionsTemplate, getMapLineTemplate } from '../templates/map';
 import { getLineOptionsTemplate } from '../templates/sections';
 import UserDataManager from '../model/UserDataManager';
-import { requestGetLineList, requestGetSubwayRouteList } from '../requestData/requestUserData';
 import { closeModal, openModal } from '../utils/modal';
-import { ELEMENT, ERROR_MESSAGE, PATH } from '../utils/constants';
+import { ELEMENT, PATH } from '../utils/constants';
+import { requestGetLineList, requestGetSubwayRouteList } from '../requestData/requestUserData';
+import { httpClient } from '../api/httpClient';
 
 class Map {
   constructor(props) {
@@ -45,14 +46,11 @@ class Map {
   }
 
   async setLineListTemplate() {
-    try {
-      const lineData = await requestGetLineList();
+    const lineData = await httpClient.get({ path: `/lines`, returnType: 'json' });
+    if (!lineData) return;
 
-      this.userDataManager.setLineData(lineData);
-      this.userDataManager.cacheLineListTemplate();
-    } catch (error) {
-      alert(error.message);
-    }
+    this.userDataManager.setLineData(lineData);
+    this.userDataManager.cacheLineListTemplate();
   }
 
   renderFirstScreen() {
@@ -89,13 +87,14 @@ class Map {
     const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const standard = e.target[ELEMENT.FINDING_STANDARD].value;
 
-    try {
-      const subwayRouteList = await requestGetSubwayRouteList({ upStationId, downStationId, standard });
-      this.renderFindingRouteTemplate(subwayRouteList);
-      closeModal(this.$modal);
-    } catch (error) {
-      alert(ERROR_MESSAGE.IMPOSSIBLE_ROUTE);
-    }
+    const subwayRouteList = await await httpClient.get({
+      path: `/paths?source=${upStationId}&target=${downStationId}&type=${standard}`,
+      returnType: 'json',
+    });
+    if (!subwayRouteList) return;
+
+    this.renderFindingRouteTemplate(subwayRouteList);
+    closeModal(this.$modal);
   }
 
   handleViewSelectedLine(e) {

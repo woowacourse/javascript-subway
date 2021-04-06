@@ -2,8 +2,8 @@ import UserDataManager from '../model/UserDataManager';
 import { $ } from '../utils/dom';
 import { getLineOptionsTemplate, getTargetSectionListTemplate, getStationOptionsTemplate } from '../templates/sections';
 import { openModal, closeModal } from '../utils/modal';
-import { requestAddSection, requestGetTargetLineList, requestRemoveSection } from '../requestData/requestUserData';
 import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
+import { httpClient } from '../api/httpClient';
 
 class Sections {
   constructor() {
@@ -84,13 +84,16 @@ class Sections {
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
-    try {
-      await requestAddSection({ id: lineId, upStationId, downStationId, distance, duration });
-      await this.updateTargetLineData({ lineId, lineName });
-      closeModal(this.$modal);
-    } catch (error) {
-      alert(error.message);
-    }
+    const addSuccess = await httpClient.post({
+      path: `/lines/${lineId}/sections`,
+      body: { upStationId, downStationId, distance, duration },
+    });
+    if (!addSuccess) return;
+
+    const updateSuccess = await this.updateTargetLineData({ lineId, lineName });
+    if (!updateSuccess) return;
+
+    closeModal(this.$modal);
   }
 
   async handleRemoveSection(e) {
@@ -101,22 +104,22 @@ class Sections {
     const removeTargetStation = e.target.dataset.stationName;
     const removeTargetStationId = this.userDataManager.getTargetStationId(removeTargetStation);
 
-    try {
-      await requestRemoveSection({ lineId, stationId: removeTargetStationId });
-      await this.updateTargetLineData({ lineId, lineName });
-    } catch (error) {
-      alert(error.message);
-    }
+    const removeSuccess = await httpClient.delete({
+      path: `/lines/${lineId}/sections?stationId=${removeTargetStationId}`,
+    });
+    if (!removeSuccess) return;
+
+    await this.updateTargetLineData({ lineId, lineName });
   }
 
   async updateTargetLineData({ lineId, lineName }) {
-    try {
-      const targetLineList = await requestGetTargetLineList({ id: lineId });
-      this.userDataManager.updateTargetLineData(targetLineList);
-      this.renderStationListInTargetLine(lineName);
-    } catch (error) {
-      alert(error.message);
-    }
+    const targetLineList = await httpClient.get({ path: `/lines/${lineId}`, returnType: 'json' });
+    if (!targetLineList) return;
+
+    this.userDataManager.updateTargetLineData(targetLineList);
+    this.renderStationListInTargetLine(lineName);
+
+    return 'success';
   }
 
   showSectionModal() {

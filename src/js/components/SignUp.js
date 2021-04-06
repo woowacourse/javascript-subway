@@ -1,10 +1,10 @@
 import { validateEmail, validateName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
-import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
+import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
-import { requestEmailDuplicationCheck, requestSignUpApprove } from '../requestData/requestUserData';
 import { renderCheckingArea, inputChecker } from '../inputChecker/inputChecker';
+import { httpClient } from '../api/httpClient';
 
 class SignUp {
   constructor(props) {
@@ -49,19 +49,24 @@ class SignUp {
   async handleEmailCheck({ target }) {
     const email = target.value;
 
-    inputChecker.signUp({
+    const emailValidationCheckPassed = inputChecker.signUp({
       callback: validateEmail.bind(this, email),
       $textArea: this.$signUpEmailCheckTextArea,
       $input: this.$signUpEmailInput,
     });
 
-    try {
-      await requestEmailDuplicationCheck(email);
-    } catch (error) {
+    if (!emailValidationCheckPassed) return;
+
+    const emailDuplicationCheckPassed = await httpClient.get({
+      path: `/members/check-validation?email=${email}`,
+      isAlert: false,
+    });
+
+    if (!emailDuplicationCheckPassed) {
       renderCheckingArea({
         $textArea: this.$signUpEmailCheckTextArea,
         $input: this.$signUpEmailInput,
-        errorMessage: error.message,
+        errorMessage: ERROR_MESSAGE.DUPLICATED_EMAIL,
       });
       deactivateTarget(this.$signUpSubmitButton);
     }
@@ -76,11 +81,13 @@ class SignUp {
   }
 
   handlePasswordCheck({ target }) {
-    inputChecker.signUp({
+    const passwordValidationCheckPassed = inputChecker.signUp({
       callback: validatePassword.bind(this, target.value),
       $textArea: this.$signUpPasswordCheckTextArea,
       $input: this.$signUpPasswordInput,
     });
+
+    if (!passwordValidationCheckPassed) return;
 
     inputChecker.signUp({
       callback: validatePasswordConfirm.bind(this, target.value, this.$signUpPasswordConfirmInput.value),
@@ -108,12 +115,14 @@ class SignUp {
   }
 
   async requestSignUp({ email, userName, password }) {
-    try {
-      await requestSignUpApprove({ email, name: userName, password });
-      this.manageSignUpSuccess();
-    } catch (error) {
-      alert(error.message);
-    }
+    const signUpSuccess = httpClient.post({
+      path: '/members',
+      body: { email, password, name: userName },
+      alertMessage: ERROR_MESSAGE.SIGN_UP_FAIL,
+    });
+    if (!signUpSuccess) return;
+
+    this.manageSignUpSuccess();
   }
 
   manageSignUpSuccess() {

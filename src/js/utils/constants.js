@@ -64,6 +64,7 @@ export const ERROR_MESSAGE = Object.freeze({
   NEED_SELECT_COLOR: '색을 선택해주세요.',
   DUPLICATED_LINE_COLOR: '이미 같은 색의 노선이 존재합니다.',
   IMPOSSIBLE_ROUTE: '해당 경로를 찾을 수 없습니다.',
+  FAIL_LOAD_STATION_LIST: '역 목록 조회에 실패했습니다.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({

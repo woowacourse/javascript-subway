@@ -1,15 +1,10 @@
 import { $ } from '../utils/dom';
 import { openModal, closeModal } from '../utils/modal';
-import {
-  requestAddStation,
-  requestEditStationName,
-  requestRemoveStation,
-  requestGetStationList,
-} from '../requestData/requestUserData';
 import { validateName } from '../validators/validation';
 import { getStationListTemplate } from '../templates/stations';
 import UserDataManager from '../model/UserDataManager';
 import { REMOVE_CONFIRM_MESSAGE, ELEMENT } from '../utils/constants';
+import { httpClient } from '../api/httpClient';
 
 class Stations {
   constructor() {
@@ -48,13 +43,11 @@ class Stations {
   }
 
   async setStationListTemplate() {
-    try {
-      const stationData = await requestGetStationList();
-      this.userDataManager.setStationData(stationData);
-      this.userDataManager.cacheStationListTemplate();
-    } catch (error) {
-      alert(error.message);
-    }
+    const stationData = await httpClient.get({ path: `/stations`, returnType: 'json' });
+    if (!stationData) return;
+
+    this.userDataManager.setStationData(stationData);
+    this.userDataManager.cacheStationListTemplate();
   }
 
   renderStationList() {
@@ -68,14 +61,18 @@ class Stations {
 
     try {
       validateName(stationName);
-      const stationData = await requestAddStation({ name: stationName });
-      this.userDataManager.setStationData(stationData);
-      this.renderAddedStation(stationName);
-      e.target[ELEMENT.STATION_NAME].value = '';
-      this.userDataManager.cleanCacheStationListTemplate();
     } catch (error) {
       alert(error.message);
+      return;
     }
+
+    const stationData = await httpClient.post({ path: '/stations', body: { name: stationName }, returnType: 'json' });
+    if (!stationData) return;
+
+    this.userDataManager.setStationData(stationData);
+    this.renderAddedStation(stationName);
+    e.target[ELEMENT.STATION_NAME].value = '';
+    this.userDataManager.cleanCacheStationListTemplate();
   }
 
   handleStationNameEditButton(e) {
@@ -94,15 +91,19 @@ class Stations {
 
     try {
       validateName(newStationName);
-      await requestEditStationName({ id: stationId, name: newStationName });
-      this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
-      this.renderEditedStation(newStationName);
-      this.userDataManager.cleanCacheStationListTemplate();
-      this.userDataManager.cleanCacheLineListTemplate();
-      closeModal(this.$modal);
     } catch (error) {
       alert(error.message);
+      return;
     }
+
+    const nameEditSuccess = await httpClient.put({ path: `/stations/${stationId}`, body: { name: newStationName } });
+    if (!nameEditSuccess) return;
+
+    this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
+    this.renderEditedStation(newStationName);
+    this.userDataManager.cleanCacheStationListTemplate();
+    this.userDataManager.cleanCacheLineListTemplate();
+    closeModal(this.$modal);
   }
 
   async handleStationNameRemoveButton(e) {
@@ -110,15 +111,14 @@ class Stations {
 
     const { stationName } = e.target.closest(`.${ELEMENT.STATION_LIST_ITEM}`).dataset;
     const $stationListItem = $(`[data-station-name="${stationName}"]`);
+    const stationId = this.userDataManager.getTargetStationId(stationName);
 
-    try {
-      await requestRemoveStation({ id: this.userDataManager.getTargetStationId(stationName) });
-      $stationListItem.remove();
-      this.userDataManager.removeStation(stationName);
-      this.userDataManager.cleanCacheStationListTemplate();
-    } catch (error) {
-      alert(error.message);
-    }
+    const removeSuccess = await httpClient.delete({ path: `/stations/${stationId}` });
+    if (!removeSuccess) return;
+
+    $stationListItem.remove();
+    this.userDataManager.removeStation(stationName);
+    this.userDataManager.cleanCacheStationListTemplate();
   }
 
   renderAddedStation(stationName) {

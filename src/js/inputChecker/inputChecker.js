@@ -18,10 +18,11 @@ const checkInputInRealTime = ({ callback, $textArea, $input }, isAllInputSuccess
     callback();
     renderCheckingArea({ $textArea, $input });
     toggleSubmitActivation(isAllInputSuccess());
+
+    return 'success';
   } catch (error) {
     renderCheckingArea({ $textArea, $input, errorMessage: error.message });
     toggleSubmitActivation(false);
-    throw error;
   }
 };
 

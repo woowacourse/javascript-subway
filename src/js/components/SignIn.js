@@ -1,10 +1,10 @@
-import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
+import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { inputChecker } from '../inputChecker/inputChecker';
 import { validateEmail, validatePassword } from '../validators/validation';
+import { httpClient } from '../api/httpClient';
 
 class SignIn {
   constructor(props) {
@@ -62,12 +62,14 @@ class SignIn {
   }
 
   async requestSignIn({ email, password }) {
-    try {
-      const accessToken = await requestGetToken({ email, password });
-      this.manageSignInSuccess(accessToken);
-    } catch (error) {
-      alert(error.message);
-    }
+    const signInData = await httpClient.post({
+      path: '/login/token',
+      body: { email, password },
+      returnType: 'json',
+    });
+    if (!signInData) return;
+
+    this.manageSignInSuccess(signInData.accessToken);
   }
 
   manageSignInSuccess(accessToken) {
