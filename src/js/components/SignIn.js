@@ -1,5 +1,5 @@
 import { showSnackbar } from '../utils/snackbar';
-import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER } from '../utils/constants';
+import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER, TYPE_JSON } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { inputChecker } from '../inputChecker/inputChecker';
@@ -65,7 +65,7 @@ class SignIn {
     const signInData = await httpClient.post({
       path: '/login/token',
       body: { email, password },
-      returnType: 'json',
+      returnType: TYPE_JSON,
     });
     if (!signInData) return;
 

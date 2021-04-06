@@ -3,8 +3,7 @@ import { getFindingRouteMapTemplate, getFindingRouteOptionsTemplate, getMapLineT
 import { getLineOptionsTemplate } from '../templates/sections';
 import UserDataManager from '../model/UserDataManager';
 import { closeModal, openModal } from '../utils/modal';
-import { ELEMENT, PATH } from '../utils/constants';
-import { requestGetLineList, requestGetSubwayRouteList } from '../requestData/requestUserData';
+import { ELEMENT, PATH, TYPE_JSON } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 
 class Map {
@@ -46,7 +45,7 @@ class Map {
   }
 
   async setLineListTemplate() {
-    const lineData = await httpClient.get({ path: `/lines`, returnType: 'json' });
+    const lineData = await httpClient.get({ path: `/lines`, returnType: TYPE_JSON });
     if (!lineData) return;
 
     this.userDataManager.setLineData(lineData);
@@ -89,7 +88,7 @@ class Map {
 
     const subwayRouteList = await await httpClient.get({
       path: `/paths?source=${upStationId}&target=${downStationId}&type=${standard}`,
-      returnType: 'json',
+      returnType: TYPE_JSON,
     });
     if (!subwayRouteList) return;
 

@@ -1,5 +1,5 @@
 import token from '../token/Token';
-import { API_END_POINT, METHOD } from '../utils/constants';
+import { API_END_POINT, METHOD, SUCCESS } from '../utils/constants';
 
 const fetchOptions = ({ method, body }) => {
   return {
@@ -25,7 +25,7 @@ const subwayFetch = async ({ path, method, body, returnType, isAlert = true, ale
       return data;
     }
 
-    return 'success';
+    return SUCCESS;
   } catch (error) {
     isAlert && alert(alertMessage ?? error.message);
   }

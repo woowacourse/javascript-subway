@@ -2,6 +2,8 @@ export const API_END_POINT = 'https://www.boorownie.com';
 export const TOKEN_KEY = 'token';
 export const COOKIE_EXPIRE_TIME = 60;
 export const SNACKBAR_SHOW_TIME = 1500;
+export const TYPE_JSON = 'json';
+export const SUCCESS = 'success';
 
 export const PATH = Object.freeze({
   MAIN: '/',

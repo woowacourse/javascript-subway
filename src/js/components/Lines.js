@@ -3,7 +3,7 @@ import { openModal, closeModal } from '../utils/modal';
 import { getLineListTemplate, getLineEditModalTemplate, getLineAddModalTemplate } from '../templates/lines';
 import UserDataManager from '../model/UserDataManager';
 import { validateAddLine, validateEditLine } from '../validators/validation';
-import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
+import { ELEMENT, REMOVE_CONFIRM_MESSAGE, TYPE_JSON } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 
 class Lines {
@@ -73,7 +73,7 @@ class Lines {
   }
 
   async setLineListTemplate() {
-    const lineData = await httpClient.get({ path: `/lines`, returnType: 'json' });
+    const lineData = await httpClient.get({ path: `/lines`, returnType: TYPE_JSON });
     if (!lineData) return;
 
     this.userDataManager.setLineData(lineData);
@@ -125,7 +125,7 @@ class Lines {
     const lineData = await httpClient.post({
       path: '/lines',
       body: { name: lineName, color: this.selectedLineColor, upStationId, downStationId, distance, duration },
-      returnType: 'json',
+      returnType: TYPE_JSON,
     });
     if (!lineData) return;
 

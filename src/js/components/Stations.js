@@ -3,7 +3,7 @@ import { openModal, closeModal } from '../utils/modal';
 import { validateName } from '../validators/validation';
 import { getStationListTemplate } from '../templates/stations';
 import UserDataManager from '../model/UserDataManager';
-import { REMOVE_CONFIRM_MESSAGE, ELEMENT } from '../utils/constants';
+import { REMOVE_CONFIRM_MESSAGE, ELEMENT, TYPE_JSON } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 
 class Stations {
@@ -43,7 +43,7 @@ class Stations {
   }
 
   async setStationListTemplate() {
-    const stationData = await httpClient.get({ path: `/stations`, returnType: 'json' });
+    const stationData = await httpClient.get({ path: `/stations`, returnType: TYPE_JSON });
     if (!stationData) return;
 
     this.userDataManager.setStationData(stationData);
@@ -66,7 +66,11 @@ class Stations {
       return;
     }
 
-    const stationData = await httpClient.post({ path: '/stations', body: { name: stationName }, returnType: 'json' });
+    const stationData = await httpClient.post({
+      path: '/stations',
+      body: { name: stationName },
+      returnType: TYPE_JSON,
+    });
     if (!stationData) return;
 
     this.userDataManager.setStationData(stationData);

@@ -2,7 +2,7 @@ import UserDataManager from '../model/UserDataManager';
 import { $ } from '../utils/dom';
 import { getLineOptionsTemplate, getTargetSectionListTemplate, getStationOptionsTemplate } from '../templates/sections';
 import { openModal, closeModal } from '../utils/modal';
-import { ELEMENT, REMOVE_CONFIRM_MESSAGE } from '../utils/constants';
+import { ELEMENT, REMOVE_CONFIRM_MESSAGE, SUCCESS, TYPE_JSON } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 
 class Sections {
@@ -113,13 +113,13 @@ class Sections {
   }
 
   async updateTargetLineData({ lineId, lineName }) {
-    const targetLineList = await httpClient.get({ path: `/lines/${lineId}`, returnType: 'json' });
+    const targetLineList = await httpClient.get({ path: `/lines/${lineId}`, returnType: TYPE_JSON });
     if (!targetLineList) return;
 
     this.userDataManager.updateTargetLineData(targetLineList);
     this.renderStationListInTargetLine(lineName);
 
-    return 'success';
+    return SUCCESS;
   }
 
   showSectionModal() {
