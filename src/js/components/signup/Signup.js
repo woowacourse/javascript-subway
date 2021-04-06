@@ -8,6 +8,7 @@ import { signUpTemplate } from './signupTemplate.js';
 
 import { authAPI } from '../../../../api/auth.js';
 import { showSnackbar } from '../../utils/snackbar.js';
+import { debounce } from '../../utils/debounce.js';
 import {
   $,
   $$,
@@ -55,18 +56,14 @@ class SignUp {
   }
 
   _bindInputEvent() {
-    let debounce = null;
+    this.$signUpForm.addEventListener(
+      'input',
+      debounce(({ target }) => {
+        if (target.tagName !== 'INPUT') return;
 
-    this.$signUpForm.addEventListener('input', ({ target }) => {
-      if (target.tagName !== 'INPUT') return;
-      if (debounce) {
-        clearTimeout(debounce);
-      }
-
-      debounce = setTimeout(() => {
         this._handleValidMessage(target);
-      }, TIME.DEBOUNCE);
-    });
+      }, TIME.DEBOUNCE),
+    );
   }
 
   _bindSubmitEvent() {
