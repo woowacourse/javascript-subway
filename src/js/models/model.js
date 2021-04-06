@@ -4,13 +4,16 @@ import { ERROR_MESSAGE } from '../constants';
 
 export const initStations = async userAccessToken => {
   try {
-    const newStations = {};
     const stations = await stationAPI.getStations(userAccessToken);
-    stations.forEach(({ id, ...rest }) => {
-      newStations[id] = rest;
-    });
 
-    return newStations;
+    const result = stations.reduce((newStations, { id, name }) => {
+      return {
+        ...newStations,
+        [id]: name,
+      };
+    }, {});
+
+    return result;
   } catch {
     alert(ERROR_MESSAGE.LOAD_STATION_FAILED);
   }
@@ -18,13 +21,16 @@ export const initStations = async userAccessToken => {
 
 export const initLines = async userAccessToken => {
   try {
-    const newLines = {};
-
     const lines = await lineAPI.getLines(userAccessToken);
-    lines.forEach(({ id, name, color }) => {
-      newLines[id] = { name, color };
-    });
-    return newLines;
+
+    const result = lines.reduce((newLines, { id, name, color }) => {
+      return {
+        ...newLines,
+        [id]: { name, color },
+      };
+    }, {});
+
+    return result;
   } catch {
     alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
   }
@@ -32,15 +38,19 @@ export const initLines = async userAccessToken => {
 
 export const initSections = async userAccessToken => {
   try {
-    const newSections = {};
+    const lines = await lineAPI.getLines(userAccessToken);
 
-    const sections = await lineAPI.getLines(userAccessToken);
+    const result = lines.reduce(
+      (newSections, { id, name, color, stations, sections }) => {
+        return {
+          ...newSections,
+          [id]: { name, color, stations, sections },
+        };
+      },
+      {},
+    );
 
-    sections.forEach(({ id, name, color, stations }) => {
-      newSections[id] = { name, color, stations };
-    });
-
-    return newSections;
+    return result;
   } catch {
     alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
   }
