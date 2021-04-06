@@ -6,7 +6,6 @@ import request from '../../utils/request.js';
 import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
-  // 파라미터가 너무 많아서 분리가 필요해보임
   constructor(parentNode, stateManagers) {
     super(parentNode, stateManagers);
   }
@@ -16,9 +15,8 @@ class Modal extends ModalComponent {
   }
 
   fillTargetInForm() {
-    const { name } = this.state.stations.find(
-      ({ id }) => id === Number(this.targetId)
-    );
+    const { stations } = this.stateManagers.subwayState.getSubwayState();
+    const { name } = stations.find(({ id }) => id === Number(this.targetId));
     $('#subway-station-name').value = name;
   }
 
@@ -28,7 +26,6 @@ class Modal extends ModalComponent {
     $('#edit-station-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = this.targetId;
-      // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
       const newName = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
 
@@ -48,9 +45,8 @@ class Modal extends ModalComponent {
       if (!response.ok) throw Error(await response.text());
 
       this.hide();
-      await this.updateSubwayState();
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
     } catch (error) {
-      // TODO: 스낵바
       console.error(error.message);
     }
   }

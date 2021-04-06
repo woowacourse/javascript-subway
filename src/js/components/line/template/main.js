@@ -21,7 +21,7 @@ const mainTemplate = (lines) => {
         <button
           type="button"
           class="js-line-item__create create-line-btn bg-cyan-300 ml-2"
-        >노선 추가</button>
+        >추가</button>
       </div>
       <ul class="js-line-list mt-3 pl-0">
         ${lines.map(lineListItem).join('')}

@@ -1,4 +1,4 @@
-import getSubwayState from '../../api/apis.js';
+import getSubwayState from '../../api/fetchGetSubwayState.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { PATH } from '../../constants/url.js';
@@ -10,39 +10,28 @@ import { mainTemplate, sectionItem } from './template/main.js';
 
 class Section extends Component {
   constructor(parentNode, stateManagers) {
-    super(
-      parentNode,
-      stateManagers,
-      {
-        modal: new Modal($('.js-modal'), stateManagers),
-      },
-      {
-        stations: [],
-        lines: [],
-      }
-    );
-
-    this.setChildProps('modal', {
-      updateSubwayState: this.updateSubwayState.bind(this),
+    super(parentNode, stateManagers, {
+      modal: new Modal($('.js-modal'), stateManagers),
     });
   }
 
   renderSelf() {
-    this.parentNode.innerHTML = mainTemplate(this.state.lines);
+    const { lines } = this.stateManagers.subwayState.getSubwayState();
+    this.parentNode.innerHTML = mainTemplate(lines);
+    this.childComponents.modal.render();
   }
 
   addEventListeners() {
     $('.js-section-item__create').addEventListener('click', () => {
-      // create 로쥑
       this.childComponents.modal.show();
     });
 
     $('.js-section-form__select').addEventListener('change', ({ target }) => {
       const lineId = target.value;
-      const { color, stations } = this.state.lines.find(
+      const { lines } = this.stateManagers.subwayState.getSubwayState();
+      const { color, stations } = lines.find(
         (line) => line.id === Number(lineId)
       );
-      console.log(stations);
 
       $('.js-section-list').innerHTML = stations
         .map((station) => sectionItem(station))
@@ -54,34 +43,32 @@ class Section extends Component {
 
     $('.js-section-list').addEventListener('click', async ({ target }) => {
       if (!target.classList.contains('js-section-item__delete')) return;
+
       if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
       const lineId = target.closest('.js-section-list').dataset.lineId;
       const stationId = target.closest('.js-section-item').dataset.stationId;
       const accessToken = this.stateManagers.accessToken.getToken();
 
+      await deleteItem(lineId, stationId, accessToken);
+    });
+  }
+
+  async deleteItem(lineId, stationId, accessToken) {
+    try {
       const params = getFetchParams({
         path: `${PATH.LINES}/${lineId}/sections?stationId=${stationId}`,
         accessToken,
       });
 
-      try {
-        const response = await request.delete(params);
+      const response = await request.delete(params);
 
-        if (!response.ok) throw Error(await response.text());
+      if (!response.ok) throw Error(await response.text());
 
-        await this.updateSubwayState();
-      } catch (error) {
-        console.error(error.message);
-      }
-    });
-  }
-
-  async updateSubwayState() {
-    const accessToken = this.stateManagers.accessToken.getToken();
-    const { stations, lines } = await getSubwayState(accessToken);
-
-    this.setState({ stations, lines });
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }
 

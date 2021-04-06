@@ -1,4 +1,4 @@
-import getSubwayState from '../../api/apis.js';
+import getSubwayState from '../../api/fetchGetSubwayState.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { PATH } from '../../constants/url.js';
@@ -10,24 +10,15 @@ import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
-    super(
-      parentNode,
-      stateManagers,
-      { modal: new Modal($('.js-modal'), stateManagers) },
-      {
-        stations: [],
-        lines: [],
-      }
-    );
-
-    this.setChildProps('modal', {
-      updateSubwayState: this.updateSubwayState.bind(this),
+    super(parentNode, stateManagers, {
+      modal: new Modal($('.js-modal'), stateManagers),
     });
   }
 
   renderSelf() {
-    const lines = this.state.lines;
+    const { lines } = this.stateManagers.subwayState.getSubwayState();
     this.parentNode.innerHTML = mainTemplate(lines);
+    this.childComponents.modal.render();
   }
 
   addEventListeners() {
@@ -35,9 +26,8 @@ class Line extends Component {
       this.childComponents.modal.show();
       this.childComponents.modal.clearForm();
       this.childComponents.modal.submitType = 'post';
-      $('.js-line-detail-container').innerHTML = lineFormDetail(
-        this.state.stations
-      );
+      const { stations } = this.stateManagers.subwayState.getSubwayState();
+      $('.js-line-detail-container').innerHTML = lineFormDetail(stations);
     });
 
     $('.js-line-list').addEventListener('click', async ({ target }) => {
@@ -55,31 +45,27 @@ class Line extends Component {
 
         const id = target.closest('.js-line-item').dataset.id;
         const accessToken = this.stateManagers.accessToken.getToken();
-        const params = getFetchParams({
-          path: `${PATH.LINES}/${id}`,
-          accessToken,
-        });
 
-        try {
-          const response = await request.delete(params);
-
-          if (!response.ok) throw Error(await response.text());
-          this.updateSubwayState();
-        } catch (error) {
-          console.error(error.message);
-        }
+        await this.deleteItem(id, accessToken);
       }
     });
   }
 
-  async updateSubwayState() {
-    const { stations, lines } = await getSubwayState(
-      this.stateManagers.accessToken.getToken()
-    );
+  async deleteItem(id, accessToken) {
+    const params = getFetchParams({
+      path: `${PATH.LINES}/${id}`,
+      accessToken,
+    });
 
-    this.setState({ stations, lines });
+    try {
+      const response = await request.delete(params);
+
+      if (!response.ok) throw Error(await response.text());
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }
-//생성을 하는 순간 private tab들은 App들은 access Token이 없음. 그래서 요청이 불가.
 
 export default Line;

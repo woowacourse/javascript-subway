@@ -21,7 +21,7 @@ export const mainTemplate = (stationList) => {
             name="submit"
             class="input-submit bg-cyan-300 ml-2"
           >
-            역 추가
+            추가
           </button>
         </div>
       </form>

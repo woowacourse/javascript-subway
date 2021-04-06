@@ -12,7 +12,7 @@ class Modal extends ModalComponent {
   }
 
   renderSelf() {
-    const stations = this.state.stations;
+    const { stations } = this.stateManagers.subwayState.getSubwayState();
     this.parentNode.innerHTML = linesModal(stations);
   }
 
@@ -91,14 +91,17 @@ class Modal extends ModalComponent {
 
       if (!response.ok) throw Error(await response.text());
 
-      this.updateSubwayState();
+      this.stateManagers.subwayState.updateSubwayState(
+        this.stateManagers.accessToken.getToken()
+      );
     } catch (error) {
       console.error(error.message);
     }
   }
 
   fillTargetInForm() {
-    const { name, color } = this.state.lines.find(
+    const { lines } = this.stateManagers.subwayState.getSubwayState();
+    const { name, color } = lines.find(
       (line) => line.id === Number(this.targetId)
     );
 

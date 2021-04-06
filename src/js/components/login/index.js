@@ -7,6 +7,7 @@ import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import ValidationError from '../../error/ValidationError.js';
 import { INVALID_MESSAGE } from '../../constants/message.js';
 import getFetchParams from '../../api/getFetchParams.js';
+import fetchGetSubwayState from '../../api/fetchGetSubwayState.js';
 
 class Login extends Component {
   constructor(parentNode, stateManagers) {

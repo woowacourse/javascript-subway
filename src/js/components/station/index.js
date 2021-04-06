@@ -6,28 +6,18 @@ import request from '../../utils/request.js';
 import Component from '../../core/Component.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
-import getSubwayState from '../../api/apis.js';
 
 class Station extends Component {
   constructor(parentNode, stateManagers) {
-    super(
-      parentNode,
-      stateManagers,
-      { modal: new Modal($('.js-modal'), stateManagers) },
-      {
-        stations: [],
-        lines: [],
-      }
-    );
-
-    this.setChildProps('modal', {
-      updateSubwayState: this.updateSubwayState.bind(this),
+    super(parentNode, stateManagers, {
+      modal: new Modal($('.js-modal'), stateManagers),
     });
   }
 
   renderSelf() {
-    const stations = this.state.stations;
+    const { stations } = this.stateManagers.subwayState.getSubwayState();
     this.parentNode.innerHTML = mainTemplate(stations);
+    this.childComponents.modal.render();
   }
 
   addEventListeners() {
@@ -42,8 +32,6 @@ class Station extends Component {
 
     $('.js-station-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        console.log(target);
-        console.log(target.closest('.js-station-item').dataset.id);
         this.childComponents.modal.setTargetId(
           target.closest('.js-station-item').dataset.id
         );
@@ -72,7 +60,7 @@ class Station extends Component {
 
       if (!response.ok) throw Error(await response.text());
 
-      this.updateSubwayState();
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
     } catch (error) {
       console.error(error.message);
     }
@@ -89,17 +77,10 @@ class Station extends Component {
 
       if (!response.ok) throw Error(await response.text());
 
-      this.updateSubwayState();
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
     } catch (error) {
       console.error(error.message);
     }
-  }
-
-  async updateSubwayState() {
-    const { stations, lines } = await getSubwayState(
-      this.stateManagers.accessToken.getToken()
-    );
-    this.setState({ stations, lines });
   }
 }
 

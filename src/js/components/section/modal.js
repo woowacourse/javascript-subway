@@ -11,7 +11,8 @@ class Modal extends ModalComponent {
   }
 
   renderSelf() {
-    $('.js-modal').innerHTML = sectionsModal(this.state);
+    const { stations, lines } = this.stateManagers.subwayState.getSubwayState();
+    $('.js-modal').innerHTML = sectionsModal({ stations, lines });
   }
 
   addEventListeners() {
@@ -20,34 +21,34 @@ class Modal extends ModalComponent {
     $('#create-section-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const lineId = e.target['select-line'].value;
-      const upStationId = e.target['up-station'].value;
-      const downStationId = e.target['down-station'].value;
-      const duration = e.target['duration'].value;
-      const distance = e.target['distance'].value;
-
+      const body = {
+        upStationId: e.target['up-station'].value,
+        downStationId: e.target['down-station'].value,
+        duration: e.target['duration'].value,
+        distance: e.target['distance'].value,
+      };
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      const params = getFetchParams({
-        path: `${PATH.LINES}/${lineId}${PATH.SECTIONS}`,
-        body: {
-          upStationId,
-          downStationId,
-          duration,
-          distance,
-        },
-        accessToken,
-      });
-
-      try {
-        const response = await request.post(params);
-
-        if (!response.ok) throw Error(await response.text());
-
-        await this.updateSubwayState();
-      } catch (error) {
-        console.error(error.message);
-      }
+      await this.createItem(lineId, body, accessToken);
     });
+  }
+
+  async createItem(lineId, body, accessToken) {
+    const params = getFetchParams({
+      path: `${PATH.LINES}/${lineId}${PATH.SECTIONS}`,
+      body,
+      accessToken,
+    });
+
+    try {
+      const response = await request.post(params);
+
+      if (!response.ok) throw Error(await response.text());
+
+      this.stateManagers.subwayState.updateSubwayState(accessToken);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }
 

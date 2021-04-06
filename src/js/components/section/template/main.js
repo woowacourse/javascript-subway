@@ -21,7 +21,7 @@ const mainTemplate = (lines) => {
           type="button"
           class="js-section-item__create create-section-btn modal-trigger-btn bg-cyan-300 ml-2"
         >
-          구간 추가
+          추가
         </button>
       </div>
       <form class="input-control">

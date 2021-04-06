@@ -2,7 +2,7 @@ import { PATH } from '../constants/url.js';
 import request from '../utils/request.js';
 import getFetchParams from './getFetchParams.js';
 
-const getSubwayState = async (accessToken) => {
+const fetchGetSubwayState = async (accessToken) => {
   const [stations, lines] = await Promise.all([
     fetchGetItemList(PATH.STATIONS, accessToken),
     fetchGetItemList(PATH.LINES, accessToken),
@@ -26,4 +26,4 @@ const fetchGetItemList = async (path, accessToken) => {
   }
 };
 
-export default getSubwayState;
+export default fetchGetSubwayState;
