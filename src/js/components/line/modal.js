@@ -112,7 +112,6 @@ class Modal extends ModalComponent {
   clearForm() {
     this.changeModalTitle('🛤️ 노선 관리');
     $('#line-form').reset();
-    $('#subway-line-color-preview').classList;
     $('#subway-line-color-preview').setAttribute('data-bg-color', '');
   }
 

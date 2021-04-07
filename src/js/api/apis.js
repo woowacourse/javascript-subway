@@ -19,9 +19,11 @@ const fetchGetItemList = async (path, accessToken) => {
     if (!response.ok) throw Error(await response.text());
 
     const itemList = await response.json();
+
     return itemList;
   } catch (error) {
     console.error(error.message);
+
     return [];
   }
 };

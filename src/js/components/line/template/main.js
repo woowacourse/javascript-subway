@@ -19,6 +19,11 @@ const mainTemplate = (lines) => {
       <div class="heading d-flex">
         <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
         <button
+        type="button"
+        class="js-line-item__sort sort-line-btn bg-cyan-300 ml-2"
+        ><i class="fa fa-sort"></i></button>
+
+        <button
           type="button"
           class="js-line-item__create create-line-btn bg-cyan-300 ml-2"
         ><i class="fa fa-plus"></i></button>

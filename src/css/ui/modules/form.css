@@ -62,7 +62,6 @@ form .input-submit {
   border: none;
   outline: none;
   border-radius: 0.5rem;
-  border: 1px solid rgb(255 45 85 / 70%);
   box-shadow: 4px 4px 10px 0px rgb(226 226 226);
 }
 

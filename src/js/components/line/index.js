@@ -8,6 +8,7 @@ import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import Modal from './modal.js';
+import sorted from '../../utils/sort.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
     super(
@@ -19,6 +20,7 @@ class Line extends Component {
     this.setChildProps('modal', {
       updateSubwayState: this.updateSubwayState.bind(this),
     });
+    this.order = false;
   }
 
   renderSelf() {
@@ -28,6 +30,7 @@ class Line extends Component {
   addEventListeners() {
     this.createLineEvent();
     this.editOrDeleteLineEvent();
+    this.sortLineItems();
   }
 
   createLineEvent() {
@@ -81,6 +84,24 @@ class Line extends Component {
           console.error(error.message);
         }
       }
+    });
+  }
+
+  sortLineItems() {
+    $('.js-line-item__sort').addEventListener('click', () => {
+      this.order = !this.order;
+
+      if (this.order) {
+        this.state.lines.sort((a, b) => sorted(a, b, 'name'));
+        this.setState(this.state);
+
+        return;
+      }
+
+      this.state.lines.sort((a, b) => sorted(b, a, 'name'));
+      this.setState(this.state);
+
+      return;
     });
   }
 
