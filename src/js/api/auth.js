@@ -30,12 +30,8 @@ export const authAPI = {
       },
     };
 
-    const { accessToken } = await request(
-      `${BASE_URL}${ACTIONS.LOGIN}`,
-      option,
-    ).then(res => {
-      return res.json();
-    });
+    const { response } = await request(`${BASE_URL}${ACTIONS.LOGIN}`, option);
+    const { accessToken } = await response.json();
 
     return accessToken;
   },

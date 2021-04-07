@@ -7,9 +7,11 @@ export const stationAPI = {
       Authorization: `Bearer ${userAccessToken}`,
     };
 
-    return await request(`${BASE_URL}${ACTIONS.STATIONS}`, option).then(res => {
-      return res.json();
-    });
+    const { response } = await request(
+      `${BASE_URL}${ACTIONS.STATIONS}`,
+      option,
+    );
+    return await response.json();
   },
 
   addStations: async ({ userAccessToken, name }) => {
@@ -21,9 +23,11 @@ export const stationAPI = {
       },
     };
 
-    return await request(`${BASE_URL}${ACTIONS.STATIONS}`, option).then(res => {
-      return res.json();
-    });
+    const { response } = await request(
+      `${BASE_URL}${ACTIONS.STATIONS}`,
+      option,
+    );
+    return await response.json();
   },
 
   deleteStations: async ({ userAccessToken, id }) => {

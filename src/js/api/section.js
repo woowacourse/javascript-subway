@@ -1,6 +1,5 @@
 import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../constants';
 import { request } from '../utils/request';
-import { isInRange } from '../utils/validation';
 
 export const sectionAPI = {
   addSection: async ({ userAccessToken, sectionInfo }) => {
@@ -12,21 +11,23 @@ export const sectionAPI = {
       arrival: duration,
     } = sectionInfo;
 
-    const isStart = isInRange(Number(upStationId), { min: 0 });
+    const isStartStation = Number(upStationId) < 0; // 출발역으로 지정 -> option의 value -기존 출발역 ID
 
     const option = {
       method: REQUEST_METHOD.POST,
       Authorization: `Bearer ${userAccessToken}`,
       body: {
-        upStationId: isStart ? upStationId : downStationId,
-        downStationId: isStart ? downStationId : Math.abs(Number(upStationId)),
+        upStationId: isStartStation ? downStationId : upStationId,
+        downStationId: isStartStation
+          ? Math.abs(Number(upStationId))
+          : downStationId,
         distance,
         duration,
       },
     };
 
     await request(
-      `${BASE_URL}${ACTIONS.LINES}/${lineId}/${ACTIONS.SECTIONS}`,
+      `${BASE_URL}${ACTIONS.LINES}/${lineId}${ACTIONS.SECTIONS}`,
       option,
     );
   },
