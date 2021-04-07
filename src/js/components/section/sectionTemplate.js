@@ -14,9 +14,7 @@ export const sectionsTemplate = sections => {
       <select class="">
         <option value="" selected disabled hidden>관리할 구간에 해당되는 노선을 선택해주세요</option>
         ${Object.keys(sections)
-          .map(key => {
-            return `<option value=${key}>${sections[key].name}</option>`;
-          })
+          .map(key => `<option value=${key}>${sections[key].name}</option>`)
           .join('')}
       </select>
     </form>
@@ -55,9 +53,7 @@ export const modalTemplate = (stations, sections) => {
       <select name="line-select">
         <option value="" selected disabled hidden>노선을 선택해주세요</option>
         ${Object.keys(sections)
-          .map(key => {
-            return `<option value=${key}>${sections[key].name}</option>`;
-          })
+          .map(key => `<option value=${key}>${sections[key].name}</option>`)
           .join('')}
       </select>
     </div>
@@ -68,9 +64,9 @@ export const modalTemplate = (stations, sections) => {
       <div class="d-inline-block mx-3 text-2xl">➡️</div>
       <select name="next-station">
         <option value="" selected disabled hidden>다음역</option>
-        ${Object.keys(stations).map(key => {
-          return `<option value=${key}>${stations[key].name}</option>`;
-        })}
+        ${Object.keys(stations)
+          .map(key => `<option value=${key}>${stations[key].name}</option>`)
+          .join('')}
       </select>
     </div>
     <div class="input-control">
@@ -114,8 +110,8 @@ export const sectionStationTemplate = sectionStations => {
   return `
   <option value="" selected disabled hidden>추가할 구간을 선택해 주세요</option>
   <option value="-${sectionStations[0].id}">출발역으로 추가</option>
-  ${sectionStations.map(({ id, name }) => {
-    return `<option value="${id}">${name}</option>`;
-  })}
+  ${sectionStations
+    .map(({ id, name }) => `<option value="${id}">${name}</option>`)
+    .join('')}
   `;
 };

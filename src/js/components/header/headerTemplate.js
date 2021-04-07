@@ -11,27 +11,24 @@ export const headerTemplate = isLoggedIn => {
 
 const userMenu = `
   <a href="/stations" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
+    <button class="btn bg-white shadow mx-1">🚉 역 관리</button>
   </a>
   <a href="/lines" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
+    <button class="btn bg-white shadow mx-1">🛤️ 노선 관리</button>
   </a>
   <a href="/sections" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
+    <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
   </a>
   <a href="/map" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1" disabled>🗺️ 전체 보기</button>
-  </a>
-  <a href="/search" class="menu__link my-1" >
-  <button class="btn bg-white shadow mx-1" disabled>🔎 길 찾기</button>
+    <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
   </a>
   <a href="/logout" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
+    <button class="btn bg-white shadow mx-1">👤 로그아웃</button>
   </a>
 `;
 
 const guestMenu = `
   <a href="/login" class="menu__link my-1">
-  <button class="btn bg-white shadow mx-1">👤 로그인</button>
+    <button class="btn bg-white shadow mx-1">👤 로그인</button>
   </a>
 `;

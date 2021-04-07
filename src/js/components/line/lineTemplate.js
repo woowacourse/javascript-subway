@@ -14,9 +14,7 @@ export const linesTemplate = lines => {
     </div>
     <ul id="line-list" class="mt-3 pl-0">
     ${Object.keys(lines)
-      .map(id => {
-        return lineTemplate(id, lines[id]);
-      })
+      .map(id => lineTemplate(id, lines[id]))
       .join('')}
     </ul>
   </div>
@@ -154,9 +152,7 @@ export const modalTemplate = stations => {
 
 const modalStationOptionTemplate = stations => {
   return Object.keys(stations)
-    .map(id => {
-      return `<option value="${id}">${stations[id].name}</option>`;
-    })
+    .map(id => `<option value="${id}">${stations[id].name}</option>`)
     .join('');
 };
 
