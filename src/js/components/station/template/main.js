@@ -5,7 +5,7 @@ export const mainTemplate = (stationList) => {
         <h2 class="mt-1">🚉 역 관리</h2>
       </div>
       <form id="create-station-form">
-        <div class="d-flex w-100">
+        <div class="d-flex w-100 relative">
           <label for="station-name" class="input-label" hidden>
             역 이름
           </label>
@@ -14,19 +14,20 @@ export const mainTemplate = (stationList) => {
             id="station-name"
             name="station-name"
             class="input-field"
-            placeholder="역 이름"
+            placeholder="역 이름을 입력해주세요."
+            autofocus
             required
           />
           <button
             name="submit"
             class="input-submit bg-cyan-300 ml-2"
           >
-            역 추가
+            <i class="fa fa-plus"></i>
           </button>
         </div>
       </form>
-      <ul class="js-station-list mt-3 pl-0">
-        ${stationList.map(stationListItem).join('')}
+      <ul class="js-station-list mt-3 pl-4 pr-4">
+        ${stationList.map(stationListItem).reverse().join('')}
       </ul>
     </div>
   `;

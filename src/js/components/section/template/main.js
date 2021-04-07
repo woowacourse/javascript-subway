@@ -1,7 +1,7 @@
 const sectionItem = ({ id, name }) => {
   return `
     <li class="js-section-item d-flex items-center py-2 relative" data-station-id=${id}>
-      <span class="w-100 pl-6">${name}</span>
+      <span class="w-100 pl-4">${name}</span>
       <button
         type="button"
         class="js-section-item__delete bg-gray-50 text-gray-500 text-sm"
@@ -21,7 +21,7 @@ const mainTemplate = (lines) => {
           type="button"
           class="js-section-item__create create-section-btn modal-trigger-btn bg-cyan-300 ml-2"
         >
-          구간 추가
+          <i class="fa fa-plus"></i>
         </button>
       </div>
       <form class="input-control">

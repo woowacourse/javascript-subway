@@ -25,6 +25,7 @@
 [data-bg-color='black'],
 .bg-black {
   background-color: rgb(0, 0, 0);
+  color: white;
 }
 
 [data-bg-color='white'],
@@ -60,26 +61,33 @@
 [data-bg-color='gray-500'],
 .bg-gray-500 {
   background-color: rgb(107, 114, 128);
+  color: white;
 }
 
 [data-bg-color='gray-600'],
 .bg-gray-600 {
   background-color: rgb(75, 85, 99);
+
+  color: white;
 }
 
 [data-bg-color='gray-700'],
 .bg-gray-700 {
   background-color: rgb(55, 65, 81);
+  color: white;
 }
 
 [data-bg-color='gray-800'],
 .bg-gray-800 {
   background-color: rgb(31, 41, 55);
+
+  color: white;
 }
 
 [data-bg-color='gray-900'],
 .bg-gray-900 {
   background-color: rgb(17, 24, 39);
+  color: white;
 }
 
 [data-bg-color='red-50'],
@@ -110,26 +118,31 @@
 [data-bg-color='red-500'],
 .bg-red-500 {
   background-color: rgb(239, 68, 68);
+  color: white;
 }
 
 [data-bg-color='red-600'],
 .bg-red-600 {
   background-color: rgb(220, 38, 38);
+  color: white;
 }
 
 [data-bg-color='red-700'],
 .bg-red-700 {
   background-color: rgb(185, 28, 28);
+  color: white;
 }
 
 [data-bg-color='red-800'],
 .bg-red-800 {
   background-color: rgb(153, 27, 27);
+  color: white;
 }
 
 [data-bg-color='red-900'],
 .bg-red-900 {
   background-color: rgb(127, 29, 29);
+  color: white;
 }
 
 [data-bg-color='yellow-50'],
@@ -160,26 +173,31 @@
 [data-bg-color='yellow-500'],
 .bg-yellow-500 {
   background-color: rgb(245, 158, 11);
+  color: white;
 }
 
 [data-bg-color='yellow-600'],
 .bg-yellow-600 {
   background-color: rgb(217, 119, 6);
+  color: white;
 }
 
 [data-bg-color='yellow-700'],
 .bg-yellow-700 {
   background-color: rgb(180, 83, 9);
+  color: white;
 }
 
 [data-bg-color='yellow-800'],
 .bg-yellow-800 {
   background-color: rgb(146, 64, 14);
+  color: white;
 }
 
 [data-bg-color='yellow-900'],
 .bg-yellow-900 {
   background-color: rgb(120, 53, 15);
+  color: white;
 }
 
 [data-bg-color='orange-100'],
@@ -205,26 +223,31 @@
 [data-bg-color='orange-500'],
 .bg-orange-500 {
   background-color: rgb(237, 137, 54);
+  color: white;
 }
 
 [data-bg-color='orange-600'],
 .bg-orange-600 {
   background-color: rgb(222, 107, 31);
+  color: white;
 }
 
 [data-bg-color='orange-700'],
 .bg-orange-700 {
   background-color: rgb(193, 86, 33);
+  color: white;
 }
 
 [data-bg-color='orange-800'],
 .bg-orange-800 {
   background-color: rgb(156, 66, 32);
+  color: white;
 }
 
 [data-bg-color='orange-900'],
 .bg-orange-900 {
   background-color: rgb(123, 52, 30);
+  color: white;
 }
 
 [data-bg-color='green-50'],
@@ -255,26 +278,31 @@
 [data-bg-color='green-500'],
 .bg-green-500 {
   background-color: rgb(16, 185, 129);
+  color: white;
 }
 
 [data-bg-color='green-600'],
 .bg-green-600 {
   background-color: rgb(5, 150, 105);
+  color: white;
 }
 
 [data-bg-color='green-700'],
 .bg-green-700 {
   background-color: rgb(4, 120, 87);
+  color: white;
 }
 
 [data-bg-color='green-800'],
 .bg-green-800 {
   background-color: rgb(6, 95, 70);
+  color: white;
 }
 
 [data-bg-color='green-900'],
 .bg-green-900 {
   background-color: rgb(6, 78, 59);
+  color: white;
 }
 
 [data-bg-color='teal-100'],
@@ -300,26 +328,31 @@
 [data-bg-color='teal-500'],
 .bg-teal-500 {
   background-color: rgb(57, 178, 171);
+  color: white;
 }
 
 [data-bg-color='teal-600'],
 .bg-teal-600 {
   background-color: rgb(50, 151, 149);
+  color: white;
 }
 
 [data-bg-color='teal-700'],
 .bg-teal-700 {
   background-color: rgb(46, 121, 123);
+  color: white;
 }
 
 [data-bg-color='teal-800'],
 .bg-teal-800 {
   background-color: rgb(40, 94, 97);
+  color: white;
 }
 
 [data-bg-color='teal-900'],
 .bg-teal-900 {
   background-color: rgb(35, 78, 82);
+  color: white;
 }
 
 [data-bg-color='blue-50'],
@@ -350,26 +383,31 @@
 [data-bg-color='blue-500'],
 .bg-blue-500 {
   background-color: rgb(59, 130, 246);
+  color: white;
 }
 
 [data-bg-color='blue-600'],
 .bg-blue-600 {
   background-color: rgb(37, 99, 235);
+  color: white;
 }
 
 [data-bg-color='blue-700'],
 .bg-blue-700 {
   background-color: rgb(29, 78, 216);
+  color: white;
 }
 
 [data-bg-color='blue-800'],
 .bg-blue-800 {
   background-color: rgb(30, 64, 175);
+  color: white;
 }
 
 [data-bg-color='blue-900'],
 .bg-blue-900 {
   background-color: rgb(30, 58, 138);
+  color: white;
 }
 
 [data-bg-color='cyan-50'],
@@ -400,26 +438,31 @@
 [data-bg-color='cyan-500'],
 .bg-cyan-500 {
   background-color: rgb(0, 188, 212);
+  color: white;
 }
 
 [data-bg-color='cyan-600'],
 .bg-cyan-600 {
   background-color: rgb(5, 172, 193);
+  color: white;
 }
 
 [data-bg-color='cyan-700'],
 .bg-cyan-700 {
   background-color: rgb(0, 152, 167);
+  color: white;
 }
 
 [data-bg-color='cyan-800'],
 .bg-cyan-800 {
   background-color: rgb(2, 131, 143);
+  color: white;
 }
 
 [data-bg-color='cyan-900'],
 .bg-cyan-900 {
   background-color: rgb(5, 95, 100);
+  color: white;
 }
 
 [data-bg-color='indigo-50'],
@@ -450,26 +493,31 @@
 [data-bg-color='indigo-500'],
 .bg-indigo-500 {
   background-color: rgb(99, 102, 241);
+  color: white;
 }
 
 [data-bg-color='indigo-600'],
 .bg-indigo-600 {
   background-color: rgb(79, 70, 229);
+  color: white;
 }
 
 [data-bg-color='indigo-700'],
 .bg-indigo-700 {
   background-color: rgb(67, 56, 202);
+  color: white;
 }
 
 [data-bg-color='indigo-800'],
 .bg-indigo-800 {
   background-color: rgb(55, 48, 163);
+  color: white;
 }
 
 [data-bg-color='indigo-900'],
 .bg-indigo-900 {
   background-color: rgb(49, 46, 129);
+  color: white;
 }
 
 [data-bg-color='purple-50'],
@@ -500,26 +548,31 @@
 [data-bg-color='purple-500'],
 .bg-purple-500 {
   background-color: rgb(139, 92, 246);
+  color: white;
 }
 
 [data-bg-color='purple-600'],
 .bg-purple-600 {
   background-color: rgb(124, 58, 237);
+  color: white;
 }
 
 [data-bg-color='purple-700'],
 .bg-purple-700 {
   background-color: rgb(109, 40, 217);
+  color: white;
 }
 
 [data-bg-color='purple-800'],
 .bg-purple-800 {
   background-color: rgb(91, 33, 182);
+  color: white;
 }
 
 [data-bg-color='purple-900'],
 .bg-purple-900 {
   background-color: rgb(76, 29, 149);
+  color: white;
 }
 
 [data-bg-color='pink-50'],
@@ -550,24 +603,35 @@
 [data-bg-color='pink-500'],
 .bg-pink-500 {
   background-color: rgb(236, 72, 153);
+  color: white;
 }
 
 [data-bg-color='pink-600'],
 .bg-pink-600 {
   background-color: rgb(219, 39, 119);
+  color: white;
 }
 
 [data-bg-color='pink-700'],
 .bg-pink-700 {
   background-color: rgb(190, 24, 93);
+  color: white;
 }
 
 [data-bg-color='pink-800'],
 .bg-pink-800 {
   background-color: rgb(157, 23, 77);
+  color: white;
 }
 
 [data-bg-color='pink-900'],
 .bg-pink-900 {
   background-color: rgb(131, 24, 67);
+  color: white;
+}
+
+[data-bg-color='custom-pink'],
+.bg-custom-pink {
+  background-color: rgb(255 45 85);
+  color: white;
 }

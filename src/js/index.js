@@ -1,3 +1,5 @@
+import '@fortawesome/fontawesome-free/js/all.js';
+import '../../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 import '../css/index.css';
 import { $ } from './utils/DOM.js';
 import {
@@ -15,6 +17,7 @@ import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
 import Section from './components/section/index.js';
 import Line from './components/line/index.js';
+import Map from './components/map/index.js';
 import Station from './components/station/index.js';
 import getFetchParams from './api/getFetchParams.js';
 import { ERROR_MESSAGE } from './constants/message.js';
@@ -36,9 +39,9 @@ class App extends Component {
       [AUTHENTICATED_LINK.SECTION.ROUTE]: () => {
         return this.privateRouter(this.childComponents.Section);
       },
-      // TODO: 3단계 요구사항
-      // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
-      // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
+      [AUTHENTICATED_LINK.MAP.ROUTE]: () => {
+        return this.privateRouter(this.childComponents.Map);
+      },
       [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => {
         return this.publicRouter(this.childComponents.Login);
       },
@@ -100,7 +103,7 @@ class App extends Component {
       this.renderComponent(e.state.route);
     });
 
-    $('#app').addEventListener('click', (e) => {
+    $('#app').addEventListener('click', async (e) => {
       const anchor = e.target.closest('.js-link');
       if (!anchor) return;
 
@@ -120,8 +123,11 @@ class App extends Component {
         UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
       ].includes(route);
 
-      if (!isLoginOrSignupRoute && !this.isValidAccessToken()) {
+      if (!isLoginOrSignupRoute && !(await this.isValidAccessToken())) {
+        alert('다시 로그인 해주세요.');
         this.fireAccessToken();
+
+        this.stateManagers.route.goPage(UNAUTHENTICATED_LINK.LOGIN.ROUTE);
       }
 
       this.stateManagers.route.goPage(route);
@@ -172,6 +178,7 @@ const initalState = {
   실행되면서 각 페이지가 한 번씩 생성됨.
   이 페이지들은 나중에 render를 통해 새로운 데이터로 페이지를 그려줌
  */
+
 new App(
   $('#app'),
   stateManagers,
@@ -181,6 +188,7 @@ new App(
     Station: new Station($('.js-main'), stateManagers),
     Line: new Line($('.js-main'), stateManagers),
     Section: new Section($('.js-main'), stateManagers),
+    Map: new Map($('.js-main'), stateManagers),
   },
   initalState
 );

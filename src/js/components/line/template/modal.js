@@ -106,7 +106,7 @@ const linesModal = () => {
           </div>
           <div class="d-flex justify-end mt-3">
             <button
-              class="input-submit bg-cyan-300"
+              class="input-submit bg-custom-pink"
               name="submit"
             >
               확인

@@ -14,10 +14,7 @@ class Station extends Component {
       parentNode,
       stateManagers,
       { modal: new Modal($('.js-modal'), stateManagers) },
-      {
-        stations: [],
-        lines: [],
-      }
+      { stations: [], lines: [] }
     );
 
     this.setChildProps('modal', {
@@ -26,11 +23,15 @@ class Station extends Component {
   }
 
   renderSelf() {
-    const stations = this.state.stations;
-    this.parentNode.innerHTML = mainTemplate(stations);
+    this.parentNode.innerHTML = mainTemplate(this.state.stations);
   }
 
   addEventListeners() {
+    this.createStationEvent();
+    this.editOrDeleteStationEvent();
+  }
+
+  createStationEvent() {
     $('#create-station-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -38,12 +39,31 @@ class Station extends Component {
       const accessToken = this.stateManagers.accessToken.getToken();
 
       await this.createItem(name, accessToken);
+      e.target['station-name'].focus();
     });
+  }
 
+  async createItem(name, accessToken) {
+    try {
+      const params = getFetchParams({
+        path: PATH.STATIONS,
+        body: { name },
+        accessToken,
+      });
+      const response = await request.post(params);
+
+      if (!response.ok) throw Error(await response.text());
+
+      this.updateSubwayState();
+    } catch (error) {
+      // TODO: 생성되지 않았을 때 ALERT 띄워주기
+      console.error(error.message);
+    }
+  }
+
+  editOrDeleteStationEvent() {
     $('.js-station-list').addEventListener('click', async ({ target }) => {
       if (target.classList.contains('js-station-item__edit')) {
-        console.log(target);
-        console.log(target.closest('.js-station-item').dataset.id);
         this.childComponents.modal.setTargetId(
           target.closest('.js-station-item').dataset.id
         );
@@ -61,23 +81,6 @@ class Station extends Component {
     });
   }
 
-  async createItem(name, accessToken) {
-    try {
-      const params = getFetchParams({
-        path: PATH.STATIONS,
-        body: { name },
-        accessToken,
-      });
-      const response = await request.post(params);
-
-      if (!response.ok) throw Error(await response.text());
-
-      this.updateSubwayState();
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
   async deleteItem(id, accessToken) {
     try {
       const params = getFetchParams({
@@ -91,6 +94,8 @@ class Station extends Component {
 
       this.updateSubwayState();
     } catch (error) {
+      // TODO: 잘못된 내용에 대해 ALERT 띄워주기
+      alert(error.message);
       console.error(error.message);
     }
   }

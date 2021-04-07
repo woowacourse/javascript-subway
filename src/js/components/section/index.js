@@ -13,15 +13,9 @@ class Section extends Component {
     super(
       parentNode,
       stateManagers,
-      {
-        modal: new Modal($('.js-modal'), stateManagers),
-      },
-      {
-        stations: [],
-        lines: [],
-      }
+      { modal: new Modal($('.js-modal'), stateManagers) },
+      { stations: [], lines: [] }
     );
-
     this.setChildProps('modal', {
       updateSubwayState: this.updateSubwayState.bind(this),
     });
@@ -32,17 +26,17 @@ class Section extends Component {
   }
 
   addEventListeners() {
+    // TODO: Section Create
     $('.js-section-item__create').addEventListener('click', () => {
-      // create 로쥑
       this.childComponents.modal.show();
     });
 
+    // TODO: 선택한 Section에 따라 안의 내용을 보여주는 Event
     $('.js-section-form__select').addEventListener('change', ({ target }) => {
       const lineId = target.value;
       const { color, stations } = this.state.lines.find(
         (line) => line.id === Number(lineId)
       );
-      console.log(stations);
 
       $('.js-section-list').innerHTML = stations
         .map((station) => sectionItem(station))
@@ -52,6 +46,7 @@ class Section extends Component {
       $('.js-section-form__select').setAttribute('data-bg-color', color);
     });
 
+    // TODO: Section에 있는 역을 지워주는 Event
     $('.js-section-list').addEventListener('click', async ({ target }) => {
       if (!target.classList.contains('js-section-item__delete')) return;
       if (!confirm(CONFIRM_MESSAGE.DELETE)) return;

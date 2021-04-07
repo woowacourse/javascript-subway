@@ -19,7 +19,7 @@ export const stationModal = () => `
             id="subway-station-name"
             name="subway-station-name"
             class="input-field"
-            placeholder="역 이름"
+            placeholder="역 이름을 입력해주세요."
             required
           />
         </div>
