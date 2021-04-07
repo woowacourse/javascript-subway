@@ -2,12 +2,12 @@ import {
   onModalShow,
   onModalClose,
   bindModalCloseEvent,
-} from '../../utils/modal.js';
-import { $ } from '../../utils/dom.js';
-import { checkStationValid } from './stationValidator.js';
-import { SELECTOR, SUCCESS_MESSAGE } from '../../constants.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { stationAPI } from '../../../../api/station.js';
+} from '../../utils/modal';
+import { $ } from '../../utils/dom';
+import { checkStationValid } from './stationValidator';
+import { SUCCESS_MESSAGE } from '../../constants';
+import { showSnackbar } from '../../utils/snackbar';
+import { stationAPI } from '../../api/station';
 
 class StationModal {
   #props;
@@ -22,32 +22,34 @@ class StationModal {
 
   init(userAccessToken) {
     this.#userAccessToken = userAccessToken;
-    this.initDOM();
+    this._initDOM();
   }
 
-  initDOM() {
-    this.bindEvent();
+  _initDOM() {
+    this._bindEvent();
   }
 
-  bindEvent() {
+  _bindEvent() {
     bindModalCloseEvent();
-    this.bindStationFormEvent();
+    this._bindStationFormEvent();
   }
-  bindStationFormEvent() {
+
+  _bindStationFormEvent() {
     $('form[name="modify-station"]').addEventListener(
       'submit',
-      this._handleModifyStationClose.bind(this),
+      this._handleModifyStation.bind(this),
     );
   }
 
-  handleModifyStationOpen(stationInfo) {
+  handleOpenModal(stationInfo) {
     onModalShow();
+
     this.#stationInfo = stationInfo;
     $('#station-modify-input').value = this.#stationInfo.name;
     $('#station-modify-input').select();
   }
 
-  async _handleModifyStationClose(e) {
+  async _handleModifyStation(e) {
     e.preventDefault();
 
     const name = $('#station-modify-input').value;

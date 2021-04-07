@@ -3,19 +3,19 @@ import {
   checkEmailValid,
   checkPasswordValid,
   checkPasswordConfirmValid,
-} from './signupValidator.js';
-import { signUpTemplate } from './signupTemplate.js';
+} from './signupValidator';
+import { signUpTemplate } from './signupTemplate';
 
-import { authAPI } from '../../../../api/auth.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { debounce } from '../../utils/debounce.js';
+import { authAPI } from '../../api/auth';
+import { showSnackbar } from '../../utils/snackbar';
+import { debounce } from '../../utils/debounce';
 import {
   $,
   $$,
   getFormData,
   isAllElementsHaveClass,
   showValidMessage,
-} from '../../utils/dom.js';
+} from '../../utils/dom';
 import {
   PAGE_TITLE,
   SELECTOR,
@@ -26,7 +26,7 @@ import {
   FORM,
   CLASS_NAME,
   TIME,
-} from '../../constants.js';
+} from '../../constants';
 
 class SignUp {
   #props;

@@ -1,10 +1,10 @@
-import { checkLoginValid } from './loginValidator.js';
-import { loginTemplate } from './loginTemplate.js';
+import { checkLoginValid } from './loginValidator';
+import { loginTemplate } from './loginTemplate';
 
-import { authAPI } from '../../../../api/auth.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { $, getFormData } from '../../utils/dom.js';
-import { setLocalStorageItem } from '../../utils/storage.js';
+import { authAPI } from '../../api/auth';
+import { showSnackbar } from '../../utils/snackbar';
+import { $, getFormData } from '../../utils/dom';
+import { setLocalStorageItem } from '../../utils/storage';
 import {
   SUCCESS_MESSAGE,
   PATH,
@@ -14,7 +14,7 @@ import {
   PAGE_TITLE,
   LOGIN_ERROR,
   STORAGE,
-} from '../../constants.js';
+} from '../../constants';
 
 class Login {
   #props;

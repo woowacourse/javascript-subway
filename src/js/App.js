@@ -1,15 +1,15 @@
-import Router from './router.js';
+import Router from './router';
 
-import Home from './components/home/Home.js';
-import Login from './components/login/Login.js';
-import SignUp from './components/signup/Signup.js';
-import Header from './components/header/Header.js';
-import Station from './components/station/Station.js';
-import Line from './components/line/Line.js';
-import Section from './components/section/Section.js';
+import Home from './components/home/Home';
+import Login from './components/login/Login';
+import SignUp from './components/signup/Signup';
+import Header from './components/header/Header';
+import Station from './components/station/Station';
+import Line from './components/line/Line';
+import Section from './components/section/Section';
 
-import { PATH, STORAGE } from './constants.js';
-import { authAPI } from '../../api/auth.js';
+import { PATH, STORAGE } from './constants';
+import { authAPI } from './api/auth';
 
 class App {
   #isLoggedIn;
@@ -65,9 +65,11 @@ class App {
     const component = this.components[href];
     const state = { isLoggedIn: this.#isLoggedIn };
 
-    component.init && (await component.init(state));
-    this.router.renderPage(href, component.getPageInfo());
-    component.initDOM && component.initDOM();
+    if (component) {
+      await component.init?.(state);
+      this.router.renderPage(href, component.getPageInfo?.());
+      component.initDOM?.();
+    }
   }
 }
 

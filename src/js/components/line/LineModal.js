@@ -1,4 +1,4 @@
-import { lineAPI } from '../../../../api/line';
+import { lineAPI } from '../../api/line';
 import {
   CLASS_NAME,
   LINE_MODAL_STATE,
@@ -114,7 +114,6 @@ class LineModal {
       showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
       onModalClose();
     } catch (res) {
-      console.log(res);
       const message = await res.text();
       showSnackbar(message);
     }

@@ -1,17 +1,17 @@
-import StationModal from './StationModal.js';
-import { checkStationValid } from './stationValidator.js';
+import StationModal from './StationModal';
+import { checkStationValid } from './stationValidator';
 import {
   modalTemplate,
   stationsTemplate,
   stationTemplate,
-} from './stationTemplate.js';
+} from './stationTemplate';
 
-import { initStations } from '../../models/model.js';
+import { initStations } from '../../models/model';
 
-import { $, clearForm } from '../../utils/dom.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
-import { stationAPI } from '../../../../api/station.js';
+import { $, clearForm } from '../../utils/dom';
+import { showSnackbar } from '../../utils/snackbar';
+import { getLocalStorageItem } from '../../utils/storage';
+import { stationAPI } from '../../api/station';
 import {
   PAGE_TITLE,
   STORAGE,
@@ -22,7 +22,7 @@ import {
   FORM,
   CONFIRM_MESSAGE,
   CLASS_NAME,
-} from '../../constants.js';
+} from '../../constants';
 
 class Station {
   #userAccessToken;
@@ -74,7 +74,7 @@ class Station {
     this.$stationList.addEventListener('click', e => {
       if (e.target.classList.contains(CLASS_NAME.MODIFY_BUTTON)) {
         const stationInfo = this._getSelectedStationInfo(e);
-        this.#modal.handleModifyStationOpen(stationInfo);
+        this.#modal.handleOpenModal(stationInfo);
         return;
       }
 

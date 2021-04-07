@@ -2,7 +2,7 @@ import { checkSectionValid } from './sectionValidator';
 import { sectionStationTemplate } from './sectionTemplate';
 
 import { FORM, SELECTOR, SUCCESS_MESSAGE } from '../../constants';
-import { sectionAPI } from '../../../../api/section';
+import { sectionAPI } from '../../api/section';
 import { $, clearForm, getFormData } from '../../utils/dom';
 import { showSnackbar } from '../../utils/snackbar';
 import {

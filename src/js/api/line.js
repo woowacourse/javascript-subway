@@ -1,5 +1,5 @@
-import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../src/js/constants';
-import { request } from '../src/js/utils/api';
+import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../constants';
+import { request } from '../utils/request';
 
 export const lineAPI = {
   getLines: async userAccessToken => {

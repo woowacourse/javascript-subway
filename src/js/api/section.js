@@ -1,6 +1,6 @@
-import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../src/js/constants';
-import { request } from '../src/js/utils/api';
-import { isInRange } from '../src/js/utils/validation';
+import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../constants';
+import { request } from '../utils/request';
+import { isInRange } from '../utils/validation';
 
 export const sectionAPI = {
   addSection: async ({ userAccessToken, sectionInfo }) => {

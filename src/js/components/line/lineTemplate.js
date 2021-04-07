@@ -1,4 +1,4 @@
-import { colorOptions } from '/src/js/utils/mock.js';
+import { colorOptions } from '/src/js/utils/mock';
 
 export const linesTemplate = lines => {
   return `

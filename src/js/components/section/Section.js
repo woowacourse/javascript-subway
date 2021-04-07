@@ -1,16 +1,16 @@
-import SectionModal from './SectionModal.js';
+import SectionModal from './SectionModal';
 import {
   sectionsTemplate,
   sectionTemplate,
   modalTemplate,
-} from './sectionTemplate.js';
+} from './sectionTemplate';
 
-import { initSections, initStations } from '../../models/model.js';
+import { initSections, initStations } from '../../models/model';
 
-import { sectionAPI } from '../../../../api/section.js';
-import { $ } from '../../utils/dom.js';
-import { showSnackbar } from '../../utils/snackbar.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
+import { sectionAPI } from '../../api/section';
+import { $ } from '../../utils/dom';
+import { showSnackbar } from '../../utils/snackbar';
+import { getLocalStorageItem } from '../../utils/storage';
 import {
   CLASS_NAME,
   CONFIRM_MESSAGE,
@@ -20,7 +20,7 @@ import {
   SELECTOR,
   STORAGE,
   SUCCESS_MESSAGE,
-} from '../../constants.js';
+} from '../../constants';
 
 class Section {
   #userAccessToken;

@@ -1,5 +1,5 @@
-import { lineAPI } from '../../../api/line';
-import { stationAPI } from '../../../api/station';
+import { lineAPI } from '../api/line';
+import { stationAPI } from '../api/station';
 import { ERROR_MESSAGE } from '../constants';
 
 export const initStations = async userAccessToken => {
@@ -9,7 +9,7 @@ export const initStations = async userAccessToken => {
     const result = stations.reduce((newStations, { id, name }) => {
       return {
         ...newStations,
-        [id]: name,
+        [id]: { name },
       };
     }, {});
 

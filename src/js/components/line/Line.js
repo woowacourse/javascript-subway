@@ -1,12 +1,12 @@
-import LineModal from './LineModal.js';
-import { linesTemplate, lineTemplate, modalTemplate } from './lineTemplate.js';
+import LineModal from './LineModal';
+import { linesTemplate, lineTemplate, modalTemplate } from './lineTemplate';
 
-import { initLines, initStations } from '../../models/model.js';
+import { initLines, initStations } from '../../models/model';
 
-import { lineAPI } from '../../../../api/line.js';
-import { $ } from '../../utils/dom.js';
-import { getLocalStorageItem } from '../../utils/storage.js';
-import { showSnackbar } from '../../utils/snackbar.js';
+import { lineAPI } from '../../api/line';
+import { $ } from '../../utils/dom';
+import { getLocalStorageItem } from '../../utils/storage';
+import { showSnackbar } from '../../utils/snackbar';
 import {
   CLASS_NAME,
   CONFIRM_MESSAGE,
@@ -16,7 +16,7 @@ import {
   SELECTOR,
   STORAGE,
   SUCCESS_MESSAGE,
-} from '../../constants.js';
+} from '../../constants';
 
 class Line {
   #userAccessToken;
@@ -28,6 +28,7 @@ class Line {
     this.#userAccessToken = null;
     this.#stations = {};
     this.#lines = {};
+
     this.#modal = new LineModal({
       modifyLine: this.modifyLine.bind(this),
       addLine: this.addLine.bind(this),

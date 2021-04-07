@@ -1,6 +1,6 @@
-import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../src/js/constants';
-import { request } from '../src/js/utils/api';
-import { getLocalStorageItem } from '../src/js/utils/storage';
+import { ACTIONS, BASE_URL, REQUEST_METHOD } from '../constants';
+import { request } from '../utils/request';
+import { getLocalStorageItem } from '../utils/storage';
 
 export const authAPI = {
   isValidUserAccessToken: async storageKey => {

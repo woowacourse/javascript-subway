@@ -1,5 +1,5 @@
-import { PAGE_TITLE } from '../../constants.js';
-import { homeTemplate } from './homeTemplate.js';
+import { PAGE_TITLE } from '../../constants';
+import { homeTemplate } from './homeTemplate';
 
 class Home {
   #isLoggedIn;

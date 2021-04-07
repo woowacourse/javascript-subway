@@ -1,4 +1,4 @@
-import { authAPI } from '../../../../api/auth';
+import { authAPI } from '../../api/auth';
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../constants';
 import { isEmptyString, isValidEmailFormat } from '../../utils/validation';
 
