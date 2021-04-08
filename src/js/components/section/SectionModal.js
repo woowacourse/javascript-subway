@@ -5,11 +5,7 @@ import { FORM, SELECTOR, SUCCESS_MESSAGE } from '../../constants';
 import { sectionAPI } from '../../../../api/section';
 import { $, clearForm, getFormData } from '../../utils/dom';
 import { showSnackbar } from '../../utils/snackbar';
-import {
-  bindModalCloseEvent,
-  onModalClose,
-  onModalShow,
-} from '../../utils/modal';
+import { bindModalCloseEvent, closeModal, showModal } from '../../utils/modal';
 
 class SectionModal {
   #props;
@@ -57,7 +53,7 @@ class SectionModal {
 
   handleSectionOpen({ sections }) {
     this.#sections = sections;
-    onModalShow();
+    showModal();
   }
 
   _handleSelectLine({ target }) {
@@ -97,7 +93,7 @@ class SectionModal {
 
       this.#props.modifySection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.ADD_SECTION);
-      onModalClose();
+      closeModal();
     } catch (res) {
       const message = await res.text();
       showSnackbar(message);

@@ -6,11 +6,7 @@ import {
   SUCCESS_MESSAGE,
 } from '../../constants';
 import { $, $$, clearForm, getFormData } from '../../utils/dom';
-import {
-  bindModalCloseEvent,
-  onModalClose,
-  onModalShow,
-} from '../../utils/modal';
+import { bindModalCloseEvent, closeModal, showModal } from '../../utils/modal';
 import { showSnackbar } from '../../utils/snackbar';
 import { lineItemInfoTemplate } from './lineTemplate';
 import { checkLineValid, checkLineModifyValid } from './lineValidator';
@@ -42,19 +38,21 @@ class LineModal {
 
   bindEvent() {
     bindModalCloseEvent();
-    this._bindLineFormEvent();
     this._bindSelectColorEvent();
+    this._bindLineFormEvent();
   }
 
   _bindLineFormEvent() {
     this.$lineForm.addEventListener('submit', e => {
       if (this.#state === LINE_MODAL_STATE.ADD) {
-        this._handleAddLineClose(e);
+        this._addLine(e);
       }
 
       if (this.#state === LINE_MODAL_STATE.MODIFY) {
-        this._handleModifyLineClose(e);
+        this._modifyLine(e);
       }
+
+      closeModal();
     });
   }
 
@@ -65,10 +63,10 @@ class LineModal {
     });
   }
 
-  handleLineOpen({ state, lineInfo = {} }) {
+  openLineModal({ state, lineInfo = {} }) {
     this.#state = state;
     this.#lineInfo = lineInfo;
-    onModalShow();
+    showModal();
 
     if (state === LINE_MODAL_STATE.ADD) {
       this.$lineTitle.textContent = LINE_MODAL_STATE.ADD_TITLE;
@@ -93,7 +91,7 @@ class LineModal {
     }
   }
 
-  async _handleAddLineClose(e) {
+  async _addLine(e) {
     e.preventDefault();
 
     const lineInfo = getFormData(e.target.elements);
@@ -112,24 +110,20 @@ class LineModal {
       this.#props.addLine(newLine);
       clearForm(this.$lineForm);
       showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
-      onModalClose();
     } catch (res) {
       const message = await res.text();
       showSnackbar(message);
     }
   }
 
-  async _handleModifyLineClose(e) {
+  async _modifyLine(e) {
     e.preventDefault();
 
     const newName = this.$lineName.value;
     const newColor = this.$lineColor.value;
     const { $lineItem, id, name, color } = this.#lineInfo;
 
-    if (newName === name && newColor === color) {
-      onModalClose();
-      return;
-    }
+    if (newName === name && newColor === color) return;
 
     const message = checkLineModifyValid({ name, color });
     if (message) {
@@ -151,7 +145,6 @@ class LineModal {
       });
 
       this.#props.modifyLine(id, { name: newName, color: newColor });
-      onModalClose();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_LINE);
     } catch (res) {
       const message = await res.text();

@@ -1,6 +1,6 @@
 import {
-  onModalShow,
-  onModalClose,
+  showModal,
+  closeModal,
   bindModalCloseEvent,
 } from '../../utils/modal.js';
 import { $ } from '../../utils/dom.js';
@@ -41,7 +41,7 @@ class StationModal {
   }
 
   handleModifyStationOpen(stationInfo) {
-    onModalShow();
+    showModal();
     this.#stationInfo = stationInfo;
     $('#station-modify-input').value = this.#stationInfo.name;
     $('#station-modify-input').select();
@@ -52,7 +52,7 @@ class StationModal {
 
     const name = $('#station-modify-input').value;
     if (name === this.#stationInfo.name) {
-      onModalClose();
+      closeModal();
       return;
     }
 
@@ -70,7 +70,7 @@ class StationModal {
       });
 
       this.#props.modifyStation(this.#stationInfo, name);
-      onModalClose();
+      closeModal();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (res) {
       const message = await res.text();
