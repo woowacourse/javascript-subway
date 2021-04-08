@@ -76,9 +76,9 @@ class SectionModal {
 
     try {
       const {
-        [FORM.LINE_SELECT]: lineId,
-        [FORM.PREV_STATION]: upStationId,
-        [FORM.NEXT_STATION]: downStationId,
+        [FORM.SECTION.LINE_SELECT]: lineId,
+        [FORM.SECTION.PREV_STATION]: upStationId,
+        [FORM.SECTION.NEXT_STATION]: downStationId,
         distance,
         arrival: duration,
       } = sectionInfo;
