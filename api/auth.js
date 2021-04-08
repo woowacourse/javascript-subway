@@ -31,8 +31,9 @@ export const authAPI = {
     };
 
     const res = await request(`${BASE_URL}${ACTIONS.LOGIN}`, option);
+    const { accessToken } = await res.json();
 
-    return res.accessToken ? res.accessToken : res.json();
+    return accessToken;
   },
 
   signup: async data => {
