@@ -52,7 +52,7 @@ export const serviceAPI = {
       const response = await API.getStationList(token);
       const responseJSON = await response.json();
 
-      return responseJSON || null;
+      return responseJSON.reverse() || null;
     } catch (status) {
       console.error(status);
       return null;
@@ -105,7 +105,7 @@ export const serviceAPI = {
       const response = await API.getLineList(token);
       const responseJSON = await response.json();
 
-      return responseJSON || null;
+      return responseJSON.reverse() || null;
     } catch (status) {
       console.error(status);
       return null;

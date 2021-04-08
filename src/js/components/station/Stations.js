@@ -132,7 +132,7 @@ export default class Stations extends Component {
       return;
     }
 
-    $('#station-list-container').insertAdjacentHTML('beforeend', stationListTemplate(createdStationData));
+    $('#station-list-container').insertAdjacentHTML('afterbegin', stationListTemplate(createdStationData));
     $stationNameInput.value = '';
 
     showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);

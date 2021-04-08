@@ -107,9 +107,6 @@ ul li button:hover {
   max-width: 180px;
 }
 
-.subway-map-container .station-name {
-}
-
 .subway-map-container .station-item-container:first-child .horizontal-line-bar {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;

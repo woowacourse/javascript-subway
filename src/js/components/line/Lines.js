@@ -147,7 +147,7 @@ export default class Lines extends Component {
       return;
     }
 
-    $('#lines-list-container').insertAdjacentHTML('beforeend', lineListTemplate(createdLineData));
+    $('#lines-list-container').insertAdjacentHTML('afterbegin', lineListTemplate(createdLineData));
     showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
   }
 

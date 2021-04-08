@@ -1,6 +1,6 @@
 describe('지하철 노선도 구간 관리 기능 테스트', () => {
   before(() => {
-    cy.visit('http://localhost:5500/');
+    cy.visit('http://localhost:8080/');
     cy.get('#navigation-login-button').click();
     cy.get('#login-email').type('test@email.com');
     cy.get('#login-password').type('123{enter}');
@@ -36,15 +36,15 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
     cy.get('#login-password').type('123{enter}');
 
     cy.get('#navigation-lines-button').click();
-    cy.get('.line-delete-button').eq(-1).click();
+    cy.get('.line-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
 
     cy.get('#navigation-stations-button').click();
-    cy.get('.station-delete-button').eq(-1).click();
+    cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
-    cy.get('.station-delete-button').eq(-1).click();
+    cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
-    cy.get('.station-delete-button').eq(-1).click();
+    cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
   });
 

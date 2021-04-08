@@ -1,6 +1,6 @@
 describe('지하철 노선도 노선 관리 기능 테스트', () => {
   before(() => {
-    cy.visit('http://localhost:5500/');
+    cy.visit('http://localhost:8080/');
     cy.get('#navigation-login-button').click();
     cy.get('#login-email').type('test@email.com');
     cy.get('#login-password').type('123{enter}');
@@ -20,9 +20,9 @@ describe('지하철 노선도 노선 관리 기능 테스트', () => {
     cy.get('#login-email').type('test@email.com');
     cy.get('#login-password').type('123{enter}');
     cy.get('#navigation-stations-button').click();
-    cy.get('.station-delete-button').eq(-1).click();
+    cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
-    cy.get('.station-delete-button').eq(-1).click();
+    cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
   });
 
@@ -39,27 +39,27 @@ describe('지하철 노선도 노선 관리 기능 테스트', () => {
     cy.get('.input-submit').click({ force: true });
     cy.get('.modal').should('not.be.visible');
 
-    cy.get('.line-name').eq(-1).should('have.text', lineName);
-    cy.get('.subway-line-color-dot').eq(-1).should('have.css', 'background-color', 'rgb(220, 38, 38)');
+    cy.get('.line-name').eq(0).should('have.text', lineName);
+    cy.get('.subway-line-color-dot').eq(0).should('have.css', 'background-color', 'rgb(220, 38, 38)');
   });
 
   it('등록한 노선을 수정할 수 있는지 확인한다.', () => {
-    cy.get('.line-edit-button').eq(-1).click();
+    cy.get('.line-edit-button').eq(0).click();
     cy.get('#line-name-input').clear();
     cy.get('#line-name-input').type('테스트 노선 수정');
     cy.get('.bg-blue-600').click();
     cy.get('.input-submit').click({ force: true });
     cy.get('.modal').should('not.be.visible');
 
-    cy.get('.line-name').eq(-1).should('have.text', '테스트 노선 수정');
-    cy.get('.subway-line-color-dot').eq(-1).should('have.css', 'background-color', 'rgb(37, 99, 235)');
+    cy.get('.line-name').eq(0).should('have.text', '테스트 노선 수정');
+    cy.get('.subway-line-color-dot').eq(0).should('have.css', 'background-color', 'rgb(37, 99, 235)');
   });
 
   it('등록된 노선을 삭제할 수 있는지 확인한다.', () => {
     cy.get('.line-list-item')
       .its('length')
       .then((len) => {
-        cy.get('.line-delete-button').eq(-1).click();
+        cy.get('.line-delete-button').eq(0).click();
         cy.get('.confirm-button').click();
         cy.get('#lines-list-container')
           .children()
