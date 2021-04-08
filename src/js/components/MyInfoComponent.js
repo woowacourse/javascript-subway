@@ -15,15 +15,13 @@ class MyInfoComponent extends Component {
   }
 
   async #renderMyInfo() {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-
     try {
-      const response = await fetchMyInfo(accessToken);
+      const response = await fetchMyInfo();
       const { email, name } = await response.json();
 
       $(`#${ID_SELECTOR.MY_INFO_FORM_EMAIL}`).value = email;
       $(`#${ID_SELECTOR.MY_INFO_FORM_NAME}`).value = name;
-    } catch (err) {
+    } catch (error) {
       this.props.treatFetchError(error);
     }
   }
