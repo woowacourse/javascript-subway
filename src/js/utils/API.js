@@ -13,67 +13,50 @@ const _request = async (url, option = {}) => {
   }
 };
 
+const getOption = ({ method, contents, token }) => {
+  const option = {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (contents) {
+    option.body = JSON.stringify(contents);
+  }
+
+  if (token) {
+    option.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return option;
+};
+
 const request = {
   get: async (info) => {
     const { url, token } = info;
-    const option = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    if (token) {
-      option.headers.Authorization = `Bearer ${token}`;
-    }
+    const option = getOption({ method: 'GET', token });
 
     return _request(url, option);
   },
 
   post: async (info) => {
     const { url, contents, token } = info;
-    const option = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(contents),
-    };
-
-    if (token) {
-      option.headers.Authorization = `Bearer ${token}`;
-    }
+    const option = getOption({ method: 'POST', contents, token });
 
     return _request(url, option);
   },
 
   delete: async (info) => {
     const { url, token } = info;
-    const option = {
-      method: 'DELETE',
-      headers: {},
-    };
-
-    if (token) {
-      option.headers.Authorization = `Bearer ${token}`;
-    }
+    const option = getOption({ method: 'DELETE', token });
 
     return _request(url, option);
   },
 
   put: async (info) => {
     const { url, contents, token } = info;
-    const option = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(contents),
-    };
-
-    if (token) {
-      option.headers.Authorization = `Bearer ${token}`;
-    }
+    const option = getOption({ method: 'PUT', contents, token });
 
     return _request(url, option);
   },
