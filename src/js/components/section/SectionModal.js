@@ -79,9 +79,17 @@ class SectionModal {
     }
 
     try {
+      const {
+        [FORM.LINE_SELECT]: lineId,
+        [FORM.PREV_STATION]: upStationId,
+        [FORM.NEXT_STATION]: downStationId,
+        distance,
+        arrival: duration,
+      } = sectionInfo;
+
       await sectionAPI.addSection({
         userAccessToken: this.#userAccessToken,
-        sectionInfo,
+        sectionInfo: { lineId, upStationId, downStationId, distance, duration },
       });
 
       clearForm(this.$addSectionForm);

@@ -5,11 +5,11 @@ import { isInRange } from '../src/js/utils/validation';
 export const sectionAPI = {
   addSection: async ({ userAccessToken, sectionInfo }) => {
     const {
-      ['line-select']: lineId,
-      ['prev-station']: upStationId,
-      ['next-station']: downStationId,
+      lineId,
+      upStationId,
+      downStationId,
       distance,
-      arrival: duration,
+      duration,
     } = sectionInfo;
 
     const isStart = isInRange(Number(upStationId), { min: 0 });
