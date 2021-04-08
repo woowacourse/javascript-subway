@@ -78,6 +78,8 @@ const linesModal = () => {
               name="subway-line-name"
               class="input-field"
               placeholder="노선 이름"
+              minlength="2"
+              maxlength="10"
               required
             />
           </div>

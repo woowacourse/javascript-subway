@@ -15,6 +15,8 @@ export const mainTemplate = (stationList) => {
             name="station-name"
             class="input-field"
             placeholder="역 이름을 입력해주세요."
+            minlength="2"
+            maxlength="20"
             autofocus
             required
           />
