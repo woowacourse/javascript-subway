@@ -18,13 +18,12 @@ export const initStations = async userAccessToken => {
 
 export const initLines = async userAccessToken => {
   try {
-    const newLines = {};
-
     const lines = await lineAPI.getLines(userAccessToken);
-    lines.forEach(({ id, name, color }) => {
-      newLines[id] = { name, color };
-    });
-    return newLines;
+
+    return lines.reduce((prev, { id, name, color }) => {
+      prev[id] = { name, color };
+      return prev;
+    }, {});
   } catch {
     alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
   }
@@ -32,15 +31,12 @@ export const initLines = async userAccessToken => {
 
 export const initSections = async userAccessToken => {
   try {
-    const newSections = {};
-
     const sections = await lineAPI.getLines(userAccessToken);
 
-    sections.forEach(({ id, name, color, stations }) => {
-      newSections[id] = { name, color, stations, sections };
-    });
-
-    return newSections;
+    return sections.reduce((prev, { id, name, color, stations }) => {
+      prev[id] = { name, color, stations };
+      return prev;
+    }, {});
   } catch {
     alert(ERROR_MESSAGE.LOAD_LINE_FAILED);
   }

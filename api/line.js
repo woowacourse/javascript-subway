@@ -8,6 +8,7 @@ export const lineAPI = {
     };
 
     const res = await request(`${BASE_URL}${ACTIONS.LINES}`, option);
+
     return res.json();
   },
 
