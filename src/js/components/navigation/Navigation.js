@@ -27,6 +27,7 @@ export default class Navigation extends Component {
     if (e.target.id === 'navigation-logout-button') {
       localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
       routeTo('/');
+      this.changeSelectedButtonColor();
       showSnackbar(SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
 
       return;

@@ -2,7 +2,6 @@ import Component from '../../core/Component.js';
 import { $, showSnackbar, setLocalStorageItem, routeTo } from '../../utils/index.js';
 import { loginTemplate } from './template.js';
 import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
-import Navigation from '../navigation/Navigation.js';
 import { serviceAPI } from '../../service/index.js';
 
 export default class Login extends Component {

@@ -57,6 +57,6 @@ export default class App extends Component {
     }
 
     this.Navigation.render(token);
-    await this.router[pathName]?.(token);
+    this.router[pathName]?.(token);
   }
 }

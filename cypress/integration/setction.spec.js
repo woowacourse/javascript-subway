@@ -37,9 +37,11 @@ describe('지하철 노선도 구간 관리 기능 테스트', () => {
 
     cy.get('#navigation-stations-button').click();
     cy.get('.station-delete-button').eq(0).click();
+    cy.wait(100);
     cy.get('.confirm-button').click();
     cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
+    cy.wait(100);
     cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
   });

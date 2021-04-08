@@ -109,26 +109,17 @@ export default class Sections extends Component {
     const stationList = line.stations;
     const sectionList = line.sections;
     const lineColor = line.color;
-    const sortedSectionList = [];
+    const sortedSectionList = stationList.map((station, index) => {
+      if (index === stationList.length - 1) return { name: station.name, id: station.id };
 
-    stationList.forEach((station, index) => {
-      if (index === stationList.length - 1) {
-        sortedSectionList.push({ name: station.name, id: station.id });
-        return;
-      }
+      const targetSection = sectionList.find((section) => station.id === section.upStation.id);
 
-      sectionList.find((section) => {
-        if (station.name === section.upStation.name) {
-          sortedSectionList.push({
-            name: station.name,
-            id: station.id,
-            duration: section.duration,
-            distance: section.distance,
-          });
-          return true;
-        }
-        return false;
-      });
+      return {
+        name: targetSection.upStation.name,
+        id: targetSection.upStation.id,
+        duration: targetSection.duration,
+        distance: targetSection.distance,
+      };
     });
 
     this.$sectionListContainer.innerHTML = sortedSectionList
