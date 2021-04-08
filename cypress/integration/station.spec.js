@@ -1,9 +1,8 @@
+import { beforeLogin } from '../common/login.js';
+
 describe('지하철 노선도 역 관리 기능 테스트', () => {
   before(() => {
-    cy.visit('http://localhost:8080/');
-    cy.get('#navigation-login-button').click();
-    cy.get('#login-email').type('test@email.com');
-    cy.get('#login-password').type('123{enter}');
+    beforeLogin();
     cy.get('#navigation-stations-button').click();
   });
 

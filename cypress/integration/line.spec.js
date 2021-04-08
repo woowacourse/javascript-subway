@@ -1,9 +1,8 @@
+import { beforeLogin, afterLogin } from '../common/login.js';
+
 describe('지하철 노선도 노선 관리 기능 테스트', () => {
   before(() => {
-    cy.visit('http://localhost:8080/');
-    cy.get('#navigation-login-button').click();
-    cy.get('#login-email').type('test@email.com');
-    cy.get('#login-password').type('123{enter}');
+    beforeLogin();
 
     // 테스트에 사용할 역을 2개 추가한다.
     cy.get('#navigation-stations-button').click();
@@ -15,10 +14,8 @@ describe('지하철 노선도 노선 관리 기능 테스트', () => {
   });
 
   after(() => {
-    cy.get('#navigation-logout-button').click();
-    cy.get('#navigation-login-button').click();
-    cy.get('#login-email').type('test@email.com');
-    cy.get('#login-password').type('123{enter}');
+    afterLogin();
+
     cy.get('#navigation-stations-button').click();
     cy.get('.station-delete-button').eq(0).click();
     cy.get('.confirm-button').click();
