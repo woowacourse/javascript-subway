@@ -96,7 +96,7 @@ class Section {
     const { stations, color } = this.#sections[this.#selectedLineId];
 
     target.className = color;
-    $(SELECTOR.SECTION_LIST).innerHTML = stations.map(sectionTemplate).join('');
+    $(SELECTOR.SECTION_LIST).innerHTML = sectionTemplate(stations);
   }
 
   async _handleRemoveSection(e) {
@@ -151,21 +151,18 @@ class Section {
 
     if (lineId === this.#selectedLineId) {
       const stations = this.#sections[this.#selectedLineId].stations;
-      $('#section-list').innerHTML = stations.map(sectionTemplate).join('');
+      $(SELECTOR.SECTION_LIST).innerHTML = sectionTemplate(stations);
     }
   }
 
   _removeSection({ id, $sectionItem }) {
-    this.#sections[this.#selectedLineId].stations = this.#sections[
-      this.#selectedLineId
-    ].stations.filter(station => station.id !== Number(id));
+    const selectedLineStations = this.#sections[this.#selectedLineId].stations;
+    selectedLineStations = selectedLineStations.filter(
+      station => station.id !== Number(id),
+    );
+
     $sectionItem.remove();
   }
 }
 
 export default Section;
-
-// TODO : initStation, Section, Line model.js 로 분리
-// 상수화. 특히 DOM
-// 테스트 코드 짜기
-// 시간 남으면 역과 역사이의 시간, 분 정도? (개인?)
