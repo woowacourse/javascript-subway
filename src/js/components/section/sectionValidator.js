@@ -12,4 +12,6 @@ export const checkSectionValid = sectionInfo => {
   ) {
     return ERROR_MESSAGE.NEGATIVE_NUMBER;
   }
+
+  return '';
 };

@@ -9,4 +9,6 @@ export const checkStationValid = name => {
   if (isEmptyString(name)) {
     return ERROR_MESSAGE.EMPTY_STATION_NAME;
   }
+
+  return '';
 };

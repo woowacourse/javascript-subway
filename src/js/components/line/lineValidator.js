@@ -24,6 +24,8 @@ export const checkLineValid = lineInfo => {
   ) {
     return ERROR_MESSAGE.NEGATIVE_NUMBER;
   }
+
+  return '';
 };
 
 export const checkLineModifyValid = ({ name, color }) => {
@@ -34,4 +36,6 @@ export const checkLineModifyValid = ({ name, color }) => {
   if (isEmptyString(color) || isEmptyString(name)) {
     return ERROR_MESSAGE.EMPTY_VALUE;
   }
+
+  return '';
 };
