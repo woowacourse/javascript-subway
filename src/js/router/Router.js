@@ -6,7 +6,7 @@ import { getSectionsTemplate } from '../templates/sections';
 import { getSignInTemplate } from '../templates/signIn';
 import { getSignUpTemplate } from '../templates/signUp';
 import { getMapTemplate } from '../templates/map';
-import { isSignIn } from '../validators/boolean';
+import { isSignInStatus } from '../validators/boolean';
 
 class Router {
   constructor(target) {
@@ -25,7 +25,7 @@ class Router {
 
   getTemplate(path) {
     const pathActions = {
-      [PATH.MAIN]: () => getMainTemplate(isSignIn()),
+      [PATH.MAIN]: () => getMainTemplate(isSignInStatus()),
       [PATH.STATIONS]: () => getStationsTemplate(),
       [PATH.LINES]: () => getLinesTemplate(),
       [PATH.SECTIONS]: () => getSectionsTemplate(),

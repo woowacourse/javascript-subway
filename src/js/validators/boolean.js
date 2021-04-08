@@ -18,7 +18,7 @@ export const isRouterButton = (target) => {
   return target.matches(`.${ELEMENT.MAIN_MENU_ROUTER}`);
 };
 
-export const isSignIn = () => {
+export const isSignInStatus = () => {
   return !!token.accessToken;
 };
 

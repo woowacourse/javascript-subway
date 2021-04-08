@@ -15,7 +15,7 @@ import {
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
-import { isRouterButton, isSignIn, isDimmed } from '../validators/boolean';
+import { isRouterButton, isSignInStatus, isDimmed } from '../validators/boolean';
 import token from '../token/Token';
 import { closeModal } from '../utils/modal';
 
@@ -66,14 +66,14 @@ class App {
   }
 
   setMainBySignInStatus() {
-    const signInUser = isSignIn();
+    const isSignIn = isSignInStatus();
 
     this.router.route(PATH.MAIN);
-    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest(`.${ELEMENT.SIGN_IN_TOGGLE}`).href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
+    this.$signInButton.innerText = isSignIn ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
+    this.$signInButton.closest(`.${ELEMENT.SIGN_IN_TOGGLE}`).href = isSignIn ? PATH.SIGNOUT : PATH.SIGNIN;
 
-    signInUser ? this.showMenuButton() : this.hideMenuButton();
-    signInUser && this.setInitialUserData();
+    isSignIn ? this.showMenuButton() : this.hideMenuButton();
+    isSignIn && this.setInitialUserData();
   }
 
   setInitialUserData() {
