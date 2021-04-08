@@ -54,7 +54,10 @@ class AppPage extends Page {
         treatFetchError: this.treatFetchError,
         login: this.login,
       }),
-      [URL.SIGNUP]: new SignupComponent({ route: this.route }),
+      [URL.SIGNUP]: new SignupComponent({
+        route: this.route,
+        treatFetchError: this.treatFetchError,
+      }),
       [URL.MY_INFO]: new MyInfoComponent({
         treatFetchError: this.treatFetchError,
       }),
@@ -92,7 +95,7 @@ class AppPage extends Page {
     });
   }
 
-  treatFetchError(error) {
+  treatFetchError = error => {
     if (error.message === String(HTTP_RESPONSE_STATUS.INVALID_ACCESS_TOKEN)) {
       localStorage.setItem(
         LOCAL_STORAGE_KEY.ACCESS_TOKEN,
@@ -106,7 +109,7 @@ class AppPage extends Page {
     }
 
     alert(error.message);
-  }
+  };
 
   login = async () => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
