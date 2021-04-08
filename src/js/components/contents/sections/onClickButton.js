@@ -4,44 +4,44 @@ import { SECTIONS_MESSAGES } from '../../../constants/index.js';
 
 export function onClickButtonOfList({ target }) {
   if (target.classList.contains('plus-button')) {
-    onClickPlusButton(target);
+    addSection(target);
     return;
   }
 
   if (target.classList.contains('remove-button')) {
-    onClickRemoveButton(target);
+    removeSection(target);
   }
 }
 
 export function onClickButtonOfForm({ target }) {
   if (target.classList.contains('check-button')) {
-    onClickCheckButton();
+    approveChange();
     return;
   }
 
   if (target.classList.contains('undo-button')) {
-    onClickUndoButton();
+    changeToNonEditMode();
   }
 }
 
-function onClickPlusButton($plusButton) {
-  const { stationId } = $plusButton.dataset;
-  const offsetTop = `${$plusButton.offsetTop}px`;
+function addSection($button) {
+  const { stationId } = $button.dataset;
+  const offsetTop = `${$button.offsetTop}px`;
 
   renderEditMode(stationId, offsetTop);
 }
 
-function onClickRemoveButton($removeButton) {
+function removeSection($button) {
   // eslint-disable-next-line no-alert
   if (!window.confirm(SECTIONS_MESSAGES.ARE_YOU_SURE_TO_REMOVE)) {
     return;
   }
 
-  const { lineId, stationId } = $removeButton.dataset;
+  const { lineId, stationId } = $button.dataset;
   requestRemoveSection({ lineId, stationId });
 }
 
-function onClickCheckButton() {
+function approveChange() {
   const $addForm = document.getElementById('add-form');
   const $stationSelect = document.getElementById('station-select');
 
@@ -53,6 +53,6 @@ function onClickCheckButton() {
   }
 }
 
-function onClickUndoButton() {
+function changeToNonEditMode() {
   renderNonEditMode();
 }

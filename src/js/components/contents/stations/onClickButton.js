@@ -4,32 +4,38 @@ import { STATIONS_MESSAGES } from '../../../constants/index.js';
 
 export default function onClickButton({ target }) {
   if (target.classList.contains('edit-button')) {
-    onClickEditButton(target);
+    changeToEditMode(target);
     return;
   }
 
   if (target.classList.contains('check-button')) {
-    onClickCheckButton(target);
+    approveChange(target);
     return;
   }
 
   if (target.classList.contains('remove-button')) {
-    onClickRemoveButton(target);
+    removeStation(target);
     return;
   }
 
   if (target.classList.contains('undo-button')) {
-    onClickUndoButton(target);
+    changeToNonEditMode(target);
   }
 }
 
-function onClickEditButton($editButton) {
-  const $editForm = $editButton.closest('.edit-form');
+function changeToEditMode($button) {
+  const $editForm = $button.closest('.edit-form');
   renderEditMode($editForm);
 }
 
-function onClickCheckButton($checkButton) {
-  const $editForm = $checkButton.closest('.edit-form');
+// TODO: undo 했을 때 수정된 것처럼 표시되는 문제 해결
+function changeToNonEditMode($button) {
+  const $editForm = $button.closest('.edit-form');
+  renderNonEditMode($editForm);
+}
+
+function approveChange($button) {
+  const $editForm = $button.closest('.edit-form');
 
   if ($editForm.reportValidity()) {
     // eslint-disable-next-line no-new
@@ -37,18 +43,12 @@ function onClickCheckButton($checkButton) {
   }
 }
 
-function onClickRemoveButton($removeButton) {
+function removeStation($button) {
   // eslint-disable-next-line no-alert
   if (!window.confirm(STATIONS_MESSAGES.ARE_YOU_SURE_TO_REMOVE)) {
     return;
   }
 
-  const $editForm = $removeButton.closest('.edit-form');
+  const $editForm = $button.closest('.edit-form');
   requestRemoveStation($editForm);
-}
-
-// TODO: undo 했을 때 수정된 것처럼 표시되는 문제 해결
-function onClickUndoButton($undoButton) {
-  const $editForm = $undoButton.closest('.edit-form');
-  renderNonEditMode($editForm);
 }
