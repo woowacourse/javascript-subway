@@ -105,18 +105,16 @@ class Signup extends Component {
 
     try {
       this.validateName(name);
-      $nameCheck.classList.add('correct');
       $nameCheck.innerText = VALID_MESSAGE.NAME;
+
       this.formValidationFlag.name = true;
-      target.classList.add('valid__input');
-      target.classList.remove('invalid__input');
+      this.notifyCorrectInput($nameCheck, target);
     } catch (error) {
       if (error instanceof ValidationError) {
-        $nameCheck.classList.remove('correct');
         $nameCheck.innerText = error.message;
+
         this.formValidationFlag.name = false;
-        target.classList.add('invalid__input');
-        target.classList.remove('valid__input');
+        this.notifyIncorrectInput($nameCheck, target);
       }
 
       console.error(error);
@@ -142,18 +140,16 @@ class Signup extends Component {
 
     try {
       await this.validateEmail(email);
-      $emailCheck.classList.add('correct');
       $emailCheck.innerText = VALID_MESSAGE.EMAIL;
+
       this.formValidationFlag.email = true;
-      target.classList.add('valid__input');
-      target.classList.remove('invalid__input');
+      this.notifyCorrectInput($emailCheck, target);
     } catch (error) {
       if (error instanceof ValidationError) {
-        $emailCheck.classList.remove('correct');
         $emailCheck.innerText = error.message;
+
         this.formValidationFlag.email = false;
-        target.classList.add('invalid__input');
-        target.classList.remove('valid__input');
+        this.notifyIncorrectInput($emailCheck, target);
       }
 
       console.error(error);
@@ -186,22 +182,24 @@ class Signup extends Component {
 
     try {
       this.validatePassword(password, passwordConfirm);
-      $passwordCheck.classList.add('correct');
       $passwordCheck.innerText = VALID_MESSAGE.PASSWORD;
+
       this.formValidationFlag.password = true;
-      targetPassword.classList.add('valid__input');
-      targetPassword.classList.remove('invalid__input');
-      targetPasswordConfirm.classList.add('valid__input');
-      targetPasswordConfirm.classList.remove('invalid__input');
+      this.notifyCorrectInput(
+        $passwordCheck,
+        targetPassword,
+        targetPasswordConfirm
+      );
     } catch (error) {
       if (error instanceof ValidationError) {
-        $passwordCheck.classList.remove('correct');
         $passwordCheck.innerText = error.message;
         this.formValidationFlag.password = false;
-        targetPassword.classList.add('invalid__input');
-        targetPassword.classList.remove('valid__input');
-        targetPasswordConfirm.classList.add('invalid__input');
-        targetPasswordConfirm.classList.remove('valid__input');
+
+        this.notifyIncorrectInput(
+          $passwordCheck,
+          targetPassword,
+          targetPasswordConfirm
+        );
       }
 
       console.error(error);
@@ -225,6 +223,22 @@ class Signup extends Component {
     if (!isSamePassword) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
+  }
+
+  notifyCorrectInput($checkText, ...inputs) {
+    inputs.forEach((input) => {
+      input.classList.add('valid__input');
+      input.classList.remove('invalid__input');
+    });
+    $checkText.classList.add('correct');
+  }
+
+  notifyIncorrectInput($checkText, ...inputs) {
+    inputs.forEach((input) => {
+      input.classList.add('invalid__input');
+      input.classList.remove('valid__input');
+    });
+    $checkText.classList.remove('correct');
   }
 }
 
