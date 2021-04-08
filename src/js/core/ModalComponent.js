@@ -7,7 +7,6 @@ class ModalComponent extends Component {
 
     this.targetId = '';
     this.requestType = '';
-    // TODO: 이중 추상화 이벤트 리스너 등록
   }
 
   show() {

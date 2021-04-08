@@ -37,4 +37,17 @@ const CONFIRM_MESSAGE = {
   DELETE: '삭제하시겠습니까?',
 };
 
-export { VALID_MESSAGE, INVALID_MESSAGE, ERROR_MESSAGE, CONFIRM_MESSAGE };
+const SUCCESS_MESSAGE = {
+  CREATE: '성공적으로 생성되었습니다.',
+  DELETE: '성공적으로 삭제되었습니다.',
+  UPDATE: '성공적으로 수정되었습니다.',
+  LOGIN: '성공적으로 로그인했습니다.',
+};
+
+export {
+  VALID_MESSAGE,
+  INVALID_MESSAGE,
+  ERROR_MESSAGE,
+  CONFIRM_MESSAGE,
+  SUCCESS_MESSAGE,
+};

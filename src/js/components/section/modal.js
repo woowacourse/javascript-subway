@@ -1,4 +1,5 @@
 import getFetchParams from '../../api/getFetchParams.js';
+import { SUCCESS_MESSAGE } from '../../constants/message.js';
 import { MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import ModalComponent from '../../core/ModalComponent.js';
@@ -45,7 +46,9 @@ class Modal extends ModalComponent {
         if (!response.ok) throw Error(await response.text());
 
         await this.updateSubwayState();
+        this.snackbar.show(SUCCESS_MESSAGE.CREATE);
       } catch (error) {
+        this.snackbar.show(error.message);
         console.error(error.message);
       }
     });

@@ -1,4 +1,4 @@
-import { getSubwayState } from '../../api/apis.js';
+import getSubwayState from '../../api/getState.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
@@ -6,7 +6,7 @@ import Component from '../../core/Component.js';
 import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
-import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
 import sorted from '../../utils/sort.js';
 import { LINE, MODAL } from '../../constants/selector.js';
 import Modal from './modal.js';
@@ -46,15 +46,6 @@ class Line extends Component {
   }
 
   editOrDeleteLineEvent() {
-    // edit이라는 독자적인 행위인데 create에 영향을 받음.
-    // create도 마찬가지 .
-    // 지우고 그려줘야 한다. -> 이상하네.
-    // 이걸 해결해야 함.
-    // 이게 해결되지 못한다면 모달을 두개 나눠야 하는 편이 좋다.
-    // 이걸 가장 간단하게 해결하는 방법이 모달 2개로 만드는 것.
-    // 하나로 해도 해결을 할 수는 있겠지만 .. ㅎㅎㅎ
-    // Template 안에서 해결할 수 있는 편이 좋다.
-
     $(LINE.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
       // 노선 관리 -- Edit
       if (target.classList.contains(LINE.CLASSLIST.EDIT_ITEM)) {
@@ -66,11 +57,10 @@ class Line extends Component {
         this.childComponents.modal.setTargetId(id);
       }
 
-      // 노선 관리 -- Delete
       if (target.classList.contains(LINE.CLASSLIST.DELETE_ITEM)) {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-        const id = target.closest(LINE.ITEM_LIST).dataset.id;
+        const id = target.closest(LINE.CLASS.ITEM).dataset.id;
         const accessToken = this.stateManagers.accessToken.getToken();
         const params = getFetchParams({
           path: `${PATH.LINES}/${id}`,
@@ -81,7 +71,10 @@ class Line extends Component {
 
           if (!response.ok) throw Error(await response.text());
           this.updateSubwayState();
+
+          this.snackbar.show(SUCCESS_MESSAGE.DELETE);
         } catch (error) {
+          this.snackbar.show(error.message);
           console.error(error.message);
         }
       }

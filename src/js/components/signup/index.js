@@ -4,12 +4,16 @@ import Component from '../../core/Component.js';
 import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
-import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message.js';
+import {
+  VALID_MESSAGE,
+  INVALID_MESSAGE,
+  SUCCESS_MESSAGE,
+} from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import LENGTH from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import getFetchParams from '../../api/getFetchParams.js';
-import { login, signup } from '../../api/apis.js';
+import { login, signup } from '../../api/account.js';
 import { SIGNUP } from '../../constants/selector.js';
 
 class Signup extends Component {
@@ -48,7 +52,12 @@ class Signup extends Component {
         ) {
           const password = currentTarget['password'].value;
           const passwordConfirm = currentTarget['password-confirm'].value;
-          this.validatePasswordAndNotify(password, passwordConfirm, target);
+          this.validatePasswordAndNotify(
+            password,
+            passwordConfirm,
+            currentTarget['password'],
+            currentTarget['password-confirm']
+          );
         }
       }
     );
@@ -74,8 +83,10 @@ class Signup extends Component {
         const accessToken = await login(email, password);
         this.stateManagers.accessToken.setToken(await accessToken);
         this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+        this.snackbar.show(SUCCESS_MESSAGE.LOGIN);
       } catch (error) {
-        console.error(error);
+        this.snackbar.show(error.message);
+        console.error(error.message);
       }
     });
   }
@@ -156,7 +167,12 @@ class Signup extends Component {
     }
   }
 
-  validatePasswordAndNotify(password, passwordConfirm, target) {
+  validatePasswordAndNotify(
+    password,
+    passwordConfirm,
+    targetPassword,
+    targetPasswordConfirm
+  ) {
     const $passwordCheck = $('.js-password-check');
 
     try {
@@ -164,15 +180,19 @@ class Signup extends Component {
       $passwordCheck.classList.add('correct');
       $passwordCheck.innerText = VALID_MESSAGE.PASSWORD;
       this.formValidationFlag.password = true;
-      target.classList.add('valid__input');
-      target.classList.remove('invalid__input');
+      targetPassword.classList.add('valid__input');
+      targetPassword.classList.remove('invalid__input');
+      targetPasswordConfirm.classList.add('valid__input');
+      targetPasswordConfirm.classList.remove('invalid__input');
     } catch (error) {
       if (error instanceof ValidationError) {
         $passwordCheck.classList.remove('correct');
         $passwordCheck.innerText = error.message;
         this.formValidationFlag.password = false;
-        target.classList.add('invalid__input');
-        target.classList.remove('valid__input');
+        targetPassword.classList.add('invalid__input');
+        targetPassword.classList.remove('valid__input');
+        targetPasswordConfirm.classList.add('invalid__input');
+        targetPasswordConfirm.classList.remove('valid__input');
       }
 
       console.error(error);

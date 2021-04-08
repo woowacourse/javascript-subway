@@ -50,8 +50,9 @@ class Modal extends ModalComponent {
 
       this.hide();
       await this.updateSubwayState();
+      this.snackbar.show(SUCCESS_MESSAGE.UPDATE);
     } catch (error) {
-      // TODO: 스낵바
+      this.snackbar.show(error.message);
       console.error(error.message);
     }
   }

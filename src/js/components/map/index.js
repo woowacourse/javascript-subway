@@ -1,8 +1,8 @@
-import { getSubwayState } from '../../api/apis';
 import Component from '../../core/Component';
 import { mainTemplate, stationItem, connectedLine } from './template/main.js';
 import { $ } from '../../utils/DOM.js';
 import { MAP } from '../../constants/selector.js';
+import getSubwayState from '../../api/getState.js';
 
 class Map extends Component {
   constructor(parentNode, stateManagers) {

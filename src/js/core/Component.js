@@ -1,3 +1,5 @@
+import Snackbar from './Snackbar';
+
 class Component {
   constructor(parentNode, stateManagers, childComponents = {}, state = {}) {
     this.parentNode = parentNode;
@@ -5,6 +7,7 @@ class Component {
     this.childComponents = childComponents;
     this.state = state;
     this.requestType = '';
+    this.snackbar = new Snackbar();
   }
 
   setState(state) {

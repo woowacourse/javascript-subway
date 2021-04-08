@@ -5,6 +5,7 @@ import request from '../../utils/request.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { DATASET, LINE, MODAL } from '../../constants/selector.js';
+import { SUCCESS_MESSAGE } from '../../constants/message.js';
 
 class Modal extends ModalComponent {
   constructor(parentNode, stateManagers) {
@@ -91,7 +92,18 @@ class Modal extends ModalComponent {
       if (!response.ok) throw Error(await response.text());
 
       this.updateSubwayState();
+
+      if (this.requestType === 'post') {
+        this.snackbar.show(SUCCESS_MESSAGE.CREATE);
+        return;
+      }
+
+      if (this.requestType === 'put') {
+        this.snackbar.show(SUCCESS_MESSAGE.UPDATE);
+        return;
+      }
     } catch (error) {
+      this.snackbar.show(error.message);
       console.error(error.message);
     }
   }

@@ -1,12 +1,12 @@
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
-import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
 import { mainTemplate } from './template/main.js';
 import request from '../../utils/request.js';
 import Component from '../../core/Component.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
-import { getSubwayState } from '../../api/apis.js';
+import getSubwayState from '../../api/getState.js';
 import { MODAL, STATION } from '../../constants/selector.js';
 
 class Station extends Component {
@@ -56,8 +56,9 @@ class Station extends Component {
       if (!response.ok) throw Error(await response.text());
 
       this.updateSubwayState();
+      this.snackbar.show(SUCCESS_MESSAGE.CREATE);
     } catch (error) {
-      // TODO: 생성되지 않았을 때 ALERT 띄워주기
+      this.snackbar.show(error.message);
       console.error(error.message);
     }
   }
@@ -94,9 +95,9 @@ class Station extends Component {
       if (!response.ok) throw Error(await response.text());
 
       this.updateSubwayState();
+      this.snackbar.show(SUCCESS_MESSAGE.DELETE);
     } catch (error) {
-      // TODO: 잘못된 내용에 대해 ALERT 띄워주기
-      alert(error.message);
+      this.snackbar.show(error.message);
       console.error(error.message);
     }
   }

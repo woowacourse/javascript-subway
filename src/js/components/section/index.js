@@ -1,6 +1,6 @@
-import { getSubwayState } from '../../api/apis.js';
+import getSubwayState from '../../api/getState.js';
 import getFetchParams from '../../api/getFetchParams.js';
-import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
 import { DATASET, MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
@@ -63,7 +63,9 @@ class Section extends Component {
         if (!response.ok) throw Error(await response.text());
 
         await this.updateSubwayState();
+        this.snackbar.show(SUCCESS_MESSAGE.DELETE);
       } catch (error) {
+        this.snackbar.show(error.message);
         console.error(error.message);
       }
     });
