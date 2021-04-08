@@ -35,10 +35,6 @@ class Preview {
   initDOM() {
     this.$previewForm = $(SELECTOR.PREVIEW_FORM);
     this.$previewList = $(SELECTOR.PREVIEW_LIST);
-    this._bindEvent();
-  }
-
-  _bindEvent() {
     this._bindSelectPreviewEvent();
   }
 
