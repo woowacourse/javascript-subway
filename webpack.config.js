@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -26,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
@@ -37,6 +38,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './index.html' }),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [{ from: 'src/images', to: 'images' }],
@@ -47,5 +49,6 @@ module.exports = {
     inline: true,
     open: true,
     compress: true,
+    historyApiFallback: true,
   },
 };

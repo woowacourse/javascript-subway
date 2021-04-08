@@ -1,8 +1,9 @@
-import Stations from './Stations';
-import Lines from './Lines';
-import Sections from './Sections';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import Stations from './station/Stations';
+import Lines from './line/Lines';
+import Sections from './section/Sections';
+import SignIn from './signIn/SignIn';
+import SignUp from './signUp/SignUp';
+import SubwayMap from './subwayMap/SubwayMap';
 import Router from '../router/Router';
 import {
   ELEMENT,
@@ -14,24 +15,15 @@ import {
 } from '../utils/constants';
 import { $, $$ } from '../utils/dom';
 import { showSnackbar } from '../utils/snackbar';
-import { isRouterButton, isSignIn } from '../validators/boolean';
+import { isRouterButton, isSignIn, isDimmed } from '../validators/boolean';
 import token from '../token/Token';
+import { closeModal } from '../utils/modal';
 
 class App {
   constructor() {
     this.selectDom();
     this.bindEvent();
     this.router = new Router(this.$mainScreen);
-    this.renderMain();
-  }
-
-  renderMain() {
-    const signInUser = isSignIn();
-
-    this.router.route(PATH.MAIN);
-    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
-    this.$signInButton.closest('a').href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
-    signInUser ? this.showMenuButton() : this.hideMenuButton();
   }
 
   init() {
@@ -42,6 +34,8 @@ class App {
       changeFromSignOutToSignInStatus: this.changeFromSignOutToSignInStatus.bind(this),
     });
     this.signUp = new SignUp({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
+    this.map = new SubwayMap({ initializeRoutedPage: this.initializeRoutedPage.bind(this) });
+    this.setMainBySignInStatus();
   }
 
   selectDom() {
@@ -57,15 +51,36 @@ class App {
     });
 
     this.$app.addEventListener('click', (e) => {
-      if (!isRouterButton(e.target)) return;
-      e.preventDefault();
+      if (isDimmed(e.target) || e.target.closest(`.${ELEMENT.MODAL_CLOSE}`)) {
+        closeModal($(`.${ELEMENT.MODAL}`));
+      }
 
-      this.handleSelectMenu(e);
+      if (isRouterButton(e.target)) {
+        this.handleSelectMenu(e);
+      }
     });
   }
 
+  setMainBySignInStatus() {
+    const signInUser = isSignIn();
+
+    this.router.route(PATH.MAIN);
+    this.$signInButton.innerText = signInUser ? MENU_TITLE.SIGN_OUT : MENU_TITLE.SIGN_IN;
+    this.$signInButton.closest(`.${ELEMENT.SIGN_IN_TOGGLE}`).href = signInUser ? PATH.SIGNOUT : PATH.SIGNIN;
+
+    signInUser ? this.showMenuButton() : this.hideMenuButton();
+    signInUser && this.setInitialUserData();
+  }
+
+  setInitialUserData() {
+    this.stations.setStationListTemplate();
+    this.lines.setLineListTemplate();
+  }
+
   handleSelectMenu(e) {
-    const path = e.target.closest('a').getAttribute('href');
+    e.preventDefault();
+
+    const path = e.target.closest(`.${ELEMENT.MENU_LINK}`).getAttribute('href');
 
     if (path === PATH.SIGNOUT) {
       this.runSignOutProcess();
@@ -89,15 +104,25 @@ class App {
       [PATH.SIGNUP]: () => {
         this.signUp.init();
       },
+      [PATH.STATIONS]: () => {
+        this.stations.init();
+      },
+      [PATH.LINES]: () => {
+        this.lines.init();
+      },
+      [PATH.SECTIONS]: () => {
+        this.sections.init();
+      },
+      [PATH.MAP]: () => {
+        this.map.init();
+      },
     };
 
     pathActions[path]?.();
   }
 
   runSignOutProcess() {
-    if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) {
-      return;
-    }
+    if (!window.confirm(SIGN_OUT_CONFIRM_MESSAGE)) return;
 
     this.changeFromSignInToSignOutStatus();
     showSnackbar({ message: SUCCESS_MESSAGE.SIGN_OUT, showtime: SNACKBAR_SHOW_TIME });
@@ -105,12 +130,12 @@ class App {
 
   changeFromSignOutToSignInStatus(accessToken) {
     token.setToken(accessToken);
-    this.renderMain();
+    this.setMainBySignInStatus();
   }
 
   changeFromSignInToSignOutStatus() {
     token.removeToken();
-    this.renderMain();
+    this.setMainBySignInStatus();
   }
 
   showMenuButton() {

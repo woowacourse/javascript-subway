@@ -5,6 +5,7 @@ import { getLinesTemplate } from '../templates/lines';
 import { getSectionsTemplate } from '../templates/sections';
 import { getSignInTemplate } from '../templates/signIn';
 import { getSignUpTemplate } from '../templates/signUp';
+import { getMapTemplate } from '../templates/map';
 import { isSignIn } from '../validators/boolean';
 
 class Router {
@@ -13,7 +14,7 @@ class Router {
   }
 
   route(path) {
-    history.pushState({ path }, null, path);
+    window.history.pushState({ path }, null, path);
     this.render(path);
   }
 
@@ -28,9 +29,9 @@ class Router {
       [PATH.STATIONS]: () => getStationsTemplate(),
       [PATH.LINES]: () => getLinesTemplate(),
       [PATH.SECTIONS]: () => getSectionsTemplate(),
-      [PATH.SECTIONS]: () => getSectionsTemplate(),
       [PATH.SIGNIN]: () => getSignInTemplate(),
       [PATH.SIGNUP]: () => getSignUpTemplate(),
+      [PATH.MAP]: () => getMapTemplate(),
     };
 
     return pathActions[path]?.();
