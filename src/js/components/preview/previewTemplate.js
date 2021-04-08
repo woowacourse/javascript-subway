@@ -9,7 +9,7 @@ export const previewTemplate = sections => {
           <option value="" selected disabled hidden>노선을 선택해주세요</option>
           ${Object.keys(sections)
             .map(key => {
-              return `<option value=${key}>${sections[key].name}</option>`;
+              `<option value=${key}>${sections[key].name}</option>`;
             })
             .join('')}
         </select>
