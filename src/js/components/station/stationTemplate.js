@@ -38,53 +38,53 @@ export const stationsTemplate = stations => {
 
 export const stationTemplate = (id, { name }) => {
   return `
-  <li class="station-list-item d-flex items-center py-2" data-station-id=${id}>
-  <span class="station-list-item-name w-100 pl-2">${name}</span>
-  <button
-  type="button"
-  class="modify-button modal-trigger-btn bg-gray-50 text-gray-500 text-sm mr-1"
->
-  수정
-</button>
-<button type="button" class="delete-button bg-gray-50 text-gray-500">
-  삭제
-</button>
-</li>
-`;
+    <li class="station-list-item d-flex items-center py-2" data-station-id=${id}>
+      <span class="station-list-item-name w-100 pl-2">${name}</span>
+      <button
+      type="button"
+      class="modify-button modal-trigger-btn bg-gray-50 text-gray-500 text-sm mr-1"
+      >
+        수정
+      </button>
+      <button type="button" class="delete-button bg-gray-50 text-gray-500">
+        삭제
+      </button>
+    </li>
+  `;
 };
 
 export const modalTemplate = () => {
   return `
   <div class="modal-inner p-8">
-  <button class="modal-close">
-    <svg viewbox="0 0 40 40">
-      <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
-    </svg>
-  </button>
-  <header>
-    <h2 class="text-center">🔁 역 수정</h2>
-  </header>
-  <form name="modify-station">
-    <div class="input-control">
-      <label for="station-modify-input" class="input-label" hidden>역 가</label>
-      <input
-        id="station-modify-input"
-        name="station-modify-input"
-        class="input-field"
-        placeholder="변경할 역명을 작섷해주세요."
-        required
-      />
-    </div>
-    <div class="d-flex justify-end mt-3">
-      <button
-        id="station-modify-button"
-        name="submit"
-        class="input-submit bg-cyan-300"
-      >
-        확인
-      </button>
-    </div>
-  </form>
-</div>
+    <button class="modal-close">
+      <svg viewbox="0 0 40 40">
+        <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+      </svg>
+    </button>
+    <header>
+      <h2 class="text-center">🔁 역 수정</h2>
+    </header>
+    <form name="modify-station">
+      <div class="input-control">
+        <label for="station-modify-input" class="input-label" hidden>역 가</label>
+        <input
+          id="station-modify-input"
+          name="station-modify-input"
+          class="input-field"
+          placeholder="변경할 역명을 작섷해주세요."
+          required
+        />
+      </div>
+      <div class="d-flex justify-end mt-3">
+        <button
+          id="station-modify-button"
+          name="submit"
+          class="input-submit bg-cyan-300"
+        >
+          확인
+        </button>
+      </div>
+    </form>
+  </div>
   `;
 };

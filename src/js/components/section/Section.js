@@ -112,8 +112,8 @@ class Section {
 
       this._removeSection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.REMOVE_SECTION);
-    } catch (res) {
-      const message = await res.text();
+    } catch (error) {
+      const message = await error.text();
       showSnackbar(message ? message : ERROR_MESSAGE.REMOVE_SECTION_FAILED);
     }
   }
