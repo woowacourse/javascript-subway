@@ -76,7 +76,7 @@ class Section {
   }
 
   _bindAddSectionEvent() {
-    $(SELECTOR.CREATE_SECTION_BUTTON).addEventListener('click', e => {
+    $(SELECTOR.CREATE_SECTION_BUTTON).addEventListener('click', () => {
       this.#modal.openSectionModal({
         sections: this.#sections,
       });
@@ -85,9 +85,8 @@ class Section {
 
   _bindRemoveSectionEvent() {
     this.$sectionList.addEventListener('click', e => {
-      if (e.target.classList.contains(CLASS_NAME.DELETE_BUTTON)) {
-        this._handleRemoveSection(e);
-      }
+      if (!e.target.classList.contains(CLASS_NAME.DELETE_BUTTON)) return;
+      this._handleRemoveSection(e);
     });
   }
 
@@ -157,7 +156,7 @@ class Section {
 
   _removeSection({ id, $sectionItem }) {
     const selectedLineStations = this.#sections[this.#selectedLineId].stations;
-    selectedLineStations = selectedLineStations.filter(
+    this.#sections[this.#selectedLineId].stations = selectedLineStations.filter(
       station => station.id !== Number(id),
     );
 

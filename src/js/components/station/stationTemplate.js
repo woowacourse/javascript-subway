@@ -29,7 +29,7 @@ export const stationsTemplate = stations => {
     <ul id="station-list" class="mt-3 pl-0">
       ${Object.keys(stations)
         .map(id => {
-          stationTemplate(id, stations[id]);
+          return stationTemplate(id, stations[id]);
         })
         .join('')}
     </ul>

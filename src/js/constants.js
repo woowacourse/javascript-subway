@@ -41,6 +41,8 @@ export const SELECTOR = {
   PASSWORD_CONFIRM: '#password-confirm',
   STATION_LIST: '#station-list',
   STATION_ITEM_NAME: '.station-list-item-name',
+  STATION_FORM: 'form[name="modify-station"]',
+  STATION_MODIFY_INPUT: '#station-modify-input',
   CREATE_LINE_BUTTON: '.create-line-btn',
   LINE_MODAL_TITLE: '#line-modal-title',
   LINE_FORM: 'form[name="modify-line"]',

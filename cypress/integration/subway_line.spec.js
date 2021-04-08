@@ -7,13 +7,14 @@ describe('subway-line-ui', () => {
     cy.get('.input-submit').click();
     cy.wait(2000);
     cy.get('.menu button').eq(0).click();
-
+    cy.wait(500);
     cy.get('#station-add-input').type('신도림');
     cy.get('#station-add-button').click();
     cy.wait(500);
     cy.get('.delete-button').each(btn => {
       cy.wrap(btn).click();
     });
+    cy.wait(500);
     cy.get('.menu button').first().click();
     cy.get('#station-add-input').type('신도림');
 

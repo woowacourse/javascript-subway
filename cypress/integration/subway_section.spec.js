@@ -7,9 +7,9 @@ describe('subway-section-ui', () => {
     cy.get('.input-submit').click();
     cy.wait(500);
     cy.get('.menu button').eq(1).click();
-    cy.get('.delete-button').each(btn => {
-      cy.wrap(btn).click();
-    });
+    // cy.get('.delete-button').each(btn => {
+    //   cy.wrap(btn).click();
+    // });
     cy.wait(500);
     cy.get('.menu button').eq(0).click();
     cy.get('.delete-button').each(btn => {

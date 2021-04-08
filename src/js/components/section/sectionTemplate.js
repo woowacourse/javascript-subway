@@ -25,18 +25,22 @@ export const sectionsTemplate = sections => {
   </div>`;
 };
 
-export const sectionTemplate = ({ id, name }) => {
-  return `
-    <li class="section-item d-flex items-center py-2 relative" data-section-id=${id}>
-    <span class="w-100 pl-6">${name}</span>
-    <button
-      type="button"
-      class="delete-button bg-gray-50 text-gray-500 text-sm"
-    >
-      삭제
-    </button>
-  </li>
-  `;
+export const sectionTemplate = stations => {
+  return stations
+    .map(({ id, name }) => {
+      return `
+      <li class="section-item d-flex items-center py-2 relative" data-section-id=${id}>
+      <span class="w-100 pl-6">${name}</span>
+      <button
+        type="button"
+        class="delete-button bg-gray-50 text-gray-500 text-sm"
+      >
+        삭제
+      </button>
+    </li>
+    `;
+    })
+    .join('');
 };
 
 export const modalTemplate = (stations, sections) => {
