@@ -1,6 +1,32 @@
 import { ID_SELECTOR, CLASS_SELECTOR, THRESHOLD } from '../constants.js';
 import { colorOptionMatrix } from '../utils/mock.js';
 
+const LINE_CREATING_LINE_TEMPLATE = ({ name, color, id }) => {
+  return `
+  <li class="${CLASS_SELECTOR.LINE_LIST_ITEM} d-flex items-center py-2 relative">
+    <span class="subway-line-color-dot bg-${color}"></span>
+    <span class="w-100 pl-6 subway-line-list-item-name"
+      >${name}</span
+    >
+    <button
+      type="button"
+      data-id="${id}"
+      class="${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      data-id="${id}"
+      class="${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}"
+      class="bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  <hr class="my-0" />`;
+};
+
 const MAIN_COMPONENT = `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper bg-white p-10">
@@ -221,4 +247,4 @@ const LINE_TEMPLATE = {
   REVISION_MODAL_COMPONENT,
 };
 
-export default LINE_TEMPLATE;
+export { LINE_TEMPLATE, LINE_CREATING_LINE_TEMPLATE };

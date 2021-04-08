@@ -1,5 +1,8 @@
-import { CLASS_SELECTOR, ID_SELECTOR, REQUEST_URL } from '../constants.js';
-import FULL_MAP_TEMPLATE from '../templates/fullMapTemplate.js';
+import { ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import {
+  FULL_MAP_CREATING_LINE_TEMPLATE,
+  FULL_MAP_TEMPLATE,
+} from '../templates/fullMapTemplate.js';
 import { fetchLineRead } from '../utils/fetch.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
@@ -36,30 +39,9 @@ class FullMapComponent extends Component {
 
   #renderFullMap(lines) {
     $(`#${ID_SELECTOR.FULL_MAP_LINE_LIST}`).innerHTML = lines
-      .map(this.#createLineTemplate)
+      .map(FULL_MAP_CREATING_LINE_TEMPLATE)
       .join('');
   }
-
-  #createLineTemplate(line) {
-    const { name, stations, color } = line;
-
-    return `
-    <li class="${CLASS_SELECTOR.FULL_MAP_LINE_ITEM}">
-      <h2 class="${CLASS_SELECTOR.FULL_MAP_LINE_TITLE} bg-${color}">${name}</h2>
-      <ul class="${CLASS_SELECTOR.FULL_MAP_STATION_LIST}">
-        ${stations
-          .map(station => FULL_MAP_STATION_TEMPLATE(station.name, color))
-          .join('')}
-      </ul>
-    </li>
-    `;
-  }
 }
-
-const FULL_MAP_STATION_TEMPLATE = (stationName, color) => `
-  <li class="${CLASS_SELECTOR.FULL_MAP_STATION_ITEM} bg-${color}">
-    <span class="${CLASS_SELECTOR.FULL_MAP_STATION_NAME}">${stationName}</span>
-  </li>
-`;
 
 export default FullMapComponent;

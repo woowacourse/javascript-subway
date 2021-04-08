@@ -1,6 +1,6 @@
 import Component from '../components/Component';
 import { KEYWORD, ID_SELECTOR, REQUEST_URL, ALERT_MESSAGE } from '../constants';
-import SECTION_TEMPLATE from '../templates/sectionTemplate';
+import { SECTION_TEMPLATE } from '../templates/sectionTemplate';
 import { fetchSectionCreation } from '../utils/fetch';
 import $ from '../utils/querySelector';
 import Modal from './Modal';

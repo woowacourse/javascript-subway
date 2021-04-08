@@ -1,6 +1,6 @@
 import Component from '../components/Component';
 import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
-import LINE_TEMPLATE from '../templates/lineTemplate';
+import { LINE_TEMPLATE } from '../templates/lineTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchLineCreation, fetchLineRevision } from '../utils/fetch';
 import { loadLineList } from '../utils/loadByAJAX';

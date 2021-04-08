@@ -1,6 +1,6 @@
 import Component from '../components/Component';
 import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
-import STATION_TEMPLATE from '../templates/stationTemplate';
+import { STATION_TEMPLATE } from '../templates/stationTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchStationNameRevision } from '../utils/fetch';
 import { loadStationList } from '../utils/loadByAJAX';

@@ -6,7 +6,11 @@ import {
   REQUEST_URL,
   ALERT_MESSAGE,
 } from '../constants';
-import SECTION_TEMPLATE from '../templates/sectionTemplate';
+import {
+  SECTION_TEMPLATE,
+  SECTION_CREATING_OPTION_TEMPLATE,
+  SECTION_CREATING_STATION_TEMPLATE,
+} from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
 import Component from './Component';
 import { fetchLineRead, fetchSectionRemoval } from '../utils/fetch.js';
@@ -90,7 +94,7 @@ class SectionComponent extends Component {
 
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
       $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = stations
-        .map(this.#createStationTemplate)
+        .map(SECTION_CREATING_STATION_TEMPLATE)
         .join('');
       closeModal();
     } catch (err) {
@@ -121,26 +125,7 @@ class SectionComponent extends Component {
     const initialTemplate = `<option selected value="${KEYWORD.NONE}">노선을 선택해주세요</option>`;
 
     $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML =
-      initialTemplate + lines.map(this.#createOptionTemplate).join('');
-  }
-
-  #createOptionTemplate(line) {
-    return `<option value="${line.id}">${line.name}</option>`;
-  }
-
-  #createStationTemplate(station) {
-    return `
-    <li class="d-flex items-center py-2 relative">
-      <span class="w-100 pl-6">${station.name}</span>
-      <button
-        data-id=${station.id}
-        type="button"
-        class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-    <hr class="my-0" />`;
+      initialTemplate + lines.map(SECTION_CREATING_OPTION_TEMPLATE).join('');
   }
 }
 

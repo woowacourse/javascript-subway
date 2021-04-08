@@ -1,5 +1,29 @@
 import { CLASS_SELECTOR, ID_SELECTOR, THRESHOLD } from '../constants.js';
 
+const STATION_CREATING_STATION_TEMPLATE = ({ id, name }) => {
+  return `
+  <li class="${CLASS_SELECTOR.STATION_LIST_ITEM} d-flex items-center py-2">
+    <span class="w-100 pl-2">${name}</span>
+    <button
+      data-name="${name}"
+      data-id="${id}"
+      type="button"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      data-id="${id}"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  <hr class="my-0" />
+  `;
+};
+
 const MAIN_COMPONENT = `
 <div class="wrapper bg-white p-10">
   <div class="heading">
@@ -79,4 +103,4 @@ const STATION_TEMPLATE = {
   MODAL: MODAL_COMPONENT,
 };
 
-export default STATION_TEMPLATE;
+export { STATION_TEMPLATE, STATION_CREATING_STATION_TEMPLATE };

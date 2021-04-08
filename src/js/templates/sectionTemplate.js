@@ -1,5 +1,24 @@
 import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
 
+const SECTION_CREATING_OPTION_TEMPLATE = line => {
+  return `<option value="${line.id}">${line.name}</option>`;
+};
+
+const SECTION_CREATING_STATION_TEMPLATE = station => {
+  return `
+  <li class="d-flex items-center py-2 relative">
+    <span class="w-100 pl-6">${station.name}</span>
+    <button
+      data-id=${station.id}
+      type="button"
+      class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+    >
+      삭제
+    </button>
+  </li>
+  <hr class="my-0" />`;
+};
+
 const MAIN_COMPONENT = `
 <div class="wrapper bg-white p-10">
   <div class="heading d-flex">
@@ -96,4 +115,8 @@ const SECTION_TEMPLATE = {
   MODAL: MODAL_COMPONENT,
 };
 
-export default SECTION_TEMPLATE;
+export {
+  SECTION_TEMPLATE,
+  SECTION_CREATING_OPTION_TEMPLATE,
+  SECTION_CREATING_STATION_TEMPLATE,
+};

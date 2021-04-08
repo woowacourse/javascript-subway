@@ -7,7 +7,10 @@ import {
   REQUEST_URL,
 } from '../constants.js';
 import LineModal from '../modals/LineModal.js';
-import LINE_TEMPLATE from '../templates/lineTemplate.js';
+import {
+  LINE_TEMPLATE,
+  LINE_CREATING_LINE_TEMPLATE,
+} from '../templates/lineTemplate.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
 import { fetchLineRemoval } from '../utils/fetch.js';
@@ -73,36 +76,10 @@ class LineComponent extends Component {
   }
 
   renderLineList = lines => {
-    const template = lines.map(this.#makeLineTemplate).join('');
+    const template = lines.map(LINE_CREATING_LINE_TEMPLATE).join('');
 
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
-
-  #makeLineTemplate({ name, color, id }) {
-    return `
-    <li class="${CLASS_SELECTOR.LINE_LIST_ITEM} d-flex items-center py-2 relative">
-      <span class="subway-line-color-dot bg-${color}"></span>
-      <span class="w-100 pl-6 subway-line-list-item-name"
-        >${name}</span
-      >
-      <button
-        type="button"
-        data-id="${id}"
-        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
-      >
-        수정
-      </button>
-      <button
-        type="button"
-        data-id="${id}"
-        class="${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}"
-        class="bg-gray-50 text-gray-500 text-sm"
-      >
-        삭제
-      </button>
-    </li>
-    <hr class="my-0" />`;
-  }
 
   #removeLine = async id => {
     const url = REQUEST_URL + `/lines/${id}`;
