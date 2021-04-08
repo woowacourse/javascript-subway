@@ -59,8 +59,9 @@ describe('지하철 노선 관리 테스트', () => {
   });
 
   it('지하철 노선 정보의 이름과 색상을 수정할 수 있다.', () => {
-    const newLineName = '우아한테크코스선55';
+    const newLineName = '우테코선2';
     cy.intercept('PUT', `${requestURL}/lines`).as('editLine');
+    cy.intercept('GET', `${requestURL}/lines`).as('getLines');
 
     cy.get('.line-list-item')
       .first()
@@ -74,6 +75,7 @@ describe('지하철 노선 관리 테스트', () => {
             cy.get('.subway-line-color-selector > .bg-indigo-500').click();
             cy.get('#modal-create-line').click();
             cy.wait('@editLine');
+            cy.wait('@getLines');
             cy.get('.modal').should('not.be.visible');
           });
       });

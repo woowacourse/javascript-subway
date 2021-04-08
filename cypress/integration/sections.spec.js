@@ -27,8 +27,8 @@ describe('지하철 구간 관리 테스트', () => {
 
   it('새로운 구간을 등록할 수 있다.', () => {
     const targetLine = '테스트';
-    const upStation = '역2';
-    const downStation = '역3';
+    const upStation = '역4';
+    const downStation = '역6';
     const duration = '10';
     const distance = '10';
 

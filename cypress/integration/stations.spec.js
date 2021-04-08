@@ -81,6 +81,8 @@ describe('지하철 역 관리 테스트', () => {
 
   it('지하철역의 이름을 수정할 수 있다.', () => {
     cy.intercept('PUT', `${requestURL}/stations`).as('editStation');
+    cy.intercept('GET', `${requestURL}/stations`).as('getStations');
+    const targetStationName = new Date().getMilliseconds() + '역';
 
     cy.get('.station-item-name')
       .eq(0)
@@ -90,14 +92,15 @@ describe('지하철 역 관리 테스트', () => {
           .click()
           .then(() => {
             cy.get('.modal').should('be.visible');
-            cy.get('#station-name-edit').clear().type('어쩌지3');
+            cy.get('#station-name-edit').clear().type(targetStationName);
             cy.get('#modal-station-edit').click();
             cy.wait('@editStation');
+            cy.wait('@getStations');
             cy.get('.modal').should('not.be.visible');
           });
       });
 
-    cy.get('.station-item-name').eq(0).should('have.text', '어쩌지3');
+    cy.get('.station-item-name').eq(0).should('have.text', targetStationName);
   });
 
   it('지하철역 이름 수정 시, 동일한 역 이름이 존재하면 경고 메시지를 띄운다.', () => {
