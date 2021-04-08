@@ -11,9 +11,8 @@ const loadStationList = async (stationsState, accessToken) => {
     }));
 
     stationsState.Data = stations;
-  } catch (err) {
-    alert(err.message);
-    return;
+  } catch (error) {
+    throw new Error(error.message);
   }
 };
 
@@ -30,8 +29,7 @@ const loadLineList = async (linesState, accessToken) => {
 
     linesState.Data = lines;
   } catch (err) {
-    alert(err.message);
-    return;
+    throw new Error(error.message);
   }
 };
 

@@ -94,13 +94,13 @@ class AppPage extends Page {
   }
 
   treatFetchError(error) {
-    if (error.message === HTTP_RESPONSE_STATUS.INVALID_ACCESS_TOKEN) {
+    if (error.message === String(HTTP_RESPONSE_STATUS.INVALID_ACCESS_TOKEN)) {
       localStorage.setItem(
         LOCAL_STORAGE_KEY.ACCESS_TOKEN,
         LOCAL_STORAGE_VALUE.EMPTY
       );
       alert(ALERT_MESSAGE.EXPIRED_ACCESS_TOKEN);
-      this.closeModal();
+      closeModal();
       this.logout();
 
       return;
@@ -109,13 +109,18 @@ class AppPage extends Page {
     alert(error.message);
   }
 
-  login = () => {
+  login = async () => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
-    loadStationList(this.stationsState, accessToken);
-    loadLineList(this.linesState, accessToken);
-    this.#renderUserNavBar();
-    this.route(URL.HOME);
+    try {
+      await loadStationList(this.stationsState, accessToken);
+      await loadLineList(this.linesState, accessToken);
+
+      this.#renderUserNavBar();
+      this.route(URL.HOME);
+    } catch (error) {
+      this.treatFetchError(error);
+    }
   };
 
   logout = () => {
