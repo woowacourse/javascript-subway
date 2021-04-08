@@ -2,17 +2,49 @@ import {
   ALERT_MESSAGE,
   REQUEST_URL,
   HTTP_RESPONSE_STATUS,
+  LOCAL_STORAGE_KEY,
 } from '../constants.js';
+
+const customFetch = async (
+  url,
+  { method, bodyData, accessToken, contentType, accept }
+) => {
+  const fetchOption = {
+    headers: {},
+  };
+
+  if (method !== undefined) {
+    fetchOption['method'] = method;
+  }
+
+  if (bodyData !== undefined) {
+    fetchOption['body'] = JSON.stringify(bodyData);
+  }
+
+  if (accessToken !== undefined) {
+    fetchOption.headers['Authorization'] = `Bearer ${accessToken}`;
+  }
+
+  if (contentType !== undefined) {
+    fetchOption.headers['Content-Type'] = contentType;
+  }
+
+  if (accept !== undefined) {
+    fetchOption['Accept'] = accept;
+  }
+
+  return await fetch(url, fetchOption);
+};
 
 const fetchSignup = async bodyData => {
   const url = REQUEST_URL + '/members';
-  const response = await fetch(url, {
+
+  const response = await customFetch(url, {
     method: 'POST',
-    body: JSON.stringify(bodyData),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    contentType: 'application/json; charset=UTF-8',
   });
+
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_EMAIL_FAIL);
   }
@@ -26,13 +58,12 @@ const fetchSignup = async bodyData => {
 
 const fetchLogin = async bodyData => {
   const url = REQUEST_URL + '/login/token';
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'POST',
-    body: JSON.stringify(bodyData),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    contentType: 'application/json; charset=UTF-8',
   });
+
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
     throw new Error(ALERT_MESSAGE.LOGIN_FAIL);
   }
@@ -44,13 +75,12 @@ const fetchLogin = async bodyData => {
   return response;
 };
 
-const fetchMyInfo = async accessToken => {
+const fetchMyInfo = async () => {
   const url = REQUEST_URL + '/members/me';
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: 'application/json',
-    },
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+  const response = await customFetch(url, {
+    accessToken,
+    accept: 'application/json',
   });
 
   if (!response.ok) {
@@ -60,15 +90,14 @@ const fetchMyInfo = async accessToken => {
   return response;
 };
 
-const fetchStationCreation = async (bodyData, accessToken) => {
+const fetchStationCreation = async bodyData => {
   const url = REQUEST_URL + '/stations';
-  const response = await fetch(url, {
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+  const response = await customFetch(url, {
     method: 'POST',
-    body: JSON.stringify(bodyData),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    accessToken,
+    contentType: 'application/json; charset=UTF-8',
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -84,10 +113,8 @@ const fetchStationCreation = async (bodyData, accessToken) => {
 
 const fetchStationRead = async accessToken => {
   const url = REQUEST_URL + '/stations';
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  const response = await customFetch(url, {
+    accessToken,
   });
 
   if (!response.ok) {
@@ -103,13 +130,11 @@ const fetchStationNameRevision = async ({
   stationId,
 }) => {
   const url = REQUEST_URL + `/stations/${stationId}`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'PUT',
-    body: JSON.stringify(bodyData),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    accessToken,
+    contentType: 'application/json; charset=UTF-8',
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -125,11 +150,9 @@ const fetchStationNameRevision = async ({
 
 const fetchStationRemoval = async (stationId, accessToken) => {
   const url = REQUEST_URL + `/stations/${stationId}`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    accessToken,
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -145,13 +168,11 @@ const fetchStationRemoval = async (stationId, accessToken) => {
 
 const fetchLineCreation = async (bodyData, accessToken) => {
   const url = REQUEST_URL + '/lines';
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'POST',
-    body: JSON.stringify(bodyData),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    accessToken,
+    contentType: 'application/json; charset=UTF-8',
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -167,11 +188,9 @@ const fetchLineCreation = async (bodyData, accessToken) => {
 
 const fetchLineRead = async (lineId, accessToken) => {
   const url = REQUEST_URL + `/lines/${lineId}`;
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: 'application/json',
-    },
+  const response = await customFetch(url, {
+    accessToken,
+    accept: 'application/json',
   });
 
   if (!response.ok) {
@@ -183,11 +202,9 @@ const fetchLineRead = async (lineId, accessToken) => {
 
 const fetchLineListRead = async accessToken => {
   const url = REQUEST_URL + '/lines';
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: 'application/json',
-    },
+  const response = await customFetch(url, {
+    accessToken,
+    accept: 'application/json',
   });
 
   if (!response.ok) {
@@ -199,13 +216,11 @@ const fetchLineListRead = async accessToken => {
 
 const fetchLineRevision = async ({ accessToken, bodyData, lineId }) => {
   const url = REQUEST_URL + `/lines/${lineId}`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'PUT',
-    body: JSON.stringify(bodyData),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    accessToken,
+    contentType: 'application/json; charset=UTF-8',
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -221,11 +236,9 @@ const fetchLineRevision = async ({ accessToken, bodyData, lineId }) => {
 
 const fetchLineRemoval = async (lineId, accessToken) => {
   const url = REQUEST_URL + `/lines/${lineId}`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    accessToken,
   });
 
   if (!response.ok) {
@@ -237,13 +250,11 @@ const fetchLineRemoval = async (lineId, accessToken) => {
 
 const fetchSectionCreation = async ({ accessToken, bodyData, lineId }) => {
   const url = REQUEST_URL + `/lines/${lineId}/sections`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'POST',
-    body: JSON.stringify(bodyData),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    bodyData,
+    accessToken,
+    contentType: 'application/json; charset=UTF-8',
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {
@@ -259,11 +270,9 @@ const fetchSectionCreation = async ({ accessToken, bodyData, lineId }) => {
 
 const fetchSectionRemoval = async ({ accessToken, stationId, lineId }) => {
   const url = REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
-  const response = await fetch(url, {
+  const response = await customFetch(url, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    accessToken,
   });
 
   if (response.status === HTTP_RESPONSE_STATUS.FOUR_ZERO_ZERO) {

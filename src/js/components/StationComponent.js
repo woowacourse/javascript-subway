@@ -90,10 +90,9 @@ class StationComponent extends Component {
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
     const bodyData = { name: inputName };
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
-      const response = await fetchStationCreation(bodyData, accessToken);
+      const response = await fetchStationCreation(bodyData);
 
       alert(ALERT_MESSAGE.STATION_CREATION_SUCCESS);
 
