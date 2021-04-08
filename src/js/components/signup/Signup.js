@@ -87,8 +87,6 @@ export default class Signup extends Component {
 
     showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
     routeTo('/login');
-    history.pushState({ pathName: '/login' }, null, '/login');
-    Navigation.changeSelectedButtonColor();
     this.isDuplicateChecked = false;
   }
 

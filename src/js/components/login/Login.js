@@ -35,8 +35,6 @@ export default class Login extends Component {
     });
 
     routeTo('/');
-    history.pushState({ pathName: '/' }, null, '/');
-    Navigation.changeSelectedButtonColor();
   }
 
   handleSignupButton(e) {
@@ -44,7 +42,6 @@ export default class Login extends Component {
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
     routeTo(pathName);
-    history.pushState({ pathName }, null, pathName);
   }
 
   render() {

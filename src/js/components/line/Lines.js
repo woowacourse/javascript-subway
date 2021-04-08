@@ -37,16 +37,16 @@ export default class Lines extends Component {
     this.$modal.addEventListener('click', this.handleLineModalClose.bind(this));
     this.$linesContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('line-edit-button')) {
-        this.handleLineEditModalOpen(target);
+        this.openLineEditModal(target);
       }
 
       if (target.classList.contains('line-delete-button')) {
-        this.handleLineDelete(target);
+        this.deleteLine(target);
       }
     });
   }
 
-  async handleLineEditModalOpen(target) {
+  async openLineEditModal(target) {
     this.$modal.classList.add('open');
     this.$modalTitle.innerText = '🛤 노선 수정';
     this.$modalForm.classList.add('edit-form');
@@ -73,7 +73,7 @@ export default class Lines extends Component {
     this.$modalForm.dataset.id = target.dataset.id;
   }
 
-  async handleLineDelete(target) {
+  async deleteLine(target) {
     const $lineListItem = target.closest('.line-list-item');
     const lineName = $lineListItem.querySelector('.line-name').innerText;
     const lineId = target.dataset.id;

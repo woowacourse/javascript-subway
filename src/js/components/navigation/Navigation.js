@@ -34,7 +34,7 @@ export default class Navigation extends Component {
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
     routeTo(pathName);
-    Navigation.changeSelectedButtonColor(e.target);
+    this.changeSelectedButtonColor(e.target);
   }
 
   render(token = '') {
@@ -49,7 +49,7 @@ export default class Navigation extends Component {
     hideElement($('#navigation-logout-button'));
   }
 
-  static changeSelectedButtonColor(target = '') {
+  changeSelectedButtonColor(target = '') {
     $$('.navigation-button').forEach((button) => button.classList.remove('bg-cyan-100'));
 
     if (target.id === 'navigation-main' || !target) {

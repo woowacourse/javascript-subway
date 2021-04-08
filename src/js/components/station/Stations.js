@@ -27,11 +27,11 @@ export default class Stations extends Component {
 
     this.$stationListContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('station-edit-button')) {
-        this.handleStationEditModalOpen(target);
+        this.openStationEditModal(target);
       }
 
       if (target.classList.contains('station-delete-button')) {
-        this.handleStationDelete(target);
+        this.deleteStation(target);
       }
     });
   }
@@ -74,7 +74,7 @@ export default class Stations extends Component {
     showSnackbar(SNACKBAR_MESSAGE.EDIT_SUCCESS);
   }
 
-  handleStationEditModalOpen(target) {
+  openStationEditModal(target) {
     const $stationListItem = target.closest('.station-list-item');
     const stationName = $stationListItem.querySelector('.station-name').innerText;
 
@@ -84,7 +84,7 @@ export default class Stations extends Component {
     this.$stationEditNameInput.dataset.id = target.dataset.id;
   }
 
-  async handleStationDelete(target) {
+  async deleteStation(target) {
     const $stationListItem = target.closest('.station-list-item');
     const stationName = $stationListItem.querySelector('.station-name').innerText;
     const stationId = target.dataset.id;
