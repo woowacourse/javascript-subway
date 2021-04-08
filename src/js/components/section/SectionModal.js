@@ -26,10 +26,6 @@ class SectionModal {
     this.$addSectionForm = $(SELECTOR.ADD_SECTION);
     this.$prevStationSelect = $(`select[name=${FORM.SECTION.PREV_STATION}]`);
     this.$lineSelect = $(`select[name='${FORM.SECTION.LINE_SELECT}']`);
-    this._bindEvent();
-  }
-
-  _bindEvent() {
     bindModalCloseEvent();
     this._bindSelectLineEvent();
     this._bindSectionFormEvent();
@@ -51,7 +47,7 @@ class SectionModal {
     });
   }
 
-  handleSectionOpen({ sections }) {
+  openSectionModal({ sections }) {
     this.#sections = sections;
     showModal();
   }
@@ -74,6 +70,11 @@ class SectionModal {
       return;
     }
 
+    await this._addSection(sectionInfo);
+    closeModal();
+  }
+
+  async _addSection(sectionInfo) {
     try {
       const {
         [FORM.SECTION.LINE_SELECT]: lineId,
@@ -93,7 +94,6 @@ class SectionModal {
 
       this.#props.modifySection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.ADD_SECTION);
-      closeModal();
     } catch (res) {
       const message = await res.text();
       showSnackbar(message);

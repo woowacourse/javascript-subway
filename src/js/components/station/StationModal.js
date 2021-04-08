@@ -59,6 +59,11 @@ class StationModal {
       return;
     }
 
+    await this._addStation(name);
+    closeModal();
+  }
+
+  async _addStation(name) {
     try {
       await stationAPI.modifyStation({
         userAccessToken: this.#userAccessToken,
@@ -67,7 +72,6 @@ class StationModal {
       });
 
       this.#props.modifyStation(this.#stationInfo, name);
-      closeModal();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (res) {
       const message = await res.text();
