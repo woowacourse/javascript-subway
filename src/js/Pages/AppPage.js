@@ -21,7 +21,6 @@ import { show, hide, closeModal } from '../utils/DOM.js';
 import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
 import SectionComponent from '../components/SectionComponent.js';
 import FullMapComponent from '../components/FullMapComponent.js';
-import { fetchMyInfo } from '../utils/fetch.js';
 
 class AppPage extends Page {
   constructor(props) {

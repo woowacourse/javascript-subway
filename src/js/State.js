@@ -8,6 +8,7 @@ class State {
     }
 
     this.#state = state;
+    this.#deepFreeze(this.#state);
     this.#listeners = [];
   }
 
@@ -18,7 +19,7 @@ class State {
   set Data(value) {
     if (!value) return;
 
-    if (JSON.stringify(this.#state) === JSON.stringify(value)) return;
+    if (this.#deepValidateEquality(this.#state, value)) return;
 
     this.#state = value;
 
@@ -52,9 +53,58 @@ class State {
     this.#listeners.push(handler);
   }
 
-  #deepCopy(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  }
+  #deepValidateEquality = (target, source) => {
+    const targetKeys = Object.keys(target);
+    const sourceKeys = Object.keys(source);
+
+    if (targetKeys.length !== sourceKeys.length) {
+      return false;
+    }
+
+    return targetKeys.every(key => {
+      if (source[key] === undefined) {
+        return false;
+      }
+
+      if (typeof target[key] === 'object') {
+        return this.#deepValidateEquality(target[key], source[key]);
+      }
+
+      return target[key] === source[key];
+    });
+  };
+
+  #deepFreeze = object => {
+    Object.freeze(object);
+
+    Object.keys(object).forEach(key => {
+      const value = object[key];
+
+      if (typeof value !== 'object') {
+        return;
+      }
+
+      this.#deepFreeze(value);
+    });
+  };
+
+  #deepCopy = object => {
+    const newObject = object instanceof Array ? [] : {};
+
+    Object.keys(object).forEach(key => {
+      const value = object[key];
+
+      if (typeof value !== 'object') {
+        newObject[key] = value;
+
+        return;
+      }
+
+      newObject[key] = this.#deepCopy(value);
+    });
+
+    return newObject;
+  };
 }
 
 export default State;
