@@ -43,8 +43,9 @@ export function renderEditMode($editForm) {
 }
 
 export function renderNonEditMode($editForm) {
-  $editForm.classList.remove('edit-mode');
+  const $editInput = $editForm.name;
 
-  const $editInput = $editForm.querySelector('input');
+  $editInput.value = $editInput.defaultValue;
   $editInput.disabled = true;
+  $editForm.classList.remove('edit-mode');
 }

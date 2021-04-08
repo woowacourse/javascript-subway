@@ -1,4 +1,5 @@
 import { renderContent } from '../../index.js';
+import { renderColorText } from './view.js';
 import { goTo } from '../../../router/index.js';
 import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
 import { toStringFromFormData, showNotification, reportError } from '../../../utils/index.js';
@@ -50,4 +51,10 @@ export function updateSubmitButtonState({ currentTarget }) {
   const $button = currentTarget.submit;
 
   $button.disabled = !currentTarget.checkValidity();
+}
+
+export function onChangeAddLineColor({ target }) {
+  const colorCode = target.value;
+
+  renderColorText(colorCode);
 }

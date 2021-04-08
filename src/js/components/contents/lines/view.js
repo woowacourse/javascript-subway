@@ -2,10 +2,11 @@ import onClickButton from './onClickButton.js';
 import requestReadLine from './read.js';
 import requestReadStation from '../stations/read.js';
 import requestUpdateLine from './update.js';
-import { requestCreateLine, updateSubmitButtonState } from './create.js';
+import { requestCreateLine, updateSubmitButtonState, onChangeAddLineColor } from './create.js';
 import { dispatchFormData } from '../../../utils/index.js';
 import { LIST_ITEM_TEMPLATE, LINES_TEMPLATE, OPTION_TEMPLATE } from './template.js';
 
+const DEFAULT_COLOR_CODE = '#000000';
 const [UP_STATION, DOWN_STATION] = ['상행역', '하행역'];
 const $wrapper = document.createElement('div');
 $wrapper.classList.add('wrapper', 'bg-white', 'p-10');
@@ -14,7 +15,7 @@ $wrapper.innerHTML = LINES_TEMPLATE;
 const $list = $wrapper.querySelector('ul');
 const $addForm = $wrapper.querySelector('.add-form');
 const $addInput = $addForm.elements['add-line-name'];
-const $addLineColorInput = $addForm.querySelector('#add-line-color');
+const $addLineColorInput = $addForm.color;
 const $addLineColorText = $addForm.querySelector('#add-line-color-label');
 const $addUpStationSelect = $addForm.elements['add-up-station'];
 const $addDownStationSelect = $addForm.elements['add-down-station'];
@@ -22,7 +23,7 @@ const $addDownStationSelect = $addForm.elements['add-down-station'];
 $addForm.addEventListener('input', updateSubmitButtonState);
 $addForm.addEventListener('submit', dispatchFormData);
 $addForm.addEventListener('formdata', requestCreateLine);
-$addLineColorInput.addEventListener('change', renderColorText);
+$addLineColorInput.addEventListener('change', onChangeAddLineColor);
 
 $list.addEventListener('click', onClickButton);
 $list.addEventListener('submit', dispatchFormData);
@@ -31,6 +32,7 @@ $list.addEventListener('formdata', requestUpdateLine);
 export async function renderLines($main) {
   await renderOptions();
   await renderLineList();
+  renderDefaultAddColor();
   $main.replaceChildren($wrapper);
   $addInput.focus();
 }
@@ -52,28 +54,31 @@ async function renderLineList() {
 }
 
 export function renderEditMode($editForm) {
-  $editForm.classList.add('edit-mode');
-
-  const $nameInput = $editForm.querySelector('input[type="text"]');
-  const $colorInput = $editForm.querySelector('input[type="color"]');
+  const $nameInput = $editForm.name;
+  const $colorInput = $editForm.color;
 
   $nameInput.disabled = false;
-  $colorInput.disabled = false;
-
   $nameInput.focus();
+  $colorInput.disabled = false;
+  $editForm.classList.add('edit-mode');
 }
 
 export function renderNonEditMode($editForm) {
-  $editForm.classList.remove('edit-mode');
+  const $nameInput = $editForm.name;
+  const $colorInput = $editForm.color;
 
-  const $nameInput = $editForm.querySelector('input[type="text"]');
-  const $colorInput = $editForm.querySelector('input[type="color"]');
-
+  $nameInput.value = $nameInput.defaultValue;
   $nameInput.disabled = true;
+  $colorInput.value = $colorInput.defaultValue;
   $colorInput.disabled = true;
+  $editForm.classList.remove('edit-mode');
 }
 
-function renderColorText(event) {
-  const colorCode = event.target.value;
+function renderDefaultAddColor() {
+  $addLineColorInput.value = DEFAULT_COLOR_CODE;
+  $addLineColorText.innerText = DEFAULT_COLOR_CODE;
+}
+
+export function renderColorText(colorCode) {
   $addLineColorText.innerText = colorCode;
 }

@@ -28,9 +28,9 @@ function changeToEditMode($button) {
   renderEditMode($editForm);
 }
 
-// TODO: undo 했을 때 수정된 것처럼 표시되는 문제 해결
 function changeToNonEditMode($button) {
   const $editForm = $button.closest('.edit-form');
+
   renderNonEditMode($editForm);
 }
 
