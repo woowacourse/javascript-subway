@@ -21,29 +21,33 @@ export const previewTemplate = sections => {
 };
 
 export const previewLineTemplate = ({ color, stations, sections }) => {
-  return `${stations
+  return `
+    ${previewLineItemTemplate(stations, color)}
+    <ul id="preview-section-list">
+      ${previewSectionItemTemplate(sections)}
+    </ul>
+  `;
+};
+
+export const previewLineItemTemplate = (stations, color) => {
+  return stations
     .map(({ name }) => {
-      return `
-      <li class="preview-line-item">
+      `<li class="preview-line-item">
         <div class="line ${color}"><span></span></div>
         <span class="station-name">${name}</span>
-      </li>
-      
-    `;
+      </li>`;
     })
-    .join('')}
-    
-    <ul id="preview-section-list">
-    ${sections
-      .map(section => {
-        return ` 
-        <li class="preview-section-item">
-          <span>거리 : ${section.distance}</span>
-          <div class="divide"></div>
-          <span>소요시간 : ${section.duration}</span>
-        </li>`;
-      })
-      .join('')}
-      </ul>
-    `;
+    .join('');
+};
+
+export const previewSectionItemTemplate = sections => {
+  return sections
+    .map(section => {
+      `<li class="preview-section-item">
+        <span>거리 : ${section.distance}</span>
+        <div class="divide"></div>
+        <span>소요시간 : ${section.duration}</span>
+      </li>`;
+    })
+    .join('');
 };
