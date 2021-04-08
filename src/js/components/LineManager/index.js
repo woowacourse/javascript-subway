@@ -2,8 +2,9 @@ import { $ } from '../../utils/dom.js';
 import popSnackbar from '../../utils/snackbar.js';
 import { SELECTOR, MESSAGES } from '../../constants/constants.js';
 import { contentTemplate } from './template.js';
-import { deleteLineRequest } from '../../request.js';
+import { deleteLineRequest, lineListRequest } from '../../request.js';
 import LineModalHost from './LineModalHost.js';
+import Line from '../../models/Line.js';
 
 export default class LineManager {
   constructor(store) {
@@ -40,15 +41,12 @@ export default class LineManager {
     this.store.lines = [event.detail.line, ...this.store.lines];
   }
 
-  // TODO: 원본 배열 건드리지 않고 데이터 수정하기
-  editLine(event) {
-    const line = event.detail.line;
-    const { name, color } = event.detail.data;
+  async editLine() {
+    const accessToken = this.store.userAuth.accessToken;
+    const lineListResponse = await lineListRequest(accessToken);
+    const lines = lineListResponse.map((line) => new Line(line));
 
-    line.name = name;
-    line.color = color;
-    line.modifiedDate = new Date();
-
+    this.store.lines = lines;
     this.$lineList.innerHTML = this.store.lines.map((line) => line.toListItemTemplate()).join('');
   }
 

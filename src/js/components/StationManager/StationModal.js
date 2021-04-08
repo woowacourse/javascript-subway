@@ -61,11 +61,7 @@ export default class StationModal {
       popSnackbar(MESSAGES.STATION_NAME_EDIT.SUCCESS);
 
       this.close();
-      this.$root.dispatchEvent(
-        new CustomEvent('updateName', {
-          detail: { station: this.station, newName },
-        })
-      );
+      this.$root.dispatchEvent(new CustomEvent('updateName'));
     } catch (error) {
       console.error(error);
       this.handleRequestError(error);

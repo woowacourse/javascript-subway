@@ -1,6 +1,6 @@
 import { $, hide, show } from '../../utils/dom.js';
 import { SELECTOR, MESSAGES } from '../../constants/constants.js';
-import { addStationRequest, deleteStationRequest } from '../../request.js';
+import { addStationRequest, deleteStationRequest, stationListRequest } from '../../request.js';
 import Station from '../../models/Station.js';
 import { contentTemplate } from './template.js';
 import StationModal from './StationModal.js';
@@ -105,14 +105,12 @@ export default class StationManager {
     }
   }
 
-  // TODO: 원본 배열 건드리지 않고 데이터 수정하기
-  updateName(event) {
-    const updatedStation = event.detail.station;
-    const updatedName = event.detail.newName;
+  async updateName() {
+    const accessToken = this.store.userAuth.accessToken;
+    const stationListResponse = await stationListRequest(accessToken);
+    const stations = stationListResponse.map((station) => new Station(station));
 
-    updatedStation.name = updatedName;
-    updatedStation.modifiedDate = new Date();
-
+    this.store.stations = stations;
     this.$stationList.innerHTML = this.store.stations.map((station) => station.toListItemTemplate()).join('');
   }
 
