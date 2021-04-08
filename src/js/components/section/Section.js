@@ -95,6 +95,7 @@ class Section {
     const { stations, color } = this.#sections[this.#selectedLineId];
 
     target.className = color;
+    target.style.color = Number(color.substr(-3)) >= 500 ? 'white' : 'black';
     $(SELECTOR.SECTION_LIST).innerHTML = sectionTemplate(stations);
   }
 
