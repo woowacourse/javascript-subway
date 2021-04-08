@@ -7,9 +7,8 @@ export const lineAPI = {
       Authorization: `Bearer ${userAccessToken}`,
     };
 
-    return await request(`${BASE_URL}${ACTIONS.LINES}`, option).then(res => {
-      return res.json();
-    });
+    const res = await request(`${BASE_URL}${ACTIONS.LINES}`, option);
+    return res.json();
   },
 
   addLine: async ({ userAccessToken, lineInfo }) => {
@@ -26,9 +25,9 @@ export const lineAPI = {
       },
     };
 
-    return await request(`${BASE_URL}${ACTIONS.LINES}`, option).then(res => {
-      return res.json();
-    });
+    const res = await request(`${BASE_URL}${ACTIONS.LINES}`, option);
+
+    return res.json();
   },
 
   deleteLine: async ({ userAccessToken, id }) => {
