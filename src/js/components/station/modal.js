@@ -1,9 +1,9 @@
 import getFetchParams from '../../api/getFetchParams.js';
+import api from '../../api/requestHttp.js';
 import { MODAL, STATION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
@@ -32,29 +32,18 @@ class Modal extends ModalComponent {
       // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
       const newName = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
-
-      await this.updateItem(id, newName, accessToken);
-    });
-  }
-
-  async updateItem(id, name, accessToken) {
-    try {
       const params = getFetchParams({
         path: `${PATH.STATIONS}/${id}`,
-        body: { name },
+        body: { name: newName },
         accessToken,
       });
-      const response = await request.put(params);
 
-      if (!response.ok) throw Error(await response.text());
-
-      this.hide();
-      await this.updateSubwayState();
-      this.snackbar.show(SUCCESS_MESSAGE.UPDATE);
-    } catch (error) {
-      this.snackbar.show(error.message);
-      console.error(error.message);
-    }
+      await api.update(
+        params,
+        this.snackbar,
+        this.updateSubwayState.bind(this)
+      );
+    });
   }
 }
 

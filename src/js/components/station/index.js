@@ -1,13 +1,13 @@
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
-import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
+import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { mainTemplate } from './template/main.js';
-import request from '../../utils/request.js';
 import Component from '../../core/Component.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
 import getSubwayState from '../../api/getState.js';
 import { MODAL, STATION } from '../../constants/selector.js';
+import api from '../../api/requestHttp.js';
 
 class Station extends Component {
   constructor(parentNode, stateManagers) {
@@ -38,29 +38,19 @@ class Station extends Component {
 
       const name = e.target['station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
-
-      await this.createItem(name, accessToken);
-      e.target['station-name'].focus();
-    });
-  }
-
-  async createItem(name, accessToken) {
-    try {
       const params = getFetchParams({
         path: PATH.STATIONS,
         body: { name },
         accessToken,
       });
-      const response = await request.post(params);
 
-      if (!response.ok) throw Error(await response.text());
-
-      this.updateSubwayState();
-      this.snackbar.show(SUCCESS_MESSAGE.CREATE);
-    } catch (error) {
-      this.snackbar.show(error.message);
-      console.error(error.message);
-    }
+      await api.create(
+        params,
+        this.snackbar,
+        this.updateSubwayState.bind(this)
+      );
+      e.target['station-name'].focus();
+    });
   }
 
   editOrDeleteStationEvent() {
@@ -77,29 +67,18 @@ class Station extends Component {
 
         const { id } = target.closest(STATION.CLASS.ITEM).dataset;
         const accessToken = this.stateManagers.accessToken.getToken();
+        const params = getFetchParams({
+          path: `${PATH.STATIONS}/${id}`,
+          accessToken,
+        });
 
-        await this.deleteItem(id, accessToken);
+        await api.delete(
+          params,
+          this.snackbar,
+          this.updateSubwayState.bind(this)
+        );
       }
     });
-  }
-
-  async deleteItem(id, accessToken) {
-    try {
-      const params = getFetchParams({
-        path: `${PATH.STATIONS}/${id}`,
-        accessToken,
-      });
-
-      const response = await request.delete(params);
-
-      if (!response.ok) throw Error(await response.text());
-
-      this.updateSubwayState();
-      this.snackbar.show(SUCCESS_MESSAGE.DELETE);
-    } catch (error) {
-      this.snackbar.show(error.message);
-      console.error(error.message);
-    }
   }
 
   async updateSubwayState() {

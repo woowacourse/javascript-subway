@@ -11,7 +11,6 @@ import { headerTemplate } from './components/header.js';
 import LocalStorageManager from './stateManagers/LocalStorageManager.js';
 import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
-import request from './utils/request.js';
 import { PATH } from './constants/url.js';
 import Login from './components/login/index.js';
 import Signup from './components/signup/index.js';
@@ -20,8 +19,8 @@ import Line from './components/line/index.js';
 import Map from './components/map/index.js';
 import Station from './components/station/index.js';
 import getFetchParams from './api/getFetchParams.js';
-import { ERROR_MESSAGE } from './constants/message.js';
 import Component from './core/Component.js';
+import api from './api/requestHttp';
 
 class App extends Component {
   constructor(parentNode, stateManagers, childComponents, state) {
@@ -85,7 +84,6 @@ class App extends Component {
     return this.childComponents.Station;
   }
 
-  // Login 하지 않으면 updateSubwayState가 필요없어서 나머지는 render
   async renderComponent(path = location.pathname) {
     const component = this.routeComponents[path]();
 
@@ -123,7 +121,9 @@ class App extends Component {
         UNAUTHENTICATED_LINK.SIGNUP.ROUTE,
       ].includes(route);
 
-      if (!isLoginOrSignupRoute && !(await this.isValidAccessToken())) {
+      const accessToken = this.stateManagers.accessToken.getToken();
+      const params = getFetchParams({ path: PATH.MEMBERS.ME, accessToken });
+      if (!isLoginOrSignupRoute && !(await api.isValidAccessToken(params))) {
         alert('다시 로그인 해주세요.');
         this.fireAccessToken();
 
@@ -147,21 +147,6 @@ class App extends Component {
   fireAccessToken() {
     this.stateManagers.accessToken.clearToken();
   }
-
-  async isValidAccessToken() {
-    try {
-      const accessToken = this.stateManagers.accessToken.getToken();
-      const params = getFetchParams({ path: PATH.MEMBERS.ME, accessToken });
-      const response = await request.get(params);
-
-      if (!response.ok) throw Error(ERROR_MESSAGE.INVALID_TOKEN);
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-
-    return true;
-  }
 }
 
 const stateManagers = {
@@ -173,11 +158,6 @@ const initalState = {
   stations: [],
   lines: [],
 };
-
-/* 00. 앱이 실행됨.
-  실행되면서 각 페이지가 한 번씩 생성됨.
-  이 페이지들은 나중에 render를 통해 새로운 데이터로 페이지를 그려줌
- */
 
 new App(
   $('#app'),

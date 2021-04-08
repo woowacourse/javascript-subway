@@ -3,13 +3,13 @@ import getFetchParams from '../../api/getFetchParams.js';
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
-import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
 import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
 import sorted from '../../utils/sort.js';
 import { LINE, MODAL } from '../../constants/selector.js';
 import Modal from './modal.js';
+import api from '../../api/requestHttp.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
     super(
@@ -47,7 +47,6 @@ class Line extends Component {
 
   editOrDeleteLineEvent() {
     $(LINE.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
-      // 노선 관리 -- Edit
       if (target.classList.contains(LINE.CLASSLIST.EDIT_ITEM)) {
         this.childComponents.modal.show();
         this.childComponents.modal.requestType = 'put';
@@ -66,17 +65,12 @@ class Line extends Component {
           path: `${PATH.LINES}/${id}`,
           accessToken,
         });
-        try {
-          const response = await request.delete(params);
 
-          if (!response.ok) throw Error(await response.text());
-          this.updateSubwayState();
-
-          this.snackbar.show(SUCCESS_MESSAGE.DELETE);
-        } catch (error) {
-          this.snackbar.show(error.message);
-          console.error(error.message);
-        }
+        await api.delete(
+          params,
+          this.snackbar,
+          this.updateSubwayState.bind(this)
+        );
       }
     });
   }

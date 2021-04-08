@@ -8,6 +8,7 @@ import { $ } from '../../utils/DOM.js';
 import request from '../../utils/request.js';
 import { mainTemplate, sectionItem } from './template/main.js';
 import Modal from './modal.js';
+import api from '../../api/requestHttp.js';
 class Section extends Component {
   constructor(parentNode, stateManagers) {
     super(
@@ -26,10 +27,18 @@ class Section extends Component {
   }
 
   addEventListeners() {
+    this.createSectionEvent();
+    this.selectLineEvent();
+    this.deleteSectionItemEvent();
+  }
+
+  createSectionEvent() {
     $(SECTION.CLASS.CREATE_ITEM).addEventListener('click', () => {
       this.childComponents.modal.show();
     });
+  }
 
+  selectLineEvent() {
     $(SECTION.CLASS.FORM_SELECT).addEventListener('change', ({ target }) => {
       const lineId = target.value;
       const { color, stations } = this.state.lines.find(
@@ -43,7 +52,9 @@ class Section extends Component {
       $(SECTION.CLASS.ITEM_LIST).setAttribute(DATASET.LINE_ID, lineId);
       $(SECTION.CLASS.FORM_SELECT).setAttribute(DATASET.BG_COLOR, color);
     });
+  }
 
+  deleteSectionItemEvent() {
     $(SECTION.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
       if (!target.classList.contains(SECTION.CLASSLIST.DELETE_ITEM)) return;
       if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
@@ -57,17 +68,11 @@ class Section extends Component {
         accessToken,
       });
 
-      try {
-        const response = await request.delete(params);
-
-        if (!response.ok) throw Error(await response.text());
-
-        await this.updateSubwayState();
-        this.snackbar.show(SUCCESS_MESSAGE.DELETE);
-      } catch (error) {
-        this.snackbar.show(error.message);
-        console.error(error.message);
-      }
+      await api.delete(
+        params,
+        this.snackbar,
+        this.updateSubwayState.bind(this)
+      );
     });
   }
 

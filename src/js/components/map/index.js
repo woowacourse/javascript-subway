@@ -17,44 +17,46 @@ class Map extends Component {
     $(MAP.CLASS.ALL_LINES_CONTAINER).addEventListener('click', ({ target }) => {
       if (!target.closest(MAP.CLASS.SUBWAY_LINES_CONTAINER)) return;
 
-      const line = this.state.lines.find(
+      const clickedLine = this.state.lines.find(
         (line) => line.id === Number(target.dataset.id)
       );
 
-      $(MAP.CLASS.ALL_STATIONS).innerHTML = line.stations
+      const allStations = clickedLine.stations
         .map((station, index) => {
-          const isLineEnded = line.stations.length - 1 === index;
+          const isLineEnded = clickedLine.stations.length - 1 === index;
           if (isLineEnded) {
-            return stationItem(station, line, isLineEnded);
+            return stationItem(station, clickedLine, isLineEnded);
           }
 
-          const nextStation = line.stations[index + 1];
+          const nextStation = clickedLine.stations[index + 1];
           const { duration, distance } = this.findDurationAndDistance(
             station,
             nextStation,
-            line
+            clickedLine
           );
 
           return (
-            stationItem(station, line, isLineEnded) +
+            stationItem(station, clickedLine, isLineEnded) +
             connectedLine(duration, distance)
           );
         })
         .join('');
+
+      $(MAP.CLASS.ALL_STATIONS).innerHTML = allStations;
     });
   }
 
   findDurationAndDistance(station, nextStation, line) {
-    return line.sections.filter(
+    return line.sections.find(
       ({ duration, distance, upStation, downStation }) => {
         if (
           [station.name, nextStation.name].includes(upStation.name) &&
           [station.name, nextStation.name].includes(downStation.name)
         ) {
-          return { duration: duration, distance: distance };
+          return { duration, distance };
         }
       }
-    )[0];
+    );
   }
 
   async updateSubwayState() {

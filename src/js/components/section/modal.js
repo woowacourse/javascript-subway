@@ -1,4 +1,5 @@
 import getFetchParams from '../../api/getFetchParams.js';
+import api from '../../api/requestHttp.js';
 import { SUCCESS_MESSAGE } from '../../constants/message.js';
 import { MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
@@ -40,17 +41,11 @@ class Modal extends ModalComponent {
         accessToken,
       });
 
-      try {
-        const response = await request.post(params);
-
-        if (!response.ok) throw Error(await response.text());
-
-        await this.updateSubwayState();
-        this.snackbar.show(SUCCESS_MESSAGE.CREATE);
-      } catch (error) {
-        this.snackbar.show(error.message);
-        console.error(error.message);
-      }
+      await api.create(
+        params,
+        this.snackbar,
+        this.updateSubwayState.bind(this)
+      );
     });
   }
 }
