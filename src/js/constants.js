@@ -49,6 +49,8 @@ const ID_SELECTOR = {
   MY_INFO_FORM_PASSWORD_CONFIRM: 'my-info-form__password-confirm',
   MY_INFO_FORM_SUBMIT: 'my-info-form__submit',
 
+  FULL_MAP_LINE_LIST: 'full-map-line-list',
+
   SIGNUP_FORM: 'signup-form',
   SIGNUP_FORM_EMAIL: 'signup-form__email',
   SIGNUP_FORM_NAME: 'signup-form__name',
@@ -75,6 +77,12 @@ const CLASS_SELECTOR = {
   LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
   SECTION_LIST_ITEM_REMOVAL: 'js-section-list__item-removal',
+
+  FULL_MAP_LINE_ITEM: 'js-full-map-line-item',
+  FULL_MAP_LINE_TITLE: 'js-full-map-line-title',
+  FULL_MAP_STATION_LIST: 'js-full-map-station-list',
+  FULL_MAP_STATION_ITEM: 'js-full-map-station-item',
+  FULL_MAP_STATION_NAME: 'js-full-map-station-name',
 
   MODAL_CLOSE: 'js-modal-close',
 };
@@ -136,9 +144,10 @@ const URL = {
   STATION: '/station',
   LINE: '/line',
   SECTION: '/section',
+  FULL_MAP: '/fullMap',
+  MY_INFO: '/myInfo',
   LOGIN: '/login',
   SIGNUP: '/signup',
-  MY_INFO: '/myInfo',
 };
 
 const THRESHOLD = {

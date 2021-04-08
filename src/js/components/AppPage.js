@@ -2,6 +2,7 @@ import $ from '../utils/querySelector.js';
 import HomeComponent from './HomeComponent.js';
 import StationComponent from './StationComponent.js';
 import LineComponent from './LineComponent.js';
+import FullMapComponent from './FullMapComponent.js';
 import LoginComponent from './LoginComponent.js';
 import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
@@ -44,19 +45,23 @@ class AppPage extends Page {
         stationsState: this.stationsState,
         linesState: this.linesState,
       }),
+      [URL.SECTION]: new SectionComponent({
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
+        linesState: this.linesState,
+      }),
+      [URL.FULL_MAP]: new FullMapComponent({
+        accessTokenState: this.accessTokenState,
+        linesState: this.linesState,
+      }),
+      [URL.MY_INFO]: new MyInfoComponent({
+        accessTokenState: this.accessTokenState,
+      }),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
         accessTokenState: this.accessTokenState,
       }),
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
-      [URL.MY_INFO]: new MyInfoComponent({
-        accessTokenState: this.accessTokenState,
-      }),
-      [URL.SECTION]: new SectionComponent({
-        accessTokenState: this.accessTokenState,
-        linesState: this.linesState,
-        stationsState: this.stationsState,
-      }),
     };
   }
 
