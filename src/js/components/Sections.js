@@ -34,7 +34,11 @@ class Sections {
   bindEvent() {
     this.lineOptionsWrapper.addEventListener('change', (e) => {
       const selectedLineName = e.target.value;
-      this.renderLineColor(this.userDataManager.getTargetLineColor(selectedLineName));
+      try {
+        this.renderLineColor(this.userDataManager.getTargetLineColor(selectedLineName));
+      } catch (error) {
+        alert(error.message);
+      }
       this.renderStationListInTargetLine(selectedLineName);
     });
 
@@ -55,8 +59,12 @@ class Sections {
   }
 
   renderStationListInTargetLine(selectedLineName) {
-    const stationNamesInTargetLine = this.userDataManager.getStationNamesInTargetLine(selectedLineName);
-    this.$lineListWrapper.innerHTML = getTargetSectionListTemplate(stationNamesInTargetLine);
+    try {
+      const stationNamesInTargetLine = this.userDataManager.getStationNamesInTargetLine(selectedLineName);
+      this.$lineListWrapper.innerHTML = getTargetSectionListTemplate(stationNamesInTargetLine);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   renderLineColor(newColor) {
@@ -76,14 +84,15 @@ class Sections {
   async handleCreateSectionForm(e) {
     e.preventDefault();
 
-    const lineName = e.target[ELEMENT.SUBWAY_LINE_FOR_SECTION].value;
-    const lineId = this.userDataManager.getTargetLineId(lineName);
-    const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
-    const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
     try {
+      const lineName = e.target[ELEMENT.SUBWAY_LINE_FOR_SECTION].value;
+      const lineId = this.userDataManager.getTargetLineId(lineName);
+      const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
+      const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
+
       await requestAddSection({ id: lineId, upStationId, downStationId, distance, duration });
       await this.updateTargetLineData({ lineId, lineName });
       closeModal(this.$modal);
@@ -95,12 +104,12 @@ class Sections {
   async handleRemoveSection(e) {
     if (!window.confirm(REMOVE_CONFIRM_MESSAGE)) return;
 
-    const lineName = this.lineOptionsWrapper.value;
-    const lineId = this.userDataManager.getTargetLineId(lineName);
-    const removeTargetStation = e.target.dataset.stationName;
-    const removeTargetStationId = this.userDataManager.getTargetStationId(removeTargetStation);
-
     try {
+      const lineName = this.lineOptionsWrapper.value;
+      const lineId = this.userDataManager.getTargetLineId(lineName);
+      const removeTargetStation = e.target.dataset.stationName;
+      const removeTargetStationId = this.userDataManager.getTargetStationId(removeTargetStation);
+
       await requestRemoveSection({ lineId, stationId: removeTargetStationId });
       await this.updateTargetLineData({ lineId, lineName });
     } catch (error) {

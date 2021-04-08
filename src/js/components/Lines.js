@@ -114,12 +114,13 @@ class Lines {
     e.preventDefault();
 
     const lineName = e.target[ELEMENT.SUBWAY_LINE_NAME].value;
-    const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
-    const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
     const distance = e.target.distance.valueAsNumber;
     const duration = e.target.duration.valueAsNumber;
 
     try {
+      const upStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.UP_STATION].value);
+      const downStationId = this.userDataManager.getTargetStationId(e.target[ELEMENT.DOWN_STATION].value);
+
       validateAddLine({
         lineName,
         upStationId,
@@ -152,13 +153,18 @@ class Lines {
   }
 
   handleLineEditButton(e) {
-    const { lineName } = e.target.closest(`.${ELEMENT.LINE_LIST_ITEM}`).dataset;
-    const editTargetLineData = this.userDataManager.getTargetLineDataForEdit(lineName);
+    try {
+      const { lineName } = e.target.closest(`.${ELEMENT.LINE_LIST_ITEM}`).dataset;
+      const editTargetLineData = this.userDataManager.getTargetLineDataForEdit(lineName);
 
-    this.lineNameInEdit = lineName;
-    this.selectedLineColor = '';
-    this.lineColorInEdit = this.userDataManager.getTargetLineColor(lineName);
-    this.showLineEditModal(editTargetLineData);
+      this.lineColorInEdit = this.userDataManager.getTargetLineColor(lineName);
+      this.lineNameInEdit = lineName;
+      this.selectedLineColor = '';
+
+      this.showLineEditModal(editTargetLineData);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   showLineEditModal(lineData) {
@@ -172,7 +178,6 @@ class Lines {
 
     const newLineName = e.target[ELEMENT.SUBWAY_LINE_NAME].value;
     const newColor = this.selectedLineColor || this.lineColorInEdit;
-    const lineIdInEdit = this.userDataManager.getTargetLineId(this.lineNameInEdit);
 
     try {
       validateEditLine({
@@ -181,6 +186,7 @@ class Lines {
         lineColorList: this.userDataManager.getLineColors(),
       });
 
+      const lineIdInEdit = this.userDataManager.getTargetLineId(this.lineNameInEdit);
       await requestEditLineData({ id: lineIdInEdit, name: newLineName, color: newColor });
 
       this.userDataManager.editLineData({

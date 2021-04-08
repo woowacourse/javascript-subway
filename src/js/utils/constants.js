@@ -63,6 +63,11 @@ export const ERROR_MESSAGE = Object.freeze({
   NEED_DIFFERENT_UP_DOWN_STATION: '상행역과 하행역은 동일하게 설정할 수 없습니다.',
   NEED_SELECT_COLOR: '색을 선택해주세요.',
   DUPLICATED_LINE_COLOR: '이미 같은 색의 노선이 존재합니다.',
+  FIND_EDIT_STATION_FAIL: '수정할 역 정보를 찾을 수 없습니다.',
+  GET_TARGET_LINE_COLOR_FAIL: '노선 색상 정보를 불러오는 데 실패했습니다.',
+  FIND_EDIT_LINE_FAIL: '수정할 노선을 찾을 수 없습니다.',
+  FIND_EDIT_LINE_DATA_FAIL: '수정할 노선의 정보를 찾을 수 없습니다.',
+  GET_STATION_NAME_FAIL: '역 이름을 찾을 수 없습니다.',
 });
 
 export const SUCCESS_MESSAGE = Object.freeze({

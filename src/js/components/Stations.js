@@ -92,9 +92,10 @@ class Stations {
     e.preventDefault();
 
     const newStationName = e.target[ELEMENT.STATION_NAME].value;
-    const stationId = this.userDataManager.getTargetStationId(this.stationNameInEdit);
 
     try {
+      const stationId = this.userDataManager.getTargetStationId(this.stationNameInEdit);
+
       validateName(newStationName);
       await requestEditStationName({ id: stationId, name: newStationName });
       this.userDataManager.editStationName(this.stationNameInEdit, newStationName);
