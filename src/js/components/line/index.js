@@ -7,14 +7,15 @@ import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
-import Modal from './modal.js';
 import sorted from '../../utils/sort.js';
+import { LINE, MODAL } from '../../constants/selector.js';
+import Modal from './modal.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
     super(
       parentNode,
       stateManagers,
-      { modal: new Modal($('.js-modal'), stateManagers) },
+      { modal: new Modal($(MODAL.MAIN_CONTAINER), stateManagers) },
       { stations: [], lines: [] }
     );
     this.setChildProps('modal', {
@@ -34,11 +35,11 @@ class Line extends Component {
   }
 
   createLineEvent() {
-    $('.js-line-item__create').addEventListener('click', () => {
+    $(LINE.CLASS.CREATE_ITEM).addEventListener('click', () => {
       this.childComponents.modal.show();
       this.childComponents.modal.clearForm();
       this.childComponents.modal.requestType = 'post';
-      $('.js-line-detail-container').innerHTML = lineFormDetail(
+      $(LINE.CLASS.DETAIL_CONTAINER).innerHTML = lineFormDetail(
         this.state.stations
       );
     });
@@ -54,22 +55,22 @@ class Line extends Component {
     // 하나로 해도 해결을 할 수는 있겠지만 .. ㅎㅎㅎ
     // Template 안에서 해결할 수 있는 편이 좋다.
 
-    $('.js-line-list').addEventListener('click', async ({ target }) => {
+    $(LINE.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
       // 노선 관리 -- Edit
-      if (target.classList.contains('js-line-item__edit')) {
+      if (target.classList.contains(LINE.CLASSLIST.EDIT_ITEM)) {
         this.childComponents.modal.show();
         this.childComponents.modal.requestType = 'put';
-        $('.js-line-form__detail')?.remove();
+        $(LINE.CLASS.FORM_DETAIL)?.remove();
 
-        const id = target.closest('.js-line-item').dataset.id;
+        const id = target.closest(LINE.CLASS.ITEM).dataset.id;
         this.childComponents.modal.setTargetId(id);
       }
 
       // 노선 관리 -- Delete
-      if (target.classList.contains('js-line-item__delete')) {
+      if (target.classList.contains(LINE.CLASSLIST.DELETE_ITEM)) {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-        const id = target.closest('.js-line-item').dataset.id;
+        const id = target.closest(LINE.ITEM_LIST).dataset.id;
         const accessToken = this.stateManagers.accessToken.getToken();
         const params = getFetchParams({
           path: `${PATH.LINES}/${id}`,
@@ -88,7 +89,7 @@ class Line extends Component {
   }
 
   sortLineItems() {
-    $('.js-line-item__sort').addEventListener('click', () => {
+    $(LINE.CLASS.SORT).addEventListener('click', () => {
       this.order = !this.order;
 
       if (this.order) {
@@ -113,6 +114,5 @@ class Line extends Component {
     this.setState({ stations, lines });
   }
 }
-//생성을 하는 순간 private tab들은 App들은 access Token이 없음. 그래서 요청이 불가.
 
 export default Line;

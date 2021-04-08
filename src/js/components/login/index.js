@@ -4,6 +4,7 @@ import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
 import { login } from '../../api/apis.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
+import { LOGIN } from '../../constants/selector.js';
 
 class Login extends Component {
   constructor(parentNode, stateManagers) {
@@ -15,7 +16,7 @@ class Login extends Component {
   }
 
   addEventListeners() {
-    $('#login-form').addEventListener('submit', async (e) => {
+    $(LOGIN.ID.FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const email = e.target['email'].value;
@@ -27,7 +28,7 @@ class Login extends Component {
         this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
       } catch (error) {
         if (error instanceof ValidationError) {
-          $('.js-login-check').innerText = error.message;
+          $(LOGIN.CLASS.CHECK).innerText = error.message;
         }
         console.error(error);
       }

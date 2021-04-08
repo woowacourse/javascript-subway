@@ -4,6 +4,7 @@ import { linesModal } from './template/modal.js';
 import request from '../../utils/request.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import ModalComponent from '../../core/ModalComponent.js';
+import { DATASET, LINE, MODAL } from '../../constants/selector.js';
 
 class Modal extends ModalComponent {
   constructor(parentNode, stateManagers) {
@@ -17,20 +18,17 @@ class Modal extends ModalComponent {
   }
 
   addEventListeners() {
-    $('.modal-close').addEventListener('click', () => this.hide());
+    $(MODAL.CLOSE).addEventListener('click', () => this.hide());
 
-    $('.js-subway-line-color-selector').addEventListener(
-      'click',
-      ({ target }) => {
-        if (!target.classList.contains('color-option')) return;
+    $(LINE.CLASS.COLOR_SELECTOR).addEventListener('click', ({ target }) => {
+      if (!target.classList.contains(LINE.CLASSLIST.COLOR_OPTION)) return;
 
-        const { bgColor } = target.dataset;
-        $('#subway-line-color').value = bgColor;
-        $('#subway-line-color-preview').setAttribute('data-bg-color', bgColor);
-      }
-    );
+      const { bgColor } = target.dataset;
+      $(LINE.ID.COLOR).value = bgColor;
+      $(LINE.ID.COLOR_PREVIEW).setAttribute(DATASET.BG_COLOR, bgColor);
+    });
 
-    $('#line-form').addEventListener('submit', async (e) => {
+    $(LINE.ID.FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = e.target['subway-line-name'].value;
       const lineColor = e.target['subway-line-color'].value;
@@ -104,19 +102,19 @@ class Modal extends ModalComponent {
     );
 
     this.changeModalTitle('🛤️ 노선 수정');
-    $('#subway-line-name').value = name;
-    $('#subway-line-color').value = color;
-    $('#subway-line-color-preview').setAttribute('data-bg-color', color);
+    $(LINE.ID.NAME).value = name;
+    $(LINE.ID.COLOR).value = color;
+    $(LINE.ID.COLOR_PREVIEW).setAttribute(DATASET.BG_COLOR, color);
   }
 
   clearForm() {
     this.changeModalTitle('🛤️ 노선 관리');
-    $('#line-form').reset();
-    $('#subway-line-color-preview').setAttribute('data-bg-color', '');
+    $(LINE.ID.FORM).reset();
+    $(LINE.ID.COLOR_PREVIEW).setAttribute(DATASET.BG_COLOR, '');
   }
 
   changeModalTitle(title) {
-    $('#line-title').innerText = title;
+    $(LINE.ID.TITLE).innerText = title;
   }
 }
 

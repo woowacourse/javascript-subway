@@ -1,19 +1,19 @@
 import { getSubwayState } from '../../api/apis.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
+import { DATASET, MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/DOM.js';
 import request from '../../utils/request.js';
-import Modal from './modal.js';
 import { mainTemplate, sectionItem } from './template/main.js';
-
+import Modal from './modal.js';
 class Section extends Component {
   constructor(parentNode, stateManagers) {
     super(
       parentNode,
       stateManagers,
-      { modal: new Modal($('.js-modal'), stateManagers) },
+      { modal: new Modal($(MODAL.MAIN_CONTAINER), stateManagers) },
       { stations: [], lines: [] }
     );
     this.setChildProps('modal', {
@@ -26,34 +26,30 @@ class Section extends Component {
   }
 
   addEventListeners() {
-    // TODO: Section Create
-    console.log(this.state.lines);
-    $('.js-section-item__create').addEventListener('click', () => {
+    $(SECTION.CLASS.CREATE_ITEM).addEventListener('click', () => {
       this.childComponents.modal.show();
     });
 
-    // TODO: 선택한 Section에 따라 안의 내용을 보여주는 Event
-    $('.js-section-form__select').addEventListener('change', ({ target }) => {
+    $(SECTION.CLASS.FORM_SELECT).addEventListener('change', ({ target }) => {
       const lineId = target.value;
       const { color, stations } = this.state.lines.find(
         (line) => line.id === Number(lineId)
       );
 
-      $('.js-section-list').innerHTML = stations
+      $(SECTION.CLASS.ITEM_LIST).innerHTML = stations
         .map((station) => sectionItem(station))
         .join('');
 
-      $('.js-section-list').setAttribute('data-line-id', lineId);
-      $('.js-section-form__select').setAttribute('data-bg-color', color);
+      $(SECTION.CLASS.ITEM_LIST).setAttribute(DATASET.LINE_ID, lineId);
+      $(SECTION.CLASS.FORM_SELECT).setAttribute(DATASET.BG_COLOR, color);
     });
 
-    // TODO: Section에 있는 역을 지워주는 Event
-    $('.js-section-list').addEventListener('click', async ({ target }) => {
-      if (!target.classList.contains('js-section-item__delete')) return;
+    $(SECTION.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
+      if (!target.classList.contains(SECTION.CLASSLIST.DELETE_ITEM)) return;
       if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-      const lineId = target.closest('.js-section-list').dataset.lineId;
-      const stationId = target.closest('.js-section-item').dataset.stationId;
+      const lineId = target.closest(SECTION.CLASS.ITEM_LIST).dataset.lineId;
+      const stationId = target.closest(SECTION.CLASS.ITEM).dataset.stationId;
       const accessToken = this.stateManagers.accessToken.getToken();
 
       const params = getFetchParams({

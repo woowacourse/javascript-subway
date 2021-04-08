@@ -1,4 +1,5 @@
 import getFetchParams from '../../api/getFetchParams.js';
+import { MODAL, STATION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
@@ -19,13 +20,13 @@ class Modal extends ModalComponent {
     const { name } = this.state.stations.find(
       ({ id }) => id === Number(this.targetId)
     );
-    $('#subway-station-name').value = name;
+    $(STATION.ID.STATION_NAME).value = name;
   }
 
   addEventListeners() {
-    $('.modal-close').addEventListener('click', () => this.hide());
+    $(MODAL.CLOSE).addEventListener('click', () => this.hide());
 
-    $('#edit-station-form').addEventListener('submit', async (e) => {
+    $(STATION.ID.EDIT_FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = this.targetId;
       // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리

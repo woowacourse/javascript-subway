@@ -2,6 +2,7 @@ import { getSubwayState } from '../../api/apis';
 import Component from '../../core/Component';
 import { mainTemplate, stationItem, connectedLine } from './template/main.js';
 import { $ } from '../../utils/DOM.js';
+import { MAP } from '../../constants/selector.js';
 
 class Map extends Component {
   constructor(parentNode, stateManagers) {
@@ -13,14 +14,14 @@ class Map extends Component {
   }
 
   addEventListeners() {
-    $('.js-all-lines-container').addEventListener('click', ({ target }) => {
-      if (!target.closest('.subway-lines-container')) return;
+    $(MAP.CLASS.ALL_LINES_CONTAINER).addEventListener('click', ({ target }) => {
+      if (!target.closest(MAP.CLASS.SUBWAY_LINES_CONTAINER)) return;
 
       const line = this.state.lines.find(
         (line) => line.id === Number(target.dataset.id)
       );
 
-      $('.js-all-stations').innerHTML = line.stations
+      $(MAP.CLASS.ALL_STATIONS).innerHTML = line.stations
         .map((station, index) => {
           const isLineEnded = line.stations.length - 1 === index;
           if (isLineEnded) {

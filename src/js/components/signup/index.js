@@ -10,6 +10,7 @@ import LENGTH from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { login, signup } from '../../api/apis.js';
+import { SIGNUP } from '../../constants/selector.js';
 
 class Signup extends Component {
   constructor(parentNode, stateManagers) {
@@ -22,7 +23,7 @@ class Signup extends Component {
   }
 
   addEventListeners() {
-    $('#signup-form').addEventListener(
+    $(SIGNUP.ID.FORM).addEventListener(
       'focusout',
       async ({ target, currentTarget }) => {
         if (currentTarget['submit'] === target) return;
@@ -52,7 +53,7 @@ class Signup extends Component {
       }
     );
 
-    $('#signup-form').addEventListener('submit', async (e) => {
+    $(SIGNUP.ID.FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const inVaildInputName = Object.keys(this.formValidationFlag).find(

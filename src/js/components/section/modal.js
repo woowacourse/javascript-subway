@@ -1,4 +1,5 @@
 import getFetchParams from '../../api/getFetchParams.js';
+import { MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
@@ -11,13 +12,13 @@ class Modal extends ModalComponent {
   }
 
   renderSelf() {
-    $('.js-modal').innerHTML = sectionsModal(this.state);
+    $(MODAL.MAIN_CONTAINER).innerHTML = sectionsModal(this.state);
   }
 
   addEventListeners() {
-    $('.modal-close').addEventListener('click', () => this.hide());
+    $(MODAL.CLOSE).addEventListener('click', () => this.hide());
 
-    $('#create-section-form').addEventListener('submit', async (e) => {
+    $(SECTION.ID.CREATE_FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
       const lineId = e.target['select-line'].value;
       const upStationId = e.target['up-station'].value;

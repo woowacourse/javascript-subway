@@ -27,7 +27,7 @@ export const stationModal = () => `
           <button
             type="submit"
             name="submit"
-            class="input-submit bg-cyan-300"
+            class="input-submit bg-custom-pink"
           >
             확인
           </button>

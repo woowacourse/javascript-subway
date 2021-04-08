@@ -7,13 +7,14 @@ import Component from '../../core/Component.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
 import { getSubwayState } from '../../api/apis.js';
+import { MODAL, STATION } from '../../constants/selector.js';
 
 class Station extends Component {
   constructor(parentNode, stateManagers) {
     super(
       parentNode,
       stateManagers,
-      { modal: new Modal($('.js-modal'), stateManagers) },
+      { modal: new Modal($(MODAL.MAIN_CONTAINER), stateManagers) },
       { stations: [], lines: [] }
     );
 
@@ -32,7 +33,7 @@ class Station extends Component {
   }
 
   createStationEvent() {
-    $('#create-station-form').addEventListener('submit', async (e) => {
+    $(STATION.ID.CREATE_FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const name = e.target['station-name'].value;
@@ -62,18 +63,18 @@ class Station extends Component {
   }
 
   editOrDeleteStationEvent() {
-    $('.js-station-list').addEventListener('click', async ({ target }) => {
-      if (target.classList.contains('js-station-item__edit')) {
+    $(STATION.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
+      if (target.classList.contains(STATION.CLASSLIST.EDIT_ITEM)) {
         this.childComponents.modal.setTargetId(
-          target.closest('.js-station-item').dataset.id
+          target.closest(STATION.CLASS.ITEM).dataset.id
         );
         this.childComponents.modal.show();
       }
 
-      if (target.classList.contains('js-station-item__delete')) {
+      if (target.classList.contains(STATION.CLASSLIST.DELETE_ITEM)) {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-        const { id } = target.closest('.js-station-item').dataset;
+        const { id } = target.closest(STATION.CLASS.ITEM).dataset;
         const accessToken = this.stateManagers.accessToken.getToken();
 
         await this.deleteItem(id, accessToken);
