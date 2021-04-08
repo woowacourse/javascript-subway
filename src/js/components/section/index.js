@@ -1,11 +1,10 @@
 import getSubwayState from '../../api/getState.js';
 import getFetchParams from '../../api/getFetchParams.js';
-import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
+import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { DATASET, MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import { mainTemplate, sectionItem } from './template/main.js';
 import Modal from './modal.js';
 import api from '../../api/requestHttp.js';

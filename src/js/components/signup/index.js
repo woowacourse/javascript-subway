@@ -13,7 +13,7 @@ import REGEX from '../../constants/regex.js';
 import LENGTH from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import getFetchParams from '../../api/getFetchParams.js';
-import { login, signup } from '../../api/account.js';
+import api from '../../api/requestHttp.js';
 import { SIGNUP } from '../../constants/selector.js';
 
 class Signup extends Component {
@@ -79,10 +79,19 @@ class Signup extends Component {
         const email = e.target['email'].value;
         const password = e.target['password'].value;
 
-        await signup(name, email, password);
-        const accessToken = await login(email, password);
-        this.stateManagers.accessToken.setToken(await accessToken);
+        const signupParams = getFetchParams({
+          path: PATH.MEMBERS.SIGNUP,
+          body: { name, email, password },
+        });
+        await api.signup(signupParams);
+
+        const loginParams = getFetchParams({
+          path: PATH.MEMBERS.LOGIN,
+          body: { email, password },
+        });
+        this.stateManagers.accessToken.setToken(await api.login(loginParams));
         this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+
         this.snackbar.show(SUCCESS_MESSAGE.LOGIN);
       } catch (error) {
         this.snackbar.show(error.message);

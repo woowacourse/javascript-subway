@@ -1,11 +1,9 @@
 import getFetchParams from '../../api/getFetchParams.js';
 import api from '../../api/requestHttp.js';
-import { SUCCESS_MESSAGE } from '../../constants/message.js';
 import { MODAL, SECTION } from '../../constants/selector.js';
 import { PATH } from '../../constants/url.js';
 import ModalComponent from '../../core/ModalComponent.js';
 import { $ } from '../../utils/DOM.js';
-import request from '../../utils/request.js';
 import sectionsModal from './template/modal.js';
 
 class Modal extends ModalComponent {

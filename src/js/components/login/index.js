@@ -1,11 +1,13 @@
 import { $ } from '../../utils/DOM.js';
 import Component from '../../core/Component.js';
 import mainTemplate from './template/main.js';
-import ValidationError from '../../error/ValidationError.js';
-import { login } from '../../api/account.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import { LOGIN } from '../../constants/selector.js';
 import { SUCCESS_MESSAGE } from '../../constants/message.js';
+import api from '../../api/requestHttp.js';
+import getFetchParams from '../../api/getFetchParams.js';
+import { PATH } from '../../constants/url.js';
+import ValidationError from '../../error/ValidationError.js';
 
 class Login extends Component {
   constructor(parentNode, stateManagers) {
@@ -22,17 +24,21 @@ class Login extends Component {
 
       const email = e.target['email'].value;
       const password = e.target['password'].value;
+      const params = getFetchParams({
+        path: PATH.MEMBERS.LOGIN,
+        body: { email, password },
+      });
 
       try {
-        const accessToken = await login(email, password);
-        this.stateManagers.accessToken.setToken(await accessToken);
+        this.stateManagers.accessToken.setToken(await api.login(params));
         this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
+
         this.snackbar.show(SUCCESS_MESSAGE.LOGIN);
       } catch (error) {
         if (error instanceof ValidationError) {
           $(LOGIN.CLASS.CHECK).innerText = error.message;
         }
-        this.snackbar.show(error.message);
+
         console.error(error.message);
       }
     });

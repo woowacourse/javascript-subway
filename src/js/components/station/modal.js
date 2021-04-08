@@ -7,7 +7,6 @@ import { $ } from '../../utils/DOM.js';
 import { stationModal } from './template/modal.js';
 
 class Modal extends ModalComponent {
-  // 파라미터가 너무 많아서 분리가 필요해보임
   constructor(parentNode, stateManagers) {
     super(parentNode, stateManagers);
   }
@@ -28,10 +27,11 @@ class Modal extends ModalComponent {
 
     $(STATION.ID.EDIT_FORM).addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const id = this.targetId;
-      // TODO: 현재 이름과 새로 수정할 이름이 같은경우 예외처리
       const newName = e.target['subway-station-name'].value;
       const accessToken = this.stateManagers.accessToken.getToken();
+
       const params = getFetchParams({
         path: `${PATH.STATIONS}/${id}`,
         body: { name: newName },
