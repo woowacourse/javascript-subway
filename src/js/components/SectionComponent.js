@@ -5,6 +5,7 @@ import {
   KEYWORD,
   REQUEST_URL,
   ALERT_MESSAGE,
+  LOCAL_STORAGE_KEY,
 } from '../constants';
 import SECTION_TEMPLATE from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
@@ -22,7 +23,6 @@ class SectionComponent extends Component {
     super(props);
 
     this.sectionModal = new SectionModal({
-      accessTokenState: this.props.accessTokenState,
       linesState: this.props.linesState,
       stationsState: this.props.stationsState,
       renderSectionList: this.renderSectionList,
@@ -63,7 +63,7 @@ class SectionComponent extends Component {
       return;
     }
 
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchLineRead(lineId, accessToken);
@@ -75,7 +75,7 @@ class SectionComponent extends Component {
         .join('');
       closeModal();
     } catch (err) {
-      alert(err.message);
+      this.props.treatFetchError(error);
       return;
     }
   };
@@ -106,7 +106,7 @@ class SectionComponent extends Component {
   };
 
   #removeSection = async (stationId, lineId) => {
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchSectionRemoval({ accessToken, stationId, lineId });
@@ -114,8 +114,8 @@ class SectionComponent extends Component {
       alert(ALERT_MESSAGE.SECTION_REMOVAL_SUCCESS);
 
       this.renderSectionList(lineId);
-    } catch (err) {
-      alert(err.message);
+    } catch (error) {
+      this.props.treatFetchError(error);
       return;
     }
   };

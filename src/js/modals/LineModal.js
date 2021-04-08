@@ -1,5 +1,11 @@
 import Component from '../components/Component';
-import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
+import {
+  ALERT_MESSAGE,
+  ID_SELECTOR,
+  KEYWORD,
+  LOCAL_STORAGE_KEY,
+  REQUEST_URL,
+} from '../constants';
 import LINE_TEMPLATE from '../templates/lineTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchLineCreation, fetchLineRevision } from '../utils/fetch';
@@ -14,12 +20,10 @@ class LineModal extends Modal {
 
     this._router = {
       [KEYWORD.CREATION]: new LineCreationComponent({
-        accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
         linesState: this.props.linesState,
       }),
       [KEYWORD.REVISION]: new LineRevisionComponent({
-        accessTokenState: this.props.accessTokenState,
         linesState: this.props.linesState,
       }),
     };
@@ -76,7 +80,7 @@ class LineCreationComponent extends Component {
       distance,
       duration,
     };
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchLineCreation(bodyData, accessToken);
@@ -154,14 +158,14 @@ class LineRevisionComponent extends Component {
       name: lineName,
       color,
     };
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchLineRevision({ accessToken, bodyData, lineId });
 
       alert(ALERT_MESSAGE.LINE_REVISION_SUCCESS);
 
-      loadLineList(this.props.linesState, this.props.accessTokenState.Data);
+      loadLineList(this.props.linesState, accessToken);
       closeModal();
     } catch (err) {
       alert(err.message);

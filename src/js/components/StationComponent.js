@@ -7,7 +7,7 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   KEYWORD,
-  REQUEST_URL,
+  LOCAL_STORAGE_KEY,
 } from '../constants.js';
 import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
@@ -21,7 +21,6 @@ class StationComponent extends Component {
     super(props);
 
     this.stationModal = new StationModal({
-      accessTokenState: this.props.accessTokenState,
       stationsState: this.props.stationsState,
     });
   }
@@ -91,7 +90,7 @@ class StationComponent extends Component {
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
     const bodyData = { name: inputName };
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchStationCreation(bodyData, accessToken);
@@ -102,27 +101,24 @@ class StationComponent extends Component {
 
       this.props.stationsState.pushData({ id, name });
       $input.value = '';
-    } catch (err) {
-      alert(err.message);
+    } catch (error) {
+      this.props.treatFetchError(error);
+      //옵셔널 체이닝 사용하기
       $input.value = '';
-      return;
     }
   };
 
   #removeStation = async stationId => {
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchStationRemoval(stationId, accessToken);
 
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
 
-      loadStationList(
-        this.props.stationsState,
-        this.props.accessTokenState.Data
-      );
-    } catch (err) {
-      alert(err.message);
+      loadStationList(this.props.stationsState, accessToken);
+    } catch (error) {
+      this.props.treatFetchError(error);
       return;
     }
   };

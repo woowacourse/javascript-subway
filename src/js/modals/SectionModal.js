@@ -1,5 +1,11 @@
 import Component from '../components/Component';
-import { KEYWORD, ID_SELECTOR, REQUEST_URL, ALERT_MESSAGE } from '../constants';
+import {
+  KEYWORD,
+  ID_SELECTOR,
+  REQUEST_URL,
+  ALERT_MESSAGE,
+  LOCAL_STORAGE_KEY,
+} from '../constants';
 import SECTION_TEMPLATE from '../templates/sectionTemplate';
 import { fetchSectionCreation } from '../utils/fetch';
 import $ from '../utils/querySelector';
@@ -12,7 +18,6 @@ class SectionModal extends Modal {
 
     this._router = {
       [KEYWORD.CREATION]: new SectionCreationComponent({
-        accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
         linesState: this.props.linesState,
         renderSectionList: this.props.renderSectionList,
@@ -62,7 +67,7 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE].value;
     const duration =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DURATION].value;
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
     const bodyData = {
       upStationId,
       downStationId,

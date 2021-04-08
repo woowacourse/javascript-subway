@@ -1,5 +1,11 @@
 import Component from '../components/Component';
-import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
+import {
+  ALERT_MESSAGE,
+  ID_SELECTOR,
+  KEYWORD,
+  LOCAL_STORAGE_KEY,
+  REQUEST_URL,
+} from '../constants';
 import STATION_TEMPLATE from '../templates/stationTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchStationNameRevision } from '../utils/fetch';
@@ -13,7 +19,6 @@ class StationModal extends Modal {
 
     this._router = {
       [KEYWORD.REVISION]: new StationRevisionComponent({
-        accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
       }),
     };
@@ -65,16 +70,13 @@ class StationRevisionComponent extends Component {
     const bodyData = {
       name: revisionName,
     };
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchStationNameRevision({ accessToken, bodyData, stationId });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
-      loadStationList(
-        this.props.stationsState,
-        this.props.accessTokenState.Data
-      );
+      loadStationList(this.props.stationsState, accessToken);
     } catch (err) {
       alert(err.message);
       return;

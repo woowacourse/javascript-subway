@@ -1,4 +1,4 @@
-import { ID_SELECTOR } from '../constants.js';
+import { ID_SELECTOR, LOCAL_STORAGE_KEY } from '../constants.js';
 import FULL_MAP_TEMPLATE from '../templates/FullMapTemplate.js';
 import { fetchLineListRead } from '../utils/fetch.js';
 import $ from '../utils/querySelector.js';
@@ -19,9 +19,8 @@ class FullMapComponent extends Component {
 
   #loadFullMap = async () => {
     try {
-      const response = await fetchLineListRead(
-        this.props.accessTokenState.Data
-      );
+      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+      const response = await fetchLineListRead(accessToken);
       const lines = await response.json();
       const linesTemplate = lines
         .map(line =>
@@ -29,11 +28,9 @@ class FullMapComponent extends Component {
         )
         .join('');
 
-      console.log(lines);
-
       $(`#${ID_SELECTOR.FULL_MAP_LINE_LIST}`).innerHTML = linesTemplate;
     } catch (error) {
-      alert(error.message);
+      this.props.treatFetchError(error);
     }
   };
 }

@@ -37,6 +37,8 @@ class Page extends Component {
     this._router[path].render();
     this._router[path].initialize();
   };
+
+  treatFetchError(error) {}
 }
 
 export default Page;

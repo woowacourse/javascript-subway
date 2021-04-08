@@ -85,6 +85,10 @@ const CLASS_SELECTOR = {
 };
 
 const ALERT_MESSAGE = {
+  // COMMON
+  EXPIRED_ACCESS_TOKEN: '로그인 정보가 만료되었습니다. 다시 로그인 해주세요',
+  LOGOUT_SUCCESS: '로그아웃에 성공했습니다.',
+
   // SIGNUP
   SIGNUP_SUCCESS: '회원 가입에 성공했습니다.',
   DUPLICATED_EMAIL_FAIL: '중복된 이메일이 있습니다.',
@@ -127,10 +131,17 @@ const CONFIRM_MESSAGE = {
 };
 
 const KEYWORD = {
-  LOGOUT: 'logout',
   CREATION: 'creation',
   REVISION: 'revision',
   NONE: 'none',
+};
+
+const LOCAL_STORAGE_KEY = {
+  ACCESS_TOKEN: 'accessToken',
+};
+
+const LOCAL_STORAGE_VALUE = {
+  EMPTY: '',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';
@@ -156,6 +167,7 @@ const THRESHOLD = {
 
 const HTTP_RESPONSE_STATUS = {
   FOUR_ZERO_ZERO: 400,
+  INVALID_ACCESS_TOKEN: 401,
 };
 
 export {
@@ -168,4 +180,6 @@ export {
   URL,
   THRESHOLD,
   HTTP_RESPONSE_STATUS,
+  LOCAL_STORAGE_KEY,
+  LOCAL_STORAGE_VALUE,
 };

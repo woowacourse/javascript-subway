@@ -1,7 +1,7 @@
 import Component from './Component.js';
 import MY_INFO_TEMPLATE from '../templates/myInfoTemplate.js';
 import { fetchMyInfo } from '../utils/fetch.js';
-import { ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import { ID_SELECTOR, LOCAL_STORAGE_KEY, REQUEST_URL } from '../constants.js';
 import $ from '../utils/querySelector.js';
 
 class MyInfoComponent extends Component {
@@ -15,7 +15,7 @@ class MyInfoComponent extends Component {
   }
 
   async #renderMyInfo() {
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       const response = await fetchMyInfo(accessToken);
@@ -24,8 +24,7 @@ class MyInfoComponent extends Component {
       $(`#${ID_SELECTOR.MY_INFO_FORM_EMAIL}`).value = email;
       $(`#${ID_SELECTOR.MY_INFO_FORM_NAME}`).value = name;
     } catch (err) {
-      alert(err.message);
-      history.back();
+      this.props.treatFetchError(error);
     }
   }
 }

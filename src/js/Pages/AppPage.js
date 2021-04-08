@@ -7,11 +7,21 @@ import SignupComponent from '../components/SignupComponent.js';
 import MyInfoComponent from '../components/MyInfoComponent.js';
 import Page from './Page.js';
 import State from '../State.js';
-import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD, URL } from '../constants.js';
+import {
+  CLASS_SELECTOR,
+  ID_SELECTOR,
+  KEYWORD,
+  LOCAL_STORAGE_KEY,
+  LOCAL_STORAGE_VALUE,
+  HTTP_RESPONSE_STATUS,
+  ALERT_MESSAGE,
+  URL,
+} from '../constants.js';
 import { show, hide, closeModal } from '../utils/DOM.js';
 import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
 import SectionComponent from '../components/SectionComponent.js';
 import FullMapComponent from '../components/FullMapComponent.js';
+import { fetchMyInfo } from '../utils/fetch.js';
 
 class AppPage extends Page {
   constructor(props) {
@@ -19,49 +29,47 @@ class AppPage extends Page {
   }
 
   initState() {
-    this.accessTokenState = new State(KEYWORD.LOGOUT);
     this.stationsState = new State([]);
     this.linesState = new State([]);
   }
 
   initStateListener() {
-    this.accessTokenState.initListener();
     this.stationsState.initListener();
     this.linesState.initListener();
-    this.accessTokenState.setListener(this.handleUserDataToInit);
-    this.accessTokenState.setListener(this.handleNavButtonToChange);
-    this.accessTokenState.setListener(this.handlePageToRedirect);
   }
 
   initRouter() {
     this._router = {
       [URL.HOME]: new HomeComponent(),
       [URL.STATION]: new StationComponent({
-        accessTokenState: this.accessTokenState,
         stationsState: this.stationsState,
+        treatFetchError: this.treatFetchError,
       }),
       [URL.LINE]: new LineComponent({
-        accessTokenState: this.accessTokenState,
         stationsState: this.stationsState,
         linesState: this.linesState,
+        treatFetchError: this.treatFetchError,
       }),
       [URL.LOGIN]: new LoginComponent({
         route: this.route,
-        accessTokenState: this.accessTokenState,
+        treatFetchError: this.treatFetchError,
+        login: this.login,
       }),
       [URL.SIGNUP]: new SignupComponent({ route: this.route }),
       [URL.MY_INFO]: new MyInfoComponent({
-        accessTokenState: this.accessTokenState,
+        treatFetchError: this.treatFetchError,
       }),
       [URL.SECTION]: new SectionComponent({
-        accessTokenState: this.accessTokenState,
         linesState: this.linesState,
         stationsState: this.stationsState,
+        treatFetchError: this.treatFetchError,
       }),
       [URL.FULL_MAP]: new FullMapComponent({
-        accessTokenState: this.accessTokenState,
+        treatFetchError: this.treatFetchError,
       }),
     };
+
+    this.#checkUserLogin();
   }
 
   initEvent() {
@@ -73,7 +81,10 @@ class AppPage extends Page {
 
     $('header').addEventListener('click', this._onAnchorClicked);
 
-    $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
+    $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', () => {
+      this.logout();
+      alert(ALERT_MESSAGE.LOGOUT_SUCCESS);
+    });
 
     $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
       if (!target.closest(`.${CLASS_SELECTOR.MODAL_CLOSE}`)) return;
@@ -82,45 +93,50 @@ class AppPage extends Page {
     });
   }
 
-  handleUserDataToInit = accessToken => {
-    const isLogout = accessToken === KEYWORD.LOGOUT;
-
-    if (isLogout) {
-      this.initStateListener();
-
-      return;
-    }
-
-    loadStationList(this.stationsState, this.accessTokenState.Data);
-    loadLineList(this.linesState, this.accessTokenState.Data);
-  };
-
-  handleNavButtonToChange = accessToken => {
-    const isLogout = accessToken === KEYWORD.LOGOUT;
-
-    if (isLogout) {
-      this.#renderGuestNavBar();
+  treatFetchError(error) {
+    if (error.message === HTTP_RESPONSE_STATUS.INVALID_ACCESS_TOKEN) {
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY.ACCESS_TOKEN,
+        LOCAL_STORAGE_VALUE.EMPTY
+      );
+      alert(ALERT_MESSAGE.EXPIRED_ACCESS_TOKEN);
+      this.closeModal();
+      this.logout();
 
       return;
     }
 
+    alert(error.message);
+  }
+
+  login = () => {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+    loadStationList(this.stationsState, accessToken);
+    loadLineList(this.linesState, accessToken);
     this.#renderUserNavBar();
-  };
-
-  handlePageToRedirect = accessToken => {
-    const isLogout = accessToken === KEYWORD.LOGOUT;
-
-    if (isLogout) {
-      this.route(URL.LOGIN);
-
-      return;
-    }
-
     this.route(URL.HOME);
   };
 
-  #onLogout = () => {
-    this.accessTokenState.Data = KEYWORD.LOGOUT;
+  logout = () => {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY.ACCESS_TOKEN,
+      LOCAL_STORAGE_VALUE.EMPTY
+    );
+    this.initStateListener();
+    this.#renderGuestNavBar();
+    this.route(URL.LOGIN);
+  };
+
+  #checkUserLogin = async () => {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+    if (!accessToken) {
+      this.logout();
+      return;
+    }
+
+    this.login();
   };
 
   #renderUserNavBar() {

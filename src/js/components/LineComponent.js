@@ -4,6 +4,7 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   KEYWORD,
+  LOCAL_STORAGE_KEY,
   REQUEST_URL,
 } from '../constants.js';
 import LineModal from '../modals/LineModal.js';
@@ -21,7 +22,6 @@ class LineComponent extends Component {
     super(props);
 
     this.lineModal = new LineModal({
-      accessTokenState: this.props.accessTokenState,
       stationsState: this.props.stationsState,
       linesState: this.props.linesState,
     });
@@ -96,7 +96,7 @@ class LineComponent extends Component {
   };
 
   #removeLine = async lineId => {
-    const accessToken = this.props.accessTokenState.Data;
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
       await fetchLineRemoval(lineId, accessToken);
@@ -105,7 +105,7 @@ class LineComponent extends Component {
 
       loadLineList(this.props.linesState, accessToken);
     } catch (err) {
-      alert(err.message);
+      this.props.treatFetchError(error);
       return;
     }
   };

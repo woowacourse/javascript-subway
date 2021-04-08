@@ -38,7 +38,7 @@ class SignupComponent extends Component {
     try {
       await fetchSignup(bodyData);
     } catch (err) {
-      alert(err.message);
+      this.props.treatFetchError(error);
       return;
     }
 

@@ -5,17 +5,13 @@ import {
   ALERT_MESSAGE,
   CLASS_SELECTOR,
   ID_SELECTOR,
-  REQUEST_URL,
+  LOCAL_STORAGE_KEY,
 } from '../constants.js';
 import { fetchLogin } from '../utils/fetch.js';
 
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
-
-    if (!this.props?.accessTokenState.Data) {
-      console.error('accessToken이 존재하지 않습니다.');
-    }
   }
 
   initEvent() {
@@ -47,9 +43,11 @@ class LoginComponent extends Component {
 
       const { accessToken } = await response.json();
 
-      this.props.accessTokenState.Data = accessToken;
-    } catch (err) {
-      alert(err.message);
+      localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken);
+
+      this.props.login();
+    } catch (error) {
+      this.props.treatFetchError(error);
       return;
     }
   };
