@@ -21,18 +21,18 @@ const AUTHENTICATED_LINK = {
   },
   LOGOUT: {
     ROUTE: '/logout',
-    NAME: '👤 로그아웃',
+    NAME: '🥺 로그아웃',
   },
 };
 
 const UNAUTHENTICATED_LINK = {
   LOGIN: {
     ROUTE: '/login',
-    NAME: '👤 로그인',
+    NAME: '👋 로그인',
   },
   SIGNUP: {
     ROUTE: '/signup',
-    NAME: '👤 회원가입',
+    NAME: '🧡 회원가입',
   },
 };
 

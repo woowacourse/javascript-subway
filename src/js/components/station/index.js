@@ -6,7 +6,7 @@ import request from '../../utils/request.js';
 import Component from '../../core/Component.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import Modal from './modal.js';
-import getSubwayState from '../../api/apis.js';
+import { getSubwayState } from '../../api/apis.js';
 
 class Station extends Component {
   constructor(parentNode, stateManagers) {

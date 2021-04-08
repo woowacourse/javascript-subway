@@ -3,8 +3,8 @@
 #signup-form input {
   font-size: 1rem !important;
   background-color: #fff !important;
-  border: 1px solid rgb(0 0 0 / 10%) !important;
-  box-shadow: 4px 4px 10px 0px rgb(226 226 226), 0 0 0 35px white inset !important;
+  border: 1px solid rgb(0 0 0 / 10%);
+  box-shadow: 4px 4px 10px 0px rgb(226 226 226), 0 0 0 35px white inset;
 }
 
 #login-form input:-webkit-autofill,
@@ -14,8 +14,6 @@
   box-shadow: 4px 4px 10px 0px rgb(226 226 226), 0 0 0 35px #f1f5f9 inset !important;
 }
 
-#login-form input:hover,
-#signup-form input:hover,
 #login-form input:focus,
 #signup-form input:focus,
 #login-form input:-webkit-autofill:hover,
@@ -23,8 +21,8 @@
 #login-form input:-webkit-autofill:focus,
 #signup-form input:-webkit-autofill:focus {
   font-size: 1rem !important;
-  border: 1px solid rgb(78 207 224 / 70%) !important;
-  box-shadow: 4px 4px 10px 0px rgb(78 207 224 / 32%), 0 0 0 35px white inset !important;
+  border: 1px solid rgb(0 0 0 / 35%) !important;
+  box-shadow: 4px 4px 10px 0px rgb(119 119 119 / 20%), 0 0 0 35px white inset !important;
 }
 
 form .input-control {
@@ -107,6 +105,16 @@ form select {
 .form__input-check.correct {
   color: rgb(36, 138, 61);
   font-weight: 400;
+}
+
+#login-form input.valid__input,
+#signup-form input.valid__input {
+  border-color: rgb(36, 138, 61);
+}
+
+#login-form input.invalid__input,
+#signup-form input.invalid__input {
+  border-color: rgb(215, 0, 21);
 }
 
 /* custom Input */

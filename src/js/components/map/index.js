@@ -1,4 +1,4 @@
-import getSubwayState from '../../api/apis';
+import { getSubwayState } from '../../api/apis';
 import Component from '../../core/Component';
 import { mainTemplate, stationItem, connectedLine } from './template/main.js';
 import { $ } from '../../utils/DOM.js';

@@ -1,4 +1,4 @@
-import getSubwayState from '../../api/apis.js';
+import { getSubwayState } from '../../api/apis.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';

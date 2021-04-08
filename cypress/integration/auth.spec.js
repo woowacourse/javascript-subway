@@ -19,7 +19,7 @@ describe('지하철 노선도 로그인, 로그아웃 기능 테스트', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/station');
   });
 
-  it('로그인을 하게되면, 로그인 버튼이 로그아웃으로 바뀐다.', () => {
+  it('로그인을 하게되면, 로그인 버튼 안의 텍스트가 로그인에서 로그아웃으로 변경된다.', () => {
     cy.get('.js-link[href="/logout"]').should('be.visible');
   });
 

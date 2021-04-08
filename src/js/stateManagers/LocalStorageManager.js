@@ -1,6 +1,6 @@
 import StateManager from '../core/StateManager.js';
 
-class AccessTokenManager extends StateManager {
+class LocalStorageManager extends StateManager {
   constructor() {
     super();
     this.accessToken = localStorage.getItem('accessToken') || '';
@@ -22,4 +22,4 @@ class AccessTokenManager extends StateManager {
   }
 }
 
-export default AccessTokenManager;
+export default LocalStorageManager;

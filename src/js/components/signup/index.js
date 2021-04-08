@@ -6,9 +6,10 @@ import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
 import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
-import { LENGTH } from '../../constants/standard.js';
+import LENGTH from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
 import getFetchParams from '../../api/getFetchParams.js';
+import { login, signup } from '../../api/apis.js';
 
 class Signup extends Component {
   constructor(parentNode, stateManagers) {
@@ -28,14 +29,14 @@ class Signup extends Component {
 
         if (currentTarget['name'] === target) {
           const name = target.value;
-          this.validateNameAndNotify(name);
+          this.validateNameAndNotify(name, target);
 
           return;
         }
 
         if (currentTarget['email'] === target) {
           const email = target.value;
-          await this.validateEmailAndNotify(email);
+          await this.validateEmailAndNotify(email, target);
 
           return;
         }
@@ -46,7 +47,7 @@ class Signup extends Component {
         ) {
           const password = currentTarget['password'].value;
           const passwordConfirm = currentTarget['password-confirm'].value;
-          this.validatePasswordAndNotify(password, passwordConfirm);
+          this.validatePasswordAndNotify(password, passwordConfirm, target);
         }
       }
     );
@@ -68,15 +69,17 @@ class Signup extends Component {
         const email = e.target['email'].value;
         const password = e.target['password'].value;
 
-        await this.signup(name, email, password);
-        await this.loginAfterSignup(email, password);
+        await signup(name, email, password);
+        const accessToken = await login(email, password);
+        this.stateManagers.accessToken.setToken(await accessToken);
+        this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
       } catch (error) {
         console.error(error);
       }
     });
   }
 
-  validateNameAndNotify(name) {
+  validateNameAndNotify(name, target) {
     const $nameCheck = $('.js-name-check');
 
     try {
@@ -84,11 +87,15 @@ class Signup extends Component {
       $nameCheck.classList.add('correct');
       $nameCheck.innerText = VALID_MESSAGE.NAME;
       this.formValidationFlag.name = true;
+      target.classList.add('valid__input');
+      target.classList.remove('invalid__input');
     } catch (error) {
       if (error instanceof ValidationError) {
         $nameCheck.classList.remove('correct');
         $nameCheck.innerText = error.message;
         this.formValidationFlag.name = false;
+        target.classList.add('invalid__input');
+        target.classList.remove('valid__input');
       }
 
       console.error(error);
@@ -106,10 +113,10 @@ class Signup extends Component {
   }
 
   isValidNameFormat(name) {
-    return REGEX.NAME_FORMAT.test(name);
+    return REGEX.NAME.test(name);
   }
 
-  async validateEmailAndNotify(email) {
+  async validateEmailAndNotify(email, target) {
     const $emailCheck = $('.js-email-check');
 
     try {
@@ -117,11 +124,15 @@ class Signup extends Component {
       $emailCheck.classList.add('correct');
       $emailCheck.innerText = VALID_MESSAGE.EMAIL;
       this.formValidationFlag.email = true;
+      target.classList.add('valid__input');
+      target.classList.remove('invalid__input');
     } catch (error) {
       if (error instanceof ValidationError) {
         $emailCheck.classList.remove('correct');
         $emailCheck.innerText = error.message;
         this.formValidationFlag.email = false;
+        target.classList.add('invalid__input');
+        target.classList.remove('valid__input');
       }
 
       console.error(error);
@@ -133,9 +144,7 @@ class Signup extends Component {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
-    const query = { email };
-    const searchParams = `?${new URLSearchParams(query)}`;
-
+    const searchParams = `?${new URLSearchParams({ email })}`;
     const params = getFetchParams({
       path: PATH.MEMBERS.CHECK + searchParams,
     });
@@ -146,7 +155,7 @@ class Signup extends Component {
     }
   }
 
-  validatePasswordAndNotify(password, passwordConfirm) {
+  validatePasswordAndNotify(password, passwordConfirm, target) {
     const $passwordCheck = $('.js-password-check');
 
     try {
@@ -154,11 +163,15 @@ class Signup extends Component {
       $passwordCheck.classList.add('correct');
       $passwordCheck.innerText = VALID_MESSAGE.PASSWORD;
       this.formValidationFlag.password = true;
+      target.classList.add('valid__input');
+      target.classList.remove('invalid__input');
     } catch (error) {
       if (error instanceof ValidationError) {
         $passwordCheck.classList.remove('correct');
         $passwordCheck.innerText = error.message;
         this.formValidationFlag.password = false;
+        target.classList.add('invalid__input');
+        target.classList.remove('valid__input');
       }
 
       console.error(error);
@@ -166,7 +179,7 @@ class Signup extends Component {
   }
 
   isValidEmailFormat(email) {
-    return REGEX.EMAIL_FORMAT.test(email.toLowerCase());
+    return REGEX.EMAIL.test(email.toLowerCase());
   }
 
   validatePassword(password, passwordConfirm) {
@@ -182,31 +195,6 @@ class Signup extends Component {
     if (!isSamePassword) {
       throw new ValidationError(INVALID_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
-  }
-
-  async signup(name, email, password) {
-    const params = getFetchParams({
-      path: PATH.MEMBERS.SIGNUP,
-      body: { name, email, password },
-    });
-    const response = await request.post(params);
-
-    if (!response.ok) throw Error(response.message);
-  }
-
-  async loginAfterSignup(email, password) {
-    const params = getFetchParams({
-      path: PATH.MEMBERS.LOGIN,
-      body: { email, password },
-    });
-    const response = await request.post(params);
-
-    if (!response.ok) throw Error(response.message);
-
-    const { accessToken } = await response.json();
-
-    this.stateManagers.accessToken.setToken(accessToken);
-    this.stateManagers.route.goPage(AUTHENTICATED_LINK.STATION.ROUTE);
   }
 }
 

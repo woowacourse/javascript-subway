@@ -1,4 +1,4 @@
-import tomas from '../../../../images/tomas.png';
+import tomasImage from '../../../../images/tomas.png';
 
 const mainTemplate = () => {
   return `
@@ -8,7 +8,7 @@ const mainTemplate = () => {
       </div>
       <div class="d-flex flex-col mb-1">
         <div class="d-flex justify-center">
-          <img src=${tomas} width="150" />
+          <img src=${tomasImage} width="150" />
         </div>
         <p class="mt-2 text-center">
           지하철 노선도 앱을 사용하기 위해서는 <br/> 로그인이 필요합니다.
@@ -43,7 +43,7 @@ const mainTemplate = () => {
             name="password"
             class="input-field"
             placeholder="비밀번호"
-            minlength=6
+            minlength="6"
             maxlength=20
             autocomplete
             required
@@ -53,7 +53,7 @@ const mainTemplate = () => {
         <div class="input-control w-100">
           <button
             name="submit"
-            class="input-submit w-100 bg-cyan-300"
+            class="input-submit w-100 bg-custom-pink"
           >
             확인
           </button>

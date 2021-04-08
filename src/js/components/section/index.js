@@ -1,4 +1,4 @@
-import getSubwayState from '../../api/apis.js';
+import { getSubwayState } from '../../api/apis.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { PATH } from '../../constants/url.js';
@@ -27,6 +27,7 @@ class Section extends Component {
 
   addEventListeners() {
     // TODO: Section Create
+    console.log(this.state.lines);
     $('.js-section-item__create').addEventListener('click', () => {
       this.childComponents.modal.show();
     });

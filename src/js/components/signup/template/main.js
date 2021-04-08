@@ -2,7 +2,7 @@ const mainTemplate = () => {
   return `
     <div class="wrapper p-10 bg-white">
       <div class="heading">
-        <h2 class="text">📝 회원가입</h2>
+        <h2 class="text">🧡 회원가입</h2>
       </div>
       <form
         id="signup-form"
@@ -16,7 +16,7 @@ const mainTemplate = () => {
             name="name"
             class="input-field"
             placeholder="이름"
-            minlength=2
+            minlength="2"
             maxlength=20
             autofocus
             required
@@ -44,7 +44,7 @@ const mainTemplate = () => {
             name="password"
             class="input-field"
             placeholder="비밀번호"
-            minlength=6
+            minlength="6"
             maxlength=20
             required
           />
@@ -60,13 +60,16 @@ const mainTemplate = () => {
             name="password-confirm"
             class="input-field"
             placeholder="비밀번호 확인"
+            minlength="6"
+            maxlength=20
+            required
           />
         </div>
         <div class="js-password-check form__input-check"></div>
         <div class="input-control">
           <button
             name="submit"
-            class="input-submit w-100 bg-cyan-300"
+            class="input-submit w-100 bg-custom-pink"
           >
             확인
           </button>

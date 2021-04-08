@@ -13,6 +13,7 @@ const sectionsModal = ({ stations, lines }) => {
         <form id="create-section-form">
           <div class="input-control mb-3">
             <select name="select-line">
+            <option value="" selected disabled hidden>노선을 선택해 주세요.</option>
             ${lines
               .map((line) => {
                 return `<option value="${line.id}">${line.name}</option>`;

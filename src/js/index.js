@@ -8,7 +8,7 @@ import {
   HOME_LINK,
 } from './constants/link.js';
 import { headerTemplate } from './components/header.js';
-import AccessTokenManager from './stateManagers/AccessTokenManager.js';
+import LocalStorageManager from './stateManagers/LocalStorageManager.js';
 import isLogin from './hook/isLogin.js';
 import RouteManager from './stateManagers/RouteManager.js';
 import request from './utils/request.js';
@@ -165,7 +165,7 @@ class App extends Component {
 }
 
 const stateManagers = {
-  accessToken: new AccessTokenManager(),
+  accessToken: new LocalStorageManager(),
   route: new RouteManager(),
 };
 

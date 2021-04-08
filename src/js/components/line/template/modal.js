@@ -104,7 +104,7 @@ const linesModal = () => {
           <div class="js-subway-line-color-selector user-select-none px-2 text-center">
             ${colorOptions.map(subwayLineColorOptionTemplate).join('')}
           </div>
-          <div class="d-flex justify-end mt-3">
+          <div class="d-flex justify-end mt-3 mb-5">
             <button
               class="input-submit bg-custom-pink"
               name="submit"
