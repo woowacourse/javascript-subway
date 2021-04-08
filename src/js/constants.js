@@ -6,7 +6,6 @@ const ID_SELECTOR = {
   NAV_LINE: 'nav__line',
   NAV_SECTION: 'nav__section',
   NAV_FULL_MAP: 'nav__full-map',
-  NAV_SEARCH: 'nav__search',
   NAV_LOGIN: 'nav__login',
   NAV_LOGOUT: 'nav__logout',
   NAV_MY_INFO: 'nav__my-info',
