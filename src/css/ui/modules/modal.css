@@ -28,6 +28,11 @@
   position: relative;
 }
 
+.modal-inner header {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .modal-close {
   margin: 20px;
   width: 20px;
