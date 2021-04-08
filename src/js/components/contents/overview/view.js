@@ -14,9 +14,7 @@ export const renderOverview = async ($main) => {
 };
 
 async function renderLineList() {
-  console.log($listOfLines);
   const lineList = await requestReadLine();
-  console.log(lineList[0]);
 
   $listOfLines.innerHTML = lineList.map((line) => OVERVIEW_ITEM_TEMPLATE(line)).join('');
 }
