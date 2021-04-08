@@ -45,9 +45,11 @@ export const SELECTOR = {
 
   LINE_LIST: '#line-list',
 
+  LINE_MODAL_TITLE: '#line-modal-title',
   LINE_CREATION_FORM: '#subway-line-form',
   LINE_NAME_INPUT: '#subway-line-name',
   LINE_UP_DOWN_STATION_INPUT: '.updown-data',
+  LINE_UP_DOWN_STATION_CONTAINER: '#updown-data-container',
   LINE_UP_STATION_SELECT: '#up-station',
   LINE_DOWN_STATION_SELECT: '#down-station',
   LINE_DUPLICATED_WARNING: '#line-duplicated-warning',

@@ -22,7 +22,7 @@ export const modalTemplate = `
       </svg>
     </button>
     <header>
-      <h2 class="text-center">🛤️ 노선 추가</h2>
+      <h2 id="line-modal-title" class="text-center">🛤️ 노선 추가</h2>
     </header>
     <form id="subway-line-form">
       <div class="input-control d-flex flex-col">

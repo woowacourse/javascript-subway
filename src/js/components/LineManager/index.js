@@ -3,13 +3,13 @@ import popSnackbar from '../../utils/snackbar.js';
 import { SELECTOR, MESSAGES } from '../../constants/constants.js';
 import { contentTemplate } from './template.js';
 import { deleteLineRequest } from '../../request.js';
-import LineModal from './LineModal.js';
+import LineModalHost from './LineModalHost.js';
 
 export default class LineManager {
   constructor(store) {
     this.store = store;
     this.$content = $(SELECTOR.CONTENT);
-    this.modal = new LineModal(this.store);
+    this.modal = new LineModalHost(this.store);
     this.bindModalEvents();
   }
 
