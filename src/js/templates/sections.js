@@ -2,7 +2,7 @@ export const getLineOptionsTemplate = (lineData) => {
   return lineData.map((line) => `<option class="bg-white">${line.name}</option>`).join('');
 };
 
-const getSectionListItemTemplate = (stationName) => `
+const sectionListItemTemplate = (stationName) => `
   <li class="section-list-item">
     <div class="d-flex items-center py-2">
       <span class="w-100 pl-6">${stationName}</span>
@@ -13,7 +13,7 @@ const getSectionListItemTemplate = (stationName) => `
 `;
 
 export const getTargetSectionListTemplate = (stationNames) => {
-  return stationNames.map((stationName) => getSectionListItemTemplate(stationName)).join('');
+  return stationNames.map((stationName) => sectionListItemTemplate(stationName)).join('');
 };
 
 export const getStationOptionsTemplate = (stationData) => {
