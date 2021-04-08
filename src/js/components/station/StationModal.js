@@ -26,13 +26,10 @@ class StationModal {
   }
 
   initDOM() {
-    this.bindEvent();
-  }
-
-  bindEvent() {
     bindModalCloseEvent();
     this.bindStationFormEvent();
   }
+
   bindStationFormEvent() {
     $('form[name="modify-station"]').addEventListener(
       'submit',

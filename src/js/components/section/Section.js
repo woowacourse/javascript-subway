@@ -77,7 +77,7 @@ class Section {
 
   _bindAddSectionEvent() {
     $(SELECTOR.CREATE_SECTION_BUTTON).addEventListener('click', e => {
-      this.#modal.handleSectionOpen({
+      this.#modal.openSectionModal({
         sections: this.#sections,
       });
     });

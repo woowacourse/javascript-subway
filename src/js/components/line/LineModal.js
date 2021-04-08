@@ -33,10 +33,6 @@ class LineModal {
     this.$lineColor = $(SELECTOR.SUBWAY_LINE_COLOR);
     this.$lineColorSelector = $(SELECTOR.SUBWAY_LINE_COLOR_SELECTOR);
     this.$optionals = $$(SELECTOR.OPTIONAL, this.$lineForm);
-    this.bindEvent();
-  }
-
-  bindEvent() {
     bindModalCloseEvent();
     this._bindSelectColorEvent();
     this._bindLineFormEvent();
