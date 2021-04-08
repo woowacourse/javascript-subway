@@ -34,7 +34,7 @@ export default class Lines extends Component {
     this.$lineCreateButton.addEventListener('click', this.handleLineCreateModalOpen.bind(this));
     this.$subwayLineColorSelector.addEventListener('click', this.handleLineColorSelector.bind(this));
     this.$modalForm.addEventListener('submit', this.handleLineForm.bind(this));
-    this.$modalCloseButton.addEventListener('click', this.handleLineModalClose.bind(this));
+    this.$modal.addEventListener('click', this.handleLineModalClose.bind(this));
     this.$linesContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('line-edit-button')) {
         this.handleLineEditModalOpen(target);
@@ -98,8 +98,10 @@ export default class Lines extends Component {
     showSnackbar(SNACKBAR_MESSAGE.DELETE_SUCCESS);
   }
 
-  handleLineModalClose() {
-    this.$modal.classList.remove('open');
+  handleLineModalClose({ currentTarget, target }) {
+    if (currentTarget === target || target === this.$modalCloseButton) {
+      this.$modal.classList.remove('open');
+    }
   }
 
   handleLineCreateModalOpen() {

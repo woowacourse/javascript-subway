@@ -26,7 +26,7 @@ export default class Sections extends Component {
   bindEvent() {
     this.$lineSelect.addEventListener('change', this.handleLineSelect.bind(this));
     this.$createSectionButton.addEventListener('click', this.handleModalOpen.bind(this));
-    this.$modalCloseButton.addEventListener('click', this.handleModalClose.bind(this));
+    this.$modal.addEventListener('click', this.handleModalClose.bind(this));
     this.$modalForm.addEventListener('submit', this.handleSectionForm.bind(this));
     this.$sectionContainer.addEventListener('click', this.handleSectionDelete.bind(this));
   }
@@ -88,7 +88,7 @@ export default class Sections extends Component {
     const changeEvent = new Event('change');
     this.$lineSelect.dispatchEvent(changeEvent);
     e.target.reset();
-    this.handleModalClose();
+    this.$modal.classList.remove('open');
   }
 
   handleModalOpen() {
@@ -96,8 +96,10 @@ export default class Sections extends Component {
     $(`#modal-line-select > option[value="${this.#lineId}"]`).selected = true;
   }
 
-  handleModalClose() {
-    this.$modal.classList.remove('open');
+  handleModalClose({ currentTarget, target }) {
+    if (currentTarget === target || target === this.$modalCloseButton) {
+      this.$modal.classList.remove('open');
+    }
   }
 
   async handleLineSelect({ target }) {

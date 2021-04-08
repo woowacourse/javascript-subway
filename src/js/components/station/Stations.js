@@ -17,12 +17,12 @@ export default class Stations extends Component {
 
     this.$stationEditModal = $('#station-edit-modal');
     this.$stationEditNameInput = $('#station-edit-name-input');
-    this.$stationEditModalClose = $('.modal-close');
+    this.$modalCloseButton = $('#modal-close-button');
   }
 
   bindEvent() {
     this.$stationInputForm.addEventListener('submit', this.handleStationInputForm.bind(this));
-    this.$stationEditModalClose.addEventListener('click', this.handleStationEditModalClose.bind(this));
+    this.$stationEditModal.addEventListener('click', this.handleStationEditModalClose.bind(this));
     this.$stationEditModal.addEventListener('submit', this.handleStationEdit.bind(this));
 
     this.$stationListContainer.addEventListener('click', ({ target }) => {
@@ -36,8 +36,8 @@ export default class Stations extends Component {
     });
   }
 
-  handleStationEditModalClose({ target }) {
-    if (target.classList.contains('modal-close')) {
+  handleStationEditModalClose({ currentTarget, target }) {
+    if (currentTarget === target || target === this.$modalCloseButton) {
       this.$stationEditModal.classList.remove('open');
     }
   }
