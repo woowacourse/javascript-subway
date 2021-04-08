@@ -27,6 +27,7 @@ class Page extends Component {
   route = (path, shouldPushState = true) => {
     if (!this._router) {
       console.error('Page 인스턴스에 _router가 정의되어 있지 않습니다.');
+      return;
     }
 
     if (shouldPushState) {
