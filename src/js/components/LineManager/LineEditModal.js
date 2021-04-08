@@ -89,7 +89,8 @@ export default class LineEditModal {
       await editLineRequest(this.line.id, data, accessToken);
       popSnackbar(MESSAGES.LINE_EDIT.SUCCESS);
 
-      this.$root.dispatchEvent(new CustomEvent('editLine'));
+      const editLineEvent = new CustomEvent('editLine');
+      this.$root.dispatchEvent(editLineEvent);
     } catch (error) {
       console.error(error);
       popSnackbar(MESSAGES.LINE_EDIT.FAIL);

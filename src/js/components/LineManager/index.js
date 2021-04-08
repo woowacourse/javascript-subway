@@ -37,8 +37,8 @@ export default class LineManager {
   }
 
   addLine(event) {
-    this.$lineList.insertAdjacentHTML('afterbegin', event.detail.line.toListItemTemplate());
-    this.store.lines = [event.detail.line, ...this.store.lines];
+    this.$lineList.insertAdjacentHTML('afterbegin', event.detail.toListItemTemplate());
+    this.store.lines = [event.detail, ...this.store.lines];
   }
 
   async editLine() {

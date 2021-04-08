@@ -60,8 +60,9 @@ export default class StationModal {
       await editStationRequest(stationID, newName, accessToken);
       popSnackbar(MESSAGES.STATION_NAME_EDIT.SUCCESS);
 
+      const updateNameEvent = new CustomEvent('updateName');
       this.close();
-      this.$root.dispatchEvent(new CustomEvent('updateName'));
+      this.$root.dispatchEvent(updateNameEvent);
     } catch (error) {
       console.error(error);
       this.handleRequestError(error);

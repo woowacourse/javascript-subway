@@ -91,7 +91,8 @@ export default class SectionModal {
       this.close();
       popSnackbar(MESSAGES.SECTION_ADD.SUCCESS);
 
-      this.$root.dispatchEvent(new CustomEvent('addSection', { detail: this.state.lineId }));
+      const addSectionEvent = new CustomEvent('addSection', { detail: this.state.lineId });
+      this.$root.dispatchEvent(addSectionEvent);
     } catch (error) {
       console.error(error);
       popSnackbar(error.message || MESSAGES.SECTION_ADD.FAIL);

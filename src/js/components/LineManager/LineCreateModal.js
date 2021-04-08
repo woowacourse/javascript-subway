@@ -99,11 +99,8 @@ export default class LineCreateModal {
 
       popSnackbar(MESSAGES.LINE_CREATE.SUCCESS);
 
-      this.$root.dispatchEvent(
-        new CustomEvent('createLine', {
-          detail: { line: newLine },
-        })
-      );
+      const createLineEvent = new CustomEvent('createLine', { detail: newLine });
+      this.$root.dispatchEvent(createLineEvent);
     } catch (error) {
       console.error(error);
       popSnackbar(MESSAGES.LINE_CREATE.FAIL);
