@@ -102,7 +102,6 @@ class StationComponent extends Component {
       $input.value = '';
     } catch (error) {
       this.props.treatFetchError(error);
-      //옵셔널 체이닝 사용하기
       $input.value = '';
     }
   };

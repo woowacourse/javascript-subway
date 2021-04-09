@@ -58,7 +58,6 @@ context('로그인 및 정보 수정', () => {
   });
 
   it('로그인하지 않은 유저에게는 로그인 외 버튼은 보이지 않는다.', () => {
-    // 처음에 not.be.visible
     cy.get(`#${ID_SELECTOR.NAV_STATION}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_LINE}`).should('not.be.visible');
     cy.get(`#${ID_SELECTOR.NAV_SECTION}`).should('not.be.visible');
@@ -290,7 +289,6 @@ function getByHref(href, selector = '#app') {
 function registerLine() {
   cy.get(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).click();
   cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_NAME}`).type(LINE_NAME);
-  //TODO: 역이름 상수화
   cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_UP_STATION}`).select('강남');
   cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DOWN_STATION}`).select('잠실');
   cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_DISTANCE}`).type(10);
