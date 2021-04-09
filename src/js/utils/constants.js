@@ -79,6 +79,8 @@ export const SUCCESS_MESSAGE = Object.freeze({
 export const SIGN_OUT_CONFIRM_MESSAGE = '로그아웃 하시겠습니까?';
 export const REMOVE_CONFIRM_MESSAGE = '정말 삭제하시겠습니까?';
 
+export const SUCCESS = 'success';
+
 export const ELEMENT = Object.freeze({
   APP: 'app',
 
@@ -164,6 +166,6 @@ export const ELEMENT = Object.freeze({
   UP_STATION: 'up-station',
   DOWN_STATION: 'down-station',
 
-  SUCCESS: 'success',
+  SUCCESS,
   FAIL: 'fail',
 });

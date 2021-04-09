@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../utils/constants';
+import { ERROR_MESSAGE, SUCCESS } from '../utils/constants';
 import { httpClient } from '../api/httpClient';
 import token from '../token/Token';
 
@@ -9,6 +9,8 @@ export const requestEmailDuplicationCheck = async (email) => {
     if (!response.ok) {
       throw new Error();
     }
+
+    return SUCCESS;
   } catch (error) {
     throw new Error(ERROR_MESSAGE.DUPLICATED_EMAIL);
   }

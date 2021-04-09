@@ -1,6 +1,6 @@
 import { validateEmail, validateName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
-import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER } from '../utils/constants';
+import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { requestEmailDuplicationCheck, requestSignUpApprove } from '../requestData/requestUserData';
@@ -49,11 +49,13 @@ class SignUp {
   async handleEmailCheck({ target }) {
     const email = target.value;
 
-    inputChecker.signUp({
+    const isEmailValidationSuccess = inputChecker.signUp({
       callback: validateEmail.bind(this, email),
       $textArea: this.$signUpEmailCheckTextArea,
       $input: this.$signUpEmailInput,
     });
+
+    if (!isEmailValidationSuccess) return;
 
     try {
       await requestEmailDuplicationCheck(email);
@@ -76,11 +78,13 @@ class SignUp {
   }
 
   handlePasswordCheck({ target }) {
-    inputChecker.signUp({
+    const isPasswordCheckSuccess = inputChecker.signUp({
       callback: validatePassword.bind(this, target.value),
       $textArea: this.$signUpPasswordCheckTextArea,
       $input: this.$signUpPasswordInput,
     });
+
+    if (!isPasswordCheckSuccess) return;
 
     inputChecker.signUp({
       callback: validatePasswordConfirm.bind(this, target.value, this.$signUpPasswordConfirmInput.value),
