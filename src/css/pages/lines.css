@@ -23,6 +23,12 @@
   height: 30px;
   display: inline-block;
   cursor: pointer;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 3px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.color-option.selected {
+  border: 2px solid blue;
 }

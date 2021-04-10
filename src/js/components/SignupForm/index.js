@@ -1,16 +1,8 @@
-import {
-  loginRequest,
-  signupRequest,
-  checkEmailDuplicatedRequest,
-} from '../../request.js';
+import { loginRequest, signupRequest, checkEmailDuplicatedRequest } from '../../request.js';
 import { $, show, hide } from '../../utils/dom.js';
 import { setCookie } from '../../utils/cookie.js';
 import routeTo from '../../router.js';
-import {
-  SELECTOR,
-  MESSAGES,
-  SESSION_EXPIRE_DAYS,
-} from '../../constants/constants.js';
+import { SELECTOR, MESSAGES, SESSION_EXPIRE_DAYS } from '../../constants/constants.js';
 import signupTemplate from './template.js';
 
 export default class SignupForm {
@@ -37,7 +29,7 @@ export default class SignupForm {
 
   selectDOM() {
     this.$inputForm = $(SELECTOR.SIGNUP_FORM);
-    this.$emailDuplicateCheckButton = $(SELECTOR.EMAIL_DUPLICATE_CHECK_BUTTON);
+    this.$emailInput = $(SELECTOR.SIGNUP_EMAIL_INPUT);
     this.$emailDuplicatedWarning = $(SELECTOR.EMAIL_INPUT_ERROR);
     this.$emailAvailable = $(SELECTOR.EMAIL_INPUT_CORRECT);
     this.$password = $(SELECTOR.PASSWORD);
@@ -48,15 +40,9 @@ export default class SignupForm {
 
   bindEvents() {
     this.$inputForm.addEventListener('submit', this.handleSubmit.bind(this));
-    this.$emailDuplicateCheckButton.addEventListener(
-      'click',
-      this.checkEmailAvailable.bind(this)
-    );
-    this.$password.addEventListener('focusout', this.getPassword.bind(this));
-    this.$passwordConfirm.addEventListener(
-      'input',
-      this.checkPasswordCorrect.bind(this)
-    );
+    this.$emailInput.addEventListener('focusout', this.checkEmailAvailable.bind(this));
+    this.$password.addEventListener('input', this.checkPasswordCorrect.bind(this));
+    this.$passwordConfirm.addEventListener('input', this.checkPasswordCorrect.bind(this));
   }
 
   handleSubmit(event) {
@@ -77,11 +63,14 @@ export default class SignupForm {
     this.submitForm();
   }
 
-  async checkEmailAvailable() {
-    const email = $(SELECTOR.SIGNUP_EMAIL_INPUT).value;
+  async checkEmailAvailable(event) {
+    const email = event.target.value;
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    if (!email.match(emailFormat)) return;
+    if (!email.match(emailFormat)) {
+      event.target.reportValidity();
+      return;
+    }
 
     try {
       await checkEmailDuplicatedRequest(email);
@@ -124,14 +113,8 @@ export default class SignupForm {
     routeTo(path);
   }
 
-  getPassword(event) {
-    this.state.password = event.target.value;
-  }
-
-  checkPasswordCorrect(event) {
-    const passwordConfirm = event.target.value;
-
-    if (this.state.password !== passwordConfirm) {
+  checkPasswordCorrect() {
+    if (this.$password.value !== this.$passwordConfirm.value) {
       show(this.$passwordConfirmWarning);
       hide(this.$passwordConfirmCorrect);
     } else {

@@ -27,7 +27,8 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "dev": "webpack serve --mode=development"
+    "dev": "webpack serve --mode=development",
+    "build": "webpack"
   },
   "dependencies": {
     "core-js": "3"
