@@ -1,77 +1,12 @@
-const id = 'test123@test123.com';
-const pw = 'test123';
+import { login } from '../support/auth';
+import { addStation, editStation, deleteStation } from '../support/station';
+import { addLine, editLine, deleteLine } from '../support/line';
+import { addSection, deleteSection } from '../support/section';
 
-function login(id, pw) {
-  cy.get('#email').type(id);
-  cy.get('#password').type(pw);
-  cy.get('#login-form').submit();
-}
-
-function addStation(name) {
-  cy.get('#station-name').clear();
-  cy.get('#station-name').type(name);
-  cy.get('#station-form').submit();
-}
-
-function editStation(targetName, newName) {
-  cy.get(`[data-name="${targetName}"] .js-station-edit-button`).click();
-  cy.get('#station-name-edit-form #station-edit-name').clear();
-  cy.get('#station-name-edit-form #station-edit-name').type(newName);
-  cy.get('#station-name-edit-form').submit();
-}
-
-function deleteStation(targetName) {
-  cy.get(`[data-name="${targetName}"] .js-station-delete-button`).click();
-}
-
-function addLine({ name, upStation, downStation, duration, distance, color }) {
-  cy.get('#create-line-button').click();
-
-  cy.get('#line-add-form #subway-line-name').type(name);
-  cy.get('#line-add-form #up-station').select(upStation);
-  cy.get('#line-add-form #down-station').select(downStation);
-
-  cy.get('#duration').type(duration);
-  cy.get('#distance').type(distance);
-  cy.get(`#line-add-form .js-subway-line-color-selector .${color}`).click();
-  cy.get('#line-add-form .js-input-submit').click({ force: true });
-}
-
-function editLine({ targetName, name, color }) {
-  cy.get(`[data-name="${targetName}"] .js-line-edit-button`).click({ force: true });
-  cy.get('#line-edit-form #subway-line-name').clear().type(name);
-  cy.get(`#line-edit-form .${color}`).click();
-  cy.get('#line-edit-form .js-input-submit').click({ force: true });
-}
-
-function deleteLine(name) {
-  cy.get(`[data-name="${name}"] .js-line-delete-button`).click({ force: true });
-}
-
-function addSection({ upStation, downStation, distance, duration }) {
-  if (upStation) {
-    cy.get('#section-add-form #up-station').select(upStation);
-  }
-
-  if (downStation) {
-    cy.get('#section-add-form #down-station').select(downStation);
-  }
-
-  cy.get('#section-add-form #distance').type(distance);
-  cy.get('#section-add-form #duration').type(duration);
-  cy.get('.js-input-submit').click();
-}
-
-function deleteSection(upStationName) {
-  cy.get(`.js-section-list-item[data-up-station-name="${upStationName}"] .js-section-delete-button`).click({
-    force: true,
-  });
-}
-
-describe('지하철 노선도 STEP1', () => {
+describe('로그인 후 페이지 확인', () => {
   beforeEach(() => {
     cy.visit('http://localhost:9000/');
-    login(id, pw);
+    login();
   });
 
   it('[역 관리] 메뉴를 클릭하면, 역 관리 페이지가 렌더된다.', () => {
@@ -84,7 +19,7 @@ describe('지하철 노선도 STEP1', () => {
 describe('지하철 역 관리', () => {
   before(() => {
     cy.visit('http://localhost:9000/');
-    login(id, pw);
+    login();
   });
 
   it('지하철 역을 등록할 수 있다.', () => {
@@ -109,7 +44,7 @@ describe('지하철 역 관리', () => {
 describe('지하철 노선 관리', () => {
   before(() => {
     cy.visit('http://localhost:9000/');
-    login(id, pw);
+    login();
   });
 
   it('지하철 노선을 등록할 수 있다.', () => {
@@ -146,7 +81,7 @@ describe('지하철 노선 관리', () => {
 describe('지하철 구간 관리', () => {
   before(() => {
     cy.visit('http://localhost:9000/');
-    login(id, pw);
+    login();
 
     cy.get('#stations-nav-link').click();
     addStation('브라운사랑해요역');
