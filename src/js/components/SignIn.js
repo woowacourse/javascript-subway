@@ -1,6 +1,13 @@
 import { requestGetToken } from '../requestData/requestUserData';
 import { showSnackbar } from '../utils/snackbar';
-import { ELEMENT, SNACKBAR_SHOW_TIME, SUCCESS_MESSAGE, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
+import {
+  ELEMENT,
+  SNACKBAR_SHOW_TIME,
+  SUCCESS_MESSAGE,
+  STANDARD_NUMBER,
+  ERROR_MESSAGE,
+  INPUT_CHECK_MODE,
+} from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { inputChecker } from '../inputChecker/inputChecker';
@@ -37,18 +44,20 @@ class SignIn {
   }
 
   handleEmailCheck({ target }) {
-    inputChecker.signIn({
+    inputChecker({
       callback: validateEmail.bind(this, target.value),
       $textArea: this.$signInEmailCheckTextArea,
       $input: this.$signInEmailInput,
+      mode: INPUT_CHECK_MODE.SIGN_IN,
     });
   }
 
   handlePasswordCheck({ target }) {
-    inputChecker.signIn({
+    inputChecker({
       callback: validatePassword.bind(this, target.value),
       $textArea: this.$signInPasswordCheckTextArea,
       $input: this.$signInPasswordInput,
+      mode: INPUT_CHECK_MODE.SIGN_IN,
     });
   }
 

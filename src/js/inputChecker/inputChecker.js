@@ -1,6 +1,6 @@
 import { $, activateTarget, deactivateTarget } from '../utils/dom';
 import { isAllSignInInputSuccess, isAllSignUpInputSuccess } from '../validators/boolean';
-import { ELEMENT, SUCCESS } from '../utils/constants';
+import { ELEMENT, SUCCESS, INPUT_CHECK_MODE } from '../utils/constants';
 
 const toggleSubmitActivation = (isAllInputSuccess) => {
   const $submitButton = $(`.${ELEMENT.INPUT_SUBMIT}`);
@@ -13,22 +13,17 @@ export const renderCheckingArea = ({ $textArea, $input, errorMessage }) => {
   $input.classList.add(`${errorMessage ? ELEMENT.FAIL : ELEMENT.SUCCESS}`);
 };
 
-const checkInputInRealTime = ({ callback, $textArea, $input }, isAllInputSuccess) => {
+export const inputChecker = async ({ callback, $textArea, $input, mode }) => {
   try {
-    callback();
+    await callback();
     renderCheckingArea({ $textArea, $input });
-    toggleSubmitActivation(isAllInputSuccess());
+
+    if (mode === INPUT_CHECK_MODE.SIGN_UP) toggleSubmitActivation(isAllSignUpInputSuccess());
+    if (mode === INPUT_CHECK_MODE.SIGN_IN) toggleSubmitActivation(isAllSignInInputSuccess());
 
     return SUCCESS;
   } catch (error) {
     renderCheckingArea({ $textArea, $input, errorMessage: error.message });
     toggleSubmitActivation(false);
   }
-};
-
-export const inputChecker = {
-  signUp: ({ callback, $textArea, $input }) =>
-    checkInputInRealTime({ callback, $textArea, $input }, isAllSignUpInputSuccess),
-  signIn: ({ callback, $textArea, $input }) =>
-    checkInputInRealTime({ callback, $textArea, $input }, isAllSignInInputSuccess),
 };

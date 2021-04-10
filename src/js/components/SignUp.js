@@ -1,6 +1,13 @@
 import { validateEmail, validateName, validatePassword, validatePasswordConfirm } from '../validators/validation';
 import { showSnackbar } from '../utils/snackbar';
-import { PATH, ELEMENT, SUCCESS_MESSAGE, SNACKBAR_SHOW_TIME, STANDARD_NUMBER, ERROR_MESSAGE } from '../utils/constants';
+import {
+  PATH,
+  ELEMENT,
+  SUCCESS_MESSAGE,
+  SNACKBAR_SHOW_TIME,
+  STANDARD_NUMBER,
+  INPUT_CHECK_MODE,
+} from '../utils/constants';
 import { $, deactivateTarget } from '../utils/dom';
 import { debounce } from '../utils/debounce';
 import { requestEmailDuplicationCheck, requestSignUpApprove } from '../requestData/requestUserData';
@@ -49,10 +56,11 @@ class SignUp {
   async handleEmailCheck({ target }) {
     const email = target.value;
 
-    const isEmailValidationSuccess = inputChecker.signUp({
+    const isEmailValidationSuccess = inputChecker({
       callback: validateEmail.bind(this, email),
       $textArea: this.$signUpEmailCheckTextArea,
       $input: this.$signUpEmailInput,
+      mode: INPUT_CHECK_MODE.SIGN_UP,
     });
 
     if (!isEmailValidationSuccess) return;
@@ -70,34 +78,38 @@ class SignUp {
   }
 
   handleUserNameCheck({ target }) {
-    inputChecker.signUp({
+    inputChecker({
       callback: validateName.bind(this, target.value),
       $textArea: this.$signUpUserNameCheckTextArea,
       $input: this.$signUpUserNameInput,
+      mode: INPUT_CHECK_MODE.SIGN_UP,
     });
   }
 
   handlePasswordCheck({ target }) {
-    const isPasswordCheckSuccess = inputChecker.signUp({
+    const isPasswordCheckSuccess = inputChecker({
       callback: validatePassword.bind(this, target.value),
       $textArea: this.$signUpPasswordCheckTextArea,
       $input: this.$signUpPasswordInput,
+      mode: INPUT_CHECK_MODE.SIGN_UP,
     });
 
     if (!isPasswordCheckSuccess) return;
 
-    inputChecker.signUp({
+    inputChecker({
       callback: validatePasswordConfirm.bind(this, target.value, this.$signUpPasswordConfirmInput.value),
       $textArea: this.$signUpPasswordConfirmCheckTextArea,
       $input: this.$signUpPasswordConfirmInput,
+      mode: INPUT_CHECK_MODE.SIGN_UP,
     });
   }
 
   handlePasswordConfirmCheck({ target }) {
-    inputChecker.signUp({
+    inputChecker({
       callback: validatePasswordConfirm.bind(this, this.$signUpPasswordInput.value, target.value),
       $textArea: this.$signUpPasswordConfirmCheckTextArea,
       $input: this.$signUpPasswordConfirmInput,
+      mode: INPUT_CHECK_MODE.SIGN_UP,
     });
   }
 

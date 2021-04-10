@@ -81,6 +81,11 @@ export const REMOVE_CONFIRM_MESSAGE = '정말 삭제하시겠습니까?';
 
 export const SUCCESS = 'success';
 
+export const INPUT_CHECK_MODE = Object.freeze({
+  SIGN_IN: 'signIn',
+  SIGN_UP: 'signUp',
+});
+
 export const ELEMENT = Object.freeze({
   APP: 'app',
 
