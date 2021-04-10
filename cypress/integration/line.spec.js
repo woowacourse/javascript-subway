@@ -1,5 +1,7 @@
+import { COLORS } from '../../src/js/utils/mock';
 import { login } from '../support/auth';
 import { addLine, editLine, deleteLine } from '../support/line';
+import { lineListItemSelector } from '../support/selector';
 
 describe('지하철 노선 관리', () => {
   before(() => {
@@ -16,20 +18,20 @@ describe('지하철 노선 관리', () => {
       downStation: '연세대',
       duration: 10,
       distance: 10,
-      color: 'bg-gray-300',
+      color: COLORS.GRAY[300],
     });
 
-    cy.get('.js-line-list-item[data-name="로이드호선호"]').should('exist');
-    cy.get('.js-line-list-item[data-name="로이드호선호"] .subway-line-color-dot.bg-gray-300').should('exist');
-    cy.get('.js-line-list-item[data-name="로이드호선호"] .js-line-name').should('have.text', '로이드호선호');
+    cy.get(lineListItemSelector('로이드호선호')).should('exist');
+    cy.get(`${lineListItemSelector('로이드호선호')} .subway-line-color-dot.${COLORS.GRAY[300]}`).should('exist');
+    cy.get(`${lineListItemSelector('로이드호선호')} .js-line-name`).should('have.text', '로이드호선호');
   });
 
   it('지하철 노선을 수정할 수 있다.', () => {
-    editLine({ targetName: '로이드호선호', name: '로이드포코', color: 'bg-purple-300' });
+    editLine({ targetName: '로이드호선호', name: '로이드포코', color: COLORS.PURPLE[300] });
 
-    cy.get('[data-name="로이드포코"]').should('exist');
-    cy.get('[data-name="로이드포코"] .subway-line-color-dot.bg-purple-300').should('exist');
-    cy.get('[data-name="로이드포코"] .js-line-name').should('have.text', '로이드포코');
+    cy.get(lineListItemSelector('로이드포코')).should('exist');
+    cy.get(`${lineListItemSelector('로이드포코')} .subway-line-color-dot.${COLORS.PURPLE[300]}`).should('exist');
+    cy.get(`${lineListItemSelector('로이드포코')} .js-line-name`).should('have.text', '로이드포코');
   });
 
   it('지하철 노선을 삭제할 수 있다.', () => {

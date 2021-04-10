@@ -2,6 +2,7 @@ import { login } from '../support/auth';
 import { addStation } from '../support/station';
 import { addLine } from '../support/line';
 import { addSection, deleteSection } from '../support/section';
+import { COLORS } from '../../src/js/utils/mock';
 
 describe('지하철 구간 관리', () => {
   before(() => {
@@ -23,7 +24,7 @@ describe('지하철 구간 관리', () => {
       downStation: '브라운고마워요역',
       distance: 20,
       duration: 20,
-      color: 'bg-purple-300',
+      color: COLORS.PURPLE[300],
     });
 
     cy.get('#sections-nav-link').click();
