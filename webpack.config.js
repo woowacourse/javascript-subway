@@ -5,13 +5,15 @@ module.exports = {
   mode: 'development',
   entry: './src/js/index.js',
   output: {
-    filename: '[chunkhash].bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
     // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
   devServer: {
     hot: true,
     port: 9000,
+    historyApiFallback: true,
   },
   module: {
     rules: [

@@ -1,9 +1,9 @@
-import { requestCheckLogin } from '../services/auth';
-import accessToken from '../store/accessToken';
+import { requestCheckLogin } from '../api/auth';
+import store from '../store';
 import { routeTo } from '../utils/history';
 
 export const authenticatedRoute = async (route, { strictMode } = { strictMode: false }) => {
-  const isLogin = strictMode ? await requestCheckLogin() : accessToken.get();
+  const isLogin = strictMode ? await requestCheckLogin() : store.accessToken.get();
 
   if (isLogin) {
     route();

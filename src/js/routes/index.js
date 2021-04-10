@@ -1,14 +1,15 @@
-import { routeTo } from '../utils/history';
 import {
+  mountError,
+  mountLines,
   mountLogin,
-  mountSignup,
+  mountMap,
   mountSearch,
   mountSections,
+  mountSignup,
   mountStations,
-  mountMap,
-  mountLines,
-} from './routeHandler';
+} from '../pages';
 import { authenticatedRoute, unauthenticatedRoute } from './utils';
+import { routeTo } from '../utils/history';
 
 const routeHandler = {
   '/': () => authenticatedRoute(mountStations),
@@ -21,15 +22,17 @@ const routeHandler = {
   '/stations': () => authenticatedRoute(mountStations),
   '/map': () => authenticatedRoute(mountMap),
   '/lines': () => authenticatedRoute(mountLines),
+
+  '/error': mountError,
 };
 
 const initRouter = () => {
   window.addEventListener('popstate', ({ state }) => {
-    routeHandler[state.path]();
+    (routeHandler[state.path] ?? routeHandler['/error'])();
   });
 
   window.addEventListener('pushstate', ({ detail }) => {
-    routeHandler[detail.path]();
+    (routeHandler[detail.path] ?? routeHandler['/error'])();
   });
 
   const path = window.location.pathname;

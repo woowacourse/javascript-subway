@@ -1,4 +1,4 @@
-import { $ } from '../utils/dom';
+import { $ } from '../../../utils/dom';
 
 const isValidForm = ({ password, 'password-confirm': passwordConfirm, name }) => {
   return (

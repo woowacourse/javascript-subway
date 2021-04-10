@@ -1,6 +1,6 @@
-import { requestCheckEmail } from '../services/auth';
-import debounce from '../utils/debounce';
-import { $ } from '../utils/dom';
+import { requestCheckEmail } from '../../../api/auth';
+import debounce from '../../../utils/debounce';
+import { $ } from '../../../utils/dom';
 import handleValidateSignupForm from './handleValidateSignupForm';
 
 const checkEmail = async event => {

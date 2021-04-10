@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEYS } from '../constants';
+import { LOCAL_STORAGE_KEYS } from '../constants/localStorage';
 import { getLocalStorage, setLocalStorage, removeLocalStorage } from '../utils/localStorage';
 
 const accessToken = {
@@ -20,7 +20,6 @@ const accessToken = {
   get() {
     return this.value;
   },
-  verify() {},
 };
 
 export default accessToken;
