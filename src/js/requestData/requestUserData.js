@@ -1,194 +1,103 @@
-import { ERROR_MESSAGE, SUCCESS } from '../utils/constants';
-import { httpClient } from '../api/httpClient';
+import { ERROR_MESSAGE } from '../utils/constants';
 import token from '../token/Token';
+import { subwayFetch } from '../api/httpClient';
 
 export const requestEmailDuplicationCheck = async (email) => {
-  try {
-    const response = await httpClient.get({ path: `/members/check-validation?email=${email}` });
-
-    if (!response.ok) {
-      throw new Error();
-    }
-
-    return SUCCESS;
-  } catch (error) {
-    throw new Error(ERROR_MESSAGE.DUPLICATED_EMAIL);
-  }
+  await subwayFetch(
+    'get',
+    {
+      path: `/members/check-validation?email=${email}`,
+    },
+    ERROR_MESSAGE.DUPLICATED_EMAIL,
+  );
 };
 
 export const requestGetToken = async ({ email, password }) => {
-  try {
-    const response = await httpClient.post({ path: '/login/token', body: { email, password } });
-    if (!response.ok) {
-      throw await response.text();
-    }
+  const response = await subwayFetch('post', {
+    path: '/login/token',
+    body: { email, password },
+  });
 
-    const data = await response.json();
-
-    return data.accessToken;
-  } catch (error) {
-    throw new Error(error);
-  }
+  return response.accessToken;
 };
 
 export const requestSignUpApprove = async ({ email, name, password }) => {
-  try {
-    const response = await httpClient.post({ path: '/members', body: { email, password, name } });
-
-    if (!response.ok) {
-      throw new Error();
-    }
-  } catch (error) {
-    throw new Error(ERROR_MESSAGE.SIGN_UP_FAIL);
-  }
+  await subwayFetch('post', { path: '/members', body: { email, password, name } }, ERROR_MESSAGE.SIGN_UP_FAIL);
 };
 
-export const requestAddStation = async ({ name }) => {
-  try {
-    const response = await httpClient.post({ path: '/stations', body: { name }, accessToken: token.accessToken });
-    if (!response.ok) {
-      throw await response.text();
-    }
-    return await response.json();
-  } catch (error) {
-    throw new Error(error);
-  }
+export const requestAddStation = async (stationName) => {
+  const response = await subwayFetch('post', {
+    path: '/stations',
+    body: stationName,
+    accessToken: token.accessToken,
+  });
+
+  return response;
 };
 
 export const requestEditStationName = async ({ id, name }) => {
-  try {
-    const response = await httpClient.put({ path: `/stations/${id}`, body: { name }, accessToken: token.accessToken });
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('put', {
+    path: `/stations/${id}`,
+    body: { name },
+    accessToken: token.accessToken,
+  });
 };
 
 export const requestRemoveStation = async ({ id }) => {
-  try {
-    const response = await httpClient.delete({ path: `/stations/${id}`, accessToken: token.accessToken });
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('delete', {
+    path: `/stations/${id}`,
+    accessToken: token.accessToken,
+  });
 };
 
 export const requestGetStationList = async () => {
-  try {
-    const response = await httpClient.get({ path: `/stations`, accessToken: token.accessToken });
-
-    if (!response.ok) {
-      throw await response.text();
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error(error);
-  }
+  const response = await subwayFetch('get', {
+    path: `/stations`,
+    accessToken: token.accessToken,
+  });
+  return response;
 };
 
 export const requestAddLine = async ({ name, color, upStationId, downStationId, distance, duration }) => {
-  try {
-    const response = await httpClient.post({
-      path: '/lines',
-      body: { name, color, upStationId, downStationId, distance, duration },
-      accessToken: token.accessToken,
-    });
-    if (!response.ok) {
-      throw await response.text();
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error(error);
-  }
+  const response = await subwayFetch('post', {
+    path: '/lines',
+    body: { name, color, upStationId, downStationId, distance, duration },
+    accessToken: token.accessToken,
+  });
+  return response;
 };
 
 export const requestGetLineList = async () => {
-  try {
-    const response = await httpClient.get({ path: `/lines`, accessToken: token.accessToken });
+  const response = await subwayFetch('get', { path: `/lines`, accessToken: token.accessToken });
 
-    if (!response.ok) {
-      throw await response.text();
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error(error);
-  }
+  return response;
 };
 
 export const requestGetTargetLineList = async ({ id }) => {
-  try {
-    const response = await httpClient.get({ path: `/lines/${id}`, accessToken: token.accessToken });
+  const response = await subwayFetch('get', { path: `/lines/${id}`, accessToken: token.accessToken }, true);
 
-    if (!response.ok) {
-      throw await response.text();
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error(error);
-  }
+  return response;
 };
 
 export const requestEditLineData = async ({ id, name, color }) => {
-  try {
-    const response = await httpClient.put({
-      path: `/lines/${id}`,
-      body: { name, color },
-      accessToken: token.accessToken,
-    });
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('put', { path: `/lines/${id}`, body: { name, color }, accessToken: token.accessToken });
 };
 
 export const requestRemoveLine = async ({ id }) => {
-  try {
-    const response = await httpClient.delete({ path: `/lines/${id}`, accessToken: token.accessToken });
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('delete', { path: `/lines/${id}`, accessToken: token.accessToken });
 };
 
 export const requestAddSection = async ({ id, upStationId, downStationId, distance, duration }) => {
-  try {
-    const response = await httpClient.post({
-      path: `/lines/${id}/sections`,
-      body: { upStationId, downStationId, distance, duration },
-      accessToken: token.accessToken,
-    });
-
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('post', {
+    path: `/lines/${id}/sections`,
+    body: { upStationId, downStationId, distance, duration },
+    accessToken: token.accessToken,
+  });
 };
 
 export const requestRemoveSection = async ({ lineId, stationId }) => {
-  try {
-    const response = await httpClient.delete({
-      path: `/lines/${lineId}/sections?stationId=${stationId}`,
-      accessToken: token.accessToken,
-    });
-
-    if (!response.ok) {
-      throw await response.text();
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  await subwayFetch('delete', {
+    path: `/lines/${lineId}/sections?stationId=${stationId}`,
+    accessToken: token.accessToken,
+  });
 };
