@@ -3,11 +3,11 @@
   height: 14px;
   border-radius: 50%;
   background-color: gray;
-  animation: 0.8s ease spinnerAnimation;
+  animation: 0.8s ease spinner;
   animation-iteration-count: infinite;
 }
 
-@keyframes spinnerAnimation {
+@keyframes spinner {
   0% {
     transform: translate(-100%, 100%);
   }

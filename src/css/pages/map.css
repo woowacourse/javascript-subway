@@ -88,20 +88,7 @@
   pointer-events: none;
 }
 
-/* .map-list-item::before {
-  content: '';
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: absolute;
-  background-color: yellow;
-  visibility: hidden;
-  z-index: 2;
-} */
-
 .map-list-item .station-name.highlight{
-  /* animation: highlight 0.8s ease forwards; */
-  /* visibility: visible; */
   background-color: yellow;
 }
 

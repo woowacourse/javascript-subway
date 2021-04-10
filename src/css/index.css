@@ -46,6 +46,10 @@ hr {
   margin: 0 auto;
 }
 
+#header {
+  z-index: 10;
+}
+
 .list-button {
   width: 60px;
   line-height: inherit;
