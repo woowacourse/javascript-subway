@@ -19,7 +19,7 @@ export const requestStationList = async () => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? STATION.GET_STATION_LIST_FAILED,
+      message: error.message || STATION.GET_STATION_LIST_FAILED,
     };
   }
 };
@@ -42,7 +42,7 @@ export const requestAddStation = async name => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? STATION.ADD_STATION_FAILED,
+      message: error.message || STATION.ADD_STATION_FAILED,
     };
   }
 };
@@ -60,7 +60,7 @@ export const requestDeleteStation = async id => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? STATION.DELETE_STATION_FAILED,
+      message: error.message || STATION.DELETE_STATION_FAILED,
     };
   }
 };
@@ -80,7 +80,7 @@ export const requestEditStation = async ({ id, name }) => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? STATION.EDIT_STATION_FAILED,
+      message: error.message || STATION.EDIT_STATION_FAILED,
     };
   }
 };

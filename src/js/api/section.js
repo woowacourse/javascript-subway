@@ -21,7 +21,7 @@ export const requestAddSection = async ({ lineId, upStationId, downStationId, di
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? SECTION.ADD_SECTION_FAILED,
+      message: error.message || SECTION.ADD_SECTION_FAILED,
     };
   }
 };
@@ -41,7 +41,7 @@ export const requestDeleteSection = async ({ lineId, stationId }) => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? SECTION.DELETE_SECTION_FAILED,
+      message: error.message || SECTION.DELETE_SECTION_FAILED,
     };
   }
 };

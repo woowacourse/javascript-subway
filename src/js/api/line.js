@@ -19,7 +19,7 @@ export const requestLineList = async () => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? LINE.GET_LINE_LIST_FAILED,
+      message: error.message || LINE.GET_LINE_LIST_FAILED,
     };
   }
 };
@@ -42,7 +42,7 @@ export const requestAddLine = async line => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? LINE.ADD_LINE_FAILED,
+      message: error.message || LINE.ADD_LINE_FAILED,
     };
   }
 };
@@ -62,7 +62,7 @@ export const requestDeleteLine = async id => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? LINE.DELETE_LINE_FAILED,
+      message: error.message || LINE.DELETE_LINE_FAILED,
     };
   }
 };
@@ -82,7 +82,7 @@ export const requestEditLine = async (id, body) => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? LINE.EDIT_LINE_FAILED,
+      message: error.message || LINE.EDIT_LINE_FAILED,
     };
   }
 };

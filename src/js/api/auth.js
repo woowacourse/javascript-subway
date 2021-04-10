@@ -16,7 +16,7 @@ export const requestSignup = async ({ email, password, name }) => {
   } catch (error) {
     return {
       success: false,
-      message: error.message ?? AUTH.SIGNUP_FAILED,
+      message: error.message || AUTH.SIGNUP_FAILED,
     };
   }
 };
