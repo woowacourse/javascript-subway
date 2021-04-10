@@ -15,8 +15,10 @@ const deleteLine = async target => {
   const result = await requestDeleteLine(lineID);
   if (!result.success) {
     snackbar.open(result.message);
+
     return;
   }
+
   store.line.delete(lineID);
   $targetLine.remove();
 
@@ -26,6 +28,7 @@ const deleteLine = async target => {
 export const handleLineStatus = async ({ target }) => {
   if (target.classList.contains('js-line-delete-button')) {
     deleteLine(target);
+
     return;
   }
 
@@ -35,8 +38,6 @@ export const handleLineStatus = async ({ target }) => {
     updateLineEditModal({ id, name, color });
     openModal($('#line-edit-modal'));
     $('#line-edit-modal #subway-line-name').focus();
-
-    return;
   }
 };
 
