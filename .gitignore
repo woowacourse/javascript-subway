@@ -1,3 +1,7 @@
+.vscode/
+.DS_Store
+cypress/integration/examples
+
 # Logs
 logs
 *.log

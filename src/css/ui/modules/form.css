@@ -5,17 +5,36 @@ form .input-control {
   margin-bottom: 1.25rem;
 }
 
+form .input-inner {
+  width: 100%;
+  flex-direction: column;
+}
+
 form .input-field {
   font-size: 1rem;
   font-weight: 400;
   line-height: inherit;
-  width: 100%;
+  width: 93%;
   height: auto;
   padding: 0.75rem 1.25rem;
   border: none;
   outline: none;
   border-radius: 2rem;
   background: #f1f5f9;
+}
+
+form .input-field.fail {
+  border: 1.75px solid rgb(221, 61, 61);
+}
+
+form .input-field.success {
+  border: 1.75px solid rgb(68, 194, 68);
+}
+
+form .input-check-text {
+  margin-top: 5px;
+  margin-left: 20px;
+  color: rgb(221, 61, 61);
 }
 
 form .input-submit {
@@ -44,10 +63,8 @@ form select {
   background-color: #f1f5f9;
   -webkit-appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, gray 50%),
-    linear-gradient(135deg, gray 50%, transparent 50%),
-    radial-gradient(#fff 0%, transparent 0%);
-  background-position: calc(100% - 30px) calc(1em + 4px),
-    calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
+    linear-gradient(135deg, gray 50%, transparent 50%), radial-gradient(#fff 0%, transparent 0%);
+  background-position: calc(100% - 30px) calc(1em + 4px), calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
 }
