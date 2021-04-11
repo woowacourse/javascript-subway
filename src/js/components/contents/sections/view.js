@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import getSubwayData from './getSubwayData.js';
+import { getSubwayData } from './getSubwayData.js';
 import { onClickButtonOfList, onClickButtonOfForm } from './onClickButton.js';
 import { requestCreateSection, updateSubmitButtonState } from './create.js';
 import { dispatchFormData, hide, show } from '../../../utils/index.js';
