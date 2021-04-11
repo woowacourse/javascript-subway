@@ -46,6 +46,9 @@ class SignUp {
   initDOM() {
     this.$signUpForm = $(SELECTOR.SIGNUP_FORM);
     this.$submitButton = $(SELECTOR.SIGNUP_FORM_SUBMIT);
+  }
+
+  bindEvent() {
     this._bindInputEvent();
     this._bindSubmitEvent();
   }

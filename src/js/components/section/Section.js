@@ -62,6 +62,9 @@ class Section {
     });
     this.$sectionSelectForm = $(SELECTOR.SECTION_SELECT_FORM);
     this.$sectionList = $(SELECTOR.SECTION_LIST);
+  }
+
+  bindEvent() {
     this._bindSelectLineEvent();
     this._bindAddSectionEvent();
     this._bindRemoveSectionEvent();

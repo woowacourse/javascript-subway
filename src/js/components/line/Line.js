@@ -54,6 +54,9 @@ class Line {
     this.#modal.init(this.#userAccessToken);
     this.$lineList = $(SELECTOR.LINE_LIST);
     this.$createLineButton = $(SELECTOR.CREATE_LINE_BUTTON);
+  }
+
+  bindEvent() {
     this._bindAddLineEvent();
     this._bindUpdateLineEvent();
   }

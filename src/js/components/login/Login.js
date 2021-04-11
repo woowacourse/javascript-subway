@@ -34,6 +34,9 @@ class Login {
 
   initDOM() {
     this.$loginForm = $(SELECTOR.LOGIN_FORM);
+  }
+
+  bindEvent() {
     this._bindSignUpEvent();
     this._bindLoginEvent();
   }

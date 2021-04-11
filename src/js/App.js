@@ -72,6 +72,7 @@ class App {
       component.init && (await component.init(state));
       this.router.renderPage(href, component.getPageInfo());
       component.initDOM && component.initDOM();
+      component.bindEvent && component.bindEvent();
     } catch {
       this.switchURL(PATH.HOME);
     }

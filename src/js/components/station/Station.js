@@ -56,6 +56,9 @@ class Station {
     this.$addStationForm = $(SELECTOR.ADD_STATION_FORM);
     this.$stationList = $(SELECTOR.STATION_LIST);
     this.#modal.init(this.#userAccessToken);
+  }
+
+  bindEvent() {
     this._bindAddStationEvent();
     this._bindUpdateStationEvent();
   }
