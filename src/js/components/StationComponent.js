@@ -31,7 +31,6 @@ class StationComponent extends Component {
   }
 
   initLoad() {
-    // TODO: render로 해야하는지 load로 해야하는지 고민
     this.renderStationList(this.props.stationsState.Data);
   }
 

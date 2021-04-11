@@ -12,6 +12,7 @@ import $ from '../utils/querySelector.js';
 import Component from './Component.js';
 import { fetchLineDeletion } from '../utils/fetch.js';
 import { loadLineList } from '../utils/loadByAJAX.js';
+import { hasClassName } from '../utils/validation.js';
 
 class LineComponent extends Component {
   lineModal;
@@ -39,33 +40,20 @@ class LineComponent extends Component {
       this.lineModal.route(MODAL_TYPE.CREATION);
     });
 
-    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_UPDATE)) {
-        $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
-        this.lineModal.route(MODAL_TYPE.UPDATE);
+    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener(
+      'click',
+      this.#onLineUpdated
+    );
 
-        return;
-      }
+    $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener(
+      'click',
+      this.#onLineDeleted
+    );
 
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_DELETION)) {
-        if (!confirm(CONFIRM_MESSAGE.LINE_DELETION)) {
-          return;
-        }
-
-        this.#deleteLine(target.dataset.id);
-      }
-    });
-
-    //TODO: 콜백함수 네이밍해주기
-    $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
-      if (
-        !target.classList.contains(CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)
-      ) {
-        return;
-      }
-
-      $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
-    });
+    $(`#${ID_SELECTOR.MODAL}`).addEventListener(
+      'click',
+      this.#onLineColorSelected
+    );
   }
 
   render() {
@@ -92,6 +80,35 @@ class LineComponent extends Component {
       alert(err.message);
       return;
     }
+  };
+
+  #onLineUpdated = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_LIST_ITEM_UPDATE)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
+    this.lineModal.route(MODAL_TYPE.UPDATE);
+  };
+
+  #onLineDeleted = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_LIST_ITEM_DELETION)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.LINE_DELETION)) {
+      return;
+    }
+
+    this.#deleteLine(target.dataset.id);
+  };
+
+  #onLineColorSelected = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTIONs)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.LINE_MODAL_FORM_COLOR}`).value = target.dataset.color;
   };
 }
 

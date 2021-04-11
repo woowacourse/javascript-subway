@@ -13,6 +13,7 @@ import Component from './Component';
 import { fetchLineRead, fetchLineDeletion } from '../utils/fetch.js';
 import SectionModal from '../modals/SectionModal';
 import { closeModal } from '../utils/DOM';
+import { hasClassName } from '../utils/validation';
 
 class SectionComponent extends Component {
   sectionModal;
@@ -42,32 +43,13 @@ class SectionComponent extends Component {
 
     $(`#${ID_SELECTOR.SECTION_CREATION_BUTTON}`).addEventListener(
       'click',
-      () => {
-        if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
-          alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
-
-          return;
-        }
-
-        this.sectionModal.route(MODAL_TYPE.CREATION);
-      }
+      this.#onSectionModalCreated
     );
 
-    $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener('click', event => {
-      if (
-        event.target.classList.contains(
-          CLASS_SELECTOR.SECTION_LIST_ITEM_DELETION
-        )
-      ) {
-        if (!confirm(CONFIRM_MESSAGE.SECTION_DELETION)) {
-          return;
-        }
-        const stationId = event.target.dataset.id;
-        const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
-
-        this.#deleteSection(stationId, lineId);
-      }
-    });
+    $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener(
+      'click',
+      this.#onSectionDeleted
+    );
   }
 
   render() {
@@ -123,6 +105,31 @@ class SectionComponent extends Component {
     $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML =
       initialTemplate + lines.map(SECTION_TEMPLATE.CREATING_OPTION).join('');
   }
+
+  #onSectionModalCreated = () => {
+    if ($(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value === KEYWORD.NONE) {
+      alert(ALERT_MESSAGE.NOT_SELECTED_LINE);
+
+      return;
+    }
+
+    this.sectionModal.route(MODAL_TYPE.CREATION);
+  };
+
+  #onSectionDeleted = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.SECTION_LIST_ITEM_DELETION)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.SECTION_DELETION)) {
+      return;
+    }
+
+    const stationId = target.dataset.id;
+    const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
+
+    this.#deleteSection(stationId, lineId);
+  };
 }
 
 export default SectionComponent;
