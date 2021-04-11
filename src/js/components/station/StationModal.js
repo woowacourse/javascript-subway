@@ -74,8 +74,7 @@ class StationModal {
       this.#props.modifyStation(this.#stationInfo, name);
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
     } catch (error) {
-      const message = await error.text();
-      showSnackbar(message ? message : error);
+      showSnackbar(error);
     }
   }
 }

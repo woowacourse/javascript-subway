@@ -107,8 +107,7 @@ class LineModal {
       clearForm(this.$lineForm);
       showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
     } catch (error) {
-      const message = await error.text();
-      showSnackbar(message ? message : error);
+      showSnackbar(error);
     }
   }
 
@@ -143,8 +142,7 @@ class LineModal {
       this.#props.modifyLine(id, { name: newName, color: newColor });
       showSnackbar(SUCCESS_MESSAGE.MODIFY_LINE);
     } catch (error) {
-      const message = await error.text();
-      showSnackbar(message ? message : error);
+      showSnackbar(error);
     }
   }
 

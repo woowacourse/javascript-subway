@@ -95,8 +95,7 @@ class SectionModal {
       this.#props.modifySection(sectionInfo);
       showSnackbar(SUCCESS_MESSAGE.ADD_SECTION);
     } catch (error) {
-      const message = await error.text();
-      showSnackbar(message ? message : error);
+      showSnackbar(error);
     }
   }
 }

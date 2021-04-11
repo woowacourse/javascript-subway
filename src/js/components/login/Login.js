@@ -76,8 +76,8 @@ class Login {
 
       this.#props.switchURL(PATH.HOME);
       showSnackbar(SUCCESS_MESSAGE.LOGIN);
-    } catch ({ status }) {
-      alert(LOGIN_ERROR[status] || ERROR_MESSAGE.LOGIN_FAILED);
+    } catch (error) {
+      alert(LOGIN_ERROR[error] || ERROR_MESSAGE.LOGIN_FAILED);
     }
   }
 }

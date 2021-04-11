@@ -19,9 +19,13 @@ export const request = async (
     },
     body: body ? JSON.stringify(body) : null,
   });
+
   if (response.ok) {
     return response;
   }
 
-  throw response;
+  if (response.text) {
+    throw response.text();
+  }
+  throw response.status;
 };
