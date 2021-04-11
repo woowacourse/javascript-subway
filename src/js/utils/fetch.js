@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../constants.js';
+import { ALERT_MESSAGE, ERROR_CODE } from '../constants.js';
 
 const fetchSignup = async (url, bodyData) => {
   const response = await fetch(url, {
@@ -8,7 +8,7 @@ const fetchSignup = async (url, bodyData) => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_EMAIL_FAIL);
   }
 
@@ -19,7 +19,6 @@ const fetchSignup = async (url, bodyData) => {
   return response;
 };
 
-//TODO: fetch... 함수들의 인자 형태를 객체로 통일할지 고민
 const fetchLogin = async (url, bodyData) => {
   const response = await fetch(url, {
     method: 'POST',
@@ -28,7 +27,7 @@ const fetchLogin = async (url, bodyData) => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.LOGIN_FAIL);
   }
 
@@ -64,7 +63,7 @@ const fetchStationCreation = async (url, { bodyData, accessToken }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_STATION_FAIL);
   }
 
@@ -89,7 +88,6 @@ const fetchStationRead = async (url, accessToken) => {
   return response;
 };
 
-//TODO: fetchStationCreation랑 기능이 완전히 똑같음
 const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
   const response = await fetch(url, {
     method: 'PUT',
@@ -100,7 +98,7 @@ const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_STATION_FAIL);
   }
 
@@ -119,8 +117,7 @@ const fetchStationRemoval = async (url, accessToken) => {
     },
   });
 
-  //TODO: 400 상수화 하기
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.STATION_REMOVAL_FAIL);
   }
 
@@ -132,7 +129,6 @@ const fetchStationRemoval = async (url, accessToken) => {
 };
 
 const fetchLineCreation = async (url, { bodyData, accessToken }) => {
-  //TODO : data, accessToken 인자 유효성 검사
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -142,7 +138,7 @@ const fetchLineCreation = async (url, { bodyData, accessToken }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_LINE_FAIL);
   }
 
@@ -168,22 +164,6 @@ const fetchLineRead = async (url, accessToken) => {
   return response;
 };
 
-// TODO: fetchLineRead와 url(fetchLineRead는 url/id) 빼고 다 같음
-const fetchLineListRead = async (url, accessToken) => {
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(response.status);
-  }
-
-  return response;
-};
-
 const fetchLineRevision = async (url, { bodyData, accessToken }) => {
   const response = await fetch(url, {
     method: 'PUT',
@@ -194,7 +174,7 @@ const fetchLineRevision = async (url, { bodyData, accessToken }) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_LINE_FAIL);
   }
 
@@ -230,9 +210,7 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
     },
   });
 
-  // TODO: section 에러메세지 처리
-
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DISTANCE_CONDITION_OF_SECTION_CREATION_FAIL);
   }
 
@@ -251,7 +229,7 @@ const fetchSectionRemoval = async (url, accessToken) => {
     },
   });
 
-  if (response.status === 400) {
+  if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.SECTION_REMOVAL_FAIL);
   }
 
@@ -262,7 +240,6 @@ const fetchSectionRemoval = async (url, accessToken) => {
   return response;
 };
 
-//TODO : CRUD를 활용하여 fetchStationRead 등등으로 이름바꾸기
 export {
   fetchSignup,
   fetchLogin,
@@ -273,7 +250,6 @@ export {
   fetchStationRemoval,
   fetchLineCreation,
   fetchLineRead,
-  fetchLineListRead,
   fetchLineRevision,
   fetchLineRemoval,
   fetchSectionCreation,

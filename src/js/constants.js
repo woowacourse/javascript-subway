@@ -128,12 +128,14 @@ const CONFIRM_MESSAGE = {
   SECTION_REMOVAL: '해당 구간을 삭제하시겠습니까?',
 };
 
-// TODO: creation, revision을 modalType으로 분리하기
 const KEYWORD = {
   LOGOUT: 'logout',
+  NONE: 'none',
+};
+
+const MODAL_TYPE = {
   CREATION: 'creation',
   REVISION: 'revision',
-  NONE: 'none',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';
@@ -157,13 +159,19 @@ const THRESHOLD = {
   LINE_NAME_MAX_LENGTH: 20,
 };
 
+const ERROR_CODE = {
+  BAD_REQUEST: 400,
+};
+
 export {
   ID_SELECTOR,
   CLASS_SELECTOR,
   ALERT_MESSAGE,
   CONFIRM_MESSAGE,
   KEYWORD,
+  MODAL_TYPE,
   REQUEST_URL,
   URL,
   THRESHOLD,
+  ERROR_CODE,
 };
