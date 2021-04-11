@@ -229,11 +229,7 @@ function makeSubwayLineColorOption() {
 
 function subwayLineColorOptionTemplate(colorOption) {
   if (colorOption.startsWith('line')) {
-    return `<button data-color="${colorOption}" type="button" class="${
-      CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION
-    } line-color-option bg-${colorOption} ml-1">${colorOption.slice(
-      -1
-    )}호선</button>`;
+    return `<button data-color="${colorOption}" type="button" class="${CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION} line-color-option bg-${colorOption} ml-1"></button>`;
   }
   return `<button data-color="${colorOption}" type="button" class="${CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION} color-option bg-${colorOption} mr-1"></button>`;
 }

@@ -26,3 +26,12 @@
   border: none;
   border-radius: 3px;
 }
+
+.line-color-option {
+  width: 50px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
