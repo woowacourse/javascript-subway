@@ -37,11 +37,7 @@ export const LIST_ITEM_TEMPLATE = ({ id, name, color, stations }) => {
 <hr class="my-0" />`;
 };
 
-export const LINES_TEMPLATE = `
-<div class="heading d-flex">
-  <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
-</div>
-
+const ADD_FORM_TEMPLATE = `
 <form class="add-form line-add-form">
   <label for="add-line-name" class="input-label sr-only">노선 이름</label>
   <input type="text" id="add-line-name" name="name" class="line-input-field" placeholder="노선 이름" minlength="2" maxlength="10" required />
@@ -70,7 +66,12 @@ export const LINES_TEMPLATE = `
   </div>
 
   <button type="submit" class="submit-button line-add-button bg-cyan-300" name="submit" disabled>추가</button>
-</form>
+</form>`;
 
+export const LINES_TEMPLATE = `
+<div class="heading d-flex">
+  <h2 class="mt-1 w-100">🛤️ 노선 관리</h2>
+</div>
+${ADD_FORM_TEMPLATE}
 <ul class="mt-3 pl-0"></ul>
 `;

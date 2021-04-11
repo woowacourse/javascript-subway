@@ -2,7 +2,7 @@
 import getSubwayData from './getSubwayData.js';
 import { onClickButtonOfList, onClickButtonOfForm } from './onClickButton.js';
 import { requestCreateSection, updateSubmitButtonState } from './create.js';
-import { dispatchFormData } from '../../../utils/index.js';
+import { dispatchFormData, hide, show } from '../../../utils/index.js';
 import {
   STATION_OPTION_TEMPLATE,
   LINE_OPTION_TEMPLATE,
@@ -16,8 +16,8 @@ $wrapper.innerHTML = SECTIONS_TEMPLATE;
 
 const $list = $wrapper.querySelector('ul');
 const $lineSelect = $wrapper.querySelector('#line-select');
-const $addForm = $wrapper.querySelector('#add-form');
-const $stationSelect = $addForm.querySelector('#station-select');
+const $addForm = $wrapper.querySelector('.section-add-form');
+const $stationSelect = $addForm.elements['station-select'];
 
 $lineSelect.addEventListener('change', onChangeLine);
 
@@ -62,7 +62,7 @@ function renderAddForm(stationOptionList, lineId) {
 }
 
 export function renderEditMode(stationId, offsetTop) {
-  $addForm.classList.remove('v-hidden');
+  show($addForm);
   $addForm.style.top = offsetTop;
   $addForm.dataset.upStationId = stationId;
 
@@ -70,6 +70,6 @@ export function renderEditMode(stationId, offsetTop) {
 }
 
 export function renderNonEditMode() {
-  $addForm.classList.add('v-hidden');
+  hide($addForm);
   $addForm.reset();
 }

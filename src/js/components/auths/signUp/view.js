@@ -14,17 +14,17 @@ const WAIT_TIME = 500;
 export const renderSignUp = ($parent) => {
   $parent.innerHTML = TEMPLATE;
 
-  const $form = $parent.querySelector('form');
-  const $name = $parent.querySelector('#name');
-  const $email = $parent.querySelector('#email');
-  const $password = $parent.querySelector('#password');
-  const $passwordCheckbox = $parent.querySelector('#password-checkbox');
+  const $form = $parent.querySelector('.sign-up-form');
+  const $name = $form.elements.name;
+  const $email = $form.elements.email;
+  const $password = $form.elements.password;
+  const $passwordCheckbox = $form.elements['password-checkbox'];
 
   $name.focus();
 
-  const $nameValidationMessage = $parent.querySelector('.name-validation-message');
-  const $emailValidationMessage = $parent.querySelector('.email-validation-message');
-  const $passwordValidationMessage = $parent.querySelector('.password-validation-message');
+  const $nameValidationMessage = $form.querySelector('.name-validation-message');
+  const $emailValidationMessage = $form.querySelector('.email-validation-message');
+  const $passwordValidationMessage = $form.querySelector('.password-validation-message');
 
   const togglePasswordViewStyle = ({ target }) => {
     $password.type = target.checked ? 'text' : 'password';

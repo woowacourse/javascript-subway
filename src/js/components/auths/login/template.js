@@ -1,10 +1,7 @@
 import { PATHNAMES } from '../../../constants/index.js';
 
-const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
-<div class="heading">
-  <h2>👋 로그인</h2>
-</div>
-<form name="login" class="form">
+const FORM_TEMPLATE = `
+<form name="login" class="form login-form">
   <div class="auth-input-control">
     <label for="email" class="auth-input-label">이메일</label>
     <input type="email" id="email" name="email" class="auth-input-field" placeholder="365kim@gmail.com" required />
@@ -22,7 +19,14 @@ const LOGIN_TEMPLATE = `<div class="wrapper p-10 bg-white">
       <a href="${PATHNAMES.SIGN_UP}">회원가입</a>
     </p>
   </div>
-</form>
+</form>`;
+
+const LOGIN_TEMPLATE = `
+<div class="wrapper p-10 bg-white">
+  <div class="heading">
+    <h2>👋 로그인</h2>
+  </div>
+  ${FORM_TEMPLATE}
 </div>`;
 
 export default LOGIN_TEMPLATE;

@@ -36,7 +36,7 @@ export async function renderStations($main) {
 export function renderEditMode($editForm) {
   $editForm.classList.add('edit-mode');
 
-  const $editInput = $editForm.querySelector('input');
+  const $editInput = $editForm.elements.name;
   $editInput.disabled = false;
   // FIXME: 최초 focus시 커서가 제일 앞임
   $editInput.focus();
@@ -45,6 +45,6 @@ export function renderEditMode($editForm) {
 export function renderNonEditMode($editForm) {
   $editForm.classList.remove('edit-mode');
 
-  const $editInput = $editForm.querySelector('input');
+  const $editInput = $editForm.elements.name;
   $editInput.disabled = true;
 }

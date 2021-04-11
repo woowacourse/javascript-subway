@@ -7,8 +7,8 @@ import { dispatchFormData } from '../../../utils/index.js';
 export const renderLogin = ($parent) => {
   $parent.innerHTML = TEMPLATE;
 
-  const $form = $parent.querySelector('form');
-  const $email = $parent.querySelector('#email');
+  const $form = $parent.querySelector('.login-form');
+  const $email = $form.elements.email;
 
   $email.focus();
 
