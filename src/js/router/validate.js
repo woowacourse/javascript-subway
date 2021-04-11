@@ -1,6 +1,5 @@
 import { hasPropertyValue, reportError, showNotification } from '../utils/index.js';
 import { PATHNAMES, ACCESSIBLE_PATHNAMES, ROUTING_MESSAGES } from '../constants/index.js';
-import { isLoggedIn } from '../auth/index.js';
 
 export default function getValidPathname(pathname) {
   const currentPathname = window.location.pathname;
@@ -27,7 +26,7 @@ export default function getValidPathname(pathname) {
 }
 
 function hasAccessRight(pathname) {
-  return ACCESSIBLE_PATHNAMES(isLoggedIn()).includes(pathname);
+  return ACCESSIBLE_PATHNAMES().includes(pathname);
 }
 
 function isValidPathname(pathname) {

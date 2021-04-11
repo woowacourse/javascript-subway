@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
+import { isLoggedIn } from '../auth/index.js';
 import RAW_PATHNAMES from './rawPathnames.js';
 
-const RAW_PATHNAME_ENTRIES = Object.entries(RAW_PATHNAMES);
-const PATHNAME_ENTRIES = RAW_PATHNAME_ENTRIES.map(([key, route]) => [key, `${SUBPATH}${route}`]);
+const PATHNAME_ENTRIES = Object.entries(RAW_PATHNAMES).map(([key, route]) => [key, `${SUBPATH}${route}`]);
 
 export const PATHNAMES = Object.freeze(Object.fromEntries(PATHNAME_ENTRIES));
 
-const { HOME, STATIONS, LINES, SECTIONS, LOGIN, LOGOUT, SIGN_UP } = PATHNAMES;
+const pathsWithoutAuth = [PATHNAMES.HOME, PATHNAMES.LOGIN, PATHNAMES.SIGN_UP];
 
-export const ACCESSIBLE_PATHNAMES = (isLoggedIn) =>
-  isLoggedIn ? [HOME, STATIONS, LINES, SECTIONS, LOGOUT] : [HOME, LOGIN, SIGN_UP];
+const pathsWithAuth = Object.values(PATHNAMES).filter((pathname) => !pathsWithoutAuth.includes(pathname));
+
+export const ACCESSIBLE_PATHNAMES = () => (isLoggedIn() ? pathsWithAuth : pathsWithoutAuth);

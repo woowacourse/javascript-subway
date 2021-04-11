@@ -14,6 +14,9 @@ const HEADER_TEMPLATE = `
   <a href="${PATHNAMES.SECTIONS}" class="my-1">
     <button class="btn bg-white shadow mx-1">🔁 구간 관리</button>
   </a>
+  <a href="${PATHNAMES.OVERVIEW}" class="my-1">
+    <button class="btn bg-white shadow mx-1">🗺️ 전체 보기</button>
+  </a>
   <a href="${PATHNAMES.LOGIN}" id="login" class="my-1">
     <button class="btn bg-white shadow mx-1">👤 로그인</button>
   </a>

@@ -3,6 +3,7 @@ const RAW_PATHNAMES = {
   STATIONS: '/stations',
   LINES: '/lines',
   SECTIONS: '/sections',
+  OVERVIEW: '/overview',
   LOGIN: '/login',
   SIGN_UP: '/signup',
   LOGOUT: '/logout',
