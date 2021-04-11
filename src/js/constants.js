@@ -18,6 +18,7 @@ export const PATH = {
   STATIONS: '/stations',
   SECTIONS: '/sections',
   LINES: '/lines',
+  MAP: '/map',
 };
 
 export const SELECTOR = {
@@ -164,6 +165,7 @@ export const PAGE_TITLE = {
   SECTIONS: '🚇 구간 관리',
   LOGIN: '🚇 로그인',
   SIGNUP: '📝 회원가입',
+  MAP: '🗺️ 전체 보기',
 };
 
 export const STATUS = {

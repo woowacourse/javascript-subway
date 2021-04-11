@@ -3,6 +3,7 @@
 @import './pages/index.css';
 @import './pages/station.css';
 @import './pages/lines.css';
+@import './pages/subwayMap.css';
 
 html,
 body {

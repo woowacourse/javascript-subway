@@ -7,6 +7,7 @@ import Header from './components/header/Header';
 import Station from './components/station/Station';
 import Line from './components/line/Line';
 import Section from './components/section/Section';
+import SubwayMap from './components/subwayMap/SubwayMap';
 
 import { PATH, STORAGE } from './constants';
 import { authAPI } from './api/auth';
@@ -43,6 +44,7 @@ class App {
     this.stations = new Station();
     this.sections = new Section();
     this.lines = new Line();
+    this.subwayMap = new SubwayMap();
   }
 
   _registerRouterComponent() {
@@ -53,6 +55,7 @@ class App {
       [PATH.STATIONS]: this.stations,
       [PATH.SECTIONS]: this.sections,
       [PATH.LINES]: this.lines,
+      [PATH.MAP]: this.subwayMap,
     };
   }
 
