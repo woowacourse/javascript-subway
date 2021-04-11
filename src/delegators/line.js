@@ -10,17 +10,20 @@ export function delegateLineClickEvent(event) {
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_MODAL_OPEN)) {
     openLineModal();
     openModal();
+    return;
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
     initLineUpdateModal(target);
     openModal();
+    return;
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
     deleteLineItem(target);
+    return;
   }
 }
 

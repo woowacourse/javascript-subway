@@ -13,6 +13,7 @@ function delegateNavigatorClickEvent(event) {
   if (target.id === SELECTOR_ID.SIGN_UP_BUTTON || target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) {
     event.preventDefault();
     onPageMove(target);
+    return;
   }
 }
 

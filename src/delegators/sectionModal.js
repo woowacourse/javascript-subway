@@ -8,6 +8,7 @@ export function delegateSectionModalClickEvent(event) {
   const { target } = event;
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE}`)) {
     closeModal();
+    return;
   }
 }
 
@@ -17,6 +18,7 @@ export function delegateSectionModalSubmitEvent(event) {
     event.preventDefault();
     onSectionItemRegister(target);
     closeModal();
+    return;
   }
 }
 

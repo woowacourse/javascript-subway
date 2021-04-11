@@ -8,12 +8,14 @@ export function delegateSectionClickEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.SECTION_MODAL_OPEN) {
     openModal();
+    return;
   }
 
   if (target.classList.contains(SELECTOR_CLASS.SECTION_DELETE_BUTTON)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
     onSectionItemDelete(target);
+    return;
   }
 }
 

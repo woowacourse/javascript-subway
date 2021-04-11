@@ -10,6 +10,7 @@ export function delegateStationSubmitEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.STATION_FORM) {
     onStationFormSubmit(target);
+    return;
   }
 }
 
@@ -17,6 +18,7 @@ export function delegateStationClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE)) {
     onStationItemInputOpen(target);
+    return;
   }
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
@@ -29,6 +31,7 @@ export function delegateStationFocusOutEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_INPUT)) {
     onStationItemInputFocusOut(target);
+    return;
   }
 }
 

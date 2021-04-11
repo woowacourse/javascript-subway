@@ -10,10 +10,12 @@ export function delegateLineModalSubmitEvent(event) {
   if (target.classList.contains(SELECTOR_CLASS.LINE_REGISTER_FORM)) {
     onLineItemRegister(target);
     closeModal();
+    return;
   }
   if (target.classList.contains(SELECTOR_CLASS.LINE_UPDATE_FORM)) {
     onLineItemUpdate(target);
     closeModal();
+    return;
   }
 }
 
@@ -21,10 +23,12 @@ export function delegateLineModalClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.COLOR_OPTION)) {
     onColorPickerClick(target);
+    return;
   }
 
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE}`)) {
     closeModal();
+    return;
   }
 }
 

@@ -6,6 +6,7 @@ function delegateSignUpSubmitEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
     onSignUpFormSubmit(target);
+    return;
   }
 }
 
@@ -15,6 +16,7 @@ function onSignUpFormSubmit(target) {
     alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
     return;
   }
+
   requestSignUp(email.value, name.value, password.value)
     .then(() => {
       history.back();
