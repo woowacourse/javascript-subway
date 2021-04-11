@@ -35,7 +35,10 @@ function getNewSection(target) {
   const downStationId = Number(target[SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT].value);
   const distance = Number(target[SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT].value);
   const duration = Number(target[SELECTOR_ID.SECTION_MODAL_DURATION_INPUT].value);
-  return { 
-    upStationId, downStationId, distance, duration 
+  return {
+    upStationId,
+    downStationId,
+    distance,
+    duration,
   };
 }

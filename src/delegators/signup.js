@@ -2,7 +2,7 @@ import { ALERT_MESSAGE, SELECTOR_ID } from '../constants';
 import { requestSignUp } from '../api/member.js';
 
 function delegateSignUpSubmitEvent(event) {
-  event.preventDefault()
+  event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
     onSignUpFormSubmit(target);

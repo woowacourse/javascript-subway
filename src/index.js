@@ -21,10 +21,7 @@ const main = new Main(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const station = new Station(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const line = new Line(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const lineModal = new LineModal(state, `.${SELECTOR_CLASS.MODAL}`);
-const section = new Section(
-  state,
-  `#${SELECTOR_ID.MAIN_CONTAINER}`
-);
+const section = new Section(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const sectionModal = new SectionModal(state, `.${SELECTOR_CLASS.MODAL}`);
 const subway = new Subway(state, `#${SELECTOR_ID.MAIN_CONTAINER}`);
 const login = new Login(`#${SELECTOR_ID.MAIN_CONTAINER}`);

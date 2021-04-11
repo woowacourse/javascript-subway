@@ -1,6 +1,6 @@
 import { SESSION_STORAGE_KEY } from '../constants.js';
 import { sessionStore } from '../utils/utils.js';
-import request from './request.js'
+import request from './request.js';
 
 export const requestLineRegistration = async line => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
@@ -15,7 +15,7 @@ export const requestLineRegistration = async line => {
       downStationId: Number(line.downStationId),
       distance: Number(line.distance),
       duration: Number(line.duration),
-    }
+    },
   });
 
   const newLine = await response.json();
@@ -39,7 +39,7 @@ export const requestLineList = async () => {
   if (!accessToken) return;
   const response = await request.get({
     url: `${API_END_POINT}/lines`,
-    token: accessToken
+    token: accessToken,
   });
 
   const newLineList = await response.json();
@@ -53,7 +53,7 @@ export const requestLineList = async () => {
     name: line.name,
     color: line.color,
     stations: line.stations,
-    sections: line.sections,    
+    sections: line.sections,
   }));
 };
 
@@ -62,15 +62,15 @@ export const requestLineDelete = async lineId => {
   if (!accessToken) return;
   const response = await request.delete({
     url: `${API_END_POINT}/lines/${lineId}`,
-    token: accessToken
+    token: accessToken,
   });
 
   if (!response.ok) {
     throw new Error('역 등록 실패');
   }
-}
+};
 
-export const requestLineUpdate = async (newline) => {
+export const requestLineUpdate = async newline => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
   const response = await request.put({
@@ -79,7 +79,7 @@ export const requestLineUpdate = async (newline) => {
     bodyContent: {
       name: newline.name,
       color: newline.color,
-    }
+    },
   });
   if (!response.ok) {
     throw new Error('역 수정 실패');

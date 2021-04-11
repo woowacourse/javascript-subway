@@ -31,10 +31,9 @@ export default class Section extends Observer {
     const [targetLine] = initialTargetLine ? [initialTargetLine] : lineList;
     lineListContainer.innerHTML = this.#getLineSelectTemplate(lineList, targetLine);
     stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateSectionClickEvent);
     const $lineSelect = $(`#${SELECTOR_ID.SECTION_LINE_SELECT}`);
     $lineSelect.addEventListener('change', () => {

@@ -23,10 +23,9 @@ export default class Line extends Observer {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
     targetContainer.innerHTML = this.#getListListTemplate();
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateLineClickEvent);
   }
 
@@ -58,5 +57,4 @@ export default class Line extends Observer {
       <hr class="my-0" />
     `;
   }
-
 }

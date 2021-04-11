@@ -3,7 +3,7 @@ import request from './request.js';
 export const requestLoginToken = async (email, password) => {
   const response = await request.post({
     url: `${API_END_POINT}/login/token`,
-    bodyContent: {email, password}
+    bodyContent: { email, password },
   });
   const { accessToken, status } = await response.json();
   if (status) {
@@ -16,6 +16,6 @@ export const requestLoginToken = async (email, password) => {
 export const requestSignUp = async (email, name, password) => {
   const response = await request.post({
     url: `${API_END_POINT}/members`,
-    bodyContent: {email, name, password}
+    bodyContent: { email, name, password },
   });
 };

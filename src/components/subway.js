@@ -32,7 +32,7 @@ export default class Subway extends Observer {
       name: line.name,
       duration: line.duration,
       color: line.color,
-      stations: this.#getProcessedStationList(line)
+      stations: this.#getProcessedStationList(line),
     }));
   }
 
@@ -41,20 +41,20 @@ export default class Subway extends Observer {
       id: station.id,
       name: station.name,
       duration: this.#getSectionDuration(station.name, line.sections),
-      linkedLines: this.#getLinkedLines(station.id, line.id)
-    }))
+      linkedLines: this.#getLinkedLines(station.id, line.id),
+    }));
   }
 
   #getSectionDuration(stationName, sections) {
     const targetSection = sections.find(section => section.upStation.name === stationName);
-    return targetSection ? targetSection.duration : undefined
+    return targetSection ? targetSection.duration : undefined;
   }
 
   #getLinkedLines(stationId, lineId) {
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     return lineList
       .filter(line => line.stations.some(station => station.id === stationId) && line.id !== lineId)
-      .map(line => ({id: line.id, name: line.name, color: line.color}))
+      .map(line => ({ id: line.id, name: line.name, color: line.color }));
   }
 
   #getWrapperTemplate() {
@@ -64,7 +64,7 @@ export default class Subway extends Observer {
   }
 
   #getSubwayMapTemplate(lineList) {
-    return lineList.map(line => this.#getLineTemplate(line)).join("")
+    return lineList.map(line => this.#getLineTemplate(line)).join('');
   }
 
   #getLineTemplate(line) {
@@ -73,7 +73,7 @@ export default class Subway extends Observer {
         <h1 class="line__name ${line.color}">${line.name}</h1>
         <hr class="mt-4 mb-10" />
         <div class="line__station-list">
-          ${line.stations.map(station => this.#getStationTemplate(station, line.name)).join("")}
+          ${line.stations.map(station => this.#getStationTemplate(station, line.name)).join('')}
         </div>
       </div>
     `;
@@ -95,29 +95,36 @@ export default class Subway extends Observer {
           <div class="station__bar station__bar--${this.#getStationBarType(station.duration)}"></div>
         </div>
       </div>
-    `
+    `;
   }
 
   #getStationBarType(duration) {
     if (!duration || duration === 0) {
-      return 'none'
+      return 'none';
     }
     if (duration < 3) {
-      return 'short'
+      return 'short';
     }
     if (duration < 5) {
-      return 'medium'
+      return 'medium';
     }
     if (duration < 10) {
-      return 'long'
+      return 'long';
     } else {
-      return 'extra-long'
+      return 'extra-long';
     }
   }
 
   #getLinkedLinesTemplate(stationName, linkedLines) {
     return linkedLines
-      .map(linkedLine => `<a class="linked-line" href="#${linkedLine.name}-${stationName}"><li class="station__linked-line-text font-${linkedLine.color.substr(3)}">${linkedLine.name}</li></a>`)
-      .join("")
+      .map(
+        linkedLine =>
+          `<a class="linked-line" href="#${
+            linkedLine.name
+          }-${stationName}"><li class="station__linked-line-text font-${linkedLine.color.substr(3)}">${
+            linkedLine.name
+          }</li></a>`
+      )
+      .join('');
   }
 }

@@ -18,11 +18,10 @@ export default class SignUp {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
     targetContainer.innerHTML = this.#getTemplate();
-    this.#initEvents();
   }
 
-  #initEvents() {
-    $(`#${SELECTOR_ID.SIGN_UP_FORM}`).addEventListener('submit', delegateSignUpSubmitEvent)
+  initEvents() {
+    $(`#${SELECTOR_ID.SIGN_UP_FORM}`).addEventListener('submit', delegateSignUpSubmitEvent);
   }
 
   #getWrapperTemplate() {

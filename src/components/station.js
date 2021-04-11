@@ -35,10 +35,9 @@ export default class Station extends Observer {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
     targetContainer.innerHTML = this.#getStationListTemplate();
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#parentSelector).addEventListener('submit', delegateStationSubmitEvent);
     $(this.#targetSelector).addEventListener('focusout', delegateStationFocusOutEvent);
     $(this.#targetSelector).addEventListener('click', delegateStationClickEvent);

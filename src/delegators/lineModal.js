@@ -1,5 +1,5 @@
-import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, ALERT_MESSAGE } from "../constants.js";
-import { $, closeModal } from "../utils/dom.js";
+import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY, ALERT_MESSAGE } from '../constants.js';
+import { $, closeModal } from '../utils/dom.js';
 import { state } from '../store.js';
 import { isProperLineNameLength, isDuplicatedLineExist } from '../validators/line.js';
 import { requestLineRegistration, requestLineUpdate } from '../api/line.js';
@@ -22,7 +22,7 @@ export function delegateLineModalClickEvent(event) {
   if (target.classList.contains(SELECTOR_CLASS.COLOR_OPTION)) {
     onColorPickerClick(target);
   }
-  
+
   if (target.closest(`.${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE}`)) {
     closeModal();
   }
@@ -73,13 +73,13 @@ function onLineItemRegister(target) {
 function onLineItemUpdate(target) {
   const newLine = {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
-    name: target[SELECTOR_NAME.LINE_NAME].value, 
-    color: target[SELECTOR_NAME.LINE_COLOR].dataset.color
-  }
+    name: target[SELECTOR_NAME.LINE_NAME].value,
+    color: target[SELECTOR_NAME.LINE_COLOR].dataset.color,
+  };
   const lineList = state.get(STATE_KEY.LINE_LIST);
   const isNewLineApplied = tryApplyingNewLine(newLine, lineList);
   if (!isNewLineApplied) return;
-  
+
   requestLineUpdate(newLine)
     .then(() => {
       state.update(STATE_KEY.LINE_LIST, lineList);
@@ -96,7 +96,7 @@ function tryApplyingNewLine(newLine, lineList) {
     alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
     return false;
   }
-  if (isDuplicatedLineExist({lineId: targetLine.id, lineName: newLine.name}, lineList)) {
+  if (isDuplicatedLineExist({ lineId: targetLine.id, lineName: newLine.name }, lineList)) {
     alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
     return false;
   }

@@ -15,11 +15,10 @@ export default class Navigator extends Observer {
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
-    this.#initEvents();
   }
 
-  #initEvents() {
-    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent)
+  initEvents() {
+    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent);
   }
 
   #getTemplate() {

@@ -18,13 +18,11 @@ export default class Login {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
     targetContainer.innerHTML = this.#getLoginTemplate();
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#targetSelector).addEventListener('submit', delegateLoginSubmitEvent);
     $(this.#targetSelector).addEventListener('click', delegateLoginClickEvent);
-
   }
 
   #getWrapperTemplate() {

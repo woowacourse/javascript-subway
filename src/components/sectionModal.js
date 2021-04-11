@@ -1,10 +1,10 @@
-import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY } from "../constants";
+import { SELECTOR_ID, SELECTOR_CLASS, STATE_KEY } from '../constants';
 import { delegateSectionModalClickEvent, delegateSectionModalSubmitEvent } from '../delegators/sectionModal.js';
-import Observer from "../lib/Observer";
+import Observer from '../lib/Observer';
 import { $ } from '../utils/dom.js';
 
 export default class SectionModal extends Observer {
-  #parentSelector
+  #parentSelector;
   #targetSelector = `#${SELECTOR_ID.SECTION_FORM}`;
   #state;
 
@@ -19,10 +19,9 @@ export default class SectionModal extends Observer {
     if (!modal) return;
     const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     modal.innerHTML = this.#getModalTemplate(targetSectionLineId);
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateSectionModalClickEvent);
     $(this.#targetSelector).addEventListener('submit', delegateSectionModalSubmitEvent);
   }
@@ -41,27 +40,47 @@ export default class SectionModal extends Observer {
         <form id="${SELECTOR_ID.SECTION_FORM}">
           <div class="input-control">
             <select id="${SELECTOR_ID.SECTION_MODAL_LINE_SELECT}" required>
-              ${this.#state.get(STATE_KEY.LINE_LIST).map(lineItem => `<option value="${lineItem.id}" ${lineItem.id === targetSectionLineId ? 'selected' : ''}>${lineItem.name}</option>`).join('')}
+              ${this.#state
+                .get(STATE_KEY.LINE_LIST)
+                .map(
+                  lineItem =>
+                    `<option value="${lineItem.id}" ${lineItem.id === targetSectionLineId ? 'selected' : ''}>${
+                      lineItem.name
+                    }</option>`
+                )
+                .join('')}
             </select>
           </div>
           <div class="d-flex items-center input-control">
             <select id="${SELECTOR_ID.SECTION_MODAL_UP_STATION_SELECT}" required>
               <option value="" selected disabled hidden>이전역</option>
-              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`).join('')}
+              ${this.#state
+                .get(STATE_KEY.STATION_LIST)
+                .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
+                .join('')}
             </select>
             <div class="d-inline-block mx-3 text-2xl">➡️</div>
             <select id="${SELECTOR_ID.SECTION_MODAL_DOWN_STATION_SELECT}" required>
               <option value="" selected disabled hidden>다음역</option>
-              ${this.#state.get(STATE_KEY.STATION_LIST).map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`).join('')}
+              ${this.#state
+                .get(STATE_KEY.STATION_LIST)
+                .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
+                .join('')}
             </select>
           </div>
           <div class="d-flex items-center input-control">
-            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 거리(km)" required />
+            <input type="number" id="${
+              SELECTOR_ID.SECTION_MODAL_DISTANCE_INPUT
+            }" class="input-field d-inline-block text-base" placeholder="상행 하행역 거리(km)" required />
             <div class="d-inline-block mx-3 text-2xl"></div>
-            <input type="number" id="${SELECTOR_ID.SECTION_MODAL_DURATION_INPUT}" class="input-field d-inline-block text-base" placeholder="상행 하행역 시간(분)" required />
+            <input type="number" id="${
+              SELECTOR_ID.SECTION_MODAL_DURATION_INPUT
+            }" class="input-field d-inline-block text-base" placeholder="상행 하행역 시간(분)" required />
           </div>
           <div class="d-flex justify-end mt-3">
-            <button id="${SELECTOR_ID.SECTION_MODAL_SUBMIT}" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
+            <button id="${
+              SELECTOR_ID.SECTION_MODAL_SUBMIT
+            }" type="submit" name="submit" class="input-submit bg-cyan-300">확인</button>
           </div>
         </form>
       </div>  

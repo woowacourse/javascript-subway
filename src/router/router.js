@@ -1,6 +1,6 @@
 import { PATH } from '../constants';
 
-const pageComponents = {}
+const pageComponents = {};
 
 const router = {
   initRouteEvent() {
@@ -26,7 +26,7 @@ const router = {
       }
       component.renderComponent();
     });
-  }
-}
+  },
+};
 
 export default router;

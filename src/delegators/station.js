@@ -13,8 +13,6 @@ export function delegateStationSubmitEvent(event) {
   }
 }
 
-// TODO : 노선 포함 여부에 따라 역 삭제 처리
-
 export function delegateStationClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE)) {
@@ -35,14 +33,14 @@ export function delegateStationFocusOutEvent(event) {
 
 function onStationFormSubmit(target) {
   const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
-  const targetStationName = $stationNameInput.value
+  const targetStationName = $stationNameInput.value;
   const stationList = state.get(STATE_KEY.STATION_LIST);
   if (!isProperStationNameLength(targetStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     $stationNameInput.value = '';
     return;
   }
-  if (isDuplicatedStationExist({name: targetStationName}, stationList)) {
+  if (isDuplicatedStationExist({ name: targetStationName }, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     $stationNameInput.value = '';
     return;
@@ -54,7 +52,8 @@ function onStationFormSubmit(target) {
     .catch(error => {
       console.log(error);
       alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
-    }).finally(() => {
+    })
+    .finally(() => {
       $stationNameInput.value = '';
     });
 }
@@ -80,17 +79,19 @@ function onStationItemInputFocusOut(targetInput) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     return;
   }
-  if (isDuplicatedStationExist({id: targetStationId, name: newStationName}, stationList)) {
+  if (isDuplicatedStationExist({ id: targetStationId, name: newStationName }, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     return;
   }
   targetStationItem.name = newStationName;
-  requestStationUpdate(targetStationId, newStationName).then(() => {
-    state.update(STATE_KEY.STATION_LIST, stationList);
-  }).catch(error => {
-    console.log(error);
-    alert(ALERT_MESSAGE.STATION_UPDATE_FAILED)
-  })
+  requestStationUpdate(targetStationId, newStationName)
+    .then(() => {
+      state.update(STATE_KEY.STATION_LIST, stationList);
+    })
+    .catch(error => {
+      console.log(error);
+      alert(ALERT_MESSAGE.STATION_UPDATE_FAILED);
+    });
 }
 
 function onStationItemDeleteClick(target) {
@@ -98,7 +99,7 @@ function onStationItemDeleteClick(target) {
   if (isStationExistInLine(stationId)) {
     alert(ALERT_MESSAGE.DELETING_STATION_EXCLUDED_IN_LINE);
     return;
-  };
+  }
 
   const newStationList = state.get(STATE_KEY.STATION_LIST).filter(station => station.id !== Number(stationId));
   const stationItem = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM}[data-station-id="${stationId}"]`);
@@ -119,5 +120,5 @@ function onStationItemDeleteClick(target) {
 function isStationExistInLine(stationId) {
   const lineList = state.get(STATE_KEY.LINE_LIST);
 
-  return lineList.some(line =>  line.stations.some(station => station.id === stationId));
+  return lineList.some(line => line.stations.some(station => station.id === stationId));
 }

@@ -42,7 +42,7 @@ export const SELECTOR_ID = Object.freeze({
   SIGN_UP_NAME_INPUT: 'signup-name-input',
   GUIDE_WRAPPER: 'guide-wrapper',
   BACKDROP: 'backdrop',
-  SUBWAY_MAP: 'subway-map'
+  SUBWAY_MAP: 'subway-map',
 });
 
 // TODO : BEM 일괄 적용
@@ -83,7 +83,7 @@ export const SELECTOR_NAME = Object.freeze({
 
 export const STYLE_CLASS = Object.freeze({
   REMOVED: 'd-none',
-  HOVER: 'hover'
+  HOVER: 'hover',
 });
 
 export const PATH = Object.freeze({
@@ -101,7 +101,7 @@ export const PATH = Object.freeze({
 export const SESSION_STORAGE_KEY = Object.freeze({
   ACCESS_TOKEN: 'accessToken',
   USER_EMAIL: 'userEamil',
-  USER_PASSWORD: 'userPassword'
+  USER_PASSWORD: 'userPassword',
 });
 
 export const STATE_KEY = Object.freeze({

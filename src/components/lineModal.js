@@ -1,6 +1,6 @@
-import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY } from "../constants";
-import { delegateLineModalClickEvent, delegateLineModalSubmitEvent } from "../delegators/lineModal";
-import Observer from "../lib/Observer";
+import { SELECTOR_CLASS, SELECTOR_ID, SELECTOR_NAME, STATE_KEY } from '../constants';
+import { delegateLineModalClickEvent, delegateLineModalSubmitEvent } from '../delegators/lineModal';
+import Observer from '../lib/Observer';
 import { $ } from '../utils/dom.js';
 import { colorOptions } from '../utils/mock.js';
 
@@ -22,13 +22,11 @@ export default class LineModal extends Observer {
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
     modal.innerHTML = this.#getModalTemplate(targetLine);
     $(`.${SELECTOR_CLASS.LINE_COLOR_PICKER}`).innerHTML = colorOptions
-      .map((color) => this.#getSubwayLineColorOptionTemplate(color))
+      .map(color => this.#getSubwayLineColorOptionTemplate(color))
       .join('');
-    
-    this.#initEvents();
   }
 
-  #initEvents() {
+  initEvents() {
     $(this.#parentSelector).addEventListener('click', delegateLineModalClickEvent);
     $(this.#targetSelector).addEventListener('submit', delegateLineModalSubmitEvent);
   }
@@ -62,11 +60,18 @@ export default class LineModal extends Observer {
               required
             />
           </div>
-          ${lineItem ? '' : `
+          ${
+            lineItem
+              ? ''
+              : `
             <div class="d-flex items-center input-control">
               <label for="up-station" class="input-label" hidden>상행역</label>
-              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_INPUT}" name="${SELECTOR_NAME.UP_STATION}" class="mr-2" required>
-                <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${lineItem ? lineItem.upStationName : '상행역'}</option>
+              <select id="${SELECTOR_ID.LINE_MODAL_UP_STATION_INPUT}" name="${
+                  SELECTOR_NAME.UP_STATION
+                }" class="mr-2" required>
+                <option value="${lineItem ? lineItem.upStationId : ''}" selected disabled hidden>${
+                  lineItem ? lineItem.upStationName : '상행역'
+                }</option>
                 ${this.#state
                   .get(STATE_KEY.STATION_LIST)
                   .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
@@ -74,7 +79,9 @@ export default class LineModal extends Observer {
               </select>
               <label for="down-station" class="input-label" hidden>하행역</label>
               <select id="${SELECTOR_ID.LINE_MODAL_DOWN_STATION_INPUT}"" name="${SELECTOR_NAME.DOWN_STATION}" required>
-                <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${lineItem ? lineItem.downStationName : '하행역'}</option>
+                <option value="${lineItem ? lineItem.downStationId : ''}" selected disabled hidden>${
+                  lineItem ? lineItem.downStationName : '하행역'
+                }</option>
                 <${this.#state
                   .get(STATE_KEY.STATION_LIST)
                   .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
@@ -109,7 +116,8 @@ export default class LineModal extends Observer {
                 required
               />
             </div>
-          `}
+          `
+          }
           
           <div class="input-control">
             <div class="d-flex">
@@ -123,28 +131,32 @@ export default class LineModal extends Observer {
                 name="${SELECTOR_NAME.LINE_COLOR}"
                 class="color-input-field ${lineItem ? `${lineItem.color}` : ''}"
                 placeholder="노선 색상"
-                ${lineItem ? `data-color="${lineItem.color}"` : '' }
+                ${lineItem ? `data-color="${lineItem.color}"` : ''}
                 disabled
                 required
               />
             </div>
           </div>
           <div class="d-flex justify-end mt-3">
-            ${lineItem ? `<button
+            ${
+              lineItem
+                ? `<button
               id="${SELECTOR_ID.LINE_MODAL_UPDATE_SUBMIT}"
               type="submit"
               name="${SELECTOR_ID.LINE_MODAL_UPDATE_SUBMIT}"
               class="input-submit bg-cyan-300"
             >
               노선 수정
-            </button>` : `<button
+            </button>`
+                : `<button
               id="${SELECTOR_ID.LINE_MODAL_REGISTER_SUBMIT}"
               type="submit"
               name="${SELECTOR_ID.LINE_MODAL_REGISTER_SUBMIT}"
               class="input-submit bg-cyan-300"
             >
               노선 추가
-            </button>`}
+            </button>`
+            }
           </div>
         </form>
       </div>
