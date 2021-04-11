@@ -51,3 +51,4 @@ state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, sectionModal);
 state.subscribe(STATE_KEY.TARGET_SECTION_LINE_ID, section);
 
 navigator.renderComponent();
+navigator.initEvents();

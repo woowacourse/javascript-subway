@@ -1,4 +1,4 @@
-import { STATE_KEY } from "../constants";
+import { STATE_KEY } from '../constants';
 import { $ } from '../utils/dom.js';
 
 export default class Subject {
@@ -28,7 +28,10 @@ export default class Subject {
 
   notify(key) {
     if (this.observers[key].length > 0) {
-      this.observers[key].forEach(observer => observer.renderComponent());
+      this.observers[key].forEach(observer => {
+        observer.renderComponent();
+        observer.initEvents && observer.initEvents();
+      });
     }
   }
 

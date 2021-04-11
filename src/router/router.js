@@ -21,10 +21,9 @@ const router = {
 
   navigate(path) {
     pageComponents[path].forEach(component => {
-      if (component.renderPage) {
-        component.renderPage();
-      }
+      component.renderPage && component.renderPage();
       component.renderComponent();
+      component.initEvents && component.initEvents();
     });
   },
 };
