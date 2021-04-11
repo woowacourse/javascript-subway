@@ -3,17 +3,16 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   KEYWORD,
-  REQUEST_URL,
   ALERT_MESSAGE,
   MODAL_TYPE,
-} from '../constants';
-import { SECTION_TEMPLATE } from '../templates/sectionTemplate';
-import $ from '../utils/querySelector';
-import Component from './Component';
-import { fetchLineRead, fetchLineDeletion } from '../utils/fetch.js';
-import SectionModal from '../modals/SectionModal';
-import { closeModal } from '../utils/DOM';
-import { hasClassName } from '../utils/validation';
+} from '../constants.js';
+import { SECTION_TEMPLATE } from '../templates/sectionTemplate.js';
+import $ from '../utils/querySelector.js';
+import Component from './Component.js';
+import { fetchLineRead, fetchSectionDeletion } from '../utils/fetch.js';
+import SectionModal from '../modals/SectionModal.js';
+import { closeModal } from '../utils/DOM.js';
+import { hasClassName } from '../utils/validation.js';
 
 class SectionComponent extends Component {
   sectionModal;
@@ -63,11 +62,10 @@ class SectionComponent extends Component {
       return;
     }
 
-    const url = REQUEST_URL + `/lines/${lineId}`;
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      const response = await fetchLineRead(url, accessToken);
+      const response = await fetchLineRead(lineId, accessToken);
       const { color, stations } = await response.json();
 
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
@@ -82,12 +80,10 @@ class SectionComponent extends Component {
   };
 
   #deleteSection = async (stationId, lineId) => {
-    const url =
-      REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchLineDeletion(url, accessToken);
+      await fetchSectionDeletion(stationId, lineId, accessToken);
 
       alert(ALERT_MESSAGE.SECTION_DELETION_SUCCESS);
 

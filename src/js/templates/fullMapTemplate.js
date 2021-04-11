@@ -1,4 +1,4 @@
-import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR } from '../constants.js';
 
 const CREATING_LINE = line => {
   const { name, stations, color } = line;

@@ -1,11 +1,8 @@
-import { REQUEST_URL } from '../constants.js';
-import { fetchStationRead, fetchLineRead } from './fetch.js';
+import { fetchStationRead, fetchLineListRead } from './fetch.js';
 
 const loadStationList = async (stationsState, accessToken) => {
-  const url = REQUEST_URL + '/stations';
-
   try {
-    const response = await fetchStationRead(url, accessToken);
+    const response = await fetchStationRead(accessToken);
 
     const stationResponse = await response.json();
     const stations = stationResponse.map(station => ({
@@ -21,10 +18,8 @@ const loadStationList = async (stationsState, accessToken) => {
 };
 
 const loadLineList = async (linesState, accessToken) => {
-  const url = REQUEST_URL + '/lines';
-
   try {
-    const response = await fetchLineRead(url, accessToken);
+    const response = await fetchLineListRead(accessToken);
 
     const lineResponse = await response.json();
     const lines = lineResponse.map(line => ({

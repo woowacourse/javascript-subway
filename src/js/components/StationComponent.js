@@ -7,7 +7,6 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   MODAL_TYPE,
-  REQUEST_URL,
 } from '../constants.js';
 import { fetchStationCreation, fetchStationDeletion } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
@@ -61,12 +60,11 @@ class StationComponent extends Component {
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };
 
-  #deleteStation = async id => {
-    const url = REQUEST_URL + `/stations/${id}`;
+  #deleteStation = async stationId => {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationDeletion(url, accessToken);
+      await fetchStationDeletion(stationId, accessToken);
 
       alert(ALERT_MESSAGE.STATION_DELETION_SUCCESS);
 
@@ -85,13 +83,11 @@ class StationComponent extends Component {
 
     const $input = event.target[ID_SELECTOR.STATION_FORM_NAME];
     const inputName = $input.value;
-    const url = REQUEST_URL + '/stations';
     const bodyData = { name: inputName };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      const response = await fetchStationCreation(url, {
+      const response = await fetchStationCreation({
         bodyData,
         accessToken,
       });

@@ -1,16 +1,11 @@
-import Component from '../components/Component';
-import {
-  ALERT_MESSAGE,
-  ID_SELECTOR,
-  MODAL_TYPE,
-  REQUEST_URL,
-} from '../constants';
-import { LINE_TEMPLATE } from '../templates/lineTemplate';
-import { closeModal } from '../utils/DOM';
-import { fetchLineCreation, fetchLineUpdate } from '../utils/fetch';
-import { loadLineList } from '../utils/loadByAJAX';
-import $ from '../utils/querySelector';
-import Modal from './Modal';
+import Component from '../components/Component.js';
+import { ALERT_MESSAGE, ID_SELECTOR, MODAL_TYPE } from '../constants.js';
+import { LINE_TEMPLATE } from '../templates/lineTemplate.js';
+import { closeModal } from '../utils/DOM.js';
+import { fetchLineCreation, fetchLineUpdate } from '../utils/fetch.js';
+import { loadLineList } from '../utils/loadByAJAX.js';
+import $ from '../utils/querySelector.js';
+import Modal from './Modal.js';
 
 class LineModal extends Modal {
   constructor(props) {
@@ -71,7 +66,6 @@ class LineCreationComponent extends Component {
     const distance = event.target[ID_SELECTOR.LINE_MODAL_FORM_DISTANCE].value;
     const duration = event.target[ID_SELECTOR.LINE_MODAL_FORM_DURATION].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-    const url = REQUEST_URL + '/lines';
     const bodyData = {
       name: lineName,
       color,
@@ -83,7 +77,7 @@ class LineCreationComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      const response = await fetchLineCreation(url, {
+      const response = await fetchLineCreation({
         bodyData,
         accessToken,
       });
@@ -155,10 +149,9 @@ class LineUpdateComponent extends Component {
   }
 
   #updateLine = async event => {
-    const id = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
+    const lineId = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
-    const url = REQUEST_URL + `/lines/${id}`;
     const bodyData = {
       name: lineName,
       color,
@@ -166,7 +159,8 @@ class LineUpdateComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchLineUpdate(url, {
+      await fetchLineUpdate({
+        lineId,
         bodyData,
         accessToken,
       });

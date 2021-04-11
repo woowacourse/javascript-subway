@@ -1,4 +1,4 @@
-import { CLASS_SELECTOR, ID_SELECTOR, URL } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR, URL } from '../constants.js';
 
 const MAIN = `
 <div class="wrapper p-10 bg-white">

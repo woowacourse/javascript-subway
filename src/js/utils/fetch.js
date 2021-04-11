@@ -1,6 +1,7 @@
-import { ALERT_MESSAGE, ERROR_CODE } from '../constants.js';
+import { ALERT_MESSAGE, ERROR_CODE, REQUEST_URL } from '../constants.js';
 
-const fetchSignup = async (url, bodyData) => {
+const fetchSignup = async bodyData => {
+  const url = REQUEST_URL + '/members';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -8,6 +9,7 @@ const fetchSignup = async (url, bodyData) => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
+
   if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.DUPLICATED_EMAIL_FAIL);
   }
@@ -19,7 +21,8 @@ const fetchSignup = async (url, bodyData) => {
   return response;
 };
 
-const fetchLogin = async (url, bodyData) => {
+const fetchLogin = async bodyData => {
+  const url = REQUEST_URL + '/login/token';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -27,6 +30,7 @@ const fetchLogin = async (url, bodyData) => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
+
   if (response.status === ERROR_CODE.BAD_REQUEST) {
     throw new Error(ALERT_MESSAGE.LOGIN_FAIL);
   }
@@ -38,7 +42,8 @@ const fetchLogin = async (url, bodyData) => {
   return response;
 };
 
-const fetchMyInfo = async (url, accessToken) => {
+const fetchMyInfo = async accessToken => {
+  const url = REQUEST_URL + '/members/me';
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -53,7 +58,8 @@ const fetchMyInfo = async (url, accessToken) => {
   return response;
 };
 
-const fetchStationCreation = async (url, { bodyData, accessToken }) => {
+const fetchStationCreation = async ({ bodyData, accessToken }) => {
+  const url = REQUEST_URL + '/stations';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -74,7 +80,8 @@ const fetchStationCreation = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchStationRead = async (url, accessToken) => {
+const fetchStationRead = async accessToken => {
+  const url = REQUEST_URL + '/stations';
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -88,7 +95,8 @@ const fetchStationRead = async (url, accessToken) => {
   return response;
 };
 
-const fetchStationNameUpdate = async (url, { bodyData, accessToken }) => {
+const fetchStationNameUpdate = async ({ stationId, bodyData, accessToken }) => {
+  const url = REQUEST_URL + `/stations/${stationId}`;
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -109,7 +117,8 @@ const fetchStationNameUpdate = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchStationDeletion = async (url, accessToken) => {
+const fetchStationDeletion = async (stationId, accessToken) => {
+  const url = REQUEST_URL + `/stations/${stationId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -128,7 +137,8 @@ const fetchStationDeletion = async (url, accessToken) => {
   return response;
 };
 
-const fetchLineCreation = async (url, { bodyData, accessToken }) => {
+const fetchLineCreation = async ({ bodyData, accessToken }) => {
+  const url = REQUEST_URL + '/lines';
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -149,7 +159,8 @@ const fetchLineCreation = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchLineRead = async (url, accessToken) => {
+const fetchLineRead = async (lineId, accessToken) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -164,7 +175,24 @@ const fetchLineRead = async (url, accessToken) => {
   return response;
 };
 
-const fetchLineUpdate = async (url, { bodyData, accessToken }) => {
+const fetchLineListRead = async accessToken => {
+  const url = REQUEST_URL + '/lines';
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response;
+};
+
+const fetchLineUpdate = async ({ lineId, bodyData, accessToken }) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -185,7 +213,8 @@ const fetchLineUpdate = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchLineDeletion = async (url, accessToken) => {
+const fetchLineDeletion = async (lineId, accessToken) => {
+  const url = REQUEST_URL + `/lines/${lineId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -200,7 +229,8 @@ const fetchLineDeletion = async (url, accessToken) => {
   return response;
 };
 
-const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
+const fetchSectionCreation = async ({ lineId, accessToken, bodyData }) => {
+  const url = REQUEST_URL + `/lines/${lineId}/sections`;
   const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(bodyData),
@@ -221,7 +251,8 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
   return response;
 };
 
-const fetchSectionDeletion = async (url, accessToken) => {
+const fetchSectionDeletion = async (stationId, lineId, accessToken) => {
+  const url = REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -250,6 +281,7 @@ export {
   fetchStationDeletion,
   fetchLineCreation,
   fetchLineRead,
+  fetchLineListRead,
   fetchLineUpdate,
   fetchLineDeletion,
   fetchSectionCreation,

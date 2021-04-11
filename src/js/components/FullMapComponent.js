@@ -1,10 +1,8 @@
-import { ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import { ID_SELECTOR } from '../constants.js';
 import { FULL_MAP_TEMPLATE } from '../templates/fullMapTemplate.js';
-import { fetchLineRead } from '../utils/fetch.js';
+import { fetchLineListRead } from '../utils/fetch.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
-
-REQUEST_URL;
 
 class FullMapComponent extends Component {
   constructor(props) {
@@ -20,11 +18,10 @@ class FullMapComponent extends Component {
   }
 
   #getFullMap = async () => {
-    const url = REQUEST_URL + '/lines';
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      const response = await fetchLineRead(url, accessToken);
+      const response = await fetchLineListRead(accessToken);
       const lines = await response.json();
 
       this.#renderFullMap(lines);

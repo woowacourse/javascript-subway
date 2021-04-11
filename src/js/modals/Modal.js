@@ -1,5 +1,5 @@
-import Component from '../components/Component';
-import { openModal } from '../utils/DOM';
+import Component from '../components/Component.js';
+import { openModal } from '../utils/DOM.js';
 
 class Modal {
   _router;

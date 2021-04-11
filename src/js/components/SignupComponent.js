@@ -1,7 +1,7 @@
 import Component from './Component.js';
 import SIGNUP_TEMPLATE from '../templates/signupTemplate.js';
 import $ from '../utils/querySelector.js';
-import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL, URL } from '../constants.js';
+import { ALERT_MESSAGE, ID_SELECTOR, URL } from '../constants.js';
 import { fetchSignup } from '../utils/fetch.js';
 
 class SignupComponent extends Component {
@@ -33,11 +33,10 @@ class SignupComponent extends Component {
       return;
     }
 
-    const url = REQUEST_URL + '/members';
     const bodyData = { email, name, password };
 
     try {
-      await fetchSignup(url, bodyData);
+      await fetchSignup(bodyData);
     } catch (err) {
       alert(err.message);
       return;

@@ -4,7 +4,6 @@ import {
   CONFIRM_MESSAGE,
   ID_SELECTOR,
   MODAL_TYPE,
-  REQUEST_URL,
 } from '../constants.js';
 import LineModal from '../modals/LineModal.js';
 import { LINE_TEMPLATE } from '../templates/lineTemplate.js';
@@ -66,12 +65,11 @@ class LineComponent extends Component {
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
 
-  #deleteLine = async id => {
-    const url = REQUEST_URL + `/lines/${id}`;
+  #deleteLine = async lineId => {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchLineDeletion(url, accessToken);
+      await fetchLineDeletion(lineId, accessToken);
 
       alert(ALERT_MESSAGE.LINE_DELETION_SUCCESS);
 

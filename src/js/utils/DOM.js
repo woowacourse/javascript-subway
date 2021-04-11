@@ -1,5 +1,5 @@
-import { ID_SELECTOR } from '../constants';
-import $ from './querySelector';
+import { ID_SELECTOR } from '../constants.js';
+import $ from './querySelector.js';
 
 const show = selector => {
   $(selector).classList.remove('hidden');

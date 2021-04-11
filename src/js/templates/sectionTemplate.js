@@ -1,4 +1,4 @@
-import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR } from '../constants.js';
 
 const CREATING_OPTION_IN_MODAL = (value, innerText, isSelected) => {
   return `<option value="${value}" ${

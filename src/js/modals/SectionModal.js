@@ -1,14 +1,9 @@
-import Component from '../components/Component';
-import {
-  ID_SELECTOR,
-  REQUEST_URL,
-  ALERT_MESSAGE,
-  MODAL_TYPE,
-} from '../constants';
-import { SECTION_TEMPLATE } from '../templates/sectionTemplate';
-import { fetchSectionCreation } from '../utils/fetch';
-import $ from '../utils/querySelector';
-import Modal from './Modal';
+import Component from '../components/Component.js';
+import { ID_SELECTOR, ALERT_MESSAGE, MODAL_TYPE } from '../constants.js';
+import { SECTION_TEMPLATE } from '../templates/sectionTemplate.js';
+import { fetchSectionCreation } from '../utils/fetch.js';
+import $ from '../utils/querySelector.js';
+import Modal from './Modal.js';
 
 class SectionModal extends Modal {
   constructor(props) {
@@ -49,7 +44,7 @@ class SectionCreationComponent extends Component {
   #onSectionCreated = async event => {
     event.preventDefault();
 
-    const modalLineId =
+    const lineId =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_LINE_SELECT].value;
     const upStationId =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_UP_STATION_SELECT].value;
@@ -65,7 +60,7 @@ class SectionCreationComponent extends Component {
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DISTANCE].value;
     const duration =
       event.target[ID_SELECTOR.SECTION_MODAL_FORM_DURATION].value;
-    const url = REQUEST_URL + `/lines/${modalLineId}/sections`;
+
     const accessToken = this.props.accessTokenState.Data;
     const bodyData = {
       upStationId,
@@ -75,14 +70,14 @@ class SectionCreationComponent extends Component {
     };
 
     try {
-      await fetchSectionCreation(url, { accessToken, bodyData });
+      await fetchSectionCreation({ lineId, accessToken, bodyData });
 
       alert(ALERT_MESSAGE.SECTION_CREATION_SUCCESS);
 
       const pageLineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
 
-      if (modalLineId === pageLineId) {
-        this.props.renderSectionList(modalLineId);
+      if (lineId === pageLineId) {
+        this.props.renderSectionList(lineId);
       }
     } catch (error) {
       alert(error.message);

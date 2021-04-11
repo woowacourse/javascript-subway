@@ -1,16 +1,11 @@
-import Component from '../components/Component';
-import {
-  ALERT_MESSAGE,
-  ID_SELECTOR,
-  MODAL_TYPE,
-  REQUEST_URL,
-} from '../constants';
-import { STATION_TEMPLATE } from '../templates/stationTemplate';
-import { closeModal } from '../utils/DOM';
-import { fetchStationNameUpdate } from '../utils/fetch';
-import { loadStationList } from '../utils/loadByAJAX';
-import $ from '../utils/querySelector';
-import Modal from './Modal';
+import Component from '../components/Component.js';
+import { ALERT_MESSAGE, ID_SELECTOR, MODAL_TYPE } from '../constants.js';
+import { STATION_TEMPLATE } from '../templates/stationTemplate.js';
+import { closeModal } from '../utils/DOM.js';
+import { fetchStationNameUpdate } from '../utils/fetch.js';
+import { loadStationList } from '../utils/loadByAJAX.js';
+import $ from '../utils/querySelector.js';
+import Modal from './Modal.js';
 
 class StationModal extends Modal {
   constructor(props) {
@@ -65,15 +60,14 @@ class StationUpdateComponent extends Component {
       return;
     }
 
-    const updatingId = $input.dataset.id;
-    const url = REQUEST_URL + `/stations/${updatingId}`;
+    const stationId = $input.dataset.id;
     const bodyData = {
       name: updatingName,
     };
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationNameUpdate(url, { bodyData, accessToken });
+      await fetchStationNameUpdate({ stationId, bodyData, accessToken });
       alert(ALERT_MESSAGE.STATION_NAME_UPDATE_SUCCESS);
       closeModal();
       loadStationList(

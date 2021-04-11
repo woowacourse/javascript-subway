@@ -1,12 +1,7 @@
 import Component from './Component.js';
 import LOGIN_TEMPLATE from '../templates/loginTemplate.js';
 import $ from '../utils/querySelector.js';
-import {
-  ALERT_MESSAGE,
-  CLASS_SELECTOR,
-  ID_SELECTOR,
-  REQUEST_URL,
-} from '../constants.js';
+import { ALERT_MESSAGE, CLASS_SELECTOR, ID_SELECTOR } from '../constants.js';
 import { fetchLogin } from '../utils/fetch.js';
 
 class LoginComponent extends Component {
@@ -37,11 +32,10 @@ class LoginComponent extends Component {
 
     const email = event.target[ID_SELECTOR.LOGIN_FORM_EMAIL].value;
     const password = event.target[ID_SELECTOR.LOGIN_FORM_PASSWORD].value;
-    const url = REQUEST_URL + '/login/token';
     const bodyData = { email, password };
 
     try {
-      const response = await fetchLogin(url, bodyData);
+      const response = await fetchLogin(bodyData);
 
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
