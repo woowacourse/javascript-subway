@@ -1,10 +1,16 @@
 import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
 
-const SECTION_CREATING_OPTION_TEMPLATE = line => {
+const CREATING_OPTION_IN_MODAL = (value, innerText, isSelected) => {
+  return `<option value="${value}" ${
+    isSelected ? 'selected' : ''
+  }>${innerText}</option>`;
+};
+
+const CREATING_OPTION = line => {
   return `<option value="${line.id}">${line.name}</option>`;
 };
 
-const SECTION_CREATING_STATION_TEMPLATE = station => {
+const CREATING_STATION = station => {
   return `
   <li class="d-flex items-center py-2 relative">
     <span class="w-100 pl-6">${station.name}</span>
@@ -19,7 +25,7 @@ const SECTION_CREATING_STATION_TEMPLATE = station => {
   <hr class="my-0" />`;
 };
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper bg-white p-10">
   <div class="heading d-flex">
     <h2 class="mt-1 w-100">🔁 구간 관리</h2>
@@ -40,7 +46,7 @@ const MAIN_COMPONENT = `
 </div>
 `;
 
-const MODAL_COMPONENT = `
+const MODAL = `
 <div class="modal-inner p-8">
   <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close">
     <svg viewbox="0 0 40 40">
@@ -111,12 +117,11 @@ const MODAL_COMPONENT = `
 
 const SECTION_TEMPLATE = {
   TITLE: '🚇 구간 관리',
-  MAIN: MAIN_COMPONENT,
-  MODAL: MODAL_COMPONENT,
+  MAIN,
+  MODAL,
+  CREATING_STATION,
+  CREATING_OPTION,
+  CREATING_OPTION_IN_MODAL,
 };
 
-export {
-  SECTION_TEMPLATE,
-  SECTION_CREATING_OPTION_TEMPLATE,
-  SECTION_CREATING_STATION_TEMPLATE,
-};
+export { SECTION_TEMPLATE };

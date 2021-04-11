@@ -1,6 +1,6 @@
 import { ID_SELECTOR } from '../constants';
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2 class="text">🔒 내 정보</h2>
@@ -68,7 +68,7 @@ const MAIN_COMPONENT = `
 
 const MY_INFO_TEMPLATE = {
   TITLE: `🔒 내 정보`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default MY_INFO_TEMPLATE;

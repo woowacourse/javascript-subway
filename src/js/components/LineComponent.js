@@ -3,14 +3,11 @@ import {
   CLASS_SELECTOR,
   CONFIRM_MESSAGE,
   ID_SELECTOR,
-  KEYWORD,
+  MODAL_TYPE,
   REQUEST_URL,
 } from '../constants.js';
 import LineModal from '../modals/LineModal.js';
-import {
-  LINE_TEMPLATE,
-  LINE_CREATING_LINE_TEMPLATE,
-} from '../templates/lineTemplate.js';
+import { LINE_TEMPLATE } from '../templates/lineTemplate.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
 import { fetchLineRemoval } from '../utils/fetch.js';
@@ -39,13 +36,13 @@ class LineComponent extends Component {
 
   initEvent() {
     $(`#${ID_SELECTOR.LINE_CREATION_BUTTON}`).addEventListener('click', () => {
-      this.lineModal.route(KEYWORD.CREATION);
+      this.lineModal.route(MODAL_TYPE.CREATION);
     });
 
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
       if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
         $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
-        this.lineModal.route(KEYWORD.REVISION);
+        this.lineModal.route(MODAL_TYPE.REVISION);
 
         return;
       }
@@ -76,7 +73,7 @@ class LineComponent extends Component {
   }
 
   renderLineList = lines => {
-    const template = lines.map(LINE_CREATING_LINE_TEMPLATE).join('');
+    const template = lines.map(LINE_TEMPLATE.CREATING_LINE).join('');
 
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };

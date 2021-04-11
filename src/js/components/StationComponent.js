@@ -1,15 +1,12 @@
 import Component from './Component.js';
-import {
-  STATION_TEMPLATE,
-  STATION_CREATING_STATION_TEMPLATE,
-} from '../templates/stationTemplate.js';
+import { STATION_TEMPLATE } from '../templates/stationTemplate.js';
 import $ from '../utils/querySelector.js';
 import {
   ALERT_MESSAGE,
   CLASS_SELECTOR,
   CONFIRM_MESSAGE,
   ID_SELECTOR,
-  KEYWORD,
+  MODAL_TYPE,
   REQUEST_URL,
 } from '../constants.js';
 import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
@@ -52,7 +49,7 @@ class StationComponent extends Component {
         ) {
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
-          this.stationModal.route(KEYWORD.REVISION);
+          this.stationModal.route(MODAL_TYPE.REVISION);
 
           return;
         }
@@ -76,7 +73,7 @@ class StationComponent extends Component {
   }
 
   renderStationList = stations => {
-    const template = stations.map(STATION_CREATING_STATION_TEMPLATE).join('');
+    const template = stations.map(STATION_TEMPLATE.CREATING_STATION).join('');
 
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };

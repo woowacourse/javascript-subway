@@ -1,5 +1,10 @@
 import Component from '../components/Component';
-import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
+import {
+  ALERT_MESSAGE,
+  ID_SELECTOR,
+  MODAL_TYPE,
+  REQUEST_URL,
+} from '../constants';
 import { STATION_TEMPLATE } from '../templates/stationTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchStationNameRevision } from '../utils/fetch';
@@ -12,7 +17,7 @@ class StationModal extends Modal {
     super(props);
 
     this._router = {
-      [KEYWORD.REVISION]: new StationRevisionComponent({
+      [MODAL_TYPE.REVISION]: new StationRevisionComponent({
         accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
       }),
@@ -53,7 +58,6 @@ class StationRevisionComponent extends Component {
 
     const $input = event.target[ID_SELECTOR.STATION_MODAL_FORM_INPUT];
     const revisionName = $input.value;
-    //TODO: modal에 dataset 넣는거 생각해보기
     const originalName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
 
     if (revisionName === originalName) {

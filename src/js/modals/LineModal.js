@@ -1,5 +1,10 @@
 import Component from '../components/Component';
-import { ALERT_MESSAGE, ID_SELECTOR, KEYWORD, REQUEST_URL } from '../constants';
+import {
+  ALERT_MESSAGE,
+  ID_SELECTOR,
+  MODAL_TYPE,
+  REQUEST_URL,
+} from '../constants';
 import { LINE_TEMPLATE } from '../templates/lineTemplate';
 import { closeModal } from '../utils/DOM';
 import { fetchLineCreation, fetchLineRevision } from '../utils/fetch';
@@ -12,13 +17,12 @@ class LineModal extends Modal {
     super(props);
 
     this._router = {
-      // TODO: constant에서 KEYWORD -> MODAL_TYPE으로 바꾸기
-      [KEYWORD.CREATION]: new LineCreationComponent({
+      [MODAL_TYPE.CREATION]: new LineCreationComponent({
         accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
         linesState: this.props.linesState,
       }),
-      [KEYWORD.REVISION]: new LineRevisionComponent({
+      [MODAL_TYPE.REVISION]: new LineRevisionComponent({
         accessTokenState: this.props.accessTokenState,
         linesState: this.props.linesState,
       }),
@@ -91,7 +95,6 @@ class LineCreationComponent extends Component {
       const { id, name, color } = await response.json();
       const lines = this.props.linesState.Data;
 
-      // TODO: State 클래스에 pushData 만들기
       lines.push({ id, name, color });
       this.props.linesState.Data = lines;
       closeModal();
@@ -128,8 +131,7 @@ class LineRevisionComponent extends Component {
   }
 
   render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML =
-      LINE_TEMPLATE.REVISION_MODAL_COMPONENT;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.REVISION_MODAL;
   }
 
   #loadRevisionModal() {

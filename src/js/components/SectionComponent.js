@@ -5,12 +5,9 @@ import {
   KEYWORD,
   REQUEST_URL,
   ALERT_MESSAGE,
+  MODAL_TYPE,
 } from '../constants';
-import {
-  SECTION_TEMPLATE,
-  SECTION_CREATING_OPTION_TEMPLATE,
-  SECTION_CREATING_STATION_TEMPLATE,
-} from '../templates/sectionTemplate';
+import { SECTION_TEMPLATE } from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
 import Component from './Component';
 import { fetchLineRead, fetchSectionRemoval } from '../utils/fetch.js';
@@ -32,8 +29,7 @@ class SectionComponent extends Component {
   }
 
   initLoad() {
-    // TODO: render prefix 고민해보기
-    this.#renderSelectOption();
+    this.#loadSelectOption();
   }
 
   initEvent() {
@@ -53,7 +49,7 @@ class SectionComponent extends Component {
           return;
         }
 
-        this.sectionModal.route(KEYWORD.CREATION);
+        this.sectionModal.route(MODAL_TYPE.CREATION);
       }
     );
 
@@ -94,7 +90,7 @@ class SectionComponent extends Component {
 
       $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).className = `bg-${color}`;
       $(`#${ID_SELECTOR.SECTION_LIST}`).innerHTML = stations
-        .map(SECTION_CREATING_STATION_TEMPLATE)
+        .map(SECTION_TEMPLATE.CREATING_STATION)
         .join('');
       closeModal();
     } catch (err) {
@@ -120,12 +116,12 @@ class SectionComponent extends Component {
     }
   };
 
-  #renderSelectOption() {
+  #loadSelectOption() {
     const lines = this.props.linesState.Data;
     const initialTemplate = `<option selected value="${KEYWORD.NONE}">노선을 선택해주세요</option>`;
 
     $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).innerHTML =
-      initialTemplate + lines.map(SECTION_CREATING_OPTION_TEMPLATE).join('');
+      initialTemplate + lines.map(SECTION_TEMPLATE.CREATING_OPTION).join('');
   }
 }
 

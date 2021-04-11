@@ -1,4 +1,4 @@
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class='d-flex flex-col'>
   <div class='d-flex justify-center'>
     <img src='src/images/subway_emoji.png' width='200' />
@@ -9,7 +9,7 @@ const MAIN_COMPONENT = `
 
 const HOME_TEMPLATE = {
   TITLE: '🚇 지하철 노선도',
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default HOME_TEMPLATE;

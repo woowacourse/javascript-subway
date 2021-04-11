@@ -1,27 +1,25 @@
 import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
 
-const FULL_MAP_CREATING_LINE_TEMPLATE = line => {
+const CREATING_LINE = line => {
   const { name, stations, color } = line;
 
   return `
   <li class="${CLASS_SELECTOR.FULL_MAP_LINE_ITEM}">
     <h2 class="${CLASS_SELECTOR.FULL_MAP_LINE_TITLE} bg-${color}">${name}</h2>
     <ul class="${CLASS_SELECTOR.FULL_MAP_STATION_LIST}">
-      ${stations
-        .map(station => FULL_MAP_CREATING_STATION_TEMPLATE(station.name, color))
-        .join('')}
+      ${stations.map(station => CREATING_STATION(station.name, color)).join('')}
     </ul>
   </li>
   `;
 };
 
-const FULL_MAP_CREATING_STATION_TEMPLATE = (stationName, color) => `
+const CREATING_STATION = (stationName, color) => `
   <li class="${CLASS_SELECTOR.FULL_MAP_STATION_ITEM} bg-${color}">
     <span class="${CLASS_SELECTOR.FULL_MAP_STATION_NAME}">${stationName}</span>
   </li>
 `;
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -36,7 +34,8 @@ const MAIN_COMPONENT = `
 
 const FULL_MAP_TEMPLATE = {
   TITLE: `🗺 전체 보기`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
+  CREATING_LINE,
 };
 
-export { FULL_MAP_TEMPLATE, FULL_MAP_CREATING_LINE_TEMPLATE };
+export { FULL_MAP_TEMPLATE };

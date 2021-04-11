@@ -1,6 +1,6 @@
 import { CLASS_SELECTOR, ID_SELECTOR, THRESHOLD } from '../constants.js';
 
-const STATION_CREATING_STATION_TEMPLATE = ({ id, name }) => {
+const CREATING_STATION = ({ id, name }) => {
   return `
   <li class="${CLASS_SELECTOR.STATION_LIST_ITEM} d-flex items-center py-2">
     <span class="w-100 pl-2">${name}</span>
@@ -24,7 +24,7 @@ const STATION_CREATING_STATION_TEMPLATE = ({ id, name }) => {
   `;
 };
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper bg-white p-10">
   <div class="heading">
     <h2 class="mt-1">🚉 역 관리</h2>
@@ -59,7 +59,7 @@ const MAIN_COMPONENT = `
 </div>
 `;
 
-const MODAL_COMPONENT = `
+const MODAL = `
 <div class="modal-inner station-modal-inner p-8">
   <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close">
     <svg viewbox="0 0 40 40">
@@ -99,8 +99,9 @@ const MODAL_COMPONENT = `
 
 const STATION_TEMPLATE = {
   TITLE: `🚉 역 관리`,
-  MAIN: MAIN_COMPONENT,
-  MODAL: MODAL_COMPONENT,
+  MAIN,
+  MODAL,
+  CREATING_STATION,
 };
 
-export { STATION_TEMPLATE, STATION_CREATING_STATION_TEMPLATE };
+export { STATION_TEMPLATE };

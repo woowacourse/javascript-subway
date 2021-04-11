@@ -1,7 +1,7 @@
 import { ID_SELECTOR, CLASS_SELECTOR, THRESHOLD } from '../constants.js';
 import { colorOptionMatrix } from '../utils/mock.js';
 
-const LINE_CREATING_LINE_TEMPLATE = ({ name, color, id }) => {
+const CREATING_LINE = ({ name, color, id }) => {
   return `
   <li class="${CLASS_SELECTOR.LINE_LIST_ITEM} d-flex items-center py-2 relative">
     <span class="subway-line-color-dot bg-${color}"></span>
@@ -27,7 +27,7 @@ const LINE_CREATING_LINE_TEMPLATE = ({ name, color, id }) => {
   <hr class="my-0" />`;
 };
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <main class="mt-10 d-flex justify-center">
   <div class="wrapper bg-white p-10">
     <div class="heading d-flex">
@@ -45,7 +45,7 @@ const MAIN_COMPONENT = `
   </div>
   </main>`;
 
-const MODAL_COMPONENT = `
+const MODAL = `
 <div class="modal-inner line-creation-modal-inner p-8">
 <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close"}>
   <svg viewbox="0 0 40 40">
@@ -158,7 +158,7 @@ const MODAL_COMPONENT = `
 </div>
 `;
 
-const REVISION_MODAL_COMPONENT = `
+const REVISION_MODAL = `
 <div class="modal-inner line-revision-modal-inner p-8">
 <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close"}>
   <svg viewbox="0 0 40 40">
@@ -227,7 +227,6 @@ function makeSubwayLineColorOption() {
     .join('<br/>');
 }
 
-// TODO: 버튼 CSS 조정 필요
 function subwayLineColorOptionTemplate(colorOption) {
   if (colorOption.startsWith('line')) {
     return `<button data-color="${colorOption}" type="button" class="${
@@ -241,10 +240,10 @@ function subwayLineColorOptionTemplate(colorOption) {
 
 const LINE_TEMPLATE = {
   TITLE: `🚇 노선 관리`,
-  MAIN: MAIN_COMPONENT,
-  //TODO: DEFAULT_MODAL로 이름바꾸기
-  MODAL: MODAL_COMPONENT,
-  REVISION_MODAL_COMPONENT,
+  MAIN,
+  MODAL,
+  REVISION_MODAL,
+  CREATING_LINE,
 };
 
-export { LINE_TEMPLATE, LINE_CREATING_LINE_TEMPLATE };
+export { LINE_TEMPLATE };

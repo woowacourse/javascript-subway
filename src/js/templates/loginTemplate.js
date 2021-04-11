@@ -1,6 +1,6 @@
 import { CLASS_SELECTOR, ID_SELECTOR, URL } from '../constants';
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2>👋 로그인</h2>
@@ -50,7 +50,7 @@ const MAIN_COMPONENT = `
 
 const LOGIN_TEMPLATE = {
   TITLE: `🚇 로그인`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default LOGIN_TEMPLATE;

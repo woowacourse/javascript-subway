@@ -1,8 +1,5 @@
 import { ID_SELECTOR, REQUEST_URL } from '../constants.js';
-import {
-  FULL_MAP_CREATING_LINE_TEMPLATE,
-  FULL_MAP_TEMPLATE,
-} from '../templates/fullMapTemplate.js';
+import { FULL_MAP_TEMPLATE } from '../templates/fullMapTemplate.js';
 import { fetchLineRead } from '../utils/fetch.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
@@ -39,7 +36,7 @@ class FullMapComponent extends Component {
 
   #renderFullMap(lines) {
     $(`#${ID_SELECTOR.FULL_MAP_LINE_LIST}`).innerHTML = lines
-      .map(FULL_MAP_CREATING_LINE_TEMPLATE)
+      .map(FULL_MAP_TEMPLATE.CREATING_LINE)
       .join('');
   }
 }
