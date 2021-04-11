@@ -102,7 +102,7 @@ class LineComponent extends Component {
   };
 
   #onLineColorSelected = ({ target }) => {
-    if (!hasClassName(target, CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTIONs)) {
+    if (!hasClassName(target, CLASS_SELECTOR.LINE_COLOR_SELECTOR_OPTION)) {
       return;
     }
 
