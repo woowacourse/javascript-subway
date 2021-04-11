@@ -1,4 +1,5 @@
-import { AUTH_MESSAGES, API_ENDPOINT, HEADERS } from '../../../constants/index.js';
+import { AUTH_MESSAGES, API_ENDPOINT, STATUS_CODE } from '../../../constants/index.js';
+import { GET, handleException } from '../../../utils/index.js';
 
 export const updateSubmitButtonState = ({ currentTarget }) => {
   const $button = currentTarget.submit;
@@ -52,10 +53,13 @@ async function getValidationMessageOfEmail($input) {
   }
 
   try {
-    const response = await fetchEmailValidation(email);
+    const response = await GET(`${API_ENDPOINT.EMAIL_VALIDATION}?email=${email}`);
 
     if (!response.ok) {
-      return AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED;
+      const message = await handleException(response, {
+        [STATUS_CODE.EMAIL_VALIDATION.DUPLICATED]: () => AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED,
+      });
+      return message;
     }
   } catch (error) {
     return error.message;
@@ -71,18 +75,4 @@ function getValidationMessageOfPassword($input) {
   }
 
   return AUTH_MESSAGES.USER_PASSWORD_IS_AVAILABLE;
-}
-
-async function fetchEmailValidation(email) {
-  const url = new URL(API_ENDPOINT.EMAIL_VALIDATION);
-  const parameters = new URLSearchParams({ email });
-
-  url.search = parameters.toString();
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: HEADERS,
-  });
-
-  return response;
 }

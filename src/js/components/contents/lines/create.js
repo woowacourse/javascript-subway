@@ -1,8 +1,6 @@
 import { renderContent } from '../../index.js';
-import { goTo } from '../../../router/index.js';
-import { logout } from '../../../auth/index.js';
-import { toStringFromFormData, showNotification, reportError, POST } from '../../../utils/index.js';
-import { API_ENDPOINT, STATUS_CODE, LINES_MESSAGES, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
+import { toStringFromFormData, showNotification, reportError, POST, handleException } from '../../../utils/index.js';
+import { API_ENDPOINT, STATUS_CODE, LINES_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
 export async function requestCreateLine({ formData, target }) {
   try {
@@ -10,21 +8,11 @@ export async function requestCreateLine({ formData, target }) {
       body: toStringFromFormData(formData),
     });
 
-    if (response.status === STATUS_CODE.AUTH_FAILED) {
-      showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
-      logout();
-      goTo(PATHNAMES.LOGIN);
-      return;
-    }
-
-    if (response.status === STATUS_CODE.LINES.CREATE.DUPLICATED) {
-      showNotification(LINES_MESSAGES.LINE_NAME_ALREADY_EXISTS);
-      return;
-    }
-
     if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`[status code: ${response.status}] ${errorMessage}`);
+      await handleException(response, {
+        [STATUS_CODE.LINES.CREATE.DUPLICATED]: () => showNotification(LINES_MESSAGES.LINE_NAME_ALREADY_EXISTS),
+      });
+      return;
     }
 
     renderContent(PATHNAMES.LINES);

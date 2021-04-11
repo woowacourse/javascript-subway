@@ -4,6 +4,7 @@ import { $, $$, show, hide } from './DOM.js';
 import { GET, POST, DELETE, PUT } from './fetch.js';
 import { showSnackbar, showNotification } from './notify.js';
 import { dispatchFormData, toStringFromFormData } from './form.js';
+import handleException from './exception.js';
 
 const hasPropertyValue = (obj, value) => {
   if (obj === null || typeof obj !== 'object') {
@@ -21,6 +22,7 @@ export {
   debounce,
   dispatchFormData,
   hasPropertyValue,
+  handleException,
   hide,
   reportError,
   show,

@@ -1,9 +1,7 @@
 import { renderNonEditMode } from './view.js';
 import { renderContent } from '../../index.js';
-import { showNotification, toStringFromFormData, reportError, PUT } from '../../../utils/index.js';
-import { STATIONS_MESSAGES, API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
-import { logout } from '../../../auth/index.js';
-import { goTo } from '../../../router/index.js';
+import { showNotification, toStringFromFormData, reportError, PUT, handleException } from '../../../utils/index.js';
+import { STATIONS_MESSAGES, API_ENDPOINT, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
 
 export default async function requestUpdateStation({ target: $editForm, formData }) {
   const { stationId, stationName } = $editForm.dataset;
@@ -19,21 +17,11 @@ export default async function requestUpdateStation({ target: $editForm, formData
       body: toStringFromFormData(formData),
     });
 
-    if (response.status === STATUS_CODE.AUTH_FAILED) {
-      showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
-      logout();
-      goTo(PATHNAMES.LOGIN);
-      return;
-    }
-
-    if (response.status === STATUS_CODE.STATIONS.UPDATE.DUPLICATED) {
-      showNotification(STATIONS_MESSAGES.STATION_NAME_ALREADY_EXISTS);
-      return;
-    }
-
     if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`[status code: ${response.status}] ${errorMessage}`);
+      await handleException(response, {
+        [STATUS_CODE.STATIONS.UPDATE.DUPLICATED]: () => showNotification(STATIONS_MESSAGES.STATION_NAME_ALREADY_EXISTS),
+      });
+      return;
     }
 
     renderContent(PATHNAMES.STATIONS);

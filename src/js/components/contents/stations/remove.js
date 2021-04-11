@@ -1,9 +1,7 @@
 import { renderNonEditMode } from './view.js';
 import { renderContent } from '../../index.js';
-import { showNotification, reportError, DELETE } from '../../../utils/index.js';
-import { STATIONS_MESSAGES, API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
-import { logout } from '../../../auth/index.js';
-import { goTo } from '../../../router/index.js';
+import { showNotification, reportError, DELETE, handleException } from '../../../utils/index.js';
+import { STATIONS_MESSAGES, API_ENDPOINT, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
 
 export default async function requestRemoveStation($editForm) {
   const { stationId } = $editForm.dataset;
@@ -11,21 +9,12 @@ export default async function requestRemoveStation($editForm) {
   try {
     const response = await DELETE(`${API_ENDPOINT.STATIONS}/${stationId}`);
 
-    if (response.status === STATUS_CODE.AUTH_FAILED) {
-      showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
-      logout();
-      goTo(PATHNAMES.LOGIN);
-      return;
-    }
-
-    if (response.status === STATUS_CODE.STATIONS.REMOVE.REGISTERED_TO_LINE) {
-      showNotification(STATIONS_MESSAGES.STATION_IS_REGISTERED_TO_LINE);
-      return;
-    }
-
     if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`[status code: ${response.status}] ${errorMessage}`);
+      await handleException(response, {
+        [STATUS_CODE.STATIONS.REMOVE.REGISTERED_TO_LINE]: () =>
+          showNotification(STATIONS_MESSAGES.STATION_IS_REGISTERED_TO_LINE),
+      });
+      return;
     }
 
     renderContent(PATHNAMES.STATIONS);
