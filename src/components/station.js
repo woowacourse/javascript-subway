@@ -32,16 +32,19 @@ export default class Station extends Observer {
   }
 
   renderComponent() {
-    const targetContainer = $(this.#targetSelector);
-    if (!targetContainer) return;
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
 
-    targetContainer.innerHTML = this.#getStationListTemplate();
+    $targetContainer.innerHTML = this.#getStationListTemplate();
   }
 
   initEvents() {
-    $(this.#parentSelector).addEventListener('submit', delegateStationSubmitEvent);
-    $(this.#targetSelector).addEventListener('focusout', delegateStationFocusOutEvent);
-    $(this.#targetSelector).addEventListener('click', delegateStationClickEvent);
+    const $parentContainer = $(this.#parentSelector);
+    const $targetContainer = $(this.#targetSelector);
+
+    $parentContainer && $parentContainer.addEventListener('submit', delegateStationSubmitEvent);
+    $targetContainer && $targetContainer.addEventListener('focusout', delegateStationFocusOutEvent);
+    $targetContainer && $targetContainer.addEventListener('click', delegateStationClickEvent);
   }
 
   #getWrapperTemplate() {

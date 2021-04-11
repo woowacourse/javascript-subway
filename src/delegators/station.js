@@ -24,6 +24,7 @@ export function delegateStationClickEvent(event) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
     onStationItemDeleteClick(target);
+    return;
   }
 }
 
@@ -35,7 +36,7 @@ export function delegateStationFocusOutEvent(event) {
   }
 }
 
-function onStationFormSubmit(target) {
+async function onStationFormSubmit(target) {
   const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
   const targetStationName = $stationNameInput.value;
   const stationList = state.get(STATE_KEY.STATION_LIST);
@@ -52,17 +53,15 @@ function onStationFormSubmit(target) {
     return;
   }
 
-  requestStationRegistration(targetStationName)
-    .then(({ id, name }) => {
-      state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
-    })
-    .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
-    })
-    .finally(() => {
-      $stationNameInput.value = '';
-    });
+  try {
+    const { id, name } = await requestStationRegistration(targetStationName);
+    state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
+  } catch (error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
+  } finally {
+    $stationNameInput.value = '';
+  }
 }
 
 function onStationItemInputOpen(target) {
@@ -73,7 +72,7 @@ function onStationItemInputOpen(target) {
   $stationInput.focus();
 }
 
-function onStationItemInputFocusOut(targetInput) {
+async function onStationItemInputFocusOut(targetInput) {
   const newStationName = targetInput.value;
   const targetStationId = Number(targetInput.dataset.stationId);
   const stationList = state.get(STATE_KEY.STATION_LIST);
@@ -95,17 +94,17 @@ function onStationItemInputFocusOut(targetInput) {
   }
 
   targetStationItem.name = newStationName;
-  requestStationUpdate(targetStationId, newStationName)
-    .then(() => {
-      state.update(STATE_KEY.STATION_LIST, stationList);
-    })
-    .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.STATION_UPDATE_FAILED);
-    });
+
+  try {
+    await requestStationUpdate(targetStationId, newStationName);
+    state.update(STATE_KEY.STATION_LIST, stationList);
+  } catch (error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.STATION_UPDATE_FAILED);
+  }
 }
 
-function onStationItemDeleteClick(target) {
+async function onStationItemDeleteClick(target) {
   const stationId = Number(target.dataset.stationId);
   if (isStationExistInLine(stationId)) {
     alert(ALERT_MESSAGE.DELETING_STATION_EXCLUDED_IN_LINE);
@@ -115,17 +114,16 @@ function onStationItemDeleteClick(target) {
   const newStationList = state.get(STATE_KEY.STATION_LIST).filter(station => station.id !== Number(stationId));
   const stationItem = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM}[data-station-id="${stationId}"]`);
   setTurnRedAnimation(stationItem);
-  requestStationDelete(stationId)
-    .then(() => {
-      setFadeOutAnimation(stationItem);
-      wait(100).then(() => {
-        state.update(STATE_KEY.STATION_LIST, newStationList);
-      });
-    })
-    .catch(error => {
-      cancelTurnRedAnimation(stationItem);
-      console.log(error);
-    });
+
+  try {
+    await requestStationDelete(stationId);
+    setFadeOutAnimation(stationItem);
+    await wait(100);
+    state.update(STATE_KEY.STATION_LIST, newStationList);
+  } catch (error) {
+    cancelTurnRedAnimation(stationItem);
+    console.log(error);
+  }
 }
 
 function isStationExistInLine(stationId) {

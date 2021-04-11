@@ -134,6 +134,8 @@ export const ALERT_MESSAGE = Object.freeze({
   NOT_PROPER_LINE_NAME_LENGTH: `노선의 이름은 ${VALIDATION.MIN_LINE_NAME_LENGTH}자 이상 ${VALIDATION.MAX_LINE_NAME_LENGTH}자 이하여야 합니다`,
   DUPLICATED_STATION_NAME_EXIST: '이미 등록된 역의 이름입니다',
   DUPLICATED_LINE_NAME_EXIST: '이미 등록된 노선의 이름입니다',
+  SECTION_DELETE_FAILED: '구간 삭제에 실패했습니다',
+  SECTION_REGISTER_FAILED: '구간 추가에 실패했습니다',
 });
 
 export const CONFIRM_MESSAGE = Object.freeze({

@@ -27,22 +27,20 @@ export function delegateLineClickEvent(event) {
   }
 }
 
-function deleteLineItem(target) {
+async function deleteLineItem(target) {
   const { lineId } = target.dataset;
   const newLineList = state.get(STATE_KEY.LINE_LIST).filter(line => line.id !== Number(lineId));
   const lineItem = $(`.${SELECTOR_CLASS.LINE_LIST_ITEM}[data-line-id="${lineId}"]`);
   setTurnRedAnimation(lineItem);
-  requestLineDelete(lineId)
-    .then(() => {
-      setFadeOutAnimation(lineItem);
-      wait(100).then(() => {
-        state.update(STATE_KEY.LINE_LIST, newLineList);
-      });
-    })
-    .catch(error => {
-      cancelTurnRedAnimation(lineItem);
-      console.log(error);
-    });
+  try {
+    await requestLineDelete(lineId);
+    setFadeOutAnimation(lineItem);
+    await wait(100);
+    state.update(STATE_KEY.LINE_LIST, newLineList);
+  } catch (error) {
+    cancelTurnRedAnimation(lineItem);
+    console.log(error);
+  }
 }
 
 function openLineModal() {

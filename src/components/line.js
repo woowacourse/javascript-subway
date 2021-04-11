@@ -20,14 +20,15 @@ export default class Line extends Observer {
   }
 
   renderComponent() {
-    const targetContainer = $(this.#targetSelector);
-    if (!targetContainer) return;
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
 
-    targetContainer.innerHTML = this.#getListListTemplate();
+    $targetContainer.innerHTML = this.#getListListTemplate();
   }
 
   initEvents() {
-    $(this.#parentSelector).addEventListener('click', delegateLineClickEvent);
+    const $parentContainer = $(this.#parentSelector);
+    $parentContainer && $parentContainer.addEventListener('click', delegateLineClickEvent);
   }
 
   #getWrapperTemplate() {

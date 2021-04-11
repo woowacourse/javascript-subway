@@ -1,5 +1,5 @@
 import { closeModal } from '../utils/dom.js';
-import { SELECTOR_CLASS, SELECTOR_ID, STATE_KEY } from '../constants.js';
+import { ALERT_MESSAGE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY } from '../constants.js';
 import { state } from '../store.js';
 import { requestSectionRegistration } from '../api/section.js';
 import { requestLineList } from '../api/line.js';
@@ -27,11 +27,15 @@ async function onSectionItemRegister(target) {
   const targetLine = state.get(STATE_KEY.LINE_LIST).find(line => line.id === lineId);
   const newSection = getNewSection(target);
 
-  await requestSectionRegistration(targetLine, newSection);
-  const newLineList = await requestLineList();
-
-  state.update(STATE_KEY.LINE_LIST, newLineList);
-  state.update(STATE_KEY.TARGET_SECTION_LINE_ID, lineId);
+  try {
+    await requestSectionRegistration(targetLine, newSection);
+    const newLineList = await requestLineList();
+    state.update(STATE_KEY.LINE_LIST, newLineList);
+    state.update(STATE_KEY.TARGET_SECTION_LINE_ID, lineId);
+  } catch (error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.SECTION_REGISTER_FAILED);
+  }
 }
 
 function getNewSection(target) {

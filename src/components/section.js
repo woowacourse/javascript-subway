@@ -21,24 +21,26 @@ export default class Section extends Observer {
   }
 
   renderComponent() {
-    const lineListContainer = $(this.#lineListSelector);
-    const stationListContainer = $(this.#stationListSelector);
-    if (!lineListContainer || !stationListContainer) return;
+    const $lineListContainer = $(this.#lineListSelector);
+    const $stationListContainer = $(this.#stationListSelector);
+    if (!$lineListContainer || !$stationListContainer) return;
 
     const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const initialTargetLine = lineList.find(line => line.id === targetSectionLineId);
     const [targetLine] = initialTargetLine ? [initialTargetLine] : lineList;
-    lineListContainer.innerHTML = this.#getLineSelectTemplate(lineList, targetLine);
-    stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
+    $lineListContainer.innerHTML = this.#getLineSelectTemplate(lineList, targetLine);
+    $stationListContainer.innerHTML = targetLine.stations.map(station => this.#getStationTemplate(station)).join('');
   }
 
   initEvents() {
-    $(this.#parentSelector).addEventListener('click', delegateSectionClickEvent);
+    const $parent = $(this.#parentSelector);
     const $lineSelect = $(`#${SELECTOR_ID.SECTION_LINE_SELECT}`);
-    $lineSelect.addEventListener('change', () => {
-      this.#state.update(STATE_KEY.TARGET_SECTION_LINE_ID, Number($lineSelect.value));
-    });
+    $parent && $parent.addEventListener('click', delegateSectionClickEvent);
+    $lineSelect &&
+      $lineSelect.addEventListener('change', () => {
+        this.#state.update(STATE_KEY.TARGET_SECTION_LINE_ID, Number($lineSelect.value));
+      });
   }
 
   #getWrapperTemplate() {

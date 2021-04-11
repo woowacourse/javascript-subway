@@ -15,15 +15,16 @@ export default class Login {
   }
 
   renderComponent() {
-    const targetContainer = $(this.#targetSelector);
-    if (!targetContainer) return;
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
 
-    targetContainer.innerHTML = this.#getLoginTemplate();
+    $targetContainer.innerHTML = this.#getLoginTemplate();
   }
 
   initEvents() {
-    $(this.#targetSelector).addEventListener('submit', delegateLoginSubmitEvent);
-    $(this.#targetSelector).addEventListener('click', delegateLoginClickEvent);
+    const $targetContainer = $(this.#targetSelector);
+    $targetContainer && $targetContainer.addEventListener('submit', delegateLoginSubmitEvent);
+    $targetContainer && $targetContainer.addEventListener('click', delegateLoginClickEvent);
   }
 
   #getWrapperTemplate() {

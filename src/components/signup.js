@@ -15,14 +15,15 @@ export default class SignUp {
   }
 
   renderComponent() {
-    const targetContainer = $(this.#targetSelector);
-    if (!targetContainer) return;
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
 
-    targetContainer.innerHTML = this.#getTemplate();
+    $targetContainer.innerHTML = this.#getTemplate();
   }
 
   initEvents() {
-    $(`#${SELECTOR_ID.SIGN_UP_FORM}`).addEventListener('submit', delegateSignUpSubmitEvent);
+    const $signUpForm = $(`#${SELECTOR_ID.SIGN_UP_FORM}`);
+    $signUpForm && $signUpForm.addEventListener('submit', delegateSignUpSubmitEvent);
   }
 
   #getWrapperTemplate() {

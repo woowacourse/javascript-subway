@@ -14,11 +14,15 @@ export default class Navigator extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    const $navigator = $(this.#targetSelector);
+    if (!$navigator) return;
+
+    $navigator.innerHTML = this.#getTemplate();
   }
 
   initEvents() {
-    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent);
+    const $navigator = $(this.#targetSelector);
+    $navigator && $navigator.addEventListener('click', delegateNavigatorClickEvent);
   }
 
   #getTemplate() {

@@ -16,20 +16,22 @@ export default class LineModal extends Observer {
   }
 
   renderComponent() {
-    const modal = $(this.#parentSelector);
-    if (!modal) return;
+    const $modal = $(this.#parentSelector);
+    if (!$modal) return;
 
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
-    modal.innerHTML = this.#getModalTemplate(targetLine);
+    $modal.innerHTML = this.#getModalTemplate(targetLine);
     $(`.${SELECTOR_CLASS.LINE_COLOR_PICKER}`).innerHTML = colorOptions
       .map(color => this.#getSubwayLineColorOptionTemplate(color))
       .join('');
   }
 
   initEvents() {
-    $(this.#parentSelector).addEventListener('click', delegateLineModalClickEvent);
-    $(this.#targetSelector).addEventListener('submit', delegateLineModalSubmitEvent);
+    const $modal = $(this.#parentSelector);
+    const $modalContent = $(this.#targetSelector);
+    $modal && $modal.addEventListener('click', delegateLineModalClickEvent);
+    $modalContent && $modalContent.addEventListener('submit', delegateLineModalSubmitEvent);
   }
 
   #getModalTemplate(lineItem) {

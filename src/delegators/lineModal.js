@@ -40,7 +40,7 @@ function onColorPickerClick(target) {
   indicator.dataset.color = `bg-${color}`;
 }
 
-function onLineItemRegister(target) {
+async function onLineItemRegister(target) {
   const lineName = target[SELECTOR_NAME.LINE_NAME].value;
   const upStationId = Number(target[SELECTOR_NAME.UP_STATION].value);
   const downStationId = Number(target[SELECTOR_NAME.DOWN_STATION].value);
@@ -67,14 +67,17 @@ function onLineItemRegister(target) {
     distance,
     duration,
   };
-
-  requestLineRegistration(newLine).then(line => {
+  try {
+    const line = await requestLineRegistration(newLine);
     lineList.push(line);
     state.update(STATE_KEY.LINE_LIST, lineList);
-  });
+  } catch (error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.LINE_GET_FAILED);
+  }
 }
 
-function onLineItemUpdate(target) {
+async function onLineItemUpdate(target) {
   const newLine = {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
     name: target[SELECTOR_NAME.LINE_NAME].value,
@@ -84,14 +87,13 @@ function onLineItemUpdate(target) {
   const isNewLineApplied = tryApplyingNewLine(newLine, lineList);
   if (!isNewLineApplied) return;
 
-  requestLineUpdate(newLine)
-    .then(() => {
-      state.update(STATE_KEY.LINE_LIST, lineList);
-    })
-    .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.LINE_UPDATE_FAILED);
-    });
+  try {
+    await requestLineUpdate(newLine);
+    state.update(STATE_KEY.LINE_LIST, lineList);
+  } catch (error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.LINE_UPDATE_FAILED);
+  }
 }
 
 function tryApplyingNewLine(newLine, lineList) {
