@@ -1,11 +1,13 @@
 import { goTo } from '../../../router/index.js';
-import { showNotification, reportError, toStringFromFormData } from '../../../utils/index.js';
+import { showNotification, reportError, toStringFromFormData, POST } from '../../../utils/index.js';
 import { login } from '../../../auth/index.js';
-import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE, API_ENDPOINT, HEADERS } from '../../../constants/index.js';
+import { AUTH_MESSAGES, PATHNAMES, STATUS_CODE, API_ENDPOINT } from '../../../constants/index.js';
 
 const requestLogin = async ({ formData }) => {
   try {
-    const response = await fetchLogin(formData);
+    const response = await POST(API_ENDPOINT.LOGIN, {
+      body: toStringFromFormData(formData),
+    });
 
     if (response.status === STATUS_CODE.LOGIN.FAILED) {
       showNotification(AUTH_MESSAGES.USER_EMAIL_OR_PASSWORD_IS_INVALID);
@@ -29,15 +31,5 @@ const requestLogin = async ({ formData }) => {
     });
   }
 };
-
-async function fetchLogin(formData) {
-  const response = await fetch(API_ENDPOINT.LOGIN, {
-    method: 'POST',
-    headers: HEADERS,
-    body: toStringFromFormData(formData),
-  });
-
-  return response;
-}
 
 export default requestLogin;

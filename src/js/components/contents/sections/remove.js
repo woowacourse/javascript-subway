@@ -1,12 +1,12 @@
 import { renderContent } from '../../index.js';
-import { showNotification, reportError } from '../../../utils/index.js';
+import { showNotification, reportError, DELETE } from '../../../utils/index.js';
 import { SECTIONS_MESSAGES, API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
-import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
+import { logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 
 export default async function requestRemoveSection({ lineId, stationId }) {
   try {
-    const response = await fetchRemoveSection({ lineId, stationId });
+    const response = await DELETE(`${API_ENDPOINT.LINES}/${lineId}/sections?stationId=${stationId}`);
 
     if (response.status === STATUS_CODE.AUTH_FAILED) {
       showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
@@ -33,18 +33,4 @@ export default async function requestRemoveSection({ lineId, stationId }) {
       messageToLog: error.message,
     });
   }
-}
-
-async function fetchRemoveSection({ lineId, stationId }) {
-  const url = new URL(`${API_ENDPOINT.LINES}/${lineId}/sections`);
-  const parameters = new URLSearchParams({ stationId });
-
-  url.search = parameters.toString();
-
-  const response = await fetch(url, {
-    method: 'DELETE',
-    headers: getHeadersWithAccessToken(),
-  });
-
-  return response;
 }

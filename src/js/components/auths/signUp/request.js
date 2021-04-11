@@ -1,10 +1,12 @@
 import { goTo } from '../../../router/index.js';
-import { reportError, showNotification, toStringFromFormData } from '../../../utils/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE, HEADERS } from '../../../constants/index.js';
+import { POST, reportError, showNotification, toStringFromFormData } from '../../../utils/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
 
 export default async function requestSignUp({ formData }) {
   try {
-    const response = await fetchSignUp(formData);
+    const response = await POST(API_ENDPOINT.SIGN_UP, {
+      body: toStringFromFormData(formData),
+    });
 
     if (response.status === STATUS_CODE.SIGN_UP.EMAIL_DUPLICATED) {
       showNotification(AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED);
@@ -24,14 +26,4 @@ export default async function requestSignUp({ formData }) {
       messageToLog: error.message,
     });
   }
-}
-
-async function fetchSignUp(formData) {
-  const response = await fetch(API_ENDPOINT.SIGN_UP, {
-    method: 'POST',
-    headers: HEADERS,
-    body: toStringFromFormData(formData),
-  });
-
-  return response;
 }

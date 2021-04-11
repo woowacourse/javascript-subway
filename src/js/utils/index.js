@@ -1,6 +1,7 @@
 import debounce from './debounce.js';
 import reportError from './reportError.js';
 import { $, $$, show, hide } from './DOM.js';
+import { GET, POST, DELETE, PUT } from './fetch.js';
 import { showSnackbar, showNotification } from './notify.js';
 import { dispatchFormData, toStringFromFormData } from './form.js';
 
@@ -26,4 +27,8 @@ export {
   showSnackbar,
   showNotification,
   toStringFromFormData,
+  GET,
+  POST,
+  DELETE,
+  PUT,
 };

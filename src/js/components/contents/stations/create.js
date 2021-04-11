@@ -1,12 +1,12 @@
 import { renderContent } from '../../index.js';
-import { toStringFromFormData, showNotification, reportError } from '../../../utils/index.js';
-import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
+import { toStringFromFormData, showNotification, reportError, POST } from '../../../utils/index.js';
+import { logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 import { API_ENDPOINT, STATUS_CODE, STATIONS_MESSAGES, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 
 export async function requestCreateStation({ formData, target }) {
   try {
-    const response = await fetchCreateStation(formData);
+    const response = await POST(API_ENDPOINT.STATIONS, { body: toStringFromFormData(formData) });
 
     if (response.status === STATUS_CODE.AUTH_FAILED) {
       showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
@@ -34,16 +34,6 @@ export async function requestCreateStation({ formData, target }) {
       messageToLog: error.message,
     });
   }
-}
-
-async function fetchCreateStation(formData) {
-  const response = await fetch(API_ENDPOINT.STATIONS, {
-    method: 'POST',
-    headers: getHeadersWithAccessToken(),
-    body: toStringFromFormData(formData),
-  });
-
-  return response;
 }
 
 export function updateSubmitButtonState({ currentTarget }) {

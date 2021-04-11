@@ -1,7 +1,7 @@
 import { renderContent } from '../../index.js';
 import { goTo } from '../../../router/index.js';
-import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
-import { toStringFromFormData, showNotification, reportError } from '../../../utils/index.js';
+import { logout } from '../../../auth/index.js';
+import { toStringFromFormData, showNotification, reportError, POST } from '../../../utils/index.js';
 import { API_ENDPOINT, STATUS_CODE, SECTIONS_MESSAGES, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
 import { renderNonEditMode } from './view.js';
 
@@ -15,7 +15,7 @@ export async function requestCreateSection({ target, formData }) {
     formData.set(UP_STATION_ID, upStationId);
     formData.set(DOWN_STATION_ID, downStationId);
 
-    const response = await fetchCreateSection(formData, lineId);
+    const response = await POST(`${API_ENDPOINT.LINES}/${lineId}/sections`, { body: toStringFromFormData(formData) });
 
     if (response.status === STATUS_CODE.AUTH_FAILED) {
       showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
@@ -43,17 +43,6 @@ export async function requestCreateSection({ target, formData }) {
       messageToLog: error.message,
     });
   }
-}
-
-async function fetchCreateSection(formData, lineId) {
-  const url = new URL(`${API_ENDPOINT.LINES}/${lineId}/sections`);
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: getHeadersWithAccessToken(),
-    body: toStringFromFormData(formData),
-  });
-
-  return response;
 }
 
 export function updateSubmitButtonState({ currentTarget }) {

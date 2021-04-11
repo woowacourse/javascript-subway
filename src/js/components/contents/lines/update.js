@@ -1,8 +1,8 @@
 import { renderNonEditMode } from './view.js';
 import { renderContent } from '../../index.js';
-import { showNotification, toStringFromFormData, reportError } from '../../../utils/index.js';
+import { showNotification, toStringFromFormData, reportError, PUT } from '../../../utils/index.js';
 import { LINES_MESSAGES, API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
-import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
+import { logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 
 export default async function requestUpdateLine({ target: $editForm, formData }) {
@@ -15,7 +15,9 @@ export default async function requestUpdateLine({ target: $editForm, formData })
   }
 
   try {
-    const response = await fetchUpdateLine({ lineId, formData });
+    const response = await PUT(`${API_ENDPOINT.LINES}/${lineId}`, {
+      body: toStringFromFormData(formData),
+    });
 
     if (response.status === STATUS_CODE.AUTH_FAILED) {
       showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
@@ -43,14 +45,4 @@ export default async function requestUpdateLine({ target: $editForm, formData })
     });
     renderNonEditMode($editForm);
   }
-}
-
-async function fetchUpdateLine({ lineId, formData }) {
-  const response = await fetch(`${API_ENDPOINT.LINES}/${lineId}`, {
-    method: 'PUT',
-    headers: getHeadersWithAccessToken(),
-    body: toStringFromFormData(formData),
-  });
-
-  return response;
 }

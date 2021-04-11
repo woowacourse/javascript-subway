@@ -1,15 +1,15 @@
 import { renderNonEditMode } from './view.js';
 import { renderContent } from '../../index.js';
-import { showNotification, reportError } from '../../../utils/index.js';
+import { showNotification, reportError, DELETE } from '../../../utils/index.js';
 import { STATIONS_MESSAGES, API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE } from '../../../constants/index.js';
-import { getHeadersWithAccessToken, logout } from '../../../auth/index.js';
+import { logout } from '../../../auth/index.js';
 import { goTo } from '../../../router/index.js';
 
 export default async function requestRemoveStation($editForm) {
   const { stationId } = $editForm.dataset;
 
   try {
-    const response = await fetchRemoveStation(stationId);
+    const response = await DELETE(`${API_ENDPOINT.STATIONS}/${stationId}`);
 
     if (response.status === STATUS_CODE.AUTH_FAILED) {
       showNotification(AUTH_MESSAGES.LOGIN_HAS_BEEN_EXPIRED);
@@ -37,13 +37,4 @@ export default async function requestRemoveStation($editForm) {
     });
     renderNonEditMode($editForm);
   }
-}
-
-async function fetchRemoveStation(stationId) {
-  const response = await fetch(`${API_ENDPOINT.STATIONS}/${stationId}`, {
-    method: 'DELETE',
-    headers: getHeadersWithAccessToken(),
-  });
-
-  return response;
 }
