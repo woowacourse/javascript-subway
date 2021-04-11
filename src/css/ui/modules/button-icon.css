@@ -1,0 +1,24 @@
+i {
+  cursor: pointer;
+  padding: 0 0.3rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+i:hover {
+  color: rgb(5, 172, 193);
+  animation: wave-animation 0.4s infinite;
+}
+
+@keyframes wave-animation {
+  0%,
+  100% {
+    transform: scale(1.2) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.2) rotate(15deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(-10deg);
+  }
+}

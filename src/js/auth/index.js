@@ -13,9 +13,7 @@ export const login = (token) => {
   updateAccessToken(token);
 };
 
-export const logout = () => {
-  updateAccessToken('');
-};
+export const logout = () => updateAccessToken('');
 
 export const getAccessToken = () => accessToken;
 

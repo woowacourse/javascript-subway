@@ -6,10 +6,7 @@ import { PATHNAMES } from '../constants/index.js';
 export function handleWindowPopstate({ target }) {
   const { pathname } = target.location;
 
-  // TODO: 로그인 여부 validation 필요
-  // 1. 로그인 여부 O: 역 관리, 노선 관리, 구간 관리에 접근 불가능
-  // 2. 로그인 여부 X:  로그인 화면, 회원가입 화면에 접근 불가능
-  renderContent(pathname);
+  renderContent(getValidPathname(pathname));
 }
 
 export function handleLinkClick(event) {
@@ -25,6 +22,8 @@ export function handleLinkClick(event) {
 
   if (pathname === PATHNAMES.LOGOUT) {
     logout();
+    goTo(PATHNAMES.HOME);
+    return;
   }
 
   goTo(getValidPathname(pathname));

@@ -1,6 +1,79 @@
-import TEMPLATE from './template.js';
+import onClickButton from './onClickButton.js';
+import requestReadLine from './read.js';
+import requestReadStation from '../stations/read.js';
+import requestUpdateLine from './update.js';
+import { requestCreateLine, updateSubmitButtonState } from './create.js';
+import { dispatchFormData } from '../../../utils/index.js';
+import { LIST_ITEM_TEMPLATE, LINES_TEMPLATE, OPTION_TEMPLATE } from './template.js';
 
-// eslint-disable-next-line import/prefer-default-export
-export const renderLines = ($parent) => {
-  $parent.innerHTML = TEMPLATE;
-};
+const [UP_STATION, DOWN_STATION] = ['상행역', '하행역'];
+const $wrapper = document.createElement('div');
+$wrapper.classList.add('wrapper', 'bg-white', 'p-10');
+$wrapper.innerHTML = LINES_TEMPLATE;
+
+const $list = $wrapper.querySelector('ul');
+const $addForm = $wrapper.querySelector('.add-form');
+const $addInput = $addForm.elements.name;
+const $addLineColorInput = $addForm.elements.color;
+const $addLineColorText = $addForm.querySelector('#add-line-color-label');
+const $addUpStationSelect = $addForm.elements.upStationId;
+const $addDownStationSelect = $addForm.elements.downStationId;
+
+$addForm.addEventListener('input', updateSubmitButtonState);
+$addForm.addEventListener('submit', dispatchFormData);
+$addForm.addEventListener('formdata', requestCreateLine);
+$addLineColorInput.addEventListener('change', renderColorText);
+
+$list.addEventListener('click', onClickButton);
+$list.addEventListener('submit', dispatchFormData);
+$list.addEventListener('formdata', requestUpdateLine);
+
+export async function renderLines($main) {
+  await renderOptions();
+  await renderLineList();
+  $main.replaceChildren($wrapper);
+  $addInput.focus();
+}
+
+async function renderOptions() {
+  const stationList = await requestReadStation();
+
+  $addUpStationSelect.innerHTML = OPTION_TEMPLATE(stationList, UP_STATION);
+  $addDownStationSelect.innerHTML = OPTION_TEMPLATE(stationList, DOWN_STATION);
+}
+
+async function renderLineList() {
+  const lineList = await requestReadLine();
+
+  $list.innerHTML = lineList
+    .map((line) => LIST_ITEM_TEMPLATE(line))
+    .reverse()
+    .join('');
+}
+
+export function renderEditMode($editForm) {
+  $editForm.classList.add('edit-mode');
+
+  const $nameInput = $editForm.elements.name;
+  const $colorInput = $editForm.elements.color;
+
+  $nameInput.disabled = false;
+  $colorInput.disabled = false;
+
+  $nameInput.focus();
+}
+
+export function renderNonEditMode($editForm) {
+  $editForm.classList.remove('edit-mode');
+
+  const $nameInput = $editForm.elements.name;
+  const $colorInput = $editForm.elements.color;
+
+  $nameInput.disabled = true;
+  $colorInput.disabled = true;
+}
+
+function renderColorText(event) {
+  const colorCode = event.target.value;
+  $addLineColorText.innerText = colorCode;
+}

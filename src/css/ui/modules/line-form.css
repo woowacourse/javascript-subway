@@ -1,0 +1,144 @@
+.line-input-field {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  height: auto;
+  padding: 0.5rem 1.5rem;
+  border: 2.5px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 0.5rem;
+  background-color: #f1f5f9;
+}
+
+.line-input-field:focus {
+  border-color: rgb(78, 207, 224);
+}
+
+.line-input-field:focus:invalid {
+  border-color: #666;
+}
+
+.line-input-field + span::before {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+  font-family: monospace;
+}
+
+/* 노선 정보 추가 Form */
+.line-add-form {
+  display: grid;
+  gap: 15px;
+}
+
+#add-line-name {
+  grid-column: 1/3;
+  grid-row: 1/2;
+}
+
+#add-up-station {
+  grid-column: 3/4;
+  grid-row: 1/2;
+}
+
+#add-down-station {
+  grid-column: 4/5;
+  grid-row: 1/2;
+}
+
+#add-distance {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#add-duration {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#add-distance + span::before {
+  content: 'km';
+}
+
+#add-duration + span::before {
+  content: '분';
+}
+
+.line-color-input {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+}
+
+.line-color-input.edit-mode {
+  background-color: rgba(78, 207, 224, 0);
+}
+
+#line-color-container {
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+  border-radius: 0.5rem;
+  background-color: #f1f5f9;
+}
+
+#add-line-color-label {
+  font-family: 'monospace';
+  font-size: smaller;
+}
+
+/* 노선 정보 수정 Form */
+.edit-form.edit-mode .edit-line-name {
+  background-color: #f1f5f9;
+}
+
+.edit-form.edit-mode .line-color-input {
+  background-color: #f1f5f9;
+}
+
+.edit-form .edit-line-name {
+  color: rgb(53, 53, 53);
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 400;
+  width: auto;
+  height: 2.5rem;
+  margin: 0.5rem;
+  border: 2px solid #aaa;
+  border-radius: 1rem;
+  outline: none;
+  background-color: transparent;
+}
+
+.edit-form .edit-line-name:disabled {
+  border-color: rgba(78, 207, 224, 0);
+  outline: none;
+}
+
+/* 노선 이름 추가버튼 */
+.line-add-button {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+  font-size: 1rem;
+  cursor: pointer;
+  min-width: 80px;
+  height: auto;
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 0.5rem;
+}
+
+.line-add-button:focus {
+  border: 2px solid #333;
+}
+
+.line-add-button:disabled {
+  background-color: rgba(78, 207, 224, 0.7);
+  cursor: default;
+}

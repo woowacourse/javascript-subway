@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:5500",
   "watchForFileChanges": false,
-  "pluginsFile": false
+  "pluginsFile": false,
+  "testFiles": ["routing.spec.js", "auths.spec.js", "stations.spec.js", "lines.spec.js", "sections.spec.js"]
 }
