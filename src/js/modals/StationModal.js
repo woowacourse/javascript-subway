@@ -7,7 +7,7 @@ import {
 } from '../constants';
 import { STATION_TEMPLATE } from '../templates/stationTemplate';
 import { closeModal } from '../utils/DOM';
-import { fetchStationNameRevision } from '../utils/fetch';
+import { fetchStationNameUpdate } from '../utils/fetch';
 import { loadStationList } from '../utils/loadByAJAX';
 import $ from '../utils/querySelector';
 import Modal from './Modal';
@@ -73,8 +73,7 @@ class StationRevisionComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      // TODO: fetchStationNameRevision 이름 변경하기
-      await fetchStationNameRevision(url, { bodyData, accessToken });
+      await fetchStationNameUpdate(url, { bodyData, accessToken });
       alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
       closeModal();
       loadStationList(

@@ -10,7 +10,7 @@ import {
 import { SECTION_TEMPLATE } from '../templates/sectionTemplate';
 import $ from '../utils/querySelector';
 import Component from './Component';
-import { fetchLineRead, fetchSectionRemoval } from '../utils/fetch.js';
+import { fetchLineRead, fetchLineDeletion } from '../utils/fetch.js';
 import SectionModal from '../modals/SectionModal';
 import { closeModal } from '../utils/DOM';
 
@@ -105,7 +105,7 @@ class SectionComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchSectionRemoval(url, accessToken);
+      await fetchLineDeletion(url, accessToken);
 
       alert(ALERT_MESSAGE.SECTION_REMOVAL_SUCCESS);
 

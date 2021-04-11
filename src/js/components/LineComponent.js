@@ -10,7 +10,7 @@ import LineModal from '../modals/LineModal.js';
 import { LINE_TEMPLATE } from '../templates/lineTemplate.js';
 import $ from '../utils/querySelector.js';
 import Component from './Component.js';
-import { fetchLineRemoval } from '../utils/fetch.js';
+import { fetchLineDeletion } from '../utils/fetch.js';
 import { loadLineList } from '../utils/loadByAJAX.js';
 
 class LineComponent extends Component {
@@ -83,7 +83,7 @@ class LineComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchLineRemoval(url, accessToken);
+      await fetchLineDeletion(url, accessToken);
 
       alert(ALERT_MESSAGE.LINE_REMOVAL_SUCCESS);
 

@@ -1,9 +1,9 @@
 import { REQUEST_URL } from '../constants.js';
-import { fetchStationRead, fetchLineListRead } from './fetch.js';
+import { fetchStationRead, fetchLineRead } from './fetch.js';
 
-//TODO: load = fetch + state에 담기라서 네이밍 고민해보기
 const loadStationList = async (stationsState, accessToken) => {
   const url = REQUEST_URL + '/stations';
+
   try {
     const response = await fetchStationRead(url, accessToken);
 
@@ -24,7 +24,7 @@ const loadLineList = async (linesState, accessToken) => {
   const url = REQUEST_URL + '/lines';
 
   try {
-    const response = await fetchLineListRead(url, accessToken);
+    const response = await fetchLineRead(url, accessToken);
 
     const lineResponse = await response.json();
     const lines = lineResponse.map(line => ({

@@ -7,7 +7,7 @@ import {
 } from '../constants';
 import { LINE_TEMPLATE } from '../templates/lineTemplate';
 import { closeModal } from '../utils/DOM';
-import { fetchLineCreation, fetchLineRevision } from '../utils/fetch';
+import { fetchLineCreation, fetchLineUpdate } from '../utils/fetch';
 import { loadLineList } from '../utils/loadByAJAX';
 import $ from '../utils/querySelector';
 import Modal from './Modal';
@@ -169,7 +169,7 @@ class LineRevisionComponent extends Component {
 
     // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
-      await fetchLineRevision(url, {
+      await fetchLineUpdate(url, {
         bodyData,
         accessToken,
       });

@@ -9,7 +9,7 @@ import {
   MODAL_TYPE,
   REQUEST_URL,
 } from '../constants.js';
-import { fetchStationCreation, fetchStationRemoval } from '../utils/fetch.js';
+import { fetchStationCreation, fetchStationDeletion } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
 import StationModal from '../modals/StationModal.js';
 
@@ -83,7 +83,7 @@ class StationComponent extends Component {
     const accessToken = this.props.accessTokenState.Data;
 
     try {
-      await fetchStationRemoval(url, accessToken);
+      await fetchStationDeletion(url, accessToken);
 
       alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
 

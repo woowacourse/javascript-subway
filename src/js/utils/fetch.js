@@ -88,7 +88,7 @@ const fetchStationRead = async (url, accessToken) => {
   return response;
 };
 
-const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
+const fetchStationNameUpdate = async (url, { bodyData, accessToken }) => {
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -109,7 +109,7 @@ const fetchStationNameRevision = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchStationRemoval = async (url, accessToken) => {
+const fetchStationDeletion = async (url, accessToken) => {
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -164,7 +164,7 @@ const fetchLineRead = async (url, accessToken) => {
   return response;
 };
 
-const fetchLineRevision = async (url, { bodyData, accessToken }) => {
+const fetchLineUpdate = async (url, { bodyData, accessToken }) => {
   const response = await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(bodyData),
@@ -185,7 +185,7 @@ const fetchLineRevision = async (url, { bodyData, accessToken }) => {
   return response;
 };
 
-const fetchLineRemoval = async (url, accessToken) => {
+const fetchLineDeletion = async (url, accessToken) => {
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -221,7 +221,7 @@ const fetchSectionCreation = async (url, { accessToken, bodyData }) => {
   return response;
 };
 
-const fetchSectionRemoval = async (url, accessToken) => {
+const fetchSectionDeletion = async (url, accessToken) => {
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -246,12 +246,12 @@ export {
   fetchMyInfo,
   fetchStationCreation,
   fetchStationRead,
-  fetchStationNameRevision,
-  fetchStationRemoval,
+  fetchStationNameUpdate,
+  fetchStationDeletion,
   fetchLineCreation,
   fetchLineRead,
-  fetchLineRevision,
-  fetchLineRemoval,
+  fetchLineUpdate,
+  fetchLineDeletion,
   fetchSectionCreation,
-  fetchSectionRemoval,
+  fetchSectionDeletion,
 };
