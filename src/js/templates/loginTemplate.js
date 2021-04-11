@@ -1,4 +1,4 @@
-import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR, URL } from '../constants';
 
 const MAIN_COMPONENT = `
 <div class="wrapper p-10 bg-white">
@@ -42,7 +42,7 @@ const MAIN_COMPONENT = `
     </div>
     <p class="text-gray-700 pl-2">
       아직 회원이 아니신가요?
-      <a href="/pages/signup.html" class="${CLASS_SELECTOR.ANCHOR}">회원가입</a>
+      <a href="${URL.SIGNUP}" class="${CLASS_SELECTOR.ANCHOR}">회원가입</a>
     </p>
   </form>
 </div>

@@ -5,28 +5,28 @@ import {
   ALERT_MESSAGE,
   CLASS_SELECTOR,
   ID_SELECTOR,
-  REQUEST_URL,
-  STATE_KEY,
+  LOCAL_STORAGE_KEY,
 } from '../constants.js';
 import { fetchLogin } from '../utils/fetch.js';
 
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
-
-    if (!this.props?.appState.getData(STATE_KEY.LOGIN_RESPONSE)) {
-      console.error('not exist loginResponse');
-    }
   }
 
   initEvent() {
     const signupAnchor = $(`#${ID_SELECTOR.MAIN} .${CLASS_SELECTOR.ANCHOR}`);
 
     signupAnchor.addEventListener('click', this._onAnchorClicked);
+
     $(`#${ID_SELECTOR.LOGIN_FORM}`).addEventListener(
       'submit',
       this.#onLoginSubmit
     );
+  }
+
+  render() {
+    super.render(LOGIN_TEMPLATE);
   }
 
   #onLoginSubmit = async event => {
@@ -34,25 +34,23 @@ class LoginComponent extends Component {
 
     const email = event.target[ID_SELECTOR.LOGIN_FORM_EMAIL].value;
     const password = event.target[ID_SELECTOR.LOGIN_FORM_PASSWORD].value;
-
-    const url = REQUEST_URL + '/login/token';
-    const data = { email, password };
+    const bodyData = { email, password };
 
     try {
-      const response = await fetchLogin(url, data);
+      const response = await fetchLogin(bodyData);
+
       alert(ALERT_MESSAGE.LOGIN_SUCCESS);
 
-      const loginResponse = await response.json();
-      this.props.appState.setData({ loginResponse });
-    } catch (err) {
-      alert(err.message);
+      const { accessToken } = await response.json();
+
+      localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken);
+
+      this.props.login();
+    } catch (error) {
+      this.props.treatFetchError(error);
       return;
     }
   };
-
-  render() {
-    super.render(LOGIN_TEMPLATE);
-  }
 }
 
 export default LoginComponent;

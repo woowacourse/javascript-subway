@@ -57,3 +57,22 @@ svg {
     box-sizing: border-box;
   }
 }
+
+.modal-inner.station-modal-inner {
+  height: 30%;
+  width: 90%;
+  max-width: 700px;
+  box-sizing: border-box;
+}
+
+.modal-inner.station-modal-inner .input-control {
+  margin-bottom: 0;
+}
+
+.modal-inner.line-creation-modal-inner {
+  height: 80%;
+}
+
+.modal-inner.line-revision-modal-inner {
+  height: 65%;
+}

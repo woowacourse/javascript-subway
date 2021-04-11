@@ -1,7 +1,7 @@
 import Component from './Component.js';
 import SIGNUP_TEMPLATE from '../templates/signupTemplate.js';
 import $ from '../utils/querySelector.js';
-import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL } from '../constants.js';
+import { ALERT_MESSAGE, ID_SELECTOR, REQUEST_URL, URL } from '../constants.js';
 import { fetchSignup } from '../utils/fetch.js';
 
 class SignupComponent extends Component {
@@ -14,6 +14,10 @@ class SignupComponent extends Component {
       'submit',
       this.#onSignupSubmit
     );
+  }
+
+  render() {
+    super.render(SIGNUP_TEMPLATE);
   }
 
   #onSignupSubmit = async event => {
@@ -29,24 +33,19 @@ class SignupComponent extends Component {
       return;
     }
 
-    const url = REQUEST_URL + '/members';
-    const data = { email, name, password };
+    const bodyData = { email, name, password };
 
     try {
-      await fetchSignup(url, data);
-    } catch (err) {
-      alert(err.message);
+      await fetchSignup(bodyData);
+    } catch (error) {
+      this.props.treatFetchError(error);
       return;
     }
 
     alert(ALERT_MESSAGE.SIGNUP_SUCCESS);
 
-    this.props.route('/pages/login.html');
+    this.props.route(URL.LOGIN);
   };
-
-  render() {
-    super.render(SIGNUP_TEMPLATE);
-  }
 }
 
 export default SignupComponent;
