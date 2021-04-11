@@ -17,6 +17,7 @@ export default class SectionModal extends Observer {
   renderComponent() {
     const modal = $(this.#parentSelector);
     if (!modal) return;
+
     const targetSectionLineId = this.#state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
     modal.innerHTML = this.#getModalTemplate(targetSectionLineId);
   }

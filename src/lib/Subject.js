@@ -22,7 +22,6 @@ export default class Subject {
   unsubscribe(key, observer) {
     const newObservers = Object.assign({}, this.observers);
     newObservers[key] = newObservers[key].filter(currentObserver => currentObserver !== observer);
-
     this.observers = newObservers;
   }
 

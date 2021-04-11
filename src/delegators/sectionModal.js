@@ -24,8 +24,10 @@ async function onSectionItemRegister(target) {
   const lineId = Number(target[SELECTOR_ID.SECTION_MODAL_LINE_SELECT].value);
   const targetLine = state.get(STATE_KEY.LINE_LIST).find(line => line.id === lineId);
   const newSection = getNewSection(target);
+
   await requestSectionRegistration(targetLine, newSection);
   const newLineList = await requestLineList();
+
   state.update(STATE_KEY.LINE_LIST, newLineList);
   state.update(STATE_KEY.TARGET_SECTION_LINE_ID, lineId);
 }

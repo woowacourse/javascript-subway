@@ -21,6 +21,7 @@ export default class Subway extends Observer {
   renderComponent() {
     const targetContainer = $(this.#targetSelector);
     if (!targetContainer) return;
+
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const processedLineList = this.#getProcessedLineList(lineList);
     targetContainer.innerHTML = this.#getSubwayMapTemplate(processedLineList);

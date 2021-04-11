@@ -5,6 +5,7 @@ import request from './request.js';
 export const requestLineRegistration = async line => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
+
   const response = await request.post({
     url: `${API_END_POINT}/lines`,
     token: accessToken,
@@ -18,6 +19,10 @@ export const requestLineRegistration = async line => {
     },
   });
 
+  if (!response.ok) {
+    throw new Error('역 등록 실패');
+  }
+
   const newLine = await response.json();
   const processedNewLine = {
     id: Number(newLine.id),
@@ -27,26 +32,23 @@ export const requestLineRegistration = async line => {
     sections: newLine.sections,
   };
 
-  if (!response.ok) {
-    throw new Error('역 등록 실패');
-  }
-
   return processedNewLine;
 };
 
 export const requestLineList = async () => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
+
   const response = await request.get({
     url: `${API_END_POINT}/lines`,
     token: accessToken,
   });
 
-  const newLineList = await response.json();
-
   if (!response.ok) {
     throw new Error('역 등록 실패');
   }
+
+  const newLineList = await response.json();
 
   return newLineList.map(line => ({
     id: Number(line.id),
@@ -60,6 +62,7 @@ export const requestLineList = async () => {
 export const requestLineDelete = async lineId => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
+
   const response = await request.delete({
     url: `${API_END_POINT}/lines/${lineId}`,
     token: accessToken,
@@ -73,6 +76,7 @@ export const requestLineDelete = async lineId => {
 export const requestLineUpdate = async newline => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   if (!accessToken) return;
+
   const response = await request.put({
     url: `${API_END_POINT}/lines/${newline.id}`,
     token: accessToken,
@@ -81,6 +85,7 @@ export const requestLineUpdate = async newline => {
       color: newline.color,
     },
   });
+
   if (!response.ok) {
     throw new Error('역 수정 실패');
   }

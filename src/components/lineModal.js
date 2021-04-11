@@ -18,6 +18,7 @@ export default class LineModal extends Observer {
   renderComponent() {
     const modal = $(this.#parentSelector);
     if (!modal) return;
+
     const targetLineId = this.#state.get(STATE_KEY.TARGET_LINE_ID);
     const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === Number(targetLineId));
     modal.innerHTML = this.#getModalTemplate(targetLine);

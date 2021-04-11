@@ -20,6 +20,7 @@ export function delegateStationClickEvent(event) {
   }
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
+
     onStationItemDeleteClick(target);
   }
 }
@@ -35,16 +36,19 @@ function onStationFormSubmit(target) {
   const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
   const targetStationName = $stationNameInput.value;
   const stationList = state.get(STATE_KEY.STATION_LIST);
+
   if (!isProperStationNameLength(targetStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     $stationNameInput.value = '';
     return;
   }
+
   if (isDuplicatedStationExist({ name: targetStationName }, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     $stationNameInput.value = '';
     return;
   }
+
   requestStationRegistration(targetStationName)
     .then(({ id, name }) => {
       state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
@@ -71,18 +75,22 @@ function onStationItemInputFocusOut(targetInput) {
   const targetStationId = Number(targetInput.dataset.stationId);
   const stationList = state.get(STATE_KEY.STATION_LIST);
   const targetStationItem = stationList.find(station => station.id === targetStationId);
+
   if (targetStationItem.name === newStationName) {
     state.update(STATE_KEY.STATION_LIST, stationList);
     return;
   }
+
   if (!isProperStationNameLength(newStationName)) {
     alert(ALERT_MESSAGE.NOT_PROPER_STATION_NAME_LENGTH);
     return;
   }
+
   if (isDuplicatedStationExist({ id: targetStationId, name: newStationName }, stationList)) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     return;
   }
+
   targetStationItem.name = newStationName;
   requestStationUpdate(targetStationId, newStationName)
     .then(() => {

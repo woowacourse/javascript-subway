@@ -16,6 +16,7 @@ const router = {
       pageComponents[path] = [component];
       return;
     }
+
     pageComponents[path].push(component);
   },
 

@@ -30,12 +30,15 @@ export default class State extends Subject {
 
   get(key) {
     if (!key) return;
+
     if (Array.isArray(this.#state[key])) {
       return [...this.#state[key]];
     }
+
     if (isObject(this.#state[key])) {
       return { ...this.#state[key] };
     }
+
     return this.#state[key];
   }
 
