@@ -27,6 +27,18 @@ class State {
     });
   }
 
+  pushData(value) {
+    if (!Array.isArray(this.#state)) {
+      console.error('state Data의 형태가 Array가 아닙니다.');
+      return;
+    }
+
+    const myData = this.Data;
+
+    myData.push(value);
+    this.Data = myData;
+  }
+
   initListener() {
     this.#listeners = [];
   }
