@@ -45,19 +45,19 @@ class StationComponent extends Component {
       'click',
       ({ target }) => {
         if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REVISION)
+          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_UPDATE)
         ) {
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
           $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
-          this.stationModal.route(MODAL_TYPE.REVISION);
+          this.stationModal.route(MODAL_TYPE.UPDATE);
 
           return;
         }
 
         if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL)
+          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_DELETION)
         ) {
-          if (!confirm(CONFIRM_MESSAGE.STATION_REMOVAL)) {
+          if (!confirm(CONFIRM_MESSAGE.STATION_DELETION)) {
             return;
           }
 
@@ -85,7 +85,7 @@ class StationComponent extends Component {
     try {
       await fetchStationDeletion(url, accessToken);
 
-      alert(ALERT_MESSAGE.STATION_REMOVAL_SUCCESS);
+      alert(ALERT_MESSAGE.STATION_DELETION_SUCCESS);
 
       loadStationList(
         this.props.stationsState,

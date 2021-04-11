@@ -66,16 +66,16 @@ const ID_SELECTOR = {
 const CLASS_SELECTOR = {
   ANCHOR: 'js-anchor',
   STATION_LIST_ITEM: 'js-station-list__item',
-  STATION_LIST_ITEM_REVISION: 'js-station-list__item-revision',
-  STATION_LIST_ITEM_REMOVAL: 'js-station-list__item-removal',
+  STATION_LIST_ITEM_UPDATE: 'js-station-list__item-update',
+  STATION_LIST_ITEM_DELETION: 'js-station-list__item-deletion',
 
   LINE_LIST_ITEM: 'js-line-list__item',
-  LINE_LIST_ITEM_REVISION: 'js-line-list__item-revision',
-  LINE_LIST_ITEM_REMOVAL: 'js-line-list__item-removal',
+  LINE_LIST_ITEM_UPDATE: 'js-line-list__item-update',
+  LINE_LIST_ITEM_DELETION: 'js-line-list__item-deletion',
   LINE_COLOR_SELECTOR: 'js-line-color-selector',
   LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
 
-  SECTION_LIST_ITEM_REMOVAL: 'js-section-list__item-removal',
+  SECTION_LIST_ITEM_DELETION: 'js-section-list__item-deletion',
 
   FULL_MAP_LINE_ITEM: 'js-full-map-line-item',
   FULL_MAP_LINE_TITLE: 'js-full-map-line-title',
@@ -98,18 +98,18 @@ const ALERT_MESSAGE = {
   // STATION
   STATION_CREATION_SUCCESS: '새로운 역을 추가했습니다.',
   DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
-  STATION_NAME_REVISION_SUCCESS: '역 이름을 수정했습니다.',
-  STATION_NAME_REVISION_FAIL: '같은 역 이름으로 수정할 수 없습니다.',
-  STATION_REMOVAL_SUCCESS: '해당 역을 삭제했습니다.',
-  STATION_REMOVAL_FAIL: '노선에 등록된 역은 삭제할 수 없습니다.',
+  STATION_NAME_UPDATE_SUCCESS: '역 이름을 수정했습니다.',
+  STATION_NAME_UPDATE_FAIL: '같은 역 이름으로 수정할 수 없습니다.',
+  STATION_DELETION_SUCCESS: '해당 역을 삭제했습니다.',
+  STATION_DELETION_FAIL: '노선에 등록된 역은 삭제할 수 없습니다.',
 
   // LINE
   LINE_CREATION_SUCCESS: '새로운 노선을 추가했습니다.',
   DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
   STATIONS_SETTING_OF_LINE_FAIL:
     '상행역과 하행역이 같은 노선은 생성할 수 없습니다.',
-  LINE_REVISION_SUCCESS: '노선을 수정했습니다.',
-  LINE_REMOVAL_SUCCESS: '해당 노선을 삭제했습니다.',
+  LINE_UPDATE_SUCCESS: '노선을 수정했습니다.',
+  LINE_DELETION_SUCCESS: '해당 노선을 삭제했습니다.',
 
   // SECTION
   SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
@@ -117,15 +117,15 @@ const ALERT_MESSAGE = {
     '상행역과 하행역이 같은 구간은 생성할 수 없습니다.',
   DISTANCE_CONDITION_OF_SECTION_CREATION_FAIL:
     '새로 생성하는 구간의 거리가 기존 구간의 거리보다 같거나 멉니다.',
-  SECTION_REMOVAL_SUCCESS: '해당 구간을 삭제했습니다.',
-  SECTION_REMOVAL_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
+  SECTION_DELETION_SUCCESS: '해당 구간을 삭제했습니다.',
+  SECTION_DELETION_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
   NOT_SELECTED_LINE: '노선을 선택해주세요.',
 };
 
 const CONFIRM_MESSAGE = {
-  STATION_REMOVAL: '해당 역을 삭제하시겠습니까?',
-  LINE_REMOVAL: '해당 노선을 삭제하시겠습니까?',
-  SECTION_REMOVAL: '해당 구간을 삭제하시겠습니까?',
+  STATION_DELETION: '해당 역을 삭제하시겠습니까?',
+  LINE_DELETION: '해당 노선을 삭제하시겠습니까?',
+  SECTION_DELETION: '해당 구간을 삭제하시겠습니까?',
 };
 
 const KEYWORD = {
@@ -135,7 +135,7 @@ const KEYWORD = {
 
 const MODAL_TYPE = {
   CREATION: 'creation',
-  REVISION: 'revision',
+  UPDATE: 'update',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';

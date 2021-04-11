@@ -40,15 +40,15 @@ class LineComponent extends Component {
     });
 
     $(`#${ID_SELECTOR.LINE_LIST}`).addEventListener('click', ({ target }) => {
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REVISION)) {
+      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_UPDATE)) {
         $(`#${ID_SELECTOR.MODAL}`).dataset.lineId = target.dataset.id;
-        this.lineModal.route(MODAL_TYPE.REVISION);
+        this.lineModal.route(MODAL_TYPE.UPDATE);
 
         return;
       }
 
-      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL)) {
-        if (!confirm(CONFIRM_MESSAGE.LINE_REMOVAL)) {
+      if (target.classList.contains(CLASS_SELECTOR.LINE_LIST_ITEM_DELETION)) {
+        if (!confirm(CONFIRM_MESSAGE.LINE_DELETION)) {
           return;
         }
 
@@ -85,7 +85,7 @@ class LineComponent extends Component {
     try {
       await fetchLineDeletion(url, accessToken);
 
-      alert(ALERT_MESSAGE.LINE_REMOVAL_SUCCESS);
+      alert(ALERT_MESSAGE.LINE_DELETION_SUCCESS);
 
       loadLineList(this.props.linesState, accessToken);
     } catch (err) {

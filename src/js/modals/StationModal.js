@@ -17,7 +17,7 @@ class StationModal extends Modal {
     super(props);
 
     this._router = {
-      [MODAL_TYPE.REVISION]: new StationRevisionComponent({
+      [MODAL_TYPE.UPDATE]: new StationUpdateComponent({
         accessTokenState: this.props.accessTokenState,
         stationsState: this.props.stationsState,
       }),
@@ -25,19 +25,19 @@ class StationModal extends Modal {
   }
 }
 
-class StationRevisionComponent extends Component {
+class StationUpdateComponent extends Component {
   constructor(props) {
     super(props);
   }
 
   initLoad() {
-    this.#loadRevisionModal();
+    this.#loadUpdateModal();
   }
 
   initEvent() {
     $(`#${ID_SELECTOR.STATION_MODAL_FORM}`).addEventListener(
       'submit',
-      this.#onRevisionSubmit
+      this.#onUpdateSubmit
     );
   }
 
@@ -45,7 +45,7 @@ class StationRevisionComponent extends Component {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = STATION_TEMPLATE.MODAL;
   }
 
-  #loadRevisionModal() {
+  #loadUpdateModal() {
     const stationId = $(`#${ID_SELECTOR.MODAL}`).dataset.stationId;
     const stationName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
 
@@ -53,28 +53,28 @@ class StationRevisionComponent extends Component {
     $(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).dataset.id = stationId;
   }
 
-  #onRevisionSubmit = async event => {
+  #onUpdateSubmit = async event => {
     event.preventDefault();
 
     const $input = event.target[ID_SELECTOR.STATION_MODAL_FORM_INPUT];
-    const revisionName = $input.value;
+    const updatingName = $input.value;
     const originalName = $(`#${ID_SELECTOR.MODAL}`).dataset.stationName;
 
-    if (revisionName === originalName) {
-      alert(ALERT_MESSAGE.STATION_NAME_REVISION_FAIL);
+    if (updatingName === originalName) {
+      alert(ALERT_MESSAGE.STATION_NAME_UPDATE_FAIL);
       return;
     }
 
-    const revisionId = $input.dataset.id;
-    const url = REQUEST_URL + `/stations/${revisionId}`;
+    const updatingId = $input.dataset.id;
+    const url = REQUEST_URL + `/stations/${updatingId}`;
     const bodyData = {
-      name: revisionName,
+      name: updatingName,
     };
     const accessToken = this.props.accessTokenState.Data;
 
     try {
       await fetchStationNameUpdate(url, { bodyData, accessToken });
-      alert(ALERT_MESSAGE.STATION_NAME_REVISION_SUCCESS);
+      alert(ALERT_MESSAGE.STATION_NAME_UPDATE_SUCCESS);
       closeModal();
       loadStationList(
         this.props.stationsState,

@@ -79,7 +79,6 @@ class SectionCreationComponent extends Component {
 
       alert(ALERT_MESSAGE.SECTION_CREATION_SUCCESS);
 
-      //TODO: section load(갱신)하기
       const pageLineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
 
       if (modalLineId === pageLineId) {

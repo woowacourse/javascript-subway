@@ -56,10 +56,10 @@ class SectionComponent extends Component {
     $(`#${ID_SELECTOR.SECTION_LIST}`).addEventListener('click', event => {
       if (
         event.target.classList.contains(
-          CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL
+          CLASS_SELECTOR.SECTION_LIST_ITEM_DELETION
         )
       ) {
-        if (!confirm(CONFIRM_MESSAGE.SECTION_REMOVAL)) {
+        if (!confirm(CONFIRM_MESSAGE.SECTION_DELETION)) {
           return;
         }
         const stationId = event.target.dataset.id;
@@ -107,7 +107,7 @@ class SectionComponent extends Component {
     try {
       await fetchLineDeletion(url, accessToken);
 
-      alert(ALERT_MESSAGE.SECTION_REMOVAL_SUCCESS);
+      alert(ALERT_MESSAGE.SECTION_DELETION_SUCCESS);
 
       this.renderSectionList(lineId);
     } catch (err) {

@@ -8,14 +8,14 @@ const CREATING_STATION = ({ id, name }) => {
       data-name="${name}"
       data-id="${id}"
       type="button"
-      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1"
     >
       수정
     </button>
     <button
       type="button"
       data-id="${id}"
-      class="${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+      class="${CLASS_SELECTOR.STATION_LIST_ITEM_DELETION} bg-gray-50 text-gray-500 text-sm"
     >
       삭제
     </button>

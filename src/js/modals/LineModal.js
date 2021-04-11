@@ -22,7 +22,7 @@ class LineModal extends Modal {
         stationsState: this.props.stationsState,
         linesState: this.props.linesState,
       }),
-      [MODAL_TYPE.REVISION]: new LineRevisionComponent({
+      [MODAL_TYPE.UPDATE]: new LineUpdateComponent({
         accessTokenState: this.props.accessTokenState,
         linesState: this.props.linesState,
       }),
@@ -43,7 +43,6 @@ class LineCreationComponent extends Component {
     });
   }
 
-  // TODO: render와 initEvent를 protected로 바꿀 것인가
   render() {
     $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.MODAL;
 
@@ -83,7 +82,6 @@ class LineCreationComponent extends Component {
     };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       const response = await fetchLineCreation(url, {
         bodyData,
@@ -113,28 +111,28 @@ class LineCreationComponent extends Component {
   }
 }
 
-class LineRevisionComponent extends Component {
+class LineUpdateComponent extends Component {
   constructor(props) {
     super(props);
   }
 
   initLoad() {
-    this.#loadRevisionModal();
+    this.#loadUpdateModal();
   }
 
   initEvent() {
     $(`#${ID_SELECTOR.LINE_MODAL_FORM}`).addEventListener('submit', event => {
       event.preventDefault();
 
-      this.#revisionLine(event);
+      this.#updateLine(event);
     });
   }
 
   render() {
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.REVISION_MODAL;
+    $(`#${ID_SELECTOR.MODAL}`).innerHTML = LINE_TEMPLATE.UPDATE_MODAL;
   }
 
-  #loadRevisionModal() {
+  #loadUpdateModal() {
     const lineId = $(`#${ID_SELECTOR.MODAL}`).dataset.lineId;
 
     if (!lineId) {
@@ -156,7 +154,7 @@ class LineRevisionComponent extends Component {
     return lines.find(line => line.id === Number(targetId));
   }
 
-  #revisionLine = async event => {
+  #updateLine = async event => {
     const id = $(`.${ID_SELECTOR.MODAL}`).dataset.lineId;
     const lineName = event.target[ID_SELECTOR.LINE_MODAL_FORM_NAME].value;
     const color = event.target[ID_SELECTOR.LINE_MODAL_FORM_COLOR].value;
@@ -167,14 +165,13 @@ class LineRevisionComponent extends Component {
     };
     const accessToken = this.props.accessTokenState.Data;
 
-    // TODO: try - catch 부분 loadByAJAX로 추출하기
     try {
       await fetchLineUpdate(url, {
         bodyData,
         accessToken,
       });
 
-      alert(ALERT_MESSAGE.LINE_REVISION_SUCCESS);
+      alert(ALERT_MESSAGE.LINE_UPDATE_SUCCESS);
 
       loadLineList(this.props.linesState, this.props.accessTokenState.Data);
       closeModal();

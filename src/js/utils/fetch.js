@@ -118,7 +118,7 @@ const fetchStationDeletion = async (url, accessToken) => {
   });
 
   if (response.status === ERROR_CODE.BAD_REQUEST) {
-    throw new Error(ALERT_MESSAGE.STATION_REMOVAL_FAIL);
+    throw new Error(ALERT_MESSAGE.STATION_DELETION_FAIL);
   }
 
   if (!response.ok) {
@@ -230,7 +230,7 @@ const fetchSectionDeletion = async (url, accessToken) => {
   });
 
   if (response.status === ERROR_CODE.BAD_REQUEST) {
-    throw new Error(ALERT_MESSAGE.SECTION_REMOVAL_FAIL);
+    throw new Error(ALERT_MESSAGE.SECTION_DELETION_FAIL);
   }
 
   if (!response.ok) {

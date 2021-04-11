@@ -17,7 +17,7 @@ const CREATING_STATION = station => {
     <button
       data-id=${station.id}
       type="button"
-      class="${CLASS_SELECTOR.SECTION_LIST_ITEM_REMOVAL} bg-gray-50 text-gray-500 text-sm"
+      class="${CLASS_SELECTOR.SECTION_LIST_ITEM_DELETION} bg-gray-50 text-gray-500 text-sm"
     >
       삭제
     </button>

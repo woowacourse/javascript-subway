@@ -115,18 +115,18 @@ context('지하철 역 관리 페이지', () => {
   });
 
   it('지하철역의 이름을 수정할 수 있다.', () => {
-    const REVISION_NAME = '주모천재';
+    const UPDATE_NAME = '주모천재';
 
     login();
     getByHref(URL.STATION).click();
 
-    reviseStationName(REVISION_NAME);
+    reviseStationName(UPDATE_NAME);
     cy.wait(1000);
     cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
       .eq(0)
       .find('span')
       .invoke('text')
-      .should('eq', REVISION_NAME);
+      .should('eq', UPDATE_NAME);
     reviseStationName(ORIGIN_STATION_NAME);
   });
 
@@ -138,10 +138,10 @@ context('지하철 역 관리 페이지', () => {
     login();
     getByHref(URL.STATION).click();
 
-    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REMOVAL}`).eq(0).click();
+    cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM_DELETION}`).eq(0).click();
     cy.on('window:confirm', () => true).then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
-        ALERT_MESSAGE.STATION_REMOVAL_SUCCESS
+        ALERT_MESSAGE.STATION_DELETION_SUCCESS
       );
     });
 
@@ -176,13 +176,13 @@ context('지하철 역 관리 페이지', () => {
 
     cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM}`)
       .eq(0)
-      .find(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION}`)
+      .find(`.${CLASS_SELECTOR.LINE_LIST_ITEM_UPDATE}`)
       .click();
     cy.get(`#${ID_SELECTOR.LINE_MODAL_FORM_SUBMIT}`)
       .click()
       .then(() => {
         expect(stub.getCall(1)).to.be.calledWith(
-          ALERT_MESSAGE.LINE_REVISION_SUCCESS
+          ALERT_MESSAGE.LINE_UPDATE_SUCCESS
         );
       });
   });
@@ -196,11 +196,11 @@ context('지하철 역 관리 페이지', () => {
 
     getByHref(URL.LINE).click();
 
-    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}`).eq(0).click();
+    cy.get(`.${CLASS_SELECTOR.LINE_LIST_ITEM_DELETION}`).eq(0).click();
 
     cy.on('window:confirm', () => true).then(() => {
       expect(stub.getCall(1)).to.be.calledWith(
-        ALERT_MESSAGE.LINE_REMOVAL_SUCCESS
+        ALERT_MESSAGE.LINE_DELETION_SUCCESS
       );
     });
 
@@ -224,7 +224,7 @@ function registerStation(stationName) {
 function reviseStationName(name) {
   cy.get(`.${CLASS_SELECTOR.STATION_LIST_ITEM}`)
     .eq(0)
-    .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_REVISION}`)
+    .find(`.${CLASS_SELECTOR.STATION_LIST_ITEM_UPDATE}`)
     .click();
   cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).clear();
   cy.get(`#${ID_SELECTOR.STATION_MODAL_FORM_INPUT}`).type(name);

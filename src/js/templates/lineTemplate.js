@@ -11,14 +11,14 @@ const CREATING_LINE = ({ name, color, id }) => {
     <button
       type="button"
       data-id="${id}"
-      class="${CLASS_SELECTOR.LINE_LIST_ITEM_REVISION} bg-gray-50 text-gray-500 text-sm mr-1"
+      class="${CLASS_SELECTOR.LINE_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1"
     >
       수정
     </button>
     <button
       type="button"
       data-id="${id}"
-      class="${CLASS_SELECTOR.LINE_LIST_ITEM_REMOVAL}"
+      class="${CLASS_SELECTOR.LINE_LIST_ITEM_DELETION}"
       class="bg-gray-50 text-gray-500 text-sm"
     >
       삭제
@@ -158,8 +158,8 @@ const MODAL = `
 </div>
 `;
 
-const REVISION_MODAL = `
-<div class="modal-inner line-revision-modal-inner p-8">
+const UPDATE_MODAL = `
+<div class="modal-inner line-update-modal-inner p-8">
 <button class="${CLASS_SELECTOR.MODAL_CLOSE} modal-close"}>
   <svg viewbox="0 0 40 40">
     <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
@@ -242,7 +242,7 @@ const LINE_TEMPLATE = {
   TITLE: `🚇 노선 관리`,
   MAIN,
   MODAL,
-  REVISION_MODAL,
+  UPDATE_MODAL,
   CREATING_LINE,
 };
 
