@@ -12,6 +12,7 @@ import {
 import { fetchStationCreation, fetchStationDeletion } from '../utils/fetch.js';
 import { loadStationList } from '../utils/loadByAJAX.js';
 import StationModal from '../modals/StationModal.js';
+import { hasClassName } from '../utils/validation.js';
 
 class StationComponent extends Component {
   stationModal;
@@ -40,31 +41,14 @@ class StationComponent extends Component {
       this.#onStationCreated
     );
 
-    //TODO: if문 내부 리펙토링 하기
     $(`#${ID_SELECTOR.STATION_LIST}`).addEventListener(
       'click',
-      ({ target }) => {
-        if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_UPDATE)
-        ) {
-          $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
-          $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
-          this.stationModal.route(MODAL_TYPE.UPDATE);
+      this.#onStationUpdated
+    );
 
-          return;
-        }
-
-        if (
-          target.classList.contains(CLASS_SELECTOR.STATION_LIST_ITEM_DELETION)
-        ) {
-          if (!confirm(CONFIRM_MESSAGE.STATION_DELETION)) {
-            return;
-          }
-
-          this.#removeStation(target.dataset.id);
-          return;
-        }
-      }
+    $(`#${ID_SELECTOR.STATION_LIST}`).addEventListener(
+      'click',
+      this.#onStationDeleted
     );
   }
 
@@ -78,7 +62,7 @@ class StationComponent extends Component {
     $(`#${ID_SELECTOR.STATION_LIST}`).innerHTML = template;
   };
 
-  #removeStation = async id => {
+  #deleteStation = async id => {
     const url = REQUEST_URL + `/stations/${id}`;
     const accessToken = this.props.accessTokenState.Data;
 
@@ -124,6 +108,28 @@ class StationComponent extends Component {
       $input.value = '';
       return;
     }
+  };
+
+  #onStationUpdated = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.STATION_LIST_ITEM_UPDATE)) {
+      return;
+    }
+
+    $(`#${ID_SELECTOR.MODAL}`).dataset.stationId = target.dataset.id;
+    $(`#${ID_SELECTOR.MODAL}`).dataset.stationName = target.dataset.name;
+    this.stationModal.route(MODAL_TYPE.UPDATE);
+  };
+
+  #onStationDeleted = ({ target }) => {
+    if (!hasClassName(target, CLASS_SELECTOR.STATION_LIST_ITEM_DELETION)) {
+      return;
+    }
+
+    if (!confirm(CONFIRM_MESSAGE.STATION_DELETION)) {
+      return;
+    }
+
+    this.#deleteStation(target.dataset.id);
   };
 }
 

@@ -65,7 +65,7 @@ class SectionComponent extends Component {
         const stationId = event.target.dataset.id;
         const lineId = $(`#${ID_SELECTOR.SECTION_FORM_SELECT}`).value;
 
-        this.#removeSection(stationId, lineId);
+        this.#deleteSection(stationId, lineId);
       }
     });
   }
@@ -99,7 +99,7 @@ class SectionComponent extends Component {
     }
   };
 
-  #removeSection = async (stationId, lineId) => {
+  #deleteSection = async (stationId, lineId) => {
     const url =
       REQUEST_URL + `/lines/${lineId}/sections?stationId=${stationId}`;
     const accessToken = this.props.accessTokenState.Data;

@@ -52,7 +52,7 @@ class LineComponent extends Component {
           return;
         }
 
-        this.#removeLine(target.dataset.id);
+        this.#deleteLine(target.dataset.id);
       }
     });
 
@@ -78,7 +78,7 @@ class LineComponent extends Component {
     $(`#${ID_SELECTOR.LINE_LIST}`).innerHTML = template;
   };
 
-  #removeLine = async id => {
+  #deleteLine = async id => {
     const url = REQUEST_URL + `/lines/${id}`;
     const accessToken = this.props.accessTokenState.Data;
 
