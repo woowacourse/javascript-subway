@@ -65,14 +65,14 @@ class Line {
 
   _bindAddLineEvent() {
     this.$createLineButton.addEventListener('click', () => {
-      this.#modal.handleLineOpen({ state: LINE_MODAL_STATE.ADD });
+      this.#modal.handleOpenModal({ state: LINE_MODAL_STATE.ADD });
     });
   }
 
   _bindUpdateLineEvent() {
     this.$lineList.addEventListener('click', e => {
       if (e.target.classList.contains(CLASS_NAME.MODIFY_BUTTON)) {
-        this.#modal.handleLineOpen({
+        this.#modal.handleOpenModal({
           state: LINE_MODAL_STATE.MODIFY,
           lineInfo: this._getSelectedLineInfo(e),
         });

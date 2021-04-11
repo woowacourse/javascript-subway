@@ -51,12 +51,14 @@ class SectionModal {
 
   _bindSectionFormEvent() {
     this.$addSectionForm.addEventListener('submit', e => {
-      this._handleAddSectionClose(e);
+      this._handleAddSection(e);
     });
   }
 
-  handleSectionOpen({ sections }) {
+  handleOpenModal({ sections }) {
     this.#sections = sections;
+
+    clearForm(this.$addSectionForm);
     onModalShow();
   }
 
@@ -68,7 +70,7 @@ class SectionModal {
     this.$prevStationSelect.innerHTML = sectionStationTemplate(stations);
   }
 
-  async _handleAddSectionClose(e) {
+  async _handleAddSection(e) {
     e.preventDefault();
 
     const sectionInfo = getFormData(e.target.elements);
@@ -84,7 +86,6 @@ class SectionModal {
         sectionInfo,
       });
 
-      clearForm(this.$addSectionForm);
       this.$lineSelect.className = '';
 
       this.#props.modifySection(sectionInfo);

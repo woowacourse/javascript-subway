@@ -72,8 +72,8 @@ class StationModal {
       });
 
       this.#props.modifyStation(this.#stationInfo, name);
-      onModalClose();
       showSnackbar(SUCCESS_MESSAGE.MODIFY_STATION);
+      onModalClose();
     } catch (res) {
       const message = await res.text();
       showSnackbar(message);

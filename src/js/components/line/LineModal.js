@@ -49,11 +49,11 @@ class LineModal {
   _bindLineFormEvent() {
     this.$lineForm.addEventListener('submit', e => {
       if (this.#state === LINE_MODAL_STATE.ADD) {
-        this._handleAddLineClose(e);
+        this._handleAddLine(e);
       }
 
       if (this.#state === LINE_MODAL_STATE.MODIFY) {
-        this._handleModifyLineClose(e);
+        this._handleModifyLine(e);
       }
     });
   }
@@ -65,12 +65,14 @@ class LineModal {
     });
   }
 
-  handleLineOpen({ state, lineInfo = {} }) {
+  handleOpenModal({ state, lineInfo = {} }) {
     this.#state = state;
     this.#lineInfo = lineInfo;
     onModalShow();
 
     if (state === LINE_MODAL_STATE.ADD) {
+      clearForm(this.$lineForm);
+
       this.$lineTitle.textContent = LINE_MODAL_STATE.ADD_TITLE;
       this.$optionals.forEach(element => {
         element.classList.remove(CLASS_NAME.HIDE);
@@ -93,7 +95,7 @@ class LineModal {
     }
   }
 
-  async _handleAddLineClose(e) {
+  async _handleAddLine(e) {
     e.preventDefault();
 
     const lineInfo = getFormData(e.target.elements);
@@ -110,7 +112,6 @@ class LineModal {
       });
 
       this.#props.addLine(newLine);
-      clearForm(this.$lineForm);
       showSnackbar(SUCCESS_MESSAGE.ADD_LINE);
       onModalClose();
     } catch (res) {
@@ -119,7 +120,7 @@ class LineModal {
     }
   }
 
-  async _handleModifyLineClose(e) {
+  async _handleModifyLine(e) {
     e.preventDefault();
 
     const newName = this.$lineName.value;
