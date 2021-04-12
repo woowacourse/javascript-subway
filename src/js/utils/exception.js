@@ -17,7 +17,7 @@ const defaultHandler = async (response) => {
 };
 
 const handleException = async (response, customHandlers = {}) => {
-  const handlers = { ...customHandlers, authHandlers };
+  const handlers = { ...customHandlers, ...authHandlers };
 
   return handlers[response.status] ? handlers[response.status]() : defaultHandler(response);
 };
