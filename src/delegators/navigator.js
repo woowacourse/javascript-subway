@@ -20,11 +20,11 @@ function delegateNavigatorClickEvent(event) {
 function onPageMove(target) {
   const path = target.getAttribute('href');
   if (!isAuthenticationPath(path) && !state.get(STATE_KEY.IS_LOGGED_IN)) {
-    history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
+    router.pushState(PATH.ROOT);
     router.navigate(PATH.ROOT);
     return;
   }
-  history.pushState({ path }, null, path);
+  router.pushState(path);
   router.navigate(path);
 }
 
@@ -35,7 +35,8 @@ const isAuthenticationPath = path => {
 function onLogOut() {
   sessionStore.removeItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   state.update(STATE_KEY.IS_LOGGED_IN, false);
-  history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
+
+  router.pushState(PATH.ROOT);
   router.navigate(PATH.ROOT);
 }
 

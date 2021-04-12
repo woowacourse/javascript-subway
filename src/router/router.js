@@ -27,6 +27,10 @@ const router = {
       component.initEvents && component.initEvents();
     });
   },
+
+  pushState(path) {
+    history.pushState({ path }, null, path);
+  },
 };
 
 export default router;

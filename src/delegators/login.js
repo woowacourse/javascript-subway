@@ -23,7 +23,7 @@ async function onLogInFormSubmit(target) {
     state.update(STATE_KEY.IS_LOGGED_IN, true);
     state.initState();
 
-    history.pushState({ path: PATH.ROOT }, null, PATH.ROOT);
+    router.pushState(PATH.ROOT);
     router.navigate(PATH.ROOT);
   } catch (error) {
     console.log(error);
@@ -41,6 +41,6 @@ export function delegateLoginClickEvent(event) {
 }
 
 function onSignUpPageMove() {
-  history.pushState({ path: PATH.SIGN_UP }, null, PATH.SIGN_UP);
+  router.pushState(PATH.SIGN_UP);
   router.navigate(PATH.SIGN_UP);
 }
