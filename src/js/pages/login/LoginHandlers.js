@@ -27,7 +27,9 @@ async function loginHandler({ target }) {
     console.error('login error');
     alert(MESSAGE.ERROR.CHECK_EMAIL_AND_PASSWORD);
   } finally {
-    router.navigate(PATH.ROOT);
+    jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+      ? router.navigate(PATH.ROOT)
+      : router.navigate(PATH.LOGIN);
   }
 }
 

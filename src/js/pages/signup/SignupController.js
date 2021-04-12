@@ -13,6 +13,8 @@ import {
   checkDuplicatedEmailHandler,
   signupHandler,
 } from './SignupHandlers.js';
+import jwtToken from '../../jwtToken.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
 
 class SignupController {
   constructor() {
@@ -82,7 +84,9 @@ class SignupController {
     $('#login').addEventListener('click', e => {
       e.preventDefault();
 
-      router.navigate(PATH.ROOT);
+      jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+        ? router.navigate(PATH.ROOT)
+        : router.navigate(PATH.LOGIN);
     });
   }
 }

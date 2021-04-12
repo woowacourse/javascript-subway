@@ -2,6 +2,8 @@ import user from '../../models/user.js';
 import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 import router from '../../router.js';
 import { PATH } from '../../constants/path.js';
+import jwtToken from '../../jwtToken.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
 
 async function addStationHandler(e) {
   try {
@@ -22,7 +24,9 @@ async function addStationHandler(e) {
         break;
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
@@ -52,7 +56,9 @@ async function saveModifyStationHandler(stationId, newStationName) {
         break;
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
@@ -77,7 +83,9 @@ async function deleteStationHandler(targetStationId) {
         break;
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);

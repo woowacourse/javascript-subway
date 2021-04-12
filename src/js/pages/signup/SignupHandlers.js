@@ -20,7 +20,7 @@ async function signupHandler({ target }) {
     }
 
     showSnackBar(SNACKBAR_MESSAGE.SUCCESS.SIGNUP);
-    router.navigate(PATH.ROOT);
+    router.navigate(PATH.LOGIN);
   } catch (resposne) {
     console.error(await response.text());
     alert(MESSAGE.ERROR.FAIL_TO_SIGNUP);

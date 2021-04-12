@@ -1,5 +1,7 @@
+import { COOKIE_KEY } from '../../constants/constants.js';
 import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 import { PATH } from '../../constants/path.js';
+import jwtToken from '../../jwtToken.js';
 import user from '../../models/user.js';
 import router from '../../router.js';
 import { $, changeBackgroundColor } from '../../utils/DOM.js';
@@ -34,7 +36,9 @@ async function addLineHandler(e) {
         break;
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
@@ -70,7 +74,9 @@ async function modifyLineHandler(e, modifiedLineId) {
         break;
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
@@ -94,7 +100,9 @@ async function deleteLineHandler(e) {
     switch (response.status) {
       case 401:
         alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-        router.navigate(PATH.ROOT);
+        jwtToken.getToken(COOKIE_KEY.JWT_TOKEN)
+          ? router.navigate(PATH.ROOT)
+          : router.navigate(PATH.LOGIN);
         break;
       default:
         alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);

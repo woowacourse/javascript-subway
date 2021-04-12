@@ -24,7 +24,7 @@ class MainController {
 
     jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
     showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGOUT);
-    router.navigate(PATH.ROOT);
+    router.navigate(PATH.LOGIN);
   }
 
   navigateHandler(e) {

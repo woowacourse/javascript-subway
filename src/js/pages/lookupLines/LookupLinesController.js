@@ -17,7 +17,7 @@ class LookupLinesController {
 
     if (!allLines) {
       jwtToken.deleteToken(COOKIE_KEY.JWT_TOKEN);
-      router.navigate(PATH.ROOT);
+      router.navigate(PATH.LOGIN);
       return;
     }
 
