@@ -11,15 +11,18 @@ export const STATION_TEMPLATE = ({ name, distance, duration }, color) => `
 </div>
 `;
 
-export const SECTION_LIST_ITEM_TEMPLATE = (lineName, color, sectionList) => `
+export const SECTION_LIST_ITEM_TEMPLATE = ({ name: lineName, color, distance, duration, sectionList }) => `
 <li class="d-flex flex-col items-start">
-  <div class="d-flex justify-start items-center">
-    <input type="color" class="line-color-input" value="${color}" disabled />
+  <div class="d-flex items-center w-100 -mb-5">
+    <input type="color" class="line-color-input mr-2" value="${color}" disabled />
     <h3>${lineName}</h3>
+    <span class="ml-auto text-right flex-basis-12 mx-2 text-xl distance">총 ${distance}km</span>
+    <span class="text-right flex-basis-12 ml-2 text-xl duration">총 ${duration}분</span>
   </div>
-  <div class="d-flex flex-col w-100">
+  <div class="d-flex flex-col w-100 my-2">
     ${sectionList.map((station) => STATION_TEMPLATE(station, color)).join('')}
   </div>
+  <hr class="w-100">
 </li>
 `;
 

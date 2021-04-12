@@ -16,6 +16,11 @@
 }
 
 /* Sizing - Flex-basis */
+
+.flex-basis-12 {
+  flex-basis: 12.5%;
+}
+
 .flex-basis-15 {
   flex-basis: 15%;
 }

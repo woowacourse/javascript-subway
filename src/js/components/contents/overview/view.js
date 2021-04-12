@@ -11,11 +11,17 @@ const $sectionList = $wrapper.querySelector('.section-list');
 // eslint-disable-next-line import/prefer-default-export
 export async function renderOverview($main) {
   const totalLineList = await requestReadLine();
-  const totalSectionList = totalLineList.map(({ id, name, color }) => [name, color, getSectionList(totalLineList, id)]);
+  const totalSectionList = totalLineList.map(({ id, name, color }) => {
+    const sectionList = getSectionList(totalLineList, id);
+    const { distance, duration } = sectionList.reduce(
+      (acc, curr) => ({ distance: acc.distance + curr.distance, duration: acc.duration + curr.duration }),
+      { distance: 0, duration: 0 }
+    );
 
-  $sectionList.innerHTML = totalSectionList
-    .map(([lineName, color, sectionList]) => SECTION_LIST_ITEM_TEMPLATE(lineName, color, sectionList))
-    .join('');
+    return { name, color, distance, duration, sectionList };
+  });
+
+  $sectionList.innerHTML = totalSectionList.map(SECTION_LIST_ITEM_TEMPLATE).join('');
 
   $main.replaceChildren($wrapper);
 }
