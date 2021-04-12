@@ -6,8 +6,11 @@ const PATHNAME_ENTRIES = Object.entries(RAW_PATHNAMES).map(([key, route]) => [ke
 
 export const PATHNAMES = Object.freeze(Object.fromEntries(PATHNAME_ENTRIES));
 
-const pathsWithoutAuth = [PATHNAMES.HOME, PATHNAMES.LOGIN, PATHNAMES.SIGN_UP];
+const pathsRegardlessOfAuth = [PATHNAMES.HOME];
+
+const pathsWithoutAuth = [PATHNAMES.LOGIN, PATHNAMES.SIGN_UP];
 
 const pathsWithAuth = Object.values(PATHNAMES).filter((pathname) => !pathsWithoutAuth.includes(pathname));
 
-export const ACCESSIBLE_PATHNAMES = () => (isLoggedIn() ? pathsWithAuth : pathsWithoutAuth);
+export const ACCESSIBLE_PATHNAMES = () =>
+  isLoggedIn() ? pathsWithAuth : [...pathsWithoutAuth, ...pathsRegardlessOfAuth];
