@@ -1,9 +1,18 @@
 .btn {
   height: 36px;
-  min-width: 64px;
+  min-width: 110px;
   padding: 0 16px;
   border-radius: 4px;
   outline: 0;
   border-style: none;
   cursor: pointer;
+}
+
+.btn:hover {
+  background-color: rgb(179, 234, 242);
+}
+
+.btn.checked,
+.btn.checked:hover {
+  background-image: linear-gradient(to bottom right, rgb(179, 234, 242), rgb(129, 222, 234));
 }

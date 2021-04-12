@@ -9,4 +9,4 @@ const $app = $('#app');
 $app.addEventListener('click', handleLinkClick);
 window.addEventListener('popstate', handleWindowPopstate);
 
-goTo(isLoggedIn() ? PATHNAMES.STATIONS : PATHNAMES.HOME);
+goTo(isLoggedIn() ? PATHNAMES.OVERVIEW : PATHNAMES.HOME);

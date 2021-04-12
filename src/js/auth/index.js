@@ -1,3 +1,5 @@
+import { HEADERS } from '../constants/index.js';
+
 let accessToken = localStorage.getItem('accessToken') || '';
 
 const updateAccessToken = (token) => {
@@ -13,10 +15,13 @@ export const login = (token) => {
   updateAccessToken(token);
 };
 
-export const logout = () => {
-  updateAccessToken('');
-};
+export const logout = () => updateAccessToken('');
 
 export const getAccessToken = () => accessToken;
 
 export const isLoggedIn = () => Boolean(accessToken);
+
+export const getHeadersWithAccessToken = () => ({
+  ...HEADERS,
+  Authorization: `Bearer ${getAccessToken()}`,
+});

@@ -1,34 +1,37 @@
 import { goTo } from '../../../router/index.js';
-import { notify } from '../../../utils/index.js';
-import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES } from '../../../constants/index.js';
+import { reportError, showNotification, toStringFromFormData } from '../../../utils/index.js';
+import { API_ENDPOINT, AUTH_MESSAGES, PATHNAMES, STATUS_CODE, HEADERS } from '../../../constants/index.js';
 
-const requestSignUp = async (event) => {
-  event.preventDefault();
-
-  const { name: $name, email: $email, password: $password } = event.target.elements;
-
+export default async function requestSignUp({ formData }) {
   try {
-    const response = await fetch(API_ENDPOINT.SIGN_UP, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({
-        name: $name.value,
-        email: $email.value,
-        password: $password.value,
-      }),
-    });
+    const response = await fetchSignUp(formData);
 
-    if (!response.ok) {
-      throw new Error(AUTH_MESSAGES.SIGN_UP_HAS_BEEN_FAILED);
+    if (response.status === STATUS_CODE.SIGN_UP.EMAIL_DUPLICATED) {
+      showNotification(AUTH_MESSAGES.USER_EMAIL_IS_DUPLICATED);
+      return;
     }
 
-    notify(AUTH_MESSAGES.SIGN_UP_HAS_BEEN_COMPLETED);
+    if (!response.ok) {
+      const body = await response.json();
+      throw new Error(`[status code: ${response.status}] ${body}`);
+    }
+
+    showNotification(AUTH_MESSAGES.SIGN_UP_HAS_BEEN_COMPLETED);
     goTo(PATHNAMES.LOGIN);
   } catch (error) {
-    notify(error.message);
+    reportError({
+      messageToUser: AUTH_MESSAGES.SIGN_UP_HAS_BEEN_FAILED,
+      messageToLog: error.message,
+    });
   }
-};
+}
 
-export default requestSignUp;
+async function fetchSignUp(formData) {
+  const response = await fetch(API_ENDPOINT.SIGN_UP, {
+    method: 'POST',
+    headers: HEADERS,
+    body: toStringFromFormData(formData),
+  });
+
+  return response;
+}

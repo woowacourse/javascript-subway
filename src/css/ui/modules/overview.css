@@ -1,0 +1,67 @@
+.overview-line-list {
+  overflow: auto;
+}
+
+.overview-line-item {
+  display: grid;
+  grid-template-columns: 120px auto;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.overview-line-title {
+  text-align: center;
+  display: inline;
+  font-size: 1.05rem;
+  width: auto;
+  color: #666;
+  border-bottom: 1px dashed transparent;
+}
+
+.overview-station-list {
+  display: grid;
+  margin-left: -4rem;
+  grid-template-columns: repeat(auto-fill, 5rem);
+  list-style: none;
+  padding-left: 0;
+}
+
+.overview-station-item:first-child {
+  visibility: hidden;
+}
+
+.overview-station-name:first-child,
+.overview-station-item:first-child::after {
+  visibility: visible;
+}
+
+.overview-station-item {
+  position: relative;
+  width: 120%;
+  height: 1rem;
+  border-radius: 0.5rem;
+}
+
+.overview-station-item::after {
+  content: '';
+  border-width: 0px;
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  background-color: white;
+  z-index: 3;
+}
+
+.overview-station-name {
+  position: absolute;
+  color: #666;
+  letter-spacing: -0.01rem;
+  top: -2.25rem;
+  right: -3.5rem;
+  transform: rotate(-35deg);
+  min-width: 4rem;
+  font-size: 0.9rem;
+}

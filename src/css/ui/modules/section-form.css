@@ -1,0 +1,137 @@
+/* 노선 선택 Select, 구간 추가시 역 선택 Select */
+#line-select,
+#station-select {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  padding: 0.5rem 1.5rem;
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 0.5rem;
+  background-color: #f1f5f9;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%), radial-gradient(#fff 0%, transparent 0%);
+  background-position: calc(100% - 30px) calc(1em + 4px), calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+  background-repeat: no-repeat;
+}
+
+#line-select {
+  width: 100%;
+}
+
+#station-select {
+  width: 80%;
+  justify-self: flex-start;
+}
+
+#line-select:focus,
+#station-select:focus {
+  border: 2px solid rgb(78, 207, 224);
+}
+
+#line-select:focus:invalid,
+#station-select:focus:invalid {
+  border-color: #666;
+}
+
+/* 구간 목록 표시 List */
+.section-list {
+  height: 100%;
+}
+
+.section-list-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 10px;
+  line-height: 2rem;
+}
+
+.section-list-item .station {
+  text-align: center;
+  width: 80%;
+  line-height: 2rem;
+  margin: 0.75rem 0;
+  border-top: 1px dashed #ddd;
+  border-bottom: 1px dashed #ddd;
+  justify-self: flex-start;
+}
+
+.section-list-item .distance,
+.section-list-item .duration {
+  font-family: monospace;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  /* background-color: #f6f8f9; */
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+}
+
+.section-list-item .remove-button {
+  justify-self: flex-end;
+}
+
+.section-list-item:nth-last-child(2) .distance,
+.section-list-item:nth-last-child(2) .duration {
+  visibility: hidden;
+}
+
+.plus-button-wrapper {
+  margin-left: 66px;
+}
+
+.plus-button-wrapper:last-child {
+  display: none;
+}
+
+.section-info-label {
+  font-family: monospace;
+  letter-spacing: -0.04rem;
+  color: #333;
+  justify-items: center;
+  align-items: center;
+  margin-bottom: -40px;
+  margin-left: 41%;
+}
+
+/* 구간 추가 Form */
+.section-add-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 10px;
+  transform: translateY(-25%);
+  position: absolute;
+  width: 540px;
+}
+
+.section-add-form .distance,
+.section-add-form .duration {
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  width: 90%;
+  height: auto;
+  padding: 0.1rem 0.2rem;
+  border: 2.5px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+}
+
+.section-add-form .distance:focus,
+.section-add-form .duration:focus {
+  border-color: rgb(78, 207, 224);
+}
+
+.section-add-form .distance:focus:invalid,
+.section-add-form .duration:focus:invalid {
+  border-color: #666;
+}

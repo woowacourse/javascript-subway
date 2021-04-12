@@ -16,7 +16,7 @@ form .input-field {
   border: 2.5px solid rgba(0, 0, 0, 0);
   outline: none;
   border-radius: 2rem;
-  background: #f1f5f9;
+  background-color: #f1f5f9;
 }
 
 form .input-field:focus {
@@ -25,20 +25,6 @@ form .input-field:focus {
 
 form .input-field:focus:invalid {
   border-color: rgb(53, 53, 53);
-}
-
-form .input-field + span::before {
-  position: absolute;
-  right: 30px;
-  transform: translateY(-50%);
-}
-
-form .input-field:focus:invalid + span::before {
-  content: '🙅❗️';
-}
-
-form .input-field:focus:valid + span::before {
-  content: '👍';
 }
 
 form .input-submit {

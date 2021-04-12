@@ -28,6 +28,19 @@
   display: inline-block;
 }
 
+.d-none {
+  display: none;
+}
+
+/* Layout - Visibility */
+.v-visible {
+  visibility: visible;
+}
+
+.v-hidden {
+  visibility: hidden;
+}
+
 /* Layout - Top / Right / Bottom / Left */
 .mt-2 {
   margin-top: 8px;

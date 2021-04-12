@@ -1,0 +1,96 @@
+/* 역 이름 제출 입력창 */
+
+.station-add-input-field {
+  color: #222;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: inherit;
+  width: 100%;
+  height: auto;
+  padding: 0.5rem 2rem;
+  border: 2.5px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 0.5rem;
+  background: #f6f9fc;
+}
+
+.station-edit-input-field {
+  color: #222;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 400;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #aaa;
+  border-radius: 0.5rem;
+  outline: none;
+  background-color: transparent;
+}
+
+.station-edit-input-field:disabled {
+  border-color: rgba(78, 207, 224, 0);
+  outline: none;
+}
+
+.station-add-input-field,
+.edit-mode .station-edit-input-field {
+  background-color: #f0f4f9;
+}
+
+.station-add-input-field:focus,
+.station-edit-input-field:focus {
+  border-color: rgb(78, 207, 224);
+}
+
+.station-add-input-field:focus:invalid,
+.station-edit-input-field:focus:invalid {
+  border-color: #666;
+}
+
+/* 역 이름 추가버튼 */
+.station-add-button {
+  font-size: 1rem;
+  cursor: pointer;
+  min-width: 80px;
+  height: auto;
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 0.5rem;
+}
+
+.station-add-button:focus {
+  border: 2px solid #333;
+}
+
+.station-add-button:disabled {
+  background-color: rgba(78, 207, 224, 0.7);
+  cursor: default;
+}
+
+.station-list-item {
+  list-style: none;
+}
+
+.edit-buttons {
+  min-width: 70px;
+  min-height: 40px;
+}
+
+.edit-form:hover .edit-button,
+.edit-form:hover .remove-button {
+  display: inline-block;
+}
+
+.edit-mode .edit-button,
+.edit-mode:hover .edit-button,
+.edit-mode .remove-button,
+.edit-mode:hover .remove-button {
+  display: none;
+}
+
+.edit-mode .check-button,
+.edit-mode .undo-button {
+  display: inline-block;
+}

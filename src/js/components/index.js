@@ -1,5 +1,6 @@
-import { renderHeader } from './commons/header/view.js';
+import { renderHeader } from './header/view.js';
 import { renderHome } from './home/view.js';
+import { renderOverview } from './contents/overview/view.js';
 import { renderStations } from './contents/stations/view.js';
 import { renderLines } from './contents/lines/view.js';
 import { renderSections } from './contents/sections/view.js';
@@ -13,6 +14,7 @@ const $main = $('main');
 
 const renderContents = {
   [PATHNAMES.HOME]: renderHome,
+  [PATHNAMES.OVERVIEW]: renderOverview,
   [PATHNAMES.STATIONS]: renderStations,
   [PATHNAMES.LINES]: renderLines,
   [PATHNAMES.SECTIONS]: renderSections,
@@ -31,6 +33,6 @@ export const renderContent = (pathname) => {
 
 export const render = (pathname) => {
   renderTitle(pathname);
-  renderHeader($header);
+  renderHeader(pathname, $header);
   renderContent(pathname);
 };
