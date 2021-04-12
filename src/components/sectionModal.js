@@ -30,6 +30,7 @@ export default class SectionModal extends Observer {
   }
 
   #getModalTemplate(targetSectionLineId) {
+    const targetLine = this.#state.get(STATE_KEY.LINE_LIST).find(line => line.id === targetSectionLineId);
     return `
       <div class="${SELECTOR_CLASS.MODAL_INNER} wrapper p-8">
         <button class="${SELECTOR_CLASS.LINE_LIST_MODAL_CLOSE} modal-close">
@@ -57,8 +58,7 @@ export default class SectionModal extends Observer {
           <div class="d-flex items-center input-control">
             <select id="${SELECTOR_ID.SECTION_MODAL_UP_STATION_SELECT}" required>
               <option value="" selected disabled hidden>이전역</option>
-              ${this.#state
-                .get(STATE_KEY.STATION_LIST)
+              ${targetLine.stations
                 .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
                 .join('')}
             </select>
@@ -67,6 +67,7 @@ export default class SectionModal extends Observer {
               <option value="" selected disabled hidden>다음역</option>
               ${this.#state
                 .get(STATE_KEY.STATION_LIST)
+                .filter(station => targetLine.stations.every(targetLineStation => targetLineStation.id !== station.id))
                 .map(stationItem => `<option value="${stationItem.id}">${stationItem.name}</option>`)
                 .join('')}
             </select>
