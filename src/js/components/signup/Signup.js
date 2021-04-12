@@ -5,6 +5,9 @@ import {
   checkPasswordConfirmValid,
 } from './signupValidator.js';
 import { signUpTemplate } from './signupTemplate.js';
+
+import { authAPI } from '../../../../api/auth.js';
+import { showSnackbar } from '../../utils/snackbar.js';
 import {
   $,
   $$,
@@ -12,18 +15,16 @@ import {
   isAllElementsHaveClass,
   showValidMessage,
 } from '../../utils/dom.js';
-import { request } from '../../utils/api.js';
 import {
-  BASE_URL,
-  ACTIONS,
   PAGE_TITLE,
   SELECTOR,
   PATH,
-  SNACKBAR_MESSAGE,
+  SUCCESS_MESSAGE,
   SIGNUP_ERROR,
   ERROR_MESSAGE,
   FORM,
   CLASS_NAME,
+  TIME,
 } from '../../constants.js';
 
 class SignUp {
@@ -32,8 +33,6 @@ class SignUp {
   constructor(props) {
     this.#props = props;
   }
-
-  init() {}
 
   getPageInfo() {
     return {
@@ -47,10 +46,9 @@ class SignUp {
   initDOM() {
     this.$signUpForm = $(SELECTOR.SIGNUP_FORM);
     this.$submitButton = $(SELECTOR.SIGNUP_FORM_SUBMIT);
-    this._bindEvent();
   }
 
-  _bindEvent() {
+  bindEvent() {
     this._bindInputEvent();
     this._bindSubmitEvent();
   }
@@ -66,7 +64,7 @@ class SignUp {
 
       debounce = setTimeout(() => {
         this._handleValidMessage(target);
-      }, 500);
+      }, TIME.DEBOUNCE);
     });
   }
 
@@ -114,30 +112,17 @@ class SignUp {
     );
   }
 
-  _handleSignup(e) {
+  async _handleSignup(e) {
     e.preventDefault();
 
-    const formData = getFormData(e.target.elements);
-    this._requestSignup(formData);
-  }
-
-  async _requestSignup(data) {
     try {
-      const option = {
-        method: 'POST',
-        body: {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        },
-      };
-
-      await request(BASE_URL + ACTIONS.REGISTER, option);
+      const formData = getFormData(e.target.elements);
+      await authAPI.signup(formData);
 
       this.#props.switchURL(PATH.LOGIN);
-      this.#props.showSnackbar(SNACKBAR_MESSAGE.SIGNUP);
-    } catch (error) {
-      alert(SIGNUP_ERROR[error] || ERROR_MESSAGE.SIGNUP_FAILED);
+      showSnackbar(SUCCESS_MESSAGE.SIGNUP);
+    } catch ({ status }) {
+      alert(SIGNUP_ERROR[status] || ERROR_MESSAGE.SIGNUP_FAILED);
     }
   }
 }

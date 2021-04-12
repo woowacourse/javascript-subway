@@ -5,6 +5,9 @@ export const ACTIONS = {
   USER: '/members/me',
   LOGIN: '/login/token',
   DUPLICATED_EMAIL: '/members/check-validation?email=',
+  STATIONS: '/stations',
+  LINES: '/lines',
+  SECTIONS: '/sections',
 };
 
 export const PATH = {
@@ -15,6 +18,7 @@ export const PATH = {
   STATIONS: '/stations',
   SECTIONS: '/sections',
   LINES: '/lines',
+  MAP: '/map',
 };
 
 export const SELECTOR = {
@@ -26,6 +30,7 @@ export const SELECTOR = {
   SNACK_BAR: '.snackbar',
   LOGIN_FORM: 'form[name="login"]',
   SIGNUP_FORM: 'form[name="signup"]',
+  ADD_STATION_FORM: 'form[name="add-station"]',
   SIGNUP_FORM_SUBMIT: '#signup-form-submit',
   MESSAGE: '.message',
   NAME_MESSAGE: '.name-message',
@@ -34,12 +39,38 @@ export const SELECTOR = {
   PASSWORD_CONFIRM_MESSAGE: '.password-confirm-message',
   PASSWORD: '#password',
   PASSWORD_CONFIRM: '#password-confirm',
+  STATION_LIST: '#station-list',
+  STATION_ITEM_NAME: '.station-list-item-name',
+  STATION_FORM: 'form[name="modify-station"]',
+  STATION_MODIFY_INPUT: '#station-modify-input',
+  CREATE_LINE_BUTTON: '.create-line-btn',
+  LINE_MODAL_TITLE: '#line-modal-title',
+  LINE_FORM: 'form[name="modify-line"]',
+  LINE_LIST: '#line-list',
+  LINE_ITEM: '.line-item',
+  LINE_ITEM_NAME: '.line-list-item-name',
+  SUBWAY_LINE_NAME: '#subway-line-name',
+  SUBWAY_LINE_COLOR: '#subway-line-color',
+  SUBWAY_LINE_COLOR_SELECTOR: '.subway-line-color-selector',
+  SECTION_SELECT_FORM: 'form[name="select-section"]',
+  ADD_SECTION: 'form[name="add-section"]',
+  SECTION_LIST: '#section-list',
+  CREATE_SECTION_BUTTON: '.create-section-btn',
+  OPTIONAL: '.optional',
+  LINE_ITEM_INFO: '.line-item-info',
+  PREVIEW_FORM: "form[name='preview']",
+  PREVIEW_LIST: '#preview-list',
+  PREVIEW_LIST_LINE: '#preview-list .preview-line-item:first-child .line',
 };
 
 export const CLASS_NAME = {
   SHOW: 'show',
+  HIDE: 'hide',
   SIGNUP_LINK: 'signup-link',
   VALID: 'valid',
+  MODIFY_BUTTON: 'modify-button',
+  DELETE_BUTTON: 'delete-button',
+  COLOR_OPTION: 'color-option',
 };
 
 export const FORM = {
@@ -49,26 +80,38 @@ export const FORM = {
     PASSWORD: 'password',
     PASSWORD_CONFIRM: 'password-confirm',
   },
-};
 
-export const SNACK_BAR = {
-  VISIBLE_TIME: 2000,
+  STATION: {
+    ADD_INPUT: 'station-add-input',
+  },
+
+  SECTION: {
+    LINE_SELECT: 'line-select',
+    PREV_STATION: 'prev-station',
+    NEXT_STATION: 'next-station',
+  },
 };
 
 export const STORAGE = {
   USER_ACCESS_TOKEN: 'userAccessToken',
 };
 
-export const SNACKBAR_MESSAGE = {
+export const SUCCESS_MESSAGE = {
   LOGIN: '로그인 되었습니다 !',
   LOGOUT: '로그아웃 되었습니다 !',
   SIGNUP: '회원가입이 완료되었습니다 !',
-};
-
-export const SUCCESS_MESSAGE = {
   NAME: '좋은 이름이네요! 😁',
   EMAIL: '올바른 이메일 입니다.',
+  PASSWORD: '올바른 비밀번호 입니다.',
   PASSWORD_CONFIRM: '비밀번호가 일치합니다!',
+  ADD_STATION: '역이 추가되었습니다! 🚇',
+  REMOVE_STATION: '역이 제거되었습니다!',
+  MODIFY_STATION: '역명이 수정되었습니다 !',
+  ADD_LINE: '노선이 추가되었습니다! 🚇',
+  REMOVE_LINE: '노선이 제거되었습니다!',
+  MODIFY_LINE: '노선이 수정되었습니다!',
+  ADD_SECTION: '구간이 추가되었습니다! 🚇',
+  REMOVE_SECTION: '구간이 제거되었습니다! 🚇',
 };
 
 export const ERROR_MESSAGE = {
@@ -82,6 +125,42 @@ export const ERROR_MESSAGE = {
   EMPTY_PASSWORD: '비밀번호는 공백이 될 수 없습니다!',
   EMPTY_PASSWORD_CONFIRM: '비밀번호 확인은 공백이 될 수 없습니다!',
   DIFFERENT_PASSWORD: '비밀번호가 일치하지 않습니다!',
+  DUPLICATED_STATION: '중복된 역이 존재합니다!',
+  EMPTY_STATION_NAME: '지하철 역은 공백이 될 수 없습니다!',
+  IN_LINE_STATION: '노선에 포함된 역은 제거할 수 없습니다!',
+  OVER_RANGE_STATION_NAME:
+    '지하철 역은 최소 2글자 이상, 최대 20글자 이하여야 합니다.',
+  LOAD_STATION_FAILED:
+    '지하철 역 목록을 불러오는데 실패했습니다. 관리자에게 문의해주세요!',
+  ADD_STATION_FAILED: '역을 추가하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  REMOVE_STATION_FAILED:
+    '역을 제거하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  LOAD_LINE_FAILED:
+    '노선 목록을 불러오는데 실패했습니다. 관리자에게 문의해주세요!',
+  OVER_RANGE_LINE_NAME:
+    '노선 명은 최소 2글자 이상, 최대 10글자 이하여야 합니다.',
+  EMPTY_VALUE: '입력은 공백이 될 수 없습니다!',
+  SAME_END_STATION: '상행역과 하행역은 동일할 수 없습니다!',
+  NEGATIVE_NUMBER: '입력값은 음수가 될 수 없습니다.',
+  REMOVE_LINE_FAILED:
+    '노선을 삭제하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+  REMOVE_SECTION_FAILED:
+    '구간을 삭제하는데 실패했습니다. 잠시후 다시 시도해주세요.',
+};
+
+export const CONFIRM_MESSAGE = {
+  REMOVE: '정말로 삭제하시겠습니까 ?',
+};
+
+export const REQUEST_METHOD = {
+  GET: 'GET',
+  POST: 'POST',
+  DELETE: 'DELETE',
+  PUT: 'PUT',
+};
+
+export const REQUEST_HEADER = {
+  CONTENT_TYPE_JSON: 'application/json; charset=UTF-8',
 };
 
 export const PAGE_TITLE = {
@@ -91,6 +170,7 @@ export const PAGE_TITLE = {
   SECTIONS: '🚇 구간 관리',
   LOGIN: '🚇 로그인',
   SIGNUP: '📝 회원가입',
+  MAP: '🗺️ 전체 보기',
 };
 
 export const STATUS = {
@@ -100,6 +180,11 @@ export const STATUS = {
 
   SIGNUP: {
     DUPLICATED_EMAIL: 400,
+  },
+
+  STATION: {
+    DUPLICATED_STATION: 400,
+    IN_LINE_STATION: 400,
   },
 };
 
@@ -111,6 +196,27 @@ export const SIGNUP_ERROR = {
   [STATUS.SIGNUP.DUPLICATED_EMAIL]: ERROR_MESSAGE.DUPLICATED_EMAIL,
 };
 
+export const STATION_ERROR = {
+  ADD: {
+    [STATUS.STATION.DUPLICATED_STATION]: ERROR_MESSAGE.DUPLICATED_STATION,
+  },
+  DELETE: {
+    [STATUS.STATION.IN_LINE_STATION]: ERROR_MESSAGE.IN_LINE_STATION,
+  },
+};
+
 export const REGEXP = {
   EMAIL: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+};
+
+export const TIME = {
+  SNACK_BAR: 2000,
+  DEBOUNCE: 500,
+};
+
+export const LINE_MODAL_STATE = {
+  ADD: 'ADD',
+  MODIFY: 'MODIFY',
+  ADD_TITLE: '🛤️ 노선 추가',
+  MODIFY_TITLE: '🛤️ 노선 수정',
 };

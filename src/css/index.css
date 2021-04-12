@@ -1,6 +1,9 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
-@import "./pages/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
+@import './pages/index.css';
+@import './pages/station.css';
+@import './pages/lines.css';
+@import './pages/preview.css';
 
 html,
 body {
@@ -45,5 +48,9 @@ ul li button {
 }
 
 ul li button:hover {
+  background-color: rgb(229, 231, 235);
+}
+
+.menu button:hover {
   background-color: rgb(229, 231, 235);
 }

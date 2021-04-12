@@ -1,4 +1,4 @@
-describe('subway-ui', () => {
+describe('subway-router-ui', () => {
   before(() => {
     cy.visit('http://127.0.0.1:5500/');
   });

@@ -1,9 +1,10 @@
 form .input-control {
   display: flex;
-  flex-direction: column;
+
   align-items: center;
   justify-content: flex-start;
-  height: 80px;
+  max-height: 80px;
+  margin-bottom: 8px;
 }
 
 form .input-control input:focus {
@@ -69,4 +70,8 @@ form select {
     calc(100% - 25px) calc(1em + 4px), calc(100% - 0.5em) 0.5em;
   background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
   background-repeat: no-repeat;
+}
+
+form[name='signup'] .input-control {
+  flex-direction: column;
 }

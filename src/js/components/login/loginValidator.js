@@ -9,4 +9,6 @@ export const checkLoginValid = ({ email, password }) => {
   if (isEmptyString(password)) {
     return ERROR_MESSAGE.EMPTY_PASSWORD;
   }
+
+  return '';
 };
