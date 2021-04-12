@@ -50,6 +50,14 @@ ul li button {
   border-radius: 2rem;
 }
 
+nav .btn:hover {
+  background-color: var(--primary-100);
+}
+
+nav .btn.selected {
+  background-image: linear-gradient(to top, var(--primary-200), var(--primary-100));
+}
+
 ul li button:hover {
   background-color: rgb(229, 231, 235);
 }

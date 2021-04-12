@@ -9,6 +9,9 @@ const textLogout = '👤 로그아웃';
 export const renderHeader = ($parent) => {
   $parent.innerHTML = TEMPLATE;
 
+  const $currentNavTab = $parent.querySelector(`a[href="${window.location.pathname}"] button.btn`);
+  $currentNavTab?.classList.add('selected');
+
   const $login = $parent.querySelector('#login');
   const $button = $login.querySelector('button');
 
