@@ -1,15 +1,9 @@
 import { $ } from '../../utils/DOM.js';
-import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
-import { COOKIE_KEY } from '../../constants/constants.js';
 import { PATH } from '../../constants/path.js';
-import { fetchLogin } from '../../API/auth.js';
-import jwtToken from '../../jwtToken.js';
-import loginTemplate from './loginTemplate.js';
 import {
   checkEmailInputHandler,
   checkPasswordInputHandler,
-} from '../../authHandlers.js';
-import showSnackBar from '../../utils/snackbar.js';
+} from '../../common/handlers/authHandlers.js';
 import router from '../../router.js';
 import LoginView from './LoginView.js';
 import { loginHandler } from './LoginHandlers.js';

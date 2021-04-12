@@ -1,6 +1,6 @@
-import { REG_EXP } from './constants/constants.js';
-import { MESSAGE } from './constants/messages.js';
-import { $ } from './utils/DOM.js';
+import { REG_EXP } from '../../constants/constants.js';
+import { MESSAGE } from '../../constants/messages.js';
+import { $ } from '../../utils/DOM.js';
 
 function showFailMessage(e, messageTarget) {
   const inputControl = e.target.closest('.js-input-control');

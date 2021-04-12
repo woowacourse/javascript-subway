@@ -6,7 +6,7 @@ import {
   checkNameInputHandler,
   checkPasswordConfirmInputHandler,
   checkPasswordInputHandler,
-} from '../../authHandlers.js';
+} from '../../common/handlers/authHandlers.js';
 import router from '../../router.js';
 import SignupView from './SignupView.js';
 import {
