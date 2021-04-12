@@ -31,6 +31,10 @@ const router = {
   pushState(path) {
     history.pushState({ path }, null, path);
   },
+
+  goBack() {
+    history.back();
+  },
 };
 
 export default router;

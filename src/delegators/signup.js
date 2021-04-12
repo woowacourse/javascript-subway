@@ -1,5 +1,6 @@
 import { ALERT_MESSAGE, SELECTOR_ID } from '../constants';
 import { requestSignUp } from '../api/member.js';
+import router from '../router/router';
 
 function delegateSignUpSubmitEvent(event) {
   event.preventDefault();
@@ -20,7 +21,7 @@ async function signUp({ email, name, password, confirm }) {
 
   try {
     await requestSignUp(email.value, name.value, password.value);
-    history.back();
+    router.goBack();
   } catch (error) {
     console.log(error);
     alert(ALERT_MESSAGE.SIGNUP_FAILED);
