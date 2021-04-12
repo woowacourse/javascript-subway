@@ -1,6 +1,6 @@
 import Component from '../../core/Component.js';
 import { linesTemplate, lineListTemplate } from './template.js';
-import { $, $$, showSnackbar, customConfirm } from '../../utils/index.js';
+import { $, showSnackbar, customConfirm, isPositiveNumber } from '../../utils/index.js';
 import { LOGIN_REQUIRED_TEMPLATE, LINES, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import { serviceAPI } from '../../service/index.js';
 
@@ -130,10 +130,6 @@ export default class Lines extends Component {
     return departure !== arrival;
   }
 
-  isPositiveNumber(number) {
-    return number > 0;
-  }
-
   async submitCreateForm(contents) {
     const createdLineData = await serviceAPI.getCreatedLineData({
       token: this.#token,
@@ -182,7 +178,7 @@ export default class Lines extends Component {
       return;
     }
 
-    if (!this.isPositiveNumber(distance) || !this.isPositiveNumber(duration)) {
+    if (!isPositiveNumber(distance) || !isPositiveNumber(duration)) {
       showSnackbar(SNACKBAR_MESSAGE.IS_NOT_POSITIVE_NUMBER);
       return;
     }
