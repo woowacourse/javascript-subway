@@ -4,7 +4,7 @@ import requestReadLine from '../lines/read.js';
 const NO_DISTANCE = 0;
 const NO_DURATION = 0;
 
-export default async function getSubwayData(selectedLineId) {
+export async function getSubwayData(selectedLineId) {
   try {
     const totalLineList = await requestReadLine();
     const totalStationList = await requestReadStation();
@@ -26,7 +26,7 @@ export default async function getSubwayData(selectedLineId) {
     { name: '', id: '', '다음역까지의 distance': 0, '다음역까지의 duration': 0 },
   ]
 */
-function getSectionList(totalLineList, selectedLineId) {
+export function getSectionList(totalLineList, selectedLineId) {
   const { stations, sections } = totalLineList.find((line) => line.id === selectedLineId);
   const stationOrder = Object.fromEntries(stations.map(({ id }, index) => [id, index]));
   const lastStation = stations[stations.length - 1];

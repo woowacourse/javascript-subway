@@ -3,6 +3,7 @@ import { renderHome } from './home/view.js';
 import { renderStations } from './contents/stations/view.js';
 import { renderLines } from './contents/lines/view.js';
 import { renderSections } from './contents/sections/view.js';
+import { renderOverview } from './contents/overview/view.js';
 import { renderLogin } from './auths/login/view.js';
 import { renderSignUp } from './auths/signUp/view.js';
 import { $ } from '../utils/index.js';
@@ -16,6 +17,7 @@ const renderContents = {
   [PATHNAMES.STATIONS]: renderStations,
   [PATHNAMES.LINES]: renderLines,
   [PATHNAMES.SECTIONS]: renderSections,
+  [PATHNAMES.OVERVIEW]: renderOverview,
   [PATHNAMES.LOGIN]: renderLogin,
   [PATHNAMES.SIGN_UP]: renderSignUp,
   [PATHNAMES.LOGOUT]: renderHome,
