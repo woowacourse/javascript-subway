@@ -105,25 +105,18 @@ export default class Sections extends Component {
     const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
     const stationList = line.stations;
     const sectionList = line.sections;
-    const sortedSectionList = [];
+    const sortedSectionList = stationList.map((station, index) => {
+      if (index === stationList.length - 1) return { name: station.name, id: station.id };
 
-    stationList.forEach((station, index) => {
-      if (index === stationList.length - 1) {
-        sortedSectionList.push({ name: station.name, id: station.id });
-        return;
-      }
+      const targetSection = sectionList.find((section) => station.id === section.upStation.id);
 
-      sectionList.forEach((section) => {
-        if (station.name === section.upStation.name) {
-          sortedSectionList.push({
-            name: station.name,
-            id: station.id,
-            color: line.color,
-            duration: section.duration,
-            distance: section.distance,
-          });
-        }
-      });
+      return {
+        name: targetSection.upStation.name,
+        id: targetSection.upStation.id,
+        color: line.color,
+        duration: targetSection.duration,
+        distance: targetSection.distance,
+      };
     });
 
     this.$sectionListContainer.innerHTML = sortedSectionList.map((section) => sectionListTemplate(section)).join('');
