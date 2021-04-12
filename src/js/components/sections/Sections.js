@@ -113,7 +113,7 @@ export default class Sections extends Component {
         return;
       }
 
-      sectionList.find((section) => {
+      sectionList.forEach((section) => {
         if (station.name === section.upStation.name) {
           sortedSectionList.push({
             name: station.name,
@@ -122,9 +122,7 @@ export default class Sections extends Component {
             duration: section.duration,
             distance: section.distance,
           });
-          return true;
         }
-        return false;
       });
     });
 

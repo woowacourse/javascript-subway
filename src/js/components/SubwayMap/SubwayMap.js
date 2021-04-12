@@ -28,7 +28,7 @@ export default class SubwayMap extends Component {
         return;
       }
 
-      sectionList.find((section) => {
+      sectionList.forEach((section) => {
         if (station.name === section.upStation.name) {
           sortedSectionList.push({
             name: station.name,
@@ -36,9 +36,7 @@ export default class SubwayMap extends Component {
             distance: section.distance,
             color: line.color,
           });
-          return true;
         }
-        return false;
       });
     });
 

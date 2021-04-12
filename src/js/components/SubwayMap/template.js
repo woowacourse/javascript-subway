@@ -7,7 +7,6 @@ export const sectionListTemplate = ({ name, duration, distance, color }) => {
           <div class="vertical-line-bar ${color}" style="background-color: ${color}"></div>
         </div>
         <span class="w-100 pl-6 section-name">${name}</span>
-
       </div>
       ${
         duration && distance
