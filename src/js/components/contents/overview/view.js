@@ -3,7 +3,7 @@ import { getSectionList } from '../sections/getSubwayData.js';
 import { OVERVIEW_TEMPLATE, SECTION_LIST_ITEM_TEMPLATE } from './template.js';
 
 const $wrapper = document.createElement('div');
-$wrapper.classList.add('wrapper', 'bg-white', 'p-10');
+$wrapper.classList.add('wrapper', 'bg-white', 'p-10', 'overview');
 $wrapper.innerHTML = OVERVIEW_TEMPLATE;
 
 const $sectionList = $wrapper.querySelector('.section-list');
