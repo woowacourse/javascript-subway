@@ -12,13 +12,16 @@ export function delegateSectionClickEvent(event) {
   }
 
   if (target.classList.contains(SELECTOR_CLASS.SECTION_DELETE_BUTTON)) {
-    confirm(CONFIRM_MESSAGE.DELETE) && onSectionItemDelete(target);
+    if (!confirm(CONFIRM_MESSAGE.DELETE)) {
+      return;
+    }
+    const targetStationId = target.dataset.stationId;
+    deleteSectionItem(targetStationId);
     return;
   }
 }
 
-async function onSectionItemDelete(target) {
-  const targetStationId = target.dataset.stationId;
+async function deleteSectionItem(targetStationId) {
   const targetLineId = state.get(STATE_KEY.TARGET_SECTION_LINE_ID);
   try {
     await requestSectionDelete(targetLineId, targetStationId);

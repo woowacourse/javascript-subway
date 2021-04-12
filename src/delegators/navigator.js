@@ -7,18 +7,18 @@ function delegateNavigatorClickEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.LOG_OUT_BUTTON) {
     event.preventDefault();
-    onLogOut();
+    logOut();
     return;
   }
   if (target.id === SELECTOR_ID.SIGN_UP_BUTTON || target.classList.contains(SELECTOR_CLASS.NAVIGATOR_BUTTON)) {
     event.preventDefault();
-    onPageMove(target);
+    const path = target.getAttribute('href');
+    movePage(path);
     return;
   }
 }
 
-function onPageMove(target) {
-  const path = target.getAttribute('href');
+function movePage(path) {
   if (!isAuthenticationPath(path) && !state.get(STATE_KEY.IS_LOGGED_IN)) {
     router.pushState(PATH.ROOT);
     router.navigate(PATH.ROOT);
@@ -32,7 +32,7 @@ const isAuthenticationPath = path => {
   return path === PATH.LOG_IN || path === PATH.SIGN_UP;
 };
 
-function onLogOut() {
+function logOut() {
   sessionStore.removeItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
   state.update(STATE_KEY.IS_LOGGED_IN, false);
 

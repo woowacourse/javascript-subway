@@ -14,7 +14,7 @@ export function delegateLineClickEvent(event) {
   }
 
   if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
-    initLineUpdateModal(target);
+    initLineUpdateModal(target.dataset.lineId);
     openModal();
     return;
   }
@@ -22,13 +22,13 @@ export function delegateLineClickEvent(event) {
   if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-    deleteLineItem(target);
+    const { lineId } = target.dataset;
+    deleteLineItem(lineId);
     return;
   }
 }
 
-async function deleteLineItem(target) {
-  const { lineId } = target.dataset;
+async function deleteLineItem(lineId) {
   const newLineList = state.get(STATE_KEY.LINE_LIST).filter(line => line.id !== Number(lineId));
   const lineItem = $(`.${SELECTOR_CLASS.LINE_LIST_ITEM}[data-line-id="${lineId}"]`);
   setTurnRedAnimation(lineItem);
@@ -47,6 +47,6 @@ function openLineModal() {
   state.update(STATE_KEY.TARGET_LINE_ID, -1);
 }
 
-function initLineUpdateModal(target) {
-  state.update(STATE_KEY.TARGET_LINE_ID, Number(target.dataset.lineId));
+function initLineUpdateModal(lineId) {
+  state.update(STATE_KEY.TARGET_LINE_ID, Number(lineId));
 }

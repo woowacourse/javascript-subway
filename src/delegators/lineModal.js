@@ -8,12 +8,25 @@ export function delegateLineModalSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.LINE_REGISTER_FORM)) {
-    onLineItemRegister(target);
+    const lineInput = {
+      name: target[SELECTOR_NAME.LINE_NAME].value,
+      upStationId: Number(target[SELECTOR_NAME.UP_STATION].value),
+      downStationId: Number(target[SELECTOR_NAME.DOWN_STATION].value),
+      distance: Number(target[SELECTOR_NAME.LINE_DISTANCE].value),
+      duration: Number(target[SELECTOR_NAME.LINE_DURATION].value),
+      color: target[SELECTOR_NAME.LINE_COLOR].dataset.color,
+    };
+    registerLine(lineInput);
     closeModal();
     return;
   }
   if (target.classList.contains(SELECTOR_CLASS.LINE_UPDATE_FORM)) {
-    onLineItemUpdate(target);
+    const newLine = {
+      id: state.get(STATE_KEY.TARGET_LINE_ID),
+      name: target[SELECTOR_NAME.LINE_NAME].value,
+      color: target[SELECTOR_NAME.LINE_COLOR].dataset.color,
+    };
+    updateLine(newLine);
     closeModal();
     return;
   }
@@ -22,7 +35,7 @@ export function delegateLineModalSubmitEvent(event) {
 export function delegateLineModalClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.COLOR_OPTION)) {
-    onColorPickerClick(target);
+    pickColor(target);
     return;
   }
 
@@ -32,7 +45,7 @@ export function delegateLineModalClickEvent(event) {
   }
 }
 
-function onColorPickerClick(target) {
+function pickColor(target) {
   const color = target.dataset.color;
   const indicator = $(`#${SELECTOR_ID.LINE_MODAL_COLOR_INDICATOR}`);
   indicator.className = 'color-input-field text-white';
@@ -40,36 +53,22 @@ function onColorPickerClick(target) {
   indicator.dataset.color = `bg-${color}`;
 }
 
-async function onLineItemRegister(target) {
-  const lineName = target[SELECTOR_NAME.LINE_NAME].value;
-  const upStationId = Number(target[SELECTOR_NAME.UP_STATION].value);
-  const downStationId = Number(target[SELECTOR_NAME.DOWN_STATION].value);
-  const distance = Number(target[SELECTOR_NAME.LINE_DISTANCE].value);
-  const duration = Number(target[SELECTOR_NAME.LINE_DURATION].value);
-  const color = target[SELECTOR_NAME.LINE_COLOR].dataset.color;
+async function registerLine(lineInput) {
   const lineList = state.get(STATE_KEY.LINE_LIST);
 
-  if (!isProperLineNameLength(lineName)) {
+  if (!isProperLineNameLength(lineInput.name)) {
     alert(ALERT_MESSAGE.NOT_PROPER_LINE_NAME_LENGTH);
     return;
   }
 
-  if (isDuplicatedLineExist(lineName, lineList)) {
+  if (isDuplicatedLineExist(lineInput.name, lineList)) {
     alert(ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST);
     return;
   }
 
-  const newLine = {
-    name: lineName,
-    color,
-    upStationId,
-    downStationId,
-    distance,
-    duration,
-  };
   try {
-    const line = await requestLineRegistration(newLine);
-    lineList.push(line);
+    const newline = await requestLineRegistration(lineInput);
+    lineList.push(newline);
     state.update(STATE_KEY.LINE_LIST, lineList);
   } catch (error) {
     console.log(error);
@@ -77,12 +76,7 @@ async function onLineItemRegister(target) {
   }
 }
 
-async function onLineItemUpdate(target) {
-  const newLine = {
-    id: state.get(STATE_KEY.TARGET_LINE_ID),
-    name: target[SELECTOR_NAME.LINE_NAME].value,
-    color: target[SELECTOR_NAME.LINE_COLOR].dataset.color,
-  };
+async function updateLine(newLine) {
   const lineList = state.get(STATE_KEY.LINE_LIST);
   const isNewLineApplied = tryApplyingNewLine(newLine, lineList);
   if (!isNewLineApplied) return;

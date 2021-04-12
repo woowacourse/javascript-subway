@@ -16,17 +16,16 @@ export function delegateSectionModalSubmitEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.SECTION_FORM) {
     event.preventDefault();
-    onSectionItemRegister(target);
+    const lineId = Number(target[SELECTOR_ID.SECTION_MODAL_LINE_SELECT].value);
+    const newSection = getNewSection(target);
+    registerSection(lineId, newSection);
     closeModal();
     return;
   }
 }
 
-async function onSectionItemRegister(target) {
-  const lineId = Number(target[SELECTOR_ID.SECTION_MODAL_LINE_SELECT].value);
+async function registerSection(lineId, newSection) {
   const targetLine = state.get(STATE_KEY.LINE_LIST).find(line => line.id === lineId);
-  const newSection = getNewSection(target);
-
   try {
     await requestSectionRegistration(targetLine, newSection);
     const newLineList = await requestLineList();

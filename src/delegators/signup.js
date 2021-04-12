@@ -5,13 +5,14 @@ function delegateSignUpSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.SIGN_UP_FORM) {
-    onSignUpFormSubmit(target);
+    const { email, name, password, confirm } = target;
+
+    signUp({ email, name, password, confirm });
     return;
   }
 }
 
-async function onSignUpFormSubmit(target) {
-  const { email, name, password, confirm } = target;
+async function signUp({ email, name, password, confirm }) {
   if (!checkpasswordMatched(password.value, confirm.value)) {
     alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
     return;

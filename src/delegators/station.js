@@ -9,7 +9,8 @@ export function delegateStationSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.STATION_FORM) {
-    onStationFormSubmit(target);
+    const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
+    registerStation($stationNameInput);
     return;
   }
 }
@@ -17,13 +18,15 @@ export function delegateStationSubmitEvent(event) {
 export function delegateStationClickEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE)) {
-    onStationItemInputOpen(target);
+    const { stationId, stationName } = target.dataset;
+    openStationItemInput(stationId, stationName);
     return;
   }
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_DELETE)) {
     if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
-    onStationItemDeleteClick(target);
+    const stationId = Number(target.dataset.stationId);
+    deleteStation(stationId);
     return;
   }
 }
@@ -31,13 +34,14 @@ export function delegateStationClickEvent(event) {
 export function delegateStationFocusOutEvent(event) {
   const { target } = event;
   if (target.classList.contains(SELECTOR_CLASS.STATION_LIST_ITEM_INPUT)) {
-    onStationItemInputFocusOut(target);
+    const newStationName = target.value;
+    const targetStationId = Number(target.dataset.stationId);
+    updateStation(newStationName, targetStationId);
     return;
   }
 }
 
-async function onStationFormSubmit(target) {
-  const { [SELECTOR_NAME.STATION_NAME]: $stationNameInput } = target;
+async function registerStation($stationNameInput) {
   const targetStationName = $stationNameInput.value;
   const stationList = state.get(STATE_KEY.STATION_LIST);
 
@@ -64,17 +68,14 @@ async function onStationFormSubmit(target) {
   }
 }
 
-function onStationItemInputOpen(target) {
-  const { stationId, stationName } = target.dataset;
+function openStationItemInput(stationId, stationName) {
   const $stationInput = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}[data-station-id="${stationId}"]`);
   $stationInput.value = stationName;
   showElement($stationInput);
   $stationInput.focus();
 }
 
-async function onStationItemInputFocusOut(targetInput) {
-  const newStationName = targetInput.value;
-  const targetStationId = Number(targetInput.dataset.stationId);
+async function updateStation(newStationName, targetStationId) {
   const stationList = state.get(STATE_KEY.STATION_LIST);
   const targetStationItem = stationList.find(station => station.id === targetStationId);
 
@@ -104,8 +105,7 @@ async function onStationItemInputFocusOut(targetInput) {
   }
 }
 
-async function onStationItemDeleteClick(target) {
-  const stationId = Number(target.dataset.stationId);
+async function deleteStation(stationId) {
   if (isStationExistInLine(stationId)) {
     alert(ALERT_MESSAGE.DELETING_STATION_EXCLUDED_IN_LINE);
     return;

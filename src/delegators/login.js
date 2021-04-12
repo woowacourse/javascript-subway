@@ -8,12 +8,12 @@ export function delegateLoginSubmitEvent(event) {
   event.preventDefault();
   const { target } = event;
   if (target.id === SELECTOR_ID.LOG_IN_FORM) {
-    onLogInFormSubmit(target);
+    const { email, password } = target;
+    login(email, password);
   }
 }
 
-async function onLogInFormSubmit(target) {
-  const { email, password } = target;
+async function login(email, password) {
   try {
     const accessToken = await requestLoginToken(email.value, password.value);
     sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
@@ -35,12 +35,12 @@ export function delegateLoginClickEvent(event) {
   const { target } = event;
   if (target.id === SELECTOR_ID.SIGN_UP_BUTTON) {
     event.preventDefault();
-    onSignUpPageMove();
+    moveToSignUpPage();
     return;
   }
 }
 
-function onSignUpPageMove() {
+function moveToSignUpPage() {
   router.pushState(PATH.SIGN_UP);
   router.navigate(PATH.SIGN_UP);
 }
