@@ -1,5 +1,8 @@
 @import './shared/index.css';
 @import './ui/index.css';
+@import './pages/lines.css';
+@import './pages/map.css';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
 html,
 body {
@@ -7,14 +10,19 @@ body {
   height: 100%;
   font-size: 1rem;
   font-weight: normal;
+  font-family: 'Noto Sans KR', sans-serif;
   line-height: 1.5;
   background-color: #f1f5f9;
   user-select: none;
 }
 
-#app {
-  max-width: 960px;
-  margin: 0 auto;
+button,
+input {
+  font-family: inherit;
+}
+
+button:disabled {
+  pointer-events: none;
 }
 
 a {
@@ -33,7 +41,16 @@ hr {
   background-color: lightgray;
 }
 
-ul li button {
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#header {
+  z-index: 10;
+}
+
+.list-button {
   width: 60px;
   line-height: inherit;
   cursor: pointer;
@@ -43,7 +60,7 @@ ul li button {
   border-radius: 2rem;
 }
 
-ul li button:hover {
+.list-button:hover {
   background-color: rgb(229, 231, 235);
 }
 
@@ -63,6 +80,98 @@ ul li button:hover {
   transform: translateY(-50%);
 }
 
-button:disabled {
-  pointer-events: none;
+.list-item {
+  border-bottom: 1px solid #dddddd;
+  margin: 1.3rem 0;
+  padding-bottom: 1.3rem;
+}
+
+#subway-line-name {
+  padding-left: 40px;
+}
+
+#line-add-form .subway-line-color-dot,
+#line-edit-form .subway-line-color-dot {
+  left: 15px;
+}
+
+.section-delete-button {
+  position: absolute;
+  right: 0;
+}
+
+.section-edit,
+.section-delete-button {
+  display: none;
+}
+
+.section-add-button,
+.section-edit-button,
+.section-delete-button {
+  min-width: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+  border: 1px solid #dddddd;
+  background-color: #fafafa;
+  padding: 0;
+}
+
+.list-item:hover .section-delete-button {
+  display: initial;
+}
+
+.list-item:hover .section-edit {
+  display: flex;
+}
+
+.section-detail {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  display: flex;
+  flex-direction: row;
+  line-height: 1em;
+  min-height: 30px;
+}
+
+.section-edit {
+  position: absolute;
+  transform: translateX(100%);
+  right: 0;
+}
+
+.section-duration::before {
+  content: '소요시간 ';
+  font-weight: normal;
+}
+
+.section-distance::before {
+  content: '거리 ';
+  font-weight: normal;
+}
+
+.section-duration::after {
+  content: '분';
+}
+
+.section-distance::after {
+  content: 'km';
+}
+
+.list-item .section-duration,
+.list-item .section-distance {
+  margin-right: 1em;
+  padding: 0.4em 0.8em;
+  font-size: 0.7em;
+  font-weight: bold;
+  border: 1px solid #dddddd;
+  background-color: white;
+  border-radius: 100px;
+}
+
+.list-item:first-child .section-edit,
+.list-item:last-child .section-edit {
+  transform: translateX(50%);
 }

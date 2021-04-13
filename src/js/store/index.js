@@ -1,7 +1,37 @@
+import { requestCheckLogin } from '../api/auth';
+import { STORE } from '../constants/alertMessage';
+import snackbar from '../utils/snackbar';
 import accessToken from './accessToken';
+import line from './line';
+import station from './station';
 
-const initStore = () => {
-  accessToken.init();
+const store = {
+  line,
+  accessToken,
+  station,
 };
 
-export default initStore;
+export const initStore = async () => {
+  accessToken.init();
+
+  if (!accessToken.get()) return;
+
+  const isLogin = await requestCheckLogin();
+
+  if (isLogin) {
+    await initPrivateStore();
+  } else {
+    accessToken.clear();
+  }
+};
+
+export const initPrivateStore = async () => {
+  try {
+    await station.init();
+    await line.init();
+  } catch (error) {
+    snackbar.open(STORE.DATA_LOAD_FAILED);
+  }
+};
+
+export default store;

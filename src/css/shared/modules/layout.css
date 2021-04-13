@@ -16,6 +16,10 @@
   display: flex;
 }
 
+.d-inline-flex {
+  display: inline-flex;
+}
+
 .d-block {
   display: block;
 }

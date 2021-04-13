@@ -1,3 +1,5 @@
-@import "modules/modal.css";
-@import "modules/chip.css";
-@import "modules/form.css";
+@import 'modules/modal.css';
+@import 'modules/chip.css';
+@import 'modules/form.css';
+@import 'modules/spinner.css';
+@import 'modules/snackbar.css';

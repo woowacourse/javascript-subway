@@ -5,13 +5,14 @@ module.exports = {
   mode: 'development',
   entry: './src/js/index.js',
   output: {
-    filename: '[chunkhash].bundle.js',
+    filename: '[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     // path: path.resolve(__dirname, '../spa-hosting-server/dist'),
   },
   devServer: {
     hot: true,
     port: 9000,
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -27,6 +28,10 @@ module.exports = {
         test: /\.css$/i,
         include: [path.resolve(__dirname, 'src/css')],
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
     ],
   },

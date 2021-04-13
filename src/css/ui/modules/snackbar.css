@@ -1,0 +1,19 @@
+.snackbar {
+  transition: transform .5s ease;
+  position: fixed;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 0;
+  padding: 1em 2em;
+  width: fit-content;
+  max-width: 400px;
+  transform: translateY(-100%);
+  background-color: #333333;
+  color: white;
+}
+
+.snackbar.open {
+  transform: translateY(0);
+}

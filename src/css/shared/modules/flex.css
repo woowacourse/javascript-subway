@@ -123,3 +123,7 @@
 .order-none {
   order: 0;
 }
+
+.self-left {
+  align-self: flex-start;
+}
