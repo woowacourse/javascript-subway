@@ -10,9 +10,10 @@ import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 import mainTemplate from './template';
+import Router from '../../Router';
 
 class Line extends Component {
-  constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
+  constructor({ parentNode, state, props: { setIsLogin } }) {
     super({
       parentNode,
       state,
@@ -23,7 +24,6 @@ class Line extends Component {
         parentNode,
         modalName: 'line-add',
         props: {
-          goPage,
           setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
@@ -32,14 +32,12 @@ class Line extends Component {
         parentNode,
         modalName: 'line-edit',
         props: {
-          goPage,
           setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
   }
 
@@ -77,7 +75,7 @@ class Line extends Component {
         } catch (error) {
           if (error instanceof ExpiredTokenError) {
             this.setIsLogin(false);
-            this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+            Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
           }
           console.error(error.message);
           showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);

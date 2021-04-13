@@ -10,8 +10,10 @@ import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
 import { SNACKBAR_MESSAGE } from '../../constants/message';
 import { showSnackbar } from '../../utils/snackbar';
+import Router from '../../Router';
+
 class Station extends Component {
-  constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
+  constructor({ parentNode, state, props: { setIsLogin } }) {
     super({
       parentNode,
       state,
@@ -22,14 +24,12 @@ class Station extends Component {
         parentNode,
         modalName: 'station-edit',
         props: {
-          goPage,
           setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
   }
 
@@ -76,7 +76,7 @@ class Station extends Component {
     } catch (error) {
       if (error instanceof ExpiredTokenError) {
         this.setIsLogin(false);
-        this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+        Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
       }
 
       console.error(error.message);
@@ -96,7 +96,7 @@ class Station extends Component {
     } catch (error) {
       if (error instanceof ExpiredTokenError) {
         this.setIsLogin(false);
-        this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+        Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
       }
 
       console.error(error.message);

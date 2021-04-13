@@ -7,6 +7,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "prettier.useEditorConfig": true,
-  "editor.tabSize": 2
+  "prettier.useEditorConfig": true
 }

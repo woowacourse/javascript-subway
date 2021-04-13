@@ -7,16 +7,16 @@ import { stationModal } from './template';
 import ModalComponent from '../../../core/ModalComponent';
 import { showSnackbar } from '../../../utils/snackbar';
 import { SNACKBAR_MESSAGE } from '../../../constants/message';
+import Router from '../../../Router';
 
 class EditModal extends ModalComponent {
   constructor({
     parentNode,
     modalName,
-    props: { goPage, setIsLogin, updateSubwayState },
+    props: { setIsLogin, updateSubwayState },
   }) {
     super({ parentNode, modalName });
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
     this.updateSubwayState = updateSubwayState;
   }
@@ -57,7 +57,7 @@ class EditModal extends ModalComponent {
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
           this.setIsLogin(false);
-          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
 
         showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.UPDATE.FAIL);

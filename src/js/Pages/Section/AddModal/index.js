@@ -7,16 +7,16 @@ import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import { showSnackbar } from '../../../utils/snackbar';
 import modal from './template';
+import Router from '../../../Router';
 
 class AddModal extends ModalComponent {
   constructor({
     parentNode,
     modalName,
-    props: { goPage, setIsLogin, updateSubwayState },
+    props: { setIsLogin, updateSubwayState },
   }) {
     super({ parentNode, modalName });
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
     this.updateSubwayState = updateSubwayState;
   }
@@ -56,7 +56,7 @@ class AddModal extends ModalComponent {
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
           this.setIsLogin(false);
-          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
         console.error(error.message);
         showSnackbar(error.message || SNACKBAR_MESSAGE.SECTION.CREATE.FAIL);

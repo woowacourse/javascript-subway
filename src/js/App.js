@@ -1,29 +1,123 @@
 import { $ } from './utils/DOM';
-import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from './constants/link';
+import {
+  AUTHENTICATED_LINK,
+  HOME_LINK,
+  UNAUTHENTICATED_LINK,
+} from './constants/link';
 import Component from './core/Component';
 import { publicApis } from './api';
 import NavBar from './Components/NavBar';
-import ExpiredTokenError from './error/ExpiredTokenError';
 import LOCAL_STORAGE_KEY from './constants/localStorage';
-import Router from './router';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Station from './Pages/Station';
+import Line from './Pages/Line';
+import Section from './Pages/Section';
+import Map from './Pages/Map';
 
 class App extends Component {
-  constructor({ parentNode, state }) {
+  constructor({ parentNode, state, Router }) {
     super({ parentNode, state });
-
-    this.Router = new Router({
-      props: {
-        goPage: this.goPage.bind(this),
-        isLogin: this.isLogin.bind(this),
-        setIsLogin: this.setIsLogin.bind(this),
-      },
-    });
 
     this.childComponents = {
       navBar: new NavBar({
         parentNode: $('.js-header'),
       }),
     };
+
+    this.Router = Router;
+
+    this.Router.pageComponents = {
+      Login: new Login({
+        parentNode: $('.js-main'),
+        props: {
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Signup: new Signup({
+        parentNode: $('.js-main'),
+        props: {
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Station: new Station({
+        parentNode: $('.js-main'),
+        state: { stations: [], lines: [] },
+        props: {
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Line: new Line({
+        parentNode: $('.js-main'),
+        state: { stations: [], lines: [] },
+        props: {
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Section: new Section({
+        parentNode: $('.js-main'),
+        state: { stations: [], lines: [] },
+        props: {
+          setIsLogin: this.setIsLogin.bind(this),
+        },
+      }),
+      Map: new Map({
+        parentNode: $('.js-main'),
+        state: { stations: [], lines: [] },
+      }),
+    };
+
+    this.Router.route = {
+      [HOME_LINK.PATH]: () => {
+        return this.privateRoute(this.Router.pageComponents.Station);
+      },
+      [AUTHENTICATED_LINK.STATION.PATH]: () => {
+        return this.privateRoute(this.Router.pageComponents.Station);
+      },
+      [AUTHENTICATED_LINK.LINE.PATH]: () => {
+        return this.privateRoute(this.Router.pageComponents.Line);
+      },
+      [AUTHENTICATED_LINK.SECTION.PATH]: () => {
+        return this.privateRoute(this.Router.pageComponents.Section);
+      },
+      [AUTHENTICATED_LINK.MAP.PATH]: () => {
+        return this.privateRoute(this.Router.pageComponents.Map);
+      },
+      [UNAUTHENTICATED_LINK.LOGIN.PATH]: () => {
+        return this.publicRoute(this.Router.pageComponents.Login);
+      },
+      [UNAUTHENTICATED_LINK.SIGNUP.PATH]: () => {
+        return this.publicRoute(this.Router.pageComponents.Signup);
+      },
+    };
+  }
+
+  privateRoute(Component) {
+    if (this.isLogin()) {
+      return Component;
+    }
+
+    history.replaceState(
+      { path: UNAUTHENTICATED_LINK.LOGIN.PATH },
+      null,
+      UNAUTHENTICATED_LINK.LOGIN.PATH
+    );
+
+    return this.Router.pageComponents.Login;
+  }
+
+  publicRoute(Component) {
+    if (!this.isLogin()) {
+      return Component;
+    }
+
+    history.replaceState(
+      { path: AUTHENTICATED_LINK.STATION.PATH },
+      null,
+      AUTHENTICATED_LINK.STATION.PATH
+    );
+
+    return this.Router.pageComponents.Station;
   }
 
   async checkLogin() {
@@ -36,26 +130,6 @@ class App extends Component {
 
   setIsLogin(isLogin) {
     this.setState({ ...this.state, isLogin });
-  }
-
-  async renderComponent(path = location.pathname) {
-    const component = this.Router.route[path]();
-
-    component.render();
-    try {
-      await component.updateSubwayState?.();
-    } catch (error) {
-      if (error instanceof ExpiredTokenError) {
-        this.setIsLogin(false);
-        this.goPage(UNAUTHENTICATED_LINK.LOGIN);
-      }
-      console.error(error.message);
-    }
-  }
-
-  async goPage(path) {
-    history.pushState({ path }, null, path);
-    this.renderComponent(path);
   }
 
   async isValidAccessToken() {
@@ -72,7 +146,7 @@ class App extends Component {
 
   addStaticEventListeners() {
     window.addEventListener('popstate', (e) => {
-      this.renderComponent(e.state.path);
+      this.Router.renderComponent(e.state.path);
     });
 
     window.addEventListener('load', () => {
@@ -82,7 +156,7 @@ class App extends Component {
         location.pathname
       );
 
-      this.renderComponent(location.pathname);
+      this.Router.renderComponent(location.pathname);
     });
 
     window.addEventListener('click', (e) => {
@@ -95,12 +169,12 @@ class App extends Component {
       if (path === AUTHENTICATED_LINK.LOGOUT.PATH) {
         localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
         this.setIsLogin(false);
-        this.goPage(UNAUTHENTICATED_LINK.LOGIN.PATH);
+        this.Router.goPage(UNAUTHENTICATED_LINK.LOGIN.PATH);
 
         return;
       }
 
-      this.goPage(path);
+      this.Router.goPage(path);
     });
   }
 }

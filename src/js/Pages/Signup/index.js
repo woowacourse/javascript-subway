@@ -16,13 +16,13 @@ import {
 } from '../../utils/validateFormat';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { showSnackbar } from '../../utils/snackbar';
+import Router from '../../Router';
 
 class Signup extends Component {
-  constructor({ parentNode, props: { goPage, setIsLogin } }) {
+  constructor({ parentNode, props: { setIsLogin } }) {
     super({ parentNode });
     this.formValidationFlag = { name: false, email: false, password: false };
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
   }
 
@@ -59,7 +59,7 @@ class Signup extends Component {
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
 
-        this.goPage(AUTHENTICATED_LINK.STATION.PATH);
+        Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
         showSnackbar(SNACKBAR_MESSAGE.SIGNUP.SUCCESS);
       } catch (error) {
         console.error(error);

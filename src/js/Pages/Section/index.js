@@ -2,20 +2,17 @@ import { privateApis } from '../../api';
 import requestStationAndLine from '../../api/requestStationAndLine';
 import { UNAUTHENTICATED_LINK } from '../../constants/link';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
-import {
-  CONFIRM_MESSAGE,
-  ERROR_MESSAGE,
-  SNACKBAR_MESSAGE,
-} from '../../constants/message';
+import { CONFIRM_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
 import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
 import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import { mainTemplate, sectionItem } from './template';
+import Router from '../../Router';
 
 class Section extends Component {
-  constructor({ parentNode, state, props: { goPage, setIsLogin } }) {
+  constructor({ parentNode, state, props: { setIsLogin } }) {
     super({
       parentNode,
       state,
@@ -26,14 +23,12 @@ class Section extends Component {
         parentNode,
         modalName: 'section-add',
         props: {
-          goPage,
           setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
   }
 
@@ -75,7 +70,7 @@ class Section extends Component {
       } catch (error) {
         if (error instanceof ExpiredTokenError) {
           this.setIsLogin(false);
-          this.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
         }
 
         console.error(error.message);

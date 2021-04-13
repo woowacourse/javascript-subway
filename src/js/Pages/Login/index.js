@@ -7,12 +7,12 @@ import { publicApis } from '../../api';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { showSnackbar } from '../../utils/snackbar';
 import { SNACKBAR_MESSAGE } from '../../constants/message';
+import Router from '../../Router';
 
 class Login extends Component {
-  constructor({ parentNode, props: { goPage, setIsLogin } }) {
+  constructor({ parentNode, props: { setIsLogin } }) {
     super({ parentNode });
 
-    this.goPage = goPage;
     this.setIsLogin = setIsLogin;
   }
 
@@ -33,7 +33,7 @@ class Login extends Component {
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
 
-        this.goPage(AUTHENTICATED_LINK.STATION.PATH);
+        Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
         showSnackbar(SNACKBAR_MESSAGE.LOGIN.SUCCESS);
       } catch (error) {
         if (error instanceof ValidationError) {
