@@ -20,7 +20,12 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
+            plugins: [
+              '@babel/plugin-transform-runtime',
+              '@babel/plugin-syntax-class-properties',
+              '@babel/plugin-proposal-private-methods',
+              '@babel/plugin-proposal-class-properties',
+            ],
           },
         },
       },
@@ -49,4 +54,7 @@ module.exports = {
       patterns: [{ from: 'src/images', to: 'src/images' }],
     }),
   ],
+  devServer: {
+    historyApiFallback: true,
+  },
 };

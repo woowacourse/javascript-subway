@@ -1,17 +1,10 @@
 import Component from '../../core/Component.js';
-import {
-  $,
-  $$,
-  showElement,
-  hideElement,
-  showSnackbar,
-} from '../../utils/index.js';
+import { $, $$, showElement, hideElement, showSnackbar, routeTo } from '../../utils/index.js';
 import { LOCAL_STORAGE_KEY, SNACKBAR_MESSAGE } from '../../constants/index.js';
 
 export default class Navigation extends Component {
-  constructor({ changeTemplate }) {
+  constructor() {
     super();
-    this.changeTemplate = changeTemplate;
     this.selectDOM();
     this.bindEvent();
   }
@@ -33,21 +26,23 @@ export default class Navigation extends Component {
 
     if (e.target.id === 'navigation-logout-button') {
       localStorage.removeItem(LOCAL_STORAGE_KEY.TOKEN);
-      this.changeTemplate('/');
-      history.pushState({ pathName: '/' }, null, '/');
+      routeTo('/');
+      this.changeSelectedButtonColor();
       showSnackbar(SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
+
+      return;
     }
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
-    await this.changeTemplate(pathName);
-    Navigation.changeSelectedButtonColor(e.target);
-    history.pushState({ pathName }, null, pathName);
+    routeTo(pathName);
+    this.changeSelectedButtonColor(e.target);
   }
 
   render(token = '') {
     if (token) {
       hideElement($('#navigation-login-button'));
       showElement($('#navigation-logout-button'));
+
       return;
     }
 
@@ -55,10 +50,8 @@ export default class Navigation extends Component {
     hideElement($('#navigation-logout-button'));
   }
 
-  static changeSelectedButtonColor(target = '') {
-    $$('.navigation-button').forEach((button) =>
-      button.classList.remove('bg-cyan-100'),
-    );
+  changeSelectedButtonColor(target = '') {
+    $$('.navigation-button').forEach((button) => button.classList.remove('bg-cyan-100'));
 
     if (target.id === 'navigation-main' || !target) {
       return;

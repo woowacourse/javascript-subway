@@ -1,40 +1,22 @@
 import Component from '../../core/Component.js';
 import { signupTemplate } from './template.js';
-import {
-  $,
-  showSnackbar,
-  API,
-  setFontColorGreen,
-  setFontColorRed,
-} from '../../utils/index.js';
+import { $, showSnackbar, setFontColorGreen, setFontColorRed, routeTo } from '../../utils/index.js';
 import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
+import { serviceAPI } from '../../service/index.js';
 
 export default class Signup extends Component {
-  constructor({ changeTemplate }) {
+  constructor() {
     super();
-    this.changeTemplate = changeTemplate;
     this.isDuplicateChecked;
     this.verifiedEmail = '';
   }
 
   bindEvent() {
-    $('#signup-form').addEventListener(
-      'submit',
-      this.handleSignupForm.bind(this),
-    );
-    $('#check-email-duplicate-button').addEventListener(
-      'click',
-      this.handleEmailDuplicateButton.bind(this),
-    );
-    $('#signup-password-confirm').addEventListener(
-      'keyup',
-      this.handlePasswordConfirm.bind(this),
-    );
-    $('#signup-email').addEventListener(
-      'keyup',
-      this.handleEmailChange.bind(this),
-    );
+    $('#signup-form').addEventListener('submit', this.handleSignupForm.bind(this));
+    $('#check-email-duplicate-button').addEventListener('click', this.handleEmailDuplicateButton.bind(this));
+    $('#signup-password-confirm').addEventListener('keyup', this.handlePasswordConfirm.bind(this));
+    $('#signup-email').addEventListener('keyup', this.handleEmailChange.bind(this));
   }
 
   handleEmailChange({ target }) {
@@ -61,21 +43,21 @@ export default class Signup extends Component {
       return;
     }
 
-    try {
-      await API.checkDuplicateEmail(email);
+    const isDuplicated = await serviceAPI.isDuplicatedEmail(email);
 
-      setFontColorGreen($emailValidCheckText);
-      $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
-      showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
-      this.isDuplicateChecked = true;
-      this.verifiedEmail = email;
-    } catch {
+    if (isDuplicated) {
       setFontColorRed($emailValidCheckText);
       $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL;
       showSnackbar(SNACKBAR_MESSAGE.IS_DUPLICATE_EMAIL);
       this.isDuplicateChecked = false;
       this.verifiedEmail = '';
     }
+
+    setFontColorGreen($emailValidCheckText);
+    $emailValidCheckText.innerText = SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL;
+    showSnackbar(SNACKBAR_MESSAGE.IS_NOT_DUPLICATE_EMAIL);
+    this.isDuplicateChecked = true;
+    this.verifiedEmail = email;
   }
 
   async handleSignupForm(e) {
@@ -96,17 +78,16 @@ export default class Signup extends Component {
       return;
     }
 
-    try {
-      await API.signup({ email, password, name });
+    const isSuccess = await serviceAPI.signup({ email, password, name });
 
-      showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
-      this.changeTemplate('/login');
-      history.pushState({ pathName: '/login' }, null, '/login');
-      Navigation.changeSelectedButtonColor();
-      this.isDuplicateChecked = false;
-    } catch {
+    if (!isSuccess) {
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP_FAILURE);
+      return;
     }
+
+    showSnackbar(SNACKBAR_MESSAGE.SIGNUP_SUCCESS);
+    routeTo('/login');
+    this.isDuplicateChecked = false;
   }
 
   handlePasswordConfirm({ target }) {
@@ -116,8 +97,7 @@ export default class Signup extends Component {
 
     if (password !== confirmPassword) {
       setFontColorRed($passwordMatchCheckText);
-      $passwordMatchCheckText.innerText =
-        SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD;
+      $passwordMatchCheckText.innerText = SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD;
       return;
     }
 
