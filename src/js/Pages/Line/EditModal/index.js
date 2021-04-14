@@ -1,13 +1,10 @@
 import ModalComponent from '../../../core/ModalComponent';
 import { $ } from '../../../utils/DOM';
 import modal from './template';
-import { privateApis } from '../../../api';
-import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
-import ExpiredTokenError from '../../../error/ExpiredTokenError';
-import { UNAUTHENTICATED_LINK } from '../../../constants/link';
+import Apis from '../../../api';
 import { showSnackbar } from '../../../utils/snackbar';
 import { SNACKBAR_MESSAGE } from '../../../constants/message';
-import Router from '../../../Router';
+import HTTPError from '../../../error/HTTPError';
 
 class EditModal extends ModalComponent {
   constructor({
@@ -47,14 +44,12 @@ class EditModal extends ModalComponent {
 
     $(`#${this.modalName}-line-form`).addEventListener('submit', async (e) => {
       e.preventDefault();
-      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
       const name = e.target['name'].value;
       const color = e.target['subway-line-color'].value;
 
       try {
-        await privateApis.lines.put({
+        await Apis.lines.put({
           lineId: this.targetId,
-          accessToken,
           body: {
             name,
             color,
@@ -64,12 +59,12 @@ class EditModal extends ModalComponent {
         showSnackbar(SNACKBAR_MESSAGE.LINE.UPDATE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
-        if (error instanceof ExpiredTokenError) {
+        if (error instanceof HTTPError) {
           this.setIsLogin(false);
-          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          error.handleError();
         }
+
         console.error(error.message);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.UPDATE.FAIL);
       }
     });
   }

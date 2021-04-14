@@ -1,4 +1,4 @@
-import { requestStationAndLine } from '../../api';
+import Apis from '../../api';
 import Component from '../../core/Component';
 import template from './template';
 
@@ -12,7 +12,7 @@ class Map extends Component {
   }
 
   async updateSubwayState() {
-    this.setState(await requestStationAndLine());
+    this.setState(await Apis.getStationAndLine());
   }
 }
 

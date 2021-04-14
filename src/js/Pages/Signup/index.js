@@ -9,7 +9,7 @@ import {
 } from '../../constants/message';
 import { LENGTH } from '../../constants/standard';
 import { AUTHENTICATED_LINK } from '../../constants/link';
-import publicApis from '../../api/publicApis';
+import Apis from '../../api';
 import {
   isValidNameFormat,
   isValidEmailFormat,
@@ -17,6 +17,7 @@ import {
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { showSnackbar } from '../../utils/snackbar';
 import Router from '../../Router';
+import HTTPError from '../../error/HTTPError';
 
 class Signup extends Component {
   constructor({ parentNode, props: { setIsLogin } }) {
@@ -53,16 +54,16 @@ class Signup extends Component {
         const email = e.target['email'].value;
         const password = e.target['password'].value;
 
-        await publicApis.signup(name, email, password);
+        await Apis.members.signup(name, email, password);
 
-        const accessToken = await publicApis.login(email, password);
+        const accessToken = await Apis.members.login(email, password);
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
 
         Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
         showSnackbar(SNACKBAR_MESSAGE.SIGNUP.SUCCESS);
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
         showSnackbar(error.message || SNACKBAR_MESSAGE.SIGNUP.FAIL);
       }
     });
@@ -107,7 +108,11 @@ class Signup extends Component {
         this.formValidationFlag[name] = false;
       }
 
-      console.error(error);
+      if (error instanceof HTTPError) {
+        error.handleError();
+      }
+
+      console.error(error.message);
     }
   }
 
@@ -127,7 +132,7 @@ class Signup extends Component {
     }
 
     const emailQuery = `?${new URLSearchParams({ email })}`;
-    await publicApis.checkDuplicatedEmail(emailQuery);
+    await Apis.checkDuplicatedEmail(emailQuery);
   }
 
   validatePasswordAndNotify(password, passwordConfirm) {
@@ -145,7 +150,7 @@ class Signup extends Component {
         this.formValidationFlag.password = false;
       }
 
-      console.error(error);
+      console.error(error.message);
     }
   }
 

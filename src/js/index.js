@@ -10,8 +10,14 @@ const initalState = {
 const app = new App({
   parentNode: $('#app'),
   state: initalState,
-  Router: Router,
+  Router,
 });
 
 app.addStaticEventListeners();
 app.checkLogin();
+
+class test {
+  register(event) {}
+}
+
+app.render();

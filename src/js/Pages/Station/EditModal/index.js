@@ -1,13 +1,10 @@
-import { privateApis } from '../../../api';
-import { UNAUTHENTICATED_LINK } from '../../../constants/link';
-import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
-import ExpiredTokenError from '../../../error/ExpiredTokenError';
+import Apis from '../../../api';
 import { $ } from '../../../utils/DOM';
 import { stationModal } from './template';
 import ModalComponent from '../../../core/ModalComponent';
 import { showSnackbar } from '../../../utils/snackbar';
 import { SNACKBAR_MESSAGE } from '../../../constants/message';
-import Router from '../../../Router';
+import HTTPError from '../../../error/HTTPError';
 
 class EditModal extends ModalComponent {
   constructor({
@@ -42,10 +39,9 @@ class EditModal extends ModalComponent {
       e.preventDefault();
       const stationId = this.targetId;
       const name = e.target['name'].value;
-      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
       try {
-        await privateApis.stations.put({
+        await Apis.stations.put({
           stationId,
           accessToken,
           body: { name },
@@ -55,12 +51,11 @@ class EditModal extends ModalComponent {
         await this.updateSubwayState();
         showSnackbar(SNACKBAR_MESSAGE.STATION.UPDATE.SUCCESS);
       } catch (error) {
-        if (error instanceof ExpiredTokenError) {
+        if (error instanceof HTTPError) {
           this.setIsLogin(false);
-          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          error.handleError();
         }
 
-        showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.UPDATE.FAIL);
         console.error(error.message);
       }
     });

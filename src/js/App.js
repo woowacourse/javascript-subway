@@ -5,7 +5,7 @@ import {
   UNAUTHENTICATED_LINK,
 } from './constants/link';
 import Component from './core/Component';
-import { publicApis } from './api';
+import Apis from './api';
 import NavBar from './Components/NavBar';
 import LOCAL_STORAGE_KEY from './constants/localStorage';
 import Login from './Pages/Login';
@@ -133,11 +133,10 @@ class App extends Component {
   }
 
   async isValidAccessToken() {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
     try {
-      await publicApis.me(accessToken);
+      await Apis.members.me();
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       return false;
     }
 

@@ -1,5 +1,4 @@
 import { AUTHENTICATED_LINK, UNAUTHENTICATED_LINK } from '../../constants/link';
-import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import Component from '../../core/Component';
 import template from './template';
 

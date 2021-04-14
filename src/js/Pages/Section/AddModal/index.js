@@ -1,13 +1,10 @@
-import { privateApis } from '../../../api';
-import { UNAUTHENTICATED_LINK } from '../../../constants/link';
-import LOCAL_STORAGE_KEY from '../../../constants/localStorage';
+import Apis from '../../../api';
 import { SNACKBAR_MESSAGE } from '../../../constants/message';
 import ModalComponent from '../../../core/ModalComponent';
-import ExpiredTokenError from '../../../error/ExpiredTokenError';
 import { $ } from '../../../utils/DOM';
 import { showSnackbar } from '../../../utils/snackbar';
 import modal from './template';
-import Router from '../../../Router';
+import HTTPError from '../../../error/HTTPError';
 
 class AddModal extends ModalComponent {
   constructor({
@@ -40,8 +37,6 @@ class AddModal extends ModalComponent {
       const duration = e.target['duration'].value;
       const distance = e.target['distance'].value;
 
-      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
-
       const body = {
         upStationId,
         downStationId,
@@ -50,16 +45,16 @@ class AddModal extends ModalComponent {
       };
 
       try {
-        await privateApis.sections.post({ lineId, accessToken, body });
+        await Apis.sections.post({ lineId, body });
         showSnackbar(SNACKBAR_MESSAGE.SECTION.CREATE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
-        if (error instanceof ExpiredTokenError) {
+        if (error instanceof HTTPError) {
           this.setIsLogin(false);
-          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          error.handleError();
         }
+
         console.error(error.message);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.SECTION.CREATE.FAIL);
       }
     });
   }

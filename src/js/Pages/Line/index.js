@@ -1,10 +1,6 @@
-import { privateApis } from '../../api';
-import requestStationAndLine from '../../api/requestStationAndLine';
-import { UNAUTHENTICATED_LINK } from '../../constants/link';
-import LOCAL_STORAGE_KEY from '../../constants/localStorage';
+import Apis from '../../api';
 import { CONFIRM_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
-import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
 import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
@@ -63,29 +59,27 @@ class Line extends Component {
         if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
 
         const id = target.closest('.js-line-item').dataset.id;
-        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
         try {
-          await privateApis.lines.delete({
+          await Apis.lines.delete({
             lineId: id,
-            accessToken,
           });
           showSnackbar(SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
           await this.updateSubwayState();
         } catch (error) {
-          if (error instanceof ExpiredTokenError) {
+          if (error instanceof HTTPError) {
             this.setIsLogin(false);
-            Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
+            error.handleError();
           }
+
           console.error(error.message);
-          showSnackbar(error.message || SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
         }
       }
     });
   }
 
   async updateSubwayState() {
-    this.setState(await requestStationAndLine());
+    this.setState(await Apis.getStationAndLine());
   }
 }
 

@@ -1,19 +1,58 @@
-const request = {
-  get: ({ url, options }) => {
-    return fetch(url, { ...options });
-  },
+import LOCAL_STORAGE_KEY from '../constants/localStorage';
+import HEADERS from '../constants/headers';
 
-  post: ({ url, options }) => {
-    return fetch(url, { method: 'POST', ...options });
-  },
-
-  put: ({ url, options }) => {
-    return fetch(url, { method: 'PUT', ...options });
-  },
-
-  delete: ({ url, options }) => {
-    return fetch(url, { method: 'DELETE', ...options });
-  },
+const isJsonResponseData = (response) => {
+  const contentType = response.headers.get('content-type');
+  return contentType.includes('application/json');
 };
 
-export default request;
+const request = (url, method) => {
+  return fetch(url, {
+    method,
+    headers: {
+      ...HEADERS.CONTENT_TYPE.JSON,
+      ...HEADERS.AUTHORIZATION.BEARER(accessToken),
+    },
+  });
+};
+
+const requestWithAccessToken = (url, method) => {
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
+  return fetch(url, {
+    method,
+    headers: {
+      ...HEADERS.CONTENT_TYPE.JSON,
+      ...HEADERS.AUTHORIZATION.BEARER(accessToken),
+    },
+  });
+};
+
+const requestWithBody = (url, method, body) => {
+  return fetch(url, {
+    method,
+    headers: {
+      ...HEADERS.CONTENT_TYPE.JSON,
+    },
+    body: JSON.stringify(body),
+  });
+};
+
+const requestWithAccessTokenAndBody = (url, method, body) => {
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
+  return fetch(url, {
+    method,
+    headers: {
+      ...HEADERS.CONTENT_TYPE.JSON,
+      ...HEADERS.AUTHORIZATION.BEARER(accessToken),
+    },
+    body: JSON.stringify(body),
+  });
+};
+
+export {
+  isJsonResponseData,
+  request,
+  requestWithAccessToken,
+  requestWithBody,
+  requestWithAccessTokenAndBody,
+};

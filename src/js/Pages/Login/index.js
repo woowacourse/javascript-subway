@@ -2,12 +2,12 @@ import { $ } from '../../utils/DOM';
 import Component from '../../core/Component';
 import mainTemplate from './template';
 import { AUTHENTICATED_LINK } from '../../constants/link';
-import ValidationError from '../../error/ValidationError';
-import { publicApis } from '../../api';
+import Apis from '../../api';
 import LOCAL_STORAGE_KEY from '../../constants/localStorage';
 import { showSnackbar } from '../../utils/snackbar';
 import { SNACKBAR_MESSAGE } from '../../constants/message';
 import Router from '../../Router';
+import HTTPError from '../../error/HTTPError';
 
 class Login extends Component {
   constructor({ parentNode, props: { setIsLogin } }) {
@@ -28,7 +28,7 @@ class Login extends Component {
       const password = e.target['password'].value;
 
       try {
-        const accessToken = await publicApis.login(email, password);
+        const { accessToken } = await Apis.members.login(email, password);
 
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
         this.setIsLogin(true);
@@ -36,12 +36,12 @@ class Login extends Component {
         Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
         showSnackbar(SNACKBAR_MESSAGE.LOGIN.SUCCESS);
       } catch (error) {
-        if (error instanceof ValidationError) {
+        if (error instanceof HTTPError) {
           $('.js-login-check').innerText = error.message;
+          error.handleError();
         }
 
-        console.error(error);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.LOGIN.FAIL);
+        console.error(error.message);
       }
     });
   }

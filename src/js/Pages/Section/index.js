@@ -1,15 +1,11 @@
-import { privateApis } from '../../api';
-import requestStationAndLine from '../../api/requestStationAndLine';
-import { UNAUTHENTICATED_LINK } from '../../constants/link';
-import LOCAL_STORAGE_KEY from '../../constants/localStorage';
+import Apis from '../../api';
 import { CONFIRM_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
-import ExpiredTokenError from '../../error/ExpiredTokenError';
 import { $ } from '../../utils/DOM';
 import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import { mainTemplate, sectionItem } from './template';
-import Router from '../../Router';
+import HTTPError from '../../error/HTTPError';
 
 class Section extends Component {
   constructor({ parentNode, state, props: { setIsLogin } }) {
@@ -61,26 +57,24 @@ class Section extends Component {
 
       const lineId = target.closest('.js-section-list').dataset.lineId;
       const stationId = target.closest('.js-section-item').dataset.stationId;
-      const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
 
       try {
-        await privateApis.sections.delete({ lineId, stationId, accessToken });
+        await Apis.sections.delete({ lineId, stationId });
         showSnackbar(SNACKBAR_MESSAGE.SECTION.DELETE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
-        if (error instanceof ExpiredTokenError) {
+        if (error instanceof HTTPError) {
           this.setIsLogin(false);
-          Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
+          error.handleError();
         }
 
         console.error(error.message);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.SECTION.DELETE.FAIL);
       }
     });
   }
 
   async updateSubwayState() {
-    this.setState(await requestStationAndLine());
+    this.setState(await Apis.getStationAndLine());
   }
 }
 
