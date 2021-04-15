@@ -9,7 +9,7 @@ import mainTemplate from './template';
 import Router from '../../Router';
 
 class Line extends Component {
-  constructor({ parentNode, state, props: { setIsLogin } }) {
+  constructor({ parentNode, state }) {
     super({
       parentNode,
       state,
@@ -20,7 +20,6 @@ class Line extends Component {
         parentNode,
         modalName: 'line-add',
         props: {
-          setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
@@ -28,13 +27,10 @@ class Line extends Component {
         parentNode,
         modalName: 'line-edit',
         props: {
-          setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
-
-    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -68,7 +64,6 @@ class Line extends Component {
           await this.updateSubwayState();
         } catch (error) {
           if (error instanceof HTTPError) {
-            this.setIsLogin(false);
             error.handleError();
           }
 

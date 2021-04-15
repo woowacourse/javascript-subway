@@ -9,7 +9,7 @@ import { showSnackbar } from '../../utils/snackbar';
 import HTTPError from '../../error/HTTPError';
 
 class Station extends Component {
-  constructor({ parentNode, state, props: { setIsLogin } }) {
+  constructor({ parentNode, state }) {
     super({
       parentNode,
       state,
@@ -20,13 +20,10 @@ class Station extends Component {
         parentNode,
         modalName: 'station-edit',
         props: {
-          setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
-
-    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -69,7 +66,6 @@ class Station extends Component {
       showSnackbar(SNACKBAR_MESSAGE.STATION.CREATE.SUCCESS);
     } catch (error) {
       if (error instanceof HTTPError) {
-        this.setIsLogin(false);
         error.handleError();
       }
 
@@ -89,7 +85,6 @@ class Station extends Component {
       await this.updateSubwayState();
     } catch (error) {
       if (error instanceof HTTPError) {
-        this.setIsLogin(false);
         error.handleError();
       }
 

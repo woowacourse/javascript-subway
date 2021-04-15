@@ -7,14 +7,9 @@ import modal from './template';
 import HTTPError from '../../../error/HTTPError';
 
 class AddModal extends ModalComponent {
-  constructor({
-    parentNode,
-    modalName,
-    props: { setIsLogin, updateSubwayState },
-  }) {
+  constructor({ parentNode, modalName, props: { updateSubwayState } }) {
     super({ parentNode, modalName });
 
-    this.setIsLogin = setIsLogin;
     this.updateSubwayState = updateSubwayState;
   }
 
@@ -50,7 +45,6 @@ class AddModal extends ModalComponent {
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof HTTPError) {
-          this.setIsLogin(false);
           error.handleError();
         }
 

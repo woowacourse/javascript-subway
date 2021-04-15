@@ -8,7 +8,7 @@ import { mainTemplate, sectionItem } from './template';
 import HTTPError from '../../error/HTTPError';
 
 class Section extends Component {
-  constructor({ parentNode, state, props: { setIsLogin } }) {
+  constructor({ parentNode, state }) {
     super({
       parentNode,
       state,
@@ -19,13 +19,10 @@ class Section extends Component {
         parentNode,
         modalName: 'section-add',
         props: {
-          setIsLogin,
           updateSubwayState: this.updateSubwayState.bind(this),
         },
       }),
     };
-
-    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -64,7 +61,6 @@ class Section extends Component {
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof HTTPError) {
-          this.setIsLogin(false);
           error.handleError();
         }
 

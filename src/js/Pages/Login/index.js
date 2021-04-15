@@ -10,10 +10,8 @@ import Router from '../../Router';
 import HTTPError from '../../error/HTTPError';
 
 class Login extends Component {
-  constructor({ parentNode, props: { setIsLogin } }) {
+  constructor({ parentNode }) {
     super({ parentNode });
-
-    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {

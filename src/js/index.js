@@ -3,21 +3,11 @@ import { $ } from './utils/DOM';
 import App from './App';
 import Router from './Router';
 
-const initalState = {
-  isLogin: false,
-};
+App.addStaticEventListeners();
+App.checkLogin();
 
-const app = new App({
-  parentNode: $('#app'),
-  state: initalState,
-  Router,
-});
+// class test {
+//   register(event) {}
+// }
 
-app.addStaticEventListeners();
-app.checkLogin();
-
-class test {
-  register(event) {}
-}
-
-app.render();
+// App.render();

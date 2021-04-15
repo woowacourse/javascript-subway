@@ -20,11 +20,9 @@ import Router from '../../Router';
 import HTTPError from '../../error/HTTPError';
 
 class Signup extends Component {
-  constructor({ parentNode, props: { setIsLogin } }) {
+  constructor({ parentNode }) {
     super({ parentNode });
     this.formValidationFlag = { name: false, email: false, password: false };
-
-    this.setIsLogin = setIsLogin;
   }
 
   renderSelf() {
@@ -58,13 +56,15 @@ class Signup extends Component {
 
         const accessToken = await Apis.members.login(email, password);
         localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
-        this.setIsLogin(true);
 
         Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
         showSnackbar(SNACKBAR_MESSAGE.SIGNUP.SUCCESS);
       } catch (error) {
+        if (error instanceof HTTPError) {
+          error.handleError();
+        }
+
         console.error(error.message);
-        showSnackbar(error.message || SNACKBAR_MESSAGE.SIGNUP.FAIL);
       }
     });
   }

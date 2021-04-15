@@ -1,6 +1,7 @@
 import { UNAUTHENTICATED_LINK } from '../constants/link';
 import Router from '../Router';
 import { showSnackbar } from '../utils/snackbar';
+import App from '../App';
 
 class HTTPError extends Error {
   constructor(status, message) {
@@ -12,7 +13,7 @@ class HTTPError extends Error {
   handleError() {
     switch (this.status) {
       case 401:
-        this.setIsLogin(false);
+        App.setIsLogin(false);
         Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
 
       default:

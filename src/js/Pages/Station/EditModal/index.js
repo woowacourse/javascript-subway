@@ -7,14 +7,9 @@ import { SNACKBAR_MESSAGE } from '../../../constants/message';
 import HTTPError from '../../../error/HTTPError';
 
 class EditModal extends ModalComponent {
-  constructor({
-    parentNode,
-    modalName,
-    props: { setIsLogin, updateSubwayState },
-  }) {
+  constructor({ parentNode, modalName, props: { updateSubwayState } }) {
     super({ parentNode, modalName });
 
-    this.setIsLogin = setIsLogin;
     this.updateSubwayState = updateSubwayState;
   }
 
@@ -52,7 +47,6 @@ class EditModal extends ModalComponent {
         showSnackbar(SNACKBAR_MESSAGE.STATION.UPDATE.SUCCESS);
       } catch (error) {
         if (error instanceof HTTPError) {
-          this.setIsLogin(false);
           error.handleError();
         }
 

@@ -14,6 +14,7 @@ import Station from './Pages/Station';
 import Line from './Pages/Line';
 import Section from './Pages/Section';
 import Map from './Pages/Map';
+import Router from './Router';
 
 class App extends Component {
   constructor({ parentNode, state, Router }) {
@@ -30,36 +31,21 @@ class App extends Component {
     this.Router.pageComponents = {
       Login: new Login({
         parentNode: $('.js-main'),
-        props: {
-          setIsLogin: this.setIsLogin.bind(this),
-        },
       }),
       Signup: new Signup({
         parentNode: $('.js-main'),
-        props: {
-          setIsLogin: this.setIsLogin.bind(this),
-        },
       }),
       Station: new Station({
         parentNode: $('.js-main'),
         state: { stations: [], lines: [] },
-        props: {
-          setIsLogin: this.setIsLogin.bind(this),
-        },
       }),
       Line: new Line({
         parentNode: $('.js-main'),
         state: { stations: [], lines: [] },
-        props: {
-          setIsLogin: this.setIsLogin.bind(this),
-        },
       }),
       Section: new Section({
         parentNode: $('.js-main'),
         state: { stations: [], lines: [] },
-        props: {
-          setIsLogin: this.setIsLogin.bind(this),
-        },
       }),
       Map: new Map({
         parentNode: $('.js-main'),
@@ -178,4 +164,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const initalState = {
+  isLogin: false,
+};
+
+const app = new App({
+  parentNode: $('#app'),
+  state: initalState,
+  Router,
+});
+
+export default app;
