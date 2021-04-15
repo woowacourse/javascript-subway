@@ -1,16 +1,17 @@
 import Apis from '../../api';
+import { AUTHENTICATED_LINK } from '../../constants/link';
 import { CONFIRM_MESSAGE } from '../../constants/message';
-import Component from '../../core/Component';
+import PageComponent from '../../core/PageComponent';
 import { $ } from '../../utils/DOM';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 import mainTemplate from './template';
 
-class Line extends Component {
-  constructor({ parentNode, state }) {
+class Line extends PageComponent {
+  constructor({ parentNode }) {
     super({
       parentNode,
-      state,
+      pathname: AUTHENTICATED_LINK.LINE.PATH,
     });
 
     this.childComponents = {

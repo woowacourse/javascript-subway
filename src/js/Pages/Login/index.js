@@ -1,12 +1,13 @@
 import { $ } from '../../utils/DOM';
-import Component from '../../core/Component';
+import PageComponent from '../../core/PageComponent';
 import mainTemplate from './template';
 import Apis from '../../api';
 import HTTPError from '../../error/HTTPError';
+import { UNAUTHENTICATED_LINK } from '../../constants/link';
 
-class Login extends Component {
+class Login extends PageComponent {
   constructor({ parentNode }) {
-    super({ parentNode });
+    super({ parentNode, pathname: UNAUTHENTICATED_LINK.LOGIN.PATH });
   }
 
   renderSelf() {

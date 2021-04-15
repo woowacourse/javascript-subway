@@ -3,8 +3,8 @@ import Component from '../../core/Component';
 import template from './template';
 
 class NavBar extends Component {
-  constructor({ parentNode, state }) {
-    super({ parentNode, state });
+  constructor({ parentNode }) {
+    super({ parentNode });
   }
 
   renderSelf() {

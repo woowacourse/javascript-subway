@@ -1,6 +1,6 @@
 class Router {
   constructor() {
-    this.pageComponents;
+    this.route = {};
   }
 
   async goPage(path) {

@@ -1,5 +1,5 @@
 import { $ } from '../../utils/DOM';
-import Component from '../../core/Component';
+import PageComponent from '../../core/PageComponent';
 import mainTemplate from './template';
 import ValidationError from '../../error/ValidationError';
 import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message';
@@ -10,10 +10,11 @@ import {
   isValidEmailFormat,
 } from '../../utils/validateFormat';
 import HTTPError from '../../error/HTTPError';
+import { UNAUTHENTICATED_LINK } from '../../constants/link';
 
-class Signup extends Component {
+class Signup extends PageComponent {
   constructor({ parentNode }) {
-    super({ parentNode });
+    super({ parentNode, pathname: UNAUTHENTICATED_LINK.SIGNUP.PATH });
     this.formValidationFlag = { name: false, email: false, password: false };
   }
 

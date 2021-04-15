@@ -20,15 +20,9 @@ class App extends Component {
   constructor({ parentNode, state, Router }) {
     super({ parentNode, state });
 
-    this.childComponents = {
-      navBar: new NavBar({
-        parentNode: $('.js-header'),
-      }),
-    };
-
     this.Router = Router;
 
-    this.Router.pageComponents = {
+    this.pageComponents = {
       Login: new Login({
         parentNode: $('.js-main'),
       }),
@@ -37,43 +31,46 @@ class App extends Component {
       }),
       Station: new Station({
         parentNode: $('.js-main'),
-        state: { stations: [], lines: [] },
       }),
       Line: new Line({
         parentNode: $('.js-main'),
-        state: { stations: [], lines: [] },
       }),
       Section: new Section({
         parentNode: $('.js-main'),
-        state: { stations: [], lines: [] },
       }),
       Map: new Map({
         parentNode: $('.js-main'),
-        state: { stations: [], lines: [] },
       }),
+    };
+
+    this.childComponents = {
+      navBar: new NavBar({
+        parentNode: $('.js-header'),
+      }),
+      ...this.pageComponents,
     };
 
     this.Router.route = {
       [HOME_LINK.PATH]: () => {
-        return this.privateRoute(this.Router.pageComponents.Station);
+        return this.privateRoute(this.pageComponents.Station);
       },
       [AUTHENTICATED_LINK.STATION.PATH]: () => {
-        return this.privateRoute(this.Router.pageComponents.Station);
+        return this.privateRoute(this.pageComponents.Station);
       },
       [AUTHENTICATED_LINK.LINE.PATH]: () => {
-        return this.privateRoute(this.Router.pageComponents.Line);
+        return this.privateRoute(this.pageComponents.Line);
       },
       [AUTHENTICATED_LINK.SECTION.PATH]: () => {
-        return this.privateRoute(this.Router.pageComponents.Section);
+        return this.privateRoute(this.pageComponents.Section);
       },
       [AUTHENTICATED_LINK.MAP.PATH]: () => {
-        return this.privateRoute(this.Router.pageComponents.Map);
+        return this.privateRoute(this.pageComponents.Map);
       },
       [UNAUTHENTICATED_LINK.LOGIN.PATH]: () => {
-        return this.publicRoute(this.Router.pageComponents.Login);
+        return this.publicRoute(this.pageComponents.Login);
       },
       [UNAUTHENTICATED_LINK.SIGNUP.PATH]: () => {
-        return this.publicRoute(this.Router.pageComponents.Signup);
+        return this.publicRoute(this.pageComponents.Signup);
       },
     };
   }
@@ -89,7 +86,7 @@ class App extends Component {
       UNAUTHENTICATED_LINK.LOGIN.PATH
     );
 
-    return this.Router.pageComponents.Login;
+    return this.pageComponents.Login;
   }
 
   publicRoute(Component) {
@@ -103,7 +100,7 @@ class App extends Component {
       AUTHENTICATED_LINK.STATION.PATH
     );
 
-    return this.Router.pageComponents.Station;
+    return this.pageComponents.Station;
   }
 
   async checkLogin() {
@@ -162,10 +159,16 @@ class App extends Component {
       this.Router.goPage(path);
     });
   }
+
+  async updateSubwayState() {
+    this.setState(await Apis.getStationAndLine());
+  }
 }
 
 const initalState = {
   isLogin: false,
+  stations: [],
+  lines: [],
 };
 
 const app = new App({

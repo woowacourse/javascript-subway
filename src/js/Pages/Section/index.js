@@ -1,16 +1,17 @@
 import Apis from '../../api';
 import { CONFIRM_MESSAGE } from '../../constants/message';
-import Component from '../../core/Component';
+import PageComponent from '../../core/PageComponent';
 import { $ } from '../../utils/DOM';
 import AddModal from './AddModal';
 import { mainTemplate, sectionItem } from './template';
 import HTTPError from '../../error/HTTPError';
+import { AUTHENTICATED_LINK } from '../../constants/link';
 
-class Section extends Component {
-  constructor({ parentNode, state }) {
+class Section extends PageComponent {
+  constructor({ parentNode }) {
     super({
       parentNode,
-      state,
+      pathname: AUTHENTICATED_LINK.SECTION.PATH,
     });
 
     this.childComponents = {
