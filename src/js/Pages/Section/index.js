@@ -57,7 +57,6 @@ class Section extends Component {
 
       try {
         await Apis.sections.delete({ lineId, stationId });
-        showSnackbar(SNACKBAR_MESSAGE.SECTION.DELETE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof HTTPError) {

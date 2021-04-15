@@ -1,6 +1,10 @@
 import { PATH } from '../constants/url';
 import { BASE_URL } from '../constants/url';
-import { ERROR_MESSAGE, INVALID_MESSAGE } from '../constants/message';
+import {
+  ERROR_MESSAGE,
+  INVALID_MESSAGE,
+  SNACKBAR_MESSAGE,
+} from '../constants/message';
 import HTTPError from '../error/HTTPError';
 import {
   isJsonResponseData,
@@ -9,6 +13,11 @@ import {
   requestWithBody,
   requestWithAccessTokenAndBody,
 } from '../utils/request';
+import LOCAL_STORAGE_KEY from '../constants/localStorage';
+import App from '../App';
+import Router from '../Router';
+import { showSnackbar } from '../utils/snackbar';
+import { AUTHENTICATED_LINK } from '../constants/link';
 
 const Apis = {
   members: {
@@ -53,7 +62,13 @@ const Apis = {
         );
       }
 
-      return data;
+      const { accessToken } = data;
+
+      localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
+      App.setIsLogin(true);
+
+      Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
+      showSnackbar(SNACKBAR_MESSAGE.LOGIN.SUCCESS);
     },
 
     signup: async (name, email, password) => {
@@ -73,6 +88,9 @@ const Apis = {
           data.message || data || INVALID_MESSAGE.LOGIN.FAILED
         );
       }
+
+      Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
+      showSnackbar(SNACKBAR_MESSAGE.SIGNUP.SUCCESS);
     },
 
     checkDuplicatedEmail: async (emailQuery) => {
@@ -105,8 +123,9 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
 
       return data;
     },
@@ -122,8 +141,14 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
-        throw new HTTPError(response.status, data.message || data);
+      if (!response.ok) {
+        throw new HTTPError(
+          response.status,
+          data.message || data || SNACKBAR_MESSAGE.STATION.CREATE.FAIL
+        );
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.STATION.CREATE.SUCCESS);
     },
 
     put: async ({ stationId, body }) => {
@@ -137,8 +162,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.STATION.UPDATE.SUCCESS);
     },
 
     delete: async ({ stationId }) => {
@@ -151,8 +179,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.STATION.DELETE.SUCCESS);
     },
   },
 
@@ -167,8 +198,9 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
 
       return data;
     },
@@ -184,8 +216,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.LINE.CREATE.SUCCESS);
     },
 
     put: async ({ lineId, body }) => {
@@ -199,8 +234,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.LINE.UPDATE.SUCCESS);
     },
 
     delete: async ({ lineId }) => {
@@ -214,8 +252,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
     },
   },
 
@@ -231,8 +272,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.SECTION.CREATE.SUCCESS);
     },
 
     delete: async ({ lineId, stationId }) => {
@@ -245,8 +289,11 @@ const Apis = {
         ? await response.json()
         : await response.text();
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new HTTPError(response.status, data.message || data);
+      }
+
+      showSnackbar(SNACKBAR_MESSAGE.SECTION.DELETE.SUCCESS);
     },
   },
 

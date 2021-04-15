@@ -63,14 +63,12 @@ class Station extends Component {
       await Apis.stations.post({ body });
 
       await this.updateSubwayState();
-      showSnackbar(SNACKBAR_MESSAGE.STATION.CREATE.SUCCESS);
     } catch (error) {
       if (error instanceof HTTPError) {
         error.handleError();
       }
 
       console.error(error.message);
-      showSnackbar(error.message || SNACKBAR_MESSAGE.STATION.CREATE.FAIL);
     }
   }
 
@@ -81,7 +79,6 @@ class Station extends Component {
         accessToken,
       });
 
-      showSnackbar(SNACKBAR_MESSAGE.STATION.DELETE.SUCCESS);
       await this.updateSubwayState();
     } catch (error) {
       if (error instanceof HTTPError) {

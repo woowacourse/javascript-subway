@@ -26,13 +26,7 @@ class Login extends Component {
       const password = e.target['password'].value;
 
       try {
-        const { accessToken } = await Apis.members.login(email, password);
-
-        localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
-        this.setIsLogin(true);
-
-        Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
-        showSnackbar(SNACKBAR_MESSAGE.LOGIN.SUCCESS);
+        await Apis.members.login(email, password);
       } catch (error) {
         if (error instanceof HTTPError) {
           $('.js-login-check').innerText = error.message;

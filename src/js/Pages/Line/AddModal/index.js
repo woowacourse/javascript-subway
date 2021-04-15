@@ -58,7 +58,6 @@ class AddModal extends ModalComponent {
           },
         });
 
-        showSnackbar(SNACKBAR_MESSAGE.LINE.CREATE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof HTTPError) {

@@ -60,7 +60,6 @@ class Line extends Component {
           await Apis.lines.delete({
             lineId: id,
           });
-          showSnackbar(SNACKBAR_MESSAGE.LINE.DELETE.SUCCESS);
           await this.updateSubwayState();
         } catch (error) {
           if (error instanceof HTTPError) {

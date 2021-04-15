@@ -51,7 +51,6 @@ class EditModal extends ModalComponent {
           },
         });
 
-        showSnackbar(SNACKBAR_MESSAGE.LINE.UPDATE.SUCCESS);
         await this.updateSubwayState();
       } catch (error) {
         if (error instanceof HTTPError) {

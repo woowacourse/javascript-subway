@@ -44,7 +44,6 @@ class EditModal extends ModalComponent {
 
         this.hide();
         await this.updateSubwayState();
-        showSnackbar(SNACKBAR_MESSAGE.STATION.UPDATE.SUCCESS);
       } catch (error) {
         if (error instanceof HTTPError) {
           error.handleError();
