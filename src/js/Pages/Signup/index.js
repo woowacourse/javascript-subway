@@ -2,21 +2,13 @@ import { $ } from '../../utils/DOM';
 import Component from '../../core/Component';
 import mainTemplate from './template';
 import ValidationError from '../../error/ValidationError';
-import {
-  VALID_MESSAGE,
-  INVALID_MESSAGE,
-  SNACKBAR_MESSAGE,
-} from '../../constants/message';
+import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message';
 import { LENGTH } from '../../constants/standard';
-import { AUTHENTICATED_LINK } from '../../constants/link';
 import Apis from '../../api';
 import {
   isValidNameFormat,
   isValidEmailFormat,
 } from '../../utils/validateFormat';
-import LOCAL_STORAGE_KEY from '../../constants/localStorage';
-import { showSnackbar } from '../../utils/snackbar';
-import Router from '../../Router';
 import HTTPError from '../../error/HTTPError';
 
 class Signup extends Component {
@@ -98,8 +90,7 @@ class Signup extends Component {
       this.formValidationFlag[name] = true;
     } catch (error) {
       if (error instanceof ValidationError) {
-        $check.classList.remove('correct');
-        $check.innerText = error.message;
+        error.handleError($check);
         this.formValidationFlag[name] = false;
       }
 
@@ -140,8 +131,7 @@ class Signup extends Component {
       this.formValidationFlag.password = true;
     } catch (error) {
       if (error instanceof ValidationError) {
-        $passwordCheck.classList.remove('correct');
-        $passwordCheck.innerText = error.message;
+        error.handleError($passwordCheck);
         this.formValidationFlag.password = false;
       }
 

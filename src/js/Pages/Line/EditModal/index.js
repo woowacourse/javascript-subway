@@ -2,8 +2,6 @@ import ModalComponent from '../../../core/ModalComponent';
 import { $ } from '../../../utils/DOM';
 import modal from './template';
 import Apis from '../../../api';
-import { showSnackbar } from '../../../utils/snackbar';
-import { SNACKBAR_MESSAGE } from '../../../constants/message';
 import HTTPError from '../../../error/HTTPError';
 
 class EditModal extends ModalComponent {

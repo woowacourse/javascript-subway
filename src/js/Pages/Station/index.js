@@ -4,8 +4,6 @@ import { mainTemplate } from './template';
 import Component from '../../core/Component';
 import EditModal from './EditModal';
 import Apis from '../../api';
-import { SNACKBAR_MESSAGE } from '../../constants/message';
-import { showSnackbar } from '../../utils/snackbar';
 import HTTPError from '../../error/HTTPError';
 
 class Station extends Component {

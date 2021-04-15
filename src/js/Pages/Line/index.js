@@ -1,12 +1,10 @@
 import Apis from '../../api';
-import { CONFIRM_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/message';
+import { CONFIRM_MESSAGE } from '../../constants/message';
 import Component from '../../core/Component';
 import { $ } from '../../utils/DOM';
-import { showSnackbar } from '../../utils/snackbar';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 import mainTemplate from './template';
-import Router from '../../Router';
 
 class Line extends Component {
   constructor({ parentNode, state }) {

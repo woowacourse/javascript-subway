@@ -1,12 +1,7 @@
 import { $ } from '../../utils/DOM';
 import Component from '../../core/Component';
 import mainTemplate from './template';
-import { AUTHENTICATED_LINK } from '../../constants/link';
 import Apis from '../../api';
-import LOCAL_STORAGE_KEY from '../../constants/localStorage';
-import { showSnackbar } from '../../utils/snackbar';
-import { SNACKBAR_MESSAGE } from '../../constants/message';
-import Router from '../../Router';
 import HTTPError from '../../error/HTTPError';
 
 class Login extends Component {
