@@ -1,33 +1,40 @@
 import { PATH } from '../constants';
 
-export default class Router {
-  #reRenderComponentRegistration  = {};
+const pageComponents = {};
 
+const router = {
   initRouteEvent() {
     window.addEventListener('popstate', e => {
-      this.#handlePopState.call(this, e);
+      router.navigate(e.state.path);
     });
     history.replaceState({ path: PATH.ROOT }, null, PATH.ROOT);
-    this.navigate(PATH.ROOT);
-  }
+    router.navigate(PATH.ROOT);
+  },
 
   register(path, component) {
-    if (!this.#reRenderComponentRegistration [path]) {
-      this.#reRenderComponentRegistration [path] = [component];
+    if (!pageComponents[path]) {
+      pageComponents[path] = [component];
       return;
     }
-    this.#reRenderComponentRegistration [path].push(component);
-  }
 
-  async navigate(path) {
-    this.#reRenderComponentRegistration [path].forEach(component => {
-      component.renderPage();
+    pageComponents[path].push(component);
+  },
+
+  navigate(path) {
+    pageComponents[path].forEach(component => {
+      component.renderPage && component.renderPage();
       component.renderComponent();
+      component.initEvents && component.initEvents();
     });
-  }
+  },
 
-  #handlePopState(e) {
-    const path = e.state.path;
-    this.navigate(path);
-  }
-}
+  pushState(path) {
+    history.pushState({ path }, null, path);
+  },
+
+  goBack() {
+    history.back();
+  },
+};
+
+export default router;

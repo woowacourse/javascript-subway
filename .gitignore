@@ -1,6 +1,9 @@
 # custom
 .env
+test.html
 cypress/integration/examples/
+src/router/routerClass.js
+hosting.*
 
 # Logs
 logs

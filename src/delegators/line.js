@@ -1,0 +1,52 @@
+import { SELECTOR_CLASS, STATE_KEY, CONFIRM_MESSAGE } from '../constants.js';
+import { state } from '../store.js';
+import { $, cancelTurnRedAnimation, openModal, setFadeOutAnimation, setTurnRedAnimation } from '../utils/dom.js';
+import { wait } from '../utils/utils.js';
+import { requestLineDelete } from '../api/line.js';
+
+export function delegateLineClickEvent(event) {
+  const { target } = event;
+
+  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_MODAL_OPEN)) {
+    openLineModal();
+    openModal();
+    return;
+  }
+
+  if (target.classList.contains(SELECTOR_CLASS.LINE_LIST_ITEM_UPDATE)) {
+    initLineUpdateModal(target.dataset.lineId);
+    openModal();
+    return;
+  }
+
+  if (target.classList.contains(SELECTOR_CLASS.LINE_DELETE_BUTTON)) {
+    if (!confirm(CONFIRM_MESSAGE.DELETE)) return;
+
+    const { lineId } = target.dataset;
+    deleteLineItem(lineId);
+    return;
+  }
+}
+
+async function deleteLineItem(lineId) {
+  const newLineList = state.get(STATE_KEY.LINE_LIST).filter(line => line.id !== Number(lineId));
+  const lineItem = $(`.${SELECTOR_CLASS.LINE_LIST_ITEM}[data-line-id="${lineId}"]`);
+  setTurnRedAnimation(lineItem);
+  try {
+    await requestLineDelete(lineId);
+    setFadeOutAnimation(lineItem);
+    await wait(100);
+    state.update(STATE_KEY.LINE_LIST, newLineList);
+  } catch (error) {
+    cancelTurnRedAnimation(lineItem);
+    console.log(error);
+  }
+}
+
+function openLineModal() {
+  state.update(STATE_KEY.TARGET_LINE_ID, -1);
+}
+
+function initLineUpdateModal(lineId) {
+  state.update(STATE_KEY.TARGET_LINE_ID, Number(lineId));
+}

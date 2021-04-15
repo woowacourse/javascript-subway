@@ -1,0 +1,455 @@
+@font-face {
+  font-family: 'BMJUA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Background Color */
+.font-transparent {
+  color: transparent;
+}
+
+.font-current {
+  color: currentColor;
+}
+
+.font-black {
+  color: rgb(0, 0, 0);
+}
+
+.font-white {
+  color: rgb(255, 255, 255);
+}
+
+.font-gray-50 {
+  color: rgb(249, 250, 251);
+}
+
+.font-gray-100 {
+  color: rgb(243, 244, 246);
+}
+
+.font-gray-200 {
+  color: rgb(229, 231, 235);
+}
+
+.font-gray-300 {
+  color: rgb(209, 213, 219);
+}
+
+.font-gray-400 {
+  color: rgb(156, 163, 175);
+}
+
+.font-gray-500 {
+  color: rgb(107, 114, 128);
+}
+
+.font-gray-600 {
+  color: rgb(75, 85, 99);
+}
+
+.font-gray-700 {
+  color: rgb(55, 65, 81);
+}
+
+.font-gray-800 {
+  color: rgb(31, 41, 55);
+}
+
+.font-gray-900 {
+  color: rgb(17, 24, 39);
+}
+
+.font-red-50 {
+  color: rgb(254, 242, 242);
+}
+
+.font-red-100 {
+  color: rgb(254, 226, 226);
+}
+
+.font-red-200 {
+  color: rgb(254, 202, 202);
+}
+
+.font-red-300 {
+  color: rgb(252, 165, 165);
+}
+
+.font-red-400 {
+  color: rgb(248, 113, 113);
+}
+
+.font-red-500 {
+  color: rgb(239, 68, 68);
+}
+
+.font-red-600 {
+  color: rgb(220, 38, 38);
+}
+
+.font-red-700 {
+  color: rgb(185, 28, 28);
+}
+
+.font-red-800 {
+  color: rgb(153, 27, 27);
+}
+
+.font-red-900 {
+  color: rgb(127, 29, 29);
+}
+
+.font-yellow-50 {
+  color: rgb(255, 251, 235);
+}
+
+.font-yellow-100 {
+  color: rgb(254, 243, 199);
+}
+
+.font-yellow-200 {
+  color: rgb(253, 230, 138);
+}
+
+.font-yellow-300 {
+  color: rgb(252, 211, 77);
+}
+
+.font-yellow-400 {
+  color: rgb(251, 191, 36);
+}
+
+.font-yellow-500 {
+  color: rgb(245, 158, 11);
+}
+
+.font-yellow-600 {
+  color: rgb(217, 119, 6);
+}
+
+.font-yellow-700 {
+  color: rgb(180, 83, 9);
+}
+
+.font-yellow-800 {
+  color: rgb(146, 64, 14);
+}
+
+.font-yellow-900 {
+  color: rgb(120, 53, 15);
+}
+
+.font-orange-100 {
+  color: rgb(255, 250, 240);
+}
+
+.font-orange-200 {
+  color: rgb(254, 236, 200);
+}
+
+.font-orange-300 {
+  color: rgb(252, 210, 140);
+}
+
+.font-orange-400 {
+  color: rgb(246, 173, 84);
+}
+
+.font-orange-500 {
+  color: rgb(237, 137, 54);
+}
+
+.font-orange-600 {
+  color: rgb(222, 107, 31);
+}
+
+.font-orange-700 {
+  color: rgb(193, 86, 33);
+}
+
+.font-orange-800 {
+  color: rgb(156, 66, 32);
+}
+
+.font-orange-900 {
+  color: rgb(123, 52, 30);
+}
+
+.font-green-50 {
+  color: rgb(236, 253, 245);
+}
+
+.font-green-100 {
+  color: rgb(209, 250, 229);
+}
+
+.font-green-200 {
+  color: rgb(167, 243, 208);
+}
+
+.font-green-300 {
+  color: rgb(110, 231, 183);
+}
+
+.font-green-400 {
+  color: rgb(52, 211, 153);
+}
+
+.font-green-500 {
+  color: rgb(16, 185, 129);
+}
+
+.font-green-600 {
+  color: rgb(5, 150, 105);
+}
+
+.font-green-700 {
+  color: rgb(4, 120, 87);
+}
+
+.font-green-800 {
+  color: rgb(6, 95, 70);
+}
+
+.font-green-900 {
+  color: rgb(6, 78, 59);
+}
+
+.font-teal-100 {
+  color: rgb(230, 255, 250);
+}
+
+.font-teal-200 {
+  color: rgb(178, 245, 234);
+}
+
+.font-teal-300 {
+  color: rgb(130, 230, 217);
+}
+
+.font-teal-400 {
+  color: rgb(80, 209, 197);
+}
+
+.font-teal-500 {
+  color: rgb(57, 178, 171);
+}
+
+.font-teal-600 {
+  color: rgb(50, 151, 149);
+}
+
+.font-teal-700 {
+  color: rgb(46, 121, 123);
+}
+
+.font-teal-800 {
+  color: rgb(40, 94, 97);
+}
+
+.font-teal-900 {
+  color: rgb(35, 78, 82);
+}
+
+.font-blue-50 {
+  color: rgb(239, 246, 255);
+}
+
+.font-blue-100 {
+  color: rgb(219, 234, 254);
+}
+
+.font-blue-200 {
+  color: rgb(191, 219, 254);
+}
+
+.font-blue-300 {
+  color: rgb(147, 197, 253);
+}
+
+.font-blue-400 {
+  color: rgb(96, 165, 250);
+}
+
+.font-blue-500 {
+  color: rgb(59, 130, 246);
+}
+
+.font-blue-600 {
+  color: rgb(37, 99, 235);
+}
+
+.font-blue-700 {
+  color: rgb(29, 78, 216);
+}
+
+.font-blue-800 {
+  color: rgb(30, 64, 175);
+}
+
+.font-blue-900 {
+  color: rgb(30, 58, 138);
+}
+
+.font-cyan-50 {
+  color: rgb(224, 246, 249);
+}
+
+.font-cyan-100 {
+  color: rgb(179, 234, 242);
+}
+
+.font-cyan-200 {
+  color: rgb(129, 222, 234);
+}
+
+.font-cyan-300 {
+  color: rgb(78, 207, 224);
+}
+
+.font-cyan-400 {
+  color: rgb(39, 198, 218);
+}
+
+.font-cyan-500 {
+  color: rgb(0, 188, 212);
+}
+
+.font-cyan-600 {
+  color: rgb(5, 172, 193);
+}
+
+.font-cyan-700 {
+  color: rgb(0, 152, 167);
+}
+
+.font-cyan-800 {
+  color: rgb(2, 131, 143);
+}
+
+.font-cyan-900 {
+  color: rgb(5, 95, 100);
+}
+
+.font-indigo-50 {
+  color: rgb(238, 242, 255);
+}
+
+.font-indigo-100 {
+  color: rgb(224, 231, 255);
+}
+
+.font-indigo-200 {
+  color: rgb(199, 210, 254);
+}
+
+.font-indigo-300 {
+  color: rgb(165, 180, 252);
+}
+
+.font-indigo-400 {
+  color: rgb(129, 140, 248);
+}
+
+.font-indigo-500 {
+  color: rgb(99, 102, 241);
+}
+
+.font-indigo-600 {
+  color: rgb(79, 70, 229);
+}
+
+.font-indigo-700 {
+  color: rgb(67, 56, 202);
+}
+
+.font-indigo-800 {
+  color: rgb(55, 48, 163);
+}
+
+.font-indigo-900 {
+  color: rgb(49, 46, 129);
+}
+
+.font-purple-50 {
+  color: rgb(245, 243, 255);
+}
+
+.font-purple-100 {
+  color: rgb(237, 233, 254);
+}
+
+.font-purple-200 {
+  color: rgb(221, 214, 254);
+}
+
+.font-purple-300 {
+  color: rgb(196, 181, 253);
+}
+
+.font-purple-400 {
+  color: rgb(167, 139, 250);
+}
+
+.font-purple-500 {
+  color: rgb(139, 92, 246);
+}
+
+.font-purple-600 {
+  color: rgb(124, 58, 237);
+}
+
+.font-purple-700 {
+  color: rgb(109, 40, 217);
+}
+
+.font-purple-800 {
+  color: rgb(91, 33, 182);
+}
+
+.font-purple-900 {
+  color: rgb(76, 29, 149);
+}
+
+.font-pink-50 {
+  color: rgb(253, 242, 248);
+}
+
+.font-pink-100 {
+  color: rgb(252, 231, 243);
+}
+
+.font-pink-200 {
+  color: rgb(251, 207, 232);
+}
+
+.font-pink-300 {
+  color: rgb(249, 168, 212);
+}
+
+.font-pink-400 {
+  color: rgb(244, 114, 182);
+}
+
+.font-pink-500 {
+  color: rgb(236, 72, 153);
+}
+
+.font-pink-600 {
+  color: rgb(219, 39, 119);
+}
+
+.font-pink-700 {
+  color: rgb(190, 24, 93);
+}
+
+.font-pink-800 {
+  color: rgb(157, 23, 77);
+}
+
+.font-pink-900 {
+  color: rgb(131, 24, 67);
+}

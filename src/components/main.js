@@ -1,19 +1,14 @@
 import { SELECTOR_ID, STATE_KEY } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Main extends Observer {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.GUIDE_WRAPPER}`;
   #parentSelector;
   #state;
 
-  constructor(
-    state,
-    targetSelector = `#${SELECTOR_ID.GUIDE_WRAPPER}`,
-    parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`
-  ) {
+  constructor(state, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#parentSelector = parentSelector;
     this.#state = state;
   }
@@ -23,23 +18,27 @@ export default class Main extends Observer {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
+
+    $targetContainer.innerHTML = this.#getMainTemplate();
   }
 
   #getWrapperTemplate() {
     return `<div id="${SELECTOR_ID.GUIDE_WRAPPER}" class="fade-in"></div>`;
   }
 
-  // 로그인 여부(accessToken 존재 여부)에 따라 보여주는 페이지가 달라야 한다.
-  #getTemplate() {
-    const isLoggedIn = this.#state.get(STATE_KEY.IS_LOGGED_IN)
+  #getMainTemplate() {
+    const isLoggedIn = this.#state.get(STATE_KEY.IS_LOGGED_IN);
     return `
       <div data-test-id="" class="d-flex flex-col">
         <div class="d-flex flex-col justify-center items-center">
           <img src="/images/subway_emoji.png" width="200" />
           <img src="/images/welcome.png" class="${isLoggedIn ? '' : 'd-none'}"/>
         </div>
-        <p class="mt-0 text-center ${isLoggedIn ? 'd-none' : ''}">지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.</p>
+        <p class="mt-0 text-center ${
+          isLoggedIn ? 'd-none' : ''
+        }">지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.</p>
       </div>
     `;
   }

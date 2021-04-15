@@ -1,12 +1,12 @@
 import { SELECTOR_ID } from '../constants.js';
-import { $ } from '../utils/utils.js';
+import { delegateLoginClickEvent, delegateLoginSubmitEvent } from '../delegators/login.js';
+import { $ } from '../utils/dom.js';
 
 export default class Login {
-  #targetSelector;
+  #targetSelector = `#${SELECTOR_ID.LOG_IN_FORM}`;
   #parentSelector;
 
-  constructor(targetSelector = `#${SELECTOR_ID.SIGN_UP_FORM}`, parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
-    this.#targetSelector = targetSelector;
+  constructor(parentSelector = `#${SELECTOR_ID.MAIN_CONTAINER}`) {
     this.#parentSelector = parentSelector;
   }
 
@@ -15,7 +15,16 @@ export default class Login {
   }
 
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    const $targetContainer = $(this.#targetSelector);
+    if (!$targetContainer) return;
+
+    $targetContainer.innerHTML = this.#getLoginTemplate();
+  }
+
+  initEvents() {
+    const $targetContainer = $(this.#targetSelector);
+    $targetContainer && $targetContainer.addEventListener('submit', delegateLoginSubmitEvent);
+    $targetContainer && $targetContainer.addEventListener('click', delegateLoginClickEvent);
   }
 
   #getWrapperTemplate() {
@@ -29,7 +38,7 @@ export default class Login {
     `;
   }
 
-  #getTemplate() {
+  #getLoginTemplate() {
     return `
       <div class="input-control">
         <label for="email" class="input-label" hidden>이메일</label>

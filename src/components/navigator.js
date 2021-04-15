@@ -1,6 +1,7 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY } from '../constants.js';
+import delegateNavigatorClickEvent from '../delegators/navigator.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/utils.js';
+import { $ } from '../utils/dom.js';
 
 export default class Navigator extends Observer {
   #targetSelector;
@@ -12,13 +13,18 @@ export default class Navigator extends Observer {
     this.#state = state;
   }
 
-  renderPage() {}
-
   renderComponent() {
-    $(this.#targetSelector).innerHTML = this.#getTemplate();
+    const $navigator = $(this.#targetSelector);
+    if (!$navigator) return;
+
+    $navigator.innerHTML = this.#getTemplate();
   }
 
-  // TODO : 이거 굳이 동적으로 넣는 이유가 뭔지 알아보기
+  initEvents() {
+    const $navigator = $(this.#targetSelector);
+    $navigator && $navigator.addEventListener('click', delegateNavigatorClickEvent);
+  }
+
   #getTemplate() {
     return `
       <a href="${PATH.ROOT}" class="text-black">
@@ -44,11 +50,6 @@ export default class Navigator extends Observer {
       SELECTOR_CLASS.NAVIGATOR_BUTTON
     } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
           🗺️ 전체 보기
-        </a>
-        <a href="${PATH.SEARCH}" class="${
-      SELECTOR_CLASS.NAVIGATOR_BUTTON
-    } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
-          🔎 길 찾기
         </a>
         ${
           this.#state.get(STATE_KEY.IS_LOGGED_IN)
