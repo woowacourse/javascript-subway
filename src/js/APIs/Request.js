@@ -15,15 +15,12 @@ export default class Request {
   }
 
   async get({ path, params = {}, headers = {} }) {
-    const response =
-      Object.keys(headers).length === 0
-        ? await fetch(this.createURL(path, params))
-        : await fetch(this.createURL(path, params), {
-            headers: {
-              ...this.headers,
-              ...headers,
-            },
-          });
+    const response = await fetch(this.createURL(path, params), {
+      headers: {
+        ...this.headers,
+        ...headers,
+      },
+    });
 
     return response;
   }
