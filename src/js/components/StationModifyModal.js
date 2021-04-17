@@ -10,6 +10,7 @@ import { modifyStationNameAPI } from "../APIs/subway/index.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
+import { isLengthInRange } from "../utils/validator.js";
 
 // eslint-disable-next-line import/prefer-default-export
 export class StationModifyModal extends Modal {
@@ -78,8 +79,11 @@ export class StationModifyModal extends Modal {
     );
 
     if (
-      newStationName.length < STATION_NAME_MIN_LENGTH ||
-      newStationName.length > STATION_NAME_MAX_LENGTH
+      !isLengthInRange(
+        newStationName,
+        STATION_NAME_MIN_LENGTH,
+        STATION_NAME_MAX_LENGTH
+      )
     ) {
       snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
       target.reset();

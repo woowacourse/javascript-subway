@@ -11,6 +11,7 @@ import {
   EMAIL_REG_EXP,
   TOKEN_STORAGE_KEY,
 } from "../constants/general.js";
+import { isLengthInRange } from "../utils/validator.js";
 
 export default class LoginForm extends Component {
   constructor({ $parent, setPageState, pageRouter }) {
@@ -124,7 +125,7 @@ export default class LoginForm extends Component {
     const { email, password, submit } = $form;
     const isValidLogin =
       email.value.match(EMAIL_REG_EXP) &&
-      password.value.length >= PASSWORD_MIN_LENGTH;
+      isLengthInRange(password.value, PASSWORD_MIN_LENGTH, Infinity);
 
     submit.disabled = !isValidLogin;
     submit.classList.replace(

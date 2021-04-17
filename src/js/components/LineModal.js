@@ -22,6 +22,7 @@ import {
   createStationSelectOption,
   subwayLineColorOptionTemplate,
 } from "../constants/template.js";
+import { isLengthInRange } from "../utils/validator.js";
 
 const getInputsErrorMessage = (lineData) => {
   const {
@@ -33,8 +34,12 @@ const getInputsErrorMessage = (lineData) => {
     color,
   } = lineData;
 
-  const isValidNameLength =
-    name.length >= LINE_NAME_MIN_LENGTH && name.length <= LINE_NAME_MAX_LENGTH;
+  const isValidNameLength = isLengthInRange(
+    name,
+    LINE_NAME_MIN_LENGTH,
+    LINE_NAME_MAX_LENGTH
+  );
+  name.length >= LINE_NAME_MIN_LENGTH && name.length <= LINE_NAME_MAX_LENGTH;
 
   if (!isValidNameLength) {
     return ERROR_MESSAGE.LINE_NAME_LENGTH;

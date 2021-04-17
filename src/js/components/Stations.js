@@ -21,6 +21,7 @@ import { $, $$ } from "../utils/DOM.js";
 import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
+import { isLengthInRange } from "../utils/validator.js";
 
 export default class Stations extends Component {
   constructor({ $parent, setPageState }) {
@@ -94,9 +95,11 @@ export default class Stations extends Component {
       ""
     );
 
-    const isValidNameLength =
-      stationName.length >= STATION_NAME_MIN_LENGTH &&
-      stationName.length <= STATION_NAME_MAX_LENGTH;
+    const isValidNameLength = isLengthInRange(
+      stationName,
+      STATION_NAME_MIN_LENGTH,
+      STATION_NAME_MAX_LENGTH
+    );
 
     if (!isValidNameLength) {
       snackbar.show(ERROR_MESSAGE.STATION_NAME_LENGTH);
