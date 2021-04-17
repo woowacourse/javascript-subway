@@ -138,11 +138,18 @@ export default class Sections extends Component {
     const isLoadSucceeded =
       loadedLines.isSucceeded && loadedStations.isSucceeded;
 
+    if (!isLoadSucceeded) {
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
+
+      return;
+    }
+
     this.setPageState({
-      isLoggedIn: isLoadSucceeded,
-      pageURL: isLoadSucceeded
-        ? PAGE_URLS[PAGE_KEYS.SECTIONS]
-        : PAGE_URLS[PAGE_KEYS.LOGIN],
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.SECTIONS],
     });
 
     const lines = {};

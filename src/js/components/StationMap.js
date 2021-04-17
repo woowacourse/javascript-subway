@@ -38,11 +38,18 @@ export default class StationMap extends Component {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, lines } = await getLinesAPI(accessToken);
 
+    if (!isSucceeded) {
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
+
+      return;
+    }
+
     this.setPageState({
-      isLoggedIn: isSucceeded,
-      pageURL: isSucceeded
-        ? PAGE_URLS[PAGE_KEYS.STATION_MAP]
-        : PAGE_URLS[PAGE_KEYS.LOGIN],
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.STATION_MAP],
     });
 
     this.updateMaps(lines);

@@ -193,15 +193,22 @@ export default class Stations extends Component {
 
   async loadPage() {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadResult = await getStationsAPI(accessToken);
+    const { isSucceeded, stations } = await getStationsAPI(accessToken);
+
+    if (!isSucceeded) {
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
+
+      return;
+    }
 
     this.setPageState({
-      isLoggedIn: loadResult.isSucceeded,
-      pageURL: loadResult.isSucceeded
-        ? PAGE_URLS[PAGE_KEYS.STATIONS]
-        : PAGE_URLS[PAGE_KEYS.LOGIN],
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.STATIONS],
     });
-    this.$stationList.innerHTML = loadResult.stations.reduce(
+    this.$stationList.innerHTML = stations.reduce(
       (stationListHTML, station) =>
         `${stationListHTML}\n${createStationListItem(station)}`,
       ""
