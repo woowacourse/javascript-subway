@@ -39,7 +39,6 @@ const getInputsErrorMessage = (lineData) => {
     LINE_NAME_MIN_LENGTH,
     LINE_NAME_MAX_LENGTH
   );
-  name.length >= LINE_NAME_MIN_LENGTH && name.length <= LINE_NAME_MAX_LENGTH;
 
   if (!isValidNameLength) {
     return ERROR_MESSAGE.LINE_NAME_LENGTH;

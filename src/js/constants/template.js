@@ -56,5 +56,6 @@ export const createMap = (line) => {
         return `${template}${createStationDot(station, borderColorClass)}`;
       }, "")}
     </ul>
+    <br />
   `;
 };

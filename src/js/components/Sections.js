@@ -23,6 +23,8 @@ const createLineSelectOption = (lineData) => {
   `;
 };
 
+const SELECT_DEFAULT_CLASS_NAME = "js-line-select text-white font-bold";
+
 export default class Sections extends Component {
   constructor({ $parent, setPageState }) {
     super($parent);
@@ -87,7 +89,9 @@ export default class Sections extends Component {
 
   onChangeSelectedLine({ target }) {
     // eslint-disable-next-line no-param-reassign
-    target.className = `js-line-select ${this.lines[target.value].color}`;
+    target.className = `${SELECT_DEFAULT_CLASS_NAME} ${
+      this.lines[target.value].color
+    }`;
     this.updateStationListDOM(target.value);
 
     this.render();
@@ -167,7 +171,7 @@ export default class Sections extends Component {
     const $lineSelect = $(".js-line-select", this.innerElement);
 
     removeAllChildren($lineSelect);
-    $lineSelect.className = "js-line-select";
+    $lineSelect.className = SELECT_DEFAULT_CLASS_NAME;
   }
 
   updateLineSelectDOM(selectedLine) {
@@ -184,7 +188,7 @@ export default class Sections extends Component {
       "beforeend",
       Object.values(this.lines).map(createLineSelectOption).join("")
     );
-    $lineSelect.className = `js-line-select ${selectedLine.color}`;
+    $lineSelect.className = `${SELECT_DEFAULT_CLASS_NAME} ${selectedLine.color}`;
   }
 
   updateStationListDOM(lineId) {
