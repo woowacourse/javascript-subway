@@ -152,11 +152,14 @@ export default class Sections extends Component {
       pageURL: PAGE_URLS[PAGE_KEYS.SECTIONS],
     });
 
-    const lines = {};
-    // eslint-disable-next-line no-return-assign
-    loadedLines.lines.forEach((line) => (lines[line.id] = line));
+    this.lines = loadedLines.lines.reduce(
+      (converted, line) => ({
+        ...converted,
+        [line.id]: line,
+      }),
+      {}
+    );
 
-    this.lines = lines;
     this.stations = loadedStations.stations;
   }
 
