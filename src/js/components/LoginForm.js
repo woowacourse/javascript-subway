@@ -1,21 +1,22 @@
 import Component from "./common/Component.js";
-import { loginAPI } from "../APIs/subwayAPI.js";
+import { loginAPI } from "../APIs/subway/index.js";
 
 import { $, $$ } from "../utils/DOM.js";
 import { setSessionStorageItem } from "../utils/sessionStorage.js";
 import snackbar from "../utils/snackbar.js";
 
-import { PAGE_URLS } from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import {
   PASSWORD_MIN_LENGTH,
   EMAIL_REG_EXP,
   TOKEN_STORAGE_KEY,
 } from "../constants/general.js";
+import { isLengthInRange } from "../utils/validator.js";
 
 export default class LoginForm extends Component {
-  constructor({ $parent, setIsLoggedIn, pageRouter }) {
+  constructor({ $parent, setPageState, pageRouter }) {
     super($parent);
-    this.setIsLoggedIn = setIsLoggedIn;
+    this.setPageState = setPageState;
     this.pageRouter = pageRouter;
 
     this.initContent();
@@ -65,7 +66,9 @@ export default class LoginForm extends Component {
           </div>
           <p class="text-gray-700 pl-2">
             아직 회원이 아니신가요?
-            <a href="${PAGE_URLS.SIGNUP}" class="js-signup-link">회원가입</a>
+            <a href="${
+              PAGE_URLS[PAGE_KEYS.SIGNUP]
+            }" class="js-signup-link">회원가입</a>
           </p>
         </form>
       </div>
@@ -110,7 +113,10 @@ export default class LoginForm extends Component {
 
     setSessionStorageItem(TOKEN_STORAGE_KEY, loginResult.accessToken);
 
-    this.setIsLoggedIn(true);
+    this.setPageState({
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.STATIONS],
+    });
     snackbar.show(loginResult.message);
   }
 
@@ -119,7 +125,7 @@ export default class LoginForm extends Component {
     const { email, password, submit } = $form;
     const isValidLogin =
       email.value.match(EMAIL_REG_EXP) &&
-      password.value.length >= PASSWORD_MIN_LENGTH;
+      isLengthInRange(password.value, PASSWORD_MIN_LENGTH, Infinity);
 
     submit.disabled = !isValidLogin;
     submit.classList.replace(
@@ -138,10 +144,10 @@ export default class LoginForm extends Component {
     this.pageRouter.movePage(path);
   }
 
-  render() {
+  loadPage() {
     $("form", this.innerElement).reset();
     $(".js-login-error", this.innerElement).textContent = "";
 
-    super.render();
+    this.render();
   }
 }

@@ -4,6 +4,9 @@ import snackbar from "../utils/snackbar.js";
 
 import { NAV_ITEMS } from "../constants/templateData.js";
 import { SUCCESS_MESSAGE } from "../constants/messages.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
+import { removeSessionStorageItem } from "../utils/sessionStorage.js";
+import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 
 const createNavListItem = (item) => {
   return `
@@ -16,9 +19,9 @@ const createNavListItem = (item) => {
 };
 
 export default class Navigation extends Component {
-  constructor({ $parent, setIsLoggedIn, pageRouter }) {
+  constructor({ $parent, setPageState, pageRouter }) {
     super($parent);
-    this.setIsLoggedIn = setIsLoggedIn;
+    this.setPageState = setPageState;
     this.pageRouter = pageRouter;
 
     this.initContent();
@@ -48,17 +51,22 @@ export default class Navigation extends Component {
   }
 
   onClickNav(e) {
+    e.preventDefault();
+
     if (!e.target.classList.contains("js-page-link")) {
       return;
     }
-    e.preventDefault();
 
     const path = e.target.getAttribute("href");
     this.pageRouter.movePage(path);
   }
 
   onLogout() {
-    this.setIsLoggedIn(false);
+    removeSessionStorageItem(TOKEN_STORAGE_KEY);
+    this.setPageState({
+      isLoggedIn: false,
+      pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
     snackbar.show(SUCCESS_MESSAGE.LOGOUT_SUCCESS);
   }
 
@@ -68,9 +76,5 @@ export default class Navigation extends Component {
       "click",
       this.onLogout.bind(this)
     );
-  }
-
-  render() {
-    super.render();
   }
 }

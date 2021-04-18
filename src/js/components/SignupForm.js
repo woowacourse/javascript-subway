@@ -1,12 +1,12 @@
 import Component from "./common/Component.js";
 
-import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subwayAPI.js";
+import { checkDuplicatedEmailAPI, signupAPI } from "../APIs/subway/index.js";
 
 import { $, $$, changeCheckMessageColor } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
-import { PAGE_URLS } from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
 import { PASSWORD_MIN_LENGTH, EMAIL_REG_EXP } from "../constants/general.js";
 
 export default class SignupForm extends Component {
@@ -85,14 +85,16 @@ export default class SignupForm extends Component {
             <button
               type="submit"
               name="submit"
-              class="input-submit w-100 bg-cyan-300"
+              class="input-submit w-30 bg-cyan-300"
             >
               확인
             </button>
           </div>
           <p class="text-gray-700 pl-2">
             이미 회원이신가요?
-            <a href="${PAGE_URLS.LOGIN}" class="js-login-link">로그인</a>
+            <a href="${
+              PAGE_URLS[PAGE_KEYS.LOGIN]
+            }" class="js-login-link">로그인</a>
           </p>
         </form>
       </div>
@@ -155,7 +157,7 @@ export default class SignupForm extends Component {
       return;
     }
 
-    this.pageRouter.movePage(PAGE_URLS.LOGIN);
+    this.pageRouter.movePage(PAGE_URLS[PAGE_KEYS.LOGIN]);
     snackbar.show(signupResult.message);
   }
 
@@ -235,12 +237,12 @@ export default class SignupForm extends Component {
     this.pageRouter.movePage(path);
   }
 
-  render() {
+  loadPage() {
     $("form", this.innerElement).reset();
     $$(".js-message", this.innerElement).forEach(($ele) => {
       // eslint-disable-next-line no-param-reassign
       $ele.textContent = "";
     });
-    super.render();
+    this.render();
   }
 }

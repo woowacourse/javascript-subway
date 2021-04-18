@@ -1,11 +1,39 @@
 import Component from "./common/Component.js";
 import SectionsModal from "./SectionsModal.js";
-import { $ } from "../utils/DOM.js";
+import {
+  deleteSectionAPI,
+  getLinesAPI,
+  getStationsAPI,
+} from "../APIs/subway/index.js";
+
+import { $, removeAllChildren } from "../utils/DOM.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import snackbar from "../utils/snackbar.js";
+
+import { TOKEN_STORAGE_KEY } from "../constants/general.js";
+import { createStationListItem } from "../constants/template.js";
+import { CONFIRM_MESSAGE } from "../constants/messages.js";
+import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
+
+const createLineSelectOption = (lineData) => {
+  const { id, name } = lineData;
+
+  return `
+    <option value="${id}">${name}</option>
+  `;
+};
+
+const SELECT_DEFAULT_CLASS_NAME = "js-line-select text-white font-bold";
 
 export default class Sections extends Component {
-  constructor({ $parent }) {
+  constructor({ $parent, setPageState }) {
     super($parent);
-    this.sectionsModal = new SectionsModal();
+    this.setPageState = setPageState;
+    this.sectionsModal = new SectionsModal({
+      addSection: this.addSection.bind(this),
+    });
+    this.lines = {};
+    this.stations = [];
 
     this.initContent();
   }
@@ -23,32 +51,9 @@ export default class Sections extends Component {
           </button>
         </div>
         <form class="d-flex items-center pl-1">
-          <select class="bg-blue-400">
-            <option>1호선</option>
-            <option>2호선</option>
-            <option>3호선</option>
-            <option>4호선</option>
-          </select>
+          <select class="js-line-select"></select>
         </form>
-        <ul class="mt-3 pl-0">
-          <li
-            class="d-flex items-center py-2 relative border-b-gray px-2"
-          >
-            <span class="w-100">인천</span>
-            <button
-              type="button"
-              class="bg-gray-50 text-gray-500 text-sm mr-1"
-            >
-              수정
-            </button>
-            <button
-              type="button"
-              class="bg-gray-50 text-gray-500 text-sm"
-            >
-              삭제
-            </button>
-          </li>
-        </ul>
+        <ul class="js-station-list mt-3 pl-0"></ul>
       </div>
     `;
 
@@ -59,12 +64,152 @@ export default class Sections extends Component {
   attachEvent() {
     $(".js-add-section", this.innerElement).addEventListener(
       "click",
-      this.sectionsModal.open.bind(this.sectionsModal)
+      this.onOpenSectionModal.bind(this)
+    );
+    $(".js-line-select", this.innerElement).addEventListener(
+      "change",
+      this.onChangeSelectedLine.bind(this)
+    );
+    $(".js-station-list", this.innerElement).addEventListener(
+      "click",
+      this.onClickStationList.bind(this)
     );
   }
 
-  render() {
-    super.render();
+  onOpenSectionModal() {
+    const lineId = $(".js-line-select", this.innerElement).value;
+    const lineName = this.lines[lineId].name;
+
+    this.sectionsModal.open({
+      lineId,
+      lineName,
+      stations: this.stations,
+    });
+  }
+
+  onChangeSelectedLine({ target }) {
+    // eslint-disable-next-line no-param-reassign
+    target.className = `${SELECT_DEFAULT_CLASS_NAME} ${
+      this.lines[target.value].color
+    }`;
+    this.updateStationListDOM(target.value);
+
+    this.render();
+  }
+
+  onClickStationList({ target }) {
+    if (!target.classList.contains("js-delete-btn")) {
+      return;
+    }
+
+    if (window.confirm(CONFIRM_MESSAGE.DELETE_SECTION)) {
+      this.deleteSection({
+        lineId: $(".js-line-select", this.innerElement).value,
+        stationId: target.closest("li").dataset.stationId,
+      });
+    }
+  }
+
+  async addSection(lineId) {
+    await this.setData();
+    this.updateStationListDOM(lineId);
+    this.render();
+  }
+
+  async deleteSection({ lineId, stationId }) {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const { isSucceeded, message } = await deleteSectionAPI(
+      lineId,
+      stationId,
+      accessToken
+    );
+
+    snackbar.show(message);
+
+    if (!isSucceeded) {
+      return;
+    }
+
+    await this.setData();
+    this.updateStationListDOM(lineId);
+    this.render();
+  }
+
+  async setData() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+    const loadedLines = await getLinesAPI(accessToken);
+    const loadedStations = await getStationsAPI(accessToken);
+    const isLoadSucceeded =
+      loadedLines.isSucceeded && loadedStations.isSucceeded;
+
+    if (!isLoadSucceeded) {
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
+
+      return;
+    }
+
+    this.setPageState({
+      isLoggedIn: true,
+      pageURL: PAGE_URLS[PAGE_KEYS.SECTIONS],
+    });
+
+    this.lines = loadedLines.lines.reduce(
+      (converted, line) => ({
+        ...converted,
+        [line.id]: line,
+      }),
+      {}
+    );
+
+    this.stations = loadedStations.stations;
+  }
+
+  resetLineSelectDOM() {
+    const $lineSelect = $(".js-line-select", this.innerElement);
+
+    removeAllChildren($lineSelect);
+    $lineSelect.className = SELECT_DEFAULT_CLASS_NAME;
+  }
+
+  updateLineSelectDOM(selectedLine) {
+    this.resetLineSelectDOM();
+
+    if (!selectedLine) {
+      this.render();
+
+      return;
+    }
+
+    const $lineSelect = $(".js-line-select", this.innerElement);
+    $lineSelect.insertAdjacentHTML(
+      "beforeend",
+      Object.values(this.lines).map(createLineSelectOption).join("")
+    );
+    $lineSelect.className = `${SELECT_DEFAULT_CLASS_NAME} ${selectedLine.color}`;
+  }
+
+  updateStationListDOM(lineId) {
+    const $stationList = $(".js-station-list", this.innerElement);
+    removeAllChildren($stationList);
+
+    $stationList.insertAdjacentHTML(
+      "beforeend",
+      this.lines[lineId].stations
+        .map((station) => createStationListItem(station, false))
+        .join("")
+    );
+  }
+
+  async loadPage() {
+    await this.setData();
+
+    this.updateLineSelectDOM(Object.values(this.lines)[0]);
+    this.updateStationListDOM(Object.keys(this.lines)[0]);
+
+    this.render();
     this.sectionsModal.render();
   }
 }

@@ -1,0 +1,20 @@
+.blink-red {
+  color: rgb(255, 0, 0);
+  border: 1px solid rgb(239, 68, 68);
+  animation: blink-bg 0.7s ease-in-out infinite;
+  -webkit-animation: blink-bg 0.7s ease-in-out infinite;
+}
+
+@keyframes blink-bg {
+  to {
+    color: rgb(0, 0, 0);
+    border: 1px solid rgba(248, 113, 113, 0);
+  }
+}
+
+@-webkit-keyframes blink-bg {
+  to {
+    color: rgb(0, 0, 0);
+    border: 1px solid rgba(248, 113, 113, 0);
+  }
+}

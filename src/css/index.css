@@ -1,6 +1,6 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
 @import "./pages/index.css";
+@import "./ui/index.css";
+@import "./shared/index.css";
 
 html,
 body {
@@ -15,6 +15,7 @@ body {
 #app {
   max-width: 960px;
   margin: 0 auto;
+  overflow-y: hidden;
 }
 
 a {
@@ -52,8 +53,11 @@ ul {
   padding: 0;
 }
 
-nav ul li {
+li {
   list-style: none;
+}
+
+nav ul li {
   margin-right: 1rem;
 }
 
