@@ -38,9 +38,6 @@ async function onSectionItemRegister(target) {
     return;
   }
 
-  console.log(state.get(STATE_KEY.LINE_LIST));
-  console.log(state.get(STATE_KEY.TARGET_SECTION_LINE_ID));
-  console.log(targetLine);
   await requestSectionRegistration(targetLine, section).then(() => {
     closeModal();
   }).catch((error) => {

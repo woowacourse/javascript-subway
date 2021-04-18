@@ -1,5 +1,5 @@
-import { SESSION_STORAGE_KEY, URL } from "../constants";
-import { sessionStore } from "../utils/utils";
+import { URL } from "../constants.js";
+import { sendGetRequest } from '../utils/api.js';
 
 export const requestLoginToken = async (email, password) => {
   const response = await fetch(`${URL.BASE_URL}/login/token`, {
@@ -9,6 +9,7 @@ export const requestLoginToken = async (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   });
+  
   const { accessToken, status } = await response.json();
   if (status) {
     throw new Error('로그인 실패');
@@ -32,16 +33,7 @@ export const requestSignUp = async (email, name, password) => {
 };
 
 export const requestUserName = async () => {
-  const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-  if (!accessToken) return;
-  const response = await fetch(`${URL.BASE_URL}/members/me`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-  });
-
+  const response = await sendGetRequest(`${URL.BASE_URL}/members/me`);
   const { name } = await response.json();
 
   if (!response.ok) {
