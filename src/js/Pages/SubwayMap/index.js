@@ -1,9 +1,8 @@
-import Apis from '../../api';
 import { AUTHENTICATED_LINK } from '../../constants/link';
 import PageComponent from '../../core/PageComponent';
 import template from './template';
 
-class Map extends PageComponent {
+class SubwayMap extends PageComponent {
   constructor({ parentNode, props: { updateSubwayState } }) {
     super({ parentNode, pathname: AUTHENTICATED_LINK.MAP.PATH });
 
@@ -15,4 +14,4 @@ class Map extends PageComponent {
   }
 }
 
-export default Map;
+export default SubwayMap;

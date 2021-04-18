@@ -13,7 +13,7 @@ class HTTPError extends Error {
   handleError() {
     switch (this.status) {
       case 401:
-        App.setIsLogin(false);
+        App.setLoginStatus(false);
         Router.goPage(UNAUTHENTICATED_LINK.LOGIN);
 
       default:

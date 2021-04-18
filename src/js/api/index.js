@@ -65,7 +65,7 @@ const Apis = {
       const { accessToken } = data;
 
       localStorage.setItem(LOCAL_STORAGE_KEY.ACCESSTOKEN, accessToken);
-      App.setIsLogin(true);
+      App.setLoginStatus(true);
 
       Router.goPage(AUTHENTICATED_LINK.STATION.PATH);
       showSnackbar(SNACKBAR_MESSAGE.LOGIN.SUCCESS);

@@ -13,7 +13,7 @@ import Signup from './Pages/Signup';
 import Station from './Pages/Station';
 import Line from './Pages/Line';
 import Section from './Pages/Section';
-import Map from './Pages/Map';
+import SubwayMap from './Pages/SubwayMap';
 import Router from './Router';
 
 class App extends Component {
@@ -42,7 +42,7 @@ class App extends Component {
         parentNode: $('.js-main'),
         props: { updateSubwayState: this.updateSubwayState },
       }),
-      Map: new Map({
+      SubwayMap: new SubwayMap({
         parentNode: $('.js-main'),
         props: { updateSubwayState: this.updateSubwayState },
       }),
@@ -109,10 +109,10 @@ class App extends Component {
   }
 
   async checkLogin() {
-    this.setIsLogin(await this.isValidAccessToken());
+    this.setLoginStatus(await this.isValidAccessToken());
   }
 
-  setIsLogin(isLogin) {
+  setLoginStatus(isLogin) {
     this.setState({ ...this.state, isLogin });
   }
 
@@ -151,7 +151,7 @@ class App extends Component {
       const path = anchor.getAttribute('href');
       if (path === AUTHENTICATED_LINK.LOGOUT.PATH) {
         localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESSTOKEN);
-        this.setIsLogin(false);
+        this.setLoginStatus(false);
         this.Router.goPage(UNAUTHENTICATED_LINK.LOGIN.PATH);
 
         return;
@@ -167,7 +167,7 @@ class App extends Component {
 }
 
 const initalState = {
-  isLogin: false,
+  loginStatus: false,
   stations: [],
   lines: [],
 };
