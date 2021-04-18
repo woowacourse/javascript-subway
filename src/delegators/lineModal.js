@@ -86,22 +86,21 @@ function onLineItemRegister(target) {
   });
 }
 
-function onLineItemUpdate(target) {
+async function onLineItemUpdate(target) {
   const newLine = {
     id: state.get(STATE_KEY.TARGET_LINE_ID),
     name: target[SELECTOR_NAME.SUBWAY_LINE_NAME].value, 
     color: target[SELECTOR_NAME.SUBWAY_LINE_COLOR].dataset.color,
   };
   
-  requestLineUpdate(newLine)
-    .then(newLine => {
-      updateLine(newLine);
-      closeModal();
-    })
-    .catch(error => {
-      console.error(error);
-      alert(error.message === '400' ? ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST : ALERT_MESSAGE.LINE_UPDATE_FAILED);
-    });
+  try {
+    const targetLine = await requestLineUpdate(newLine);
+    updateLine(targetLine);
+    closeModal();
+  } catch(error) {
+    console.error(error);
+    alert(error.message === '400' ? ALERT_MESSAGE.DUPLICATED_LINE_NAME_EXIST : ALERT_MESSAGE.LINE_UPDATE_FAILED);
+  }
 }
 
 function updateLine(newLine) {

@@ -32,7 +32,7 @@ export function delegateStationFocusOutEvent(event) {
   }
 }
 
-function onStationFormSubmit(target) {
+async function onStationFormSubmit(target) {
   const { stationName: stationNameInput } = target;
   const stationList = state.get(STATE_KEY.STATION_LIST);
   if (!isProperStationNameLength(stationNameInput.value)) {
@@ -43,14 +43,14 @@ function onStationFormSubmit(target) {
     alert(ALERT_MESSAGE.DUPLICATED_STATION_NAME_EXIST);
     return;
   }
-  requestStationRegistration(stationNameInput.value)
-    .then(({ id, name }) => {
-      state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
-    })
-    .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
-    });
+
+  try {
+    const { id, name } = await requestStationRegistration(stationNameInput.value);
+    state.update(STATE_KEY.STATION_LIST, [...stationList, { id, name }]);
+  } catch(error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.STATION_REGISTRATION_FAILED);
+  }
 }
 
 function onStationItemInputOpen(target) {
@@ -86,21 +86,20 @@ function onStationItemUpdate(target) {
   });
 }
 
-function onStationItemDelete(target) {
+async function onStationItemDelete(target) {
   const { stationId } = target.dataset;
   const newStationList = state.get(STATE_KEY.STATION_LIST).filter(station => station.id !== Number(stationId));
   const stationItem = $(`.${SELECTOR_CLASS.STATION_LIST_ITEM}[data-station-id="${stationId}"]`);
-  setTurnRedAnimation(stationItem);
-  requestStationDelete(stationId)
-    .then(() => {
-      setFadeOutAnimation(stationItem);
-      wait(100).then(() => {
-        state.update(STATE_KEY.STATION_LIST, newStationList);
-      });
-    })
-    .catch(error => {
-      cancelTurnRedAnimation(stationItem);
-      console.log(error);
-      alert(ALERT_MESSAGE.STATION_INCLUDED_IN_LINE);
-    });
+  
+  try {
+    setTurnRedAnimation(stationItem);
+    await requestStationDelete(stationId);
+    setFadeOutAnimation(stationItem);
+    await wait(100);
+    state.update(STATE_KEY.STATION_LIST, newStationList);
+  } catch(error) {
+    cancelTurnRedAnimation(stationItem);
+    console.log(error);
+    alert(ALERT_MESSAGE.STATION_INCLUDED_IN_LINE);
+  }
 }

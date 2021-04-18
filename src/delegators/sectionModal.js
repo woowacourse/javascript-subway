@@ -38,12 +38,13 @@ async function onSectionItemRegister(target) {
     return;
   }
 
-  await requestSectionRegistration(targetLine, section).then(() => {
+  try {
+    await requestSectionRegistration(targetLine, section);
     closeModal();
-  }).catch((error) => {
+  } catch(error) {
     console.error(error);
     alert(error.message === '400' ? ALERT_MESSAGE.SECTION_MUST_INCLUDED_IN_LINE : ALERT_MESSAGE.SECTION_REGISTRATION_FAILED);
-  });
+  }
 
   const newLineList = await requestLineList();
   state.update(STATE_KEY.LINE_LIST, newLineList);

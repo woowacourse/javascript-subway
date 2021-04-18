@@ -8,20 +8,20 @@ function delegateSignUpSubmitEvent(event) {
   }
 }
 
-function onSignUpFormSubmit(target) {
+async function onSignUpFormSubmit(target) {
   const { email, name, password, confirm } = target;
   if (!isPasswordCheckMatched(password.value, confirm.value)) {
     alert(ALERT_MESSAGE.PASSWORD_UNMATCHED);
     return;
   }
-  requestSignUp(email.value, name.value, password.value)
-    .then(() => {
-      history.back();
-    })
-    .catch(error => {
-      console.log(error);
-      alert(ALERT_MESSAGE.SIGNUP_FAILED);
-    });
+
+  try {
+    await requestSignUp(email.value, name.value, password.value);
+    history.back();
+  } catch(error) {
+    console.log(error);
+    alert(ALERT_MESSAGE.SIGNUP_FAILED);
+  }
 }
 
 function isPasswordCheckMatched(password, passwordConfirm) {
