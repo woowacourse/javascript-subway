@@ -34,11 +34,10 @@ export const requestSignUp = async (email, name, password) => {
 
 export const requestUserName = async () => {
   const response = await sendGetRequest(`${URL.BASE_URL}/members/me`);
-  const { name } = await response.json();
+  if (response.isTokenInvalid) return;
 
-  if (!response.ok) {
-    throw new Error(response.status);
-  }
+  const { name } = await response.json();
+  if (!response.ok) throw new Error(response.status);
 
   return name;
 }

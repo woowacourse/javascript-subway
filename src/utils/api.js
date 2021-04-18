@@ -1,9 +1,9 @@
 import { sessionStore } from './utils.js';
 import { SESSION_STORAGE_KEY } from '../constants.js';
 
-export const sendGetRequest = async (url, ) => {
+export const sendGetRequest = async (url) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-  if (!accessToken) return { ok: false };
+  if (!accessToken) return { isTokenInvalid: true };
 
   return await fetch(url, {
     method: 'GET',
@@ -16,7 +16,7 @@ export const sendGetRequest = async (url, ) => {
 
 export const sendPostRequest = async (url, body) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-  if (!accessToken) return { ok: false };
+  if (!accessToken) return { isTokenInvalid: true };
 
   return await fetch(url, {
     method: 'POST',
@@ -30,7 +30,7 @@ export const sendPostRequest = async (url, body) => {
 
 export const sendPutRequest = async (url, body) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-  if (!accessToken) return { ok: false };
+  if (!accessToken) return { isTokenInvalid: true };
 
   return await fetch(url, {
     method: 'PUT',
@@ -44,7 +44,7 @@ export const sendPutRequest = async (url, body) => {
 
 export const sendDeleteRequest = async (url) => {
   const accessToken = sessionStore.getItem(SESSION_STORAGE_KEY.ACCESS_TOKEN);
-  if (!accessToken) return { ok: false };
+  if (!accessToken) return { isTokenInvalid: true };
 
   return await fetch(url, {
     method: 'DELETE',

@@ -26,7 +26,6 @@ async function onLogInFormSubmit(target) {
   const accessToken = await requestLoginToken(email.value, password.value);
   sessionStore.setItem(SESSION_STORAGE_KEY.ACCESS_TOKEN, accessToken);
   sessionStore.setItem(SESSION_STORAGE_KEY.USER_EMAIL, email);
-  sessionStore.setItem(SESSION_STORAGE_KEY.USER_PASSWORD, password);
   state.update(STATE_KEY.IS_LOGGED_IN, true);
   state.initState();
 

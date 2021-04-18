@@ -27,7 +27,7 @@ export default class Navigator extends Observer {
   }
 
   #initEvents() {
-    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent)
+    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent);
   }
 
   #colorMenuButton() {

@@ -1,6 +1,6 @@
 import { SELECTOR_CLASS, SELECTOR_ID, PAGE_TITLE, FILE_PATH, STATE_KEY, STYLE_CLASS } from '../constants.js';
 import Observer from '../lib/Observer.js';
-import { $, setHeadTagAttribute } from '../utils/dom.js';
+import { $ } from '../utils/dom.js';
 import { delegateLineClickEvent } from '../delegators/line.js';
 
 export default class Line extends Observer {

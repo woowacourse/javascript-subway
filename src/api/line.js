@@ -11,6 +11,8 @@ export const requestLineRegistration = async line => {
     duration: Number(line.duration),
   });
 
+  if (response.isTokenInvalid) return;
+  
   const newLine = await response.json();
   const processedNewLine = {
     id: Number(newLine.id),
@@ -20,10 +22,9 @@ export const requestLineRegistration = async line => {
     sections: newLine.sections,
   };
 
-  if (!response.ok) {
-    throw new Error('역 등록 실패');
-  }
-
+  if (!response.ok) throw new Error('역 등록 실패');
+  
+  
   return processedNewLine;
 };
 
@@ -48,6 +49,7 @@ export const requestLineList = async () => {
 
 export const requestLineDelete = async lineId => {
   const response = await sendDeleteRequest(`${URL.BASE_URL}/lines/${lineId}`);
+  if (response.isTokenInvalid) return;
 
   if (!response.ok) {
     throw new Error('역 등록 실패');
@@ -59,6 +61,7 @@ export const requestLineUpdate = async (newline) => {
     name: newline.name,
     color: newline.color,
   });
+  if (response.isTokenInvalid) return;
 
   if (!response.ok) {
     throw new Error(response.status);
