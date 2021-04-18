@@ -4,16 +4,14 @@ import PageComponent from '../../core/PageComponent';
 import template from './template';
 
 class Map extends PageComponent {
-  constructor({ parentNode }) {
+  constructor({ parentNode, props: { updateSubwayState } }) {
     super({ parentNode, pathname: AUTHENTICATED_LINK.MAP.PATH });
+
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
     this.parentNode.innerHTML = template({ state: this.state });
-  }
-
-  async updateSubwayState() {
-    this.setState(await Apis.getStationAndLine());
   }
 }
 

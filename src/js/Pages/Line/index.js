@@ -8,7 +8,7 @@ import EditModal from './EditModal';
 import mainTemplate from './template';
 
 class Line extends PageComponent {
-  constructor({ parentNode }) {
+  constructor({ parentNode, props: { updateSubwayState } }) {
     super({
       parentNode,
       pathname: AUTHENTICATED_LINK.LINE.PATH,
@@ -19,17 +19,19 @@ class Line extends PageComponent {
         parentNode,
         modalName: 'line-add',
         props: {
-          updateSubwayState: this.updateSubwayState.bind(this),
+          updateSubwayState,
         },
       }),
       editModal: new EditModal({
         parentNode,
         modalName: 'line-edit',
         props: {
-          updateSubwayState: this.updateSubwayState.bind(this),
+          updateSubwayState,
         },
       }),
     };
+
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
@@ -69,10 +71,6 @@ class Line extends PageComponent {
         }
       }
     });
-  }
-
-  async updateSubwayState() {
-    this.setState(await Apis.getStationAndLine());
   }
 }
 

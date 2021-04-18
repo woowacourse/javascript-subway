@@ -1,7 +1,7 @@
 const sectionTemplate = ({ color, stations }) => {
   return `
     <div class="map-stations">
-      <div class="d-flex flex-row">
+      <div class="d-flex flex-row flex-wrap">
         ${stations
           .map(({ name }) => {
             return `

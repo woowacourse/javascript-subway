@@ -20,8 +20,9 @@ class App extends Component {
   constructor({ parentNode, state, Router }) {
     super({ parentNode, state });
 
-    this.Router = Router;
+    this.updateSubwayState = this.updateSubwayState.bind(this);
 
+    this.Router = Router;
     this.pageComponents = {
       Login: new Login({
         parentNode: $('.js-main'),
@@ -31,15 +32,19 @@ class App extends Component {
       }),
       Station: new Station({
         parentNode: $('.js-main'),
+        props: { updateSubwayState: this.updateSubwayState },
       }),
       Line: new Line({
         parentNode: $('.js-main'),
+        props: { updateSubwayState: this.updateSubwayState },
       }),
       Section: new Section({
         parentNode: $('.js-main'),
+        props: { updateSubwayState: this.updateSubwayState },
       }),
       Map: new Map({
         parentNode: $('.js-main'),
+        props: { updateSubwayState: this.updateSubwayState },
       }),
     };
 
@@ -76,7 +81,7 @@ class App extends Component {
   }
 
   privateRoute(Component) {
-    if (this.isLogin()) {
+    if (this.state.isLogin) {
       return Component;
     }
 
@@ -90,7 +95,7 @@ class App extends Component {
   }
 
   publicRoute(Component) {
-    if (!this.isLogin()) {
+    if (!this.state.isLogin) {
       return Component;
     }
 
@@ -105,10 +110,6 @@ class App extends Component {
 
   async checkLogin() {
     this.setIsLogin(await this.isValidAccessToken());
-  }
-
-  isLogin() {
-    return this.state.isLogin;
   }
 
   setIsLogin(isLogin) {
@@ -161,7 +162,7 @@ class App extends Component {
   }
 
   async updateSubwayState() {
-    this.setState(await Apis.getStationAndLine());
+    this.setState({ ...this.state, ...(await Apis.getStationAndLine()) });
   }
 }
 

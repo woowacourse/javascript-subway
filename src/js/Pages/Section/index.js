@@ -8,7 +8,7 @@ import HTTPError from '../../error/HTTPError';
 import { AUTHENTICATED_LINK } from '../../constants/link';
 
 class Section extends PageComponent {
-  constructor({ parentNode }) {
+  constructor({ parentNode, props: { updateSubwayState } }) {
     super({
       parentNode,
       pathname: AUTHENTICATED_LINK.SECTION.PATH,
@@ -19,10 +19,14 @@ class Section extends PageComponent {
         parentNode,
         modalName: 'section-add',
         props: {
-          updateSubwayState: this.updateSubwayState.bind(this),
+          props: {
+            updateSubwayState,
+          },
         },
       }),
     };
+
+    this.updateSubwayState = updateSubwayState;
   }
 
   renderSelf() {
@@ -66,10 +70,6 @@ class Section extends PageComponent {
         console.error(error.message);
       }
     });
-  }
-
-  async updateSubwayState() {
-    this.setState(await Apis.getStationAndLine());
   }
 }
 

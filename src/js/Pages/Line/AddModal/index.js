@@ -12,7 +12,6 @@ class AddModal extends ModalComponent {
   }
 
   renderSelf() {
-    console.log(this.state);
     this.parentNode.insertAdjacentHTML(
       'beforeend',
       modal({ state: this.state, modalName: this.modalName })
