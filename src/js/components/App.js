@@ -30,9 +30,9 @@ class App extends Component {
       [AUTHENTICATED_LINK.SECTION.ROUTE]: () => {
         return this.privateRouter(this.childComponents.Section);
       },
-      // TODO: 3단계 요구사항
-      // [NAVIGATION.ROUTE.MAP]: loginRequiredTemplate,
-      // [NAVIGATION.ROUTE.SEARCH]: loginRequiredTemplate,
+      [AUTHENTICATED_LINK.MAP.ROUTE]: () => {
+        return this.privateRouter(this.childComponents.Map);
+      },
       [UNAUTHENTICATED_LINK.LOGIN.ROUTE]: () => {
         return this.publicRouter(this.childComponents.Login);
       },

@@ -10,6 +10,7 @@ const PATH = {
   STATIONS: '/stations',
   LINES: '/lines',
   SECTIONS: '/sections',
+  MAP: '/map',
 };
 
 export { BASE_URL, PATH };

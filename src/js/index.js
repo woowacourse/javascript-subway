@@ -9,6 +9,7 @@ import Section from './components/section/index.js';
 import Line from './components/line/index.js';
 import Station from './components/station/index.js';
 import App from './components/App.js';
+import Map from './components/map';
 
 const stateManagers = {
   accessToken: new AccessTokenManager(),
@@ -22,6 +23,7 @@ const childComponents = {
   Station: new Station($('.js-main'), stateManagers),
   Line: new Line($('.js-main'), stateManagers),
   Section: new Section($('.js-main'), stateManagers),
+  Map: new Map($('.js-main'), stateManagers),
 };
 
 const app = new App($('#app'), stateManagers, childComponents);
