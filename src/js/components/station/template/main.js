@@ -35,15 +35,19 @@ export const mainTemplate = (stationList) => {
 const stationListItem = ({ id, name, usedLine }) => {
   return `
     <li class="js-station-item station-list-item d-flex items-center py-2" data-id="${id}">
-      <span class="w-100 pl-2">${name}</span>
-      ${usedLine
-        .map(
-          ({ color }) =>
-            '<span class="subway-used-line-color-dot ml-1 bg-' +
-            color +
-            '"></span>'
-        )
-        .join('')}
+      <div class="w-100 px-2 d-flex flex-wrap justify-between">
+        <span>${name}</span>
+        <div>
+          ${usedLine
+            .map(
+              ({ color }) =>
+                '<span class="used-line-color-dot ml-1 bg-' +
+                color +
+                '"></span>'
+            )
+            .join('')}
+          </div>
+        </div>
       <button
         type="button"
         class="js-station-item__edit bg-gray-50 text-gray-500 text-sm mr-1"

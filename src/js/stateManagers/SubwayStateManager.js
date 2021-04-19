@@ -23,7 +23,8 @@ class SubwayStateManager extends StateManager {
     const { stations, lines } = state;
 
     this.subwayState.stations = stations.map((station) => new Station(station));
-    this.subwayState.lines = lines.map((line) => {
+
+    lines.forEach((line) => {
       line.stations.forEach(({ id }) => {
         const targetStation = this.subwayState.stations.find(
           (station) => station.id === id
@@ -35,11 +36,15 @@ class SubwayStateManager extends StateManager {
           color: line.color,
         });
       });
-
-      return new Line(line);
     });
 
-    console.log(this.subwayState);
+    this.subwayState.lines = lines.map((line) => {
+      const stations = this.subwayState.stations.filter((station) =>
+        line.stations.map((station) => station.id).includes(station.id)
+      );
+
+      return new Line({ ...line, stations });
+    });
   }
 
   getSubwayState() {

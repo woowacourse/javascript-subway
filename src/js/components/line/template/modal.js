@@ -9,7 +9,7 @@ const subwayLineColorOptionTemplate = (color, index) => {
 
 const lineFormDetail = (stations) => `
   <div class="js-line-form__detail">
-    <div class="d-flex items-center input-control">
+    <div class="d-flex items-center input-control mt-3">
       <label for="up-station" class="input-label" hidden>상행역</label>
       <select id="up-station" name="subway-line-up-station" class="mr-2">
         <option value="" selected disabled hidden>상행역</option>
@@ -27,7 +27,7 @@ const lineFormDetail = (stations) => `
           .join('')}
       </select>
     </div>
-    <div class="input-control">
+    <div class="input-control mt-3">
       <label for="distance" class="input-label" hidden
         >상행 하행역 거리</label>
       <input

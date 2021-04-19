@@ -18,10 +18,12 @@
   border-radius: 100%;
 }
 
-.subway-used-line-color-dot {
+.used-line-color-dot {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
   border-radius: 100%;
 }
 

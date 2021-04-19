@@ -1,4 +1,3 @@
-import getSubwayState from '../../api/fetchGetSubwayState.js';
 import getFetchParams from '../../api/getFetchParams.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 import { PATH } from '../../constants/url.js';
@@ -29,16 +28,18 @@ class Section extends Component {
     $('.js-section-form__select').addEventListener('change', ({ target }) => {
       const lineId = target.value;
       const { lines } = this.stateManagers.subwayState.getSubwayState();
-      const { color, stations } = lines.find(
+      const { color, stations, sections } = lines.find(
         (line) => line.id === Number(lineId)
       );
 
-      $('.js-section-list').innerHTML = stations
-        .map((station) => sectionItem(station))
-        .join('');
+      $('.js-section-list').innerHTML =
+        sections
+          .map((section, idx) => sectionItem(stations[idx], section))
+          .join('') + sectionItem(stations[stations.length - 1]);
 
-      $('.js-section-list').setAttribute('data-line-id', lineId);
+      $('.js-section-form__select').classList.add('text-white');
       $('.js-section-form__select').setAttribute('data-bg-color', color);
+      $('.js-section-list').setAttribute('data-line-id', lineId);
     });
 
     $('.js-section-list').addEventListener('click', async ({ target }) => {
@@ -50,7 +51,7 @@ class Section extends Component {
       const stationId = target.closest('.js-section-item').dataset.stationId;
       const accessToken = this.stateManagers.accessToken.getToken();
 
-      await deleteItem(lineId, stationId, accessToken);
+      await this.deleteItem(lineId, stationId, accessToken);
     });
   }
 
