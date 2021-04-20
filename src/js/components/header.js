@@ -1,7 +1,7 @@
 export const headerTemplate = (navigation) => {
   return `
-    <a href="/" class="js-link text-black">
-      <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
+    <a href="/" class="js-link">
+      <h1 class="text-center font-bold text-black"">🚇 지하철 노선도</h1>
     </a>
     <nav class="d-flex justify-center flex-wrap">
       ${Object.values(navigation).map(getNavButtonTemplate).join('')}
