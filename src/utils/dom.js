@@ -52,3 +52,13 @@ export const openModal = () => {
 export const closeModal = () => {
   $(`.${SELECTOR_CLASS.MODAL}`).classList.remove('open');
 };
+
+export const getStyleValue = (element, property) => {
+  return window.getComputedStyle(element).getPropertyValue(property);
+};
+
+export const attr = (element, option) => {
+  Object.keys(option).forEach((key) => {
+    element.setAttribute(key, option[key]);
+  });
+}

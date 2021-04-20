@@ -1,7 +1,7 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_ID, SELECTOR_CLASS, SETTINGS, STATE_KEY } from '../constants.js';
+import { SELECTOR_ID, SELECTOR_CLASS, SETTINGS, STATE_KEY } from '../constants.js';
 import { delegateSectionClickEvent } from '../delegators/section.js';
 import Observer from '../lib/Observer.js';
-import { $, setHeadTagAttribute } from '../utils/dom.js';
+import { $, getStyleValue, attr } from '../utils/dom.js';
 
 export default class Section extends Observer {
   #state;
@@ -93,44 +93,54 @@ export default class Section extends Observer {
 
   #createStation(station, index) {
     const tempColorElement = document.createElement("div");
-    tempColorElement.setAttribute("class", this.#targetLine.color);
+    attr(tempColorElement, { "class": this.#targetLine.color });
     $(this.#stationListSelector).appendChild(tempColorElement);
-    const targetLineColor = window.getComputedStyle(tempColorElement).getPropertyValue('background-color');
+    const targetLineColor = getStyleValue(tempColorElement, "background-color");
 
     const stationItem = document.createElement("li");
-    stationItem.setAttribute("class", "d-flex items-center py-2 relative");
+    attr(stationItem, { "class": "d-flex items-center py-2 relative" });
     
     const stationName = document.createElement("span");
-    stationName.setAttribute("class", `w-100 pl-6`);
+    attr(stationName, { "class": `w-100 pl-6` });
     stationName.textContent = station.name;
     stationItem.appendChild(stationName);
     
     if (index < this.#targetLine.sections.length) {
       const sectionContainer = document.createElement("div");
-      sectionContainer.setAttribute("class", SELECTOR_CLASS.SECTION_CONTAINER);
+      attr(sectionContainer, { "class": SELECTOR_CLASS.SECTION_CONTAINER });
       const targetSection = this.#targetLine.sections[index];
 
       const sectionDistance = document.createElement("span");
-      sectionDistance.setAttribute("class", SELECTOR_CLASS.SECTION_DISTANCE);
-      sectionDistance.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      attr(sectionDistance, {
+        "class": SELECTOR_CLASS.SECTION_DISTANCE,
+        "style": `border: 2px solid ${targetLineColor};`,
+      });
       sectionDistance.textContent = `${targetSection.distance}km`;
       
       const sectionDuration = document.createElement("span");
-      sectionDuration.setAttribute("class", SELECTOR_CLASS.SECTION_DURATION);
-      sectionDuration.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      attr(sectionDuration, {
+        "class": SELECTOR_CLASS.SECTION_DURATION,
+        "style": `border: 2px solid ${targetLineColor};`,
+      });
       sectionDuration.textContent = `${targetSection.duration}분`;
 
       const upStationPoint = document.createElement("span");
-      upStationPoint.setAttribute("class", SELECTOR_CLASS.UP_STATION_POINT);
-      upStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      attr(upStationPoint, {
+        "class": SELECTOR_CLASS.UP_STATION_POINT,
+        "style": `border: 2px solid ${targetLineColor};`,
+      });
 
       const stationConnection = document.createElement("span");
-      stationConnection.setAttribute("class", SELECTOR_CLASS.STATION_CONNECTION);
-      stationConnection.setAttribute("style", `background-color: ${targetLineColor};`);
+      attr(stationConnection, {
+        "class": SELECTOR_CLASS.STATION_CONNECTION,
+        "style": `background-color: ${targetLineColor};`,
+      });
       
       const downStationPoint = document.createElement("span");
-      downStationPoint.setAttribute("class", SELECTOR_CLASS.DOWN_STATION_POINT);
-      downStationPoint.setAttribute("style", `border: 2px solid ${targetLineColor};`);
+      attr(downStationPoint, {
+        "class": SELECTOR_CLASS.DOWN_STATION_POINT,
+        "style": `border: 2px solid ${targetLineColor};`,
+      });
 
       sectionContainer.appendChild(upStationPoint);
       sectionContainer.appendChild(stationConnection);
@@ -141,13 +151,15 @@ export default class Section extends Observer {
     }
 
     const horizontalLine = document.createElement("hr");
-    horizontalLine.setAttribute("class", "my-0");
+    attr(horizontalLine, { "class": "my-0" });
 
     const stationDeleteButton = document.createElement("button");
-    stationDeleteButton.setAttribute("type", "button");
-    stationDeleteButton.setAttribute("class", `${SELECTOR_CLASS.SECTION_DELETE_BUTTON} bg-gray-50 text-gray-500 text-sm`);
-    stationDeleteButton.setAttribute("data-station-id", station.id);
-    stationDeleteButton.setAttribute("data-station-name", station.name);
+    attr(stationDeleteButton, {
+      "type": "button",
+      "class": `${SELECTOR_CLASS.SECTION_DELETE_BUTTON} bg-gray-50 text-gray-500 text-sm`,
+      "data-station-id": station.id,
+      "data-station-name": station.name,
+    });
     stationDeleteButton.textContent = "삭제";
 
     stationItem.appendChild(stationDeleteButton);

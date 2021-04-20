@@ -1,6 +1,6 @@
-import { FILE_PATH, PAGE_TITLE, SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
+import { SELECTOR_CLASS, SELECTOR_ID, STATE_KEY, STYLE_CLASS } from '../constants';
 import Observer from '../lib/Observer';
-import { $, setHeadTagAttribute } from '../utils/dom.js';
+import { $, getStyleValue, attr } from '../utils/dom.js';
 import { delegateStationClickEvent, delegateStationFocusOutEvent, delegateStationSubmitEvent } from '../delegators/station.js';
 
 export default class Station extends Observer {
@@ -65,27 +65,31 @@ export default class Station extends Observer {
 
   #createStation(station) {
     const stationItem = document.createElement("li");
-    stationItem.setAttribute("data-station-id", station.id);
-    stationItem.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2`);
+    attr(stationItem, {
+      "data-station-id": station.id,
+      "class": `${SELECTOR_CLASS.STATION_LIST_ITEM} d-flex items-center py-2`
+    });
 
     const stationName = document.createElement("span");
-    stationName.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2`);
+    attr(stationName, { "class": `${SELECTOR_CLASS.STATION_LIST_ITEM_NAME} w-100 pl-2` });
     stationName.textContent = station.name;
     stationItem.appendChild(stationName);    
 
     const lineList = this.#state.get(STATE_KEY.LINE_LIST);
     const includedLines = document.createElement("span");
     lineList.forEach(line => {
-      includedLines.setAttribute("class", SELECTOR_CLASS.STATION_LIST_INCLUDED_LINES);
+      attr(includedLines, { "class": SELECTOR_CLASS.STATION_LIST_INCLUDED_LINES });
       if (line.stations.find(currentStation => currentStation.id === station.id)) {
         const tempColorElement = document.createElement("div");
-        tempColorElement.setAttribute("class", line.color);
+        attr(tempColorElement, { "class": line.color });
         $(this.#targetSelector).appendChild(tempColorElement);
-        const lineColor = window.getComputedStyle(tempColorElement).getPropertyValue("background-color");
+        const lineColor = getStyleValue(tempColorElement, "background-color");
 
         const includedLine = document.createElement("span");
-        includedLine.setAttribute("class", SELECTOR_CLASS.STATION_LIST_INCLUDED_LINE);
-        includedLine.setAttribute("style", `background-color: ${lineColor};`);
+        attr(includedLine, { 
+          "class": SELECTOR_CLASS.STATION_LIST_INCLUDED_LINE,
+          "style": `background-color: ${lineColor};`,
+        });
         includedLine.textContent = line.name;
 
         tempColorElement.remove();
@@ -95,31 +99,37 @@ export default class Station extends Observer {
     stationName.appendChild(includedLines);
 
     const stationUpdateButton = document.createElement("button");
-    stationUpdateButton.setAttribute("type", "button");
-    stationUpdateButton.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1`);
-    stationUpdateButton.setAttribute("data-station-id", station.id);
-    stationUpdateButton.setAttribute("data-station-name", station.name);
+    attr(stationUpdateButton, {
+      "type": "button",
+      "class": `${SELECTOR_CLASS.STATION_LIST_ITEM_UPDATE} bg-gray-50 text-gray-500 text-sm mr-1`,
+      "data-station-id": station.id,
+      "data-station-name": station.name,
+    });
     stationUpdateButton.textContent = "수정";
     stationItem.appendChild(stationUpdateButton);
 
     const stationDeleteButton = document.createElement("button");
-    stationDeleteButton.setAttribute("type", "button");
-    stationDeleteButton.setAttribute("class", `${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} bg-gray-50 text-gray-500 text-sm`);
-    stationDeleteButton.setAttribute("data-station-id", station.id);
-    stationDeleteButton.setAttribute("data-station-name", station.name);
+    attr(stationDeleteButton, {
+      "type": "button",
+      "class": `${SELECTOR_CLASS.STATION_LIST_ITEM_DELETE} bg-gray-50 text-gray-500 text-sm`,
+      "data-station-id": station.id,
+      "data-station-name": station.name,
+    });
     stationDeleteButton.textContent = "삭제";
     stationItem.appendChild(stationDeleteButton);
 
     const stationUpdateInput = document.createElement("input");
-    stationUpdateInput.setAttribute("data-station-id", station.id);
-    stationUpdateInput.setAttribute("class", `${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`);
-    stationUpdateInput.setAttribute("type", "text");
-    stationUpdateInput.setAttribute("required", "required");
+    attr(stationUpdateInput, {
+      "data-station-id": station.id,
+      "class": `${STYLE_CLASS.REMOVED} ${SELECTOR_CLASS.STATION_LIST_ITEM_INPUT}`,
+      "type": "text",
+      "required": "required",
+    })
     stationItem.appendChild(stationUpdateInput);
 
     $(this.#targetSelector).appendChild(stationItem);
     const horizontalLine = document.createElement("hr");
-    horizontalLine.setAttribute("class", "my-0");
+    attr(horizontalLine, { "class": "my-0" });
     $(this.#targetSelector).appendChild(horizontalLine);
   }
 }
