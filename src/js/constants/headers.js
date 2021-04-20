@@ -3,7 +3,7 @@ const HEADERS = {
     JSON: { 'Content-Type': 'application/json' },
   },
   AUTHORIZATION: {
-    BEARER: (token) => ({ Authorization: `Bearer ${token}` }),
+    BEARER: (token) => (token ? { Authorization: `Bearer ${token}` } : null),
   },
 };
 

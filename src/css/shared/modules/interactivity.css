@@ -30,3 +30,8 @@
 .cursor-not-allowed {
   cursor: not-allowed;
 }
+
+/* Drag */
+.user-select-none {
+  user-select: none;
+}
