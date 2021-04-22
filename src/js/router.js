@@ -2,7 +2,7 @@ import { render } from './renderer.js';
 
 class Router {
   constructor() {
-    this._handlePopState();
+    this._bindPopStateEvent();
   }
 
   renderPage(href, info) {
@@ -11,7 +11,7 @@ class Router {
     render();
   }
 
-  _handlePopState() {
+  _bindPopStateEvent() {
     window.addEventListener('popstate', () => {
       render();
     });

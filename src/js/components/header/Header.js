@@ -1,7 +1,8 @@
-import { removeLocalStorageItem } from '../../utils/storage.js';
-import { headerTemplate } from './headerTemplate.js';
-import { $ } from '../../utils/dom.js';
-import { SELECTOR, PATH, STORAGE, SNACKBAR_MESSAGE } from '../../constants.js';
+import { removeLocalStorageItem } from '../../utils/storage';
+import { headerTemplate } from './headerTemplate';
+import { $ } from '../../utils/dom';
+import { showSnackbar } from '../../utils/snackbar';
+import { SELECTOR, PATH, STORAGE, SUCCESS_MESSAGE } from '../../constants';
 
 class Header {
   #props;
@@ -14,41 +15,42 @@ class Header {
 
   init(isLoggedIn) {
     this.#isLoggedIn = isLoggedIn;
-    this.initDOM();
-    this._selectDOM();
-    this._bindMenuEvent();
+    this._initDOM();
   }
 
-  initDOM() {
+  _initDOM() {
     this.$target = $(SELECTOR.HEADER);
     this.$target.innerHTML = headerTemplate(this.#isLoggedIn);
+    this.$menu = $(SELECTOR.MENU);
+    this._bindEvent();
   }
 
-  _selectDOM() {
-    this.$menu = $(SELECTOR.MENU);
+  _bindEvent() {
+    this._bindMenuEvent();
   }
 
   _bindMenuEvent() {
     this.$menu.addEventListener('click', e => {
-      e.preventDefault();
       if (e.target.tagName !== 'BUTTON') return;
-      this._changeMenu(e);
+      this._handleChangeMenu(e);
     });
   }
 
-  _changeMenu({ target }) {
-    const href = target.closest(SELECTOR.MENU_LINK).getAttribute('href');
+  _handleChangeMenu(e) {
+    e.preventDefault();
+
+    const href = e.target.closest(SELECTOR.MENU_LINK).getAttribute('href');
     if (href === PATH.LOGOUT) {
-      this._handleLogout();
+      this._logout();
       return;
     }
     this.#props.switchURL(href);
   }
 
-  _handleLogout() {
+  _logout() {
     removeLocalStorageItem(STORAGE.USER_ACCESS_TOKEN);
     this.#props.switchURL(PATH.HOME);
-    this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGOUT);
+    showSnackbar(SUCCESS_MESSAGE.LOGOUT);
   }
 }
 

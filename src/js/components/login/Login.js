@@ -1,12 +1,12 @@
-import { checkLoginValid } from './loginValidator.js';
-import { loginTemplate } from './loginTemplate.js';
-import { $, getFormData } from '../../utils/dom.js';
-import { request } from '../../utils/api.js';
-import { setLocalStorageItem } from '../../utils/storage.js';
+import { checkLoginValid } from './loginValidator';
+import { loginTemplate } from './loginTemplate';
+
+import { authAPI } from '../../api/auth';
+import { showSnackbar } from '../../utils/snackbar';
+import { $, getFormData } from '../../utils/dom';
+import { setLocalStorageItem } from '../../utils/storage';
 import {
-  BASE_URL,
-  ACTIONS,
-  SNACKBAR_MESSAGE,
+  SUCCESS_MESSAGE,
   PATH,
   SELECTOR,
   CLASS_NAME,
@@ -14,7 +14,7 @@ import {
   PAGE_TITLE,
   LOGIN_ERROR,
   STORAGE,
-} from '../../constants.js';
+} from '../../constants';
 
 class Login {
   #props;
@@ -22,8 +22,6 @@ class Login {
   constructor(props) {
     this.#props = props;
   }
-
-  init() {}
 
   getPageInfo() {
     return {
@@ -51,8 +49,8 @@ class Login {
   _bindSignUpEvent() {
     this.$loginForm.addEventListener('click', e => {
       if (!e.target.classList.contains(CLASS_NAME.SIGNUP_LINK)) return;
-      e.preventDefault();
-      this.#props.switchURL(PATH.SIGNUP);
+
+      this._handleRouteSignup(e);
     });
   }
 
@@ -62,43 +60,29 @@ class Login {
     });
   }
 
-  _handleLogin(e) {
+  _handleRouteSignup(e) {
+    e.preventDefault();
+    this.#props.switchURL(PATH.SIGNUP);
+  }
+
+  async _handleLogin(e) {
     e.preventDefault();
 
     const formData = getFormData(e.target.elements);
-
     const errorMessage = checkLoginValid(formData);
     if (errorMessage) {
       alert(errorMessage);
       return;
     }
 
-    this._requestLogin(formData);
-  }
-
-  async _requestLogin(data) {
     try {
-      const option = {
-        method: 'POST',
-        body: {
-          email: data.email,
-          password: data.password,
-        },
-      };
-
-      const { accessToken } = await request(
-        BASE_URL + ACTIONS.LOGIN,
-        option,
-      ).then(res => {
-        return res.json();
-      });
-
+      const accessToken = await authAPI.login(formData);
       setLocalStorageItem(STORAGE.USER_ACCESS_TOKEN, accessToken);
 
       this.#props.switchURL(PATH.HOME);
-      this.#props.showSnackbar(SNACKBAR_MESSAGE.LOGIN);
-    } catch (error) {
-      alert(LOGIN_ERROR[error] || ERROR_MESSAGE.LOGIN_FAILED);
+      showSnackbar(SUCCESS_MESSAGE.LOGIN);
+    } catch ({ status }) {
+      alert(LOGIN_ERROR[status] || ERROR_MESSAGE.LOGIN_FAILED);
     }
   }
 }

@@ -25,7 +25,6 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loader: 'file-loader',
-        // type: 'javascript/auto',
       },
     ],
   },
@@ -38,6 +37,7 @@ module.exports = {
     inline: true,
     port: 5500,
     open: true,
+    historyApiFallback: true,
   },
 
   plugins: [

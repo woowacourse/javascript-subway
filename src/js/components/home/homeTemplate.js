@@ -22,5 +22,3 @@ export const homeTemplate = isLoggedIn => {
     </div>
     `;
 };
-
-// TODO : user 정보받아서 xxxx 님 환영합니다! 와같은 문구 보여줘도 괜찮을듯
