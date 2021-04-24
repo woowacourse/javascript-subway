@@ -52,7 +52,7 @@ ul {
 }
 
 ul li a button {
-  width: 100px;
+  min-width: 100px;
   line-height: inherit;
   cursor: pointer;
   height: 36px;
@@ -67,4 +67,8 @@ ul li a button:hover {
 
 ul li {
   list-style-type: none;
+}
+
+.disable-scroll {
+  overflow: hidden;
 }
