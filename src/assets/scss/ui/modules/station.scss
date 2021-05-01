@@ -1,0 +1,29 @@
+.station-list__included-lines {
+  margin-left: 5px;
+}
+
+.station-list__included-line {
+  display: inline-block;
+  margin: 0px 2px 0px 2px;
+  padding: 2px 5px 2px 5px;
+  font-size: 0.75rem;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+}
+
+.station-list__item {
+  position: relative;
+}
+
+.station-list__item-input {
+  position: absolute;
+  top: 0;
+  width: 75%;
+  border: none;
+  outline: none;
+  z-index: 10000000;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 5px;
+}

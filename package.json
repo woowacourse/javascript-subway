@@ -2,15 +2,17 @@
   "name": "javascript-subway",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/swon3210/javascript-subway",
-  "author": "swon3210 <swon3210@gmail.com>",
+  "repository": "https://github.com/iborymagic/javascript-subway",
+  "author": "iborymagic <mlch8023@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "webpack",
     "watch": "webpack -w",
     "serve": "webpack serve",
-    "test": "cypress open"
+    "test": "cypress open",
+    "deploy": "yarn run build & firebase deploy"
   },
+  "homepage": "https://iborymagic-subway-map.netlify.app/",
   "dependencies": {
     "babel-polyfill": "^6.26.0"
   },

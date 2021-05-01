@@ -1,15 +1,13 @@
 export default class Subject {
   constructor() {
-    this.observers = {
-      stationList: [],
-      lineList: [],
-      sectionList: [],
-      isLoggedIn: [],
-    };
+    this.observers = {};
   }
 
   subscribe(key, observer) {
     const newObservers = Object.assign({}, this.observers);
+    if (!newObservers[key]) {
+      newObservers[key] = [];
+    }
     newObservers[key] = [...newObservers[key], observer];
 
     this.observers = newObservers;
@@ -24,14 +22,14 @@ export default class Subject {
 
   notify(key) {
     if (this.observers[key].length > 0) {
-      this.observers[key].forEach(observer => observer.renderComponent());
+      this.observers[key].forEach(observer => observer.update());
     }
   }
 
   notifyAll() {
     Object.keys(this.observers).forEach(key => {
       if (this.observers[key].length > 0) {
-        this.observers[key].forEach(observer => observer.renderComponent());
+        this.observers[key].forEach(observer => observer.update());
       }
     });
   }

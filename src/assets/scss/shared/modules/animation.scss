@@ -2,11 +2,64 @@
   animation: fade-in 0.5s forwards;
 }
 
+.fade-out {
+  animation: fade-out 0.5s forwards;
+}
+
+.turn-red {
+  &::after {
+    position: absolute;
+    top: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    animation: turn-red 0.1s forwards;
+  }
+}
+
+.cancel-red {
+  &::after {
+    position: absolute;
+    top: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    animation: turn-red 0.1s reverse, cancel-red 0.1s 0.1s forwards;
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes turn-red {
+  from {
+    background-color: initial;
+  }
+  to {
+    background-color: tomato;
+  }
+}
+
+@keyframes cancel-red {
+  from {
+    content: '';
+  }
+  to {
+    content: none;
   }
 }

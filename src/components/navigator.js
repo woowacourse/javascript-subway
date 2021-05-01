@@ -1,21 +1,42 @@
-import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY } from '../constants.js';
+import { SELECTOR_CLASS, SELECTOR_ID, PATH, STATE_KEY, SETTINGS } from '../constants.js';
+import delegateNavigatorClickEvent from '../delegators/navigator.js';
 import Observer from '../lib/Observer.js';
-import { $ } from '../utils/utils.js';
+import { state } from '../store.js';
+import { $ } from '../utils/dom.js';
 
 export default class Navigator extends Observer {
-  #targetSelector;
   #state;
+  #targetSelector;
 
   constructor(state, targetSelector = `#${SELECTOR_ID.NAVIGATOR}`) {
     super();
-    this.#targetSelector = targetSelector;
     this.#state = state;
+    this.#targetSelector = targetSelector;
+  }
+
+  update() {
+    this.renderComponent();
   }
 
   renderPage() {}
 
   renderComponent() {
     $(this.#targetSelector).innerHTML = this.#getTemplate();
+    this.#colorMenuButton();
+    this.#initEvents();
+  }
+
+  #initEvents() {
+    $(this.#targetSelector).addEventListener('click', delegateNavigatorClickEvent);
+  }
+
+  #colorMenuButton() {
+    const $$navigatorButtons = $(`.${SELECTOR_CLASS.NAVIGATOR_BUTTON}`);
+    const $targetMenuButton = $(`a[href="${state.get(STATE_KEY.TARGET_MENU)}"]`);
+    $$navigatorButtons.forEach(($button) => {
+      $button.classList.remove(SETTINGS.SELECTED_MENU_COLOR);
+    });
+    $targetMenuButton && $targetMenuButton.classList.add(SETTINGS.SELECTED_MENU_COLOR);
   }
 
   #getTemplate() {
@@ -43,11 +64,6 @@ export default class Navigator extends Observer {
       SELECTOR_CLASS.NAVIGATOR_BUTTON
     } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
           🗺️ 전체 보기
-        </a>
-        <a href="${PATH.SEARCH}" class="${
-      SELECTOR_CLASS.NAVIGATOR_BUTTON
-    } btn bg-white shadow mx-1 my-1 text-sm d-flex items-center">
-          🔎 길 찾기
         </a>
         ${
           this.#state.get(STATE_KEY.IS_LOGGED_IN)
