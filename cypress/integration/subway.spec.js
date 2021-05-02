@@ -21,10 +21,7 @@ describe('지하철 노선도 테스트', () => {
     cy.get('#signup-email').type('wootecho@naver.com');
     cy.get('#signup-password').type('124');
     cy.get('#signup-password-confirm').type('123{enter}');
-    cy.get('.snackbar').should(
-      'have.text',
-      SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD,
-    );
+    cy.get('.snackbar').should('have.text', SNACKBAR_MESSAGE.NOT_MATCH_CONFIRM_PASSWORD);
   });
 
   it('정상적으로 로그인이 되는지 확인한다.', () => {
@@ -41,7 +38,7 @@ describe('지하철 노선도 테스트', () => {
   it('정상적으로 로그아웃이 되는지 확인한다.', () => {
     cy.get('#navigation-logout-button').click();
     cy.get('.snackbar').should('have.text', SNACKBAR_MESSAGE.LOGOUT_SUCCESS);
-    cy.url().should('eq', `${MAIN_URL}logout`);
+    cy.url().should('eq', `${MAIN_URL}`);
     cy.get('#navigation-login-button').should('be.visible');
   });
 });

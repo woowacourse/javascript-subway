@@ -1,7 +1,6 @@
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/querySelector.js';
 import { mainTemplate } from './template.js';
-import { LOGIN_REQUIRED_TEMPLATE } from '../../constants/index.js';
 
 export default class Main extends Component {
   constructor() {
@@ -10,12 +9,12 @@ export default class Main extends Component {
 
   bindEvent() {}
 
-  render(token) {
-    $('main').innerHTML = token ? mainTemplate() : LOGIN_REQUIRED_TEMPLATE;
+  render() {
+    $('main').innerHTML = mainTemplate();
   }
 
-  load(token = '') {
-    this.render(token);
+  load() {
+    this.render();
     this.bindEvent();
   }
 }

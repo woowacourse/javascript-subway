@@ -23,8 +23,7 @@ a {
 
 main .wrapper {
   width: 540px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
@@ -46,4 +45,37 @@ ul li button {
 
 ul li button:hover {
   background-color: rgb(229, 231, 235);
+}
+
+.list-style-none {
+  list-style: none;
+}
+
+.bottom-line {
+  border-bottom: 1px solid lightgray;
+}
+
+.sections-bottom-line {
+  border-bottom: 2px dashed lightgray;
+  width: 45%;
+}
+
+.subway-line-color-selector {
+  transform: rotate(90deg);
+}
+
+.align-center {
+  align-items: center;
+}
+
+.vertical-line-bar {
+  width: 4px;
+  height: 40px;
+  z-index: 1;
+}
+
+.section-info-container {
+  position: absolute;
+  left: 46%;
+  transform: translate(0%, -50%);
 }

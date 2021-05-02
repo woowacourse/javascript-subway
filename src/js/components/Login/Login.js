@@ -1,14 +1,9 @@
 import Component from '../../core/Component.js';
-import {
-  $,
-  API,
-  showSnackbar,
-  setLocalStorageItem,
-  getLocalStorageItem,
-} from '../../utils/index.js';
+import { $, showSnackbar, setLocalStorageItem } from '../../utils/index.js';
 import { loginTemplate } from './template.js';
 import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
+import { service } from '../../service/index.js';
 
 export default class Login extends Component {
   constructor({ changeTemplate }) {
@@ -17,14 +12,8 @@ export default class Login extends Component {
   }
 
   bindEvent() {
-    $('#login-form').addEventListener(
-      'submit',
-      this.handleLoginForm.bind(this),
-    );
-    $('#signup-button').addEventListener(
-      'click',
-      this.handleSingupButton.bind(this),
-    );
+    $('#login-form').addEventListener('submit', this.handleLoginForm.bind(this));
+    $('#signup-button').addEventListener('click', this.handleSignupButton.bind(this));
   }
 
   async handleLoginForm(e) {
@@ -33,29 +22,25 @@ export default class Login extends Component {
     const email = e.target.elements['login-email'].value;
     const password = e.target.elements['login-password'].value;
 
-    try {
-      const response = await API.login({ email, password });
-      const responseJSON = await response.json();
+    const accessToken = await service.getAccessToken({ email, password });
 
-      if (!responseJSON.accessToken) {
-        return;
-      }
-
-      showSnackbar(SNACKBAR_MESSAGE.LOGIN_SUCCESS);
-      setLocalStorageItem({
-        key: LOCAL_STORAGE_KEY.TOKEN,
-        item: responseJSON.accessToken,
-      });
-
-      this.changeTemplate('/');
-      history.pushState({ pathName: '/' }, null, '/');
-      Navigation.changeSelectedButtonColor();
-    } catch {
+    if (!accessToken) {
       showSnackbar(SNACKBAR_MESSAGE.LOGIN_FAILURE);
+      return;
     }
+
+    showSnackbar(SNACKBAR_MESSAGE.LOGIN_SUCCESS);
+    setLocalStorageItem({
+      key: LOCAL_STORAGE_KEY.TOKEN,
+      item: accessToken,
+    });
+
+    this.changeTemplate('/');
+    history.pushState({ pathName: '/' }, null, '/');
+    Navigation.changeSelectedButtonColor();
   }
 
-  handleSingupButton(e) {
+  handleSignupButton(e) {
     e.preventDefault();
 
     const pathName = e.target.closest('.navigation-link').getAttribute('href');
