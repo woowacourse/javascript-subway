@@ -1,9 +1,15 @@
 import { API } from '../utils/API.js';
-import { showSnackbar } from '../utils/index.js';
-import { SNACKBAR_MESSAGE } from '../constants/index.js';
+import { getLocalStorageItem, showSnackbar } from '../utils/index.js';
+import { LOCAL_STORAGE_KEY, SNACKBAR_MESSAGE } from '../constants/index.js';
 
-export const serviceAPI = {
-  isValidToken: async (token) => {
+const getToken = () => {
+  return getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
+};
+
+export const service = {
+  isValidToken: async () => {
+    const token = await getToken();
+
     try {
       await API.getUserInfo(token);
 
@@ -48,7 +54,9 @@ export const serviceAPI = {
     }
   },
 
-  getStationList: async (token) => {
+  getStationList: async () => {
+    const token = await getToken();
+
     try {
       const response = await API.getStationList(token);
       const responseJSON = await response.json();
@@ -60,7 +68,9 @@ export const serviceAPI = {
     }
   },
 
-  getCreatedStationData: async ({ token, name }) => {
+  getCreatedStationData: async ({ name }) => {
+    const token = await getToken();
+
     try {
       const response = await API.createStation({
         token,
@@ -75,7 +85,9 @@ export const serviceAPI = {
     }
   },
 
-  deleteStation: async ({ token, id }) => {
+  deleteStation: async ({ id }) => {
+    const token = await getToken();
+
     try {
       await API.deleteStation({
         token,
@@ -92,7 +104,9 @@ export const serviceAPI = {
     }
   },
 
-  editStation: async ({ token, name, id }) => {
+  editStation: async ({ name, id }) => {
+    const token = await getToken();
+
     try {
       await API.editStation({ token, name, id });
       return true;
@@ -101,7 +115,9 @@ export const serviceAPI = {
     }
   },
 
-  getLineList: async (token) => {
+  getLineList: async () => {
+    const token = await getToken();
+
     try {
       const response = await API.getLineList(token);
       const responseJSON = await response.json();
@@ -113,7 +129,9 @@ export const serviceAPI = {
     }
   },
 
-  getLineData: async ({ token, id }) => {
+  getLineData: async ({ id }) => {
+    const token = await getToken();
+
     try {
       const response = await API.getLine({ token, id });
       const responseJSON = await response.json();
@@ -125,7 +143,9 @@ export const serviceAPI = {
     }
   },
 
-  getCreatedLineData: async ({ token, ...contents }) => {
+  getCreatedLineData: async ({ ...contents }) => {
+    const token = await getToken();
+
     try {
       const response = await API.createLine({
         token,
@@ -140,7 +160,9 @@ export const serviceAPI = {
     }
   },
 
-  deleteLine: async ({ token, id }) => {
+  deleteLine: async ({ id }) => {
+    const token = await getToken();
+
     try {
       await API.deleteLine({
         token,
@@ -154,7 +176,9 @@ export const serviceAPI = {
     }
   },
 
-  editLine: async ({ token, id, ...contents }) => {
+  editLine: async ({ id, ...contents }) => {
+    const token = await getToken();
+
     try {
       await API.editLine({ token, id, contents });
       return true;
@@ -164,7 +188,9 @@ export const serviceAPI = {
     }
   },
 
-  getCreatedSectionData: async ({ token, id, contents }) => {
+  getCreatedSectionData: async ({ id, contents }) => {
+    const token = await getToken();
+
     try {
       const response = await API.createSection({
         token,
@@ -179,7 +205,9 @@ export const serviceAPI = {
     }
   },
 
-  deleteSection: async ({ token, lineId, stationId }) => {
+  deleteSection: async ({ lineId, stationId }) => {
+    const token = await getToken();
+
     try {
       await API.deleteSection({
         token,
