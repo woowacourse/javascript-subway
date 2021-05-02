@@ -3,7 +3,7 @@ import { signupTemplate } from './template.js';
 import { $, showSnackbar, setFontColorGreen, setFontColorRed } from '../../utils/index.js';
 import { REG_EXP, SNACKBAR_MESSAGE } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
-import { serviceAPI } from '../../service/index.js';
+import { service } from '../../service/index.js';
 
 export default class Signup extends Component {
   constructor({ changeTemplate }) {
@@ -44,7 +44,7 @@ export default class Signup extends Component {
       return;
     }
 
-    const isDuplicated = await serviceAPI.isDuplicatedEmail(email);
+    const isDuplicated = await service.isDuplicatedEmail(email);
 
     if (isDuplicated) {
       setFontColorRed($emailValidCheckText);
@@ -79,7 +79,7 @@ export default class Signup extends Component {
       return;
     }
 
-    const isSuccess = await serviceAPI.signup({ email, password, name });
+    const isSuccess = await service.signup({ email, password, name });
 
     if (!isSuccess) {
       showSnackbar(SNACKBAR_MESSAGE.SIGNUP_FAILURE);

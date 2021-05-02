@@ -1,14 +1,11 @@
 import Component from '../../core/Component.js';
 import { $ } from '../../utils/querySelector.js';
-import { serviceAPI } from '../../service/index.js';
-import { LOGIN_REQUIRED_TEMPLATE } from '../../constants/index.js';
+import { service } from '../../service/index.js';
 import { subwayMapTemplate } from './template.js';
 
 export default class SubwayMap extends Component {
-  #token;
   constructor() {
     super();
-    this.#token;
   }
 
   selectDOM() {
@@ -37,19 +34,16 @@ export default class SubwayMap extends Component {
     return sortedSectionList;
   }
 
-  async render(token, sortedSectionList = []) {
-    $('main').innerHTML = token ? subwayMapTemplate(sortedSectionList) : LOGIN_REQUIRED_TEMPLATE;
+  async render(sortedSectionList = []) {
+    $('main').innerHTML = subwayMapTemplate(sortedSectionList);
   }
 
-  async load(token = '') {
-    this.#token = token;
-    const lineList = await serviceAPI.getLineList(token);
+  async load() {
+    const lineList = await service.getLineList();
     const sortedSectionList = lineList.map((line) => this.getSortedSectionList(line));
 
-    this.render(token, sortedSectionList);
-    if (token) {
-      this.selectDOM();
-      this.bindEvent();
-    }
+    this.render(sortedSectionList);
+    this.selectDOM();
+    this.bindEvent();
   }
 }

@@ -1,1 +1,1 @@
-export { serviceAPI } from './serviceAPI.js';
+export { service } from './service.js';

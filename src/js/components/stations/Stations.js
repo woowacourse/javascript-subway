@@ -1,14 +1,12 @@
 import Component from '../../core/Component.js';
 import { stationsTemplate, stationListTemplate } from './template.js';
 import { $, showSnackbar, customConfirm } from '../../utils/index.js';
-import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE, STATIONS } from '../../constants/index.js';
-import { serviceAPI } from '../../service/index.js';
+import { MESSAGE, SNACKBAR_MESSAGE, STATIONS } from '../../constants/index.js';
+import { service } from '../../service/service';
 
 export default class Stations extends Component {
-  #token;
   constructor() {
     super();
-    this.#token;
   }
 
   selectDOM() {
@@ -58,8 +56,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const isEdited = await serviceAPI.editStation({
-      token: this.#token,
+    const isEdited = await service.editStation({
       name: $stationEditNameInput.value,
       id: stationId,
     });
@@ -95,8 +92,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const isDeleted = await serviceAPI.deleteStation({
-      token: this.#token,
+    const isDeleted = await service.deleteStation({
       id: stationId,
     });
 
@@ -122,8 +118,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const createdStationData = await serviceAPI.getCreatedStationData({
-      token: this.#token,
+    const createdStationData = await service.getCreatedStationData({
       name: $stationNameInput.value,
     });
 
@@ -138,20 +133,17 @@ export default class Stations extends Component {
     showSnackbar(SNACKBAR_MESSAGE.CREATE_SUCCESS);
   }
 
-  render(token, stationList = []) {
-    $('main').innerHTML = token ? stationsTemplate(stationList) : LOGIN_REQUIRED_TEMPLATE;
+  render(stationList = []) {
+    $('main').innerHTML = stationsTemplate(stationList);
   }
 
-  async load(token) {
-    const stationList = await serviceAPI.getStationList(token);
+  async load() {
+    const stationList = await service.getStationList();
 
-    this.#token = token;
-    this.render(token, stationList);
+    this.render(stationList);
+    this.selectDOM();
+    this.bindEvent();
 
-    if (token) {
-      this.selectDOM();
-      this.bindEvent();
-      $('#station-name-input').focus();
-    }
+    $('#station-name-input').focus();
   }
 }

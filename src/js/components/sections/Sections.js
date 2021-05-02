@@ -1,15 +1,13 @@
 import Component from '../../core/Component.js';
 import { sectionListTemplate, sectionsTemplate } from './template.js';
 import { $, customConfirm, showSnackbar } from '../../utils/index.js';
-import { LOGIN_REQUIRED_TEMPLATE, MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
-import { serviceAPI } from '../../service/index.js';
+import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/index.js';
+import { service } from '../../service/index.js';
 
 export default class Sections extends Component {
-  #token;
   #lineId;
   constructor() {
     super();
-    this.#token;
     this.#lineId;
   }
 
@@ -46,8 +44,7 @@ export default class Sections extends Component {
       return;
     }
 
-    const isDeleted = await serviceAPI.deleteSection({
-      token: this.#token,
+    const isDeleted = await service.deleteSection({
       lineId: this.#lineId,
       stationId,
     });
@@ -70,8 +67,7 @@ export default class Sections extends Component {
     const distance = e.target.elements['distance-input'].value;
     const duration = e.target.elements['duration-input'].value;
 
-    const createdSectionData = await serviceAPI.getCreatedSectionData({
-      token: this.#token,
+    const createdSectionData = await service.getCreatedSectionData({
       id: this.#lineId,
       contents: { upStationId, downStationId, duration, distance },
     });
@@ -102,7 +98,7 @@ export default class Sections extends Component {
   async handleLineSelect({ target }) {
     this.#lineId = target.value;
 
-    const line = await serviceAPI.getLineData({ token: this.#token, id: this.#lineId });
+    const line = await service.getLineData({ id: this.#lineId });
     const stationList = line.stations;
     const sectionList = line.sections;
     const sortedSectionList = stationList.map((station, index) => {
@@ -122,21 +118,16 @@ export default class Sections extends Component {
     this.$sectionListContainer.innerHTML = sortedSectionList.map((section) => sectionListTemplate(section)).join('');
   }
 
-  render(token, stationList, lineList) {
-    sectionListTemplate;
-    $('main').innerHTML = token ? sectionsTemplate(stationList, lineList) : LOGIN_REQUIRED_TEMPLATE;
+  render(stationList, lineList) {
+    $('main').innerHTML = sectionsTemplate(stationList, lineList);
   }
 
-  async load(token = '') {
-    const stationList = await serviceAPI.getStationList(token);
-    const lineList = await serviceAPI.getLineList(token);
+  async load() {
+    const stationList = await service.getStationList();
+    const lineList = await service.getLineList();
 
-    this.#token = token;
-    this.render(token, stationList, lineList);
-
-    if (token) {
-      this.selectDOM();
-      this.bindEvent();
-    }
+    this.render(stationList, lineList);
+    this.selectDOM();
+    this.bindEvent();
   }
 }

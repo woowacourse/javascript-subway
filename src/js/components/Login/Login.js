@@ -3,7 +3,7 @@ import { $, showSnackbar, setLocalStorageItem } from '../../utils/index.js';
 import { loginTemplate } from './template.js';
 import { SNACKBAR_MESSAGE, LOCAL_STORAGE_KEY } from '../../constants/index.js';
 import Navigation from '../navigation/Navigation.js';
-import { serviceAPI } from '../../service/index.js';
+import { service } from '../../service/index.js';
 
 export default class Login extends Component {
   constructor({ changeTemplate }) {
@@ -22,7 +22,7 @@ export default class Login extends Component {
     const email = e.target.elements['login-email'].value;
     const password = e.target.elements['login-password'].value;
 
-    const accessToken = await serviceAPI.getAccessToken({ email, password });
+    const accessToken = await service.getAccessToken({ email, password });
 
     if (!accessToken) {
       showSnackbar(SNACKBAR_MESSAGE.LOGIN_FAILURE);

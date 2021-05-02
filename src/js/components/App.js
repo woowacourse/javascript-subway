@@ -7,24 +7,25 @@ import Login from './login/Login.js';
 import Signup from './signup/Signup.js';
 import Main from './main/Main.js';
 import SubwayMap from './SubwayMap/SubwayMap.js';
-import { LOCAL_STORAGE_KEY, MESSAGE } from '../constants/index.js';
-import { getLocalStorageItem } from '../utils/index.js';
-import { serviceAPI } from '../service/index.js';
+import { LOCAL_STORAGE_KEY, LOGIN_REQUIRED_TEMPLATE, MESSAGE } from '../constants/index.js';
+import { $, getLocalStorageItem } from '../utils/index.js';
+import { service } from '../service/index.js';
 
 export default class App extends Component {
   constructor() {
     super();
-    this.router = {
-      '/': (token = '') => this.Main.load(token),
-      '/stations': (token = '') => this.Stations.load(token),
-      '/lines': (token = '') => this.Lines.load(token),
-      '/sections': (token = '') => this.Sections.load(token),
-      '/map': (token = '') => this.SubwayMap.load(token),
-      '/login': (token = '') => this.Login.load(token),
-      '/signup': (token = '') => this.Signup.load(token),
-    };
     this.bindEvent();
     this.changeTemplate('/');
+
+    this.router = {
+      '/': () => this.Main.load(),
+      '/stations': () => this.Stations.load(),
+      '/lines': () => this.Lines.load(),
+      '/sections': () => this.Sections.load(),
+      '/map': () => this.SubwayMap.load(),
+      '/login': () => this.Login.load(),
+      '/signup': () => this.Signup.load(),
+    };
   }
 
   mountComponent() {
@@ -46,9 +47,13 @@ export default class App extends Component {
     window.addEventListener('popstate', this.changeTemplate.bind(this));
   }
 
+  render() {
+    $('main').innerHTML = LOGIN_REQUIRED_TEMPLATE;
+  }
+
   async changeTemplate(pathName) {
     const token = getLocalStorageItem({ key: LOCAL_STORAGE_KEY.TOKEN });
-    const isLoggedIn = await serviceAPI.isValidToken(token);
+    const isLoggedIn = await service.isValidToken(token);
 
     if (!isLoggedIn) {
       console.error(MESSAGE.REQUIRE_LOGIN);
@@ -60,6 +65,7 @@ export default class App extends Component {
     }
 
     this.Navigation.render(token);
-    await this.router[pathName]?.(token);
+
+    token ? await this.router[pathName]?.() : this.render();
   }
 }
