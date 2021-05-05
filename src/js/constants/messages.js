@@ -20,7 +20,7 @@ export const ERROR_MESSAGE = {
     DUPLICATED_EMAIL: "이미 존재하는 이메일입니다.",
   },
   STATIONS: {
-    DUPLICATED_STATION: "이미 존재하는 지하철역입니다.",
+    INVALID_STATION: "사용할 수 없는 지하철역 이름 입니다.",
     STATION_NAME_LENGTH: `${STATION_NAME_MIN_LENGTH}자 이상 ${STATION_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
     LINE_NAME_LENGTH: `${LINE_NAME_MIN_LENGTH}자 이상 ${LINE_NAME_MAX_LENGTH}자 이하의 역 이름을 입력해주세요.`,
     DELETE_STATION: "Fail to delete station",

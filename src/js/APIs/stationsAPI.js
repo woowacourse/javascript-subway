@@ -5,10 +5,6 @@ const PATH = {
   STATIONS: (id = "") => `/stations/${id}`,
 };
 
-const STATUS = {
-  DUPLICATED_STATION: 400,
-};
-
 export const getStationsAPI = async (accessToken) => {
   try {
     const response = await request.get({
@@ -50,24 +46,24 @@ export const addStationAPI = async (stationName, accessToken) => {
       },
     });
 
-    if (response.ok) {
-      const station = await response.json();
-
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.STATIONS.ADD,
-        station,
-      };
-    }
-
-    if (response.status === STATUS.DUPLICATED_STATION) {
+    if (response.status === 400) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.STATIONS.DUPLICATED_STATION,
+        message: ERROR_MESSAGE.STATIONS.INVALID_STATION,
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    const station = await response.json();
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.STATIONS.ADD,
+      station,
+    };
   } catch (e) {
     console.error(e);
 
@@ -94,13 +90,6 @@ export const modifyStationNameAPI = async (
       },
     });
 
-    if (response.ok) {
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.STATIONS.MODIFY,
-      };
-    }
-
     if (response.status === STATUS.DUPLICATED_STATION) {
       return {
         isSucceeded: false,
@@ -108,7 +97,14 @@ export const modifyStationNameAPI = async (
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.STATIONS.MODIFY,
+    };
   } catch (e) {
     console.error(e);
 

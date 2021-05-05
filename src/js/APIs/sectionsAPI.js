@@ -19,13 +19,6 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
       body: sectionData,
     });
 
-    if (response.ok) {
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.SECTIONS.ADD,
-      };
-    }
-
     if (response.status === STATUS.INVALID_SECTION) {
       const message = await response.text();
 
@@ -35,7 +28,14 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.SECTIONS.ADD,
+    };
   } catch (e) {
     console.log(e);
 
@@ -58,13 +58,6 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
       },
     });
 
-    if (response.ok) {
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.SECTIONS.DELETE,
-      };
-    }
-
     if (response.status === STATUS.SECTIONS.INVALID) {
       return {
         isSucceeded: false,
@@ -72,7 +65,14 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.SECTIONS.DELETE,
+    };
   } catch (e) {
     console.log(e);
 

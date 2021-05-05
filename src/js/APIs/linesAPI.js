@@ -48,16 +48,6 @@ export const addLineAPI = async (lineData, accessToken) => {
       body: lineData,
     });
 
-    if (response.ok) {
-      const line = await response.json();
-
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.LINES.ADD,
-        line,
-      };
-    }
-
     if (response.status === STATUS.DUPLICATED_LINE) {
       return {
         isSucceeded: false,
@@ -65,7 +55,17 @@ export const addLineAPI = async (lineData, accessToken) => {
       };
     }
 
-    throw Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    const line = await response.json();
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.LINES.ADD,
+      line,
+    };
   } catch (e) {
     console.error(e);
 
@@ -89,13 +89,6 @@ export const modifyLineAPI = async (lineData, accessToken) => {
       },
     });
 
-    if (response.ok) {
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.LINES.MODIFY,
-      };
-    }
-
     if (response.status === STATUS.LINES.DUPLICATED) {
       return {
         isSucceeded: false,
@@ -103,7 +96,14 @@ export const modifyLineAPI = async (lineData, accessToken) => {
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.LINES.MODIFY,
+    };
   } catch (e) {
     console.error(e);
 

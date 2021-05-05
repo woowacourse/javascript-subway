@@ -19,15 +19,6 @@ export const checkDuplicatedEmailAPI = async (email) => {
       params: { email },
     });
 
-    // 사용 가능한 이메일
-    if (response.ok) {
-      return {
-        isSucceeded: true,
-        message: SUCCESS_MESSAGE.MEMBER.VALID_EMAIL,
-      };
-    }
-
-    // 중복된 이메일
     if (response.status === STATUS.DUPLICATED_EMAIL) {
       return {
         isSucceeded: false,
@@ -35,7 +26,14 @@ export const checkDuplicatedEmailAPI = async (email) => {
       };
     }
 
-    throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.GENERAL.UNKNOWN_API_STATUS);
+    }
+
+    return {
+      isSucceeded: true,
+      message: SUCCESS_MESSAGE.MEMBER.VALID_EMAIL,
+    };
   } catch (e) {
     console.error(e);
 
