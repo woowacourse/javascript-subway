@@ -6,7 +6,7 @@ import SignupForm from "./SignupForm.js";
 import Stations from "./Stations.js";
 import Lines from "./Lines.js";
 import Sections from "./Sections.js";
-import Map from "./Map.js";
+import SubwayMap from "./SubwayMap.js";
 
 import staticElements from "../constants/staticElements.js";
 import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
@@ -51,7 +51,7 @@ export default class App {
         $parent: staticElements.$main,
         setPageState: this.setPageState.bind(this),
       }),
-      [PAGE_KEYS.MAP]: new Map({
+      [PAGE_KEYS.MAP]: new SubwayMap({
         $parent: staticElements.$main,
         setPageState: this.setPageState.bind(this),
       }),

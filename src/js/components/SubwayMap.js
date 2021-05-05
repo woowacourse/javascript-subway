@@ -6,7 +6,7 @@ import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 import { createLineTemplate } from "../constants/template.js";
 import { $, removeAllChildren } from "../utils/DOM.js";
 
-export default class Map extends Component {
+export default class SubwayMap extends Component {
   constructor({ $parent, setPageState }) {
     super($parent);
     this.lineData = [];
@@ -28,7 +28,7 @@ export default class Map extends Component {
     super.initContent(template);
   }
 
-  updateMapDOM() {
+  updateSubwayMapDOM() {
     const $mapWrapper = $(".js-map-wrapper", this.innerElement);
     const template = this.lineData.map(createLineTemplate).join("");
 
@@ -36,7 +36,7 @@ export default class Map extends Component {
     $mapWrapper.insertAdjacentHTML("beforeend", template);
   }
 
-  async setMapData() {
+  async setSubwayMapData() {
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, lines } = await getLinesAPI(accessToken);
 
@@ -53,8 +53,8 @@ export default class Map extends Component {
   }
 
   async loadPage() {
-    await this.setMapData();
-    this.updateMapDOM();
+    await this.setSubwayMapData();
+    this.updateSubwayMapDOM();
     this.render();
   }
 }
