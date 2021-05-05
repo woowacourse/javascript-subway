@@ -5,10 +5,6 @@ const PATH = {
   LINES: (id = "") => `/lines/${id}`,
 };
 
-const STATUS = {
-  DUPLICATED_LINE: 400,
-};
-
 export const getLinesAPI = async (accessToken, lineId = "") => {
   try {
     const response = await request.get({
@@ -48,10 +44,10 @@ export const addLineAPI = async (lineData, accessToken) => {
       body: lineData,
     });
 
-    if (response.status === STATUS.DUPLICATED_LINE) {
+    if (response.status === 400) {
       return {
         isSucceeded: false,
-        message: ERROR_MESSAGE.LINES.DUPLICATED_LINE,
+        message: ERROR_MESSAGE.LINES.INVALID_LINE,
       };
     }
 
@@ -89,7 +85,7 @@ export const modifyLineAPI = async (lineData, accessToken) => {
       },
     });
 
-    if (response.status === STATUS.LINES.DUPLICATED) {
+    if (response.status === 400) {
       return {
         isSucceeded: false,
         message: ERROR_MESSAGE.LINES.DUPLICATED_LINE,

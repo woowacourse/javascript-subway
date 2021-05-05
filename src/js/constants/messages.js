@@ -33,7 +33,7 @@ export const ERROR_MESSAGE = {
     SAME_UP_DOWN_STATION: "상행역과 하행역은 같을 수 없습니다.",
     INVALID_LINE_DISTANCE: `상행역과 하행역 사이의 거리는 ${LINE_MIN_DISTANCE} 이상이어야 합니다.`,
     INVALID_LINE_DURATION: `상행역과 하행역 사이의 소요 시간은 ${LINE_MIN_DURATION} 이상이어야 합니다.`,
-    DUPLICATED_LINE: "이미 존재하는 노선입니다.",
+    INVALID_LINE: "사용할 수 없는 노선 이름 입니다.",
     FETCH_LINE: "Fail to fetch lines",
     DELETE_LINE: "Fail to delete line",
   },

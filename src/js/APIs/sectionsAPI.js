@@ -5,10 +5,6 @@ export const PATH = {
   SECTIONS: (id = "") => `/lines/${id}/sections`,
 };
 
-export const STATUS = {
-  INVALID_SECTION: 400,
-};
-
 export const addSectionAPI = async (lineId, sectionData, accessToken) => {
   try {
     const response = await request.post({
@@ -19,7 +15,7 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
       body: sectionData,
     });
 
-    if (response.status === STATUS.INVALID_SECTION) {
+    if (response.status === 400) {
       const message = await response.text();
 
       return {
@@ -58,7 +54,7 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
       },
     });
 
-    if (response.status === STATUS.SECTIONS.INVALID) {
+    if (response.status === 400) {
       return {
         isSucceeded: false,
         message: ERROR_MESSAGE.SECTIONS.MIN_SECTION_LENGTH,
