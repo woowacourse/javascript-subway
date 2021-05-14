@@ -1,15 +1,15 @@
-import getSubwayState from '../../api/getState.js';
-import getFetchParams from '../../api/getFetchParams.js';
-import { $ } from '../../utils/DOM.js';
-import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
+import { $ } from '../../utils/DOM.js';
+import sorted from '../../utils/sort.js';
 import mainTemplate from './template/main.js';
 import { lineFormDetail } from './template/modal.js';
-import { CONFIRM_MESSAGE, SUCCESS_MESSAGE } from '../../constants/message.js';
-import sorted from '../../utils/sort.js';
-import { LINE, MODAL } from '../../constants/selector.js';
 import Modal from './modal.js';
 import api from '../../api/requestHttp.js';
+import getSubwayState from '../../api/getState.js';
+import getFetchParams from '../../api/getFetchParams.js';
+import { PATH } from '../../constants/url.js';
+import { LINE, MODAL } from '../../constants/selector.js';
+import { CONFIRM_MESSAGE } from '../../constants/message.js';
 class Line extends Component {
   constructor(parentNode, stateManagers) {
     super(
@@ -21,7 +21,7 @@ class Line extends Component {
     this.setChildProps('modal', {
       updateSubwayState: this.updateSubwayState.bind(this),
     });
-    this.order = false;
+    this.#order = false;
   }
 
   renderSelf() {
@@ -29,12 +29,12 @@ class Line extends Component {
   }
 
   addEventListeners() {
-    this.createLineEvent();
-    this.editOrDeleteLineEvent();
-    this.sortLineItems();
+    this.#createLineEvent();
+    this.#editOrDeleteLineEvent();
+    this.#sortLineItems();
   }
 
-  createLineEvent() {
+  #createLineEvent() {
     $(LINE.CLASS.CREATE_ITEM).addEventListener('click', () => {
       this.childComponents.modal.show();
       this.childComponents.modal.clearForm();
@@ -45,7 +45,7 @@ class Line extends Component {
     });
   }
 
-  editOrDeleteLineEvent() {
+  #editOrDeleteLineEvent() {
     $(LINE.CLASS.ITEM_LIST).addEventListener('click', async ({ target }) => {
       if (target.classList.contains(LINE.CLASSLIST.EDIT_ITEM)) {
         this.childComponents.modal.show();
@@ -75,11 +75,11 @@ class Line extends Component {
     });
   }
 
-  sortLineItems() {
+  #sortLineItems() {
     $(LINE.CLASS.SORT).addEventListener('click', () => {
-      this.order = !this.order;
+      this.#order = !this.#order;
 
-      if (this.order) {
+      if (this.#order) {
         this.state.lines.sort((a, b) => sorted(a, b, 'name'));
         this.setState(this.state);
 
