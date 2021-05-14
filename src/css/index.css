@@ -2,6 +2,11 @@
 @import './ui/index.css';
 @import './pages/index.css';
 
+:root {
+  --pad-stations-grid-columns: 7;
+  --mobile-stations-grid-columns: 5;
+}
+
 html,
 body {
   margin: 0;

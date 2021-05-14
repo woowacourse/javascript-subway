@@ -74,12 +74,12 @@
 
 @media only screen and (max-width: 1200px) {
   .js-all-stations {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(var(--pad-stations-grid-columns), 1fr);
   }
 }
 
 @media only screen and (max-width: 725px) {
   .js-all-stations {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(var(--mobile-stations-grid-columns), 1fr);
   }
 }
