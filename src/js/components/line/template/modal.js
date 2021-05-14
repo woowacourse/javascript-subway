@@ -1,4 +1,3 @@
-import { isArray } from 'core-js/core/array';
 import { colorOptions } from '../../../utils/mock.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {

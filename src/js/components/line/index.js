@@ -11,6 +11,7 @@ import { PATH } from '../../constants/url.js';
 import { LINE, MODAL } from '../../constants/selector.js';
 import { CONFIRM_MESSAGE } from '../../constants/message.js';
 class Line extends Component {
+  #order;
   constructor(parentNode, stateManagers) {
     super(
       parentNode,
