@@ -1,3 +1,4 @@
+import { isArray } from 'core-js/core/array';
 import { colorOptions } from '../../../utils/mock.js';
 
 const subwayLineColorOptionTemplate = (color, index) => {
@@ -9,51 +10,56 @@ const subwayLineColorOptionTemplate = (color, index) => {
   }`;
 };
 
-const lineFormDetail = (stations) => `
-  <div class="js-line-form__detail">
-    <div class="d-flex items-center input-control mb-2">
-      <label for="up-station" class="input-label" hidden>상행역</label>
-      <select id="up-station" name="subway-line-up-station" class="mr-2">
-        <option value="" selected disabled hidden>상행역</option>
-        ${stations
-          .map(({ id, name }) => `<option value=${id}>${name}</option>`)
-          .join('')}
-      </select>
-      <label for="down-station" class="input-label" hidden
-        >하행역</label
-      >
-      <select id="down-station" name="subway-line-down-station">
-        <option value="" selected disabled hidden>하행역</option>
-        ${stations
-          .map(({ id, name }) => `<option value=${id}>${name}</option>`)
-          .join('')}
-      </select>
-    </div>
-    <div class="input-control mb-2">
-      <label for="distance" class="input-label" hidden
-        >상행 하행역 거리</label>
-      <input
-        type="number"
-        id="distance"
-        name="distance"
-        class="input-field mr-2"
-        placeholder="상행 하행역 거리"
-        required
-      />
-      <label for="duration" class="input-label" hidden
-        >상행 하행역 시간</label
-      >
-      <input
-        type="number"
-        id="duration"
-        name="arrival"
-        class="input-field"
-        placeholder="상행 하행역 시간"
-        required
-      />
-    </div>
-  </div>
-  `;
+const lineFormDetail = (stations) => {
+  if (Array.isArray(stations)) {
+    return `
+      <div class="js-line-form__detail">
+        <div class="d-flex items-center input-control mb-2">
+          <label for="up-station" class="input-label" hidden>상행역</label>
+          <select id="up-station" name="subway-line-up-station" class="mr-2">
+            <option value="" selected disabled hidden>상행역</option>
+            ${stations
+              .map(({ id, name }) => `<option value=${id}>${name}</option>`)
+              .join('')}
+          </select>
+          <label for="down-station" class="input-label" hidden
+            >하행역</label
+          >
+          <select id="down-station" name="subway-line-down-station">
+            <option value="" selected disabled hidden>하행역</option>
+            ${stations
+              .map(({ id, name }) => `<option value=${id}>${name}</option>`)
+              .join('')}
+          </select>
+        </div>
+        <div class="input-control mb-2">
+          <label for="distance" class="input-label" hidden
+            >상행 하행역 거리</label>
+          <input
+            type="number"
+            id="distance"
+            name="distance"
+            class="input-field mr-2"
+            placeholder="상행 하행역 거리"
+            required
+          />
+          <label for="duration" class="input-label" hidden
+            >상행 하행역 시간</label
+          >
+          <input
+            type="number"
+            id="duration"
+            name="arrival"
+            class="input-field"
+            placeholder="상행 하행역 시간"
+            required
+          />
+        </div>
+      </div>
+      `;
+  }
+  return;
+};
 
 const linesModal = () => {
   return `
