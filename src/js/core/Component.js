@@ -1,19 +1,43 @@
+import Snackbar from './Snackbar';
+
 class Component {
-  constructor(parentNode, stateManagers) {
+  constructor(parentNode, stateManagers, childComponents = {}, state = {}) {
     this.parentNode = parentNode;
     this.stateManagers = stateManagers;
+    this.childComponents = childComponents;
+    this.state = state;
+    this.requestType = '';
+    this.snackbar = new Snackbar();
+  }
 
+  setState(state) {
+    this.state = state;
+    this.setChildState();
     this.render();
+  }
+
+  render() {
+    this.renderSelf();
     this.addEventListeners();
   }
 
-  render() {}
+  setChildState() {
+    Object.values(this.childComponents).forEach((child) => {
+      child.setState(this.state);
+    });
+  }
+
+  renderSelf() {}
 
   addEventListeners() {}
 
-  clear() {
-    this.parentNode.innerHTML = '';
+  setChildProps(name, props) {
+    Object.entries(props).forEach(([key, value]) => {
+      this.childComponents[name][key] = value;
+    });
   }
+
+  fetchState() {}
 }
 
 export default Component;

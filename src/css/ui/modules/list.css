@@ -1,0 +1,85 @@
+.station-list-item:not(:last-child) {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+#create-station-form .input-field {
+  border-color: #ff2d56;
+}
+
+.section-container,
+.js-all-lines-container__div {
+  display: flex;
+  padding: 0 1rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.subway-lines {
+  margin: 0 1.2rem;
+}
+
+.js-all-stations {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  grid-gap: 1.5rem 0;
+}
+
+.subway-lines-container__items {
+  position: relative;
+  min-width: 5rem;
+  text-align: center;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.subway-lines-container:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.line-item:not(:last-child) {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.curved-line-container {
+  position: relative;
+}
+
+.curved-line {
+  min-width: 2rem;
+  margin: 1rem;
+  border-top: 2px solid #d6d6d6;
+  border-right: 2px solid #d6d6d6;
+  position: absolute;
+  top: 1rem;
+  min-height: 2rem;
+}
+
+.connected-lines {
+  min-width: 4.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  width: 100%;
+  font-size: 0.8rem;
+  color: #b3b3b3;
+}
+
+.connected-lines .connected-line:nth-child(2n-1) {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.connected-lines .connected-line:nth-child(2n) {
+  border-top: 1px solid #d6d6d6;
+}
+
+@media only screen and (max-width: 1200px) {
+  .js-all-stations {
+    grid-template-columns: repeat(var(--pad-stations-grid-columns), 1fr);
+  }
+}
+
+@media only screen and (max-width: 725px) {
+  .js-all-stations {
+    grid-template-columns: repeat(var(--mobile-stations-grid-columns), 1fr);
+  }
+}

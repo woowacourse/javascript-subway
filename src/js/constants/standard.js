@@ -9,4 +9,4 @@ const LENGTH = {
   },
 };
 
-export { LENGTH };
+export default LENGTH;

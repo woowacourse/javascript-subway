@@ -7,6 +7,9 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: {
+      keep: /\.git/,
+    },
   },
   module: {
     rules: [
@@ -50,5 +53,6 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
   },
+  devtool: 'eval-source-map',
   plugins: [new HtmlWebpackPlugin({ template: './index.html' })],
 };

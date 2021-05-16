@@ -2,14 +2,20 @@
 @import './ui/index.css';
 @import './pages/index.css';
 
+:root {
+  --pad-stations-grid-columns: 7;
+  --mobile-stations-grid-columns: 5;
+}
+
 html,
 body {
   margin: 0;
   height: 100%;
   font-size: 1rem;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: normal;
   line-height: 1.5;
-  background-color: #f1f5f9;
+  background-color: #f4f3f5;
 }
 
 #app {
@@ -20,15 +26,24 @@ body {
 a,
 a:visited {
   text-decoration: none;
-  color: rgb(78 207 224);
+  color: rgb(255 45 85);
   font-weight: 400;
 }
 
+.title a,
+.title a:visited {
+  color: black;
+}
+
 main .wrapper {
-  width: 350px;
+  min-width: 25rem;
+  max-width: 35rem;
+  width: 100%;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  border: 1px solid #d6d6d6;
+  border-radius: 0.75rem;
+  margin: 0 2.5rem;
 }
 
 hr {

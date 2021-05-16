@@ -15,29 +15,24 @@ const AUTHENTICATED_LINK = {
     ROUTE: '/section',
     NAME: '🔁 구간 관리',
   },
-  // TODO: 3단계 요구사항
-  // MAP: {
-  //   ROUTE: '/map',
-  //   NAME: '🗺️ 전체 보기',
-  // },
-  // SEARCH: {
-  //   ROUTE: '/search',
-  //   NAME: '🔎 길 찾기',
-  // },
+  MAP: {
+    ROUTE: '/map',
+    NAME: '🗺️ 전체 보기',
+  },
   LOGOUT: {
     ROUTE: '/logout',
-    NAME: '👤 로그아웃',
+    NAME: '🥺 로그아웃',
   },
 };
 
 const UNAUTHENTICATED_LINK = {
   LOGIN: {
     ROUTE: '/login',
-    NAME: '👤 로그인',
+    NAME: '👋 로그인',
   },
   SIGNUP: {
     ROUTE: '/signup',
-    NAME: '👤 회원가입',
+    NAME: '🧡 회원가입',
   },
 };
 
