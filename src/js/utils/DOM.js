@@ -1,4 +1,5 @@
-import $ from './querySelector';
+import { ID_SELECTOR } from '../constants.js';
+import $ from './querySelector.js';
 
 const show = selector => {
   $(selector).classList.remove('hidden');
@@ -8,4 +9,12 @@ const hide = selector => {
   $(selector).classList.add('hidden');
 };
 
-export { show, hide };
+const openModal = () => {
+  $(`#${ID_SELECTOR.MODAL}`).classList.add('open');
+};
+
+const closeModal = () => {
+  $(`#${ID_SELECTOR.MODAL}`).classList.remove('open');
+};
+
+export { show, hide, openModal, closeModal };

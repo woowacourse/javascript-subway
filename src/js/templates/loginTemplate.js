@@ -1,6 +1,6 @@
-import { CLASS_SELECTOR, ID_SELECTOR } from '../constants';
+import { CLASS_SELECTOR, ID_SELECTOR, URL } from '../constants.js';
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2>👋 로그인</h2>
@@ -42,7 +42,7 @@ const MAIN_COMPONENT = `
     </div>
     <p class="text-gray-700 pl-2">
       아직 회원이 아니신가요?
-      <a href="/pages/signup.html" class="${CLASS_SELECTOR.ANCHOR}">회원가입</a>
+      <a href="${URL.SIGNUP}" class="${CLASS_SELECTOR.ANCHOR}">회원가입</a>
     </p>
   </form>
 </div>
@@ -50,7 +50,7 @@ const MAIN_COMPONENT = `
 
 const LOGIN_TEMPLATE = {
   TITLE: `🚇 로그인`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default LOGIN_TEMPLATE;

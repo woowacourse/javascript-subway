@@ -1,8 +1,7 @@
-import Component from './Component';
+import Component from './Component.js';
 
 class Page extends Component {
-  // TODO: default value 설정
-  _routingUrl;
+  _router;
   #initialUrl;
 
   constructor(props) {
@@ -10,6 +9,13 @@ class Page extends Component {
 
     this.#initialUrl = window.location.href.slice(0, -1);
   }
+
+  initialize() {
+    super.initialize();
+    this.initRouter();
+  }
+
+  initRouter() {}
 
   initialRoute(path) {
     const actualPath = this.#initialUrl + path;
@@ -19,8 +25,8 @@ class Page extends Component {
   }
 
   route = (path, shouldPushState = true) => {
-    if (!this._routingUrl) {
-      console.error('Page 인스턴스에 url이 정의되어 있지 않습니다.');
+    if (!this._router) {
+      console.error('Page 인스턴스에 _router가 정의되어 있지 않습니다.');
     }
 
     if (shouldPushState) {
@@ -28,8 +34,8 @@ class Page extends Component {
       history.pushState({ path: actualPath }, null, actualPath);
     }
 
-    this._routingUrl[path].render();
-    this._routingUrl[path].initEvent();
+    this._router[path].render();
+    this._router[path].initialize();
   };
 }
 

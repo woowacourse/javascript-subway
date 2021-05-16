@@ -1,6 +1,6 @@
-import { ID_SELECTOR } from '../constants';
+import { ID_SELECTOR } from '../constants.js';
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2 class="text">🔒 내 정보</h2>
@@ -15,6 +15,7 @@ const MAIN_COMPONENT = `
         class="input-field"
         placeholder="이메일"
         required
+        disabled
       />
     </div>
     <div class="input-control">
@@ -26,49 +27,54 @@ const MAIN_COMPONENT = `
         class="input-field"
         placeholder="이름"
         required
+        disabled
       />
-    </div>
-    <div class="input-control">
-      <label for="${ID_SELECTOR.MY_INFO_FORM_PASSWORD}" class="input-label" hidden
-        >비밀번호</label
-      >
-      <input
-        type="password"
-        id="${ID_SELECTOR.MY_INFO_FORM_PASSWORD}"
-        name="password"
-        class="input-field"
-        placeholder="비밀번호"
-      />
-    </div>
-    <div class="input-control">
-      <label for="${ID_SELECTOR.MY_INFO_FORM_PASSWORD_CONFIRM}" class="input-label" hidden
-        >비밀번호 확인</label
-      >
-      <input
-        type="password"
-        id="${ID_SELECTOR.MY_INFO_FORM_PASSWORD_CONFIRM}"
-        name="password-confirm"
-        class="input-field"
-        placeholder="비밀번호 확인"
-      />
-    </div>
-    <div class="input-control">
-      <button
-        id="${ID_SELECTOR.MY_INFO_FORM_SUBMIT}"
-        type="submit"
-        name="submit"
-        class="input-submit w-100 bg-cyan-300"
-      >
-        정보 수정
-      </button>
     </div>
   </form>
 </div>
 `;
 
+// TODO: 추가적인 개발을 위한 code
+{
+  /* <div class="input-control">
+  <label for="${ID_SELECTOR.MY_INFO_FORM_PASSWORD}" class="input-label" hidden
+    >비밀번호</label
+  >
+  <input
+    type="password"
+    id="${ID_SELECTOR.MY_INFO_FORM_PASSWORD}"
+    name="password"
+    class="input-field"
+    placeholder="비밀번호"
+  />
+</div>
+<div class="input-control">
+  <label for="${ID_SELECTOR.MY_INFO_FORM_PASSWORD_CONFIRM}" class="input-label" hidden
+    >비밀번호 확인</label
+  >
+  <input
+    type="password"
+    id="${ID_SELECTOR.MY_INFO_FORM_PASSWORD_CONFIRM}"
+    name="password-confirm"
+    class="input-field"
+    placeholder="비밀번호 확인"
+  />
+</div>
+<div class="input-control">
+  <button
+    id="${ID_SELECTOR.MY_INFO_FORM_SUBMIT}"
+    type="submit"
+    name="submit"
+    class="input-submit w-100 bg-cyan-300"
+  >
+    정보 수정
+  </button>
+</div> */
+}
+
 const MY_INFO_TEMPLATE = {
   TITLE: `🔒 내 정보`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default MY_INFO_TEMPLATE;

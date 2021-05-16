@@ -1,79 +1,127 @@
 import $ from '../utils/querySelector.js';
 import HomeComponent from './HomeComponent.js';
+import StationComponent from './StationComponent.js';
+import LineComponent from './LineComponent.js';
+import FullMapComponent from './FullMapComponent.js';
 import LoginComponent from './LoginComponent.js';
 import SignupComponent from './SignupComponent.js';
 import MyInfoComponent from './MyInfoComponent.js';
 import Page from './Page.js';
 import State from './State.js';
-import { ID_SELECTOR, KEYWORD, STATE_KEY } from '../constants.js';
-import { show, hide } from '../utils/DOM.js';
+import { CLASS_SELECTOR, ID_SELECTOR, KEYWORD, URL } from '../constants.js';
+import { show, hide, closeModal } from '../utils/DOM.js';
+import { loadStationList, loadLineList } from '../utils/loadByAJAX.js';
+import SectionComponent from './SectionComponent.js';
+
 class AppPage extends Page {
   constructor(props) {
     super(props);
+  }
 
-    this.state = new State({
-      loginResponse: {
-        accessToken: '',
-      },
-    });
+  initState() {
+    this.accessTokenState = new State(KEYWORD.LOGOUT);
+    this.stationsState = new State([]);
+    this.linesState = new State([]);
+  }
 
-    this._routingUrl = {
-      //TODO: 주소 상수화
-      '/': new HomeComponent(),
-      '/pages/login.html': new LoginComponent({
-        route: this.route,
-        appState: this.state,
+  initStateListener() {
+    this.accessTokenState.initListener();
+    this.stationsState.initListener();
+    this.linesState.initListener();
+    this.accessTokenState.setListener(this.handleUserDataToInit);
+    this.accessTokenState.setListener(this.handleNavButtonToChange);
+    this.accessTokenState.setListener(this.handlePageToRedirect);
+  }
+
+  initRouter() {
+    this._router = {
+      [URL.HOME]: new HomeComponent(),
+      [URL.STATION]: new StationComponent({
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
       }),
-      '/pages/signup.html': new SignupComponent({ route: this.route }),
-      '/pages/myInfo.html': new MyInfoComponent({ appState: this.state }),
+      [URL.LINE]: new LineComponent({
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
+        linesState: this.linesState,
+      }),
+      [URL.SECTION]: new SectionComponent({
+        accessTokenState: this.accessTokenState,
+        stationsState: this.stationsState,
+        linesState: this.linesState,
+      }),
+      [URL.FULL_MAP]: new FullMapComponent({
+        accessTokenState: this.accessTokenState,
+        linesState: this.linesState,
+      }),
+      [URL.MY_INFO]: new MyInfoComponent({
+        accessTokenState: this.accessTokenState,
+      }),
+      [URL.LOGIN]: new LoginComponent({
+        route: this.route,
+        accessTokenState: this.accessTokenState,
+      }),
+      [URL.SIGNUP]: new SignupComponent({ route: this.route }),
     };
-
-    this.state.setListener(
-      STATE_KEY.LOGIN_RESPONSE,
-      this.handleNavButtonToChange
-    );
-    this.state.setListener(STATE_KEY.LOGIN_RESPONSE, this.handlePageToRedirect);
   }
 
   initEvent() {
-    //TODO: popstate 매직넘버 3 정리하기
     window.addEventListener('popstate', e => {
       const path = e.state.path.replace(/.+\/\/[^\/]+/g, '');
+
       this.route(path, false);
     });
 
     $('header').addEventListener('click', this._onAnchorClicked);
+
     $(`#${ID_SELECTOR.NAV_LOGOUT}`).addEventListener('click', this.#onLogout);
+
+    $(`#${ID_SELECTOR.MODAL}`).addEventListener('click', ({ target }) => {
+      if (!target.closest(`.${CLASS_SELECTOR.MODAL_CLOSE}`)) return;
+
+      closeModal();
+    });
   }
 
-  handleNavButtonToChange = loginResponse => {
-    const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
+  handleUserDataToInit = accessToken => {
+    const isLogout = accessToken === KEYWORD.LOGOUT;
+
+    if (isLogout) {
+      this.initStateListener();
+
+      return;
+    }
+
+    loadStationList(this.stationsState, this.accessTokenState.Data);
+    loadLineList(this.linesState, this.accessTokenState.Data);
+  };
+
+  handleNavButtonToChange = accessToken => {
+    const isLogout = accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
       this.#renderGuestNavBar();
+
       return;
     }
 
     this.#renderUserNavBar();
   };
 
-  handlePageToRedirect = loginResponse => {
-    const isLogout = loginResponse.accessToken === KEYWORD.LOGOUT;
+  handlePageToRedirect = accessToken => {
+    const isLogout = accessToken === KEYWORD.LOGOUT;
 
     if (isLogout) {
-      this.route('/pages/login.html');
+      this.route(URL.LOGIN);
+
       return;
     }
 
-    this.route('/');
+    this.route(URL.HOME);
   };
 
   #onLogout = () => {
-    this.state.setData({
-      loginResponse: {
-        accessToken: KEYWORD.LOGOUT,
-      },
-    });
+    this.accessTokenState.Data = KEYWORD.LOGOUT;
   };
 
   #renderUserNavBar() {
@@ -81,7 +129,6 @@ class AppPage extends Page {
     show(`#${ID_SELECTOR.NAV_STATION}`);
     show(`#${ID_SELECTOR.NAV_SECTION}`);
     show(`#${ID_SELECTOR.NAV_FULL_MAP}`);
-    show(`#${ID_SELECTOR.NAV_SEARCH}`);
     show(`#${ID_SELECTOR.NAV_MY_INFO}`);
     show(`#${ID_SELECTOR.NAV_LOGOUT}`);
 
@@ -93,7 +140,6 @@ class AppPage extends Page {
     hide(`#${ID_SELECTOR.NAV_STATION}`);
     hide(`#${ID_SELECTOR.NAV_SECTION}`);
     hide(`#${ID_SELECTOR.NAV_FULL_MAP}`);
-    hide(`#${ID_SELECTOR.NAV_SEARCH}`);
     hide(`#${ID_SELECTOR.NAV_MY_INFO}`);
     hide(`#${ID_SELECTOR.NAV_LOGOUT}`);
 

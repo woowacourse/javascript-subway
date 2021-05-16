@@ -6,16 +6,29 @@ class Component {
     this.props = props;
   }
 
+  initialize() {
+    this.initState();
+    this.initStateListener();
+    this.initLoad();
+    this.initEvent();
+  }
+
+  initState() {}
+
+  initStateListener() {}
+
+  initLoad() {}
+
   initEvent() {}
 
-  render({ TITLE, MAIN, MODAL }) {
+  render({ TITLE, MAIN }) {
     $('title').innerHTML = TITLE;
     $(`#${ID_SELECTOR.MAIN}`).innerHTML = MAIN;
-    $(`#${ID_SELECTOR.MODAL}`).innerHTML = MODAL ? MODAL : '';
   }
 
   _onAnchorClicked = event => {
     event.preventDefault();
+
     const anchor = event.target.closest('a');
 
     if (!anchor) {

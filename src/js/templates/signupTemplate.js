@@ -1,6 +1,6 @@
-import { ID_SELECTOR } from '../constants';
+import { ID_SELECTOR } from '../constants.js';
 
-const MAIN_COMPONENT = `
+const MAIN = `
 <div class="wrapper p-10 bg-white">
   <div class="heading">
     <h2 class="text">📝 회원가입</h2>
@@ -76,7 +76,7 @@ const MAIN_COMPONENT = `
 
 const SIGNUP_TEMPLATE = {
   TITLE: `🚇 회원가입`,
-  MAIN: MAIN_COMPONENT,
+  MAIN,
 };
 
 export default SIGNUP_TEMPLATE;

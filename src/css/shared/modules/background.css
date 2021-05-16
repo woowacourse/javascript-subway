@@ -446,3 +446,31 @@
 .bg-pink-900 {
   background-color: rgb(131, 24, 67);
 }
+
+.bg-line-1 {
+  background-color: rgb(13, 54, 146);
+}
+
+.bg-line-2 {
+  background-color: rgb(51, 162, 61);
+}
+
+.bg-line-3 {
+  background-color: rgb(254, 91, 16);
+}
+
+.bg-line-4 {
+  background-color: rgb(0, 162, 209);
+}
+
+.bg-line-5 {
+  background-color: rgb(139, 80, 164);
+}
+
+.bg-line-6 {
+  background-color: rgb(197, 92, 29);
+}
+
+.bg-line-7 {
+  background-color: rgb(84, 100, 13);
+}

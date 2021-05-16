@@ -1,53 +1,59 @@
-import { STATE_KEY } from '../constants';
-
 class State {
   #state;
   #listeners;
 
-  constructor(state = {}) {
+  constructor(state) {
+    if (state === undefined) {
+      console.error('state가 undefined입니다.');
+    }
+
     this.#state = state;
-    this.#listeners = {};
+    this.#listeners = [];
   }
 
-  getData(key) {
-    return this.#state[key];
+  get Data() {
+    return this.#deepCopy(this.#state);
   }
 
-  setData(value) {
-    Object.keys(value).forEach(key => {
-      if (!value[key]) return;
-      if (this.#state[key] === value[key]) return;
+  set Data(value) {
+    if (!value) return;
 
-      this.#state[key] = value[key];
+    if (JSON.stringify(this.#state) === JSON.stringify(value)) return;
 
-      if (!this.#listeners[key]) return;
+    this.#state = value;
 
-      this.#listeners[key].forEach(handler => {
-        handler(this.#state[key]);
-      });
+    this.#listeners.forEach(handler => {
+      handler(this.#state);
     });
   }
 
-  setListener(key, handler) {
+  pushData(value) {
+    if (!Array.isArray(this.#state)) {
+      console.error('state Data의 형태가 Array가 아닙니다.');
+      return;
+    }
+
+    const myData = this.Data;
+
+    myData.push(value);
+    this.Data = myData;
+  }
+
+  initListener() {
+    this.#listeners = [];
+  }
+
+  setListener(handler) {
     if (typeof handler !== 'function') {
       console.error('handler가 function이 아닙니다.');
       return;
     }
 
-    if (!this.#hasKey(key)) {
-      console.error('잘못된 key값입니다.');
-      return;
-    }
-
-    if (!this.#listeners[key]) {
-      this.#listeners[key] = [];
-    }
-
-    this.#listeners[key].push(handler);
+    this.#listeners.push(handler);
   }
 
-  #hasKey(key) {
-    return Object.values(STATE_KEY).includes(key);
+  #deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj));
   }
 }
 

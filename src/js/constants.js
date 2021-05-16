@@ -6,10 +6,40 @@ const ID_SELECTOR = {
   NAV_LINE: 'nav__line',
   NAV_SECTION: 'nav__section',
   NAV_FULL_MAP: 'nav__full-map',
-  NAV_SEARCH: 'nav__search',
   NAV_LOGIN: 'nav__login',
   NAV_LOGOUT: 'nav__logout',
   NAV_MY_INFO: 'nav__my-info',
+
+  STATION_FORM: 'station-form',
+  STATION_FORM_NAME: 'station-form__name',
+  STATION_FORM_SUBMIT: 'station-form__submit',
+  STATION_LIST: 'station-list',
+  STATION_MODAL_FORM: 'station-modal-form',
+  STATION_MODAL_FORM_INPUT: 'station-modal-form__input',
+  STATION_MODAL_FORM_SUBMIT: 'station-modal-form__submit',
+
+  LINE_CREATION_BUTTON: 'line-creation-button',
+  LINE_LIST: 'line-list',
+  LINE_MODAL_FORM: 'line-modal-form',
+  LINE_MODAL_FORM_NAME: 'line-modal-form__name',
+  LINE_MODAL_FORM_UP_STATION: 'line-modal-form__up-station',
+  LINE_MODAL_FORM_DOWN_STATION: 'line-modal-form__down-station',
+  LINE_MODAL_FORM_DISTANCE: 'line-modal-form__distance',
+  LINE_MODAL_FORM_DURATION: 'line-modal-form__duration',
+  LINE_MODAL_FORM_COLOR: 'line-modal-form__color',
+  LINE_MODAL_FORM_SUBMIT: 'line-modal-form__submit',
+
+  SECTION_CREATION_BUTTON: 'section-creation-button',
+  SECTION_FORM: 'section-form',
+  SECTION_FORM_SELECT: 'section-form__select',
+  SECTION_LIST: 'section-list',
+  SECTION_MODAL_FORM: 'section-modal-form',
+  SECTION_MODAL_FORM_LINE_SELECT: 'section-modal-form__line-select',
+  SECTION_MODAL_FORM_UP_STATION_SELECT: 'section-modal-form__up-station-select',
+  SECTION_MODAL_FORM_DOWN_STATION_SELECT:
+    'section-modal-form__down-station-select',
+  SECTION_MODAL_FORM_DISTANCE: 'section-modal-form__distance',
+  SECTION_MODAL_FORM_DURATION: 'section-modal-form__duration',
 
   MY_INFO_FORM: 'my-info-form',
   MY_INFO_FORM_EMAIL: 'my-info-form__email',
@@ -17,6 +47,8 @@ const ID_SELECTOR = {
   MY_INFO_FORM_PASSWORD: 'my-info-form__password',
   MY_INFO_FORM_PASSWORD_CONFIRM: 'my-info-form__password-confirm',
   MY_INFO_FORM_SUBMIT: 'my-info-form__submit',
+
+  FULL_MAP_LINE_LIST: 'full-map-line-list',
 
   SIGNUP_FORM: 'signup-form',
   SIGNUP_FORM_EMAIL: 'signup-form__email',
@@ -33,6 +65,25 @@ const ID_SELECTOR = {
 
 const CLASS_SELECTOR = {
   ANCHOR: 'js-anchor',
+  STATION_LIST_ITEM: 'js-station-list__item',
+  STATION_LIST_ITEM_UPDATE: 'js-station-list__item-update',
+  STATION_LIST_ITEM_DELETION: 'js-station-list__item-deletion',
+
+  LINE_LIST_ITEM: 'js-line-list__item',
+  LINE_LIST_ITEM_UPDATE: 'js-line-list__item-update',
+  LINE_LIST_ITEM_DELETION: 'js-line-list__item-deletion',
+  LINE_COLOR_SELECTOR: 'js-line-color-selector',
+  LINE_COLOR_SELECTOR_OPTION: 'js-line-color-selector__option',
+
+  SECTION_LIST_ITEM_DELETION: 'js-section-list__item-deletion',
+
+  FULL_MAP_LINE_ITEM: 'js-full-map-line-item',
+  FULL_MAP_LINE_TITLE: 'js-full-map-line-title',
+  FULL_MAP_STATION_LIST: 'js-full-map-station-list',
+  FULL_MAP_STATION_ITEM: 'js-full-map-station-item',
+  FULL_MAP_STATION_NAME: 'js-full-map-station-name',
+
+  MODAL_CLOSE: 'js-modal-close',
 };
 
 const ALERT_MESSAGE = {
@@ -43,23 +94,84 @@ const ALERT_MESSAGE = {
   // LOGIN
   LOGIN_SUCCESS: '로그인에 성공했습니다.',
   LOGIN_FAIL: '가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.',
+
+  // STATION
+  STATION_CREATION_SUCCESS: '새로운 역을 추가했습니다.',
+  DUPLICATED_STATION_FAIL: '중복된 역이 있습니다.',
+  STATION_NAME_UPDATE_SUCCESS: '역 이름을 수정했습니다.',
+  STATION_NAME_UPDATE_FAIL: '같은 역 이름으로 수정할 수 없습니다.',
+  STATION_DELETION_SUCCESS: '해당 역을 삭제했습니다.',
+  STATION_DELETION_FAIL: '노선에 등록된 역은 삭제할 수 없습니다.',
+
+  // LINE
+  LINE_CREATION_SUCCESS: '새로운 노선을 추가했습니다.',
+  DUPLICATED_LINE_FAIL: '중복된 노선이 있습니다.',
+  STATIONS_SETTING_OF_LINE_FAIL:
+    '상행역과 하행역이 같은 노선은 생성할 수 없습니다.',
+  LINE_UPDATE_SUCCESS: '노선을 수정했습니다.',
+  LINE_DELETION_SUCCESS: '해당 노선을 삭제했습니다.',
+
+  // SECTION
+  SECTION_CREATION_SUCCESS: '구간 생성에 성공했습니다.',
+  STATIONS_SETTING_OF_SECTION_CREATION_FAIL:
+    '상행역과 하행역이 같은 구간은 생성할 수 없습니다.',
+  DISTANCE_CONDITION_OF_SECTION_CREATION_FAIL:
+    '새로 생성하는 구간의 거리가 기존 구간의 거리보다 같거나 멉니다.',
+  SECTION_DELETION_SUCCESS: '해당 구간을 삭제했습니다.',
+  SECTION_DELETION_FAIL: '구간은 최소 두 개의 역을 가져야합니다.',
+  NOT_SELECTED_LINE: '노선을 선택해주세요.',
 };
 
-const STATE_KEY = {
-  LOGIN_RESPONSE: 'loginResponse',
+const CONFIRM_MESSAGE = {
+  STATION_DELETION: '해당 역을 삭제하시겠습니까?',
+  LINE_DELETION: '해당 노선을 삭제하시겠습니까?',
+  SECTION_DELETION: '해당 구간을 삭제하시겠습니까?',
 };
 
 const KEYWORD = {
   LOGOUT: 'logout',
+  NONE: 'none',
+};
+
+const MODAL_TYPE = {
+  CREATION: 'creation',
+  UPDATE: 'update',
 };
 
 const REQUEST_URL = 'https://www.boorownie.com';
+
+const URL = {
+  HOME: '/',
+  STATION: '/station',
+  LINE: '/line',
+  SECTION: '/section',
+  FULL_MAP: '/fullMap',
+  MY_INFO: '/myInfo',
+  LOGIN: '/login',
+  SIGNUP: '/signup',
+};
+
+const THRESHOLD = {
+  STATION_NAME_MIN_LENGTH: 2,
+  STATION_NAME_MAX_LENGTH: 20,
+
+  LINE_NAME_MIN_LENGTH: 2,
+  LINE_NAME_MAX_LENGTH: 20,
+};
+
+const ERROR_CODE = {
+  BAD_REQUEST: 400,
+};
 
 export {
   ID_SELECTOR,
   CLASS_SELECTOR,
   ALERT_MESSAGE,
-  REQUEST_URL,
-  STATE_KEY,
+  CONFIRM_MESSAGE,
   KEYWORD,
+  MODAL_TYPE,
+  REQUEST_URL,
+  URL,
+  THRESHOLD,
+  ERROR_CODE,
 };

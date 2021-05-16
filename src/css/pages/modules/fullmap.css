@@ -1,0 +1,70 @@
+ul {
+  list-style-type: none;
+}
+
+.js-full-map-line-list {
+  overflow: auto;
+}
+
+.js-full-map-line-item {
+  display: grid;
+  grid-template-columns: 5rem auto;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.js-full-map-line-title {
+  height: 1.2rem;
+  text-align: center;
+  display: inline;
+  position: relative;
+  font-size: 1rem;
+  width: auto;
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.js-full-map-station-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 5rem);
+  padding-left: 0;
+}
+
+.js-full-map-station-item:first-child {
+  visibility: hidden;
+}
+
+.js-full-map-station-name:first-child,
+.js-full-map-station-item:first-child::after {
+  visibility: visible;
+}
+
+.js-full-map-station-item {
+  position: relative;
+  width: 120%;
+  height: 1rem;
+  border-radius: 0.5rem;
+}
+
+.js-full-map-station-item::after {
+  content: '';
+  border-width: 0px;
+  border-radius: 1rem;
+  position: absolute;
+  background-color: white;
+  top: 0.15rem;
+  right: 0.2rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  z-index: 2;
+}
+
+.js-full-map-station-name {
+  position: absolute;
+  color: #666;
+  letter-spacing: -0.01rem;
+  top: 1.75rem;
+  right: -2.7rem;
+  min-width: 4rem;
+  font-size: 0.9rem;
+}
