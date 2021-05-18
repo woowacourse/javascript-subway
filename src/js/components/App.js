@@ -81,11 +81,7 @@ export default class App {
   }
 
   render() {
-    if (this.pageState.isLoggedIn) {
-      this.navigation.show();
-    } else {
-      this.navigation.hide();
-    }
+    this.navigation[this.pageState.isLoggedIn ? "show" : "hide"]();
 
     this.pageRouter.movePage(this.pageState.pageURL);
   }
