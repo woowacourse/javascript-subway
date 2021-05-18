@@ -32,6 +32,7 @@ export default class Stations extends Component {
 
     this.initContent();
 
+    this.$stationForm = $(".js-station-form", this.innerElement);
     this.$stationList = $(".js-station-list", this.innerElement);
   }
 
@@ -41,7 +42,7 @@ export default class Stations extends Component {
         <div class="heading">
           <h2 class="mt-1">🚉 역 관리</h2>
         </div>
-        <form>
+        <form class="js-station-form">
           <div class="d-flex w-100">
             <label for="station-name" class="input-label" hidden>
               역 이름
@@ -191,7 +192,13 @@ export default class Stations extends Component {
     }
   }
 
+  resetStateInput() {
+    this.$stationForm.reset();
+  }
+
   async loadPage() {
+    this.resetStateInput();
+
     const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const loadResult = await getStationsAPI(accessToken);
 
