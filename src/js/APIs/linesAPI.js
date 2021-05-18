@@ -1,16 +1,17 @@
-import request from "./subwayAPI";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
+import getAccessToken from "./accessToken.js";
+import request from "./subwayAPI";
 
 const PATH = {
   LINES: (id = "") => `/lines/${id}`,
 };
 
-export const getLinesAPI = async (accessToken, lineId = "") => {
+export const getLinesAPI = async (lineId = "") => {
   try {
     const response = await request.get({
       path: PATH.LINES(lineId),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
 
@@ -29,17 +30,17 @@ export const getLinesAPI = async (accessToken, lineId = "") => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const addLineAPI = async (lineData, accessToken) => {
+export const addLineAPI = async (lineData) => {
   try {
     const response = await request.post({
       path: PATH.LINES(),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: lineData,
     });
@@ -67,17 +68,17 @@ export const addLineAPI = async (lineData, accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const modifyLineAPI = async (lineData, accessToken) => {
+export const modifyLineAPI = async (lineData) => {
   try {
     const response = await request.put({
       path: PATH.LINES(lineData.id),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: {
         name: lineData.name,
@@ -105,17 +106,17 @@ export const modifyLineAPI = async (lineData, accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const deleteLineAPI = async (lineId, accessToken) => {
+export const deleteLineAPI = async (lineId) => {
   try {
     const response = await request.delete({
       path: PATH.LINES(lineId),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
 
@@ -132,7 +133,7 @@ export const deleteLineAPI = async (lineId, accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };

@@ -1,16 +1,17 @@
-import request from "./subwayAPI";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
+import getAccessToken from "./accessToken.js";
+import request from "./subwayAPI";
 
 export const PATH = {
   SECTIONS: (id = "") => `/lines/${id}/sections`,
 };
 
-export const addSectionAPI = async (lineId, sectionData, accessToken) => {
+export const addSectionAPI = async (lineId, sectionData) => {
   try {
     const response = await request.post({
       path: PATH.SECTIONS(lineId),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: sectionData,
     });
@@ -33,7 +34,7 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
       message: SUCCESS_MESSAGE.SECTIONS.ADD,
     };
   } catch (e) {
-    console.log(e);
+    console.error(e);
 
     return {
       isSucceeded: false,
@@ -42,7 +43,7 @@ export const addSectionAPI = async (lineId, sectionData, accessToken) => {
   }
 };
 
-export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
+export const deleteSectionAPI = async (lineId, stationId) => {
   try {
     const response = await request.delete({
       path: PATH.SECTIONS(lineId),
@@ -50,7 +51,7 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
         stationId,
       },
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
 
@@ -70,7 +71,7 @@ export const deleteSectionAPI = async (lineId, stationId, accessToken) => {
       message: SUCCESS_MESSAGE.SECTIONS.DELETE,
     };
   } catch (e) {
-    console.log(e);
+    console.error(e);
 
     return {
       isSucceeded: false,

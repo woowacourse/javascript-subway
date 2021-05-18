@@ -1,15 +1,12 @@
-import request from "./subwayAPI";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
+import getAccessToken from "./accessToken.js";
+import request from "./subwayAPI";
 
 const PATH = {
   SIGNUP: "/members",
   MEMBER_INFO: "/members/me",
   LOGIN: "/login/token",
   CHECK_DUPLICATED_EMAIL: "/members/check-validation",
-};
-
-const STATUS = {
-  DUPLICATED_EMAIL: 422,
 };
 
 export const checkDuplicatedEmailAPI = async (email) => {
@@ -19,7 +16,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
       params: { email },
     });
 
-    if (response.status === STATUS.DUPLICATED_EMAIL) {
+    if (response.status === 422) {
       return {
         isSucceeded: false,
         message: ERROR_MESSAGE.MEMBER.DUPLICATED_EMAIL,
@@ -39,7 +36,7 @@ export const checkDuplicatedEmailAPI = async (email) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
@@ -67,7 +64,7 @@ export const signupAPI = async (memberInfo) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
@@ -98,17 +95,17 @@ export const loginAPI = async (loginInfo) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const getMemberInfo = async (accessToken) => {
+export const getMemberInfo = async () => {
   try {
     const response = await request.get({
       path: PATH.MEMBER_INFO,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
         Accept: "application/json",
       },
     });
@@ -130,7 +127,7 @@ export const getMemberInfo = async (accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };

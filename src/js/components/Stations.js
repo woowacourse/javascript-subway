@@ -2,7 +2,6 @@ import Component from "./common/Component.js";
 import { StationModifyModal } from "./StationModifyModal.js";
 
 import {
-  TOKEN_STORAGE_KEY,
   STATION_NAME_MIN_LENGTH,
   STATION_NAME_MAX_LENGTH,
   STATION_LIST_ITEM_BORDER_HEIGHT,
@@ -18,8 +17,7 @@ import {
   getStationsAPI,
 } from "../APIs/index.js";
 
-import { $, $$ } from "../utils/DOM.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import { $, $$, blinkElement } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
 
 export default class Stations extends Component {
@@ -85,6 +83,16 @@ export default class Stations extends Component {
     );
   }
 
+  isDuplicatedStation(station) {
+    const $stationList = $(".js-station-list", this.innerElement);
+    const $stationListItems = $$("li", $stationList);
+    const duplicatedStationIndex = Array.from($stationListItems).findIndex(
+      ($li) => $(".js-station-name", $li).textContent === station
+    );
+
+    return duplicatedStationIndex !== -1;
+  }
+
   async onAddStation(event) {
     event.preventDefault();
 
@@ -94,6 +102,24 @@ export default class Stations extends Component {
       SPACE_REG_EXP,
       ""
     );
+
+    if (this.isDuplicatedStation(stationName)) {
+      const $stationListItems = $$("li", $stationList);
+      const duplicatedStationIndex = Array.from($stationListItems).findIndex(
+        ($li) => $(".js-station-name", $li).textContent === stationName
+      );
+
+      $stationList.scrollTo(
+        0,
+        ($stationListItems[0].clientHeight + STATION_LIST_ITEM_BORDER_HEIGHT) *
+          duplicatedStationIndex
+      );
+
+      blinkElement($stationListItems[duplicatedStationIndex]);
+      snackbar.show(ERROR_MESSAGE.STATIONS.INVALID_STATION);
+
+      return;
+    }
 
     const isValidNameLength =
       stationName.length >= STATION_NAME_MIN_LENGTH &&
@@ -106,45 +132,22 @@ export default class Stations extends Component {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const { isSucceeded, station, message } = await addStationAPI(
-      stationName,
-      accessToken
-    );
-
+    const { isSucceeded, station, message } = await addStationAPI(stationName);
     snackbar.show(message);
 
-    if (isSucceeded) {
-      $stationList.insertAdjacentHTML(
-        "beforeend",
-        createStationListItem(station)
-      );
-      target.reset();
-      this.render();
-      target.elements["station-name"].focus();
+    if (!isSucceeded) {
+      target.elements["station-name"].value = stationName;
 
       return;
     }
 
-    if (message === ERROR_MESSAGE.STATIONS.DUPLICATED_STATION) {
-      const $stationListItems = $$("li", $stationList);
-      const duplicatedStationIndex = Array.from($stationListItems).findIndex(
-        ($li) => $(".js-station-name", $li).textContent === stationName
-      );
-
-      $stationList.scrollTo(
-        0,
-        ($stationListItems[0].clientHeight + STATION_LIST_ITEM_BORDER_HEIGHT) *
-          duplicatedStationIndex
-      );
-      $stationListItems[duplicatedStationIndex].classList.add("blink-red");
-
-      setTimeout(() => {
-        $stationListItems[duplicatedStationIndex].classList.remove("blink-red");
-      }, 2000);
-    }
-
-    target.elements["station-name"].value = stationName;
+    $stationList.insertAdjacentHTML(
+      "beforeend",
+      createStationListItem(station)
+    );
+    target.reset();
+    this.render();
+    target.elements["station-name"].focus();
   }
 
   async deleteStation(stationId) {
@@ -152,8 +155,7 @@ export default class Stations extends Component {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const deleteResult = await deleteStationAPI(stationId, accessToken);
+    const deleteResult = await deleteStationAPI(stationId);
 
     snackbar.show(deleteResult.message);
 
@@ -199,8 +201,7 @@ export default class Stations extends Component {
   async loadPage() {
     this.resetStateInput();
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadResult = await getStationsAPI(accessToken);
+    const loadResult = await getStationsAPI();
 
     this.setPageState({
       isLoggedIn: loadResult.isSucceeded,

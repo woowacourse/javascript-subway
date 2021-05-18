@@ -1,16 +1,17 @@
 import request from "./subwayAPI";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messages.js";
+import getAccessToken from "./accessToken.js";
 
 const PATH = {
   STATIONS: (id = "") => `/stations/${id}`,
 };
 
-export const getStationsAPI = async (accessToken) => {
+export const getStationsAPI = async () => {
   try {
     const response = await request.get({
       path: PATH.STATIONS(),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
 
@@ -29,17 +30,17 @@ export const getStationsAPI = async (accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const addStationAPI = async (stationName, accessToken) => {
+export const addStationAPI = async (stationName) => {
   try {
     const response = await request.post({
       path: PATH.STATIONS(),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: {
         name: stationName,
@@ -69,28 +70,24 @@ export const addStationAPI = async (stationName, accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const modifyStationNameAPI = async (
-  stationId,
-  newStationName,
-  accessToken
-) => {
+export const modifyStationNameAPI = async (stationId, newStationName) => {
   try {
     const response = await request.put({
       path: PATH.STATIONS(stationId),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: {
         name: newStationName,
       },
     });
 
-    if (response.status === STATUS.DUPLICATED_STATION) {
+    if (response.status === 403) {
       return {
         isSucceeded: false,
         message: ERROR_MESSAGE.STATIONS.DUPLICATED_STATION,
@@ -110,17 +107,17 @@ export const modifyStationNameAPI = async (
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };
 
-export const deleteStationAPI = async (stationId, accessToken) => {
+export const deleteStationAPI = async (stationId) => {
   try {
     const response = await request.delete({
       path: PATH.STATIONS(stationId),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     });
 
@@ -137,7 +134,7 @@ export const deleteStationAPI = async (stationId, accessToken) => {
 
     return {
       isSucceeded: false,
-      message: ERROR_MESSAGE.GENERAL.API_CALL_FAILURE,
+      message: e.message,
     };
   }
 };

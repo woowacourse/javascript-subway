@@ -1,3 +1,5 @@
+import handleError from "./errorHandler.js";
+
 const request = {
   endPoint: "https://www.boorownie.com",
   headers: {
@@ -23,7 +25,7 @@ const request = {
             },
           });
 
-    return response;
+    return handleError(response);
   },
 
   async post({ path, headers = {}, body }) {
@@ -36,7 +38,7 @@ const request = {
       body: JSON.stringify(body),
     });
 
-    return response;
+    return handleError(response);
   },
 
   async put({ path, headers = {}, body }) {
@@ -49,7 +51,7 @@ const request = {
       body: JSON.stringify(body),
     });
 
-    return response;
+    return handleError(response);
   },
 
   async delete({ path, params = {}, headers = {} }) {
@@ -61,7 +63,7 @@ const request = {
       },
     });
 
-    return response;
+    return handleError(response);
   },
 };
 

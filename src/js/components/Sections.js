@@ -1,22 +1,18 @@
-import Component from "./common/Component.js";
-import SectionsModal from "./SectionsModal.js";
 import {
   deleteSectionAPI,
   getLinesAPI,
   getStationsAPI,
 } from "../APIs/index.js";
-
-import { $, removeAllChildren } from "../utils/DOM.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import snackbar from "../utils/snackbar.js";
-
-import { TOKEN_STORAGE_KEY } from "../constants/general.js";
-import {
-  createStationListItem,
-  createLineSelectOption,
-} from "../constants/template.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
+import {
+  createLineSelectOption,
+  createStationListItem,
+} from "../constants/template.js";
+import { $, removeAllChildren } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
+import Component from "./common/Component.js";
+import SectionsModal from "./SectionsModal.js";
 
 export default class Sections extends Component {
   constructor({ $parent, setPageState }) {
@@ -108,12 +104,7 @@ export default class Sections extends Component {
   }
 
   async deleteSection({ lineId, stationId }) {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const { isSucceeded, message } = await deleteSectionAPI(
-      lineId,
-      stationId,
-      accessToken
-    );
+    const { isSucceeded, message } = await deleteSectionAPI(lineId, stationId);
 
     snackbar.show(message);
 
@@ -127,9 +118,8 @@ export default class Sections extends Component {
   }
 
   async setData() {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadedLines = await getLinesAPI(accessToken);
-    const loadedStations = await getStationsAPI(accessToken);
+    const loadedLines = await getLinesAPI();
+    const loadedStations = await getStationsAPI();
     const isLoadSucceeded =
       loadedLines.isSucceeded && loadedStations.isSucceeded;
 

@@ -1,27 +1,25 @@
 import { addLineAPI, modifyLineAPI } from "../APIs/index.js";
 import {
-  TOKEN_STORAGE_KEY,
-  SPACE_REG_EXP,
-  LINE_NAME_MIN_LENGTH,
-  LINE_NAME_MAX_LENGTH,
   LINE_MODAL_MODE,
+  LINE_NAME_MAX_LENGTH,
+  LINE_NAME_MIN_LENGTH,
+  SPACE_REG_EXP,
 } from "../constants/general.js";
-import {
-  $,
-  $$,
-  removeAllChildren,
-  showElement,
-  hideElement,
-} from "../utils/DOM.js";
-import colorOptions from "../utils/mock.js";
-import snackbar from "../utils/snackbar.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import Modal from "./common/Modal.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
 import {
   createStationSelectOption,
   subwayLineColorOptionTemplate,
 } from "../constants/template.js";
+import {
+  $,
+  $$,
+  hideElement,
+  removeAllChildren,
+  showElement,
+} from "../utils/DOM.js";
+import colorOptions from "../utils/mock.js";
+import snackbar from "../utils/snackbar.js";
+import Modal from "./common/Modal.js";
 
 const getInputsErrorMessage = (lineData) => {
   const {
@@ -187,11 +185,7 @@ export default class LineAddModal extends Modal {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const { isSucceeded, line, message } = await addLineAPI(
-      lineData,
-      accessToken
-    );
+    const { isSucceeded, line, message } = await addLineAPI(lineData);
 
     if (isSucceeded) {
       this.addLine(line);
@@ -226,8 +220,7 @@ export default class LineAddModal extends Modal {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const { isSucceeded, message } = await modifyLineAPI(lineData, accessToken);
+    const { isSucceeded, message } = await modifyLineAPI(lineData);
 
     if (isSucceeded) {
       this.modifyLine(lineData);

@@ -47,9 +47,11 @@ export const ERROR_MESSAGE = {
   },
   GENERAL: {
     API_CALL_FAILURE:
-      "시스템 오류 또는 네트워크 장애로 인해 요청하신 동작을 수행할 수 없습니다.\n 문의: sunccol@woowahan.com",
+      "시스템 오류로 인해 요청하신 동작을 수행할 수 없습니다.\n 문의: sunccol@woowahan.com",
+    NO_ACCESS_TOKEN: "요청하신 동작을 수행할 수 없습니다. 로그인해주세요.",
     TYPE_REQUIRED_STRING: "String is required",
     UNKNOWN_API_STATUS: "Unknown API status",
+    FORBIDDEN: "접근 권한이 필요한 요청입니다.",
   },
 };
 

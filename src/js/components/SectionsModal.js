@@ -1,10 +1,8 @@
-import Modal from "./common/Modal.js";
 import { addSectionAPI } from "../APIs/index.js";
-import { $, $$, removeAllChildren } from "../utils/DOM.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import snackbar from "../utils/snackbar.js";
-import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { createStationSelectOption } from "../constants/template.js";
+import { $, $$, removeAllChildren } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
+import Modal from "./common/Modal.js";
 
 const prevStationOption = `<option value="" selected disabled hidden>이전역</option>`;
 const nextStationOption = `<option value="" selected disabled hidden>다음역</option>`;
@@ -92,11 +90,9 @@ export default class SectionsModal extends Modal {
       duration: target.duration.value,
     };
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, message } = await addSectionAPI(
       this.lineId,
-      sectionData,
-      accessToken
+      sectionData
     );
 
     if (isSucceeded) {

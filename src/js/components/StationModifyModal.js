@@ -1,15 +1,13 @@
-import Modal from "./common/Modal.js";
+import { modifyStationNameAPI } from "../APIs/index.js";
 import {
   SPACE_REG_EXP,
   STATION_NAME_MAX_LENGTH,
   STATION_NAME_MIN_LENGTH,
-  TOKEN_STORAGE_KEY,
 } from "../constants/general.js";
-import { $ } from "../utils/DOM.js";
-import { modifyStationNameAPI } from "../APIs/index.js";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
-import snackbar from "../utils/snackbar.js";
 import { ERROR_MESSAGE } from "../constants/messages.js";
+import { $ } from "../utils/DOM.js";
+import snackbar from "../utils/snackbar.js";
+import Modal from "./common/Modal.js";
 
 // eslint-disable-next-line import/prefer-default-export
 export class StationModifyModal extends Modal {
@@ -94,11 +92,9 @@ export class StationModifyModal extends Modal {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
     const { isSucceeded, message } = await modifyStationNameAPI(
       this.stationId,
-      newStationName,
-      accessToken
+      newStationName
     );
 
     if (isSucceeded) {

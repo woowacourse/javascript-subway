@@ -49,3 +49,11 @@ export const changeCheckMessageColor = ($target, isChecked) => {
     $target.classList.add("text-red");
   }
 };
+
+export const blinkElement = ($target) => {
+  $target.classList.add("blink-red");
+
+  setTimeout(() => {
+    $target.classList.remove("blink-red");
+  }, 2000);
+};

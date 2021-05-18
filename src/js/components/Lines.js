@@ -1,15 +1,11 @@
-import Component from "./common/Component.js";
-import LineModal from "./LineModal.js";
-import { getLinesAPI, deleteLineAPI, getStationsAPI } from "../APIs/index.js";
-
-import { TOKEN_STORAGE_KEY } from "../constants/general.js";
+import { deleteLineAPI, getLinesAPI, getStationsAPI } from "../APIs/index.js";
 import { CONFIRM_MESSAGE } from "../constants/messages.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 import { createLineListItemTemplate } from "../constants/template.js";
-
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import { $ } from "../utils/DOM.js";
 import snackbar from "../utils/snackbar.js";
+import Component from "./common/Component.js";
+import LineModal from "./LineModal.js";
 
 export default class Lines extends Component {
   constructor({ $parent, setPageState }) {
@@ -50,8 +46,7 @@ export default class Lines extends Component {
       return;
     }
 
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const deleteResult = await deleteLineAPI(lineId, accessToken);
+    const deleteResult = await deleteLineAPI(lineId);
 
     snackbar.show(deleteResult.message);
 
@@ -126,9 +121,8 @@ export default class Lines extends Component {
   }
 
   async loadPage() {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const loadedLines = await getLinesAPI(accessToken);
-    const loadedStations = await getStationsAPI(accessToken);
+    const loadedLines = await getLinesAPI();
+    const loadedStations = await getStationsAPI();
     const isLoadSucceeded =
       loadedLines.isSucceeded && loadedStations.isSucceeded;
 

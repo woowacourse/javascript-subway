@@ -1,10 +1,8 @@
-import Component from "./common/Component";
-import { getSessionStorageItem } from "../utils/sessionStorage.js";
 import { getLinesAPI } from "../APIs/index.js";
-import { TOKEN_STORAGE_KEY } from "../constants/general.js";
 import { PAGE_KEYS, PAGE_URLS } from "../constants/pages.js";
 import { createLineTemplate } from "../constants/template.js";
 import { $, removeAllChildren } from "../utils/DOM.js";
+import Component from "./common/Component";
 
 export default class SubwayMap extends Component {
   constructor({ $parent, setPageState }) {
@@ -37,8 +35,7 @@ export default class SubwayMap extends Component {
   }
 
   async setSubwayMapData() {
-    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
-    const { isSucceeded, lines } = await getLinesAPI(accessToken);
+    const { isSucceeded, lines } = await getLinesAPI();
 
     this.setPageState({
       isLoggedIn: isSucceeded,
