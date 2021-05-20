@@ -1,6 +1,6 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
 @import "./pages/index.css";
+@import "./ui/index.css";
+@import "./shared/index.css";
 
 html,
 body {
@@ -9,12 +9,14 @@ body {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.5;
+  font-family: Arial, Helvetica, sans-serif;
   background-color: #f1f5f9;
 }
 
 #app {
   max-width: 960px;
   margin: 0 auto;
+  overflow-y: hidden;
 }
 
 a {
@@ -52,8 +54,11 @@ ul {
   padding: 0;
 }
 
-nav ul li {
+li {
   list-style: none;
+}
+
+nav ul li {
   margin-right: 1rem;
 }
 

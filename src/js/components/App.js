@@ -6,81 +6,111 @@ import SignupForm from "./SignupForm.js";
 import Stations from "./Stations.js";
 import Lines from "./Lines.js";
 import Sections from "./Sections.js";
+import SubwayMap from "./SubwayMap.js";
 
 import staticElements from "../constants/staticElements.js";
-import PAGE_URLS from "../constants/pages.js";
+import { PAGE_URLS, PAGE_KEYS } from "../constants/pages.js";
+import { getSessionStorageItem } from "../utils/sessionStorage.js";
+import { TOKEN_STORAGE_KEY } from "../constants/general.js";
+import { getMemberInfo } from "../APIs/index.js";
 
 export default class App {
   constructor() {
-    this.isLoggedIn = false;
-    this.$nav = staticElements.$nav;
-    this.$main = staticElements.$main;
-
+    this.pageState = {
+      isLoggedIn: false,
+      pageURL: "",
+    };
+    this.userName = "";
     this.pageRouter = new PageRouter();
+
     this.navigation = new Navigation({
-      $parent: this.$nav,
-      setIsLoggedIn: this.setIsLoggedIn.bind(this),
+      $parent: staticElements.$nav,
+      setPageState: this.setPageState.bind(this),
       pageRouter: this.pageRouter,
     });
-    this.loginForm = new LoginForm({
-      $parent: this.$main,
-      setIsLoggedIn: this.setIsLoggedIn.bind(this),
-      pageRouter: this.pageRouter,
-    });
-    this.signupForm = new SignupForm({
-      $parent: this.$main,
-      pageRouter: this.pageRouter,
-    });
-    this.stations = new Stations({ $parent: this.$main });
-    this.lines = new Lines({ $parent: this.$main });
-    this.sections = new Sections({ $parent: this.$main });
+
+    this.pages = {
+      [PAGE_KEYS.LOGIN]: new LoginForm({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+        pageRouter: this.pageRouter,
+      }),
+      [PAGE_KEYS.SIGNUP]: new SignupForm({
+        $parent: staticElements.$main,
+        pageRouter: this.pageRouter,
+      }),
+      [PAGE_KEYS.STATIONS]: new Stations({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
+      [PAGE_KEYS.LINES]: new Lines({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
+      [PAGE_KEYS.SECTIONS]: new Sections({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
+      [PAGE_KEYS.MAP]: new SubwayMap({
+        $parent: staticElements.$main,
+        setPageState: this.setPageState.bind(this),
+      }),
+    };
   }
 
   registerRoutes() {
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.HOME,
-      handler: this.render.bind(this),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.LOGIN,
-      handler: this.loginForm.render.bind(this.loginForm),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.SIGNUP,
-      handler: this.signupForm.render.bind(this.signupForm),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.STATIONS,
-      handler: this.stations.render.bind(this.stations),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.LINES,
-      handler: this.lines.render.bind(this.lines),
-    });
-    this.pageRouter.registerRoute({
-      path: PAGE_URLS.SECTIONS,
-      handler: this.sections.render.bind(this.sections),
+    Object.keys(this.pages).forEach((key) => {
+      this.pageRouter.registerRoute({
+        path: PAGE_URLS[key],
+        handler: this.pages[key].loadPage.bind(this.pages[key]),
+      });
     });
   }
 
-  setIsLoggedIn(isLoggedIn) {
-    this.isLoggedIn = isLoggedIn;
+  setPageState({ isLoggedIn, pageURL }) {
+    if (
+      this.pageState.isLoggedIn === isLoggedIn &&
+      this.pageState.pageURL === pageURL
+    ) {
+      return;
+    }
 
+    this.pageState.isLoggedIn = isLoggedIn;
+    this.pageState.pageURL = pageURL;
     this.render();
   }
 
   render() {
-    if (this.isLoggedIn) {
-      this.navigation.show();
-      this.pageRouter.movePage(PAGE_URLS.STATIONS);
-    } else {
-      this.navigation.hide();
-      this.pageRouter.movePage(PAGE_URLS.LOGIN);
+    this.navigation[this.pageState.isLoggedIn ? "show" : "hide"]();
+
+    this.pageRouter.movePage(this.pageState.pageURL);
+  }
+
+  async initUserState() {
+    const accessToken = getSessionStorageItem(TOKEN_STORAGE_KEY, "");
+
+    if (accessToken === "") {
+      this.setPageState({
+        isLoggedIn: false,
+        pageURL: PAGE_URLS[PAGE_KEYS.LOGIN],
+      });
+
+      return;
     }
+
+    const { isSucceeded, memberInfo } = await getMemberInfo(accessToken);
+
+    this.setPageState({
+      isLoggedIn: isSucceeded,
+      pageURL: isSucceeded
+        ? PAGE_URLS[PAGE_KEYS.STATIONS]
+        : PAGE_URLS[PAGE_KEYS.LOGIN],
+    });
+    this.userName = memberInfo?.name ?? "";
   }
 
   init() {
     this.registerRoutes();
-    this.render();
+    this.initUserState();
   }
 }

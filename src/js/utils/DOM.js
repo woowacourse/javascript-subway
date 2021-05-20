@@ -28,6 +28,10 @@ export const $$ = (selector, $target = document) => {
   }
 };
 
+export const removeAllChildren = ($target) => {
+  Array.from($target.children).forEach(($child) => $child.remove());
+};
+
 export const showElement = ($target) => {
   $target.classList.remove("d-none");
 };
@@ -44,4 +48,12 @@ export const changeCheckMessageColor = ($target, isChecked) => {
     $target.classList.remove("text-green");
     $target.classList.add("text-red");
   }
+};
+
+export const blinkElement = ($target) => {
+  $target.classList.add("blink-red");
+
+  setTimeout(() => {
+    $target.classList.remove("blink-red");
+  }, 2000);
 };
