@@ -1,10 +1,10 @@
-export const mainTemplate = () => {
+export const mainTemplate = (stationList) => {
   return `
     <div class="wrapper bg-white p-10">
       <div class="heading">
         <h2 class="mt-1">🚉 역 관리</h2>
       </div>
-      <form>
+      <form id="create-station-form">
         <div class="d-flex w-100">
           <label for="station-name" class="input-label" hidden>
             역 이름
@@ -12,51 +12,54 @@ export const mainTemplate = () => {
           <input
             type="text"
             id="station-name"
-            name="stationName"
+            name="station-name"
             class="input-field"
             placeholder="역 이름"
             required
           />
           <button
-            type="button"
             name="submit"
             class="input-submit bg-cyan-300 ml-2"
           >
-            확인
+            추가
           </button>
         </div>
       </form>
-      <ul class="mt-3 pl-0">
-        <li class="station-list-item d-flex items-center py-2">
-          <span class="w-100 pl-2">사당</span>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm mr-1"
-          >
-            수정
-          </button>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm"
-          >
-            삭제
-          </button>
-        </li>
-        <hr class="my-0" />
-        <li class="station-list-item d-flex items-center py-2">
-          <span class="w-100 pl-2">방배</span>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm mr-1"
-          >
-            수정
-          </button>
-          <button type="button" class="bg-gray-50 text-gray-500">
-            삭제
-          </button>
-        </li>
-        <hr class="my-0" />
+      <ul class="js-station-list mt-3 pl-0">
+        ${stationList.map(stationListItem).join('')}
       </ul>
     </div>
+  `;
+};
+
+const stationListItem = ({ id, name, usedLine }) => {
+  return `
+    <li class="js-station-item station-list-item d-flex items-center py-2" data-id="${id}">
+      <div class="w-100 px-2 d-flex flex-wrap justify-between">
+        <span>${name}</span>
+        <div>
+          ${usedLine
+            .map(
+              ({ color }) =>
+                '<span class="used-line-color-dot ml-1 bg-' +
+                color +
+                '"></span>'
+            )
+            .join('')}
+          </div>
+        </div>
+      <button
+        type="button"
+        class="js-station-item__edit bg-gray-50 text-gray-500 text-sm mr-1"
+      >
+        수정
+      </button>
+      <button
+        type="button"
+        class="js-station-item__delete bg-gray-50 text-gray-500 text-sm"
+      >
+        삭제
+      </button>
+    </li>
   `;
 };

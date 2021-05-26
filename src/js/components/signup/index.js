@@ -1,10 +1,10 @@
 import { $ } from '../../utils/DOM.js';
 import { PATH } from '../../constants/url.js';
 import Component from '../../core/Component.js';
-import request from '../../utils/fetch.js';
+import request from '../../utils/request.js';
 import mainTemplate from './template/main.js';
 import ValidationError from '../../error/ValidationError.js';
-import { CONFIRM_MESSAGE, ERROR_MESSAGE } from '../../constants/message.js';
+import { VALID_MESSAGE, INVALID_MESSAGE } from '../../constants/message.js';
 import REGEX from '../../constants/regex.js';
 import { LENGTH } from '../../constants/standard.js';
 import { AUTHENTICATED_LINK } from '../../constants/link.js';
@@ -16,7 +16,7 @@ class Signup extends Component {
     this.formValidationFlag = { name: false, email: false, password: false };
   }
 
-  render() {
+  renderSelf() {
     this.parentNode.innerHTML = mainTemplate();
   }
 
@@ -82,7 +82,7 @@ class Signup extends Component {
     try {
       this.validateName(name);
       $nameCheck.classList.add('correct');
-      $nameCheck.innerText = CONFIRM_MESSAGE.NAME;
+      $nameCheck.innerText = VALID_MESSAGE.NAME;
       this.formValidationFlag.name = true;
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -97,11 +97,11 @@ class Signup extends Component {
 
   validateName(name) {
     if (!this.isValidNameFormat(name)) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.NAME.FORMAT);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.NAME.FORMAT);
     }
 
     if (name.length < LENGTH.NAME.MIN || name.length > LENGTH.NAME.MAX) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.NAME.LENGTH);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.NAME.LENGTH);
     }
   }
 
@@ -115,7 +115,7 @@ class Signup extends Component {
     try {
       await this.validateEmail(email);
       $emailCheck.classList.add('correct');
-      $emailCheck.innerText = CONFIRM_MESSAGE.EMAIL;
+      $emailCheck.innerText = VALID_MESSAGE.EMAIL;
       this.formValidationFlag.email = true;
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -130,7 +130,7 @@ class Signup extends Component {
 
   async validateEmail(email) {
     if (!this.isValidEmailFormat(email)) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.FORMAT);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.FORMAT);
     }
 
     const query = { email };
@@ -142,7 +142,7 @@ class Signup extends Component {
     const response = await request.get(params);
 
     if (response.status === 422) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.EMAIL.DUPLICATED);
     }
   }
 
@@ -152,7 +152,7 @@ class Signup extends Component {
     try {
       this.validatePassword(password, passwordConfirm);
       $passwordCheck.classList.add('correct');
-      $passwordCheck.innerText = CONFIRM_MESSAGE.PASSWORD;
+      $passwordCheck.innerText = VALID_MESSAGE.PASSWORD;
       this.formValidationFlag.password = true;
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -174,13 +174,13 @@ class Signup extends Component {
       password.length < LENGTH.PASSWORD.MIN ||
       password.length > LENGTH.PASSWORD.MAX
     ) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.PASSWORD.LENGTH);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.PASSWORD.LENGTH);
     }
 
     const isSamePassword = password === passwordConfirm;
 
     if (!isSamePassword) {
-      throw new ValidationError(ERROR_MESSAGE.SIGNUP.PASSWORD.MATCHED);
+      throw new ValidationError(INVALID_MESSAGE.SIGNUP.PASSWORD.MATCHED);
     }
   }
 

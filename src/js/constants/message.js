@@ -1,6 +1,12 @@
 import { LENGTH } from './standard.js';
 
-const ERROR_MESSAGE = {
+const VALID_MESSAGE = {
+  NAME: '사용 가능한 이름입니다.',
+  EMAIL: '사용 가능한 이메일입니다.',
+  PASSWORD: '비밀번호가 일치합니다.',
+};
+
+const INVALID_MESSAGE = {
   SIGNUP: {
     NAME: {
       FORMAT: '공백, 특수문자, 숫자는 입력하실 수 없습니다.',
@@ -19,14 +25,14 @@ const ERROR_MESSAGE = {
   LOGIN: {
     FAILED: '아이디 또는 비밀번호가 일치하지 않습니다.',
   },
+};
 
+const ERROR_MESSAGE = {
   INVALID_TOKEN: '토큰이 유효하지 않습니다.',
 };
 
 const CONFIRM_MESSAGE = {
-  NAME: '사용 가능한 이름입니다.',
-  EMAIL: '사용 가능한 이메일입니다.',
-  PASSWORD: '비밀번호가 일치합니다.',
+  DELETE: '삭제하시겠습니까?',
 };
 
-export { ERROR_MESSAGE, CONFIRM_MESSAGE };
+export { VALID_MESSAGE, INVALID_MESSAGE, ERROR_MESSAGE, CONFIRM_MESSAGE };
