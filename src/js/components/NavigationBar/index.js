@@ -15,34 +15,38 @@ export default class NavigationBar {
     this.selectDOM();
     this.selectButton();
     this.bindEvents();
-    this.setLogButton();
   }
 
   selectDOM() {
     this.navigation = $(SELECTOR.NAVIGATION);
     this.navButtons = $(SELECTOR.NAV_BUTTON);
-    this.logButton = $(SELECTOR.NAV_LOG_BUTTON);
   }
 
   update() {
-    this.setLogButton();
+    if (this.store.isLoggedIn) {
+      this.navigation.classList.remove('d-none');
+      this.selectButton();
+    } else {
+      this.navigation.classList.add('d-none');
+      this.logout();
+    }
   }
 
   bindEvents() {
     this.navigation.addEventListener('click', this.handleNavigation.bind(this));
+    $(SELECTOR.LOGOUT_BUTTON).addEventListener('click', this.logout.bind(this));
   }
 
-  setLogButton() {
-    const isLoggedIn = this.store.isLoggedIn;
+  async handleNavigation(event) {
+    event.preventDefault();
 
-    this.logButton.textContent = isLoggedIn
-      ? BUTTON_NAME.LOGOUT
-      : BUTTON_NAME.LOGIN;
-    this.logButton.setAttribute('data-action', isLoggedIn ? 'logout' : 'login');
+    if (!event.target.matches(`${SELECTOR.NAVIGATION} button`)) return;
 
-    if (isLoggedIn) {
-      this.logButton.classList.remove('selected');
-    }
+    const path = event.target.closest('a').getAttribute('href');
+
+    routeTo(getAvailablePath(path, this.store.isLoggedIn));
+
+    this.selectButton();
   }
 
   selectButton() {
@@ -57,24 +61,11 @@ export default class NavigationBar {
     });
   }
 
-  async handleNavigation(event) {
-    event.preventDefault();
+  logout(event = '') {
+    event && event.preventDefault();
 
-    if (!event.target.matches(`${SELECTOR.NAVIGATION} button`)) return;
-
-    const path = event.target.closest('a').getAttribute('href');
-
-    if (event.target.dataset.action === 'logout') {
-      this.logout();
-    }
-
-    routeTo(getAvailablePath(path, this.store.isLoggedIn));
-
-    this.selectButton();
-  }
-
-  logout() {
     this.store.updateLoggedIn(false);
+    routeTo(getAvailablePath('/login', this.store.isLoggedIn));
     removeCookie('token');
   }
 }

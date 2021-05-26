@@ -29,7 +29,7 @@
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 /* Layout - Top / Right / Bottom / Left */
@@ -122,4 +122,9 @@
 
 .content-evenly {
   align-content: space-around;
+}
+
+/* Align Self */
+.self-start {
+  align-self: flex-start;
 }

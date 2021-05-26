@@ -1,4 +1,5 @@
 import subwayEmoji from '../../../images/subway_emoji.png';
+import { MESSAGES } from '../../constants/constants';
 
 export default `
   <div>
@@ -6,7 +7,7 @@ export default `
       <img src="${subwayEmoji}" width="200" />
     </div>
     <p id="app-description" class="mt-0 text-center">
-      지하철 노선도 앱을 사용하기 위해서는 로그인이 필요합니다.
+      ${MESSAGES.ENTRY_DESCRIPTION_LOGGED_IN}
     </p>
   </div>
 `;

@@ -6,6 +6,8 @@ export default class Store {
     this._isLoggedIn = false;
     this._state = {
       user: new UserAuth(),
+      stations: [],
+      lines: [],
     };
   }
 
@@ -17,8 +19,32 @@ export default class Store {
     this._isLoggedIn = state;
   }
 
-  get userSession() {
-    return this._userSession;
+  get userAuth() {
+    return this._state.user;
+  }
+
+  get stations() {
+    const sortedStations = this._state.stations.sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate));
+
+    return sortedStations;
+  }
+
+  set stations(stations) {
+    this._state.stations = stations;
+  }
+
+  set userName(name) {
+    this._state.user.name = name;
+  }
+
+  get lines() {
+    const sortedLines = this._state.lines.sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate));
+
+    return sortedLines;
+  }
+
+  set lines(lines) {
+    this._state.lines = lines;
   }
 
   updateLoggedIn(state) {
@@ -26,15 +52,11 @@ export default class Store {
     this.notify();
   }
 
-  updateUserName(name) {
-    this._state.user.name = name;
-  }
-
   subscribe(subscriber) {
     this._subscribers.push(subscriber);
   }
 
-  notify() {
-    this._subscribers.forEach((subscriber) => subscriber.update());
+  async notify() {
+    this._subscribers.forEach(async (subscriber) => await subscriber.update());
   }
 }

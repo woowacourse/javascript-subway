@@ -15,7 +15,7 @@
           <a href="/" class="text-black">
             <h1 class="text-center font-bold">🚇 지하철 노선도</h1>
           </a>
-          <nav id="navigation" class="d-flex justify-center flex-wrap">
+          <nav id="navigation" class="d-flex justify-center flex-wrap d-none">
             <a href="/stations" class="my-1">
               <button type="button" id="stations-nav-button" class="nav-btn btn bg-white shadow mx-1">🚉 역 관리</button>
             </a>
@@ -26,22 +26,24 @@
               <button type="button" id="sections-nav-button" class="nav-btn btn bg-white shadow mx-1">🔁 구간 관리</button>
             </a>
             <a href="/map" class="my-1">
-              <button type="button" id="map-nav-button" class="nav-btn btn bg-white shadow mx-1" disabled>🗺️ 전체 보기</button>
-            </a>
-            <a href="/search" class="my-1">
-              <button type="button" id="search-nav-button" class="nav-btn btn bg-white shadow mx-1" disabled>🔎 길 찾기</button>
-            </a>
-            <a href="/login" class="my-1">
-              <button type="button" id="login-nav-button" class="nav-btn btn bg-white shadow mx-1" data-action="login">👤 로그인</button>
+              <button type="button" id="map-nav-button" class="nav-btn btn bg-white shadow mx-1">🗺️ 전체
+                보기</button>
             </a>
           </nav>
+          <div id="user-area" class="absolute d-flex d-none">
+            <div id="user-greet-message" class="pt-1 mr-2"><span id="user-name" class="font-semibold"></span>님 안녕하세요 🦕
+            </div>
+            <a href="/login" id="logout" class="mx-1 px-2 text-white bg-gray-400" data-action="logout">로그아웃</a>
+          </div>
         </header>
         <main id="content" class="mt-10 d-flex justify-center">
         </main>
       </div>
     </div>
 
-    <div class="modal"></div>
+    <div class="modal" role="dialog" aria-modal="true"></div>
+
+    <div id="snackbar-container" class="w-100 d-flex justify-center"></div>
   </div>
 </body>
 
