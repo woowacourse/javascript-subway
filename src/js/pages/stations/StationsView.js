@@ -1,11 +1,11 @@
-import user from '../../models/user.js';
+import { $ } from '../../utils/DOM.js';
+
 import {
   modifyStationTemplate,
   stationItemTemplate,
   stationListTemplate,
 } from './templates/stationListTemplate.js';
 import stationsTemplate from './templates/stationsTemplate.js';
-import { $ } from '../../utils/DOM.js';
 
 class StationsView {
   init(allStations) {
@@ -20,11 +20,11 @@ class StationsView {
     );
   }
 
-  renderModifyForm({ target }) {
-    const { stationName } = target.closest('li').dataset;
+  renderModifyForm(targetStation) {
+    const { stationName } = targetStation.closest('li').dataset;
     const inputTemplate = modifyStationTemplate(stationName);
 
-    target.closest('li').innerHTML = inputTemplate;
+    targetStation.closest('li').innerHTML = inputTemplate;
   }
 
   renderModifyResult({ target }, id, name) {
@@ -35,8 +35,8 @@ class StationsView {
     $targetStation.remove();
   }
 
-  deleteResult({ target }) {
-    target.closest('li').remove();
+  deleteResult(targetStation) {
+    targetStation.closest('li').remove();
   }
 }
 

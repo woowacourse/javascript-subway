@@ -18,9 +18,8 @@ function onModalClose() {
   $('body').classList.remove('disable-scroll');
 }
 
-function resetInput($resetTarget, $focusTarget) {
+function resetInput($resetTarget) {
   $resetTarget.reset();
-  $focusTarget.focus();
 }
 
 function changeBackgroundColor($target, selectedColor) {

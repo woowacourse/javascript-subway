@@ -11,7 +11,7 @@ const MESSAGE = {
   },
 };
 
-const ALERT_MESSAGE = {
+const SNACKBAR_MESSAGE = {
   ERROR: {
     NOT_CHECKED_EMAIL: '이메일 중복 체크를 해주세요',
     INVALID_USER: '로그인이 만료되었습니다.',
@@ -29,9 +29,6 @@ const ALERT_MESSAGE = {
     DUPLICATED_LINE_NAME: '중복된 노선 이름입니다.',
     DUPLICATED_UP_DOWN_STATIONS: '서로 다른 종점역을 선택해주세요.',
   },
-};
-
-const SNACKBAR_MESSAGE = {
   SUCCESS: {
     SIGNUP: '회원가입에 성공했습니다.',
     LOGIN: '로그인에 성공했습니다.',
@@ -54,4 +51,4 @@ const CONFIRM_MESSAGE = {
   DELETE_SECTION: '구간을 삭제하시겠습니까?',
 };
 
-export { MESSAGE, SNACKBAR_MESSAGE, CONFIRM_MESSAGE, ALERT_MESSAGE };
+export { MESSAGE, SNACKBAR_MESSAGE, CONFIRM_MESSAGE };

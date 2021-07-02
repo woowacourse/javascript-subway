@@ -1,11 +1,18 @@
-import user from '../../models/user.js';
-import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
-import router from '../../router.js';
-import { PATH } from '../../constants/path.js';
+import Cookies from 'js-cookie';
 
-async function addStationHandler(e) {
+import user from '../../models/user.js';
+
+import router from '../../router.js';
+
+import showSnackBar from '../../utils/snackbar.js';
+
+import { PATH } from '../../constants/path.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
+import { SNACKBAR_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
+
+async function addStationHandler(target) {
   try {
-    const stationName = e.target.elements['station-name'].value;
+    const stationName = target.elements['station-name'].value;
     const { newStation, response } = await user.stationManager.addStation(
       stationName
     );
@@ -18,14 +25,17 @@ async function addStationHandler(e) {
   } catch (response) {
     switch (response.status) {
       case 400:
-        alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
         break;
+
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_ADD_STATION);
     }
   }
 }
@@ -48,20 +58,24 @@ async function saveModifyStationHandler(stationId, newStationName) {
   } catch (response) {
     switch (response.status) {
       case 400:
-        alert(ALERT_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.DUPLICATED_STATION_NAME);
         break;
+
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_MODIFY_STATION);
     }
   }
 }
 
 async function deleteStationHandler(targetStationId) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
+
   try {
     const response = await user.stationManager.deleteStation(targetStationId);
 
@@ -73,14 +87,17 @@ async function deleteStationHandler(targetStationId) {
   } catch (response) {
     switch (response.status) {
       case 400:
-        alert(ALERT_MESSAGE.ERROR.INCLUDED_STATION);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INCLUDED_STATION);
         break;
+
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_DELETE_STATION);
     }
   }
 }

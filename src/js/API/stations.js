@@ -1,12 +1,14 @@
+import Cookies from 'js-cookie';
 import { BASE_URL, HTTP } from '../constants/api.js';
-import user from '../models/user.js';
+import { COOKIE_KEY } from '../constants/constants.js';
 
 async function fetchAllStations() {
   const requestData = {
     method: HTTP.METHOD.GET,
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -34,8 +36,9 @@ async function fetchAddStation(stationName) {
       name: stationName,
     }),
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -61,8 +64,9 @@ async function fetchModifyStation(id, name) {
     method: HTTP.METHOD.PUT,
     body: JSON.stringify({ name }),
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -87,8 +91,9 @@ async function fetchDeleteStation(id) {
   const requestData = {
     method: HTTP.METHOD.DELETE,
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
     },
   };
 

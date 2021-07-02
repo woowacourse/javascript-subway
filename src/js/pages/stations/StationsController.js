@@ -1,4 +1,5 @@
-import { $, resetInput } from '../../utils/DOM.js';
+import Cookies from 'js-cookie';
+
 import user from '../../models/user.js';
 import StationsView from './StationsView.js';
 import {
@@ -6,10 +7,15 @@ import {
   saveModifyStationHandler,
   deleteStationHandler,
 } from './StationHandlers.js';
-import showSnackBar from '../../utils/snackbar.js';
-import { ALERT_MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
-import { PATH } from '../../constants/path.js';
+
 import router from '../../router.js';
+
+import { $, resetInput } from '../../utils/DOM.js';
+import showSnackBar from '../../utils/snackbar.js';
+
+import { SNACKBAR_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
+import { COOKIE_KEY } from '../../constants/constants.js';
 
 class StationsController {
   constructor() {
@@ -18,55 +24,67 @@ class StationsController {
 
   async init() {
     const allStations = await this.getAllStations();
-    if (!allStations) {
-      user.resetAuthorization();
-      router.navigate(PATH.ROOT);
-    }
+
+    if (!allStations) return;
 
     this.stationsView.init(allStations);
     this.bindEvents();
 
-    resetInput($('#stations-form'), $('#station-name'));
+    resetInput($('#stations-form'));
   }
 
   async getAllStations() {
-    try {
-      const {
-        allStations,
-        response,
-      } = await user.stationManager.getAllStations();
+    const {
+      allStations,
+      response,
+    } = await user.stationManager.getAllStations();
 
-      if (!response.ok) {
-        throw response;
-      }
+    switch (response.status) {
+      case 401:
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
+        router.navigate(PATH.ROOT);
+        break;
 
-      return allStations;
-    } catch (response) {
-      switch (response.status) {
-        case 401:
-          alert(ALERT_MESSAGE.ERROR.INVALID_USER);
-          break;
-        default:
-      }
+      default:
+        return allStations;
     }
   }
 
-  async onStationAddBtnClick(e) {
+  bindEvents() {
+    $('#stations-form').addEventListener(
+      'submit',
+      this.onClickStationAddBtn.bind(this)
+    );
+    $('#station-list').addEventListener(
+      'click',
+      this.onClickStationUpdateBtn.bind(this)
+    );
+  }
+
+  async onClickStationAddBtn(e) {
     e.preventDefault();
 
-    const newStation = await addStationHandler(e);
+    const newStation = await addStationHandler(e.target);
+
     if (newStation) {
       this.stationsView.appendNewStation(newStation);
+      resetInput(e.target);
+
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.ADD_STATION);
-      resetInput(e.target, $('#station-name'));
     }
   }
 
-  async onStationUpdateBtnClick(e) {
+  async onClickStationUpdateBtn(e) {
     if (!e.target.classList.contains('btn')) return;
 
+    await this.modifyStation(e);
+    await this.deleteStation(e);
+  }
+
+  async modifyStation(e) {
     if (e.target.classList.contains('js-modify-button')) {
-      this.stationsView.renderModifyForm(e);
+      this.stationsView.renderModifyForm(e.target);
     }
 
     if (e.target.classList.contains('js-save-modify-button')) {
@@ -81,30 +99,23 @@ class StationsController {
 
       if (resFlag) {
         this.stationsView.renderModifyResult(e, stationId, newStationName);
+
         showSnackBar(SNACKBAR_MESSAGE.SUCCESS.MODIFY_STATION);
-      }
-    }
-
-    if (e.target.classList.contains('js-delete-button')) {
-      const targetStationId = e.target.closest('li').dataset.stationId;
-      const resFlag = await deleteStationHandler(targetStationId);
-
-      if (resFlag) {
-        this.stationsView.deleteResult(e);
-        showSnackBar(SNACKBAR_MESSAGE.SUCCESS.DELETE_STATION);
       }
     }
   }
 
-  bindEvents() {
-    $('#stations-form').addEventListener(
-      'submit',
-      this.onStationAddBtnClick.bind(this)
-    );
-    $('#station-list').addEventListener(
-      'click',
-      this.onStationUpdateBtnClick.bind(this)
-    );
+  async deleteStation({ target }) {
+    if (target.classList.contains('js-delete-button')) {
+      const targetStationId = target.closest('li').dataset.stationId;
+
+      const resFlag = await deleteStationHandler(targetStationId);
+      if (resFlag) {
+        this.stationsView.deleteResult(target);
+
+        showSnackBar(SNACKBAR_MESSAGE.SUCCESS.DELETE_STATION);
+      }
+    }
   }
 }
 

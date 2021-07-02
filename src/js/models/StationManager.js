@@ -10,24 +10,17 @@ class StationManager {
     this.stations = {};
   }
 
-  createStationData({ id, name }) {
-    return { id, name };
-  }
-
   async getAllStations() {
     const response = await fetchAllStations();
 
     if (response.ok) {
-      try {
-        const allStations = await response.json();
-        allStations.forEach(station => {
-          this.stations[station.id] = this.createStationData(station);
-        });
+      const allStations = await response.json();
 
-        return { allStations: this.stations, response };
-      } catch (error) {
-        console.error(error);
-      }
+      allStations.forEach(station => {
+        this.stations[station.id] = { id: station.id, name: station.name };
+      });
+
+      return { allStations, response };
     }
 
     return { response };
@@ -37,14 +30,16 @@ class StationManager {
     const response = await fetchAddStation(stationName);
 
     if (response.ok) {
-      try {
-        const newStation = await response.json();
-        this.stations[newStation.id] = this.createStationData(newStation);
+      const newStation = await response.json();
+      this.stations[newStation.id] = {
+        id: newStation.id,
+        name: newStation.name,
+      };
 
-        return { newStation: this.stations[newStation.id], response };
-      } catch (error) {
-        console.error(error);
-      }
+      return {
+        newStation: this.stations[newStation.id],
+        response,
+      };
     }
 
     return { response };
