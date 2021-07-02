@@ -1,4 +1,4 @@
-const BASE_URL = 'https://www.boorownie.com';
+const BASE_URL = 'https://bepoz-subway.kro.kr/api';
 
 const HTTP = {
   METHOD: {
