@@ -5,40 +5,26 @@ import {
   fetchModifyLine,
 } from '../API/lines.js';
 import { fetchAddSection, fetchDeleteSection } from '../API/sections.js';
-import user from './user.js';
+
+import StationManager from './StationManager.js';
 
 class LineManager {
   constructor() {
-    this.lines = {};
-  }
-
-  createStationData({ id, name }) {
-    return { id, name };
-  }
-
-  createLineData({ id, name, color, stations, sections }) {
-    return {
-      id,
-      name,
-      color,
-      stations: stations.map(station => this.createStationData(station)),
-      upStation: this.createStationData(stations[0]),
-      downStation: this.createStationData(stations[stations.length - 1]),
-      distance: sections
-        .map(({ distance }) => distance)
-        .reduce((sum, currentDistance) => sum + currentDistance, 0),
-      duration: sections
-        .map(({ duration }) => duration)
-        .reduce((sum, currentDuration) => sum + currentDuration, 0),
-    };
+    this.stationManager = new StationManager();
+    this.lines = [];
   }
 
   async getAllLines() {
-    const allLines = (await fetchAllLines()) ?? [];
+    const response = await fetchAllLines();
 
-    allLines.forEach(line => (this.lines[line.id] = this.createLineData(line)));
+    if (response.ok) {
+      const allLines = await response.json();
+      this.lines = [...allLines];
 
-    return this.lines;
+      return { allLines, response };
+    }
+
+    return { response };
   }
 
   async addLine(newLineInfo) {
@@ -47,9 +33,9 @@ class LineManager {
     if (response.ok) {
       try {
         const newLine = await response.json();
-        this.lines[newLine.id] = this.createLineData(newLine);
+        this.lines = [...this.lines, newLine];
 
-        return { newLine: this.lines[newLine.id], response };
+        return { newLine, response };
       } catch (error) {
         console.error(error);
       }
@@ -86,7 +72,7 @@ class LineManager {
   }
 
   getLine(lineId) {
-    return this.lines[lineId];
+    return this.lines.filter(line => line.id === Number(lineId));
   }
 
   getAllSections(lineId) {
@@ -106,7 +92,7 @@ class LineManager {
           : newSectionInfo.downStationId;
 
       const newSection = this.createStationData(
-        user.stationManager.getStation(newSectionId)
+        this.stationManager.getStation(newSectionId)
       );
 
       this.lines[lineId].stations.splice(upStationIndex + 1, 0, newSection);

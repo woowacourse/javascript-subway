@@ -1,8 +1,13 @@
-function $(target) {
+const $ = target => {
   return document.querySelector(target);
-}
+};
 
-function onModalShow() {
+const onModalClose = () => {
+  $('.modal').classList.remove('open');
+  $('body').classList.remove('disable-scroll');
+};
+
+const onModalShow = () => {
   $('.modal').classList.add('open');
 
   $('body').classList.add('disable-scroll');
@@ -11,22 +16,17 @@ function onModalShow() {
       onModalClose();
     }
   });
-}
+};
 
-function onModalClose() {
-  $('.modal').classList.remove('open');
-  $('body').classList.remove('disable-scroll');
-}
-
-function resetInput($resetTarget) {
+const resetInput = $resetTarget => {
   $resetTarget.reset();
-}
+};
 
-function changeBackgroundColor($target, selectedColor) {
+const changeBackgroundColor = ($target, selectedColor) => {
   $target.classList = [...$target.classList].filter(
     currentClass => currentClass.indexOf('bg-') === -1
   );
   $target.classList.add(selectedColor);
-}
+};
 
 export { $, onModalShow, onModalClose, resetInput, changeBackgroundColor };

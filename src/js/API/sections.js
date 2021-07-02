@@ -1,13 +1,15 @@
+import Cookies from 'js-cookie';
 import { BASE_URL, HTTP } from '../constants/api.js';
-import user from '../models/user.js';
+import { COOKIE_KEY } from '../constants/constants.js';
 
 async function fetchAddSection(newSectionInfo, lineId) {
   const requestData = {
     method: HTTP.METHOD.POST,
     body: JSON.stringify(newSectionInfo),
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
       [HTTP.HEADERS.KEY
         .CONTENT_TYPE]: `${HTTP.HEADERS.VALUE.APPLICATION_JSON}; ${HTTP.HEADERS.VALUE.CHARSET_UTF_8}`,
     },
@@ -35,8 +37,9 @@ async function fetchDeleteSection(lineId, stationId) {
   const requestData = {
     method: HTTP.METHOD.DELETE,
     headers: {
-      [HTTP.HEADERS.KEY
-        .AUTHORIZATION]: `${HTTP.HEADERS.VALUE.BEARER} ${user.authorization}`,
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
     },
   };
 

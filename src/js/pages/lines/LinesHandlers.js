@@ -1,22 +1,28 @@
-import { ALERT_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
-import { PATH } from '../../constants/path.js';
+import Cookies from 'js-cookie';
+
 import user from '../../models/user.js';
+
 import router from '../../router.js';
+
 import { $, changeBackgroundColor } from '../../utils/DOM.js';
+import showSnackBar from '../../utils/snackbar.js';
+
+import { COOKIE_KEY } from '../../constants/constants.js';
+import { SNACKBAR_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
+import { PATH } from '../../constants/path.js';
 
 async function addLineHandler(e) {
   try {
     const newLineInfo = {
       name: e.target.elements['line-name'].value,
-      color: e.target.elements['line-color'].value,
       upStationId: Number(e.target.elements['up-station'].value),
       downStationId: Number(e.target.elements['down-station'].value),
       distance: Number(e.target.elements.distance.value),
-      duration: Number(e.target.elements.duration.value),
+      color: e.target.elements['line-color'].value,
     };
 
     if (newLineInfo.upStationId === newLineInfo.downStationId) {
-      alert(ALERT_MESSAGE.ERROR.DUPLICATED_UP_DOWN_STATIONS);
+      showSnackBar(SNACKBAR_MESSAGE.ERROR.DUPLICATED_UP_DOWN_STATIONS);
       return;
     }
 
@@ -29,15 +35,14 @@ async function addLineHandler(e) {
     return newLine;
   } catch (response) {
     switch (response.status) {
-      case 400:
-        alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
-        break;
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_ADD_LINE);
     }
   }
 }
@@ -65,15 +70,14 @@ async function modifyLineHandler(e, modifiedLineId) {
     };
   } catch (response) {
     switch (response.status) {
-      case 400:
-        alert(ALERT_MESSAGE.ERROR.DUPLICATED_LINE_NAME);
-        break;
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_MODIFY_LINE);
     }
   }
 }
@@ -93,11 +97,13 @@ async function deleteLineHandler(e) {
   } catch (response) {
     switch (response.status) {
       case 401:
-        alert(ALERT_MESSAGE.ERROR.INVALID_USER);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.INVALID_USER);
+        Cookies.remove(COOKIE_KEY.JWT_TOKEN);
         router.navigate(PATH.ROOT);
         break;
+
       default:
-        alert(ALERT_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);
+        showSnackBar(SNACKBAR_MESSAGE.ERROR.FAIL_TO_DELETE_LINE);
     }
   }
 }

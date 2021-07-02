@@ -1,5 +1,3 @@
-import user from '../../../models/user.js';
-
 const linesTemplate = `
     <div class="wrapper bg-white p-10">
       <div class="heading d-flex">
@@ -80,16 +78,6 @@ function linesModalTemplate(allStations = {}) {
             min="1"
             required
           />
-          <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
-          <input
-            type="number"
-            id="duration"
-            name="arrival"
-            class="input-field"
-            placeholder="상행 하행역 시간"
-            min="1"
-            required
-          />
         </div>
 
         <div class="d-flex flex-col">
@@ -124,6 +112,7 @@ function linesModalTemplate(allStations = {}) {
 }
 
 function linesModifyingModalTemplate(targetLine) {
+  console.log(targetLine);
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">
@@ -153,15 +142,15 @@ function linesModifyingModalTemplate(targetLine) {
         <div class="d-flex items-center mb-5">
           <label for="up-station" class="input-label" hidden>상행역</label>
           <select id="up-station" class="mr-2" disabled>
-            <option value=${targetLine.upStation.id} selected hidden>
-              ${targetLine.upStation.name}
+            <option value=${targetLine.startStation.id} selected hidden>
+              ${targetLine.startStation.name}
             </option>
           </select>
           
           <label for="down-station" class="input-label" hidden>하행역</label>
           <select id="down-station" disabled>
-          <option value=${targetLine.downStation.id} selected hidden>
-              ${targetLine.downStation.name}
+          <option value=${targetLine.endStation.id} selected hidden>
+              ${targetLine.endStation.name}
             </option>
           </select>
         </div>
@@ -175,17 +164,6 @@ function linesModifyingModalTemplate(targetLine) {
             class="input-field mr-2"
             placeholder="상행 하행역 거리"
             value=${targetLine.distance}
-            disabled
-            required
-          />
-          <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
-          <input
-            type="number"
-            id="duration"
-            name="arrival"
-            class="input-field"
-            placeholder="상행 하행역 시간"
-            value=${targetLine.duration}
             disabled
             required
           />
