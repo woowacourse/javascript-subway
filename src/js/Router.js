@@ -1,43 +1,36 @@
-import { MESSAGE } from './constants/messages.js';
-import LoginPage from './pages/login/LoginPage.js';
-import SignupPage from './pages/signup/SignupPage.js';
-import MainPage from './pages/main/MainPage.js';
-import StationsController from './pages/stations/StationsController.js';
-import LinesController from './pages/lines/LinesController.js';
-import SectionsController from './pages/sections/SectionsController.js';
+import Cookies from 'js-cookie';
+
 import { PATH } from './constants/path.js';
-import user from './models/user.js';
+import { MESSAGE } from './constants/messages.js';
+import { COOKIE_KEY } from './constants/constants.js';
 
 const router = {
-  userToken: '',
-
-  signupPage: new SignupPage(),
-  loginPage: new LoginPage(),
-  mainPage: new MainPage(),
-  stationsPage: new StationsController(),
-  linesPage: new LinesController(),
-  sectionsPage: new SectionsController(),
-
   routes: {},
+  pages: {},
 
-  init() {
-    this.back();
-    this.navigate(PATH.ROOT);
+  init(pages) {
+    this.pages = pages;
     this.routes = {
       [PATH.ROOT]: null,
-      [PATH.SIGNUP]: this.signupPage,
-      [PATH.STATIONS]: this.stationsPage,
-      [PATH.LINES]: this.linesPage,
-      [PATH.SECTIONS]: this.sectionsPage,
+      [PATH.SIGNUP]: pages.signupPage,
+      [PATH.STATIONS]: pages.stationsPage,
+      [PATH.LINES]: pages.linesPage,
+      [PATH.SECTIONS]: pages.sectionsPage,
     };
+
+    this.back();
+    this.navigate(PATH.ROOT);
   },
 
   checkMainRoute() {
-    this.routes[PATH.ROOT] = this.userToken ? this.mainPage : this.loginPage;
+    this.routes[PATH.ROOT] = this.userToken
+      ? this.pages.mainPage
+      : this.pages.loginPage;
   },
 
   navigate(path) {
-    this.userToken = user.getAuthorization();
+    this.userToken = Cookies.get(COOKIE_KEY.JWT_TOKEN);
+
     if (path === PATH.ROOT) {
       this.checkMainRoute();
     }
