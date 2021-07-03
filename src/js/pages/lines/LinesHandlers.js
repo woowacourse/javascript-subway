@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import user from '../../models/user.js';
+import pages from '../../models/pages.js';
 
 import router from '../../router.js';
 
@@ -26,7 +26,7 @@ async function addLineHandler(e) {
       return;
     }
 
-    const { newLine, response } = await user.lineManager.addLine(newLineInfo);
+    const { newLine, response } = await pages.lineManager.addLine(newLineInfo);
 
     if (!response.ok) {
       throw response;
@@ -54,7 +54,7 @@ async function modifyLineHandler(e, modifiedLineId) {
       color: e.target.elements['line-color'].value,
     };
 
-    const response = await user.lineManager.modifyLine(
+    const response = await pages.lineManager.modifyLine(
       modifiedLineId,
       modifiedLineInfo
     );
@@ -88,7 +88,7 @@ async function deleteLineHandler(e) {
   const { lineId } = e.target.closest('li').dataset;
 
   try {
-    const response = await user.lineManager.deleteLine(lineId);
+    const response = await pages.lineManager.deleteLine(lineId);
     if (!response.ok) {
       throw response;
     }

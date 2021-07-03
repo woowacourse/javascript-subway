@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 
 import { fetchLogin } from '../../API/auth.js';
 
-import user from '../../models/user.js';
 import loginTemplate from './loginTemplate.js';
 
 import router from '../../router.js';
@@ -57,7 +56,6 @@ class LoginPage {
       const { accessToken } = await response.json();
 
       Cookies.set(COOKIE_KEY.JWT_TOKEN, accessToken);
-      user.setAuthorization();
 
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
     } catch (error) {

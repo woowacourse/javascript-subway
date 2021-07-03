@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import user from '../../models/user.js';
+import pages from '../../models/pages.js';
 
 import router from '../../router.js';
 
@@ -13,7 +13,7 @@ import { SNACKBAR_MESSAGE, CONFIRM_MESSAGE } from '../../constants/messages.js';
 async function addStationHandler(target) {
   try {
     const stationName = target.elements['station-name'].value;
-    const { newStation, response } = await user.stationManager.addStation(
+    const { newStation, response } = await pages.stationManager.addStation(
       stationName
     );
 
@@ -41,11 +41,11 @@ async function addStationHandler(target) {
 }
 
 async function saveModifyStationHandler(stationId, newStationName) {
-  const currentStationName = user.stationManager.getStation(stationId).name;
+  const currentStationName = pages.stationManager.getStation(stationId).name;
   if (currentStationName === newStationName) return true;
 
   try {
-    const response = await user.stationManager.modifyStation(
+    const response = await pages.stationManager.modifyStation(
       Number(stationId),
       newStationName
     );
@@ -77,7 +77,7 @@ async function deleteStationHandler(targetStationId) {
   if (!window.confirm(CONFIRM_MESSAGE.DELETE_STATION)) return;
 
   try {
-    const response = await user.stationManager.deleteStation(targetStationId);
+    const response = await pages.stationManager.deleteStation(targetStationId);
 
     if (!response.ok) {
       throw response;

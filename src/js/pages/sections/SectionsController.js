@@ -1,6 +1,7 @@
-import user from '../../models/user.js';
 import { addSectionHandler, deleteSectionHandler } from './SectionHandlers.js';
 import SectionsView from './SectionsView.js';
+
+import pages from '../../models/pages.js';
 
 import {
   $,
@@ -18,8 +19,8 @@ class SectionsController {
   }
 
   async init() {
-    const { allStations } = await user.stationManager.getAllStations();
-    const { allLines } = await user.lineManager.getAllLines();
+    const { allStations } = await pages.stationManager.getAllStations();
+    const { allLines } = await pages.lineManager.getAllLines();
 
     this.sectionsView.init(allStations, allLines);
     this.bindEvents();
@@ -47,7 +48,9 @@ class SectionsController {
   async onLineSelect({ target }) {
     const lineId = target.value;
     const { lineColor } = target.options[target.selectedIndex].dataset;
-    const { targetLine } = await user.sectionManager.getSelectedSection(lineId);
+    const { targetLine } = await pages.sectionManager.getSelectedSection(
+      lineId
+    );
 
     changeBackgroundColor($('#line-name'), lineColor);
     this.sectionsView.renderSections(targetLine);
@@ -60,7 +63,7 @@ class SectionsController {
     const selectedLine = e.target.elements['line-for-section'].value;
 
     if (resFlag && $('#line-name').value === selectedLine) {
-      const { targetLine } = await user.sectionManager.getSelectedSection(
+      const { targetLine } = await pages.sectionManager.getSelectedSection(
         selectedLine
       );
 

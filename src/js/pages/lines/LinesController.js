@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import user from '../../models/user.js';
+import pages from '../../models/pages.js';
 import {
   addLineHandler,
   deleteLineHandler,
@@ -34,7 +34,7 @@ class LinesController {
   }
 
   async getAllLines() {
-    const { allLines, response } = await user.lineManager.getAllLines();
+    const { allLines, response } = await pages.lineManager.getAllLines();
 
     switch (response.status) {
       case 401:
@@ -50,7 +50,7 @@ class LinesController {
 
   bindEvents() {
     $('.modal-trigger-btn').addEventListener('click', async () => {
-      const { allStations } = await user.stationManager.getAllStations();
+      const { allStations } = await pages.stationManager.getAllStations();
       this.linesView.renderModal(allStations);
       this.bindModalEvents('#lines-form');
 
@@ -101,7 +101,7 @@ class LinesController {
   modifyLine(e) {
     if (e.target.classList.contains('js-modify-button')) {
       this.$modifiedLine = e.target.closest('li');
-      const [targetLine] = user.lineManager.getLine(
+      const [targetLine] = pages.lineManager.getLine(
         this.$modifiedLine.dataset.lineId
       );
 

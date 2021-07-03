@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 
-import user from '../../models/user.js';
+import pages from '../../models/pages.js';
+
 import StationsView from './StationsView.js';
 import {
   addStationHandler,
@@ -37,7 +38,7 @@ class StationsController {
     const {
       allStations,
       response,
-    } = await user.stationManager.getAllStations();
+    } = await pages.stationManager.getAllStations();
 
     switch (response.status) {
       case 401:

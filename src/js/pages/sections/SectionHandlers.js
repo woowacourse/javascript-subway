@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import user from '../../models/user.js';
+import pages from '../../models/pages.js';
 
 import router from '../../router.js';
 
@@ -19,7 +19,7 @@ async function addSectionHandler(e) {
   };
 
   try {
-    const response = await user.sectionManager.addSection(
+    const response = await pages.sectionManager.addSection(
       newSectionInfo,
       e.target.elements['line-for-section'].value
     );
@@ -50,7 +50,10 @@ async function deleteSectionHandler(e) {
   const { sectionId } = e.target.closest('li').dataset;
 
   try {
-    const response = await user.sectionManager.deleteSection(lineId, sectionId);
+    const response = await pages.sectionManager.deleteSection(
+      lineId,
+      sectionId
+    );
 
     if (!response.ok) {
       throw response;
