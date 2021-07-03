@@ -1,10 +1,6 @@
 import { $ } from '../../utils/DOM.js';
 import { fetchSignup, fetchToCheckDuplicatedEmail } from '../../API/auth.js';
-import {
-  MESSAGE,
-  SNACKBAR_MESSAGE,
-  ALERT_MESSAGE,
-} from '../../constants/messages.js';
+import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import { PATH } from '../../constants/path.js';
 import signupTemplate from './signupTemplate.js';
 import {
@@ -74,7 +70,7 @@ class SignupPage {
   async signupHandler(e) {
     e.preventDefault();
     if (!this.isCheckedEmail) {
-      alert(ALERT_MESSAGE.ERROR.NOT_CHECKED_EMAIL);
+      alert(SNACKBAR_MESSAGE.ERROR.NOT_CHECKED_EMAIL);
       return;
     }
 
