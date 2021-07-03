@@ -18,6 +18,11 @@ const headerTemplate = `
         <button class="bg-cyan-80" data-nav-path="${PATH.SECTIONS}">🔁 구간 관리</button>
       </a>
     </li>
+    <li class="my-1 mx-2">
+      <a href="/map">
+        <button class="bg-cyan-80" data-nav-path="${PATH.MAP}">🖼 전체 보기</button>
+      </a>
+    </li>
   </ul>
 </nav>`;
 

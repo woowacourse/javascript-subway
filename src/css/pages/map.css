@@ -1,0 +1,57 @@
+#map {
+  white-space: nowrap;
+  overflow: auto;
+}
+
+.line-in-map {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  margin: 1rem;
+  width: 35rem;
+}
+
+.line-name-in-map {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  padding: 0 0.5rem;
+  min-width: 6rem;
+  font-size: 1rem;
+}
+
+.station-list-in-map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.station-list-in-map:before {
+  content: '';
+  display: block;
+  width: 4rem;
+  height: 0.4rem;
+  margin: 0 0.2rem;
+  background-color: gainsboro;
+}
+
+.station-list-in-map:first-child:before {
+  content: '';
+  display: none;
+}
+
+.station-in-map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid gainsboro;
+  border-radius: 50%;
+}
+
+.transfer {
+  border: 3px double black;
+}

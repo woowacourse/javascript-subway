@@ -16,6 +16,7 @@ const router = {
       [PATH.STATIONS]: pages.stationsPage,
       [PATH.LINES]: pages.linesPage,
       [PATH.SECTIONS]: pages.sectionsPage,
+      [PATH.MAP]: pages.mapPage,
     };
 
     this.back();

@@ -11,6 +11,18 @@ class SectionManager {
     this.stationManager = new StationManager();
   }
 
+  async getMap() {
+    const response = await fetchMap();
+
+    if (response.ok) {
+      const Map = await response.json();
+
+      return { Map, response };
+    }
+
+    return { response };
+  }
+
   async getSelectedSection(targetLineId) {
     const response = await fetchMap();
 
