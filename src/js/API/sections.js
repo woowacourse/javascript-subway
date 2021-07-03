@@ -1,6 +1,28 @@
 import Cookies from 'js-cookie';
+
 import { BASE_URL, HTTP } from '../constants/api.js';
 import { COOKIE_KEY } from '../constants/constants.js';
+
+async function fetchMap() {
+  const requestData = {
+    method: HTTP.METHOD.GET,
+    headers: {
+      [HTTP.HEADERS.KEY.AUTHORIZATION]: `${
+        HTTP.HEADERS.VALUE.BEARER
+      } ${Cookies.get(COOKIE_KEY.JWT_TOKEN)}`,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/lines/map`, requestData);
+
+    return response;
+  } catch (response) {
+    console.error(await response.text());
+
+    return response;
+  }
+}
 
 async function fetchAddSection(newSectionInfo, lineId) {
   const requestData = {
@@ -28,8 +50,6 @@ async function fetchAddSection(newSectionInfo, lineId) {
     return response;
   } catch (response) {
     console.error(await response.text());
-
-    return response;
   }
 }
 
@@ -61,4 +81,4 @@ async function fetchDeleteSection(lineId, stationId) {
   }
 }
 
-export { fetchAddSection, fetchDeleteSection };
+export { fetchMap, fetchAddSection, fetchDeleteSection };

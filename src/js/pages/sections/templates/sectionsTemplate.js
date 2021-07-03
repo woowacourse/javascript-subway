@@ -79,22 +79,13 @@ function sectionsModalTemplate(allLines = {}, allStations = {}) {
         </div>
 
         <div class="d-flex mb-5">
-          <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
+          <label for="distance" class="input-label" hidden>거리</label>
           <input
             type="number"
             id="distance"
             name="distance"
             class="input-field mr-2"
-            placeholder="상행 하행역 거리"
-            required
-          />
-          <label for="duration" class="input-label" hidden>상행 하행역 시간</label>
-          <input
-            type="number"
-            id="duration"
-            name="arrival"
-            class="input-field"
-            placeholder="상행 하행역 시간"
+            placeholder="거리"
             required
           />
         </div>

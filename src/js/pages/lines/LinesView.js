@@ -49,7 +49,6 @@ class LinesView {
   }
 
   renderModifyModal(targetLine) {
-    console.log(targetLine);
     $('#lines-modal').innerHTML = linesModifyingModalTemplate(targetLine);
     this.renderLineColorSelector();
   }

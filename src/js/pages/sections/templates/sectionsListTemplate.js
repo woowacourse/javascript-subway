@@ -11,9 +11,9 @@ function sectionItemTemplate({ id, name }) {
     </li>`;
 }
 
-function sectionListTemplate(sections) {
+function sectionListTemplate({ sections }) {
   return Object.values(sections)
-    .map(section => sectionItemTemplate(section))
+    .map(station => sectionItemTemplate(station))
     .join('');
 }
 

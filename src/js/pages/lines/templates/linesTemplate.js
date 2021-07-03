@@ -68,13 +68,13 @@ function linesModalTemplate(allStations = {}) {
         </div>
 
         <div class="d-flex mb-5">
-          <label for="distance" class="input-label" hidden>상행 하행역 거리</label>
+          <label for="distance" class="input-label" hidden>거리</label>
           <input
             type="number"
             id="distance"
             name="distance"
             class="input-field mr-2"
-            placeholder="상행 하행역 거리"
+            placeholder="거리"
             min="1"
             required
           />
@@ -112,7 +112,6 @@ function linesModalTemplate(allStations = {}) {
 }
 
 function linesModifyingModalTemplate(targetLine) {
-  console.log(targetLine);
   return `
     <div class="modal-inner p-8">
       <button class="modal-close">

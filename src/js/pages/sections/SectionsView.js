@@ -2,15 +2,12 @@ import {
   sectionsModalTemplate,
   sectionsTemplate,
 } from './templates/sectionsTemplate.js';
-import { $ } from '../../utils/DOM.js';
 import { sectionListTemplate } from './templates/sectionsListTemplate.js';
-import user from '../../models/user.js';
+
+import { $ } from '../../utils/DOM.js';
 
 class SectionsView {
-  async init() {
-    const { allStations } = await user.stationManager.getAllStations();
-    const allLines = await user.lineManager.getAllLines();
-
+  init(allStations, allLines) {
     $('#main').innerHTML = sectionsTemplate(allLines);
     $('#sections-modal').innerHTML = sectionsModalTemplate(
       allLines,
@@ -18,8 +15,8 @@ class SectionsView {
     );
   }
 
-  renderSections(sections) {
-    $('#section-list').innerHTML = sectionListTemplate(sections);
+  renderSections(line) {
+    $('#section-list').innerHTML = sectionListTemplate(line);
   }
 
   deleteResult({ target }) {
