@@ -1,4 +1,4 @@
-const BASE_URL = 'https://www.boorownie.com';
+const BASE_URL = 'https://bepoz-subway.kro.kr/api';
 
 const HTTP = {
   METHOD: {
@@ -17,10 +17,12 @@ const HTTP = {
   HEADERS: {
     KEY: {
       CONTENT_TYPE: 'Content-Type',
+      AUTHORIZATION: 'Authorization',
     },
     VALUE: {
       APPLICATION_JSON: 'application/json',
       CHARSET_UTF_8: 'charset=UTF-8',
+      BEARER: 'Bearer',
     },
   },
 };

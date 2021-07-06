@@ -10,10 +10,10 @@ import {
   checkPasswordInputHandler,
 } from '../../authHandlers.js';
 import showSnackBar from '../../utils/snackbar.js';
+import router from '../../router.js';
 
 class SignupPage {
-  constructor(router) {
-    this.router = router;
+  constructor() {
     this.isCheckedEmail = false;
   }
 
@@ -35,12 +35,12 @@ class SignupPage {
       }
 
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.SIGNUP);
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     } catch (error) {
       console.error(error);
       alert(error);
 
-      this.router.navigate(PATH.SIGNUP);
+      router.navigate(PATH.SIGNUP);
     }
   }
 
@@ -70,14 +70,14 @@ class SignupPage {
   async signupHandler(e) {
     e.preventDefault();
     if (!this.isCheckedEmail) {
-      alert(MESSAGE.ERROR.NOT_CHECKED_EMAIL);
+      alert(SNACKBAR_MESSAGE.ERROR.NOT_CHECKED_EMAIL);
       return;
     }
 
     const signupData = {
-      email: e.target.elements['email'].value,
-      name: e.target.elements['name'].value,
-      password: e.target.elements['password'].value,
+      email: e.target.elements.email.value,
+      name: e.target.elements.name.value,
+      password: e.target.elements.password.value,
     };
 
     await this.requestSignup(signupData);
@@ -108,7 +108,7 @@ class SignupPage {
     $('#login').addEventListener('click', e => {
       e.preventDefault();
 
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     });
   }
 }

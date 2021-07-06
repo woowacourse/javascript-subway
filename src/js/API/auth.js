@@ -30,7 +30,8 @@ async function fetchLogin({ email, password }) {
     },
   };
 
-  return await fetch(`${BASE_URL}/login/token`, requestData);
+  const response = await fetch(`${BASE_URL}/login/token`, requestData);
+  return response;
 }
 
 function getSearchQueryString(targetEmail) {

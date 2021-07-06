@@ -10,11 +10,12 @@
   border-radius: 2rem;
 }
 
-.subway-line-color-dot {
+.line-color-dot {
   display: inline-block;
   position: absolute;
   width: 14px;
   height: 14px;
+  border: 1px solid gainsboro;
   border-radius: 100%;
 }
 
@@ -25,4 +26,23 @@
   cursor: pointer;
   border: none;
   border-radius: 3px;
+}
+
+#selected-line-color {
+  border: 1px solid #fff;
+  border-radius: 10px;
+  height: 100%;
+}
+
+#line-list .line-list-item {
+  border-bottom: 1px solid rgb(229, 231, 235);
+}
+
+#line-color {
+  background-color: transparent;
+  color: #fff;
+}
+
+#lines-modal .modal-inner {
+  height: 90%;
 }

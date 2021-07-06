@@ -1,28 +1,48 @@
+import Cookies from 'js-cookie';
+
+import { fetchLogin } from '../../API/auth.js';
+
+import loginTemplate from './loginTemplate.js';
+
+import router from '../../router.js';
+
 import { $ } from '../../utils/DOM.js';
+import showSnackBar from '../../utils/snackbar.js';
+
 import { MESSAGE, SNACKBAR_MESSAGE } from '../../constants/messages.js';
 import { COOKIE_KEY } from '../../constants/constants.js';
 import { PATH } from '../../constants/path.js';
-import { fetchLogin } from '../../API/auth.js';
-import jwtToken from '../../jwtToken.js';
-import loginTemplate from './loginTemplate.js';
-import {
-  checkEmailInputHandler,
-  checkPasswordInputHandler,
-} from '../../authHandlers.js';
-import showSnackBar from '../../utils/snackbar.js';
 
 class LoginPage {
-  constructor(router) {
-    this.router = router;
-  }
-
   init() {
     this.renderView();
     this.bindEvents();
   }
 
   renderView() {
+    $('#app-navbar').innerHTML = '';
+    $('#navigation').innerHTML = '';
     $('#main').innerHTML = loginTemplate;
+  }
+
+  bindEvents() {
+    $('#login-form').addEventListener('submit', this.loginHandler.bind(this));
+    $('#signup').addEventListener('click', e => {
+      e.preventDefault();
+
+      router.navigate(PATH.SIGNUP);
+    });
+  }
+
+  async loginHandler(e) {
+    e.preventDefault();
+
+    const loginData = {
+      email: e.target.elements.email.value,
+      password: e.target.elements.password.value,
+    };
+
+    await this.requestLogin(loginData);
   }
 
   async requestLogin(request) {
@@ -34,44 +54,16 @@ class LoginPage {
       }
 
       const { accessToken } = await response.json();
-      jwtToken.setToken(COOKIE_KEY.JWT_TOKEN, accessToken);
+
+      Cookies.set(COOKIE_KEY.JWT_TOKEN, accessToken);
+
       showSnackBar(SNACKBAR_MESSAGE.SUCCESS.LOGIN);
     } catch (error) {
       console.error(error);
       alert(error);
     } finally {
-      this.router.navigate(PATH.ROOT);
+      router.navigate(PATH.ROOT);
     }
-  }
-
-  async loginHandler(e) {
-    e.preventDefault();
-
-    const loginData = {
-      email: e.target.elements['email'].value,
-      password: e.target.elements['password'].value,
-    };
-
-    await this.requestLogin(loginData);
-  }
-
-  bindCheckInputEvents() {
-    $('#email').addEventListener('keyup', checkEmailInputHandler.bind(this));
-    $('#password').addEventListener(
-      'keyup',
-      checkPasswordInputHandler.bind(this)
-    );
-  }
-
-  bindEvents() {
-    this.bindCheckInputEvents();
-
-    $('#login-form').addEventListener('submit', this.loginHandler.bind(this));
-    $('#signup').addEventListener('click', e => {
-      e.preventDefault();
-
-      this.router.navigate(PATH.SIGNUP);
-    });
   }
 }
 
